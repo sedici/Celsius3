@@ -1,52 +1,16 @@
-# Cache, logs and email
-/app/cache/*
-/app/logs/*
-/app/spool/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-!app/spool/.gitkeep
-
-# Parameters
-/app/config/parameters.ini
-/app/config/parameters.yml
-
-# Managed by Composer
-/app/bootstrap.php.cache
-/bin/
-/vendor/
-
 # Assets and user uploads
-/web/bundles/
-/web/build/
-/web/uploads/
-/web/uploads/temp/*
-!web/uploads/temp/.gitkeep
-/web/js/*
-
-# PHPUnit
-/app/phpunit.xml
-.rules
-
-*~
+/public/uploads/
+/public/uploads/temp/*
+!public/uploads/temp/.gitkeep
+/public/js/*
 
 # Maintenance Mode
 /web/maintenance/index.html
-
-# Node modules
-/node_modules/
-
-###> symfony/webpack-encore-pack ###
-/node_modules/
-/public/build/
-###< symfony/webpack-encore-pack ###
 
 # Docker folder
 !/.docker/.gitignore
 !/.docker/mysql/.gitignore
 
-
-# Editors
-.idea/
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -63,7 +27,12 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
+###> symfony/phpunit-bridge ###
+.phpunit
 .phpunit.result.cache
-###< phpunit/phpunit ###
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
