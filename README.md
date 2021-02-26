@@ -1,7 +1,8 @@
 Celsius3
 ========
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/76c2e8aa-1471-4b67-bfe3-b2e770df3907/big.png)](https://insight.sensiolabs.com/projects/76c2e8aa-1471-4b67-bfe3-b2e770df3907)
+[![Stable version](https://img.shields.io/badge/version-2.7-green)](https://github.com/sedici/Celsius3/tree/2.7)
+[![Development version](https://img.shields.io/badge/version-3.0.0--dev-yellow)](https://github.com/sedici/Celsius3/tree/dev)
 
 [Instalación manual](doc/instalacion.md)
 
