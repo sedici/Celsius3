@@ -183,7 +183,7 @@ class Instance extends LegacyInstance
                 )->count() > 0;
     }
 
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -195,7 +195,7 @@ class Instance extends LegacyInstance
         return $this;
     }
 
-    public function getHost(): string
+    public function getHost(): ?string
     {
         return $this->host;
     }
