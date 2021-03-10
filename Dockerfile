@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.1-apache
 
 # Se modifica el 'document root'
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public

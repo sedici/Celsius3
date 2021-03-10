@@ -4,7 +4,7 @@
   "name": "sedici/celsius3",
   "description": "The Celsius3 Project",
   "require": {
-    "php": ">=7.0.8",
+    "php": ">=7.1",
     "ext-ctype": "*",
     "ext-fileinfo": "*",
     "ext-iconv": "*",
