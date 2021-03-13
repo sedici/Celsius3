@@ -815,6 +815,48 @@
             {% endverbatim %}
         </script>
 
+        <!-- newspaper_data.html -->
+        <script type="text/ng-template" id="newspaper_data.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
+                <ul class="list-unstyled">
+                    <li class="text-with-ellipsis">
+                        <strong>{{'title' | trans}}</strong>
+                        {{order.material_data.title}}
+                        <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
+                            <span class="glyphicon glyphicon-copy"></span>
+                        </button>
+                    </li>
+                    <li class="text-with-ellipsis">
+                        <strong>{{'authors' | trans}}</strong>
+                        {{order.material_data.authors}}
+                        <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
+                            <span class="glyphicon glyphicon-copy"></span>
+                        </button>
+                    </li>
+                    <li ng-if="order.material_data.type === 'newspaper'">
+                        <strong>{{'Article' | trans}}</strong>
+                        {{order.material_data.article}}
+                    </li>
+                    <li ng-if="order.material_data.type === 'newspaper'">
+                        <strong>{{'Article' | trans}}</strong>
+                        {{order.material_data.place}}
+                    </li>
+                    <li>
+                        <strong>{{'date' | trans}}</strong>
+                        <span ng-if="order.material_data.month">{{order.material_data.month | trans}} {{order.material_data.day}} {{'of' | trans}}</span> {{order.material_data.year}}
+                    </li>
+                    <li>
+                        <strong>{{'startPage' | trans}}</strong>
+                        {{order.material_data.start_page}}
+                    </li>
+                    <li>
+                        <strong>{{'endPage' | trans}}</strong>
+                        {{order.material_data.end_page}}
+                    </li>
+                </ul>
+            {% endverbatim %}
+        </script>
+
         <!-- other_data.html -->
         <script type="text/ng-template" id="other_data.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
@@ -875,7 +917,10 @@
                 <div ng-if="order.material_data.type === 'book'">
                     <div ng-include="'book_data.html?' + assets_version"></div>
                 </div>
-                <div ng-if="!(order.material_data.type === 'journal') && !(order.material_data.type === 'book')">
+                <div ng-if="order.material_data.type === 'newspaper'">
+                    <div ng-include="'newspaper_data.html?' + assets_version"></div>
+                </div>
+                <div ng-if="!(order.material_data.type === 'journal') && !(order.material_data.type === 'book') && !(order.material_data.type === 'newspaper')">
                     <div ng-include="'other_data.html?' + assets_version"></div>
                 </div>
             {% endverbatim %}

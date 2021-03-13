@@ -1,0 +1,22 @@
+{% extends 'Celsius3CoreBundle:MaterialType:_materialType.html.twig' %}
+
+{% block dataType %}
+    <li>
+        <strong>{{ 'Type'|trans }}</strong> {{ 'Newspaper'|trans }}
+    </li>
+{% endblock %}
+
+{% block extraData %}
+    <li>
+        <strong>{{ 'Article'|trans }}</strong> {{ materialData.article?materialData.article:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Place'|trans }}</strong> {{ materialData.place?materialData.place:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Month'|trans }}</strong> {{ materialData.month?materialData.month:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Day'|trans }}</strong> {{ (materialData.day?materialData.day:'-')|trans }}
+    </li>
+{% endblock %}

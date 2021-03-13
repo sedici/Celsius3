@@ -1,0 +1,3 @@
+celsius3_user_order:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/User/Order.yaml"
+    prefix: /admin/user

@@ -6,6 +6,7 @@
         <discriminator-class value="congress">Celsius3\CoreBundle\Entity\CongressType</discriminator-class>
         <discriminator-class value="thesis">Celsius3\CoreBundle\Entity\ThesisType</discriminator-class>
         <discriminator-class value="patent">Celsius3\CoreBundle\Entity\PatentType</discriminator-class>
+        <discriminator-class value="newspaper">Celsius3\CoreBundle\Entity\NewspaperType</discriminator-class>
         <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="title" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list,email_template"></property>
         <property name="authors" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>

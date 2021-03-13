@@ -29,4 +29,5 @@ class MaterialTypeManager
     public const TYPE__CONGRESS = 'congress';
     public const TYPE__THESIS = 'thesis';
     public const TYPE__PATENT = 'patent';
+    public const TYPE__NEWSPAPER = 'newspaper';
 }

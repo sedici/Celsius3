@@ -27,7 +27,6 @@ namespace Celsius3\CoreBundle\Twig;
 use Celsius3\CoreBundle\Entity\MaterialType;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-
 use function get_class;
 
 class MaterialTypeExtension extends AbstractExtension
@@ -38,6 +37,7 @@ class MaterialTypeExtension extends AbstractExtension
         'JournalType' => 'journal',
         'PatentType' => 'patent',
         'ThesisType' => 'thesis',
+        'NewspaperType' => 'newspaper'
     ];
 
     public function getFunctions(): array

@@ -4334,6 +4334,18 @@
         <source>Associated to</source>
         <target>Associated to</target>
       </trans-unit>
+      <trans-unit id="Article" resname="Article">
+        <source>Article</source>
+        <target>Article</target>
+      </trans-unit>
+      <trans-unit id="Day" resname="Day">
+        <source>Day</source>
+        <target>Day</target>
+      </trans-unit>
+      <trans-unit id="Newspaper" resname="Newspaper">
+        <source>Newspaper</source>
+        <target>Newspaper</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

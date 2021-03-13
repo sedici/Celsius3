@@ -71,6 +71,7 @@ class OrderType extends AbstractType
                         /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__CONGRESS) => MaterialTypeManager::TYPE__CONGRESS,
                         /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__THESIS) => MaterialTypeManager::TYPE__THESIS,
                         /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__PATENT) => MaterialTypeManager::TYPE__PATENT,
+                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__NEWSPAPER) => MaterialTypeManager::TYPE__NEWSPAPER,
                     ),
                     'choices_as_values' => true,
                     'mapped' => false,

@@ -4353,6 +4353,18 @@
         <source>observaciones</source>
         <target>observações</target>
       </trans-unit>
+      <trans-unit id="Article" resname="Article">
+        <source>Article</source>
+        <target>Artigo</target>
+      </trans-unit>
+      <trans-unit id="Day" resname="Day">
+        <source>Day</source>
+        <target>Dia</target>
+      </trans-unit>
+      <trans-unit id="Newspaper" resname="Newspaper">
+        <source>Newspaper</source>
+        <target>Jornal</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

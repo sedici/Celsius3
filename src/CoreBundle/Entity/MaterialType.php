@@ -41,7 +41,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   "book"="BookType",
  *   "congress"="CongressType",
  *   "thesis"="ThesisType",
- *   "patent"="PatentType"
+ *   "patent"="PatentType",
+ *   "newspaper"="NewspaperType"
  * })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
@@ -97,19 +98,14 @@ abstract class MaterialType
         return $this->getTitle();
     }
 
-    public function __clone()
-    {
-        $this->id = null;
-    }
-
     /**
-     * Get id.
+     * Get title.
      *
-     * @return id $id
+     * @return string $title
      */
-    public function getId()
+    public function getTitle()
     {
-        return $this->id;
+        return $this->title;
     }
 
     /**
@@ -126,14 +122,29 @@ abstract class MaterialType
         return $this;
     }
 
-    /**
-     * Get title.
-     *
-     * @return string $title
-     */
-    public function getTitle()
+    public function __clone()
     {
-        return $this->title;
+        $this->id = null;
+    }
+
+    /**
+     * Get id.
+     *
+     * @return id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get authors.
+     *
+     * @return string $authors
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
     }
 
     /**
@@ -151,13 +162,13 @@ abstract class MaterialType
     }
 
     /**
-     * Get authors.
+     * Get year.
      *
-     * @return string $authors
+     * @return int $year
      */
-    public function getAuthors()
+    public function getYear()
     {
-        return $this->authors;
+        return $this->year;
     }
 
     /**
@@ -175,13 +186,13 @@ abstract class MaterialType
     }
 
     /**
-     * Get year.
+     * Get startPage.
      *
-     * @return int $year
+     * @return int $startPage
      */
-    public function getYear()
+    public function getStartPage()
     {
-        return $this->year;
+        return $this->startPage;
     }
 
     /**
@@ -199,13 +210,13 @@ abstract class MaterialType
     }
 
     /**
-     * Get startPage.
+     * Get endPage.
      *
-     * @return int $startPage
+     * @return int $endPage
      */
-    public function getStartPage()
+    public function getEndPage()
     {
-        return $this->startPage;
+        return $this->endPage;
     }
 
     /**
@@ -223,13 +234,13 @@ abstract class MaterialType
     }
 
     /**
-     * Get endPage.
+     * Get order.
      *
-     * @return int $endPage
+     * @return Order $order
      */
-    public function getEndPage()
+    public function getOrder()
     {
-        return $this->endPage;
+        return $this->order;
     }
 
     /**
@@ -244,15 +255,5 @@ abstract class MaterialType
         $this->order = $order;
 
         return $this;
-    }
-
-    /**
-     * Get order.
-     *
-     * @return Order $order
-     */
-    public function getOrder()
-    {
-        return $this->order;
     }
 }
