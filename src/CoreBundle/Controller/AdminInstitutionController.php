@@ -96,6 +96,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
                     'instance' => $this->getInstance(),
+                    'show_city' => true
                         ), 'admin_institution');
     }
 
