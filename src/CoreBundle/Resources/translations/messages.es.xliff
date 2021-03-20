@@ -3985,7 +3985,7 @@
       </trans-unit>
       <trans-unit id="Observaciones" resname="Observaciones">
         <source>Observaciones</source>
-        <target>Observatciones</target>
+        <target>Observaciones</target>
       </trans-unit>
       <trans-unit id="Private" resname="Private">
         <source>Private</source>
