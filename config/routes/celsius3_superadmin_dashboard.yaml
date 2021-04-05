@@ -1,0 +1,3 @@
+celsius3_superadmin_dashboard:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Superadmin/Dashboard.yaml"
+    prefix: /superadmin
