@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\EntityManager;
 
 class InstanceManager
@@ -42,20 +43,11 @@ class InstanceManager
 
     public function findInstance($latitude, $longitude, $limit = 10)
     {
-        $temRes =  $this->em->createQueryBuilder()
-            ->addSelect('i')
-            ->addSelect('( 3959 * ACOS( COS( RADIANS( :lat ) ) * COS( RADIANS( i.latitud ) ) * COS( RADIANS( i.longitud ) - RADIANS( :lon ) ) + SIN( RADIANS( :lat ) ) * SIN( RADIANS( i.latitud ) ) ) ) AS distance')
-            ->from('Celsius3CoreBundle:Instance', 'i')
-            ->setParameters(array(
-                'lat' => $latitude,
-                'lon' => $longitude,
-            ))
-            ->addOrderBy('distance', 'ASC')
-            /*->setMaxResults($limit)*/->getQuery()->getResult();
-
+        $temRes = $this->em->getRepository(Instance::class)
+            ->findInstancesOrderedByDistance($latitude, $longitude, $limit);
 
         $res = [];
-        foreach($temRes as $tem) {
+        foreach ($temRes as $tem) {
             $res[] = $tem[0];
         }
 

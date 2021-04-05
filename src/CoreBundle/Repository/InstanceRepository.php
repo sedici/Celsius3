@@ -74,4 +74,19 @@ class InstanceRepository extends BaseRepository
                         ->where('i.url <> :url')
                         ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY);
     }
+
+    public function findInstancesOrderedByDistance($latitude, $longitude, $limit)
+    {
+        return $this->createQueryBuilder('i')
+            ->addSelect('i')
+            ->addSelect('( 3959 * ACOS( COS( RADIANS( :lat ) ) * COS( RADIANS( i.latitud ) ) * COS( RADIANS( i.longitud ) - RADIANS( :lon ) ) + SIN( RADIANS( :lat ) ) * SIN( RADIANS( i.latitud ) ) ) ) AS distance')
+            ->setParameters([
+                'lat' => $latitude,
+                'lon' => $longitude,
+            ])
+            ->addOrderBy('distance', 'ASC')
+            /*->setMaxResults($limit)*/
+            ->getQuery()
+            ->getResult();
+    }
 }
