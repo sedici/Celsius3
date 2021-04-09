@@ -83,7 +83,7 @@ final class UpdateUserPostController extends BaseUserController
         );
     }
 
-    private function findUser($id): object
+    private function findUser($id)
     {
         $entity = $this->findQuery('BaseUser', $id);
 
