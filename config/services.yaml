@@ -29,8 +29,8 @@ parameters:
     assets_version_admin_institution: v0.0.1
     assets_version_user: v0.0.0
     assets_version_celsius3: v0.0.0
-    upload_root_dir: /var/www/html/web/orders/
-    logos_upload_dir: /var/www/html/web/uploads/logos/
+    upload_root_dir: /var/www/html/public/orders/
+    logos_upload_dir: /var/www/html/public/uploads/logos/
     data_requests_directory: /tmp/
     api_key_map: AIzaSyD0zns4Qlvt-wf-kx__kpBpKkt8p1Z2mfg
 
