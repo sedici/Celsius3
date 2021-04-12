@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
+use Celsius3\Kernel;
 use Symfony\Component\VarDumper\VarDumper;
 
 class Exception {
@@ -76,7 +77,7 @@ class Exception {
     }
 
     public static function create($type, $message = '') {
-        $kernel = ($GLOBALS['kernel'] instanceof \AppKernel) ? $GLOBALS['kernel'] : $GLOBALS['kernel']->getKernel();
+        $kernel = ($GLOBALS['kernel'] instanceof Kernel) ? $GLOBALS['kernel'] : $GLOBALS['kernel']->getKernel();
 
         $translator = $kernel->getContainer()->get('translator');
         $class = self::getClass($type);
