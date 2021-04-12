@@ -1,19 +1,9 @@
-var Encore = require('@symfony/webpack-encore');
-// var webpack = require('webpack');
+const Encore = require('@symfony/webpack-encore');
 
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     .cleanupOutputBeforeBuild()
-    .addEntry('vendor', [
-        'jquery',
-        'jquery-ui',
-        'jquery-ui-timepicker-addon',
-        'bootstrap-sass',
-        'angular',
-        'icanhaz',
-        'underscore'
-    ])
     .addEntry('celsius3core', [
         './public/bundles/celsius3core/js/main.js',
         './public/bundles/celsius3core/js/jquery-ui-timepicker-addon.js',

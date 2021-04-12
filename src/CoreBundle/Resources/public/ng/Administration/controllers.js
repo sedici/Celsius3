@@ -1,3 +1,5 @@
+require('bootstrap-sass');
+
 var administrationControllers = angular.module('administrationControllers', []);
 
 administrationControllers.controller('AdministrationCtrl', ['$scope', '$routeParams', '$http', 'Order', 'User', '$location', '$filter',

@@ -15,6 +15,9 @@ require('bootstrap-switch');
 require('summernote');
 require('summernote/dist/summernote.css');
 
+require('icanhaz');
+require('underscore');
+
 require('datatables');
 require('datatables.net');
 

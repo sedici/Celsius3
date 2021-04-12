@@ -1,3 +1,5 @@
+require('bootstrap-sass');
+
 var orderControllers = angular.module('orderControllers', ['ngFileUpload']);
 
 orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter', '$translate', 'Order', 'Request', 'Catalog', 'Event', 'Contact', 'MailTemplate', 'CatalogResult',
@@ -361,6 +363,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                             }).success(function (data, status, headers, config) {
                                 $scope.refreshRequest(true);
                                 $('.modal').modal('hide');
+                                $('.modal-backdrop').remove();
                                 var template = $scope.forms.receive.delivery_type === 'pdf' ? 'order_download' : 'order_printed';
                                 $http.get(Routing.generate('admin_rest_template_compiled_get', {
                                     code: template,
@@ -373,7 +376,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                                             $scope.forms.email.address = $scope.request.owner.email;
                                             $scope.forms.email.subject = response.data[0].title;
                                             $scope.forms.email.text = response.data[0].text;
-                                            $('#email-modal').modal('show');
+                                            // $('#email-modal').modal('show');
                                         }
                                     }, function (response) {
                                         generateCelsiusAlert(response);
@@ -416,6 +419,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                             }).success(function (data, status, headers, config) {
                                 $scope.refreshRequest(true);
                                 $('.modal').modal('hide');
+                                $('.modal-backdrop').remove();
                                 $scope.filesToUploadBasic = [];
                             });
                         }
@@ -447,6 +451,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                             }).success(function (data, status, headers, config) {
                                 $scope.refreshRequest(true);
                                 $('.modal').modal('hide');
+                                $('.modal-backdrop').remove();
                                 $scope.filesToReupload = [];
                             });
                         }
@@ -617,6 +622,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
 
         $scope.requestFromCatalog = function (catalog) {
             $('.modal').modal('hide');
+            $('.modal-backdrop').remove();
             $scope.forms.request.provider = 'institution';
             $scope.$broadcast('preset', catalog.institution);
             $('#request-modal').modal('show');
@@ -687,6 +693,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                         $('#requestForm').get(0).reset();
                         $scope.$broadcast('reset');
                         $('.modal').modal('hide');
+                        $('.modal-backdrop').remove();
 
                         if (response.data.provider.type === 'institution' && !$scope.hasInstanceOrParentInstitutionWithInstance(response.data.provider)) {
                             $http.get(Routing.generate('admin_rest_template_compiled_get', {
@@ -741,6 +748,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                             $('#institutionForm').get(0).reset();
                             $scope.$broadcast('reset');
                             $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();
                             $('#request-modal').modal('show');
                         } else {
                             $('#institutionForm div.form-group p.text-danger').remove();
@@ -780,6 +788,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                             $('#journalForm').get(0).reset();
                             $scope.$broadcast('reset');
                             $('.modal').modal('hide');
+                            $('.modal-backdrop').remove();
                         } else {
                             $('#journalForm div.form-group p.text-danger').remove();
                             $('#journalForm div.form-group').has('input').each(function () {
@@ -914,6 +923,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     $scope.refreshRequest(true);
                     $('#cancelForm').get(0).reset();
                     $('.modal').modal('hide');
+                    $('.modal-backdrop').remove();
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -930,6 +940,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     $scope.refreshRequest(true);
                     $('#cancelForm').get(0).reset();
                     $('.modal').modal('hide');
+                    $('.modal-backdrop').remove();
                     $http.get(Routing.generate('admin_rest_template_compiled_get', {
                         code: 'order_cancel',
                         request_id: $scope.request.id
@@ -975,6 +986,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     $scope.refreshRequest(true);
                     $('#reclaimForm').get(0).reset();
                     $('.modal').modal('hide');
+                    $('.modal-backdrop').remove();
                     delete $scope.forms.reclaim.request;
 
                     if (_.isUndefined(response.data.request_event.provider.celsius_instance)) {
@@ -998,6 +1010,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     $scope.refreshRequest(true);
                     $('#reclaimForm').get(0).reset();
                     $('.modal').modal('hide');
+                    $('.modal-backdrop').remove();
                     delete $scope.forms.reclaim.receive;
 
                     if (_.isUndefined(response.data.receive_event.provider.celsius_instance)) {
@@ -1116,6 +1129,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                         $scope.refreshRequest(true);
                         $scope.forms.email = {};
                         $('.modal').modal('hide');
+                        $('.modal-backdrop').remove();
                     }
                 }, function (response) {
                     generateCelsiusAlert(response);
@@ -1155,6 +1169,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                         $scope.refreshRequest(true);
                         $scope.forms.message = {};
                         $('.modal').modal('hide');
+                        $('.modal-backdrop').remove();
                     }
                 }, function (response) {
                     generateCelsiusAlert(response);
