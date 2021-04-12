@@ -29,6 +29,11 @@ yarn/install:
 	@docker-compose exec --user $(id -u):$(id -g) web yarn install
 
 database:
-	@docker-compose exec --user $(id -u):$(id -g) web php app/console doctrine:database:drop --force
-	@docker-compose exec --user $(id -u):$(id -g) web php app/console doctrine:database:create
+	@docker-compose exec --user $(id -u):$(id -g) web php bin/console doctrine:database:drop --force
+	@docker-compose exec --user $(id -u):$(id -g) web php bin/console doctrine:database:create
 	@docker exec -i celsius3_mysql sh -c 'exec mysql -ucelsius3_usr -pcelsius3_pass celsius3' < .docker/mysql/celsius3.sql
+
+.PHONY: encore
+encore:
+	@docker-compose exec --user $(id -u):$(id -g) web php bin/console assets:install
+	@docker-compose exec --user $(id -u):$(id -g) web yarn run encore dev
