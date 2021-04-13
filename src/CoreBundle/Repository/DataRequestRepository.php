@@ -57,7 +57,7 @@ class DataRequestRepository extends EntityRepository
 
         $qb->select('dr')
             ->where('dr.downloaded = :downloaded')
-            ->orWhere('dr.deletedAt < :date')
+            ->orWhere('dr.createdAt < :date')
             ->setParameter('downloaded', true)
             ->setParameter('date', $date);
 

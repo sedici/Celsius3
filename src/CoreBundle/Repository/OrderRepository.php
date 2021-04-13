@@ -178,7 +178,7 @@ class OrderRepository extends BaseRepository
                         ->where('s.type = :type')
                         ->andWhere('r.instance = :instance_id')
                         ->andWhere('r.owner = :owner_id')
-                        ->andWhere('s.deletedAt >= :date')
+                        ->andWhere('s.createdAt >= :date')
                         ->setParameter('type', $type)
                         ->setParameter('instance_id', $instance->getId())
                         ->setParameter('owner_id', $user->getId())
@@ -197,15 +197,15 @@ class OrderRepository extends BaseRepository
                 ->setParameter('type', $type);
 
         if (!is_null($startDate)) {
-            $qb->andWhere('s.deletedAt >= :date')
+            $qb->andWhere('s.createdAt >= :date')
                     ->setParameter('date', $startDate);
         } elseif (!is_null($limit) && !is_null($offset)) {
             $qb->setMaxResults($limit)
                     ->setFirstResult($offset)
-                    ->orderBy('r.deletedAt', 'DESC');
+                    ->orderBy('r.createdAt', 'DESC');
         } else {
             $qb->setMaxResults(10)
-                    ->orderBy('r.deletedAt', 'DESC');
+                    ->orderBy('r.createdAt', 'DESC');
         }
 
         if (!is_null($instance)) {

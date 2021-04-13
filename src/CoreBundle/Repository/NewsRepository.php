@@ -44,7 +44,7 @@ class NewsRepository extends BaseRepository
     {
         return $this->createQueryBuilder('n')
                     ->where('n.instance = :instance_id')
-                    ->orderBy('n.deletedAt', 'desc')
+                    ->orderBy('n.createdAt', 'desc')
                     ->setParameter(':instance_id', $instance->getId())
                     ->getQuery();
     }
