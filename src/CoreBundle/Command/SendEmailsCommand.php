@@ -50,7 +50,7 @@ class SendEmailsCommand extends ContainerAwareCommand
         $mailer = $this->getContainer()->get('celsius3_core.mailer');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $logger = $this->getContainer()->get('celsius3_core.mailer.logger');
+        $logger = $this->getContainer()->get('logger');
 
         $instances = $em->getRepository('Celsius3CoreBundle:Instance')
                 ->findAllAndInvisibleExceptDirectory()
