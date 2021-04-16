@@ -10,3 +10,4 @@ fos_message:
         model: FOS\MessageBundle\FormModel\NewThreadMultipleMessage
     reply_form:
         type: Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType
+    thread_manager: celsius3_message.thread_manager.default

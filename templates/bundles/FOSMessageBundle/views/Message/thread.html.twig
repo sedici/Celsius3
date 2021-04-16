@@ -1,6 +1,7 @@
-{% extends 'bundles/FOSMessageBundle/layout.html.twig' %}
+{% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
+    {{ 'hola desde template' }}
     <h3>{{ thread.subject }}</h3>
     <div class="row">
         <div class="col-md-9">
@@ -11,7 +12,7 @@
                             {{  message.sender }}
                         </span>
                         <span class="pull-right">
-                            {{ message.createdAt|localizeddate }} ({{ message.createdAt|time_ago_in_words }})
+                            {{ message.created_at|localizeddate }} ({{ message.created_at|time_ago_in_words }})
                         </span>
                         <div class="clearfix"></div>
                         {% if loop.first %}
@@ -35,7 +36,7 @@
             {{ form_end(form) }}
         </div>
         <div class="col-md-3">
-            {% include 'bundles/FOSMessageBundle/Message/sidebar.html.twig' %}
+            {% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}
         </div>
     </div>
 {% endblock %}

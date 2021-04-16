@@ -92,7 +92,7 @@ class MessageController extends BaseController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($threads, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
 
-        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:inbox.html.twig', array(
+        return $this->container->get('templating')->renderResponse('bundles/FOSMessageBundle/Message/inbox.html.twig', array(
                     'threads' => $pagination,
                     'filter_form' => $filter_form->createView(),
         ));
@@ -110,7 +110,7 @@ class MessageController extends BaseController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($threads, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
 
-        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:sent.html.twig', array(
+        return $this->container->get('templating')->renderResponse('bundles/FOSMessageBundle/Message/sent.html.twig', array(
                     'threads' => $pagination,
                     'filter_form' => $filter_form->createView(),
         ));
@@ -130,7 +130,7 @@ class MessageController extends BaseController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($threads, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
 
-        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:deleted.html.twig', array(
+        return $this->container->get('templating')->renderResponse('bundles/FOSMessageBundle/Message/deleted.html.twig', array(
             'threads' => $pagination,
             'filter_form' => $filter_form->createView(),
         ));
@@ -151,7 +151,7 @@ class MessageController extends BaseController
         }
 
         return $this->container->get('templating')
-                        ->renderResponse('FOSMessageBundle:Message:newThread.html.twig', array(
+                        ->renderResponse('bundles/FOSMessageBundle/Message/newThread.html.twig', array(
                             'form' => $form->createView(),
                             'data' => $form->getData(),
         ));
@@ -173,7 +173,7 @@ class MessageController extends BaseController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($threads, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
 
-        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:search.html.twig', array(
+        return $this->container->get('templating')->renderResponse('bundles/FOSMessageBundle/Message/search.html.twig', array(
                     'query' => $query,
                     'threads' => $pagination,
                     'filter_form' => $filter_form->createView(),
@@ -215,7 +215,7 @@ class MessageController extends BaseController
             )));
         }
 
-        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:thread.html.twig', array(
+        return $this->container->get('templating')->renderResponse('bundles/FOSMessageBundle/Message/thread.html.twig', array(
             'form' => $form->createView(),
             'thread' => $thread,
         ));

@@ -1,4 +1,4 @@
-{% extends 'bundles/FOSMessageBundle/layout.html.twig' %}
+{% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
     <h3>{{ 'deleted' | trans({}, 'FOSMessageBundle') }}</h3>
@@ -8,7 +8,7 @@
             {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads, 'urlAction' : 'fos_message_deleted'} %}
         </div>
         <div class="col-md-3">
-            {% include 'bundles/FOSMessageBundle/Message/sidebar.html.twig' %}
+            {% include 'FOSMessageBundle:Message:sidebar.html.twig' %}
         </div>
 
     </div>
