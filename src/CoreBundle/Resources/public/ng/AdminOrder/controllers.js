@@ -376,7 +376,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                                             $scope.forms.email.address = $scope.request.owner.email;
                                             $scope.forms.email.subject = response.data[0].title;
                                             $scope.forms.email.text = response.data[0].text;
-                                            // $('#email-modal').modal('show');
+                                            $('#email-modal').modal('show');
                                         }
                                     }, function (response) {
                                         generateCelsiusAlert(response);
