@@ -49,7 +49,7 @@ final class NewOrdersDataRequestViewController extends BaseInstanceDependentCont
 
     public function __invoke(Request $request)
     {
-        $data_request = $this->createDataRequest($request->request->get('data_request'));
+        $data_request = $this->createDataRequest($request->request->get('orders_data_request'));
 
         $form = $this->createForm(OrdersDataRequestType::class, $data_request);
         $form->handleRequest($request);
