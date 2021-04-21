@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\DataRequest;
+use Celsius3\CoreBundle\Entity\UsersDataRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
@@ -56,20 +57,35 @@ class SuperadminDataRequestController extends BaseController
     }
 
     /**
-     * @Route("/{id}/export", name="superadmin_data_request_export")
+     * @Route("/{id}/export_orders", name="superadmin_orders_data_request_export")
      */
-    public function exportAction(Request $request, DataRequest $dataRequest)
+    public function exportOrdersAction(Request $request, DataRequest $dataRequest)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $process = new Process('php ../app/console --env=prod celsius3:export-data ' . $dataRequest->getId());
+        $process = new Process('php ../bin/console --env=prod celsius3:export:orders-data-requests ' . $dataRequest->getId());
         $process->run();
 
         $em->persist($dataRequest->setExported(true));
         $em->flush();
 
         return $this->redirectToRoute('superadmin_data_request_index');
+    }
 
+    /**
+     * @Route("/{id}/export_users", name="superadmin_users_data_request_export")
+     */
+    public function exportUsersAction(Request $request, DataRequest $dataRequest)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $process = new Process('php ../bin/console --env=prod celsius3:export:users-data-requests ' . $dataRequest->getId());
+        $process->run();
+
+        $em->persist($dataRequest->setExported(true));
+        $em->flush();
+
+        return $this->redirectToRoute('superadmin_data_request_index');
     }
 
     /**

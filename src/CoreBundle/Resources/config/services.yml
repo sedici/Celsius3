@@ -54,6 +54,10 @@ services:
         tags:
             - { name: twig.extension }
         arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']
+    celsius3_core.twig.extension.data_request_export_path_selector:
+        class: Celsius3\CoreBundle\Twig\DataRequestExportPathSelector
+        tags:
+            - { name: twig.extension }
     celsius3_core.mailer:
         class: Celsius3\CoreBundle\Mailer\Mailer
         arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@validator', '@celsius3_core.mailer_helper']

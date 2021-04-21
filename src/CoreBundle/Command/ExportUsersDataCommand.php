@@ -38,7 +38,7 @@ final class ExportUsersDataCommand extends ContainerAwareCommand
 {
     protected function configure(): void
     {
-        $this->setName('celsius3:export:users-data-request')
+        $this->setName('celsius3:export:users-data-requests')
             ->setDescription('Exporta los datos de usuarios dada una solicitud.')
             ->addArgument('users-data-request-id', InputArgument::REQUIRED, 'Users data request identifier');
     }

@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *   "users_data_request"="UsersDataRequest",
- *   "orders_data_reques"="OrdersDataRequest"
+ *   "orders_data_request"="OrdersDataRequest"
  * })
  */
 abstract class DataRequest
