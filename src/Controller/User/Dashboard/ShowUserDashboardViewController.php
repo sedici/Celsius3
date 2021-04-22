@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\User\Dashboard;
+namespace Celsius3\Controller\User\Dashboard;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Configuration;
@@ -68,7 +68,7 @@ final class ShowUserDashboardViewController extends BaseInstanceDependentControl
             ]
         );
 
-        return $this->render('Celsius3CoreBundle:User:Dashboard/index.html.twig', [
+        return $this->render('User/Dashboard/index.html.twig', [
             'lastMessages' => $last_messages,
             'resultsPerPage' => $results_per_page_config->getValue(),
         ]);
