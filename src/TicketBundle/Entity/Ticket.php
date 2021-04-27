@@ -89,6 +89,13 @@ class Ticket
     protected $priority;
 
     /**
+     * @Assert\NotNull()
+     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="tickets")
+     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
+     */
+    protected $instance;
+
+    /**
      * Get id.
      *
      * @return int
