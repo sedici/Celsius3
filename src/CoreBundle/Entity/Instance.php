@@ -62,6 +62,13 @@ class Instance extends LegacyInstance
     protected $users;
 
     /**
+     * @ORM\OneToMany(targetEntity="Celsius3\TicketBundle\Entity\Ticket", mappedBy="instance")
+     */
+    protected $tickets;
+
+
+
+    /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="instance")
      */
     protected $orders;
