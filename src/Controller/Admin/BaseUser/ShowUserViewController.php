@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Exception\Exception;
@@ -54,7 +54,7 @@ final class ShowUserViewController extends BaseUserController
             'resultsPerPage' => $this->getResultsPerPage(),
         ];
 
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:show.html.twig', $parameters);
+        return $this->render('Admin/BaseUser/show.html.twig', $parameters);
     }
 
     private function findUser($id)

@@ -21,7 +21,7 @@
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             <h3>{{ 'Personal data'|trans }}</h3>
-            {% embed 'Celsius3CoreBundle:AdminBaseUser:_show_fields.html.twig' %}
+            {% embed 'Admin/BaseUser/_show_fields.html.twig' %}
                 {% block actions %}
                 {% endblock %}
             {% endembed %}
@@ -31,7 +31,7 @@
                 <dl class="dl-horizontal">
                     <dt>{{ 'Institution'|trans }}</dt>
                     <dd>{{ element.institution }}</dd>
-                    {% include 'Celsius3CoreBundle:AdminBaseUser:_institution.html.twig' with {'institution': element.institution.parent } only %}
+                    {% include 'Admin/BaseUser/_institution.html.twig' with {'institution': element.institution.parent } only %}
                 </dl>
             </div>
 

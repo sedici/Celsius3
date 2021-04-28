@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
@@ -62,7 +62,7 @@ final class TransformUserViewController extends BaseUserController
             return $response;
         }
 
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:transform.html.twig', $response);
+        return $this->render('Admin/BaseUser/transform.html.twig', $response);
     }
 
     protected function getUserListRoute()

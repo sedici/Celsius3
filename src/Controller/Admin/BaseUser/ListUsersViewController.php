@@ -22,14 +22,26 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
+use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
 
-final class EnableUserPutController extends BaseUserController
+final class ListUsersViewController extends BaseUserController
 {
-    public function __invoke($id)
+    public function __invoke()
     {
-        return $this->baseEnableAction($id);
+        $parameters = $this->baseIndex(
+            'BaseUser',
+            $this->createForm(
+                BaseUserFilterType::class,
+                null,
+                [
+                    'instance' => $this->getInstance(),
+                ]
+            )
+        );
+
+        return $this->render('Admin/BaseUser/index.html.twig', $parameters);
     }
 }

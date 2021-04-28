@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Entity\BaseUser;
@@ -39,6 +39,6 @@ final class NewUserViewController extends BaseUserController
             ['validation_groups' => 'Registration']
         );
 
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:new.html.twig', $parameters);
+        return $this->render('Admin/BaseUser/new.html.twig', $parameters);
     }
 }

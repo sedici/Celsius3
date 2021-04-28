@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Exception\Exception;
@@ -75,7 +75,7 @@ final class UpdateUserPostController extends BaseUserController
             ->add('error', 'There were errors editing the BaseUser.');
 
         return $this->render(
-            'Celsius3CoreBundle:AdminBaseUser:edit.html.twig',
+            'Admin/BaseUser/edit.html.twig',
             [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),

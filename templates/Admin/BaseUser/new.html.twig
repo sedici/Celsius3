@@ -4,10 +4,10 @@
     {{ 'User Creation' | trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
+{% from "Macro/Crud/new.html.twig" import new as new %}
 
 {% block content %}
     <h2>{{ 'User Creation' | trans }}</h2>
     <hr class="separator_hr">
-    {{ new('admin_user', form, 'Celsius3CoreBundle:AdminBaseUser', true) }}
+    {{ new('admin_user', form, 'Admin/BaseUser/', true) }}
 {% endblock %}

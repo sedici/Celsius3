@@ -22,26 +22,19 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
+use Symfony\Component\HttpFoundation\Request;
 
-final class ListUsersViewController extends BaseUserController
+final class CreateUserPostController extends BaseUserController
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $parameters = $this->baseIndex(
-            'BaseUser',
-            $this->createForm(
-                BaseUserFilterType::class,
-                null,
-                [
-                    'instance' => $this->getInstance(),
-                ]
-            )
+        return $this->baseCreateAction(
+            $request,
+            'Admin/BaseUser/new.html.twig',
+            ['validation_groups' => ['Registration', 'Default']]
         );
-
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:index.html.twig', $parameters);
     }
 }

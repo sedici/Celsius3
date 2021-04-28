@@ -22,17 +22,14 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
 
-final class EditUserViewController extends BaseUserController
+final class EnableUserPutController extends BaseUserController
 {
     public function __invoke($id)
     {
-        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, ['editing' => true]);
-
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
+        return $this->baseEnableAction($id);
     }
 }

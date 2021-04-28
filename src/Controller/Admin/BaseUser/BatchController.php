@@ -22,19 +22,19 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
-use Symfony\Component\HttpFoundation\Request;
 
-final class CreateUserPostController extends BaseUserController
+final class BatchController extends BaseUserController
 {
-    public function __invoke(Request $request)
+    public function __invoke()
     {
-        return $this->baseCreateAction(
-            $request,
-            'Celsius3CoreBundle:AdminBaseUser:new.html.twig',
-            ['validation_groups' => ['Registration', 'Default']]
-        );
+        return $this->baseBatch();
+    }
+
+    protected function batchEnable($element_ids)
+    {
+        return $this->baseBatchEnable($element_ids);
     }
 }

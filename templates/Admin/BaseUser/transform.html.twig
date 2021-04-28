@@ -6,7 +6,7 @@
     {{ 'User Transform' | trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import transform as transform %}
+{% from "Macro/Crud/transform.html.twig" import transform as transform %}
 
 {% block content %}
     <h2>{{ 'User Transform' | trans }} - {{ entity.name }}</h2>

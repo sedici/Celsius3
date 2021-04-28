@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Entity\BaseUser;
@@ -112,7 +112,7 @@ final class DoUnionPostController extends BaseUserController
     protected function batchUnion($element_ids)
     {
         return $this->render(
-            'Celsius3CoreBundle:AdminBaseUser:batchUnion.html.twig',
+            'Admin/BaseUser/batchUnion.html.twig',
             $this->baseUnion('BaseUser', $element_ids)
         );
     }

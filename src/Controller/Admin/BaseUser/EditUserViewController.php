@@ -22,19 +22,17 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\BaseUser;
+namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
+use Celsius3\CoreBundle\Form\Type\BaseUserType;
 
-final class BatchController extends BaseUserController
+final class EditUserViewController extends BaseUserController
 {
-    public function __invoke()
+    public function __invoke($id)
     {
-        return $this->baseBatch();
-    }
+        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, ['editing' => true]);
 
-    protected function batchEnable($element_ids)
-    {
-        return $this->baseBatchEnable($element_ids);
+        return $this->render('Admin/BaseUser/edit.html.twig', $parameters);
     }
 }

@@ -4,10 +4,10 @@
     {{ 'User Edit'|trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
 
 {% block content %}
     <h2>{{ 'User Edit'|trans }} - {{ entity.username }}</h2>
     <hr class="separator_hr">
-    {{ edit('admin_user', entity, edit_form, 'Celsius3CoreBundle:AdminBaseUser', true) }}
+    {{ edit('admin_user', entity, edit_form, 'Admin/BaseUser/', true) }}
 {% endblock %}
