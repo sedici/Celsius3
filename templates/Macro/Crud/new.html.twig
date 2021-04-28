@@ -1,0 +1,28 @@
+{% macro new(name, form, folder, custom_rendering = false, entity = null) %}
+    <div class="row">
+        <div class="col-md-9">
+            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+
+            {{ form_start(form, {
+                'attr': {
+                    'action': path(name ~ '_create'),
+                    'class': 'form-horizontal',
+                    'role': 'form', 'novalidate': 'novalidate'
+                }
+            }) }}
+            {% if custom_rendering %}
+                {{ form_errors(form) }}
+                {% include folder~'_form.html.twig' %}
+            {% else %}
+                {{ form_widget(form) }}
+            {% endif %}
+            <button type="submit" class="btn btn-primary submit-button"><span
+                        class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-3">
+            {% from "Macro/Crud/item_accordion.html.twig" import item_accordion as item_accordion %}
+            {{ item_accordion(name) }}
+        </div>
+    </div>
+{% endmacro %}
