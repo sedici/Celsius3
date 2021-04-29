@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -32,7 +32,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
-final class CreateReclaimEventPostController extends BaseInstanceDependentRestController
+final class CreateTakeEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
@@ -49,11 +49,11 @@ final class CreateReclaimEventPostController extends BaseInstanceDependentRestCo
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
-    public function __invoke($request_id)
+    public function __invoke($request_id, $event)
     {
         $request = $this->findRequest($request_id);
 
-        $result = $this->lifecycleHelper->createReclaimEvent($request, $this->getInstance());
+        $result = $this->lifecycleHelper->createTakeEvent($request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
 
@@ -66,7 +66,6 @@ final class CreateReclaimEventPostController extends BaseInstanceDependentRestCo
     private function findRequest($request_id)
     {
         $request = $this->entityManager->getRepository(Request::class)->find($request_id);
-        ($this->entityManager)();
 
         if (!$request) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');

@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Manager\EventManager;

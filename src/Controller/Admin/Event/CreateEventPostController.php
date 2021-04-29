@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -32,7 +32,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
-final class CreateCancelEventPostController extends BaseInstanceDependentRestController
+final class CreateEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
@@ -49,21 +49,7 @@ final class CreateCancelEventPostController extends BaseInstanceDependentRestCon
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
-    public function __invoke($request_id)
-    {
-        $request = $this->findRequest($request_id);
-
-        $result = $this->lifecycleHelper->createCancelEvent($request, $this->getInstance());
-
-        $view = $this->view($result, 200)->setFormat('json');
-
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-        $view->setSerializationContext($context);
-
-        return $this->handleView($view);
-    }
-
-    private function findRequest($request_id)
+    public function __invoke($request_id, $event)
     {
         $request = $this->entityManager->getRepository(Request::class)->find($request_id);
 
@@ -74,6 +60,14 @@ final class CreateCancelEventPostController extends BaseInstanceDependentRestCon
         if (!$request->getOperator()) {
             $request->setOperator($this->getUser());
         }
-        return $request;
+
+        $result = $this->lifecycleHelper->createEvent($event, $request, $this->getInstance());
+
+        $view = $this->view($result, 200)->setFormat('json');
+
+        $context = SerializationContext::create()->setGroups(['administration_order_show']);
+        $view->setSerializationContext($context);
+
+        return $this->handleView($view);
     }
 }

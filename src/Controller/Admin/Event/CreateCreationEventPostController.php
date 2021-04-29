@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -32,7 +32,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
-final class CreateRequestEventPostController extends BaseInstanceDependentRestController
+final class CreateCreationEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
@@ -53,6 +53,22 @@ final class CreateRequestEventPostController extends BaseInstanceDependentRestCo
 
     public function __invoke($request_id)
     {
+        {
+            $request = $this->findRequest($request_id);
+
+            $result = $this->lifecycleHelper->createCreationEvent($request, $this->getInstance());
+
+            $view = $this->view($result, 200)->setFormat('json');
+
+            $context = SerializationContext::create()->setGroups(['administration_order_show']);
+            $view->setSerializationContext($context);
+
+            return $this->handleView($view);
+        }
+    }
+
+    private function findRequest($request_id)
+    {
         $request = $this->entityManager->getRepository(Request::class)->find($request_id);
 
         if (!$request) {
@@ -63,13 +79,6 @@ final class CreateRequestEventPostController extends BaseInstanceDependentRestCo
             $request->setOperator($this->getUser());
         }
 
-        $result = $this->lifecycleHelper->createRequestEvent($request, $this->getInstance());
-
-        $view = $this->view($result, 200)->setFormat('json');
-
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-        $view->setSerializationContext($context);
-
-        return $this->handleView($view);
+        return $request;
     }
 }

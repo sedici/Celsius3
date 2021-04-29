@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -32,7 +32,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
-final class CreateTakeEventPostController extends BaseInstanceDependentRestController
+final class CreateDeliverEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
@@ -49,11 +49,11 @@ final class CreateTakeEventPostController extends BaseInstanceDependentRestContr
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
-    public function __invoke($request_id, $event)
+    public function __invoke($request_id)
     {
         $request = $this->findRequest($request_id);
 
-        $result = $this->lifecycleHelper->createTakeEvent($request, $this->getInstance());
+        $result = $this->lifecycleHelper->createDeliverEvent($request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
 

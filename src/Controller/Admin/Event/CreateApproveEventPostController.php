@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -32,10 +32,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
-final class CreateDeliverEventPostController extends BaseInstanceDependentRestController
+final class CreateApproveEventPostController extends BaseInstanceDependentRestController
 {
-    private $entityManager;
     private $lifecycleHelper;
+    private $requestRepository;
 
     /**
      * @DI\InjectParams({
@@ -45,7 +45,7 @@ final class CreateDeliverEventPostController extends BaseInstanceDependentRestCo
      */
     public function __construct(EntityManagerInterface $entityManager, LifecycleHelper $lifecycleHelper)
     {
-        $this->entityManager = $entityManager;
+        $this->requestRepository = $entityManager->getRepository(Request::class);
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
@@ -53,7 +53,7 @@ final class CreateDeliverEventPostController extends BaseInstanceDependentRestCo
     {
         $request = $this->findRequest($request_id);
 
-        $result = $this->lifecycleHelper->createDeliverEvent($request, $this->getInstance());
+        $result = $this->lifecycleHelper->createApproveEvent($request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
 
@@ -65,7 +65,7 @@ final class CreateDeliverEventPostController extends BaseInstanceDependentRestCo
 
     private function findRequest($request_id)
     {
-        $request = $this->entityManager->getRepository(Request::class)->find($request_id);
+        $request = $this->requestRepository->find($request_id);
 
         if (!$request) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');

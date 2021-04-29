@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -30,8 +30,9 @@ use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use JMS\Serializer\SerializationContext;
 
-final class CreateUndoEventPostController extends BaseInstanceDependentRestController
+final class CreateReceiveEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
@@ -52,9 +53,12 @@ final class CreateUndoEventPostController extends BaseInstanceDependentRestContr
     {
         $request = $this->findRequest($request_id);
 
-        $result = $this->lifecycleHelper->undoState($request);
+        $result = $this->lifecycleHelper->createReceiveEvent($request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
+
+        $context = SerializationContext::create()->setGroups(['administration_order_show']);
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
@@ -30,9 +30,8 @@ use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
-use JMS\Serializer\SerializationContext;
 
-final class CreateCreationEventPostController extends BaseInstanceDependentRestController
+final class CreateUndoEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
@@ -43,28 +42,21 @@ final class CreateCreationEventPostController extends BaseInstanceDependentRestC
      *     "lifecycleHelper" = @DI\Inject("celsius3_core.lifecycle_helper")
      * })
      */
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        LifecycleHelper $lifecycleHelper
-    ) {
+    public function __construct(EntityManagerInterface $entityManager, LifecycleHelper $lifecycleHelper)
+    {
         $this->entityManager = $entityManager;
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
     public function __invoke($request_id)
     {
-        {
-            $request = $this->findRequest($request_id);
+        $request = $this->findRequest($request_id);
 
-            $result = $this->lifecycleHelper->createCreationEvent($request, $this->getInstance());
+        $result = $this->lifecycleHelper->undoState($request);
 
-            $view = $this->view($result, 200)->setFormat('json');
+        $view = $this->view($result, 200)->setFormat('json');
 
-            $context = SerializationContext::create()->setGroups(['administration_order_show']);
-            $view->setSerializationContext($context);
-
-            return $this->handleView($view);
-        }
+        return $this->handleView($view);
     }
 
     private function findRequest($request_id)
@@ -78,7 +70,6 @@ final class CreateCreationEventPostController extends BaseInstanceDependentRestC
         if (!$request->getOperator()) {
             $request->setOperator($this->getUser());
         }
-
         return $request;
     }
 }

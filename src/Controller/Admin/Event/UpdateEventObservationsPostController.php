@@ -22,14 +22,16 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\Event;
+namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
+use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\HttpFoundation\Request;
 
-final class EventGetController extends BaseInstanceDependentRestController
+final class UpdateEventObservationsPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
 
@@ -43,22 +45,24 @@ final class EventGetController extends BaseInstanceDependentRestController
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke($id)
+    public function __invoke(Request $request, $id)
     {
         $event = $this->findEvent($id);
 
-        $view = $this->view($event, 200)->setFormat('json');
+        $event->setObservations($request->request->get('observations'));
 
-        return $this->handleView($view);
+        $this->entityManager->persist($event);
+        $this->entityManager->flush();
+
+        return $this->handleView($this->view(['updated' => true], 200)->setFormat('json'));
     }
 
     private function findEvent($id)
     {
-        $event = $this->entityManager->getRepository('Celsius3CoreBundle:Event')
-            ->find($id);
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
 
         if (!$event) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.event');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND);
         }
 
         return $event;
