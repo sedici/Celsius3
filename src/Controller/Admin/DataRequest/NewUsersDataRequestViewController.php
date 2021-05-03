@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\Admin\DataRequest;
+namespace Celsius3\Controller\Admin\DataRequest;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\DataRequest;
@@ -66,7 +66,7 @@ final class NewUsersDataRequestViewController extends BaseInstanceDependentContr
         }
 
         return $this->render(
-            'Celsius3CoreBundle:Administration:request_users_data.html.twig',
+            'Admin/DataRequest/request_users_data.html.twig',
             ['form' => $form->createView()]
         );
     }
