@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Celsius3 - Order management
@@ -20,33 +20,38 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Controller\Admin\FileDownload;
-
+namespace Celsius3\Controller\Admin\FileDownload;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Form\Type\Filter\FileDownloadFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
-    public function __invoke()
+    public function __invoke(): ?Response
     {
-        $filter_form = $this->createForm(FileDownloadFilterType::class, null, array(
+        $filter_form = $this->createForm(FileDownloadFilterType::class, null, [
             'instance' => $this->getInstance(),
-        ));
+        ]);
 
         $query = $this->listQuery('FileDownload');
         $request = $this->get('request_stack')->getCurrentRequest();
-        if (!is_null($filter_form)) {
+        if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
             $query = $this->filter('FileDownload', $filter_form, $query);
         }
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $this->getResultsPerPage(),
+            $this->getSortDefaults()
+        );
 
-        return $this->render('Celsius3CoreBundle:AdminFileDownload:index.html.twig', [
+        return $this->render('Admin/FileDownload/index.html.twig', [
             'pagination' => $pagination,
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
+            'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,
         ]);
     }
 }
