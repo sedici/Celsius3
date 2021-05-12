@@ -4,10 +4,10 @@
     {{ 'Catalog Edit'|trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
 
 {% block content %}
     <h2>{{ 'Catalog Edit'|trans }} - {{ entity.name }}</h2>
     <hr class="separator_hr">
-    {{ edit('admin_catalog', entity, edit_form, 'Celsius3CoreBundle:AdminCatalog', true) }}
+    {{ edit('admin_catalog', entity, edit_form, 'Admin/Catalog/', true) }}
 {% endblock %}
