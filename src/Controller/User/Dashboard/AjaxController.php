@@ -26,6 +26,7 @@ namespace Celsius3\Controller\User\Dashboard;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Symfony\Component\HttpFoundation\Request;
+
 use function in_array;
 
 final class AjaxController extends BaseInstanceDependentController

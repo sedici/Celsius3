@@ -29,20 +29,13 @@ use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
 final class CreateApproveEventPostController extends BaseInstanceDependentRestController
 {
     private $lifecycleHelper;
     private $requestRepository;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "lifecycleHelper" = @DI\Inject("celsius3_core.lifecycle_helper")
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager, LifecycleHelper $lifecycleHelper)
     {
         $this->requestRepository = $entityManager->getRepository(Request::class);

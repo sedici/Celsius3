@@ -26,17 +26,11 @@ namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Manager\EventManager;
-use JMS\DiExtraBundle\Annotation as DI;
 
 final class RequestEventsByTypeGetController extends BaseInstanceDependentRestController
 {
     private $eventManager;
 
-    /**
-     * @DI\InjectParams({
-     *     "eventManager" = @DI\Inject("celsius3_core.event_manager")
-     * })
-     */
     public function __construct(EventManager $eventManager)
     {
         $this->eventManager = $eventManager;

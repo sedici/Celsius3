@@ -27,19 +27,13 @@ namespace Celsius3\Controller\Admin\Catalog;
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
 
 final class GetCatalogsRestController extends BaseInstanceDependentRestController
 {
     private $catalogRepository;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);

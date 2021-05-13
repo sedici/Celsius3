@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 /*
  * Celsius3 - Order management
@@ -30,9 +31,13 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
     public function __invoke(): ?Response
     {
-        $filter_form = $this->createForm(FileDownloadFilterType::class, null, [
-            'instance' => $this->getInstance(),
-        ]);
+        $filter_form = $this->createForm(
+            FileDownloadFilterType::class,
+            null,
+            [
+                'instance' => $this->getInstance(),
+            ]
+        );
 
         $query = $this->listQuery('FileDownload');
         $request = $this->get('request_stack')->getCurrentRequest();
@@ -49,9 +54,12 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
             $this->getSortDefaults()
         );
 
-        return $this->render('Admin/FileDownload/index.html.twig', [
-            'pagination' => $pagination,
-            'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,
-        ]);
+        return $this->render(
+            'Admin/FileDownload/index.html.twig',
+            [
+                'pagination' => $pagination,
+                'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,
+            ]
+        );
     }
 }

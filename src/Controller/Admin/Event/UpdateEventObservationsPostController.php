@@ -28,18 +28,12 @@ use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 
 final class UpdateEventObservationsPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;

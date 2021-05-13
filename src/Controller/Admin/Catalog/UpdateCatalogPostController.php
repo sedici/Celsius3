@@ -30,7 +30,6 @@ use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -40,12 +39,6 @@ final class UpdateCatalogPostController extends BaseInstanceDependentController
     private $translator;
     private $catalogRepository;
 
-    /**
-     * @DI\InjectParams({
-     *     "translator" = @DI\Inject("translator"),
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
     {
         $this->translator = $translator;
@@ -54,18 +47,6 @@ final class UpdateCatalogPostController extends BaseInstanceDependentController
 
     public function __invoke(Request $request, $id): Response
     {
-//        return $this->baseUpdate(
-//            'Catalog',
-//            $id,
-//            CatalogType::class,
-//            array(
-//                'instance' => $this->getInstance(),
-//            ),
-//            'admin_catalog'
-//        );
-        //protected function baseUpdate($name, $id, $type, array $options, $route)
-
-
         $entity = $this->catalogRepository
             ->findOneForInstance($this->getInstance(), $id);
 

@@ -29,9 +29,8 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Manager\UnionManager;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 final class DoUnionPostController extends BaseUserController
 {
@@ -39,17 +38,10 @@ final class DoUnionPostController extends BaseUserController
     private $unionManager;
     private $translator;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "unionManager" = @DI\Inject("celsius3_core.union_manager"),
-     *     "translator" = @DI\Inject("translator"),
-     * })
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         UnionManager $unionManager,
-        Translator $translator
+        TranslatorInterface $translator
     ) {
         $this->entityManager = $entityManager;
         $this->unionManager = $unionManager;
@@ -82,7 +74,7 @@ final class DoUnionPostController extends BaseUserController
         $this->mergeSecondaryInstances($main_user, $users);
 
         $this->unionManager
-            ->union($this->getBundle().':BaseUser', $main_user, $users, false);
+            ->union($this->getBundle() . ':BaseUser', $main_user, $users, false);
         return $users;
     }
 

@@ -27,17 +27,11 @@ namespace Celsius3\Controller\Admin\Event;
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 
 final class EventGetController extends BaseInstanceDependentRestController
 {
     private $entityManager;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;

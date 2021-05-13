@@ -31,7 +31,6 @@ use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
 final class GetOrderCatalogResultsRestController extends BaseInstanceDependentRestController
@@ -39,12 +38,7 @@ final class GetOrderCatalogResultsRestController extends BaseInstanceDependentRe
     private $catalogRepository;
     private $orderRepository;
     private $eventRepository;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);

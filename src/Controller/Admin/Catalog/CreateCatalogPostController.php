@@ -28,7 +28,6 @@ use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -37,11 +36,6 @@ final class CreateCatalogPostController extends BaseInstanceDependentController
 {
     private $translator;
 
-    /**
-     * @DI\InjectParams({
-     *     "translator" = @DI\Inject("translator"),
-     * })
-     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;

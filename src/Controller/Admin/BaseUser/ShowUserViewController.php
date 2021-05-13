@@ -27,17 +27,11 @@ namespace Celsius3\Controller\Admin\BaseUser;
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Exception\Exception;
 use FOS\MessageBundle\ModelManager\ThreadManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 
 final class ShowUserViewController extends BaseUserController
 {
     private $threadManager;
-
-    /**
-     * @DI\InjectParams({
-     *     "threadManager" = @DI\Inject("fos_message.thread_manager"),
-     * })
-     */
+    
     public function __construct(ThreadManagerInterface $threadManager)
     {
         $this->threadManager = $threadManager;

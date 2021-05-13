@@ -28,7 +28,6 @@ use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\CatalogPosition;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,12 +36,7 @@ final class UpdateCatalogsPositionsPostController extends BaseInstanceDependentC
     private $catalogRepository;
     private $catalogPositionRepository;
     private $entityManager;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;

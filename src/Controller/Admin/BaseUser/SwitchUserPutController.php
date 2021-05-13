@@ -26,23 +26,16 @@ namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use FOS\UserBundle\Model\UserManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 final class SwitchUserPutController extends BaseUserController
 {
     private $userManager;
     private $tokenStorage;
-
-    /**
-     * @DI\InjectParams({
-     *     "userManager" = @DI\Inject("fos_user.user_manager"),
-     *     "tokenStorage" = @DI\Inject("security.token_storage"),
-     * })
-     */
-    public function __construct(UserManagerInterface $userManager, TokenStorage $tokenStorage)
+    
+    public function __construct(UserManagerInterface $userManager, TokenStorageInterface $tokenStorage)
     {
         $this->userManager = $userManager;
         $this->tokenStorage = $tokenStorage;

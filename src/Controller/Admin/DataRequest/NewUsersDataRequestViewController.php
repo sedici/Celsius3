@@ -30,18 +30,12 @@ use Celsius3\CoreBundle\Entity\UsersDataRequest;
 use Celsius3\CoreBundle\Form\Type\UsersDataRequestType;
 use Celsius3\CoreBundle\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 
 final class NewUsersDataRequestViewController extends BaseInstanceDependentController
 {
     private $dataRequestRepository;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->dataRequestRepository = $entityManager->getRepository(DataRequest::class);

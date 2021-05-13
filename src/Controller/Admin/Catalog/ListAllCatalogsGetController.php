@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 /*
  * Celsius3 - Order management
@@ -26,19 +27,13 @@ use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ListAllCatalogsGetController extends BaseInstanceDependentController
 {
     private $catalogRepository;
-
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
+    
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);
@@ -46,9 +41,13 @@ final class ListAllCatalogsGetController extends BaseInstanceDependentController
 
     public function __invoke(Request $request): Response
     {
-        $filter_form = $this->createForm(CatalogFilterType::class, null, [
-            'instance' => $this->getInstance(),
-        ]);
+        $filter_form = $this->createForm(
+            CatalogFilterType::class,
+            null,
+            [
+                'instance' => $this->getInstance(),
+            ]
+        );
 
         $filter_form->handleRequest($request);
         $query = $this->filter(
@@ -60,11 +59,14 @@ final class ListAllCatalogsGetController extends BaseInstanceDependentController
             )
         );
 
-        return $this->render('Admin/Catalog/index.html.twig', [
-            'pagination' => $query->getQuery()->getResult(),
-            'filter_form' => $filter_form->createView(),
-            'directory' => $this->getDirectory(),
-            'instance' => $this->getInstance(),
-        ]);
+        return $this->render(
+            'Admin/Catalog/index.html.twig',
+            [
+                'pagination' => $query->getQuery()->getResult(),
+                'filter_form' => $filter_form->createView(),
+                'directory' => $this->getDirectory(),
+                'instance' => $this->getInstance(),
+            ]
+        );
     }
 }

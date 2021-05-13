@@ -29,7 +29,6 @@ use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Helper\CustomFieldHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,12 +37,6 @@ final class UpdateUserPostController extends BaseUserController
     private $entityManager;
     private $customFieldHelper;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "customFieldHelper" = @DI\Inject("celsius3_core.custom_field_helper"),
-     * })
-     */
     public function __construct(EntityManagerInterface $entityManager, CustomFieldHelper $customFieldHelper)
     {
         $this->entityManager = $entityManager;
@@ -95,7 +88,7 @@ final class UpdateUserPostController extends BaseUserController
 
     /**
      * @param $entity
-     * @param  FormInterface  $editForm
+     * @param FormInterface $editForm
      */
     private function updateUser($entity, FormInterface $editForm): void
     {

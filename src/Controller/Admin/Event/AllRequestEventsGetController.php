@@ -30,18 +30,12 @@ use Celsius3\CoreBundle\Entity\Event\MultiInstanceEvent;
 use Celsius3\CoreBundle\Entity\Event\ReclaimEvent;
 use Celsius3\CoreBundle\Entity\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
 final class AllRequestEventsGetController extends BaseInstanceDependentRestController
 {
     private $entityManager;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
