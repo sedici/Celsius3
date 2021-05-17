@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
@@ -31,7 +31,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Exception\Exception;
 use Symfony\Component\Translation\Translator;
 
-abstract class BaseController extends AbstractController
+abstract class BaseController extends Controller
 {
     protected function getDirectory()
     {
