@@ -24,42 +24,53 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 
-final class UpdateCatalogPostController extends BaseInstanceDependentController
+final class UpdateCatalogPostController extends AbstractController
 {
     private $translator;
     private $catalogRepository;
+    private $instanceHelper;
+    private $entityManager;
 
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper
+    ) {
         $this->translator = $translator;
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);
+        $this->instanceHelper = $instanceHelper;
+        $this->entityManager = $entityManager;
     }
 
     public function __invoke(Request $request, $id): Response
     {
+        $instance = $this->instanceHelper->getSessionInstance();
+
         $entity = $this->catalogRepository
-            ->findOneForInstance($this->getInstance(), $id);
+            ->findOneForInstance($instance, $id);
 
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.catalog');
         }
 
-        $edit_form = $this->createForm(CatalogType::class, $entity, ['instance' => $this->getInstance(),]);
+        $edit_form = $this->createForm(CatalogType::class, $entity, ['instance' => $instance,]);
 
         $edit_form->handleRequest($request);
         if ($edit_form->isValid()) {
             try {
-                $this->persistEntity($entity);
+                $this->entityManager->persist($entity);
+                $this->entityManager->flush();
 
                 $this->addFlash(
                     'success',

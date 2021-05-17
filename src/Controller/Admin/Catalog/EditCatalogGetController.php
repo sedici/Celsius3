@@ -24,26 +24,33 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class EditCatalogGetController extends BaseInstanceDependentController
+final class EditCatalogGetController extends AbstractController
 {
     private $catalogRepository;
-    
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    private $instanceHelper;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper
+    ) {
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke($id): Response
     {
+        $instance = $this->instanceHelper->getSessionInstance();
+
         $entity = $this->catalogRepository
-            ->findOneForInstance($this->getInstance(), $id);
+            ->findOneForInstance($instance, $id);
 
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.catalog');
@@ -53,7 +60,7 @@ final class EditCatalogGetController extends BaseInstanceDependentController
             CatalogType::class,
             $entity,
             [
-                'instance' => $this->getInstance()
+                'instance' => $instance
             ]
         );
 

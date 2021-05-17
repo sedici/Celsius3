@@ -24,28 +24,32 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\CatalogPosition;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class UpdateCatalogsPositionsPostController extends BaseInstanceDependentController
+final class UpdateCatalogsPositionsPostController extends AbstractController
 {
     private $catalogRepository;
     private $catalogPositionRepository;
     private $entityManager;
-    
-    public function __construct(EntityManagerInterface $entityManager)
+    private $instanceHelper;
+
+    public function __construct(EntityManagerInterface $entityManager, InstanceHelper $instanceHelper)
     {
         $this->entityManager = $entityManager;
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);
         $this->catalogPositionRepository = $entityManager->getRepository(CatalogPosition::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke(Request $request): Response
     {
+        $instance = $this->instanceHelper->getSessionInstance();
         $ids = $request->request->get('ids');
 
         if ($ids) {
@@ -54,7 +58,7 @@ final class UpdateCatalogsPositionsPostController extends BaseInstanceDependentC
                     ->findOneBy(
                         [
                             'catalog' => $id,
-                            'instance' => $this->getInstance()->getId()
+                            'instance' => $instance->getId()
                         ]
                     );
 
@@ -62,7 +66,7 @@ final class UpdateCatalogsPositionsPostController extends BaseInstanceDependentC
                     $position = new CatalogPosition();
                     $position->setEnabled(true);
                     $position->setCatalog($this->catalogRepository->find($id));
-                    $position->setInstance($this->getInstance());
+                    $position->setInstance($instance);
                 }
 
                 $position->setPosition($key);

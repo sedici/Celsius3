@@ -24,25 +24,36 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 
-final class CreateCatalogPostController extends BaseInstanceDependentController
+final class CreateCatalogPostController extends AbstractController
 {
     private $translator;
+    private $instanceHelper;
+    private $entityManager;
 
-    public function __construct(TranslatorInterface $translator)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator,
+        InstanceHelper $instanceHelper
+    ) {
+        $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke(Request $request): Response
     {
+        $instance = $this->instanceHelper->getSessionInstance();
+
         $catalog = new Catalog();
         $name = 'Catalog';
 
@@ -50,14 +61,16 @@ final class CreateCatalogPostController extends BaseInstanceDependentController
             CatalogType::class,
             $catalog,
             [
-                'instance' => $this->getInstance(),
+                'instance' => $instance,
             ]
         );
 
         $form->handleRequest($request);
         if ($form->isValid()) {
             try {
-                $this->persistEntity($catalog);
+                $this->entityManager->persist($catalog);
+                $this->entityManager->flush();
+
                 $this->addFlash(
                     'success',
                     $this->translator->trans(

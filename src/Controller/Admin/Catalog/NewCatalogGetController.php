@@ -24,13 +24,21 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class NewCatalogGetController extends BaseInstanceDependentController
+final class NewCatalogGetController extends AbstractController
 {
+    private $instanceHelper;
+
+    public function __construct(InstanceHelper $instanceHelper)
+    {
+        $this->instanceHelper = $instanceHelper;
+    }
+
     public function __invoke(): Response
     {
         $catalog = new Catalog();
@@ -39,7 +47,7 @@ final class NewCatalogGetController extends BaseInstanceDependentController
             CatalogType::class,
             $catalog,
             [
-                'instance' => $this->getInstance(),
+                'instance' => $this->instanceHelper->getSessionInstance(),
             ]
         );
 

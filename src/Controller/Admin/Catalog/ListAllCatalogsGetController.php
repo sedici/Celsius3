@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -23,49 +24,67 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\FilterManager;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ListAllCatalogsGetController extends BaseInstanceDependentController
+final class ListAllCatalogsGetController extends AbstractController
 {
     private $catalogRepository;
-    
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    private $instanceHelper;
+    private $instanceManager;
+    private $filterManager;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper,
+        InstanceManager $instanceManager,
+        FilterManager $filterManager
+    ) {
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);
+        $this->instanceHelper = $instanceHelper;
+        $this->instanceManager = $instanceManager;
+        $this->filterManager = $filterManager;
     }
 
     public function __invoke(Request $request): Response
     {
+        $instance = $this->instanceHelper->getSessionInstance();
+        $directory = $this->instanceManager->getDirectory();
+
         $filter_form = $this->createForm(
             CatalogFilterType::class,
             null,
             [
-                'instance' => $this->getInstance(),
+                'instance' => $instance,
             ]
         );
 
         $filter_form->handleRequest($request);
-        $query = $this->filter(
-            'Catalog',
-            $filter_form,
-            $this->catalogRepository->findForInstanceAndGlobal(
-                $this->getInstance(),
-                $this->getDirectory()
-            )
-        );
+        $query = $this->filterManager
+            ->filter(
+                $this->catalogRepository->findForInstanceAndGlobal(
+                    $instance,
+                    $directory
+                ),
+                $filter_form,
+                Catalog::class,
+                $instance
+            );
 
         return $this->render(
             'Admin/Catalog/index.html.twig',
             [
                 'pagination' => $query->getQuery()->getResult(),
                 'filter_form' => $filter_form->createView(),
-                'directory' => $this->getDirectory(),
-                'instance' => $this->getInstance(),
+                'directory' => $directory,
+                'instance' => $instance,
             ]
         );
     }

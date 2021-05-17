@@ -24,26 +24,33 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\CatalogPosition;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class EnableCatalogGetController extends BaseInstanceDependentController
+final class EnableCatalogGetController extends AbstractController
 {
     private $entityManager;
     private $catalogPositionRepository;
-    
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    private $instanceHelper;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper
+    ) {
         $this->entityManager = $entityManager;
         $this->catalogPositionRepository = $entityManager->getRepository(CatalogPosition::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke($id): Response
     {
+        $instance = $this->instanceHelper->getSessionInstance();
+
         $catalog_position = $this->catalogPositionRepository
-            ->findOneBy(['catalog' => $id, 'instance' => $this->getInstance()->getId()]);
+            ->findOneBy(['catalog' => $id, 'instance' => $instance->getId()]);
 
         $catalog_position->setEnabled(true);
 
