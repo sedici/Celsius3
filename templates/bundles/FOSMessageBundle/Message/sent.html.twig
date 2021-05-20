@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-md-9">
-            {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads, 'urlAction' : 'fos_message_sent'} %}
+            {% include 'bundles/FOSMessageBundle/Message/threads_list.html.twig' with {'threads': threads, 'urlAction' : 'fos_message_sent'} %}
         </div>
         <div class="col-md-3">
             {% include 'bundles/FOSMessageBundle/Message/sidebar.html.twig' %}
