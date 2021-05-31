@@ -22,15 +22,11 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\Instance;
+
 class BaseInstanceDependentRestController extends BaseRestController
 {
-
-    /**
-     * Returns the instance related to the users instance.
-     *
-     * @return Instance
-     */
-    protected function getInstance()
+    protected function getInstance(): Instance
     {
         return $this->get('celsius3_core.instance_helper')->getSessionInstance();
     }

@@ -1,0 +1,30 @@
+<ul class="list-unstyled list-inline">
+    <li>
+        <a class="submit-catalog-data btn btn-default disabled" href="#">
+            <span class="glyphicon glyphicon-save"></span>
+            {{ 'Save changes'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_catalog_new') }}">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'Create a new catalog'|trans }}
+        </a>
+    </li>
+    <li>
+        <div class="checkbox-inline">
+            <div class="text-center">
+                {{ 'Disabled catalogs' | trans }}
+            </div>
+            <div class="text-center">
+                <input id="disabled-catalogs-view"
+                       type="checkbox"
+                       name="disabled-catalogs-view"
+                       data-off-text="{{ 'View' | trans }}"
+                       data-on-text="{{ 'Hide' | trans }}"
+                       data-size="small"
+                >
+            </div>
+        </div>
+    </li>
+</ul>

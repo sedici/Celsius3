@@ -28,26 +28,17 @@ use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 use function array_key_exists;
 
 final class ChangeInstanceController extends BaseInstanceDependentController
 {
     private $instanceRepository;
-    /**
-     * @var TokenStorageInterface
-     */
     private $tokenStorage;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *     "tokenStorage" = @DI\Inject("security.token_storage")
-     * })
-     */
     public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage)
     {
         $this->instanceRepository = $entityManager->getRepository(Instance::class);

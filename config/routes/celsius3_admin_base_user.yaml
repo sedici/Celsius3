@@ -1,3 +1,60 @@
-celsius3_admin_base_user:
-    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/BaseUser.yaml"
-    prefix: /admin/user
+admin_user:
+    path: /admin/user/
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\ListUsersViewController }
+    methods: [ GET ]
+
+admin_user_show:
+    path: /admin/user/{id}/show
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\ShowUserViewController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_user_new:
+    path: /admin/user/new
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\NewUserViewController }
+    methods: [ GET ]
+
+admin_user_create:
+    path: /admin/user/create
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\CreateUserPostController }
+    methods: [ POST ] # No debe retornar html
+
+admin_user_edit:
+    path: /admin/user/{id}/edit
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\EditUserViewController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_user_update:
+    path: /admin/user/{id}/update
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\UpdateUserPostController }
+    methods: [ POST ]
+
+admin_user_transform:
+    path: /admin/user/{id}/transform
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\TransformUserViewController }
+    methods: [ GET, POST ] # Se debe separar en dos controladores
+
+admin_user_enable:
+    path: /admin/user/{id}/enable
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\EnableUserPutController }
+    # methods: [ PUT ] # Hay que modificar las solicitudes con este método
+    options:
+        expose: true
+
+admin_user_batch:
+    path: /admin/user/batch
+
+admin_user_doUnion:
+    path: /admin/user/batch/doUnion
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\DoUnionPostController }
+    methods: [ POST ]
+
+switch_user:
+    path: /admin/user/switch-user
+    defaults: { _controller: Celsius3\Controller\Admin\BaseUser\SwitchUserPutController }
+#    methods: [ PUT ] # Hay que modificar las solicitudes con este método
+
+

@@ -1,0 +1,41 @@
+{% macro show(name, element, folder, instance, notEdit) %}
+    <div class="row">
+        <div class="col-md-9">
+            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+            {% include folder ~ '_show_fields.html.twig' %}
+        </div>
+        <div class="col-md-3">
+            <div id="accordion" class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
+                                <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse in collapse" id="collapseTwo">
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path(name) }}">
+                                        <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
+                                    </a>
+                                </li>
+                                {% if not notEdit %}
+                                    <li>
+                                        <a href="{{ path([name,'_edit']|join, { 'id': element.id }) }}">
+                                            <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% include folder~'_show_actions.html.twig' ignore missing %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

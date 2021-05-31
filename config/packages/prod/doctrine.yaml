@@ -2,14 +2,14 @@ doctrine:
     orm:
         auto_generate_proxy_classes: false
         metadata_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
+            type: service
+            id: Doctrine\Common\Cache\RedisCache
         query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
+            type: service
+            id: Doctrine\Common\Cache\RedisCache
         result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
+            type: service
+            id: Doctrine\Common\Cache\RedisCache
 
 framework:
     cache:

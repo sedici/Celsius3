@@ -1,0 +1,13 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+    {{ 'Catalog Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <h2>{{ 'Catalog Creation'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_catalog', form, 'Admin/Catalog/', true) }}
+{% endblock %}

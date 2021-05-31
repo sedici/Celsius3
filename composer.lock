@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "855d3e25b0dbfb2d2c22298c22d01d07",
+    "content-hash": "bd9ca0b35fbe3c9cd475650ec7368119",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -9876,6 +9876,9 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/translation/tree/v3.4.47"
+            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -12051,5 +12054,5 @@
         "ext-zmq": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

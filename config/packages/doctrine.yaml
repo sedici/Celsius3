@@ -48,9 +48,15 @@ doctrine:
                 dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
                 alias: GedmoTree # this one is optional and will default to the name set for the mapping
                 is_bundle: false
-        metadata_cache_driver: redis
-        query_cache_driver: redis
-        result_cache_driver: redis
+        metadata_cache_driver:
+            type: service
+            id: Doctrine\Common\Cache\RedisCache
+        query_cache_driver:
+            type: service
+            id: Doctrine\Common\Cache\RedisCache
+        result_cache_driver:
+            type: service
+            id: Doctrine\Common\Cache\RedisCache
         filters:
             softdeleteable:
                 class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter

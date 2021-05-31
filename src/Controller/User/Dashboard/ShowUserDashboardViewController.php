@@ -27,31 +27,15 @@ namespace Celsius3\Controller\User\Dashboard;
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\Configuration;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Repository\ConfigurationRepository;
 use Celsius3\MessageBundle\Entity\Thread;
-use Celsius3\MessageBundle\Repository\ThreadRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectRepository;
-use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ShowUserDashboardViewController extends BaseInstanceDependentController
 {
-    /**
-     * @var ThreadRepository | ObjectRepository
-     */
     private $threadRepository;
-
-    /**
-     * @var ConfigurationRepository | ObjectRepository
-     */
     private $configurationRepository;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->threadRepository = $entityManager->getRepository(Thread::class);
@@ -60,7 +44,7 @@ final class ShowUserDashboardViewController extends BaseInstanceDependentControl
 
     public function __invoke(): Response
     {
-        $last_messages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
+        $lastMessages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
         $results_per_page_config = $this->configurationRepository->findOneBy(
             [
                 'instance' => $this->getInstance(),
@@ -68,9 +52,12 @@ final class ShowUserDashboardViewController extends BaseInstanceDependentControl
             ]
         );
 
-        return $this->render('User/Dashboard/index.html.twig', [
-            'lastMessages' => $last_messages,
-            'resultsPerPage' => $results_per_page_config->getValue(),
-        ]);
+        return $this->render(
+            'User/Dashboard/index.html.twig',
+            [
+                'lastMessages' => $last_messages,
+                'resultsPerPage' => $results_per_page_config->getValue(),
+            ]
+        );
     }
 }

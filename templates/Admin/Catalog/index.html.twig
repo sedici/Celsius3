@@ -1,0 +1,116 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+    {{ 'Catalog List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Catalog List'|trans }}</h2>
+    <hr class="separator_hr">
+    <div class="row">
+        <div class="col-md-6">
+            {% include 'Admin/Catalog/_index_actions.html.twig' %}
+        </div>
+        <div class="col-md-6">
+            <div id="accordion" class="panel-group">
+                {% if filter_form %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse"
+                                   class="accordion-toggle">
+                                    <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseOne">
+                            <div class="panel-body">
+                                {% include 'Admin/Catalog/_index_filters.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+    </div>
+    <div class="row">
+        {% set count = (pagination|length) %}
+        {% set first = (count is odd) ? ((count/2) + 1) : (count/2) %}
+        {% set second = count - first + 1 %}
+
+        {# {% set firstDisabled = get_disabled_catalogs_count(instance, directory, 1, first) %}
+        {% set secondDisabled = get_disabled_catalogs_count(instance, directory, first, second) %}
+
+        {% set firstEnabled = first - firstDisabled %}
+        {% set secondEnabled = second - secondDisabled %}
+
+        {% set first = firstDisabled + ((((firstEnabled + secondEnabled)/2) is odd) ? ((firstEnabled + secondEnabled)/2) + 1 : ((firstEnabled + secondEnabled)/2)) %}
+        {% set second = secondDisabled + ((firstEnabled + secondEnabled)/2) %} #}
+
+        <div class="col-md-6">
+            <div id="main-accordion" class="panel-group main-list connectedSortable firstColumn">
+                {% for element in pagination|slice(0, first) %}
+                    {% if(not is_catalog_enabled(element)) %}
+                        {% set disabled = ' catalog-disabled' %}
+                    {% else %}
+                        {% set disabled = '' %}
+                    {% endif %}
+                    <div class="panel panel-default draggable {{ disabled }}" data-id="{{ element.id }}">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse{{ element.id }}" data-parent="#main-accordion" data-toggle="collapse"
+                                   class="accordion-toggle">
+                                    {% include 'Admin/Catalog/_index_element_header.html.twig' %}
+                                </a>
+                                {% include 'Admin/Catalog/_index_list_actions.html.twig' ignore missing %}
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapse{{ element.id }}">
+                            <div class="panel-body">
+                                {% include 'Admin/Catalog/_show_fields.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="main-accordion" class="panel-group main-list connectedSortable secondColumn">
+                {% for element in pagination|slice(first, second) %}
+                    {% if(not is_catalog_enabled(element)) %}
+                        {% set disabled = ' catalog-disabled' %}
+                    {% else %}
+                        {% set disabled = '' %}
+                    {% endif %}
+                    <div class="panel panel-default draggable {{ disabled }}" data-id="{{ element.id }}">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapse{{ element.id }}" data-parent="#main-accordion" data-toggle="collapse"
+                                   class="accordion-toggle">
+                                    {% include 'Admin/Catalog/_index_element_header.html.twig' %}
+                                </a>
+                                {% include 'Admin/Catalog/_index_list_actions.html.twig' ignore missing %}
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapse{{ element.id }}">
+                            <div class="panel-body">
+                                {% include 'Admin/Catalog/_show_fields.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'Admin/Catalog/_index_actions.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
