@@ -144,3 +144,12 @@ services:
 
     Celsius3\CoreBundle\Manager\EventManager:
         alias: celsius3_core.event_manager
+
+    Celsius3\CoreBundle\Helper\InstanceHelper:
+        alias: celsius3_core.instance_helper
+
+    Celsius3\CoreBundle\Manager\InstanceManager:
+        alias: celsius3_core.instance_manager
+
+    Celsius3\CoreBundle\Manager\FilterManager:
+        alias: celsius3_core.filter_manager
