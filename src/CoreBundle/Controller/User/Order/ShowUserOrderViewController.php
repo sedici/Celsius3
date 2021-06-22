@@ -28,17 +28,17 @@ use Celsius3\CoreBundle\Controller\OrderController;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+//use JMS\DiExtraBundle\Annotation as DI;
 
 final class ShowUserOrderViewController extends OrderController
 {
     private $orderRepository;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
-     */
+//    /**
+//     * @DI\InjectParams({
+//     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
+//     * })
+//     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->orderRepository = $entityManager->getRepository(Order::class);

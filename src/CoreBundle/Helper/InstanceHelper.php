@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Helper;
 
 use Celsius3\CoreBundle\Exception\Exception;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -33,7 +33,7 @@ class InstanceHelper
     private $requestStack;
     private $session;
 
-    public function __construct(EntityManager $em, RequestStack $requestStack, Session $session)
+    public function __construct(EntityManagerInterface $em, RequestStack $requestStack, Session $session)
     {
         $this->em = $em;
         $this->requestStack = $requestStack;

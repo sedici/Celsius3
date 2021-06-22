@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.4-apache
 
 # Se modifica el 'document root'
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
@@ -6,7 +6,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # Se incluye Composer
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Configuración de PHP
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini \
@@ -25,11 +25,11 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
 
 # Se instalan dependencias del sistema
 RUN apt-get -y update \
-&& apt-get install -y libzmq3-dev libzip-dev zip unzip libcairo2-dev libjpeg-dev libgif-dev nodejs yarn libicu-dev \
+&& apt-get install -y libzip-dev zip unzip libcairo2-dev libjpeg-dev libgif-dev nodejs yarn libicu-dev \
 && docker-php-ext-install zip pdo_mysql intl \
-&& pecl install -o -f zmq-beta redis xdebug-2.9.8 \
+&& pecl install -o -f redis xdebug \
 && rm -fr /tmp/pear \
-&& docker-php-ext-enable zmq redis xdebug
+&& docker-php-ext-enable redis xdebug
 
 # Se limpia la imagen
 RUN apt-get clean

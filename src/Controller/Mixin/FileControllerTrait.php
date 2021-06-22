@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,15 +22,27 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Controller;
+namespace Celsius3\Controller\Mixin;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Symfony\Component\HttpFoundation\Response;
 
-class BaseRestController extends AbstractFOSRestController
+trait FileControllerTrait
 {
-
-    protected function getDirectory()
+    protected function download(string $filepath): Response
     {
-        return $this->get('celsius3_core.instance_manager')->getDirectory();
+        $paths = explode(DIRECTORY_SEPARATOR, $filepath);
+        $filename = array_pop($paths);
+
+        $response = new Response();
+        $response->headers->set('Content-type', mime_content_type($filepath));
+        $response->headers->set(
+            'Content-Disposition',
+            'attachment;filename="' . $filename . '"'
+        );
+        $response->headers->set('Content-length', filesize($filepath));
+        $response->sendHeaders();
+        $response->setContent(readfile($filepath));
+
+        return $response;
     }
 }

@@ -26,17 +26,27 @@ namespace Celsius3\Controller\Admin\Catalog;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
 
-final class GetCatalogsRestController extends BaseInstanceDependentRestController
+final class GetCatalogsRestController extends AbstractFOSRestController
 {
     private $catalogRepository;
-    
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    private $instanceManager;
+    private $instanceHelper;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceManager $instanceManager,
+        InstanceHelper $instanceHelper
+    ) {
         $this->catalogRepository = $entityManager->getRepository(Catalog::class);
+        $this->instanceManager = $instanceManager;
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke(): Response
@@ -44,7 +54,10 @@ final class GetCatalogsRestController extends BaseInstanceDependentRestControlle
         $context = SerializationContext::create()->setGroups(['administration_order_show']);
 
         $catalogs = $this->catalogRepository
-            ->findForInstanceAndGlobalWithoutDisabled($this->getInstance(), $this->getDirectory())
+            ->findForInstanceAndGlobalWithoutDisabled(
+                $this->instanceHelper->getSessionInstance(),
+                $this->instanceManager->getDirectory()
+            )
             ->getQuery()
             ->execute();
 

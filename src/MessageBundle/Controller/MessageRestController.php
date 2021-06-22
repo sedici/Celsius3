@@ -22,7 +22,7 @@
 
 namespace Celsius3\MessageBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -35,7 +35,7 @@ use JMS\Serializer\SerializationContext;
  *
  * @Route("/user/rest/message")
  */
-class MessageRestController extends FOSRestController
+class MessageRestController extends AbstractFOSRestController
 {
     /**
      * GET Route annotation.

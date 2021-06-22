@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -24,12 +25,25 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\FileDownload;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
+use Celsius3\CoreBundle\Entity\FileDownload;
 use Celsius3\CoreBundle\Form\Type\Filter\FileDownloadFilterType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\FilterManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
-    public function __invoke(): ?Response
+    private $filterManager;
+    private $instanceHelper;
+
+    public function __construct(FilterManager $filterManager, InstanceHelper $instanceHelper)
+    {
+        $this->filterManager = $filterManager;
+        $this->instanceHelper = $instanceHelper;
+    }
+
+    public function __invoke(Request $request): Response
     {
         $filter_form = $this->createForm(
             FileDownloadFilterType::class,
@@ -40,11 +54,14 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
         );
 
         $query = $this->listQuery('FileDownload');
-        $request = $this->get('request_stack')->getCurrentRequest();
-        if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filter('FileDownload', $filter_form, $query);
-        }
+        $filter_form->handleRequest($request);
+        $query = $this->filterManager
+            ->filter(
+                $query,
+                $filter_form,
+                FileDownload::class,
+                $this->instanceHelper->getSessionOrUrlInstance()
+            );
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -58,7 +75,7 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
             'Admin/FileDownload/index.html.twig',
             [
                 'pagination' => $pagination,
-                'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,
+                'filter_form' => $filter_form->createView()
             ]
         );
     }

@@ -1,5 +1,5 @@
 swiftmailer:
-    url: '%env(MAILER_URL)%'
+    delivery_address: '%env(MAILER_URL)%'
     spool:
         type: file
         path: "%kernel.root_dir%/spool"

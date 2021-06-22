@@ -34,7 +34,7 @@ use Celsius3\CoreBundle\Exception\Exception;
 /**
  * Location controller.
  *
- * @Route("/admin/journal")
+ * @Route("/admin/journal23")
  */
 class AdminJournalController extends BaseInstanceDependentController
 {
@@ -60,55 +60,55 @@ class AdminJournalController extends BaseInstanceDependentController
         );
     }
 
-    /**
-     * Lists all Journal entities.
-     *
-     * @Route("/", name="admin_journal")
-     * @Template()
-     *
-     * @return array
-     */
-    public function indexAction()
-    {
-        return $this->baseIndex('Journal', $this->createForm(JournalFilterType::class, null, array(
-                            'instance' => $this->getInstance(),
-        )));
-    }
-
-    /**
-     * Displays data for a Journal.
-     *
-     * @Route("/{id}/show", name="admin_journal_show", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
-     */
-    public function showAction($id)
-    {
-        $entity = $this->findShowQuery($id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
-        }
-        $receptions = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
-                ->getPreviousJournalReceivedRequests($this->getInstance(), $entity);
-        $results = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
-                ->getPreviousJournalSearches($this->getInstance(), $entity);
-
-        $searches = [
-            CatalogManager::CATALOG__FOUND => [],
-            CatalogManager::CATALOG__PARTIALLY_FOUND => [],
-        ];
-        foreach ($results as $search) {
-            $searches[$search->getResult()][] = $search;
-        }
-
-        return array(
-            'entity' => $entity,
-            'searches' => $searches,
-            'receptions' => $receptions,
-        );
-    }
+//    /**
+//     * Lists all Journal entities.
+//     *
+//     * @Route("/", name="admin_journal")
+//     * @Template()
+//     *
+//     * @return array
+//     */
+//    public function indexAction()
+//    {
+//        return $this->baseIndex('Journal', $this->createForm(JournalFilterType::class, null, array(
+//                            'instance' => $this->getInstance(),
+//        )));
+//    }
+//
+//    /**
+//     * Displays data for a Journal.
+//     *
+//     * @Route("/{id}/show", name="admin_journal_show", options={"expose"=true})
+//     * @Template()
+//     *
+//     * @return array
+//     */
+//    public function showAction($id)
+//    {
+//        $entity = $this->findShowQuery($id);
+//
+//        if (!$entity) {
+//            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
+//        }
+//        $receptions = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
+//                ->getPreviousJournalReceivedRequests($this->getInstance(), $entity);
+//        $results = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
+//                ->getPreviousJournalSearches($this->getInstance(), $entity);
+//
+//        $searches = [
+//            CatalogManager::CATALOG__FOUND => [],
+//            CatalogManager::CATALOG__PARTIALLY_FOUND => [],
+//        ];
+//        foreach ($results as $search) {
+//            $searches[$search->getResult()][] = $search;
+//        }
+//
+//        return array(
+//            'entity' => $entity,
+//            'searches' => $searches,
+//            'receptions' => $receptions,
+//        );
+//    }
 
     /**
      * Displays a form to create a new Journal entity.

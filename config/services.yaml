@@ -83,15 +83,15 @@ services:
         tags:
             - { name: form.type }
 
-    jms_serializer.metadata.doctrine_type_driver:
-        class: "%jms_serializer.metadata.doctrine_type_driver.class%"
-        public: false
-        arguments: [ "@jms_serializer.metadata.chain_driver", "@doctrine" ]
+#    jms_serializer.metadata.doctrine_type_driver:
+#        class: "%jms_serializer.metadata.doctrine_type_driver.class%"
+#        public: false
+#        arguments: [ "@jms_serializer.metadata.chain_driver", "@doctrine" ]
 
-    jms_serializer.metadata.doctrine_object_constructor:
-        class: "%jms_serializer.doctrine_object_constructor.class%"
-        public: false
-        arguments: [ "@doctrine", "@jms_serializer.unserialize_object_constructor" ]
+#    jms_serializer.metadata.doctrine_object_constructor:
+#        class: "%jms_serializer.doctrine_object_constructor.class%"
+#        public: false
+#        arguments: [ "@doctrine", "@jms_serializer.unserialize_object_constructor" ]
 
     gedmo.listener.softdeleteable:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
@@ -144,3 +144,21 @@ services:
 
     Celsius3\CoreBundle\Manager\EventManager:
         alias: celsius3_core.event_manager
+
+    Celsius3\CoreBundle\Helper\InstanceHelper:
+        alias: celsius3_core.instance_helper
+
+    Celsius3\CoreBundle\Manager\FilterManager:
+        alias: celsius3_core.filter_manager
+
+    Celsius3\CoreBundle\Manager\InstanceManager:
+        alias: celsius3_core.instance_manager
+
+    Knp\Component\Pager\PaginatorInterface:
+        alias: knp_paginator
+
+    Celsius3\CoreBundle\Helper\ConfigurationHelper:
+        alias: celsius3_core.configuration_helper
+
+    Celsius3\CoreBundle\Manager\FileManager:
+        alias: celsius3_core.file_manager

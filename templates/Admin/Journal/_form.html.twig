@@ -1,0 +1,86 @@
+{% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group {% if not form.name.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.name, null, { 'label_attr': {'class': 'col-md-3 control-label'} }) }}
+            <div class="col-md-9">
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.name.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group {% if not form.abbreviation.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.abbreviation, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.abbreviation, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.abbreviation.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group {% if not form.ISSN.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.ISSN, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.ISSN, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.ISSN.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group {% if not form.ISSNE.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.ISSNE, null, { 'label_attr': {'class': 'col-md-3 col-md-offset-1 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.ISSNE, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.ISSNE.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.responsible.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.responsible, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.responsible, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.responsible.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.frecuency.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.frecuency, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.frecuency, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.frecuency.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>

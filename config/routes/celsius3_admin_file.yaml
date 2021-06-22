@@ -1,0 +1,6 @@
+admin_file_download_file:
+    path: /admin/file/{request}/{file}/download
+    defaults: { _controller: \Celsius3\Controller\Admin\File\DownloadFileGetController }
+    methods: [ GET ]
+    options:
+        expose: true

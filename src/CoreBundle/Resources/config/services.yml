@@ -12,7 +12,6 @@ services:
         arguments: ["@translator"]
         tags:
             - { name: twig.extension }
-        arguments: ['@translator']
     celsius3_core.twig.extension.administration:
         class: Celsius3\CoreBundle\Twig\AdministrationExtension
         tags:
@@ -220,6 +219,7 @@ services:
         tags:
             - { name: jms_aop.pointcut, interceptor: celsius3_core.instance_injection_aspect }
         arguments: ['@celsius3_core.instance_helper']
+        public: true
     celsius3_core.menu.voter.exact:
         class: Celsius3\CoreBundle\Voter\ExactRequestVoter
         tags:
@@ -234,12 +234,14 @@ services:
     celsius3_core.configuration_helper:
         class: Celsius3\CoreBundle\Helper\ConfigurationHelper
         arguments: ['@service_container']
+        public: true
     celsius3_core.custom_field_helper:
         class: Celsius3\CoreBundle\Helper\CustomFieldHelper
         arguments: ['@request_stack', '@doctrine.orm.entity_manager']
     celsius3_core.instance_helper:
         class: Celsius3\CoreBundle\Helper\InstanceHelper
         arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
+        public: true
     celsius3_core.database_helper:
         class: Celsius3\CoreBundle\Helper\DatabaseHelper
         arguments: ['@doctrine.orm.entity_manager']

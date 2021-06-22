@@ -1,0 +1,11 @@
+admin_journal:
+    path: /admin/journal/
+    defaults: { _controller: \Celsius3\Controller\Admin\Journal\ListJournalsGetController }
+    methods: [ GET ]
+
+admin_journal_show:
+    path: /admin/journal/{id}/show
+    defaults: { _controller: \Celsius3\Controller\Admin\Journal\ShowJournalGetController }
+    methods: [ GET ]
+    options:
+        expose: true
