@@ -1,0 +1,13 @@
+user_rest_user:
+    path: /user/rest/user
+    defaults: { _controller: Celsius3\Controller\User\BaseUser\UsersGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+user_rest_user_get:
+    path: /user/rest/user/{id}
+    defaults: { _controller: Celsius3\Controller\User\BaseUser\UserGetController }
+    methods: [ GET ]
+    options:
+        expose: true

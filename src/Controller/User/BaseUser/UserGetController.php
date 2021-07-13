@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,40 +22,18 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Controller;
+namespace Celsius3\Controller\User\BaseUser;
 
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\FOSRestController;
 use JMS\Serializer\SerializationContext;
 
-/**
- * BaseUser controller.
- *
- * @Route("/user/rest/user")
- */
-class UserBaseUserRestController extends BaseInstanceDependentRestController
+final class UserGetController extends FOSRestController
 {
-
-    /**
-     * GET Route annotation.
-     * @Get("/", name="user_rest_user", options={"expose"=true})
-     */
-    public function getUsersAction()
+    public function __invoke($id)
     {
-        $view = $this->view(array(), 200)->setFormat('json');
+        $context = SerializationContext::create()->setGroups(['user_list']);
 
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
-     * @Get("/{id}", name="user_rest_user_get", options={"expose"=true})
-     */
-    public function getUserAction($id)
-    {
-        $context = SerializationContext::create()->setGroups(array('user_list'));
-
-        $user = $this->getUser()->getId() === intval($id) ? $this->getUser() : null;
+        $user = $this->getUser()->getId() === (int)$id ? $this->getUser() : null;
 
         $view = $this->view($user, 200)->setFormat('json');
         $view->setSerializationContext($context);
