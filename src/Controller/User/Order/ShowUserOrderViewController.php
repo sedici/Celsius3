@@ -22,26 +22,25 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\User\Order;
+namespace Celsius3\Controller\User\Order;
 
-use Celsius3\CoreBundle\Controller\OrderController;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class ShowUserOrderViewController extends OrderController
+final class ShowUserOrderViewController extends AbstractController
 {
     private $orderRepository;
+    private $instanceHelper;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
-     */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper
+    ) {
         $this->orderRepository = $entityManager->getRepository(Order::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke($id)
@@ -49,7 +48,7 @@ final class ShowUserOrderViewController extends OrderController
         $order = $this->findOrder($id);
 
         return $this->render(
-            'Celsius3CoreBundle:UserOrder:show.html.twig',
+            'User/Order/show.html.twig',
             [
                 'entity' => $order,
             ]
@@ -58,7 +57,11 @@ final class ShowUserOrderViewController extends OrderController
 
     private function findOrder($id): Order
     {
-        $order = $this->orderRepository->findUserOrder($id, $this->getInstance(), $this->getUser());
+        $order = $this->orderRepository->findUserOrder(
+            $id,
+            $this->instanceHelper->getSessionInstance(),
+            $this->getUser()
+        );
 
         if (!$order) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.Order');

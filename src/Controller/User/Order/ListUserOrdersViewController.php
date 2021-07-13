@@ -22,27 +22,34 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Controller\User\Order;
+namespace Celsius3\Controller\User\Order;
 
-use Celsius3\CoreBundle\Controller\OrderController;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\FilterManager;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-final class ListUserOrdersViewController extends OrderController
+final class ListUserOrdersViewController extends AbstractController
 {
     private $orderRepository;
+    private $instanceHelper;
+    private $filterManager;
+    private $configurationHelper;
 
-    /**
-     * @DI\InjectParams({
-     *     "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
-     */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper,
+        FilterManager $filterManager,
+        ConfigurationHelper $configurationHelper
+    ) {
         $this->orderRepository = $entityManager->getRepository(Order::class);
+        $this->instanceHelper = $instanceHelper;
+        $this->filterManager = $filterManager;
+        $this->configurationHelper = $configurationHelper;
     }
 
     public function __invoke(Request $request)
@@ -51,29 +58,36 @@ final class ListUserOrdersViewController extends OrderController
             OrderFilterType::class,
             null,
             [
-                'instance' => $this->getInstance(),
+                'instance' => $this->instanceHelper->getSessionInstance(),
                 'owner' => $this->getUser(),
             ]
         );
 
-        $query = $this->orderRepository->listUserOrdersQuery($this->getInstance(), $this->getUser());
+        $query = $this->orderRepository->listUserOrdersQuery(
+            $this->instanceHelper->getSessionInstance(),
+            $this->getUser()
+        );
+
         if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filter('Order', $filter_form, $query);
+            $query = $this->filterManager->filter($query, $filter_form, Order::class);
         }
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
-            $request->query->get('page', 1)
-            /* page number */,
-            $this->getResultsPerPage()
-            /* limit per page */,
-            $this->getSortDefaults()
+            $request->query->get('page', 1),
+            $this->configurationHelper->getCastedValue(
+                $this->instanceHelper->getSessionInstance()->get('results_per_page')
+            ),
+            [
+                'defaultSortFieldName' => 'e.updatedAt',
+                'defaultSortDirection' => 'desc',
+            ]
         );
 
         return $this->render(
-            'Celsius3CoreBundle:UserOrder:index.html.twig',
+            'User/Order/index.html.twig',
             [
                 'pagination' => $pagination,
                 'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,

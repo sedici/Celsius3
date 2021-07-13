@@ -4,10 +4,10 @@
     {{ 'Orders List'|trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
+{% from "Macro/Crud/index.html.twig" import index as index %}
 
 {% block content %}
     <h2>{{ 'Order List'|trans }}</h2>
     <hr class="separator_hr">
-    {{ index('user_order', pagination, 'Celsius3CoreBundle:UserOrder', filter_form, instance, false, true) }}
+    {{ index('user_order', pagination, 'User/Order/', filter_form, instance, false, true) }}
 {% endblock %}

@@ -1,3 +1,30 @@
-celsius3_user_order:
-    resource: "@Celsius3CoreBundle/Resources/config/routes/User/Order.yaml"
-    prefix: /user/order
+user_order:
+    path: /user/order/
+    defaults: { _controller: Celsius3\Controller\User\Order\ListUserOrdersViewController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+user_order_show:
+    path: /user/order/{id}/show
+    defaults: { _controller: Celsius3\Controller\User\Order\ShowUserOrderViewController }
+    methods: [ GET ]
+
+user_order_new:
+    path: /user/order/new
+    defaults: { _controller: Celsius3\Controller\User\Order\NewOrderViewController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+user_order_create:
+    path: /user/order/create
+    defaults: { _controller: Celsius3\Controller\User\Order\CreateOrderPostController }
+    methods: [ POST ]
+
+user_order_change:
+    path: /user/order/change
+    defaults: { _controller: Celsius3\Controller\User\Order\ChangeMaterialTypeGetController }
+    methods: [ GET ]
+    options:
+        expose: true

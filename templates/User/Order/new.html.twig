@@ -5,14 +5,14 @@
     {{ 'Order Creation' | trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
+{% from "Macro/Crud/new.html.twig" import new as new %}
 
 {% block content %}
     <div class="row">
         <div class="col-sm-12">
                 <h2>{{ 'Order Creation' | trans }}</h2>
                 <hr class="separator_hr">
-                {{ new('user_order', form, 'Celsius3CoreBundle:UserOrder', true, entity) }}
+                {{ new('user_order', form, 'User/Order/', true, entity) }}
         </div>
     </div>
 {% endblock %}

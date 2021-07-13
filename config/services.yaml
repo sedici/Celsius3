@@ -153,3 +153,6 @@ services:
 
     Celsius3\CoreBundle\Manager\FilterManager:
         alias: celsius3_core.filter_manager
+
+    Celsius3\CoreBundle\Helper\ConfigurationHelper:
+        alias: celsius3_core.configuration_helper
