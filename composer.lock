@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd9ca0b35fbe3c9cd475650ec7368119",
+    "content-hash": "6c877a3d158ff47913c21951036dd8a3",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -8226,6 +8226,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "use `EnglishInflector` from the String component instead",
             "time": "2020-10-24T10:57:07+00:00"
         },
         {
@@ -12054,5 +12055,5 @@
         "ext-zmq": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "1.1.0"
 }
