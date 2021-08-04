@@ -156,3 +156,6 @@ services:
 
     Celsius3\CoreBundle\Helper\ConfigurationHelper:
         alias: celsius3_core.configuration_helper
+
+    Celsius3\CoreBundle\Manager\FileManager:
+        alias: celsius3_core.file_manager
