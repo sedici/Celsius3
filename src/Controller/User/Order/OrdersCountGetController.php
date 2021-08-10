@@ -28,34 +28,37 @@ use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
-use JMS\DiExtraBundle\Annotation as DI;
+use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 
 final class OrdersCountGetController extends FOSRestController
 {
     private $stateRepository;
     private $instanceHelper;
+    private $security;
+    private $viewHandler;
 
-    /**
-     * @DI\InjectParams({
-     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *      "instanceHelper" = @DI\Inject("celsius3_core.instance_helper"),
-     * })
-     */
-    public function __construct(EntityManagerInterface $entityManager, InstanceHelper $instanceHelper)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper,
+        Security $security,
+        ViewHandlerInterface $viewHandler
+    ) {
         $this->stateRepository = $entityManager->getRepository(State::class);
         $this->instanceHelper = $instanceHelper;
+        $this->security = $security;
+        $this->viewHandler = $viewHandler;
     }
 
     public function __invoke(): Response
     {
-        $user = $this->getUser();
+        $user = $this->security->getUser();
 
         $order_count = $this->stateRepository->countUserOrders($this->instanceHelper->getSessionInstance(), $user);
 
         $view = $this->view($order_count, 200)->setFormat('json');
 
-        return $this->handleView($view);
+        return $this->viewHandler->handle($view);
     }
 }

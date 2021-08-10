@@ -25,19 +25,42 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Order;
 
 use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\ViewHandlerInterface;
 use JMS\Serializer\SerializationContext;
+use Knp\Component\Pager\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 
 final class OrdersGetController extends FOSRestController
 {
     private $orderRepository;
+    private $instanceHelper;
+    private $security;
+    private $configurationHelper;
+    private $paginator;
+    private $requestRepository;
+    private $viewHandler;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper,
+        Security $security,
+        ConfigurationHelper $configurationHelper,
+        Paginator $paginator,
+        ViewHandlerInterface $viewHandler
+    ) {
         $this->orderRepository = $entityManager->getRepository(Order::class);
+        $this->requestRepository = $entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class);
+        $this->instanceHelper = $instanceHelper;
+        $this->security = $security;
+        $this->configurationHelper = $configurationHelper;
+        $this->paginator = $paginator;
+        $this->viewHandler = $viewHandler;
     }
 
     public function __invoke(Request $request): Response
@@ -48,20 +71,21 @@ final class OrdersGetController extends FOSRestController
 
         $states = explode(',', $request->query->get('state', ''));
 
-        $orders = $this->orderRepository->findForInstance($this->getInstance(), null, $states, $this->getUser());
+        $orders = $this->orderRepository->findForInstance(
+            $instance = $this->instanceHelper->getSessionInstance(),
+            null,
+            $states,
+            $this->security->getUser()
+        );
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $pagination = $this->paginator->paginate(
             $orders,
-            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)
-            /* page number */,
-            $this->getResultsPerPage()/* limit per page */
+            $request->query->get('page', 1),
+            $this->configurationHelper->getCastedValue($instance->get('results_per_page'))
         )->getItems();
 
         if ($with_request) {
-            $requests = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Request')
-                ->findByOrders(
+            $requests = $this->requestRepository->findByOrders(
                     array_map(
                         function (Order $order) {
                             return $order->getId();
@@ -93,6 +117,6 @@ final class OrdersGetController extends FOSRestController
         }
         $view->setSerializationContext($context);
 
-        return $this->handleView($view);
+        return $this->viewHandler->handle($view);
     }
 }
