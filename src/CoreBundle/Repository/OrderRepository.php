@@ -31,23 +31,26 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * OrderRepository.
  */
-class OrderRepository extends BaseRepository
+class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
     public function findByTerm($term, Instance $instance = null, $type, $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
-                ->addSelect('r')
-                ->join('o.requests', 'r')
-                ->addSelect('s')
-                ->innerJoin('r.states', 's');
+            ->addSelect('r')
+            ->join('o.requests', 'r')
+            ->addSelect('s')
+            ->innerJoin('r.states', 's');
 
         if (!is_null($type)) {
-            $secondary = array_map(function ($entity) {
-                return $entity->getId();
-            }, $this->getEntityManager()
-                            ->getRepository('Celsius3CoreBundle:'.$type)
-                            ->findByTerm($term, $instance)
-                            ->getResult());
+            $secondary = array_map(
+                function ($entity) {
+                    return $entity->getId();
+                },
+                $this->getEntityManager()
+                    ->getRepository('Celsius3CoreBundle:' . $type)
+                    ->findByTerm($term, $instance)
+                    ->getResult()
+            );
 
             if ($type === 'BaseUser' && count($secondary) > 0) {
                 $qb->andWhere($qb->expr()->in('r.owner', $secondary));
@@ -60,23 +63,23 @@ class OrderRepository extends BaseRepository
             }
         } else {
             $qb = $qb->join('o.materialData', 'md')
-                    ->addSelect('md')
-                    ->orWhere($qb->expr()->like('o.code', $qb->expr()->literal('%'.$term.'%')))
-                    ->orWhere($qb->expr()->like('md.title', $qb->expr()->literal('%'.$term.'%')))
-                    ->orWhere($qb->expr()->like('md.authors', $qb->expr()->literal('%'.$term.'%')))
-                    ->orWhere($qb->expr()->like('md.year', $qb->expr()->literal('%'.$term.'%')));
+                ->addSelect('md')
+                ->orWhere($qb->expr()->like('o.code', $qb->expr()->literal('%' . $term . '%')))
+                ->orWhere($qb->expr()->like('md.title', $qb->expr()->literal('%' . $term . '%')))
+                ->orWhere($qb->expr()->like('md.authors', $qb->expr()->literal('%' . $term . '%')))
+                ->orWhere($qb->expr()->like('md.year', $qb->expr()->literal('%' . $term . '%')));
         }
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('r.instance = :instance')
-                    ->setParameter('instance', $instance);
+                ->setParameter('instance', $instance);
         }
 
         if (!is_null($state) && $state !== 'allStates') {
             $qb = $qb->andWhere('s.type = :type')
-                    ->setParameter(':type', $state)
-                    ->andWhere('s.current = :current')
-                    ->setParameter(':current', true);
+                ->setParameter(':type', $state)
+                ->andWhere('s.current = :current')
+                ->setParameter(':current', true);
         }
 
         if (!is_null($limit)) {
@@ -86,20 +89,25 @@ class OrderRepository extends BaseRepository
         return $qb->getQuery();
     }
 
-    public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null)
-    {
+    public function findForInstance(
+        Instance $instance,
+        BaseUser $user = null,
+        $state = null,
+        BaseUser $owner = null,
+        $orderType = null
+    ) {
         $qb = $this->createQueryBuilder('o')
-                ->select('o, r, s, e, m, ow, op, i')
-                ->join('o.requests', 'r')
-                ->join('r.states', 's')
-                ->join('r.events', 'e')
-                ->leftJoin('r.owner', 'ow')
-                ->leftJoin('r.operator', 'op')
-                ->leftJoin('ow.institution', 'i')
-                ->join('o.materialData', 'm')
-                ->where('s.current = true')
-                ->andWhere('r.instance = :instance')
-                ->setParameter('instance', $instance);
+            ->select('o, r, s, e, m, ow, op, i')
+            ->join('o.requests', 'r')
+            ->join('r.states', 's')
+            ->join('r.events', 'e')
+            ->leftJoin('r.owner', 'ow')
+            ->leftJoin('r.operator', 'op')
+            ->leftJoin('ow.institution', 'i')
+            ->join('o.materialData', 'm')
+            ->where('s.current = true')
+            ->andWhere('r.instance = :instance')
+            ->setParameter('instance', $instance);
 
         if (is_array($state) && count($state) > 0) {
             //            if (in_array(StateManager::STATE__REQUESTED, $state)) {
@@ -107,13 +115,15 @@ class OrderRepository extends BaseRepository
 //                    ->setParameter('searchPending', false);
 //            }
             if (in_array(StateManager::STATE__SEARCHED, $state)) {
-                $qb->andWhere('(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = :searchPending))')
-                        ->setParameter('state_types', $state)
-                        ->setParameter('requested', StateManager::STATE__REQUESTED)
-                        ->setParameter('searchPending', true);
+                $qb->andWhere(
+                    '(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = :searchPending))'
+                )
+                    ->setParameter('state_types', $state)
+                    ->setParameter('requested', StateManager::STATE__REQUESTED)
+                    ->setParameter('searchPending', true);
             } else {
                 $qb->andWhere('s.type IN (:state_types)')
-                        ->setParameter('state_types', $state);
+                    ->setParameter('state_types', $state);
             }
         } elseif (!is_null($state)) {
             if (StateManager::STATE__REQUESTED === $state) {
@@ -122,30 +132,32 @@ class OrderRepository extends BaseRepository
 
             if (StateManager::STATE__SEARCHED === $state) {
                 $qb->andWhere('(s.type = :state_type OR (s.type = :requested AND s.searchPending = :searchPending))')
-                        ->setParameter('state_type', $state)
-                        ->setParameter('requested', StateManager::STATE__REQUESTED)
-                        ->setParameter('searchPending', true);
+                    ->setParameter('state_type', $state)
+                    ->setParameter('requested', StateManager::STATE__REQUESTED)
+                    ->setParameter('searchPending', true);
             } else {
                 $qb->andWhere('s.type = :state_type')
-                        ->setParameter('state_type', $state);
+                    ->setParameter('state_type', $state);
             }
         }
 
         if ((!is_null($orderType) && !($orderType === 'allTypes'))) {
             $qb->andWhere('r.type = :order_type')
-                    ->setParameter('order_type', $orderType);
+                ->setParameter('order_type', $orderType);
         }
 
         if (!is_null($user)) {
-            if (!(is_array($state) && in_array(StateManager::STATE__CREATED, $state)) && !(!is_null($state) && $state === StateManager::STATE__CREATED)) {
+            if (!(is_array($state) && in_array(StateManager::STATE__CREATED, $state)) && !(!is_null(
+                $state
+            ) && $state === StateManager::STATE__CREATED)) {
                 $qb = $qb->andWhere('(r.operator = :user)')
-                        ->setParameter('user', $user);
+                    ->setParameter('user', $user);
             }
         }
 
         if (!is_null($owner)) {
             $qb->andWhere('r.owner = :owner')
-                    ->setParameter('owner', $owner);
+                ->setParameter('owner', $owner);
         }
 
         return $qb;
@@ -154,94 +166,77 @@ class OrderRepository extends BaseRepository
     public function findOneForInstance(Instance $instance, $id)
     {
         return $this->createQueryBuilder('o')
-                        ->select('o, r, s, e, m, ow, op, f')
-                        ->join('o.requests', 'r')
-                        ->join('r.states', 's')
-                        ->join('r.events', 'e')
-                        ->leftJoin('r.files', 'f')
-                        ->leftJoin('r.owner', 'ow')
-                        ->leftJoin('r.operator', 'op')
-                        ->join('o.materialData', 'm')
-                        ->where('o.id = :id')
-                        ->andWhere('r.instance = :instance_id')
-                        ->setParameter('id', $id)
-                        ->setParameter('instance_id', $instance->getId())
-                        ->getQuery()->getOneOrNullResult();
+            ->select('o, r, s, e, m, ow, op, f')
+            ->join('o.requests', 'r')
+            ->join('r.states', 's')
+            ->join('r.events', 'e')
+            ->leftJoin('r.files', 'f')
+            ->leftJoin('r.owner', 'ow')
+            ->leftJoin('r.operator', 'op')
+            ->join('o.materialData', 'm')
+            ->where('o.id = :id')
+            ->andWhere('r.instance = :instance_id')
+            ->setParameter('id', $id)
+            ->setParameter('instance_id', $instance->getId())
+            ->getQuery()->getOneOrNullResult();
     }
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
         return $this->createQueryBuilder('o')
-                        ->addSelect('r')
-                        ->join('o.requests', 'r')
-                        ->join('r.states', 's')
-                        ->where('s.type = :type')
-                        ->andWhere('r.instance = :instance_id')
-                        ->andWhere('r.owner = :owner_id')
-                        ->andWhere('s.createdAt >= :date')
-                        ->setParameter('type', $type)
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('owner_id', $user->getId())
-                        ->setParameter('date', $startDate)
-                        ->getQuery()
-                        ->getResult();
+            ->addSelect('r')
+            ->join('o.requests', 'r')
+            ->join('r.states', 's')
+            ->where('s.type = :type')
+            ->andWhere('r.instance = :instance_id')
+            ->andWhere('r.owner = :owner_id')
+            ->andWhere('s.createdAt >= :date')
+            ->setParameter('type', $type)
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('owner_id', $user->getId())
+            ->setParameter('date', $startDate)
+            ->getQuery()
+            ->getResult();
     }
 
-    public function findOrdersByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null, $limit = null, $offset = null)
-    {
+    public function findOrdersByStateType(
+        $type,
+        $startDate,
+        BaseUser $user = null,
+        Instance $instance = null,
+        $limit = null,
+        $offset = null
+    ) {
         $qb = $this->createQueryBuilder('o')
-                ->addSelect('r')
-                ->join('o.requests', 'r')
-                ->join('r.states', 's')
-                ->where('s.type = :type')
-                ->setParameter('type', $type);
+            ->addSelect('r')
+            ->join('o.requests', 'r')
+            ->join('r.states', 's')
+            ->where('s.type = :type')
+            ->setParameter('type', $type);
 
         if (!is_null($startDate)) {
             $qb->andWhere('s.createdAt >= :date')
-                    ->setParameter('date', $startDate);
+                ->setParameter('date', $startDate);
         } elseif (!is_null($limit) && !is_null($offset)) {
             $qb->setMaxResults($limit)
-                    ->setFirstResult($offset)
-                    ->orderBy('r.createdAt', 'DESC');
+                ->setFirstResult($offset)
+                ->orderBy('r.createdAt', 'DESC');
         } else {
             $qb->setMaxResults(10)
-                    ->orderBy('r.createdAt', 'DESC');
+                ->orderBy('r.createdAt', 'DESC');
         }
 
         if (!is_null($instance)) {
             $qb->andWhere('r.instance = :instance')
-                    ->setParameter('instance', $instance);
+                ->setParameter('instance', $instance);
         }
 
         if (!is_null($user)) {
             $qb->andWhere('r.owner = :owner')
-                    ->setParameter('owner', $user);
+                ->setParameter('owner', $user);
         }
 
         return $qb->getQuery()->getResult();
-    }
-
-    public function addFindByStateType(array $types, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
-    {
-        $query = $query->join('r.states', 's');
-
-        if (count($types) > 0) {
-            $query = $query->andWhere('s.type IN (:state_types)')
-                    ->setParameter('state_types', $types)
-                    ->andWhere('s.current = true');
-        }
-
-        if (!is_null($instance)) {
-            $query = $query->andWhere('s.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
-        }
-
-        if (!is_null($user)) {
-            $query = $query->andWhere('r.owner = :user_id OR r.librarian = :user_id')
-                    ->setParameter('user_ud', $user->getId());
-        }
-
-        return $query;
     }
 
     public function addFindByRequestType($type, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
@@ -256,7 +251,7 @@ class OrderRepository extends BaseRepository
 
         if (!is_null($type)) {
             $query = $query->andWhere('r.type = :type')
-                    ->setParameter('type', $type, 'string');
+                ->setParameter('type', $type, 'string');
         }
 
         return $query;
@@ -267,21 +262,52 @@ class OrderRepository extends BaseRepository
         $qb = $this->createQueryBuilder('o');
 
         return $this->addFindByStateType(array(
-                            StateManager::STATE__CREATED,
-                            StateManager::STATE__SEARCHED,
-                            StateManager::STATE__REQUESTED,
-                            StateManager::STATE__APPROVAL_PENDING,
-                            StateManager::STATE__RECEIVED,
-                                ), $qb, $instance, $user)
-                        ->getQuery()
-                        ->execute();
+                                             StateManager::STATE__CREATED,
+                                             StateManager::STATE__SEARCHED,
+                                             StateManager::STATE__REQUESTED,
+                                             StateManager::STATE__APPROVAL_PENDING,
+                                             StateManager::STATE__RECEIVED,
+                                         ), $qb, $instance, $user)
+            ->getQuery()
+            ->execute();
     }
 
-    public function addFindByRequestInstance($data, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
-    {
+    public function addFindByStateType(
+        array $types,
+        QueryBuilder $query,
+        Instance $instance = null,
+        BaseUser $user = null
+    ) {
+        $query = $query->join('r.states', 's');
+
+        if (count($types) > 0) {
+            $query = $query->andWhere('s.type IN (:state_types)')
+                ->setParameter('state_types', $types)
+                ->andWhere('s.current = true');
+        }
+
+        if (!is_null($instance)) {
+            $query = $query->andWhere('s.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
+        }
+
+        if (!is_null($user)) {
+            $query = $query->andWhere('r.owner = :user_id OR r.librarian = :user_id')
+                ->setParameter('user_ud', $user->getId());
+        }
+
+        return $query;
+    }
+
+    public function addFindByRequestInstance(
+        $data,
+        QueryBuilder $query,
+        Instance $instance = null,
+        BaseUser $user = null
+    ) {
         if ($data instanceof Instance) {
             $query = $query->andWhere('r.instance = :instance')
-                    ->setParameter('instance', $data->getId());
+                ->setParameter('instance', $data->getId());
         }
 
         return $query;
@@ -291,7 +317,7 @@ class OrderRepository extends BaseRepository
     {
         if ($data instanceof BaseUser) {
             $query = $query->andWhere('r.owner = :owner')
-                    ->setParameter('owner', $data->getId());
+                ->setParameter('owner', $data->getId());
         }
 
         return $query;
@@ -310,7 +336,7 @@ class OrderRepository extends BaseRepository
             ->setParameter('owner', $user->getId());
     }
 
-    public function findUserOrder($id, Instance $instance, BaseUser $user): Order
+    public function findUserOrder(int $id, Instance $instance, BaseUser $user): Order
     {
         $qb = $this->createQueryBuilder('e')
             ->join('e.originalRequest', 'r')

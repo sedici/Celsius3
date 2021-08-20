@@ -28,15 +28,15 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Exception\EntityNotFoundException;
-use Celsius3\Repository\OrderRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class UserOrderFinder
 {
     private $orderRepository;
 
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->orderRepository = $orderRepository;
+        $this->orderRepository = $entityManager->getRepository(Order::class);
     }
 
     public function __invoke(int $id, Instance $instance, BaseUser $user): Order

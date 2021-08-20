@@ -28,7 +28,7 @@ use Celsius3\Application\User\Order\UserOrderFinder;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\Repository\OrderRepositoryInterface;
+use Celsius3\CoreBundle\Repository\OrderRepositoryInterface;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;

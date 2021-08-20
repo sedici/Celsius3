@@ -24,49 +24,36 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Order;
 
-use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Application\User\Order\UserOrderFinder;
+use Celsius3\CoreBundle\Exception\EntityNotFoundException;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ShowUserOrderViewController extends AbstractController
 {
-    private $orderRepository;
     private $instanceHelper;
+    private $userOrderFinder;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        UserOrderFinder $userOrderFinder
     ) {
-        $this->orderRepository = $entityManager->getRepository(Order::class);
         $this->instanceHelper = $instanceHelper;
+        $this->userOrderFinder = $userOrderFinder;
     }
 
     public function __invoke($id)
     {
-        $order = $this->findOrder($id);
+        $instance = $this->instanceHelper->getSessionInstance();
+        $user = $this->getUser();
 
-        return $this->render(
-            'User/Order/show.html.twig',
-            [
-                'entity' => $order,
-            ]
-        );
-    }
-
-    private function findOrder($id): Order
-    {
-        $order = $this->orderRepository->findUserOrder(
-            $id,
-            $this->instanceHelper->getSessionInstance(),
-            $this->getUser()
-        );
-
-        if (!$order) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.Order');
+        try {
+            $order = ($this->userOrderFinder)($id, $instance, $user);
+        } catch (EntityNotFoundException $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('user_order');
         }
 
-        return $order;
+        return $this->render('User/Order/show.html.twig', ['entity' => $order,]);
     }
 }

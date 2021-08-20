@@ -22,7 +22,7 @@ declare(strict_types=1);
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Repository;
+namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
