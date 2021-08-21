@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Manager\FilterManager;
+use Celsius3\Manager\FilterManager;
 use Celsius3\Repository\OrderRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

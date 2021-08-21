@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,31 +22,33 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Filter;
+namespace Celsius3\Filter;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
-class BaseUserFilter implements EntityFilterInterface
+class CatalogFilter implements EntityFilterInterface
 {
-    private $em;
-    private $specialFields = array(
-        'state' => 'addFindByStateType',
-        'roles' => 'addFindByRole',
-        'country' => 'addFindByCountry',
+    private $entityManager;
+    private $specialFields = [
         'city' => 'addFindByCity',
-    );
+        'country' => 'addFindByCountry'
+    ];
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     public function applyCustomFilter($field_name, $data, $query, $instance)
     {
         $function = $this->specialFields[$field_name];
 
-        return $this->em->getRepository('Celsius3CoreBundle:BaseUser')
-                        ->$function($data, $query, $instance);
+        return $this->entityManager->getRepository('Celsius3CoreBundle:Catalog')
+            ->$function(
+                $data,
+                $query,
+                $instance
+            );
     }
 
     public function hasCustomFilter($field_name)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,11 +22,10 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Filter;
+namespace Celsius3\Filter;
 
 interface EntityFilterInterface
 {
-
     public function hasCustomFilter($field_name);
 
     public function applyCustomFilter($field_name, $data, $query, $instance);

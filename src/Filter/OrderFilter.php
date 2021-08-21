@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,37 +22,34 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Filter;
+namespace Celsius3\Filter;
 
-use Doctrine\ORM\EntityManager;
+use Celsius3\Repository\OrderRepositoryInterface;
 
 class OrderFilter implements EntityFilterInterface
 {
-
-    private $em;
-    private $specialFields = array(
+    private $specialFields = [
         'state' => 'addFindByStateType',
         'type' => 'addFindByRequestType',
         'instance' => 'addFindByRequestInstance',
         'owner' => 'addFindByRequestOwner'
-    );
+    ];
+    private $orderRepository;
 
-    public function __construct(EntityManager $em)
+    public function __construct(OrderRepositoryInterface $orderRepository)
     {
-        $this->em = $em;
+        $this->orderRepository = $orderRepository;
     }
 
     public function applyCustomFilter($field_name, $data, $query, $instance)
     {
         $function = $this->specialFields[$field_name];
 
-        return $this->em->getRepository('Celsius3CoreBundle:Order')
-                        ->$function($data, $query, $instance);
+        return $this->orderRepository->$function($data, $query, $instance);
     }
 
     public function hasCustomFilter($field_name)
     {
         return array_key_exists($field_name, $this->specialFields);
     }
-
 }
