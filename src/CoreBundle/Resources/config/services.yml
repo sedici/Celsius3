@@ -12,7 +12,6 @@ services:
         arguments: ["@translator"]
         tags:
             - { name: twig.extension }
-        arguments: ['@translator']
     celsius3_core.twig.extension.administration:
         class: Celsius3\CoreBundle\Twig\AdministrationExtension
         tags:
@@ -240,6 +239,7 @@ services:
     celsius3_core.instance_helper:
         class: Celsius3\CoreBundle\Helper\InstanceHelper
         arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
+        public: true
     celsius3_core.database_helper:
         class: Celsius3\CoreBundle\Helper\DatabaseHelper
         arguments: ['@doctrine.orm.entity_manager']
