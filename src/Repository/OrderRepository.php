@@ -20,19 +20,56 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Manager\StateManager;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * OrderRepository.
  */
-class OrderRepository extends BaseRepository implements OrderRepositoryInterface
+class OrderRepository extends ServiceEntityRepository implements OrderRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Order::class);
+    }
+
+    public function findBaseDoUnionEntities($main, $ids)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.id IN (:ids)')
+            ->andWhere('e.id <> :id')
+            ->setParameter('ids', $ids)
+            ->setParameter('id', $main->getId())
+            ->getQuery()->getResult();
+    }
+
+    public function union($field, $main_id, $elements)
+    {
+        return $this->createQueryBuilder('e')
+            ->update()
+            ->set('e.'.$field, ':main_id')
+            ->where('e.'.$field.' IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->setParameter('main_id', $main_id)
+            ->getQuery()->getResult();
+    }
+
+    public function deleteUnitedEntities(array $elements)
+    {
+        return $this->createQueryBuilder('e')
+            ->delete()
+            ->where('e.id IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->getQuery()->getResult();
+    }
+
     public function findByTerm($term, Instance $instance = null, $type, $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
