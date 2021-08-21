@@ -27,6 +27,7 @@ namespace Celsius3\Controller\User\Order;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
@@ -48,13 +49,14 @@ final class OrdersGetController extends FOSRestController
 
     public function __construct(
         EntityManagerInterface $entityManager,
+        OrderRepositoryInterface $orderRepository,
         InstanceHelper $instanceHelper,
         Security $security,
         ConfigurationHelper $configurationHelper,
         Paginator $paginator,
         ViewHandlerInterface $viewHandler
     ) {
-        $this->orderRepository = $entityManager->getRepository(Order::class);
+        $this->orderRepository = $orderRepository;
         $this->requestRepository = $entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class);
         $this->instanceHelper = $instanceHelper;
         $this->security = $security;

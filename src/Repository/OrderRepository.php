@@ -362,8 +362,7 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
 
     public function listUserOrdersQuery(Instance $instance, BaseUser $user)
     {
-        return $this->getEntityManager()
-            ->getRepository(Order::class)
+        return $this
             ->createQueryBuilder('e')
             ->join('e.originalRequest', 'r')
             ->join('e.materialData', 'm')

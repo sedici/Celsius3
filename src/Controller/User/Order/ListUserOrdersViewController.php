@@ -29,7 +29,7 @@ use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\FilterManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Celsius3\Repository\OrderRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,12 +41,12 @@ final class ListUserOrdersViewController extends AbstractController
     private $configurationHelper;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
+        OrderRepositoryInterface $orderRepository,
         InstanceHelper $instanceHelper,
         FilterManager $filterManager,
         ConfigurationHelper $configurationHelper
     ) {
-        $this->orderRepository = $entityManager->getRepository(Order::class);
+        $this->orderRepository = $orderRepository;
         $this->instanceHelper = $instanceHelper;
         $this->filterManager = $filterManager;
         $this->configurationHelper = $configurationHelper;
