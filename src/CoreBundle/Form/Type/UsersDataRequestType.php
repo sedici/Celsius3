@@ -83,6 +83,12 @@ final class UsersDataRequestType extends DataRequestType
                 'label' => 'observations',
                 'required' => false,
                 'mapped' => false
-            ]);
+            ])
+            ->add('lastLogin', CheckboxType::class, [
+                'label' => 'Último ingreso',
+                'required' => false,
+                'mapped' => false
+            ])
+        ;
     }
 }
