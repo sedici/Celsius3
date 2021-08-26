@@ -33,7 +33,12 @@ trait LogInTrait
 {
     private function logInUser(Client $client): BaseUser
     {
-        return $this->logIn($client, 'user');
+        return $this->logIn($client, getenv('TEST_USER_USERNAME'));
+    }
+
+    private function logInAdmin(Client $client): BaseUser
+    {
+        return $this->logIn($client, getenv('TEST_ADMIN_USERNAME'));
     }
 
     private function logIn(Client $client, string $username): BaseUser
