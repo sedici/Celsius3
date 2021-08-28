@@ -65,19 +65,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Lists all BaseUser entities.
-     *
-     * @Route("/", name="superadmin_user")
-     * @Template()
-     *
-     * @return array
-     */
-    public function indexAction()
-    {
-        return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class));
-    }
-
-    /**
      * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="superadmin_user_new")

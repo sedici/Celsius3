@@ -4,10 +4,10 @@
     {{ 'Users List'|trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
+{% from "Macro/Crud/index.html.twig" import index as index %}
 
 {% block content %}
     <h2>{{ 'User List'|trans }}</h2>
 
-    {{ index('superadmin_user', pagination, 'Celsius3CoreBundle:SuperadminBaseUser', filter_form) }}
+    {{ index('superadmin_user', pagination, 'Superadmin/BaseUser/', filter_form) }}
 {% endblock %}

@@ -1,0 +1,6 @@
+superadmin_user:
+    path: /superadmin/user
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\ListAllUsersViewController }
+    methods: [ GET ]
+#    options:
+#        expose: true

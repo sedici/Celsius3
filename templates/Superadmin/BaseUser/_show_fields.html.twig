@@ -1,4 +1,4 @@
-{% extends 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
+{% extends 'BaseUser/_show_fields.html.twig' %}
 
 {% block extrainfo %}
     <dt>{{ 'Instance'|trans }}</dt>
@@ -14,5 +14,5 @@
 {% endblock %}
 
 {% block actions %}
-    {% include 'Celsius3CoreBundle:AdminBaseUser:_index_element_actions.html.twig' %}
+    {% include 'Admin/BaseUser/_index_element_actions.html.twig' %}
 {% endblock %}
