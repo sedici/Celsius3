@@ -2,5 +2,8 @@ superadmin_user:
     path: /superadmin/user
     defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\ListAllUsersViewController }
     methods: [ GET ]
-#    options:
-#        expose: true
+
+superadmin_user_new:
+    path: /superadmin/user/new
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\NewUserViewController }
+    methods: [ GET ]

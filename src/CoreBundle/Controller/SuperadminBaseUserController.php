@@ -65,21 +65,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to create a new BaseUser entity.
-     *
-     * @Route("/new", name="superadmin_user_new")
-     * @Template()
-     *
-     * @return array
-     */
-    public function newAction()
-    {
-        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
-    }
-
-    /**
      * Creates a new BaseUser entity.
      *
      * @Route("/create", name="superadmin_user_create")
