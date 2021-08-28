@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Entity;
 
 use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\Repository\OrderRepositoryInterface;
+use Celsius3\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -32,7 +32,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=OrderRepositoryInterface::class)
+ * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`", indexes={
  *   @ORM\Index(name="idx_code", columns={"`code`"}),
  *   @ORM\Index(name="idx_created_at", columns={"created_at"}),
