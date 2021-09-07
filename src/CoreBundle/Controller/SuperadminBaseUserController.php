@@ -65,22 +65,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Creates a new BaseUser entity.
-     *
-     * @Route("/create", name="superadmin_user_create")
-     * @Method("post")
-     * @Template("Celsius3CoreBundle:SuperadminBaseUser:new.html.twig")
-     *
-     * @return array
-     */
-    public function createAction()
-    {
-        return $this->baseCreate('BaseUser', new BaseUser(), BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_user');
-    }
-
-    /**
      * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="superadmin_user_edit")

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,27 +22,76 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Doctrine\ORM\QueryBuilder;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\UserManager;
+use DateInterval;
+use DateTime;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * BaseUserRepository.
  */
-class BaseUserRepository extends BaseRepository
+class BaseUserRepository extends ServiceEntityRepository implements BaseUserRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, BaseUser::class);
+    }
+
+    public function findBaseDoUnionEntities($main, $ids)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.id IN (:ids)')
+            ->andWhere('e.id <> :id')
+            ->setParameter('ids', $ids)
+            ->setParameter('id', $main->getId())
+            ->getQuery()->getResult();
+    }
+
+    public function findOneForInstance(Instance $instance, $id)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->andWhere('e.id = :id')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('id', $id)
+            ->getQuery()->getOneOrNullResult();
+    }
+
+    public function union($field, $main_id, $elements)
+    {
+        return $this->createQueryBuilder('e')
+            ->update()
+            ->set('e.' . $field, ':main_id')
+            ->where('e.' . $field . ' IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->setParameter('main_id', $main_id)
+            ->getQuery()->getResult();
+    }
+
+    public function deleteUnitedEntities(array $elements)
+    {
+        return $this->createQueryBuilder('e')
+            ->delete()
+            ->where('e.id IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->getQuery()->getResult();
+    }
+
     public function findAdmins(Instance $instance)
     {
         return $this->createQueryBuilder('u')
-                        ->where('u.instance = :instance_id')
-                        ->andWhere('u.roles LIKE :roles')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('roles', '%"'.UserManager::ROLE_ADMIN.'"%')
-                        ->getQuery()
-                        ->getResult();
+            ->where('u.instance = :instance_id')
+            ->andWhere('u.roles LIKE :roles')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
+            ->getQuery()
+            ->getResult();
     }
 
 
@@ -50,22 +101,21 @@ class BaseUserRepository extends BaseRepository
             ->where('u.instance = :instance_id')
             ->andWhere('u.roles LIKE :roles')
             ->setParameter('instance_id', $instance->getId())
-            ->setParameter('roles', '%"'.UserManager::ROLE_ORDER_MANAGER.'"%')
+            ->setParameter('roles', '%"' . UserManager::ROLE_ORDER_MANAGER . '"%')
             ->getQuery()
             ->getResult();
     }
 
 
-
     public function findPendingUsers(Instance $instance = null)
     {
         $qb = $this->createQueryBuilder('u')
-                ->where('u.enabled = false')
-                ->andWhere('u.locked = false');
+            ->where('u.enabled = false')
+            ->andWhere('u.locked = false');
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('u.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
+                ->setParameter('instance_id', $instance->getId());
         }
 
         return $qb->getQuery()->getResult();
@@ -74,12 +124,12 @@ class BaseUserRepository extends BaseRepository
     public function countUsers(Instance $instance = null)
     {
         $qb = $this->createQueryBuilder('u')
-                ->where('u.enabled = false')
-                ->andWhere('u.locked = false');
+            ->where('u.enabled = false')
+            ->andWhere('u.locked = false');
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('u.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
+                ->setParameter('instance_id', $instance->getId());
         }
 
         return array(
@@ -91,19 +141,19 @@ class BaseUserRepository extends BaseRepository
     {
         $qb = $this->createQueryBuilder('u');
 
-        $qb = $qb->where($qb->expr()->like('u.name', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('u.surname', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('u.username', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('u.email', $qb->expr()->literal('%'.$term.'%')));
+        $qb = $qb->where($qb->expr()->like('u.name', $qb->expr()->literal('%' . $term . '%')))
+            ->orWhere($qb->expr()->like('u.surname', $qb->expr()->literal('%' . $term . '%')))
+            ->orWhere($qb->expr()->like('u.username', $qb->expr()->literal('%' . $term . '%')))
+            ->orWhere($qb->expr()->like('u.email', $qb->expr()->literal('%' . $term . '%')));
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('u.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
+                ->setParameter('instance_id', $instance->getId());
         }
 
         if (count($institutions) > 0) {
             $qb = $qb->andWhere('u.institution IN (:institution_ids)')
-                    ->setParameter('institution_ids', $institutions);
+                ->setParameter('institution_ids', $institutions);
         }
 
         if (!is_null($limit)) {
@@ -123,21 +173,21 @@ class BaseUserRepository extends BaseRepository
             }
             switch ($value) {
                 case 'enabled':
-                    $condition .= '('.$alias.'.enabled = true AND '.$alias.'.locked = false)';
+                    $condition .= '(' . $alias . '.enabled = true AND ' . $alias . '.locked = false)';
                     break;
                 case 'pending':
-                    $condition .= '('.$alias.'.enabled = false AND '.$alias.'.locked = false)';
+                    $condition .= '(' . $alias . '.enabled = false AND ' . $alias . '.locked = false)';
                     break;
                 case 'rejected':
-                    $condition .= '('.$alias.'.locked = true)';
+                    $condition .= '(' . $alias . '.locked = true)';
                     break;
             }
         }
         $query = $query->andWhere($condition);
 
         if (!is_null($instance)) {
-            $query = $query->andWhere($alias.'.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
         }
 
         return $query;
@@ -151,13 +201,13 @@ class BaseUserRepository extends BaseRepository
             $query = $query->andWhere($alias . '.roles = :role')
                 ->setParameter('role', serialize([]));
         } else {
-            $query = $query->andWhere($alias.'.roles LIKE :role')
-                ->setParameter('role', '%"'.$data.'"%');
+            $query = $query->andWhere($alias . '.roles LIKE :role')
+                ->setParameter('role', '%"' . $data . '"%');
         }
 
         if (!is_null($instance)) {
-            $query = $query->andWhere($alias.'.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
         }
 
         return $query;
@@ -166,20 +216,20 @@ class BaseUserRepository extends BaseRepository
     public function findUsersPerInstance()
     {
         return $this->createQueryBuilder('u')
-                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-                        ->groupBy('u.instance')
-                        ->getQuery()
-                        ->getResult();
+            ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+            ->groupBy('u.instance')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findNewUsersPerInstance()
     {
         return $this->createQueryBuilder('u')
-                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-                        ->where('u.enabled = false')
-                        ->groupBy('u.instance')
-                        ->getQuery()
-                        ->getResult();
+            ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+            ->where('u.enabled = false')
+            ->groupBy('u.instance')
+            ->getQuery()
+            ->getResult();
     }
 
     public function countNewUsersFor($instance, $initialYear, $finalYear)
@@ -188,11 +238,11 @@ class BaseUserRepository extends BaseRepository
 
         if ($initialYear === $finalYear) {
             $qb = $qb->select('MONTH(user.createdAt) axisValue')
-                            ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
+                ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
         } elseif ($initialYear < $finalYear) {
             $qb = $qb->select('YEAR(user.createdAt) axisValue')
-                            ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
-                            ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
+                ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
+                ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
         if (!is_null($instance)) {
@@ -200,18 +250,18 @@ class BaseUserRepository extends BaseRepository
         }
 
         $qb = $qb->addSelect('COUNT(user.id) newUsers')
-                ->groupBy('axisValue')
-                ->orderBy('axisValue', 'ASC');
+            ->groupBy('axisValue')
+            ->orderBy('axisValue', 'ASC');
 
         return $qb->getQuery()->getResult();
     }
 
     public function getTotalUsersUntil($instance, $initialYear, $finalYear, $axisValue)
     {
-        $date = \DateTime::createFromFormat('Y', $axisValue);
+        $date = DateTime::createFromFormat('Y', $axisValue);
         if ($initialYear === $finalYear) {
-            $date = \DateTime::createFromFormat('Y', $initialYear);
-            $date->add(new \DateInterval('P'.$axisValue.'M'));
+            $date = DateTime::createFromFormat('Y', $initialYear);
+            $date->add(new DateInterval('P' . $axisValue . 'M'));
         }
 
         $qb = $this->createQueryBuilder('user');
@@ -221,28 +271,28 @@ class BaseUserRepository extends BaseRepository
         }
 
         return $qb->select('COUNT(user.id) newUsers')
-                        ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
-                        ->getQuery()->getSingleResult();
+            ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
+            ->getQuery()->getSingleResult();
     }
 
     public function getYears($instance)
     {
         return $this->createQueryBuilder('user')
-                        ->select('YEAR(user.createdAt) year')
-                        ->where('user.instance = :instance')->setParameter('instance', $instance)
-                        ->groupBy('year')
-                        ->orderBy('year')
-                        ->getQuery()
-                        ->getResult();
+            ->select('YEAR(user.createdAt) year')
+            ->where('user.instance = :instance')->setParameter('instance', $instance)
+            ->groupBy('year')
+            ->orderBy('year')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getUsersWithMessageNotification($type, $receivers)
     {
         $qb = $this->createQueryBuilder('u')
-                        ->select('u')
-                        ->join('u.notificationSettings', 'ns')
-                        ->where('u IN (:receivers)')->setParameter('receivers', $receivers)
-                        ->andWhere('ns.type = :type')->setParameter('type', 'message_notification');
+            ->select('u')
+            ->join('u.notificationSettings', 'ns')
+            ->where('u IN (:receivers)')->setParameter('receivers', $receivers)
+            ->andWhere('ns.type = :type')->setParameter('type', 'message_notification');
 
         if ($type === 'interface') {
             $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', true);
@@ -259,11 +309,11 @@ class BaseUserRepository extends BaseRepository
     {
         $qb = $this->createQueryBuilder('u');
         $qb = $qb->select('u')
-                        ->join('u.notificationSettings', 'ns')
-                        ->where('u.roles LIKE :roles')
-                        ->setParameter('roles', '%ROLE_ADMIN%')
-                        ->andWhere('ns.type = :type')->setParameter('type', 'user_notification')
-                        ->andWhere('ns.instance = :instance')->setParameter('instance', $instance);
+            ->join('u.notificationSettings', 'ns')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%ROLE_ADMIN%')
+            ->andWhere('ns.type = :type')->setParameter('type', 'user_notification')
+            ->andWhere('ns.instance = :instance')->setParameter('instance', $instance);
         if ($type === 'interface') {
             $qb = $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', true);
         }
@@ -279,12 +329,12 @@ class BaseUserRepository extends BaseRepository
         $qb = $this->createQueryBuilder('u');
 
         $qb = $qb->select('u')
-                        ->join('u.notificationSettings', 'ns')
-                        ->where('u.roles LIKE :roles')
-                        ->setParameter('roles', '%ROLE_ADMIN%')
-                        ->orWhere('u.id = :owner_id')->setParameter('owner_id', $event->getRequest()->getOwner()->getId())
-                        ->andWhere('ns.type = :type')->setParameter('type', $event_type.'_notification')
-                        ->andWhere('ns.instance = :instance')->setParameter('instance', $event->getInstance());
+            ->join('u.notificationSettings', 'ns')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%ROLE_ADMIN%')
+            ->orWhere('u.id = :owner_id')->setParameter('owner_id', $event->getRequest()->getOwner()->getId())
+            ->andWhere('ns.type = :type')->setParameter('type', $event_type . '_notification')
+            ->andWhere('ns.instance = :instance')->setParameter('instance', $event->getInstance());
 
         if ($type === 'interface') {
             $qb = $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', true);
@@ -299,28 +349,28 @@ class BaseUserRepository extends BaseRepository
     public function findAllAdmins()
     {
         return $this->createQueryBuilder('u')
-                        ->andWhere('u.roles LIKE :roles')
-                        ->setParameter('roles', '%"'.UserManager::ROLE_ADMIN.'"%')
-                        ->getQuery()
-                        ->getResult();
+            ->andWhere('u.roles LIKE :roles')
+            ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getInstitutionUsers($id)
     {
         return $this->createQueryBuilder('u')
-                        ->select('u')
-                        ->where('u.institution = :institution_id')
-                        ->setParameter('institution_id', $id)
-                        ->orderBy('u.surname')
-                        ->addOrderBy('u.name')
-                        ->getQuery()->getResult();
+            ->select('u')
+            ->where('u.institution = :institution_id')
+            ->setParameter('institution_id', $id)
+            ->orderBy('u.surname')
+            ->addOrderBy('u.name')
+            ->getQuery()->getResult();
     }
 
     public function findUsersFrom(Instance $instance, $startDate)
     {
         $qb = $this->createQueryBuilder('u')
-          ->where('u.instance = :instance_id')
-          ->setParameter('instance_id', $instance->getId());
+            ->where('u.instance = :instance_id')
+            ->setParameter('instance_id', $instance->getId());
 
         if (!is_null($startDate)) {
             $qb->andWhere('u.createdAt >= :date')->setParameter('date', $startDate);
@@ -332,35 +382,35 @@ class BaseUserRepository extends BaseRepository
     public function findPdfUsers(Instance $instance)
     {
         return $this->createQueryBuilder('u')
-              ->where('u.instance = :instance_id')
-              ->andWhere('u.pdf = :pdf')
-              ->setParameter('instance_id', $instance->getId())
-              ->setParameter('pdf', true);
+            ->where('u.instance = :instance_id')
+            ->andWhere('u.pdf = :pdf')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('pdf', true);
     }
 
     public function findUsers($ids)
     {
         return $this->createQueryBuilder('u')
-                    ->where('u.id IN (:elements)')
-                    ->setParameter('elements', $ids)
-                    ->getQuery()->getResult();
+            ->where('u.id IN (:elements)')
+            ->setParameter('elements', $ids)
+            ->getQuery()->getResult();
     }
 
     public function findUserInstanceAdmins(BaseUser $user, $role)
     {
         return $this->createQueryBuilder('u')
-                    ->where('u.id <> :id')
-                    ->andWhere('u.instance = :instance_id')
-                    ->andWhere('u.roles LIKE :role')
-                    ->setParameter('id', $user->getId())
-                    ->setParameter('instance_id', $user->getInstance()->getId())
-                    ->setParameter('role', '%'.$role.'%')
-                    ->getQuery()->getResult();
+            ->where('u.id <> :id')
+            ->andWhere('u.instance = :instance_id')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('id', $user->getId())
+            ->setParameter('instance_id', $user->getInstance()->getId())
+            ->setParameter('role', '%' . $role . '%')
+            ->getQuery()->getResult();
     }
 
 
-    public function findByUserInstanceAndRole($user, $role){
-
+    public function findByUserInstanceAndRole($user, $role)
+    {
         return $this->createQueryBuilder('u')
             ->where('u.id <> :id')
             ->andWhere('u.instance = :instance_id')
@@ -404,5 +454,11 @@ class BaseUserRepository extends BaseRepository
         }
 
         return $query;
+    }
+
+    public function save(BaseUser $user): void
+    {
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 }

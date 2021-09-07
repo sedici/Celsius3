@@ -28,6 +28,7 @@ use Celsius3\NotificationBundle\Entity\BaseUserNotification;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Entity\NotificationSettings;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\Repository\BaseUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,7 +39,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
+ * @ORM\Entity(repositoryClass=BaseUserRepository::class)
  * @ORM\Table(name="user", indexes={
  *   @ORM\Index(name="idx_username", columns={"username"}),
  *   @ORM\Index(name="idx_email", columns={"email"}),

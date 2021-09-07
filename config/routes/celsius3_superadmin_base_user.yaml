@@ -7,3 +7,8 @@ superadmin_user_new:
     path: /superadmin/user/new
     defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\NewUserViewController }
     methods: [ GET ]
+
+superadmin_user_create:
+    path: /superadmin/user/create
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\CreateUserViewController }
+    methods: [ POST ]
