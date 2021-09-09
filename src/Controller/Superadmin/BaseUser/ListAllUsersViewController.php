@@ -28,40 +28,49 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Manager\FilterManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ListAllUsersViewController extends AbstractController
 {
     private $filterManager;
     private $entityManager;
+    private $paginator;
+    private $maxPerPage;
 
-    public function __construct(FilterManager $filterManager, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        FilterManager $filterManager,
+        EntityManagerInterface $entityManager,
+        Paginator $paginator,
+        string $maxPerPage
+    ) {
         $this->filterManager = $filterManager;
         $this->entityManager = $entityManager;
+        $this->paginator = $paginator;
+        $this->maxPerPage = $maxPerPage;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $query = $this->listQuery();
-        $filter_form = $this->createForm(BaseUserFilterType::class);
+        $filterForm = $this->createForm(BaseUserFilterType::class);
 
-        $filter_form = $filter_form->handleRequest($request);
+        $filterForm->handleRequest($request);
         $query = $this->filterManager
-            ->filter($query, $filter_form, BaseUser::class);
+            ->filter($query, $filterForm, BaseUser::class);
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        $pagination = $this->paginator->paginate(
             $query,
             $request->query->get('page', 1),
-            $this->getResultsPerPage(),
+            $this->maxPerPage,
             $this->getSortDefaults()
         );
 
         return $this->render('Superadmin/BaseUser/index.html.twig', [
             'pagination' => $pagination,
-            'filter_form' => $filter_form->createView()
+            'filter_form' => $filterForm->createView()
         ]);
     }
 
@@ -70,11 +79,6 @@ final class ListAllUsersViewController extends AbstractController
         return $this->entityManager
             ->getRepository(BaseUser::class)
             ->createQueryBuilder('e');
-    }
-
-    protected function getResultsPerPage()
-    {
-        return $this->container->getParameter('max_per_page');
     }
 
     protected function getSortDefaults(): array
