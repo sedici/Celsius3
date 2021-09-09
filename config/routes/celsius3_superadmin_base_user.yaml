@@ -12,3 +12,8 @@ superadmin_user_create:
     path: /superadmin/user/create
     defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\CreateUserViewController }
     methods: [ POST ]
+    
+superadmin_user_edit:
+    path: /superadmin/user/{id}/edit
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\EditUserViewController }
+    methods: [ GET ]

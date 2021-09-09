@@ -65,26 +65,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to edit an existing BaseUser entity.
-     *
-     * @Route("/{id}/edit", name="superadmin_user_edit")
-     * @Template()
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function editAction($id)
-    {
-        return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-            'editing' => true,
-        ));
-    }
-
-    /**
      * Edits an existing BaseUser entity.
      *
      * @Route("/{id}/update", name="superadmin_user_update")
