@@ -65,27 +65,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Edits an existing BaseUser entity.
-     *
-     * @Route("/{id}/update", name="superadmin_user_update")
-     * @Method("post")
-     * @Template("Celsius3CoreBundle:SuperadminBaseUser:edit.html.twig")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function updateAction($id)
-    {
-        return $this->baseUpdate('BaseUser', $id, BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-            'editing' => true,
-        ), 'superadmin_user');
-    }
-
-    /**
      * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="superadmin_user_transform")
