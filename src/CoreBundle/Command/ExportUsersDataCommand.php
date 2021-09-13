@@ -72,8 +72,13 @@ final class ExportUsersDataCommand extends ContainerAwareCommand
         $results = $qb->getQuery()->iterate();
         while (false !== ($row = $results->next())) {
             $arr = current($row);
+
             if (array_key_exists('birthdate', $arr) && $arr['birthdate'] !== null) {
                 $arr['birthdate'] = $arr['birthdate']->format('Y-m-d');
+            }
+
+            if (array_key_exists('lastLogin', $arr) && $arr['lastLogin'] !== null) {
+                $arr['lastLogin'] = $arr['lastLogin']->format('Y-m-d');
             }
 
             fputcsv($handle, $arr, ';', '"', '\\');
@@ -163,5 +168,10 @@ final class ExportUsersDataCommand extends ContainerAwareCommand
     private function addObservaciones($qb)
     {
         $qb->addSelect('u.observaciones');
+    }
+
+    private function addLastLogin($qb)
+    {
+        $qb->addSelect('u.lastLogin');
     }
 }

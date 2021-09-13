@@ -1,4 +1,4 @@
-{% extends 'FOSMessageBundle::layout.html.twig' %}
+{% extends 'bundles/FOSMessageBundle/layout.html.twig' %}
 
 {% block fos_message_content %}
 
@@ -11,14 +11,14 @@
                 <dt>{{ 'Results'|trans }}</dt>
                 <dd>
                     {% transchoice threads.paginationData.totalCount with {'%num%': threads.paginationData.totalCount } from 'FOSMessageBundle' %}
-                    threads_found
+                        threads_found
                     {% endtranschoice %}
                 </dd>
             </dl>
-            {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads} %}
+            {% include 'bundles/FOSMessageBundle/Message/threads_list.html.twig' with {'threads': threads} %}
         </div>
         <div class="col-md-3">
-            {% include 'FOSMessageBundle:Message:sidebar.html.twig' %}
+            {% include 'bundles/FOSMessageBundle/Message/sidebar.html.twig' %}
         </div>
     </div>
 {% endblock %}

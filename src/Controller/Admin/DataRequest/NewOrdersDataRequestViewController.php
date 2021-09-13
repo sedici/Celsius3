@@ -24,21 +24,24 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\DataRequest;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\OrdersDataRequest;
 use Celsius3\CoreBundle\Form\Type\OrdersDataRequestType;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-final class NewOrdersDataRequestViewController extends BaseInstanceDependentController
+final class NewOrdersDataRequestViewController extends AbstractController
 {
     private $dataRequestRepository;
-    
-    public function __construct(EntityManagerInterface $entityManager)
+    private $instanceHelper;
+
+    public function __construct(EntityManagerInterface $entityManager, InstanceHelper $instanceHelper)
     {
         $this->dataRequestRepository = $entityManager->getRepository(DataRequest::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke(Request $request)
@@ -67,7 +70,7 @@ final class NewOrdersDataRequestViewController extends BaseInstanceDependentCont
 
     private function createDataRequest(?array $dr): DataRequest
     {
-        $data_request = new OrdersDataRequest($this->getInstance());
+        $data_request = new OrdersDataRequest($this->instanceHelper->getSessionInstance());
 
         $data = null;
         if ($dr) {

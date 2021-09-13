@@ -38,10 +38,12 @@ services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
-          # fetching services directly from the container via $container->get() won't work.
+        # fetching services directly from the container via $container->get() won't work.
         # The best practice is to be explicit about your dependencies anyway.
+        bind:
+            $maxPerPage: '%max_per_page%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -53,7 +55,7 @@ services:
     # as action arguments even if you don't extend any base controller class
     Celsius3\Controller\:
         resource: '../src/Controller'
-        tags: ['controller.service_arguments']
+        tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -144,3 +146,24 @@ services:
 
     Celsius3\CoreBundle\Manager\EventManager:
         alias: celsius3_core.event_manager
+
+    Celsius3\CoreBundle\Helper\InstanceHelper:
+        alias: celsius3_core.instance_helper
+
+    Celsius3\CoreBundle\Manager\InstanceManager:
+        alias: celsius3_core.instance_manager
+
+    Celsius3\CoreBundle\Manager\FilterManager:
+        alias: celsius3_core.filter_manager
+
+    Celsius3\CoreBundle\Helper\ConfigurationHelper:
+        alias: celsius3_core.configuration_helper
+
+    Celsius3\CoreBundle\Manager\FileManager:
+        alias: celsius3_core.file_manager
+
+    FOS\RestBundle\View\ViewHandlerInterface:
+        alias: fos_rest.view_handler.default
+
+    Knp\Component\Pager\Paginator:
+        alias: knp_paginator

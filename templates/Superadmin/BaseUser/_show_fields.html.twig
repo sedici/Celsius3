@@ -1,0 +1,18 @@
+{% extends 'BaseUser/_show_fields.html.twig' %}
+
+{% block extrainfo %}
+    <dt>{{ 'Instance'|trans }}</dt>
+    <dd>{{ element.instance }}</dd>
+    <dt>{{ 'Roles'|trans }}</dt>
+    <dd>
+        <ul>
+            {% for role in element.roles %}
+                <li>{{ role_name(role)|trans }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+{% endblock %}
+
+{% block actions %}
+    {% include 'Admin/BaseUser/_index_element_actions.html.twig' %}
+{% endblock %}
