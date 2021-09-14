@@ -22,3 +22,8 @@ superadmin_user_update:
     path: /superadmin/user/{id}/update
     defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\UpdateUserPostController }
     methods: [ POST ]
+    
+superadmin_user_transform:
+    path: /superadmin/user/{id}/transform
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\TransformUserViewController }
+    methods: [ GET, POST ]

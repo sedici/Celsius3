@@ -65,41 +65,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to transform an existing BaseUser entity.
-     *
-     * @Route("/{id}/transform", name="superadmin_user_transform")
-     * @Template()
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function transformAction($id, Request $request)
-    {
-        $entity = $this->findQuery('BaseUser', $id);
-
-        if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, UserTransformType::class, array(
-                'user' => $entity,
-                'user_actual'=>$this->getUser()
-            ), 'superadmin_user');
-        }
-
-        $response = $this->baseTransformAction($id, UserTransformType::class, array(
-            'user' => $entity,
-            'user_actual'=>$this->getUser()
-        ));
-
-        if($response instanceof RedirectResponse){
-            return $response;
-        }
-
-        return $this->render('Celsius3CoreBundle:SuperadminBaseUser:transform.html.twig', $response);
-    }
-
-    /**
      * Enables a BaseUser entity.
      *
      * @Route("/{id}/enable", name="superadmin_user_enable")

@@ -25,13 +25,14 @@ declare(strict_types=1);
 namespace Celsius3\CoreBundle\Entity;
 
 use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\Repository\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
+ * @ORM\Entity(repositoryClass=InstanceRepository::class)
  *
  * @UniqueEntity("url")
  * @UniqueEntity("host")
