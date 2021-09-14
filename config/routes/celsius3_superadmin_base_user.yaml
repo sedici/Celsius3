@@ -27,3 +27,8 @@ superadmin_user_transform:
     path: /superadmin/user/{id}/transform
     defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\TransformUserViewController }
     methods: [ GET, POST ]
+
+superadmin_user_enable:
+    path: /superadmin/user/{id}/enable
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\EnableUserGetController }
+    methods: [ GET ]
