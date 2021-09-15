@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Order;
 
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Form\Type\OrderType;
+use Celsius3\Form\Type\OrderType;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

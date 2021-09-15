@@ -36,10 +36,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
-use Celsius3\CoreBundle\Form\Type\LanguageType;
-use Celsius3\CoreBundle\Form\Type\ConfirmationType;
-use Celsius3\CoreBundle\Form\Type\ResultsType;
-use Celsius3\CoreBundle\Form\Type\LogoSelectorType;
+use Celsius3\Form\Type\LanguageType;
+use Celsius3\Form\Type\ConfirmationType;
+use Celsius3\Form\Type\ResultsType;
+use Celsius3\Form\Type\LogoSelectorType;
 use Symfony\Component\Validator\Constraints\Email;
 
 class ConfigurationHelper

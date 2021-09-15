@@ -26,8 +26,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\LegacyInstance;
-use Celsius3\CoreBundle\Form\Type\LegacyInstanceType;
-use Celsius3\CoreBundle\Form\Type\Filter\InstanceFilterType;
+use Celsius3\Form\Type\LegacyInstanceType;
+use Celsius3\Form\Type\Filter\InstanceFilterType;
 
 /**
  * Instance controller.

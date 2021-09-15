@@ -26,7 +26,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\News;
-use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
+use Celsius3\Form\Type\InstanceRegisterType;
 use Celsius3\TicketBundle\Entity\Category;
 use Celsius3\TicketBundle\Entity\Priority;
 use Celsius3\TicketBundle\Entity\TypeState;

@@ -26,7 +26,7 @@ namespace Celsius3\Controller\Admin\DataRequest;
 
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\OrdersDataRequest;
-use Celsius3\CoreBundle\Form\Type\OrdersDataRequestType;
+use Celsius3\Form\Type\OrdersDataRequestType;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;

@@ -22,13 +22,13 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\CoreBundle\Form\Type\JournalTypeType;
+use Celsius3\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
+use Celsius3\Form\Type\OrderType;
+use Celsius3\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

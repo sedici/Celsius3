@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Contact;
 use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Form\Type\AdminContactType;
+use Celsius3\Form\Type\AdminContactType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

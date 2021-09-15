@@ -23,8 +23,8 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\CustomField;
-use Celsius3\CoreBundle\Form\Type\CustomFieldType;
-use Celsius3\CoreBundle\Form\Type\Filter\CustomFieldFilterType;
+use Celsius3\Form\Type\CustomFieldType;
+use Celsius3\Form\Type\Filter\CustomFieldFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

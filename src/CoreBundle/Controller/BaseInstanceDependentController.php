@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Manager\FilterManager;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
@@ -55,7 +56,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')
+        return $this->get(FilterManager::class)
             ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name, $this->getInstance());
     }
 }

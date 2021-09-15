@@ -24,9 +24,9 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
-use Celsius3\CoreBundle\Form\Type\UserTransformType;
+use Celsius3\Form\Type\BaseUserType;
+use Celsius3\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\Form\Type\UserTransformType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;

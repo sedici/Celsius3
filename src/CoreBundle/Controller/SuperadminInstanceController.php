@@ -24,8 +24,8 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Form\Type\Filter\InstanceFilterType;
-use Celsius3\CoreBundle\Form\Type\InstanceType;
+use Celsius3\Form\Type\Filter\InstanceFilterType;
+use Celsius3\Form\Type\InstanceType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

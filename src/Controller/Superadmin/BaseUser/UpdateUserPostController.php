@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Superadmin\BaseUser;
 
 use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
+use Celsius3\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;

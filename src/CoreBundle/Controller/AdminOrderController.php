@@ -24,8 +24,8 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Form\Type\JournalTypeType;
-use Celsius3\CoreBundle\Form\Type\OrderType;
+use Celsius3\Form\Type\JournalTypeType;
+use Celsius3\Form\Type\OrderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

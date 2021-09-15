@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Superadmin\BaseUser;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Manager\FilterManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Paginator;

@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
-use Celsius3\CoreBundle\Form\Type\UserTransformType;
+use Celsius3\Form\Type\UserTransformType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 

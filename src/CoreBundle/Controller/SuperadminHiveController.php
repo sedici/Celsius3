@@ -26,7 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Hive;
-use Celsius3\CoreBundle\Form\Type\HiveType;
+use Celsius3\Form\Type\HiveType;
 
 /**
  * Hive controller.

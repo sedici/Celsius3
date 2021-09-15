@@ -26,7 +26,7 @@ namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
+use Celsius3\Form\Type\BaseUserType;
 
 final class NewUserViewController extends BaseUserController
 {

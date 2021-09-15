@@ -26,7 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\ContactType;
-use Celsius3\CoreBundle\Form\Type\ContactTypeType;
+use Celsius3\Form\Type\ContactTypeType;
 
 /**
  * ContactType controller.

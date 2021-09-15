@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\Catalog;
 
 use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Form\Type\CatalogType;
+use Celsius3\Form\Type\CatalogType;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;

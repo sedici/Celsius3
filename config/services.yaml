@@ -74,13 +74,13 @@ services:
 
     # Formulario de registro personalizado
     registration.form.type:
-        class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
-        arguments: [ "@doctrine.orm.entity_manager", "@service_container" ]
+        class: Celsius3\Form\Type\RegistrationFormType
+        arguments: [ "@doctrine.orm.entity_manager", "@celsius3_core.instance_helper" ]
         tags:
             - { name: form.type }
 
     profile.form.type:
-        class: Celsius3\CoreBundle\Form\Type\ProfileFormType
+        class: Celsius3\Form\Type\ProfileFormType
         arguments: [ "%fos_user.model.user.class%" ]
         tags:
             - { name: form.type }
@@ -152,9 +152,6 @@ services:
 
     Celsius3\CoreBundle\Manager\InstanceManager:
         alias: celsius3_core.instance_manager
-
-    Celsius3\CoreBundle\Manager\FilterManager:
-        alias: celsius3_core.filter_manager
 
     Celsius3\CoreBundle\Helper\ConfigurationHelper:
         alias: celsius3_core.configuration_helper

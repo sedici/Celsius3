@@ -26,8 +26,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Form\Type\CatalogType;
-use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
+use Celsius3\Form\Type\CatalogType;
+use Celsius3\Form\Type\Filter\CatalogFilterType;
 
 /**
  * Location controller.

@@ -26,8 +26,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Journal;
-use Celsius3\CoreBundle\Form\Type\JournalType;
-use Celsius3\CoreBundle\Form\Type\Filter\JournalFilterType;
+use Celsius3\Form\Type\JournalType;
+use Celsius3\Form\Type\Filter\JournalFilterType;
 use Celsius3\CoreBundle\Manager\CatalogManager;
 use Celsius3\CoreBundle\Exception\Exception;
 
