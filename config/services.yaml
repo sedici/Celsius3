@@ -49,7 +49,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     Celsius3\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,CoreBundle,ApiBundle,NotificationBundle,TicketBundle,MessageBundle}'
+        exclude: '../src/{DependencyInjection,Entity,Form/EventListener,Migrations,Tests,Kernel.php,CoreBundle,ApiBundle,NotificationBundle,TicketBundle,MessageBundle}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

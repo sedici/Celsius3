@@ -20,13 +20,13 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Form\DataTransformer;
+namespace Celsius3\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;
 
-class OrderToIdTransformer implements DataTransformerInterface
+class UserToIdTransformer implements DataTransformerInterface
 {
     private $em;
 
@@ -36,26 +36,25 @@ class OrderToIdTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms an object (Order) to a string (id).
+     * Transforms an object (BaseUser) to a string (id).
      *
-     * @param  Order|null $order
+     * @param  BaseUser|null $user
      * @return string
      */
-    public function transform($order)
+    public function transform($user)
     {
-        if (null === $order) {
+        if (null === $user) {
             return "";
         }
-
-        return $order->getId();
+        return $user->getId();
     }
 
     /**
-     * Transforms a string (id) to an object (Order).
+     * Transforms a string (id) to an object (BaseUser).
      *
      * @param  string                        $id
-     * @return Order|null
-     * @throws TransformationFailedException if object (Order) is not found.
+     * @return BaseUser|null
+     * @throws TransformationFailedException if object (BaseUser) is not found.
      */
     public function reverseTransform($id)
     {
@@ -63,14 +62,14 @@ class OrderToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $order = $this->em->getRepository('Celsius3CoreBundle:Order')
-                ->find($id);
+        $user = $this->em->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findOneBy(array('id' => $id));
 
-        if (null === $order) {
+        if (null === $user) {
             throw new TransformationFailedException(
-            sprintf('An order with id "%s" does not exist!', $id));
+            sprintf('A user with id "%s" does not exist!', $id));
         }
 
-        return $order;
+        return $user;
     }
 }

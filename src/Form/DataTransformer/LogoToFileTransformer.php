@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Form\DataTransformer;
+namespace Celsius3\Form\DataTransformer;
 
 use Celsius3\CoreBundle\Manager\FileManager;
 use Symfony\Component\Form\DataTransformerInterface;

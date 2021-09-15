@@ -22,14 +22,13 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Form\EventListener;
+namespace Celsius3\Form\EventListener;
 
 use Celsius3\CoreBundle\Entity\CustomContactValue;
 use Celsius3\CoreBundle\Entity\CustomField;
 use Celsius3\CoreBundle\Entity\CustomUserValue;
 use Celsius3\CoreBundle\Entity\Instance;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

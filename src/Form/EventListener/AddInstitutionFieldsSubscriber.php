@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Form\EventListener;
+namespace Celsius3\Form\EventListener;
 
 use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Repository\CityRepository;

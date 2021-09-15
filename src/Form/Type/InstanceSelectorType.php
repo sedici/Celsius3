@@ -26,7 +26,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Celsius3\CoreBundle\Form\DataTransformer\InstanceToIdTransformer;
+use Celsius3\Form\DataTransformer\InstanceToIdTransformer;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -26,7 +26,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Celsius3\CoreBundle\Form\DataTransformer\UsersToUsernamesTransformer;
+use Celsius3\Form\DataTransformer\UsersToUsernamesTransformer;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
