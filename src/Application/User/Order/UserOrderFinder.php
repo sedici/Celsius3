@@ -27,7 +27,7 @@ namespace Celsius3\Application\User\Order;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Exception\EntityNotFoundException;
+use Celsius3\Exception\EntityNotFoundException;
 use Celsius3\Repository\OrderRepositoryInterface;
 
 final class UserOrderFinder

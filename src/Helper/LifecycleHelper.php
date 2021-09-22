@@ -37,7 +37,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\State;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;

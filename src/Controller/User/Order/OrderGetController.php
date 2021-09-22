@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Order;
 
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use JMS\DiExtraBundle\Annotation as DI;

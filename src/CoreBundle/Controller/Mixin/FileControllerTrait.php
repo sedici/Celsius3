@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller\Mixin;
 
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 trait FileControllerTrait

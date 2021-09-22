@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Contact;
 use Celsius3\Form\Type\SuperadminContactType;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 
 /**
  * Contact controller.

@@ -27,7 +27,7 @@ namespace Celsius3\CoreBundle\Manager;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManager;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;

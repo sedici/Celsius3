@@ -20,32 +20,29 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
-use Celsius3\CoreBundle\Manager\Alert;
-use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 
-class InstanceNotFoundException extends \RuntimeException implements Celsius3ExceptionInterface
+class CanNotDeleteRestException extends PreconditionFailedHttpException implements Celsius3ExceptionInterface
 {
-    private $router;
-
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, $exception->getMessage());
+        $response = new JsonResponse([
+            'error' => true,
+            'hasMessage' => true,
+            'message' => $exception->getMessage(),
+        ]);
 
-        $response = new RedirectResponse($this->router->generate('directory_homepage'));
+        $response->setStatusCode(405); // Method Not Allowed
+
         $event->setResponse($response);
 
         $logger->error($exception);
-    }
-
-    public function setRouter(Router $router)
-    {
-        $this->router = $router;
     }
 }

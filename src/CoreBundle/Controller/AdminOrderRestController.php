@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 
 /**
  * User controller.

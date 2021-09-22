@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Form\Type\InstanceType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;

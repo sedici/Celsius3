@@ -24,7 +24,7 @@ namespace Celsius3\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Celsius3\ApiBundle\Entity\AccessToken;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 
 class BaseController extends FOSRestController
 {

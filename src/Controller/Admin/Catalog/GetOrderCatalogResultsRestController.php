@@ -29,7 +29,7 @@ use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 

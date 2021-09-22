@@ -28,7 +28,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 
 /**
  * User controller.

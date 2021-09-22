@@ -20,13 +20,18 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Monolog\Logger;
 
-class PreviousStateNotFoundRestException extends \LogicException implements Celsius3ExceptionInterface
+/**
+ * Throw when the functionnality is not implemented.
+ *
+ * @author Cedric LOMBARDOT
+ */
+class NotImplementedRestException extends \LogicException implements Celsius3ExceptionInterface
 {
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
@@ -38,10 +43,10 @@ class PreviousStateNotFoundRestException extends \LogicException implements Cels
             'message' => $exception->getMessage(),
         ]);
 
-        $response->setsetStatusCode(404);
+        $response->setStatusCode(501);
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $logger->critical($exception);
     }
 }

@@ -22,7 +22,7 @@
 
 namespace Celsius3\Guesser;
 
-use Celsius3\CoreBundle\Exception\NotImplementedException;
+use Celsius3\Exception\NotImplementedException;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;

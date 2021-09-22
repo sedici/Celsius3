@@ -20,15 +20,15 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bridge\Monolog\Logger;
 
-class CanNotDeleteException extends PreconditionFailedHttpException implements Celsius3ExceptionInterface
+class ExceptionNotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {

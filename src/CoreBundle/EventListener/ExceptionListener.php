@@ -23,8 +23,8 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
+use Celsius3\Exception\Exception;
+use Celsius3\Exception\Celsius3ExceptionInterface;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Routing\Router;
 

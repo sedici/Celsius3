@@ -20,14 +20,14 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 
-class CanNotDeleteRestException extends PreconditionFailedHttpException implements Celsius3ExceptionInterface
+class NotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
@@ -39,7 +39,7 @@ class CanNotDeleteRestException extends PreconditionFailedHttpException implemen
             'message' => $exception->getMessage(),
         ]);
 
-        $response->setStatusCode(405); // Method Not Allowed
+        $response->setStatusCode(404);
 
         $event->setResponse($response);
 

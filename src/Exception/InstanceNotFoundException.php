@@ -20,33 +20,32 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\Routing\Router;
 
-/**
- * Throw when the functionnality is not implemented.
- *
- * @author Cedric LOMBARDOT
- */
-class NotImplementedRestException extends \LogicException implements Celsius3ExceptionInterface
+class InstanceNotFoundException extends \RuntimeException implements Celsius3ExceptionInterface
 {
+    private $router;
+
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
-        $response = new JsonResponse([
-            'error' => true,
-            'hasMessage' => true,
-            'message' => $exception->getMessage(),
-        ]);
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
-        $response->setStatusCode(501);
-
+        $response = new RedirectResponse($this->router->generate('directory_homepage'));
         $event->setResponse($response);
 
-        $logger->critical($exception);
+        $logger->error($exception);
+    }
+
+    public function setRouter(Router $router)
+    {
+        $this->router = $router;
     }
 }

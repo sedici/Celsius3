@@ -29,7 +29,7 @@ use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\Filter\JournalFilterType;
 use Celsius3\CoreBundle\Manager\CatalogManager;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 
 /**
  * Location controller.

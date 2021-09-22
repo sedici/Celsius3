@@ -20,13 +20,14 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Monolog\Logger;
 
-class RenderTemplateRestException extends \RuntimeException implements Celsius3ExceptionInterface
+class AccessDeniedRestException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
 {
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
@@ -38,7 +39,7 @@ class RenderTemplateRestException extends \RuntimeException implements Celsius3E
             'message' => $exception->getMessage(),
         ]);
 
-        $response->setStatusCode(500);
+        $response->setStatusCode(401); // Unauthorized
 
         $event->setResponse($response);
 

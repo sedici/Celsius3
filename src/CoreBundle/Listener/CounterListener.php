@@ -26,7 +26,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\CoreBundle\Entity\Counter;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 
 class CounterListener
 {

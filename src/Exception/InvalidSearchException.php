@@ -20,27 +20,22 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Celsius3\CoreBundle\Manager\Alert;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bridge\Monolog\Logger;
 
-class EntityNotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
+class InvalidSearchException extends \InvalidArgumentException implements Celsius3ExceptionInterface
 {
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
-        $response = new JsonResponse([
-            'error' => true,
-            'hasMessage' => true,
-            'message' => $exception->getMessage(),
-        ]);
+        Alert::add(Alert::WARNING, 'Invalid search. Only letters, numbers and spaces are allowed.');
 
-        $response->setStatusCode(404);
-
+        $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
         $logger->error($exception);

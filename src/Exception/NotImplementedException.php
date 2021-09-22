@@ -20,20 +20,25 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
-use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bridge\Monolog\Logger;
 
-class RenderTemplateException extends \RuntimeException implements Celsius3ExceptionInterface
+/**
+ * Throw when the functionnality is not implemented.
+ *
+ * @author Cedric LOMBARDOT
+ */
+class NotImplementedException extends \LogicException implements Celsius3ExceptionInterface
 {
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, $exception->getMessage());
+        Alert::add(Alert::WARNING, $exception->getMessage());
 
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);

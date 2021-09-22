@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Superadmin\BaseUser;
 
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;

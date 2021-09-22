@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Order;
 
 use Celsius3\Application\User\Order\UserOrderFinder;
-use Celsius3\CoreBundle\Exception\EntityNotFoundException;
+use Celsius3\Exception\EntityNotFoundException;
 use Celsius3\Helper\InstanceHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Exception\Exception;
 use FOS\UserBundle\Controller\RegistrationController as BaseRegistrationController;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;

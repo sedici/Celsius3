@@ -26,7 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
-use Celsius3\CoreBundle\Exception\NotFoundException;
+use Celsius3\Exception\NotFoundException;
 
 /**
  * File controller.

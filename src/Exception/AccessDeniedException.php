@@ -20,34 +20,25 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\Routing\Router;
 
-class EntityNotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
+class AccessDeniedException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
 {
-    private $router;
-
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
         Alert::add(Alert::ERROR, $exception->getMessage());
 
-        $referer = $event->getRequest()->headers->get('referer');
-        $response = new RedirectResponse(!empty($referer) ? $referer : $this->router->generate('administration'));
-
+        $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
         $logger->error($exception);
-    }
-
-    public function setRouter(Router $router) {
-        $this->router = $router;
     }
 }
