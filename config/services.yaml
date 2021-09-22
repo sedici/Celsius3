@@ -158,3 +158,8 @@ services:
 
     Celsius3\CoreBundle\Manager\StateManager:
         alias: celsius3_core.state_manager
+        
+    Celsius3\Twig\AssetsExtension:
+        tags:
+            - { name: twig.extension }
+        arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']

@@ -22,10 +22,10 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Twig;
+namespace Celsius3\Twig;
 
 use Celsius3\CoreBundle\Entity\MailTemplate;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\TwigTest;
@@ -36,7 +36,7 @@ class InstanceExtension extends AbstractExtension
 {
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -47,7 +47,7 @@ class InstanceExtension extends AbstractExtension
             new TwigTest(
                 'valid_logo',
                 static function ($file) {
-                    return file_exists(__DIR__.'/../../../../web/uploads/logos/'.$file);
+                    return file_exists(__DIR__ . '/../../../../web/uploads/logos/' . $file);
                 }
             ),
         ];

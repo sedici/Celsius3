@@ -22,45 +22,36 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Twig;
+namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\MaterialType;
+use Celsius3\CoreBundle\Entity\OrdersDataRequest;
+use Celsius3\CoreBundle\Entity\UsersDataRequest;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use function get_class;
 
-class MaterialTypeExtension extends AbstractExtension
+final class DataRequestExportPathSelector extends AbstractExtension
 {
-    private const MATERIALS = [
-        'BookType' => 'book',
-        'CongressType' => 'congress',
-        'JournalType' => 'journal',
-        'PatentType' => 'patent',
-        'ThesisType' => 'thesis',
-        'NewspaperType' => 'newspaper'
-    ];
-
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_material_type', [$this, 'getMaterialType']),
+            new TwigFunction('get_data_request_export_path', [$this, 'getDataRequestExportPath']),
         ];
     }
 
-    public function getMaterialType(MaterialType $material): string
+    public function getDataRequestExportPath($object): string
     {
-        return self::MATERIALS[$this->getClassName($material)];
-    }
+        $path = '';
 
-    private function getClassName(MaterialType $material)
-    {
-        $class = explode('\\', get_class($material));
+        switch (get_class($object)) {
+            case OrdersDataRequest::class:
+                $path = 'superadmin_orders_data_request_export';
+                break;
+            case UsersDataRequest::class:
+                $path = 'superadmin_users_data_request_export';
+                break;
+        }
 
-        return end($class);
-    }
-
-    public function getName(): string
-    {
-        return 'celsius3_core.material_type_extension';
+        return $path;
     }
 }

@@ -22,21 +22,25 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Twig;
+namespace Celsius3\Twig;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\CoreBundle\Manager\UserManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class JournalExtension extends AbstractExtension
 {
-    private $container;
+    private $entityManager;
+    private $userManager;
 
-    public function __construct($container)
+    public function __construct(EntityManagerInterface $entityManager, UserManager $userManager)
     {
-        $this->container = $container;
+        $this->entityManager = $entityManager;
+        $this->userManager = $userManager;
     }
 
     public function getName(): string
@@ -53,8 +57,8 @@ class JournalExtension extends AbstractExtension
 
     public function isEditableJournal(Journal $journal, Instance $instance, BaseUser $user): bool
     {
-        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
-        $user_manager = $this->container->get('celsius3_core.user_manager');
+        $entity_manager = $this->entityManager;
+        $user_manager = $this->userManager;
 
         if ($user_manager->getCurrentRole($user) === 'ROLE_SUPER_ADMIN') {
             return true;

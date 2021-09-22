@@ -22,12 +22,12 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Twig;
+namespace Celsius3\Twig;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\UserManager;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -40,7 +40,7 @@ class AdministrationExtension extends AbstractExtension
 {
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

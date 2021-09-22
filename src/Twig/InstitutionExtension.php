@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Twig;
+namespace Celsius3\Twig;
 
 use Celsius3\CoreBundle\Entity\Institution;
 use Twig\Extension\AbstractExtension;
@@ -59,7 +59,7 @@ class InstitutionExtension extends AbstractExtension
         $txt = '';
         if ($institution !== null) {
             if ($institution->getParent() !== null) {
-                $txt .= $this->printInstitutions($institution->getParent()).' - '.$institution->getName();
+                $txt .= $this->printInstitutions($institution->getParent()) . ' - ' . $institution->getName();
             } else {
                 $txt .= $institution->getName();
             }

@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Twig;
+namespace Celsius3\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
