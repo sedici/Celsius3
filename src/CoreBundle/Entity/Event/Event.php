@@ -27,7 +27,7 @@ namespace Celsius3\CoreBundle\Entity\Event;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\State;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\Helper\LifecycleHelper;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;

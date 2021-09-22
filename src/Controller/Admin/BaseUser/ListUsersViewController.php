@@ -26,8 +26,8 @@ namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;
 use Knp\Component\Pager\Paginator;

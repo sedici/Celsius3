@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Form\Type\OrderType;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

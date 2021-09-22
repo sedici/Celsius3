@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Exception\NotFoundException;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Doctrine\ORM\EntityManagerInterface;

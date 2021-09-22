@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\CoreBundle\Mailer;
 
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Helper\MailerHelper;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Helper\MailerHelper;
 use Celsius3\CoreBundle\Manager\MailManager;
 use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
 use FOS\UserBundle\Model\UserInterface;

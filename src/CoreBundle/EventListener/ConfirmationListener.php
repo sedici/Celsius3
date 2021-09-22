@@ -30,7 +30,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\Helper\ConfigurationHelper;
 
 class ConfirmationListener implements EventSubscriberInterface
 {

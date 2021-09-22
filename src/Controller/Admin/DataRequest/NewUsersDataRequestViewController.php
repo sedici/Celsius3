@@ -27,7 +27,7 @@ namespace Celsius3\Controller\Admin\DataRequest;
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\UsersDataRequest;
 use Celsius3\Form\Type\UsersDataRequestType;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

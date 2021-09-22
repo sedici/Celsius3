@@ -231,13 +231,13 @@ services:
         class: Celsius3\CoreBundle\Helper\LifecycleHelper
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.state_manager', '@celsius3_core.event_manager', '@celsius3_core.file_manager', '@celsius3_core.instance_helper', '@security.token_storage', '@logger']
     celsius3_core.configuration_helper:
-        class: Celsius3\CoreBundle\Helper\ConfigurationHelper
+        class: Celsius3\Helper\ConfigurationHelper
         arguments: ['@service_container']
     celsius3_core.custom_field_helper:
-        class: Celsius3\CoreBundle\Helper\CustomFieldHelper
+        class: Celsius3\Helper\CustomFieldHelper
         arguments: ['@request_stack', '@doctrine.orm.entity_manager']
     celsius3_core.instance_helper:
-        class: Celsius3\CoreBundle\Helper\InstanceHelper
+        class: Celsius3\Helper\InstanceHelper
         arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
         public: true
     celsius3_core.database_helper:
@@ -286,7 +286,7 @@ services:
         public: false
         arguments: ['@router', '@templating', { confirmation.template: '%fos_user.registration.confirmation.template%', resetting.template: '%fos_user.resetting.email.template%', from_email: { confirmation: '%fos_user.registration.confirmation.from_email%', resetting: '%fos_user.resetting.email.from_email%' } }, '@request_stack', '@celsius3_core.instance_helper', '@celsius3_core.mailer_helper', '@celsius3_core.mail_manager', '@twig']
     celsius3_core.mailer_helper:
-        class: Celsius3\CoreBundle\Helper\MailerHelper
+        class: Celsius3\Helper\MailerHelper
         arguments: ['@service_container']
     celsius3_core.security.user_provider.username_email:
         class: Celsius3\CoreBundle\Security\UserProvider

@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
 use FOS\UserBundle\Util\CanonicalFieldsUpdater;

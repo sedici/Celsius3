@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\Helper\LifecycleHelper;
 
 interface EventInterface
 {

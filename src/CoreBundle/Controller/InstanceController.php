@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Validator\Constraints\ContainsCSS;
 use Celsius3\CoreBundle\Exception\Exception;
 use JMS\TranslationBundle\Annotation\Ignore;

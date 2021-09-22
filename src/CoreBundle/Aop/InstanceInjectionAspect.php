@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Aop;
 use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 
 class InstanceInjectionAspect implements MethodInterceptorInterface, PointcutInterface
 {

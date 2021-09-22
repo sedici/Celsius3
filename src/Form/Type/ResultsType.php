@@ -25,7 +25,7 @@ namespace Celsius3\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\Helper\ConfigurationHelper;
 
 class ResultsType extends AbstractType
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,27 +22,26 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Helper;
+namespace Celsius3\Helper;
 
 use Celsius3\CoreBundle\Entity\Configuration;
 use Celsius3\CoreBundle\Validator\Constraints\EmailDomain;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
-use Celsius3\Form\Type\LanguageType;
 use Celsius3\Form\Type\ConfirmationType;
-use Celsius3\Form\Type\ResultsType;
+use Celsius3\Form\Type\LanguageType;
 use Celsius3\Form\Type\LogoSelectorType;
-use Symfony\Component\Validator\Constraints\Email;
+use Celsius3\Form\Type\ResultsType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ConfigurationHelper
 {
@@ -82,23 +83,6 @@ class ConfigurationHelper
     public const CONF__HOME_STATISTICS_VISIBLE = 'home_statistics_visible';
     public const CONF__HOME_HELP_VISIBLE = 'home_help_visible';
     public const CONF__EMAIL_DOMAIN_FOR_REGISTRATION = 'email_domain_for_registration';
-
-    private $equivalences = array(
-        'string' => TextType::class,
-        'boolean' => CheckboxType::class,
-        'integer' => IntegerType::class,
-        'email' => EmailType::class,
-        'text' => TextareaType::class,
-        'language' => LanguageType::class,
-        'confirmation' => ConfirmationType::class,
-        'results' => ResultsType::class,
-        'file' => FileType::class,
-        'password' => PasswordType::class,
-        'image' => LogoSelectorType::class,
-        'time' => TimeType::class,
-        'select' => ChoiceType::class,
-        'hidden' => HiddenType::class,
-    );
     public $languages = array(
         'Spanish' => 'es',
         'English' => 'en',
@@ -328,6 +312,22 @@ class ConfigurationHelper
             'required' => false,
         ),
     );
+    private $equivalences = array(
+        'string' => TextType::class,
+        'boolean' => CheckboxType::class,
+        'integer' => IntegerType::class,
+        'email' => EmailType::class,
+        'text' => TextareaType::class,
+        'language' => LanguageType::class,
+        'confirmation' => ConfirmationType::class,
+        'results' => ResultsType::class,
+        'file' => FileType::class,
+        'password' => PasswordType::class,
+        'image' => LogoSelectorType::class,
+        'time' => TimeType::class,
+        'select' => ChoiceType::class,
+        'hidden' => HiddenType::class,
+    );
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -337,10 +337,51 @@ class ConfigurationHelper
         $this->configureConstraints();
     }
 
+    private function configureConstraints()
+    {
+        $message = 'Invalid image size. The image must be a maximum of ' . $this->getHeight(
+        ) . 'px wide x ' . $this->getWidth() . 'px high.';
+
+        $image_constraints = new Image(
+            [
+                'mimeTypes' => ['image/png', 'image/jpeg'],
+                'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
+                'maxWidth' => $this->getWidth(),
+                'maxHeight' => $this->getHeight(),
+                'maxWidthMessage' => $message,
+                'minWidthMessage' => $message,
+                'maxHeightMessage' => $message,
+                'minHeightMessage' => $message,
+            ]
+        );
+
+        $this->configurations[self::CONF__INSTANCE_LOGO]['constraints'] = [$image_constraints];
+
+        $this->configurations[self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION]['constraints'] = [
+            new EmailDomain([
+                                'message' => $this->container->get('translator')->trans(
+                                    'The domain is not valid',
+                                    [],
+                                    'Celsius3CoreBundle_Form'
+                                ),
+                            ]),
+        ];
+    }
+
+    private function getHeight()
+    {
+        return 100;
+    }
+
+    private function getWidth()
+    {
+        return 200;
+    }
+
     public function guessConfigurationType(Configuration $configuration)
     {
         return (array_key_exists($configuration->getType(), $this->equivalences)) ? $this
-                ->equivalences[$configuration->getType()] : 'text';
+            ->equivalences[$configuration->getType()] : 'text';
     }
 
     public function getCastedValue(Configuration $configuration)
@@ -349,11 +390,11 @@ class ConfigurationHelper
 
         switch ($configuration->getType()) {
             case 'boolean':
-                $value = (bool) $configuration->getValue();
+                $value = (bool)$configuration->getValue();
                 break;
             case 'integer':
             case 'results':
-                $value = (int) $configuration->getValue();
+                $value = (int)$configuration->getValue();
                 break;
             case 'file':
                 $value = null;
@@ -406,42 +447,8 @@ class ConfigurationHelper
 
     public function getConstraints(Configuration $configuration)
     {
-        return (isset($this->configurations[$configuration->getKey()]['constraints'])) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
-    }
-
-    private function getHeight()
-    {
-        return 100;
-    }
-
-    private function getWidth()
-    {
-        return 200;
-    }
-
-    private function configureConstraints()
-    {
-        $message = 'Invalid image size. The image must be a maximum of '.$this->getHeight().'px wide x '.$this->getWidth().'px high.';
-
-        $image_constraints = new Image(
-            [
-                'mimeTypes' => ['image/png', 'image/jpeg'],
-                'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
-                'maxWidth' => $this->getWidth(),
-                'maxHeight' => $this->getHeight(),
-                'maxWidthMessage' => $message,
-                'minWidthMessage' => $message,
-                'maxHeightMessage' => $message,
-                'minHeightMessage' => $message,
-            ]
-        );
-
-        $this->configurations[self::CONF__INSTANCE_LOGO]['constraints'] = [$image_constraints];
-
-        $this->configurations[self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION]['constraints'] = [
-            new EmailDomain([
-                'message' => $this->container->get('translator')->trans('The domain is not valid', [], 'Celsius3CoreBundle_Form'),
-            ]),
-        ];
+        return (isset(
+            $this->configurations[$configuration->getKey()]['constraints']
+        )) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
     }
 }

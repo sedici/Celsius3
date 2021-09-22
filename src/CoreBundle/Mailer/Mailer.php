@@ -24,8 +24,8 @@ namespace Celsius3\CoreBundle\Mailer;
 
 use Celsius3\CoreBundle\Entity\Email;
 use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Helper\MailerHelper;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;

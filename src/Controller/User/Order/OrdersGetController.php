@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Order;
 
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;

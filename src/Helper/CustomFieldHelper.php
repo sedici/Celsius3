@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,7 +22,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Helper;
+namespace Celsius3\Helper;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Contact;
@@ -28,7 +30,7 @@ use Celsius3\CoreBundle\Entity\CustomContactValue;
 use Celsius3\CoreBundle\Entity\CustomField;
 use Celsius3\CoreBundle\Entity\CustomUserValue;
 use Celsius3\CoreBundle\Entity\Instance;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -37,7 +39,7 @@ class CustomFieldHelper
     private $requestStack;
     private $entityManager;
 
-    public function __construct(RequestStack $requestStack, EntityManager $entityManager)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
@@ -47,9 +49,9 @@ class CustomFieldHelper
     {
         $fields = $this->entityManager->getRepository(CustomField::class)
             ->findBy([
-                'instance' => $instance->getId(),
-                'entity' => 'BaseUser'
-            ]);
+                         'instance' => $instance->getId(),
+                         'entity' => 'BaseUser'
+                     ]);
 
         $data = $this->requestStack->getCurrentRequest()->get($form->getName());
 
@@ -58,9 +60,9 @@ class CustomFieldHelper
                 $value = $this->entityManager
                     ->getRepository(CustomUserValue::class)
                     ->findOneBy([
-                        'field' => $field->getId(),
-                        'user' => $user->getId()
-                    ]);
+                                    'field' => $field->getId(),
+                                    'user' => $user->getId()
+                                ]);
 
                 if (!$value) {
                     $value = new CustomUserValue();
@@ -78,9 +80,9 @@ class CustomFieldHelper
     {
         $fields = $this->entityManager->getRepository(CustomField::class)
             ->findBy([
-                'instance' => $instance->getId(),
-                'entity' => 'Contact'
-            ]);
+                         'instance' => $instance->getId(),
+                         'entity' => 'Contact'
+                     ]);
 
         $data = $this->requestStack->getCurrentRequest()->get($form->getName());
 
@@ -89,9 +91,9 @@ class CustomFieldHelper
                 $value = $this->entityManager
                     ->getRepository(CustomContactValue::class)
                     ->findOneBy([
-                        'field' => $field->getId(),
-                        'contact' => $contact->getId()
-                    ]);
+                                    'field' => $field->getId(),
+                                    'contact' => $contact->getId()
+                                ]);
 
                 if (!$value) {
                     $value = new CustomContactValue();

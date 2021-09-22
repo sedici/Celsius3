@@ -26,7 +26,7 @@ namespace Celsius3\Controller\User\Order;
 
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\Form\Type\OrderType;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 

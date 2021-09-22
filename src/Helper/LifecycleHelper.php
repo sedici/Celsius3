@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Helper;
+namespace Celsius3\Helper;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Event\AnnulEvent;
@@ -41,9 +41,9 @@ use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use function array_key_exists;
 use function count;
@@ -59,12 +59,12 @@ class LifecycleHelper
     private $logger;
 
     public function __construct(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         StateManager $stateManager,
         EventManager $eventManager,
         FileManager $fileManager,
         InstanceHelper $instanceHelper,
-        TokenStorage $securityTokenStorage,
+        TokenStorageInterface $securityTokenStorage,
         LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;

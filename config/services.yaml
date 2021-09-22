@@ -138,23 +138,11 @@ services:
     FOS\MessageBundle\ModelManager\ThreadManagerInterface:
         alias: celsius3_message.thread_manager.default
 
-    Celsius3\CoreBundle\Helper\CustomFieldHelper:
-        alias: celsius3_core.custom_field_helper
-
-    Celsius3\CoreBundle\Helper\LifecycleHelper:
-        alias: celsius3_core.lifecycle_helper
-
     Celsius3\CoreBundle\Manager\EventManager:
         alias: celsius3_core.event_manager
 
-    Celsius3\CoreBundle\Helper\InstanceHelper:
-        alias: celsius3_core.instance_helper
-
     Celsius3\CoreBundle\Manager\InstanceManager:
         alias: celsius3_core.instance_manager
-
-    Celsius3\CoreBundle\Helper\ConfigurationHelper:
-        alias: celsius3_core.configuration_helper
 
     Celsius3\CoreBundle\Manager\FileManager:
         alias: celsius3_core.file_manager
@@ -167,3 +155,6 @@ services:
         
     Celsius3\CoreBundle\Manager\UserManager:
         alias: celsius3_core.user_manager
+
+    Celsius3\CoreBundle\Manager\StateManager:
+        alias: celsius3_core.state_manager

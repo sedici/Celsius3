@@ -26,7 +26,7 @@ namespace Celsius3\Controller\Admin\Catalog;
 
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\Form\Type\Filter\CatalogFilterType;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;

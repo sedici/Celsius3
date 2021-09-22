@@ -27,7 +27,7 @@ namespace Celsius3\Controller\Admin\BaseUser;
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Helper\CustomFieldHelper;
+use Celsius3\Helper\CustomFieldHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;

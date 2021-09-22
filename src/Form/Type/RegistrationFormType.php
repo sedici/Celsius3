@@ -26,7 +26,7 @@ namespace Celsius3\Form\Type;
 
 use Celsius3\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as FOSRegistrationFormType;

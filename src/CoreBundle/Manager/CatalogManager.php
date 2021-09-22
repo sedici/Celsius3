@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Manager;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 
 class CatalogManager
 {

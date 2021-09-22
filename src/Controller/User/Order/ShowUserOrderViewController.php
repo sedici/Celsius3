@@ -26,7 +26,7 @@ namespace Celsius3\Controller\User\Order;
 
 use Celsius3\Application\User\Order\UserOrderFinder;
 use Celsius3\CoreBundle\Exception\EntityNotFoundException;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\Helper\InstanceHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ShowUserOrderViewController extends AbstractController

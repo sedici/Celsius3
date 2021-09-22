@@ -30,7 +30,7 @@ use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\State;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
