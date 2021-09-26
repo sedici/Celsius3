@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,21 +22,28 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Celsius3\CoreBundle\Entity\CatalogResult;
+use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\CoreBundle\Manager\CatalogManager;
+use Doctrine\ORM\EntityManagerInterface;
+use PDO;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Entity\CatalogResult;
-use Celsius3\CoreBundle\Manager\CatalogManager;
 
-class FixSearchesCommand extends ContainerAwareCommand
+class FixSearchesCommand extends Command
 {
-    private $positive = array(
+    private $positive = [
         CatalogManager::CATALOG__FOUND,
         CatalogManager::CATALOG__PARTIALLY_FOUND,
-    );
+    ];
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -59,19 +68,19 @@ class FixSearchesCommand extends ContainerAwareCommand
 
             $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';
             foreach ($events as $event) {
-                echo 'Updating search '.$event->getId()."\n";
+                echo 'Updating search ' . $event->getId() . "\n";
                 $query = $conn->prepare($sql);
                 $id = $event->getId();
                 $entity = 'busquedas';
                 $query->bindParam('id', $id);
-                $query->bindParam('entity', $entity, \PDO::PARAM_STR);
+                $query->bindParam('entity', $entity, PDO::PARAM_STR);
                 $query->execute();
 
                 $t = $query->fetch();
                 $data = unserialize(base64_decode($t['tuple']));
                 if ($data) {
                     if ($event->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
-                        if (!is_null($event->getRequest()->getOrder()->getMaterialData()->getJournal())) {
+                        if ($event->getRequest()->getOrder()->getMaterialData()->getJournal() !== null) {
                             $title = $event->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
                         } else {
                             $title = $event->getRequest()->getOrder()->getMaterialData()->getOther();
@@ -80,7 +89,7 @@ class FixSearchesCommand extends ContainerAwareCommand
                         $title = $event->getRequest()->getOrder()->getMaterialData()->getTitle();
                     }
 
-                    if (!is_null($title)) {
+                    if ($title !== null) {
                         $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
                             ->getCatalogResultByTitle($event->getCatalog(), $title)
                             ->getQuery()->getOneOrNullResult();

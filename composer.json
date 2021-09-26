@@ -9,6 +9,7 @@
     "ext-fileinfo": "*",
     "ext-iconv": "*",
     "ext-json": "*",
+    "ext-pdo": "*",
     "ext-zip": "*",
     "ext-zmq": "*",
     "beberlei/doctrineextensions": "~1.0",

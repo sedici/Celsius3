@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,14 +22,35 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\DBAL\Driver\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use PDO;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixFilesCommand extends ContainerAwareCommand
+use function array_key_exists;
+
+class FixFilesCommand extends Command
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(EntityManagerInterface $entityManager, Connection $connection)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+        $this->connection = $connection;
+    }
+
     protected function configure()
     {
         $this->setName('celsius3:fix-files')
@@ -36,8 +59,8 @@ class FixFilesCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $conn = $this->getContainer()->get('doctrine.dbal.default_connection');
+        $em = $this->entityManager;
+        $conn = $this->connection;
 
         $limit = 1000;
         $offset = 0;
@@ -51,18 +74,18 @@ class FixFilesCommand extends ContainerAwareCommand
 
             $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';
             foreach ($files as $file) {
-                echo 'Updating file '.$file->getId()."\n";
+                echo 'Updating file ' . $file->getId() . "\n";
                 $query = $conn->prepare($sql);
                 $id = $file->getId();
                 $entity = 'archivos_pedidos';
                 $query->bindParam('id', $id);
-                $query->bindParam('entity', $entity, \PDO::PARAM_STR);
+                $query->bindParam('entity', $entity, PDO::PARAM_STR);
                 $query->execute();
 
                 $t = $query->fetch();
                 $data = unserialize(base64_decode($t['tuple']));
                 if ($data && array_key_exists('borrado', $data)) {
-                    $file->setEnabled(!((bool) $data['borrado']));
+                    $file->setEnabled(!((bool)$data['borrado']));
                     $em->persist($file);
                 }
                 unset($query, $t, $data, $file);

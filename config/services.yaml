@@ -44,6 +44,8 @@ services:
         # The best practice is to be explicit about your dependencies anyway.
         bind:
             $maxPerPage: '%max_per_page%'
+            $dataRequestDirectory: '%data_requests_directory%'
+            $virtualHostConfigFile: '%virtual_host_config_file%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -163,3 +165,6 @@ services:
         tags:
             - { name: twig.extension }
         arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']
+
+    Celsius3\CoreBundle\Mailer\Mailer:
+        alias:  celsius3_core.mailer

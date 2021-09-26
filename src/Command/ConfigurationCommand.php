@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,27 +22,35 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Celsius3\Helper\ConfigurationHelper;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConfigurationCommand extends ContainerAwareCommand
+class ConfigurationCommand extends Command
 {
+    private $configurationHelper;
+
+    public function __construct(ConfigurationHelper $configurationHelper)
+    {
+        parent::__construct();
+        $this->configurationHelper = $configurationHelper;
+    }
 
     protected function configure()
     {
         $this->setName('celsius3:configuration:update')
-                ->setDescription('Updates every instance configuration.');
+            ->setDescription('Updates every instance configuration.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationHelper = $this->getContainer()->get('celsius3_core.configuration_helper');
-
         $output->writeln('Updating configurations');
 
-        $configurationHelper->updateConfigurations();
+        $this->configurationHelper->updateConfigurations();
+
+        return 0;
     }
 }

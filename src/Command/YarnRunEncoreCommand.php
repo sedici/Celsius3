@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,34 +22,37 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixSIReceiveEventsCommand extends ContainerAwareCommand
+class YarnRunEncoreCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('celsius3:fix-receives')
-            ->setDescription('Corrige un error en la recepción de algunos pedidos.');
+        $this->setName('celsius3:yarn:encore')
+            ->setDescription('Package assets')
+            ->addArgument('env', InputArgument::OPTIONAL, 'Environment', 'dev')
+            ->addOption('watch', 'w', InputOption::VALUE_NONE, 'Watch mode');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $env = $input->getArgument('env');
+        $watch = $input->getOption('watch');
 
-        $events = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceReceiveEvent')
-                ->getEventsWithoutDeliveryType()->getQuery()->execute();
-
-        foreach ($events as $event) {
-            echo 'Updating Event '.$event->getId()."\n";
-            $owner = $event->getRequest()->getOwner();
-            $event->setDeliveryType($owner->getPdf() ? 'pdf' : 'printed');
-            $em->persist($event);
-            $em->flush($event);
+        $params = '';
+        if ($watch) {
+            $params .= ' --watch';
         }
-        $em->clear();
+
+        $output->writeln('Packaging assets');
+        $output->writeln(shell_exec("yarn encore $env $params"));
+
+        return 0;
     }
 }

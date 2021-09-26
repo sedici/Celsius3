@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,7 +22,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
 use Celsius3\CoreBundle\Entity\BookType;
 use Celsius3\CoreBundle\Entity\CongressType;
@@ -30,14 +32,18 @@ use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\OrdersDataRequest;
 use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Entity\ThesisType;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use ZipArchive;
 
-class ExportOrdersDataCommand extends ContainerAwareCommand
+use function array_key_exists;
+use function is_array;
+
+class ExportOrdersDataCommand extends Command
 {
     private $materialTypeJoined = false;
     private $journalTypeJoined = false;
@@ -46,6 +52,15 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
     private $congressTypeJoined = false;
     private $statesJoined = false;
     private $requestJoined = false;
+    private $entityManager;
+    private $dataRequestDirectory;
+
+    public function __construct(EntityManagerInterface $entityManager, string $dataRequestDirectory)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+        $this->dataRequestDirectory = $dataRequestDirectory;
+    }
 
     protected function configure()
     {
@@ -56,41 +71,49 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        /** @var DataRequest $dr */
-        $dr = $em->find(OrdersDataRequest::class, (int)$input->getArgument('orders-data-request-id'));
-        $filename = $dr->getInstance()->getAbbreviation() . '_' . str_replace(' ', '_', $dr->getName()) . '_' . $dr->getStartDate()->format('Ymd') . '_' . $dr->getEndDate()->format('Ymd') . '.csv';
-        $directory = $this->getContainer()->getParameter('data_requests_directory');
+        /** @var DataRequest $dataRequest */
+        $dataRequest = $this->entityManager->find(
+            OrdersDataRequest::class,
+            (int)$input->getArgument('orders-data-request-id')
+        );
+        $filename = $dataRequest->getInstance()->getAbbreviation() . '_' . str_replace(
+            ' ',
+            '_',
+            $dataRequest->getName()
+        ) . '_' . $dataRequest->getStartDate()->format('Ymd') . '_' . $dataRequest->getEndDate()->format(
+            'Ymd'
+        ) . '.csv';
 
-        $qb = $em->getRepository(Order::class)->createQueryBuilder('o');
-        $qb->select('o.code');
+        $directory = $this->dataRequestDirectory;
 
-        foreach ($dr->getArrayData() as $d) {
-            if (is_array($d)) {
-                $c = current($d);
-                $this->join(key($d), $qb);
-                foreach ($c as $v) {
-                    $this->add($v, $qb);
+        $queryBuilder = $this->entityManager->getRepository(Order::class)->createQueryBuilder('o');
+        $queryBuilder->select('o.code');
+
+        foreach ($dataRequest->getArrayData() as $data) {
+            if (is_array($data)) {
+                $current = current($data);
+                $this->join(key($data), $queryBuilder);
+                foreach ($current as $value) {
+                    $this->add($value, $queryBuilder);
                 }
             } else {
-                $this->add($d, $qb);
+                $this->add($data, $queryBuilder);
             }
         }
 
-        $this->whereInstance($qb, $dr);
-        $this->whereDates($qb, $dr);
+        $this->whereInstance($queryBuilder, $dataRequest);
+        $this->whereDates($queryBuilder, $dataRequest);
 
 
-        $qb2 = clone($qb);
+        $qb2 = clone($queryBuilder);
         $qb2->setMaxResults(1);
         $keys = array_keys($qb2->getQuery()->getArrayResult()[0]);
 
         $handle = fopen($directory . $filename, 'w+');
         fputcsv($handle, $keys, ';', '"', '\\');
 
-        $results = $qb->getQuery()->iterate();
-        while (false !== ($row = $results->next())) {
+        $results = $queryBuilder->getQuery()->iterate();
+        while (($row = $results->next()) !== false) {
             $arr = current($row);
             if (array_key_exists('date', $arr)) {
                 $arr['date'] = $arr['date']->format('Y-m-d');
@@ -100,9 +123,9 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
         }
         fclose($handle);
 
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         $zipFilename = $filename . ".zip";
-        if ($zip->open($directory . $zipFilename, \ZipArchive::CREATE) !== TRUE) {
+        if ($zip->open($directory . $zipFilename, ZipArchive::CREATE) !== true) {
             exit("No se puede abrir el archivo $directory$zipFilename\n");
         }
         $zip->addFile($directory . $filename, $filename);
@@ -110,10 +133,24 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
 
         unlink($directory . $filename);
 
-        $dr->setFile($zipFilename);
-        $dr->setVisible(true);
-        $em->persist($dr);
-        $em->flush();
+        $dataRequest->setFile($zipFilename);
+        $dataRequest->setVisible(true);
+        $this->entityManager->persist($dataRequest);
+        $this->entityManager->flush();
+
+        return 0;
+    }
+
+    private function join($data, $queryBuilder)
+    {
+        $function = 'join' . ucfirst($data);
+        $this->$function($queryBuilder);
+    }
+
+    private function add($value, $queryBuilder)
+    {
+        $function = 'add' . ucfirst($value);
+        $this->$function($queryBuilder);
     }
 
     private function whereInstance($qb, $dr)
@@ -123,24 +160,20 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
             ->setParameter('instance_id', $dr->getInstance()->getId());
     }
 
+    private function joinRequest($qb)
+    {
+        if (!$this->requestJoined) {
+            $qb->innerJoin('o.originalRequest', 'r');
+            $this->requestJoined = true;
+        }
+    }
+
     private function whereDates($qb, $dr)
     {
         $qb->andWhere('o.createdAt > :startDate')
             ->andWhere('o.createdAt < :endDate')
             ->setParameter('startDate', $dr->getStartDate())
             ->setParameter('endDate', $dr->getEndDate());
-    }
-
-    private function add($v, $qb)
-    {
-        $f = 'add' . ucfirst($v);
-        $this->$f($qb);
-    }
-
-    private function join($d, $qb)
-    {
-        $f = 'join' . ucfirst($d);
-        $this->$f($qb);
     }
 
     private function addCreated($qb)
@@ -195,6 +228,14 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
         $qb->addSelect('TYPE(m) AS material_type');
     }
 
+    private function joinMaterialType($qb)
+    {
+        if (!$this->materialTypeJoined) {
+            $qb->innerJoin('o.materialData', 'm');
+            $this->materialTypeJoined = true;
+        }
+    }
+
     private function addTitle($qb)
     {
         $this->joinMaterialType($qb);
@@ -229,6 +270,17 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
     {
         $this->joinJournal($qb);
         $qb->addSelect('jt.volume');
+    }
+
+    private function joinJournal($qb)
+    {
+        $this->joinMaterialType($qb);
+
+        if (!$this->journalTypeJoined) {
+            $qb->leftJoin(JournalType::class, 'jt', Join::WITH, 'm = jt');
+            $qb->leftJoin('jt.journal', 'j');
+            $this->journalTypeJoined = true;
+        }
     }
 
     private function addNumber($qb)
@@ -273,6 +325,16 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
         $qb->addSelect('bt.editor');
     }
 
+    private function joinBook($qb)
+    {
+        $this->joinMaterialType($qb);
+
+        if (!$this->bookTypeJoined) {
+            $qb->leftJoin(BookType::class, 'bt', Join::WITH, 'm = bt');
+            $this->bookTypeJoined = true;
+        }
+    }
+
     private function addChapter($qb)
     {
         $this->joinBook($qb);
@@ -291,6 +353,16 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
         $qb->addSelect('tt.director');
     }
 
+    private function joinThesis($qb)
+    {
+        $this->joinMaterialType($qb);
+
+        if (!$this->thesisTypeJoined) {
+            $qb->leftJoin(ThesisType::class, 'tt', Join::WITH, 'm = tt');
+            $this->thesisTypeJoined = true;
+        }
+    }
+
     private function addDegree($qb)
     {
         $this->joinThesis($qb);
@@ -303,6 +375,16 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
         $qb->addSelect('ct.place');
     }
 
+    private function joinCongress($qb)
+    {
+        $this->joinMaterialType($qb);
+
+        if (!$this->congressTypeJoined) {
+            $qb->leftJoin(CongressType::class, 'ct', Join::WITH, 'm = ct');
+            $this->congressTypeJoined = true;
+        }
+    }
+
     private function addCommunication($qb)
     {
         $this->joinCongress($qb);
@@ -313,63 +395,6 @@ class ExportOrdersDataCommand extends ContainerAwareCommand
     {
         $this->joinJournal($qb);
         $qb->addSelect('COALESCE(jt.other, j.name) name');
-    }
-
-    private function joinRequest($qb)
-    {
-        if (!$this->requestJoined) {
-            $qb->innerJoin('o.originalRequest', 'r');
-            $this->requestJoined = true;
-        }
-    }
-
-    private function joinMaterialType($qb)
-    {
-        if (!$this->materialTypeJoined) {
-            $qb->innerJoin('o.materialData', 'm');
-            $this->materialTypeJoined = true;
-        }
-    }
-
-    private function joinJournal($qb)
-    {
-        $this->joinMaterialType($qb);
-
-        if (!$this->journalTypeJoined) {
-            $qb->leftJoin(JournalType::class, 'jt', Join::WITH, 'm = jt');
-            $qb->leftJoin('jt.journal', 'j');
-            $this->journalTypeJoined = true;
-        }
-    }
-
-    private function joinBook($qb)
-    {
-        $this->joinMaterialType($qb);
-
-        if (!$this->bookTypeJoined) {
-            $qb->leftJoin(BookType::class, 'bt', Join::WITH, 'm = bt');
-            $this->bookTypeJoined = true;
-        }
-    }
-
-    private function joinThesis($qb)
-    {
-        $this->joinMaterialType($qb);
-
-        if (!$this->thesisTypeJoined) {
-            $qb->leftJoin(ThesisType::class, 'tt', Join::WITH, 'm = tt');
-            $this->thesisTypeJoined = true;
-        }
-    }
-
-    private function joinCongress($qb)
-    {
-        $this->joinMaterialType($qb);
-
-        if (!$this->congressTypeJoined) {
-            $qb->leftJoin(CongressType::class, 'ct', Join::WITH, 'm = ct');
-            $this->congressTypeJoined = true;
-        }
     }
 
     private function joinStates($qb)

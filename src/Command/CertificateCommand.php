@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,19 +22,28 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\Instance;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Celsius3\Repository\InstanceRepositoryInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
-class CertificateCommand extends ContainerAwareCommand
+class CertificateCommand extends Command
 {
+    private $instanceRepository;
+    private $kernel;
+
+    public function __construct(InstanceRepositoryInterface $instanceRepository, KernelInterface $kernel)
+    {
+        parent::__construct();
+
+        $this->instanceRepository = $instanceRepository;
+        $this->kernel = $kernel;
+    }
+
     protected function configure(): void
     {
         $this
@@ -42,31 +53,31 @@ class CertificateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $public_path = $this->getContainer()->get('kernel')->getRootDir().'/../web';
+        $publicPath = $this->kernel->getRootDir() . '/../web';
 
         # Se toma la ip actual del servidor
-        $server_ip = gethostbyname('servicio.prebi.unlp.edu.ar');
+        $serverIp = gethostbyname('servicio.prebi.unlp.edu.ar');
 
-        $domains = $em->getRepository(Instance::class)->findAllDomains();
-        $directory = $em->getRepository(Instance::class)->findOneBy(['url' => 'directory']);
+        $domains = $this->instanceRepository->findAllDomains();
+        $directory = $this->instanceRepository->findOneBy(['url' => 'directory']);
 
         # Se descartan aquellos que no apunten a nuestro servidor
-        $valid_domains = [];
+        $validDomains = [];
         foreach ($domains as $domain) {
-            if (gethostbyname($domain['host']) === $server_ip) {
-                $valid_domains[] = $domain['host'];
+            if (gethostbyname($domain['host']) === $serverIp) {
+                $validDomains[] = $domain['host'];
             }
         }
 
-        $command = 'certbot --non-interactive '.
-            '--agree-tos -m soporte.celsius@prebi.unlp.edu.ar '.
-            '--expand certonly '.
-            '--webroot -w '.$public_path.' '.
-            '-d '.implode(' -d ', $valid_domains).' -d '.$directory->getHost();
+        $command = 'certbot --non-interactive ' .
+            '--agree-tos -m soporte.celsius@prebi.unlp.edu.ar ' .
+            '--expand certonly ' .
+            '--webroot -w ' . $publicPath . ' ' .
+            '-d ' . implode(' -d ', $validDomains) . ' -d ' . $directory->getHost();
 
         # Solicitud de certificado
         $output->writeln(shell_exec($command));
+
+        return 0;
     }
 }

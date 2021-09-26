@@ -20,28 +20,46 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\DBAL\Driver\Connection;
+use Doctrine\ORM\EntityManagerInterface;
+use PDO;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixUsersCommand extends ContainerAwareCommand
+class FixUsersCommand extends Command
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct(EntityManagerInterface $entityManager, Connection $connection)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+        $this->connection = $connection;
+    }
 
     protected function configure()
     {
         $this->setName('celsius3:fix-users')
-                ->setDescription('Actualiza la forma de entrega de los usuarios de Celsius3');
+            ->setDescription('Actualiza la forma de entrega de los usuarios de Celsius3');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $conn = $this->getContainer()->get('doctrine.dbal.default_connection');
+        $em = $this->entityManager;
+        $conn = $this->connection;
 
         $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findAll();
+            ->findAll();
 
         $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';
         foreach ($users as $user) {
@@ -50,7 +68,7 @@ class FixUsersCommand extends ContainerAwareCommand
             $id = $user->getId();
             $entity = 'usuarios';
             $query->bindParam('id', $id);
-            $query->bindParam('entity', $entity, \PDO::PARAM_STR);
+            $query->bindParam('entity', $entity, PDO::PARAM_STR);
             $query->execute();
 
             $t = $query->fetch();

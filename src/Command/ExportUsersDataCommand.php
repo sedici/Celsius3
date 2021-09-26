@@ -22,20 +22,32 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\UsersDataRequest;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use ZipArchive;
 
-final class ExportUsersDataCommand extends ContainerAwareCommand
+use function array_key_exists;
+
+final class ExportUsersDataCommand extends Command
 {
+    private $entityManager;
+    private $dataRequestDirectory;
+
+    public function __construct(EntityManagerInterface $entityManager, string $dataRequestDirectory)
+    {
+        parent::__construct();
+        $this->entityManager = $entityManager;
+        $this->dataRequestDirectory = $dataRequestDirectory;
+    }
+
     protected function configure(): void
     {
         $this->setName('celsius3:export:users-data-requests')
@@ -45,32 +57,39 @@ final class ExportUsersDataCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        /** @var DataRequest $dr */
-        $dr = $em->find(UsersDataRequest::class, (int)$input->getArgument('users-data-request-id'));
-        $filename = $dr->getInstance()->getAbbreviation() . '_' . str_replace(' ', '_', $dr->getName()) . '_' . $dr->getStartDate()->format('Ymd') . '_' . $dr->getEndDate()->format('Ymd') . '.csv';
-        $directory = $this->getContainer()->getParameter('data_requests_directory');
+        /** @var DataRequest $dataRequest */
+        $dataRequest = $this->entityManager->find(
+            UsersDataRequest::class,
+            (int)$input->getArgument('users-data-request-id')
+        );
+        $filename = $dataRequest->getInstance()->getAbbreviation() . '_' . str_replace(
+            ' ',
+            '_',
+            $dataRequest->getName()
+        ) . '_' . $dataRequest->getStartDate()->format('Ymd') . '_' . $dataRequest->getEndDate()->format(
+            'Ymd'
+        ) . '.csv';
+        $directory = $this->dataRequestDirectory;
 
-        $qb = $em->getRepository(BaseUser::class)->createQueryBuilder('u');
-        $qb->select('u.id');
+        $queryBuilder = $this->entityManager->getRepository(BaseUser::class)->createQueryBuilder('u');
+        $queryBuilder->select('u.id');
 
-        foreach ($dr->getArrayData() as $d) {
-            $this->add($d, $qb);
+        foreach ($dataRequest->getArrayData() as $data) {
+            $this->add($data, $queryBuilder);
         }
 
-        $this->whereInstance($qb, $dr);
-        $this->whereDates($qb, $dr);
+        $this->whereInstance($queryBuilder, $dataRequest);
+        $this->whereDates($queryBuilder, $dataRequest);
 
-        $qb2 = clone($qb);
+        $qb2 = clone($queryBuilder);
         $qb2->setMaxResults(1);
         $keys = array_keys($qb2->getQuery()->getArrayResult()[0]);
 
         $handle = fopen($directory . $filename, 'w+');
         fputcsv($handle, $keys, ';', '"', '\\');
 
-        $results = $qb->getQuery()->iterate();
-        while (false !== ($row = $results->next())) {
+        $results = $queryBuilder->getQuery()->iterate();
+        while (($row = $results->next()) !== false) {
             $arr = current($row);
 
             if (array_key_exists('birthdate', $arr) && $arr['birthdate'] !== null) {
@@ -95,30 +114,30 @@ final class ExportUsersDataCommand extends ContainerAwareCommand
 
         unlink($directory . $filename);
 
-        $dr->setFile($zipFilename);
-        $dr->setVisible(true);
-        $em->persist($dr);
-        $em->flush();
+        $dataRequest->setFile($zipFilename);
+        $dataRequest->setVisible(true);
+        $this->entityManager->persist($dataRequest);
+        $this->entityManager->flush();
     }
 
-    private function add($v, $qb)
+    private function add($value, $queryBuilder)
     {
-        $f = 'add' . str_replace('_', '', ucwords($v, '_'));
-        $this->$f($qb);
+        $function = 'add' . str_replace('_', '', ucwords($value, '_'));
+        $this->$function($queryBuilder);
     }
 
-    private function whereInstance($qb, $dr)
+    private function whereInstance($queryBuilder, $dataRequest)
     {
-        $qb->where('u.instance = :instance_id')
-            ->setParameter('instance_id', $dr->getInstance()->getId());
+        $queryBuilder->where('u.instance = :instance_id')
+            ->setParameter('instance_id', $dataRequest->getInstance()->getId());
     }
 
-    private function whereDates($qb, $dr)
+    private function whereDates($queryBuilder, $dataRequest)
     {
-        $qb->andWhere('u.createdAt > :startDate')
+        $queryBuilder->andWhere('u.createdAt > :startDate')
             ->andWhere('u.createdAt < :endDate')
-            ->setParameter('startDate', $dr->getStartDate())
-            ->setParameter('endDate', $dr->getEndDate());
+            ->setParameter('startDate', $dataRequest->getStartDate())
+            ->setParameter('endDate', $dataRequest->getEndDate());
     }
 
     private function addEmail($qb)

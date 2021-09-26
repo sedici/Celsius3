@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,38 +22,51 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Twig\Environment;
 
-class MaintenanceModeCommand extends ContainerAwareCommand
+class MaintenanceModeCommand extends Command
 {
+    private $kernel;
+    private $twig;
+    private $virtualHostConfigFile;
+
+    public function __construct(KernelInterface $kernel, Environment $twig, string $virtualHostConfigFile)
+    {
+        parent::__construct();
+        $this->kernel = $kernel;
+        $this->twig = $twig;
+        $this->virtualHostConfigFile = $virtualHostConfigFile;
+    }
 
     protected function configure()
     {
         $this->setName('celsius3:mode:maintenance')
-                ->setDescription('Enabled/Disabled maintenance mode.')
-                ->addArgument('status', InputArgument::REQUIRED, 'Mode status.');
+            ->setDescription('Enabled/Disabled maintenance mode.')
+            ->addArgument('status', InputArgument::REQUIRED, 'Mode status.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $status = $input->getArgument('status');
 
-        $projectDir = $this->getContainer()->getParameter('kernel.project_dir');
-        $configFile = $this->getContainer()->getParameter('virtual_host_config_file');
+        $projectDir = $this->kernel->getContainer()->getParameter('kernel.project_dir');
+        $configFile = $this->virtualHostConfigFile;
 
         $directoryIndex = 'DirectoryIndex app.php';
         $maintenanceDirectoryIndex = 'DirectoryIndex index.html';
-        $documentRoot = $projectDir .'/web';
+        $documentRoot = $projectDir . '/web';
         $maintenanceDocumentRoot = $documentRoot . '/maintenance';
 
         if ($status === 'enabled') {
             $file = $projectDir . '/web/maintenance/index.html';
-            $data = $this->getContainer()->get('twig')->render('Celsius3CoreBundle:Mode:maintenance.html.twig');
+            $data = $this->twig->render('Celsius3CoreBundle:Mode:maintenance.html.twig');
 
             file_put_contents($file, $data);
 
@@ -66,10 +81,11 @@ class MaintenanceModeCommand extends ContainerAwareCommand
             $output->writeln('The maintenance mode has been disabled.');
         } else {
             $output->writeln('The argument ' . $status . ' is not supported.');
-            return;
+            return 1;
         }
 
         shell_exec('sudo service apache2 reload');
-    }
 
+        return 0;
+    }
 }

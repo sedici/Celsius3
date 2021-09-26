@@ -20,47 +20,67 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Command;
+namespace Celsius3\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Mailer\Mailer;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Celsius3\Exception\Exception;
 
-class SendEmailsCommand extends ContainerAwareCommand
+class SendEmailsCommand extends Command
 {
+    private $mailer;
+    private $entityManager;
+    private $logger;
+
+    public function __construct(EntityManagerInterface $entityManager, Mailer $mailer, LoggerInterface $logger)
+    {
+        parent::__construct();
+        $this->mailer = $mailer;
+        $this->entityManager = $entityManager;
+        $this->logger = $logger;
+    }
 
     protected function configure()
     {
         $this->setName('celsius3_core:mailer:send_emails')
-                ->setDescription('Send emails')
-                ->addArgument('limit', InputArgument::REQUIRED, 'Limit for emails to be sent on each connection.')
-                ->addArgument('log-level', InputArgument::OPTIONAL, 'Log level. 1) Max level, 2) Medium level, 3) Minimum level.', 3);
+            ->setDescription('Send emails')
+            ->addArgument('limit', InputArgument::REQUIRED, 'Limit for emails to be sent on each connection.')
+            ->addArgument(
+                'log-level',
+                InputArgument::OPTIONAL,
+                'Log level. 1) Max level, 2) Medium level, 3) Minimum level.',
+                3
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $limit = intval($input->getArgument('limit'));
-        $logLevel = intval($input->getArgument('log-level'));
+        $limit = (int)$input->getArgument('limit');
+        $logLevel = (int)$input->getArgument('log-level');
 
         $limit = ($limit >= 1 && $limit <= 10) ? $limit : 5;
         $logLevel = ($logLevel === 1 || $logLevel === 2 || $logLevel === 3) ? $logLevel : null;
 
-        $mailer = $this->getContainer()->get('celsius3_core.mailer');
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $mailer = $this->mailer;
+        $em = $this->entityManager;
 
-        $logger = $this->getContainer()->get('logger');
+        $logger = $this->logger;
 
-        $instances = $em->getRepository('Celsius3CoreBundle:Instance')
-                ->findAllAndInvisibleExceptDirectory()
-                ->getQuery()
-                ->execute();
+        $instances = $em->getRepository(Instance::class)
+            ->findAllAndInvisibleExceptDirectory()
+            ->getQuery()
+            ->execute();
 
         foreach ($instances as $instance) {
             try {
                 $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $message = "Failed to send emails for instance $instance. " . $e->getMessage();
 
                 $logger->error($message);
@@ -68,5 +88,4 @@ class SendEmailsCommand extends ContainerAwareCommand
             }
         }
     }
-
 }
