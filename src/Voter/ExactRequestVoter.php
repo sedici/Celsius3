@@ -20,23 +20,15 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Voter;
+namespace Celsius3\Voter;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Knp\Menu\ItemInterface;
-use Knp\Menu\Matcher\Voter\VoterInterface;
 
 /**
  * Voter based on the uri
  */
-class RequestVoter implements VoterInterface
+class ExactRequestVoter extends RequestVoter
 {
-    protected $request_stack;
-
-    public function __construct(RequestStack $request_stack)
-    {
-        $this->request_stack = $request_stack;
-    }
 
     /**
      * Checks whether an item is current.
@@ -49,7 +41,7 @@ class RequestVoter implements VoterInterface
      */
     public function matchItem(ItemInterface $item)
     {
-        if (false !== strpos($this->request_stack->getCurrentRequest()->getRequestUri(), $item->getUri())) {
+        if ($item->getUri() === preg_replace('/\?.*/', '', $this->request_stack->getCurrentRequest()->getRequestUri())) {
             return true;
         }
 

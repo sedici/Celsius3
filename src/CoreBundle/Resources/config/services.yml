@@ -175,7 +175,7 @@ services:
             - { name: jms_aop.pointcut, interceptor: celsius3_core.instance_injection_aspect }
         arguments: ['@celsius3_core.instance_helper']
     celsius3_core.menu.voter.exact:
-        class: Celsius3\CoreBundle\Voter\ExactRequestVoter
+        class: Celsius3\Voter\ExactRequestVoter
         tags:
             - { name: knp_menu.voter }
         arguments: ['@request_stack']
