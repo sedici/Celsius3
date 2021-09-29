@@ -31,7 +31,7 @@
     "contextify": "^1.0.0",
     "d3": "^4.10.0",
     "datatables": "^1.10.13",
-    "datatables.net": "^1.10.15",
+    "datatables.net": "^1.11.3",
     "es5-shim": "^4.5.9",
     "fabric": "^1.7.18",
     "fastclick": "^1.0.6",
