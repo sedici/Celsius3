@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Helper;
 
 use Celsius3\CoreBundle\Entity\Configuration;
-use Celsius3\CoreBundle\Validator\Constraints\EmailDomain;
+use Celsius3\Validator\Constraints\EmailDomain;
 use Celsius3\Form\Type\ConfirmationType;
 use Celsius3\Form\Type\LanguageType;
 use Celsius3\Form\Type\LogoSelectorType;

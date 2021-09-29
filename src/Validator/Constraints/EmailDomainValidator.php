@@ -20,43 +20,16 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
-
-namespace Celsius3\CoreBundle\Validator\Constraints;
+namespace Celsius3\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-use function count;
-
-class MailTemplateValidator extends ConstraintValidator
+class EmailDomainValidator extends ConstraintValidator
 {
-    private const VARIABLES = [
-        'user.full_name',
-        'user.surname',
-        'user.name',
-        'user.username',
-        'instance.name',
-        'instance.abbreviation',
-        'instance.website',
-        'instance.email',
-        'order.code',
-        'order.material_data.title',
-        'url',
-    ];
-
-    public function validate($value, Constraint $constraint): void
+    public function validate($value, Constraint $constraint)
     {
-        preg_match_all('/{{([[:alpha:] ._])+?}}/', $value, $match);
-
-        $template_variables = [];
-        foreach ($match[0] as $key => $val) {
-            $template_variables[$key] = str_replace(['{{', '}}', ' '], '', $val);
-        }
-
-        $intersection = array_intersect($template_variables, self::VARIABLES);
-
-        if (count(array_diff($template_variables, $intersection)) > 0) {
+        if ($value && !checkdnsrr($value, "MX")) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }

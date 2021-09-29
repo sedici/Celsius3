@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Celsius3\CoreBundle\Validator\Constraints\ParentInstitution;
+use Celsius3\Validator\Constraints\ParentInstitution;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

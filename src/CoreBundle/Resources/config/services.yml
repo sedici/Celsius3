@@ -261,7 +261,7 @@ services:
             - [setFileManager, ['@celsius3_core.file_manager']]
 
     celsius3.validator.mail_template:
-        class: Celsius3\CoreBundle\Validator\Constraint\MailtTemplateValidator
+        class: Celsius3\Validator\Constraints\MailTemplateValidator
         tags:
             - { name: validator.constraint_validator, alias: mail_template }
     celsius3_core.fos_user_manager:

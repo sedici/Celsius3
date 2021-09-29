@@ -20,17 +20,26 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Validator\Constraints;
+namespace Celsius3\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class EmailDomainValidator extends ConstraintValidator
+class ParentInstitutionValidator extends ConstraintValidator
 {
+
     public function validate($value, Constraint $constraint)
     {
-        if ($value && !checkdnsrr($value, "MX")) {
-            $this->context->buildViolation($constraint->message)->addViolation();
+        $institution = $this->context->getObject();
+        $parent = $value;
+        while (!is_null($parent)) {
+            if ($parent->getId() === $institution->getId()) {
+                $this->context->buildViolation($constraint->message)
+                    ->addViolation();
+                break;
+            }
+            $parent = $parent->getParent();
         }
     }
+
 }

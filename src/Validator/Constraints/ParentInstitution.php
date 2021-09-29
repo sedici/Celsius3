@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\CoreBundle\Validator\Constraints;
+namespace Celsius3\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
