@@ -26,7 +26,7 @@ namespace Celsius3\Controller\Superadmin\BaseUser;
 
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

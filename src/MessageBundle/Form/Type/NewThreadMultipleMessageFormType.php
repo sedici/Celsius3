@@ -29,7 +29,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
-use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\Manager\UserManager;
 use Celsius3\Form\Type\UsersSelectorType;
 use Doctrine\Common\Collections\ArrayCollection;
 

@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

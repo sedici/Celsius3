@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\StateManager;
+use Celsius3\Manager\StateManager;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**

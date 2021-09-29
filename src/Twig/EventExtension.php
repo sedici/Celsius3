@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\Manager\CatalogManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

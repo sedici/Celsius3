@@ -4,10 +4,10 @@ fos_user:
     user_class: Celsius3\CoreBundle\Entity\BaseUser
     profile:
         form:
-            type: Celsius3\CoreBundle\Form\Type\ProfileFormType
+            type: Celsius3\Form\Type\ProfileFormType
     registration:
         form:
-            type: Celsius3\CoreBundle\Form\Type\RegistrationFormType
+            type: Celsius3\Form\Type\RegistrationFormType
     change_password:
         form:
             validation_groups:  [ChangePassword]

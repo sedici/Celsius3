@@ -23,7 +23,7 @@
 namespace Celsius3\Form\Type;
 
 use Celsius3\Form\DataTransformer\LogoToFileTransformer;
-use Celsius3\CoreBundle\Manager\FileManager;
+use Celsius3\Manager\FileManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType as FormFileType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -160,7 +160,7 @@ class AdminOrderController extends OrderController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
+            if ($this->getMaterialType() === 'Celsius3\Form\Type\JournalTypeType') {
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
                     $request->request->get('order')['materialData']['journal']
                 );
@@ -362,7 +362,7 @@ class AdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
+            if ($this->getMaterialType() === 'Celsius3\Form\Type\JournalTypeType') {
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
                     $request->request->get('order', null)['materialData']['journal']
                 );

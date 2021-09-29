@@ -40,7 +40,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     /**
      * @Assert\NotBlank
      * @Assert\Choice(
-     *     callback = {"\Celsius3\CoreBundle\Manager\CatalogManager", "getResults"},
+     *     callback = {"\Celsius3\Manager\CatalogManager", "getResults"},
      *     message = "Choose a valid result."
      * )
      * @ORM\Column(type="string", length=255)

@@ -29,7 +29,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Entity;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 
 /**
  * Description of FixtureLoader

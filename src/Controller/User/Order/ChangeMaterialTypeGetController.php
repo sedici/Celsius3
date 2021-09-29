@@ -64,7 +64,7 @@ final class ChangeMaterialTypeGetController extends AbstractController
 
     private function materialTypeClass(Request $request)
     {
-        $material = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
+        $material = 'Celsius3\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
 
         if (!class_exists($material)) {
             $this->createNotFoundException('Inexistent Material Type');

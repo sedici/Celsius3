@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Manager;
+namespace Celsius3\Manager;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Celsius3\Exception\NotFoundException;

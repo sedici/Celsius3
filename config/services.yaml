@@ -46,6 +46,8 @@ services:
             $maxPerPage: '%max_per_page%'
             $dataRequestDirectory: '%data_requests_directory%'
             $virtualHostConfigFile: '%virtual_host_config_file%'
+            $uploadRootDir: '%upload_root_dir%'
+            $logosUploadDir: '%logos_upload_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -134,20 +136,20 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
-    Celsius3\CoreBundle\Manager\UnionManager:
-        alias: celsius3_core.union_manager
+#    Celsius3\CoreBundle\Manager\UnionManager:
+#        alias: celsius3_core.union_manager
 
     FOS\MessageBundle\ModelManager\ThreadManagerInterface:
         alias: celsius3_message.thread_manager.default
 
-    Celsius3\CoreBundle\Manager\EventManager:
-        alias: celsius3_core.event_manager
-
-    Celsius3\CoreBundle\Manager\InstanceManager:
-        alias: celsius3_core.instance_manager
-
-    Celsius3\CoreBundle\Manager\FileManager:
-        alias: celsius3_core.file_manager
+#    Celsius3\CoreBundle\Manager\EventManager:
+#        alias: celsius3_core.event_manager
+#
+#    Celsius3\CoreBundle\Manager\InstanceManager:
+#        alias: celsius3_core.instance_manager
+#
+#    Celsius3\CoreBundle\Manager\FileManager:
+#        alias: celsius3_core.file_manager
 
     FOS\RestBundle\View\ViewHandlerInterface:
         alias: fos_rest.view_handler.default
@@ -155,11 +157,11 @@ services:
     Knp\Component\Pager\Paginator:
         alias: knp_paginator
         
-    Celsius3\CoreBundle\Manager\UserManager:
-        alias: celsius3_core.user_manager
-
-    Celsius3\CoreBundle\Manager\StateManager:
-        alias: celsius3_core.state_manager
+#    Celsius3\CoreBundle\Manager\UserManager:
+#        alias: celsius3_core.user_manager
+#
+#    Celsius3\CoreBundle\Manager\StateManager:
+#        alias: celsius3_core.state_manager
         
     Celsius3\Twig\AssetsExtension:
         tags:

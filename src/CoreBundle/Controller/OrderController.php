@@ -34,7 +34,7 @@ abstract class OrderController extends BaseInstanceDependentController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
+            if ($this->getMaterialType() === 'Celsius3\Form\Type\JournalTypeType') {
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
                     $request->request->get('order', null, true)['materialData']['journal']
                 );
@@ -72,7 +72,7 @@ abstract class OrderController extends BaseInstanceDependentController
     {
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $material = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
+        $material = 'Celsius3\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
 
         if (!class_exists($material)) {
             $this->createNotFoundException('Inexistent Material Type');
@@ -95,10 +95,10 @@ abstract class OrderController extends BaseInstanceDependentController
         $request = $this->get('request_stack')->getCurrentRequest();
 
         if (is_null($materialData)) {
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('order', null, true)['materialDataType']) . 'TypeType';
+            $materialTypeName = 'Celsius3\\Form\\Type\\' . ucfirst($request->request->get('order', null, true)['materialDataType']) . 'TypeType';
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
+            $materialTypeName = 'Celsius3\\Form\\Type\\' . end($class) . 'Type';
         }
 
         return $materialTypeName;

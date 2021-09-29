@@ -27,7 +27,7 @@ namespace Celsius3\CoreBundle\Mailer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\MailerHelper;
-use Celsius3\CoreBundle\Manager\MailManager;
+use Celsius3\Manager\MailManager;
 use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
 use FOS\UserBundle\Model\UserInterface;
 use Swift_Mailer;

@@ -26,7 +26,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Entity\Configuration;
 use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 
 class ConfigurationListener
 {

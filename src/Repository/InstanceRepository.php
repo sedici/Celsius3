@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Repository;
 
 use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

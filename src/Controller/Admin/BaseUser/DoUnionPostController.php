@@ -27,7 +27,7 @@ namespace Celsius3\Controller\Admin\BaseUser;
 use Celsius3\CoreBundle\Controller\BaseUserController;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\Exception\Exception;
-use Celsius3\CoreBundle\Manager\UnionManager;
+use Celsius3\Manager\UnionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;

@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\City;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Hive;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 
 /**
  * InstitutionRepository.

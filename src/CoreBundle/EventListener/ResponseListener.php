@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\EventListener;
 
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Manager\Alert;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class ResponseListener

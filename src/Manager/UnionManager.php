@@ -20,9 +20,10 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Manager;
+namespace Celsius3\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UnionManager
 {
@@ -115,7 +116,7 @@ class UnionManager
         ),
     );
 
-    public function __construct(EntityManager $em, InstanceManager $instance_manager)
+    public function __construct(EntityManagerInterface $em, InstanceManager $instance_manager)
     {
         $this->em = $em;
         $this->instance_manager = $instance_manager;

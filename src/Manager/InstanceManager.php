@@ -20,32 +20,40 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
+namespace Celsius3\Manager;
 
-namespace Celsius3\CoreBundle\Manager;
-
-use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
-class OrderManager
+class InstanceManager
 {
-    public const TYPE__SEARCH = 'search';
-    public const TYPE__PROVISION = 'provision';
+    public const INSTANCE__DIRECTORY = 'directory';
+    private $em;
 
-    public static function getTypes(): array
+    public function __construct(EntityManagerInterface $em)
     {
-        return [
-            self::TYPE__SEARCH,
-            self::TYPE__PROVISION,
-        ];
+        $this->em = $em;
     }
 
-    public static function getTypeForUser(Instance $instance, BaseUser $user = null): string
+    public function getDirectory()
     {
-        if ($user !== null && $instance->getOwnerInstitutions()->contains($user->getBaseInstitution())) {
-            return self::TYPE__SEARCH;
+        return $this->em->getRepository('Celsius3CoreBundle:Instance')
+                        ->findOneBy(array('url' => self::INSTANCE__DIRECTORY));
+    }
+
+    public function findInstance($latitude, $longitude, $limit = 10)
+    {
+        $temRes = $this->em->getRepository(Instance::class)
+            ->findInstancesOrderedByDistance($latitude, $longitude, $limit);
+
+        $res = [];
+        foreach ($temRes as $tem) {
+            $res[] = $tem[0];
         }
 
-        return self::TYPE__PROVISION;
+        return $res;
     }
+
+
 }

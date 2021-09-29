@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Email;
 use Celsius3\Exception\Exception;
-#use Celsius3\CoreBundle\Form\Type\MailType;
+#use Celsius3\Form\Type\MailType;
 use Celsius3\Form\Type\Filter\MailFilterType; 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

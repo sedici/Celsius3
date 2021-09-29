@@ -26,7 +26,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\Manager\UserManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UserTransformType extends AbstractType

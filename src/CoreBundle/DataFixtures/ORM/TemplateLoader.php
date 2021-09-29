@@ -28,7 +28,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Manager\MailManager;
+use Celsius3\Manager\MailManager;
 use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\NotificationBundle\Entity\NotificationTemplate;
 use Celsius3\NotificationBundle\Manager\NotificationManager;

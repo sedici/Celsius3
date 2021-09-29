@@ -26,7 +26,7 @@ namespace Celsius3\Command;
 
 use Celsius3\CoreBundle\Entity\CatalogResult;
 use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\Manager\CatalogManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PDO;
 use Symfony\Component\Console\Command\Command;

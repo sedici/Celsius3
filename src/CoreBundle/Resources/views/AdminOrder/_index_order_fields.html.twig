@@ -16,18 +16,18 @@
             <li>
                 <a href="{{ path('admin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
             </li>
-            {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] %}
+            {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\Manager\\StateManager::STATE__SEARCHED')] %}
                 <li>
-                    <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
+                    <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
                         <a class="submit-annul-form" href="#"><i class="icon-ban-circle"></i> {{ 'annul'|capitalize|trans }}</a>
                     </form>
                 </li>
             {% endif %}
 
-            {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED'),
-        constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] %}
+            {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\Manager\\StateManager::STATE__REQUESTED'),
+        constant('Celsius3\\Manager\\StateManager::STATE__APPROVAL_PENDING')] %}
             <li>
-                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
+                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
                     <a class="submit-cancel-form" href="#"><i class="icon-remove"></i> {{ 'cancel'|capitalize|trans }}</a>
                 </form>
             </li>

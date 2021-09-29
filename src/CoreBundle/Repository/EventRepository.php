@@ -33,7 +33,7 @@ use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\Manager\CatalogManager;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**

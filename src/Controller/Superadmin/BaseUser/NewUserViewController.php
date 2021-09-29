@@ -26,7 +26,7 @@ namespace Celsius3\Controller\Superadmin\BaseUser;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\Manager\InstanceManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

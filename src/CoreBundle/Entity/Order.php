@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Celsius3\CoreBundle\Manager\StateManager;
+use Celsius3\Manager\StateManager;
 use Celsius3\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

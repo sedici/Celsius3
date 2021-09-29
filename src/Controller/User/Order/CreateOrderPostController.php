@@ -29,7 +29,7 @@ use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Form\Type\OrderType;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -117,6 +117,6 @@ final class CreateOrderPostController extends AbstractController
 
     private function getMaterialType(string $material): string
     {
-        return 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($material) . 'TypeType';
+        return 'Celsius3\\Form\\Type\\' . ucfirst($material) . 'TypeType';
     }
 }

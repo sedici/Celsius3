@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\CustomField;
 use Celsius3\CoreBundle\Entity\CustomUserValue;
 use Celsius3\CoreBundle\Entity\Instance;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -51,7 +52,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
     public function __construct(
         string $entity,
         FormFactoryInterface $factory,
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         Instance $instance,
         bool $showPrivates
     ) {

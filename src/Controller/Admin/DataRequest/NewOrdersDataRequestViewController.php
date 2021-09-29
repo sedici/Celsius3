@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\OrdersDataRequest;
 use Celsius3\Form\Type\OrdersDataRequestType;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

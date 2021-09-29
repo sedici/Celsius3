@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Manager;
+namespace Celsius3\Manager;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\Helper\InstanceHelper;
@@ -30,14 +30,19 @@ use FOS\UserBundle\Util\CanonicalFieldsUpdater;
 use FOS\UserBundle\Util\PasswordUpdaterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-
 class FosUserManager extends DoctrineUserManager
 {
     private $instanceHelper;
     private $entityManager;
     private $class;
 
-    public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater, InstanceHelper $instanceHelper, EntityManager $entityManager, TokenStorage $tokenStorage, $class)
+    public function __construct(
+        PasswordUpdaterInterface $passwordUpdater,
+        CanonicalFieldsUpdater $canonicalFieldsUpdater, 
+        InstanceHelper $instanceHelper,
+        EntityManager $entityManager,
+        TokenStorage $tokenStorage,
+        $class)
     {
         parent::__construct($passwordUpdater, $canonicalFieldsUpdater);
         $this->instanceHelper = $instanceHelper;

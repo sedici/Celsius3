@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Manager\FileManager;
+use Celsius3\Manager\FileManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class FileUploadListener

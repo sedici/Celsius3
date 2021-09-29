@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Entity;
 
 use Celsius3\ApiBundle\Entity\Client;
-use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\Manager\UserManager;
 use Celsius3\NotificationBundle\Entity\BaseUserNotification;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Entity\NotificationSettings;

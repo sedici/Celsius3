@@ -6,7 +6,7 @@
         </a>
     </li>
     {% endif %}
-    {% if element.instance.url != constant('Celsius3\\CoreBundle\\Manager\\InstanceManager::INSTANCE__DIRECTORY') %}
+    {% if element.instance.url != constant('Celsius3\\Manager\\InstanceManager::INSTANCE__DIRECTORY') %}
         <li>
             <a href="{{ path('admin_mails_change_state', { 'id': element.id }) }}">
                 {% if element.enabled %}

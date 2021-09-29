@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\EventListener;
 
 use Celsius3\CoreBundle\Controller\BaseRestController;
 use Celsius3\Exception\Exception;
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Manager\Alert;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 use function is_array;

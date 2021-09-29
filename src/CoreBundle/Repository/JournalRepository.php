@@ -50,7 +50,7 @@ class JournalRepository extends BaseRepository
 
         $directory = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array(
-            'url' => \Celsius3\CoreBundle\Manager\InstanceManager::INSTANCE__DIRECTORY,
+            'url' => \Celsius3\Manager\InstanceManager::INSTANCE__DIRECTORY,
         ));
 
         if (!is_null($instance)) {

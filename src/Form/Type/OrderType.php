@@ -23,7 +23,7 @@
 namespace Celsius3\Form\Type;
 
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Manager\MaterialTypeManager;
+use Celsius3\Manager\MaterialTypeManager;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

@@ -26,7 +26,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\Form\Type\DataRequestType;
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Manager\Alert;
 use DateTime;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

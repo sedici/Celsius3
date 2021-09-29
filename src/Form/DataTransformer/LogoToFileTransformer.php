@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\DataTransformer;
 
-use Celsius3\CoreBundle\Manager\FileManager;
+use Celsius3\Manager\FileManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 

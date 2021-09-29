@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Manager\StateManager;
+use Celsius3\Manager\StateManager;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 /** @Ignore */

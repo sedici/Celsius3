@@ -22,7 +22,7 @@
 
 namespace Celsius3\Exception;
 
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Manager\Alert;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;

@@ -20,14 +20,41 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Manager;
+namespace Celsius3\Manager;
 
-class MaterialTypeManager
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+
+class Alert
 {
-    public const TYPE__JOURNAL = 'journal';
-    public const TYPE__BOOK = 'book';
-    public const TYPE__CONGRESS = 'congress';
-    public const TYPE__THESIS = 'thesis';
-    public const TYPE__PATENT = 'patent';
-    public const TYPE__NEWSPAPER = 'newspaper';
+    public const INFO = 'info';
+    public const SUCCESS = 'success';
+    public const WARNING = 'warning';
+    public const ERROR = 'danger';
+
+    private static $alerts = [];
+    private static $rest = false;
+
+    public static function isRest()
+    {
+        return self::$rest;
+    }
+
+    public static function setRest()
+    {
+        self::$rest = true;
+    }
+
+    public static function add($type, $message)
+    {
+        self::$alerts[$type][] = $message;
+    }
+
+    public static function getAlerts(FlashBag $flashBag)
+    {
+        foreach (self::$alerts as $type => $messages) {
+            foreach ($messages as $message) {
+                $flashBag->add($type, $message);
+            }
+        }
+    }
 }

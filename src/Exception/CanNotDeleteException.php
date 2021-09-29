@@ -24,7 +24,7 @@ namespace Celsius3\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bridge\Monolog\Logger;
 

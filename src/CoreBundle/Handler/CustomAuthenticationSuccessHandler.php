@@ -28,7 +28,7 @@ use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
-use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\Manager\UserManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface

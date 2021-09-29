@@ -68,22 +68,22 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
         arguments: ['@session']
     celsius3_core.form.admin_contact:
-        class: Celsius3\CoreBundle\Form\Type\AdminContactType
+        class: Celsius3\Form\Type\AdminContactType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper']
     celsius3_core.form.superadmin_contact:
-        class: Celsius3\CoreBundle\Form\Type\SuperadminContactType
+        class: Celsius3\Form\Type\SuperadminContactType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper']
     celsius3_core.form.base_user:
-        class: Celsius3\CoreBundle\Form\Type\BaseUserType
+        class: Celsius3\Form\Type\BaseUserType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper']
     celsius3_core.form.catalog:
-        class: Celsius3\CoreBundle\Form\Type\CatalogType
+        class: Celsius3\Form\Type\CatalogType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
@@ -183,8 +183,8 @@ services:
         class: Celsius3\CoreBundle\Guesser\FieldGuesser
         arguments: ['@doctrine']
     celsius3_core.lifecycle_helper:
-        class: Celsius3\CoreBundle\Helper\LifecycleHelper
-        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.state_manager', '@celsius3_core.event_manager', '@celsius3_core.file_manager', '@celsius3_core.instance_helper', '@security.token_storage', '@logger']
+        alias: Celsius3\Helper\LifecycleHelper
+#        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.state_manager', '@celsius3_core.event_manager', '@celsius3_core.file_manager', '@celsius3_core.instance_helper', '@security.token_storage', '@logger']
     celsius3_core.configuration_helper:
         class: Celsius3\Helper\ConfigurationHelper
         arguments: ['@service_container']
@@ -208,15 +208,15 @@ services:
         class: Celsius3\CoreBundle\Manager\StateManager
         arguments: ['@celsius3_core.event_manager', '@request_stack']
     celsius3_core.file_manager:
-        class: Celsius3\CoreBundle\Manager\FileManager
-        arguments: { $uploadRootDir: '%upload_root_dir%', $logosUploadDir: '%logos_upload_dir%' }
-        calls:
-            - [setContainer, ['@service_container']]
+        alias: Celsius3\Manager\FileManager
+#        arguments: { $uploadRootDir: '%upload_root_dir%', $logosUploadDir: '%logos_upload_dir%' }
+#        calls:
+#            - [setContainer, ['@service_container']]
     celsius3_core.user_manager:
         class: Celsius3\CoreBundle\Manager\UserManager
     celsius3_core.union_manager:
-        class: Celsius3\CoreBundle\Manager\UnionManager
-        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager']
+        alias: Celsius3\Manager\UnionManager
+#        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager']
     celsius3_core.catalog_manager:
         class: Celsius3\CoreBundle\Manager\CatalogManager
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper', '@celsius3_core.instance_manager']
@@ -226,10 +226,10 @@ services:
         class: Celsius3\CoreBundle\Manager\StatisticManager
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.instance_manager:
-        class: Celsius3\CoreBundle\Manager\InstanceManager
-        arguments: ['@doctrine.orm.entity_manager']
+        alias: Celsius3\Manager\InstanceManager
+#        arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.mail_manager:
-        class: Celsius3\CoreBundle\Manager\MailManager
+        class: Celsius3\Manager\MailManager
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager', '@twig', '@jms_serializer']
     celsius3_core.listener.confirmation:
         class: Celsius3\CoreBundle\EventListener\ConfirmationListener
@@ -265,7 +265,7 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: mail_template }
     celsius3_core.fos_user_manager:
-        class: Celsius3\CoreBundle\Manager\FosUserManager
+        class: Celsius3\Manager\FosUserManager
         arguments: ['@fos_user.util.password_updater', '@fos_user.util.canonical_fields_updater', '@celsius3_core.instance_helper', '@doctrine.orm.entity_manager', '@security.token_storage', '%fos_user.model.user.class%']
     celsius3_core.instance_disabled_listener:
         class: Celsius3\CoreBundle\EventListener\InstanceDisabledListener
