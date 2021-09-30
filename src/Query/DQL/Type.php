@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\CoreBundle\Query\DQL;
+namespace Celsius3\Query\DQL;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\Lexer;

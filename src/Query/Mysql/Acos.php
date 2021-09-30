@@ -12,18 +12,18 @@
  * to kontakt@beberlei.de so I can send you a copy immediately.
  */
 
-namespace Celsius3\CoreBundle\Query\Mysql;
+namespace Celsius3\Query\Mysql;
 
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\Lexer;
 
-class Radians extends FunctionNode
+class Acos extends FunctionNode
 {
     public $arithmeticExpression;
 
     public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {
-        return 'RADIANS('.$sqlWalker->walkSimpleArithmeticExpression(
+        return 'ACOS('.$sqlWalker->walkSimpleArithmeticExpression(
             $this->arithmeticExpression
         ).')';
     }

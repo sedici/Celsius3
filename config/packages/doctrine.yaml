@@ -69,7 +69,7 @@ doctrine:
                 DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
                 ANY_VALUE: DoctrineExtensions\Query\Mysql\AnyValue
                 GROUP_CONCAT: DoctrineExtensions\Query\Mysql\GroupConcat
-                TYPE: Celsius3\CoreBundle\Query\DQL\Type
+                TYPE: Celsius3\Query\DQL\Type
             numeric_functions:
                 ACOS: DoctrineExtensions\Query\Mysql\Acos
                 COS: DoctrineExtensions\Query\Mysql\Cos
