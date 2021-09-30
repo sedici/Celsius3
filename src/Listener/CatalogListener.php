@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,12 +22,12 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Listener;
+namespace Celsius3\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\CatalogPosition;
 use Celsius3\CoreBundle\Entity\Instance;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CatalogListener
@@ -53,17 +55,19 @@ class CatalogListener
             }
 
             $directory = $this->container->get('celsius3_core.instance_manager')
-                    ->getDirectory();
+                ->getDirectory();
             if ($entity->getInstance()->getId() == $directory->getId()) {
                 $instances = $em->getRepository('Celsius3CoreBundle:Instance')
-                        ->findAllExceptDirectory()
-                        ->getQuery()
-                        ->execute();
+                    ->findAllExceptDirectory()
+                    ->getQuery()
+                    ->execute();
                 foreach ($instances as $instance) {
-                    $place = count($em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                                    ->findBy(array(
-                                        'instance' => $instance->getId(),
-                    )));
+                    $place = count(
+                        $em->getRepository('Celsius3CoreBundle:CatalogPosition')
+                            ->findBy(array(
+                                         'instance' => $instance->getId(),
+                                     ))
+                    );
 
                     $position = new CatalogPosition();
                     $position->setCatalog($entity);
@@ -74,10 +78,12 @@ class CatalogListener
                 }
                 $em->flush();
             } else {
-                $place = count($em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                                ->findBy(array(
-                                    'instance' => $entity->getInstance()->getId(),
-                )));
+                $place = count(
+                    $em->getRepository('Celsius3CoreBundle:CatalogPosition')
+                        ->findBy(array(
+                                     'instance' => $entity->getInstance()->getId(),
+                                 ))
+                );
 
                 $position = new CatalogPosition();
                 $position->setCatalog($entity);
@@ -89,9 +95,10 @@ class CatalogListener
             }
         } elseif ($entity instanceof Instance) {
             $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
-                    ->findBy(array(
-                'instance' => $this->container->get('celsius3_core.instance_manager')->getDirectory()->getId(),
-            ));
+                ->findBy(array(
+                             'instance' => $this->container->get('celsius3_core.instance_manager')->getDirectory(
+                             )->getId(),
+                         ));
 
             $place = 0;
             foreach ($catalogs as $catalog) {
@@ -105,5 +112,4 @@ class CatalogListener
             $em->flush();
         }
     }
-
 }

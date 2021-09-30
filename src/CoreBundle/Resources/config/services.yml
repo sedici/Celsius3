@@ -16,29 +16,29 @@ services:
         class: Celsius3\CoreBundle\Mailer\Mailer
         arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@validator', '@celsius3_core.mailer_helper']
     celsius3_core.counter_listener:
-        class: Celsius3\CoreBundle\Listener\CounterListener
+        class: Celsius3\Listener\CounterListener
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
     celsius3_core.catalog_listener:
-        class: Celsius3\CoreBundle\Listener\CatalogListener
+        class: Celsius3\Listener\CatalogListener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
         arguments: ['@service_container']
     celsius3_core.configuration_listener:
-        class: Celsius3\CoreBundle\Listener\ConfigurationListener
+        class: Celsius3\Listener\ConfigurationListener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
         arguments: ['@celsius3_core.configuration_helper']
     celsius3_core.order_listener:
-        class: Celsius3\CoreBundle\Listener\OrderListener
+        class: Celsius3\Listener\OrderListener
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
         arguments: ['@service_container']
     celsius3_core.search_event_listener:
-        class: Celsius3\CoreBundle\Listener\SearchEventListener
+        class: Celsius3\Listener\SearchEventListener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: preUpdate }
