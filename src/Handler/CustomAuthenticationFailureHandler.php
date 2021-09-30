@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,23 +22,27 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Handler;
+namespace Celsius3\Handler;
 
-use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Security\Http\HttpUtils;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
+use Symfony\Component\Security\Http\HttpUtils;
 
-class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHandler implements AuthenticationFailureHandlerInterface
+class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
 {
     private $router;
 
-    public function __construct(Router $router, HttpKernelInterface $httpKernel, HttpUtils $httpUtils, array $options, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        RouterInterface $router,
+        HttpKernelInterface $httpKernel,
+        HttpUtils $httpUtils,
+        array $options,
+        LoggerInterface $logger = null
+    ) {
         parent::__construct($httpKernel, $httpUtils, $options, $logger);
         $this->router = $router;
     }

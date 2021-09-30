@@ -170,3 +170,6 @@ services:
 
     Celsius3\CoreBundle\Mailer\Mailer:
         alias:  celsius3_core.mailer
+
+    Symfony\Component\Security\Http\HttpUtils:
+        alias: security.http_utils

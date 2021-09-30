@@ -154,16 +154,16 @@ services:
             - { name: form.type }
         arguments: ['@celsius3_core.configuration_helper']
     celsius3_core.security.authentication_failure_handler:
-        class: Celsius3\CoreBundle\Handler\CustomAuthenticationFailureHandler
+        class: Celsius3\Handler\CustomAuthenticationFailureHandler
         tags:
             - { name: monolog.logger, channel: security }
         arguments: ['@router', '@http_kernel', '@security.http_utils', {  }, '@?logger']
     celsius3_core.security.authentication_success_handler:
-        class: Celsius3\CoreBundle\Handler\CustomAuthenticationSuccessHandler
-        arguments: ['@router', '@security.authorization_checker', '@security.http_utils', {  }]
+        alias: Celsius3\Handler\CustomAuthenticationSuccessHandler
+#        arguments: ['@router', '@security.authorization_checker', '@security.http_utils', {  }]
     celsius3_core.security.logout_success_handler:
-        class: Celsius3\CoreBundle\Handler\CustomLogoutSuccessHandler
-        arguments: ['@router']
+        alias: Celsius3\Handler\CustomLogoutSuccessHandler
+#        arguments: ['@router']
     celsius3_core.login_logging_aspect:
         class: Celsius3\CoreBundle\Aop\LoginLoggingAspect
         tags:

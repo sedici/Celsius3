@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -20,24 +22,27 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Handler;
+namespace Celsius3\Handler;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\Security\Http\HttpUtils;
-use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
-use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Celsius3\Manager\UserManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
+use Symfony\Component\Security\Http\HttpUtils;
 
-class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
+class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
 {
     private $router;
     private $authorization_checker;
 
-    public function __construct(Router $router, AuthorizationChecker $authorization_checker, HttpUtils $httpUtils, array $options)
-    {
+    public function __construct(
+        RouterInterface $router,
+        AuthorizationCheckerInterface $authorization_checker,
+        HttpUtils $httpUtils,
+        array $options = []
+    ) {
         parent::__construct($httpUtils, $options);
         $this->router = $router;
         $this->authorization_checker = $authorization_checker;
