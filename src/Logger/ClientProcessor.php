@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Logger;
+namespace Celsius3\Logger;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
