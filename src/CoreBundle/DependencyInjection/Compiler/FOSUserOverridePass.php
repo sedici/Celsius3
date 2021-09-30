@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\DependencyInjection\Compiler;
 
-use Celsius3\CoreBundle\EventListener\AuthenticationListener;
+use Celsius3\EventListener\AuthenticationListener;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

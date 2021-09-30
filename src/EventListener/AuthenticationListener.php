@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\CoreBundle\EventListener;
+namespace Celsius3\EventListener;
 
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\EventListener\AuthenticationListener as FOSAuthenticationListener;

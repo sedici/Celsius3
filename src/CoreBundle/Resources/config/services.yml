@@ -44,26 +44,26 @@ services:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postUpdate }
     celsius3_core.security.login_listener:
-        class: Celsius3\CoreBundle\EventListener\LoginListener
+        class: Celsius3\EventListener\LoginListener
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
         arguments: ['@session']
     celsius3_core.locale_choosing_listener:
-        class: Celsius3\CoreBundle\EventListener\LocaleChoosingListener
+        class: Celsius3\EventListener\LocaleChoosingListener
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
         arguments: ['', {  }, '@jms_i18n_routing.locale_resolver', '@celsius3_core.instance_helper']
     celsius3_core.exception_listener:
-        class: Celsius3\CoreBundle\EventListener\ExceptionListener
+        class: Celsius3\EventListener\ExceptionListener
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
         arguments: ['@monolog.logger.celsius_exception', '@monolog.logger.celsius_rest_exception', '@router']
     celsius3_core.context_listener:
-        class: Celsius3\CoreBundle\EventListener\ContextListener
+        class: Celsius3\EventListener\ContextListener
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
     celsius3_core.response_listener:
-        class: Celsius3\CoreBundle\EventListener\ResponseListener
+        class: Celsius3\EventListener\ResponseListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
         arguments: ['@session']
@@ -232,7 +232,7 @@ services:
         class: Celsius3\Manager\MailManager
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager', '@twig', '@jms_serializer']
     celsius3_core.listener.confirmation:
-        class: Celsius3\CoreBundle\EventListener\ConfirmationListener
+        class: Celsius3\EventListener\ConfirmationListener
         tags:
             - { name: kernel.event_subscriber }
         arguments: ['@fos_user.mailer', '@fos_user.util.token_generator', '@router', '@session', '@celsius3_core.configuration_helper']
@@ -247,11 +247,11 @@ services:
         class: Celsius3\CoreBundle\Security\UserProvider
         arguments: ['@fos_user.user_manager', '@doctrine.orm.entity_manager', '@request_stack']
     celsius3.listener.elastica_custom_properties:
-        class: Celsius3\CoreBundle\EventListener\CustomPropertiesListener
+        class: Celsius3\EventListener\CustomPropertiesListener
         tags:
             - { name: kernel.event_subscriber }
     celsius3_core.listener.file_upload:
-        class: Celsius3\CoreBundle\EventListener\FileUploadListener
+        class: Celsius3\EventListener\FileUploadListener
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
@@ -268,7 +268,7 @@ services:
         class: Celsius3\Manager\FosUserManager
         arguments: ['@fos_user.util.password_updater', '@fos_user.util.canonical_fields_updater', '@celsius3_core.instance_helper', '@doctrine.orm.entity_manager', '@security.token_storage', '%fos_user.model.user.class%']
     celsius3_core.instance_disabled_listener:
-        class: Celsius3\CoreBundle\EventListener\InstanceDisabledListener
+        class: Celsius3\EventListener\InstanceDisabledListener
         arguments: [ '@celsius3_core.instance_helper', '@twig' , '@security.helper', '@router' ]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

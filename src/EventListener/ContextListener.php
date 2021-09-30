@@ -20,22 +20,28 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\EventListener;
+namespace Celsius3\EventListener;
 
+use Celsius3\CoreBundle\Controller\BaseRestController;
+use Celsius3\Exception\Exception;
 use Celsius3\Manager\Alert;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
-class ResponseListener
+use function is_array;
+
+class ContextListener
 {
-    private $session;
-
-    public function __construct(Session $session)
+    public function onKernelController(FilterControllerEvent $event)
     {
-        $this->session = $session;
-    }
+        $controller = $event->getController();
 
-    public function onKernelResponse()
-    {
-        Alert::getAlerts($this->session->getFlashBag());
+        if (is_array($controller)) {
+            $controller = $controller[0];
+        }
+
+        if ($controller instanceof BaseRestController) {
+            Exception::setRest();
+            Alert::setRest();
+        }
     }
 }

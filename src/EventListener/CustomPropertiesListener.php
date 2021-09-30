@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\CoreBundle\EventListener;
+namespace Celsius3\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use FOS\ElasticaBundle\Event\TransformEvent;

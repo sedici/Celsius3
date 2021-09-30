@@ -48,6 +48,7 @@ services:
             $virtualHostConfigFile: '%virtual_host_config_file%'
             $uploadRootDir: '%upload_root_dir%'
             $logosUploadDir: '%logos_upload_dir%'
+            $firewallName: 'main'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -107,7 +108,7 @@ services:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
 
     kernel.listener.command_dispatch:
-        class: Celsius3\CoreBundle\EventListener\ConsoleLoggingListener
+        class: Celsius3\EventListener\ConsoleLoggingListener
         arguments:
             $logger: "@logger"
         tags:
@@ -173,3 +174,12 @@ services:
 
     Symfony\Component\Security\Http\HttpUtils:
         alias: security.http_utils
+        
+    FOS\UserBundle\Security\LoginManagerInterface:
+        alias: fos_user.security.login_manager
+        
+    FOS\UserBundle\Mailer\MailerInterface:
+        alias: celsius3_core.fos_mailer.custom
+        
+    FOS\UserBundle\Util\TokenGeneratorInterface:
+        alias: fos_user.util.token_generator.default
