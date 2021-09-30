@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\CoreBundle\Security;
+namespace Celsius3\Security;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use FOS\UserBundle\Model\UserManagerInterface;

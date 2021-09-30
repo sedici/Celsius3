@@ -244,7 +244,7 @@ services:
         class: Celsius3\Helper\MailerHelper
         arguments: ['@service_container']
     celsius3_core.security.user_provider.username_email:
-        class: Celsius3\CoreBundle\Security\UserProvider
+        class: Celsius3\Security\UserProvider
         arguments: ['@fos_user.user_manager', '@doctrine.orm.entity_manager', '@request_stack']
     celsius3.listener.elastica_custom_properties:
         class: Celsius3\EventListener\CustomPropertiesListener
