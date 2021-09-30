@@ -165,12 +165,12 @@ services:
         alias: Celsius3\Handler\CustomLogoutSuccessHandler
 #        arguments: ['@router']
     celsius3_core.login_logging_aspect:
-        class: Celsius3\CoreBundle\Aop\LoginLoggingAspect
+        class: Celsius3\Aop\LoginLoggingAspect
         tags:
             - { name: jms_aop.pointcut, interceptor: celsius3_core.login_logging_aspect }
         arguments: ['@request_stack', '@doctrine.orm.entity_manager']
     celsius3_core.instance_injection_aspect:
-        class: Celsius3\CoreBundle\Aop\InstanceInjectionAspect
+        class: Celsius3\Aop\InstanceInjectionAspect
         tags:
             - { name: jms_aop.pointcut, interceptor: celsius3_core.instance_injection_aspect }
         arguments: ['@celsius3_core.instance_helper']

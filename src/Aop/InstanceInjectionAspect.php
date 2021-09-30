@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Aop;
+namespace Celsius3\Aop;
 
 use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
