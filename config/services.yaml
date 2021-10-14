@@ -183,3 +183,10 @@ services:
         
     FOS\UserBundle\Util\TokenGeneratorInterface:
         alias: fos_user.util.token_generator.default
+
+    celsius3_menu_builder:
+        class: Celsius3\Menu\Builder
+        arguments: [ "@knp_menu.factory" ]
+        tags:
+            - { name: knp_menu.menu_builder, method: publicMenu, alias: public }
+            - { name: knp_menu.menu_builder, method: directoryMenu, alias: directory }

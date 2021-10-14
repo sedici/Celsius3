@@ -2,7 +2,7 @@
 
 {% block navigation_content %}
     <div class="pull-left">
-        {{ knp_menu_render('Celsius3CoreBundle:Builder:publicMenu', { 'currentClass': 'active' }) }}
+        {{ knp_menu_render('public', { 'currentClass': 'active' }) }}
     </div>
     {% if not app.user %}
     <ul class="list-unstyled list-horizontal pull-right">

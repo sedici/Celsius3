@@ -22,17 +22,23 @@
 
 namespace Celsius3\Menu;
 
+use Celsius3\Helper\InstanceHelper;
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class Builder implements ContainerAwareInterface
+class Builder
 {
-    use ContainerAwareTrait;
+    private $factory;
+    private $instanceHelper;
 
-    public function directoryMenu(FactoryInterface $factory)
+    public function __construct(FactoryInterface $factory, InstanceHelper $instanceHelper)
     {
-        $menu = $factory->createItem('root');
+        $this->factory = $factory;
+        $this->instanceHelper = $instanceHelper;
+    }
+
+    public function directoryMenu()
+    {
+        $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
         $menu->addChild('Home', array(
@@ -48,12 +54,12 @@ class Builder implements ContainerAwareInterface
         return $menu;
     }
 
-    public function publicMenu(FactoryInterface $factory)
+    public function publicMenu()
     {
-        $menu = $factory->createItem('root');
+        $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+        $instance = $this->instanceHelper->getSessionOrUrlInstance();
 
         $homeText = !empty($instance->get('home_home_btn_text')->getValue()) ? $instance->get('home_home_btn_text')->getValue() : 'Home';
         $menu->addChild($homeText, array('route' => 'public_index'))
