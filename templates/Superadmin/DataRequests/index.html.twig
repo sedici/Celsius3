@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Data requests list' | trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Data requests list' | trans }}</h2>
+    <hr class="separator_hr">
+    {{ index('superadmin_data_request_index', pagination, 'Superadmin/DataRequests/', null, null, false) }}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'Order/_show_fields.html.twig' %}
+
+{% block extrafields %}
+    <dt>{{ 'User'|trans }}</dt>
+    <dd><a href="{{ path('superadmin_user',{ 'id': element.originalRequest.owner.id }) }}">{{ element.originalRequest.owner.username }}</a></dd>
+    <dt>{{ 'Instance'|trans }}</dt>
+    <dd>{{ element.originalRequest.instance }}</dd>
+{% endblock %}

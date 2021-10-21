@@ -1,0 +1,16 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Mail Template Edit' |trans }}
+{% endblock %}
+
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
+
+{% block content %}
+    <h2>{{ 'Mail Template Edit'|trans }} - {{ entity.title }}</h2>
+
+    {{ edit('admin_mails', entity, edit_form) }}
+
+    {% include 'Admin/Mail/'_help.html.twig' %}
+{% endblock %}
+

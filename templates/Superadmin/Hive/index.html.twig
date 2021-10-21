@@ -1,0 +1,16 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Hive List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>{{ 'Hive List'|trans }}</h2></div>
+</div>
+{{ index('superadmin_hive', pagination, 'Superadmin/Hive/') }}
+
+{% endblock %}

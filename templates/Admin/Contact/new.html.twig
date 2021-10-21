@@ -1,0 +1,14 @@
+{% set ajax_path = 'admin_ajax' %}
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Contact Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <h2>{{ 'Contact Creation'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_contact', form, 'Admin/Contact/', true) }}
+{% endblock %}

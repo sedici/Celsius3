@@ -1,0 +1,67 @@
+{% extends 'Layout/directory_layout.html.twig' %}
+
+{% block title %}
+    {{ 'Instances'|trans }}
+{% endblock %}
+
+{% block content %}
+    <br/>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>{{ 'Celsius3 Instances' | trans }}</h2>
+            {% for country, insts in instances %}
+                {% include 'Directory/_instance.html.twig' %}
+            {% else %}
+                {{ 'There are no instances.' | trans }}
+            {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <div id="map" class="map"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap">
+    </script>
+
+    <script type="text/javascript">
+        function initMap() {
+            let map = new google.maps.Map(
+                document.getElementById('map'),
+                {
+                    zoom: 3,
+                    center: {
+                        lat: {{ google_maps_center_position.latitude }},
+                        lng: {{ google_maps_center_position.longitude }}
+                    }
+                }
+            );
+
+            let markers = [];
+            {% for marker in google_maps_markers %}
+            markers.push(new google.maps.Marker({
+                position: {
+                    lat: {{ marker.latitude }},
+                    lng: {{ marker.longitude }}
+                },
+                map: map,
+                title: "{{ marker.title }}"
+            }));
+            {% endfor %}
+        }
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        #map {
+            height: 1000px;
+            width: 100%;
+        }
+    </style>
+{% endblock %}

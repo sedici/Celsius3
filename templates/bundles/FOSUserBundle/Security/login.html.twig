@@ -1,4 +1,4 @@
-{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+{% extends 'Layout/layout.html.twig' %}
 
 {% block title %}
     {{ 'Login'|trans }}
@@ -25,19 +25,19 @@
                     <div class="form-group has-feedback">
                         <input type="text" id="username" class="form-control" name="_username"
                                value="{{ last_username }}"
-                               placeholder="{{ 'label.username' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}"/>
+                               placeholder="{{ 'label.username' | trans({}, 'Form') | first_upper }}"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
                         <input type="password" id="password" class="form-control" name="_password"
-                               placeholder="{{ 'label.password' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}"/>
+                               placeholder="{{ 'label.password' | trans({}, 'Form') | first_upper }}"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
 
                     <div class="checkbox ">
                         <label>
                             <input type="checkbox" id="remember_me" class="" name="_remember_me" value="on"/>
-                            {{ 'label.remember_me' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}
+                            {{ 'label.remember_me' | trans({}, 'Form') | first_upper }}
                         </label>
                     </div>
 
@@ -45,10 +45,10 @@
                         <div class="col-xs-12">
                             <button type="submit" class="btn btn-primary submit-button">
                                 <span class="glyphicon glyphicon-ok"></span>
-                                {{ 'label.login' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}
+                                {{ 'label.login' | trans({}, 'Form') | first_upper }}
                             </button>
                             <a href="{{ path('fos_user_resetting_request') }}"
-                               class="">{{ 'link.resseting_question' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}</a>
+                               class="">{{ 'link.resseting_question' | trans({}, 'Form') | first_upper }}</a>
                         </div>
                     </div>
                 </form>

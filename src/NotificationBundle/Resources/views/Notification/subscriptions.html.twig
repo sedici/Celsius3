@@ -1,4 +1,4 @@
-{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+{% extends 'Layout/layout.html.twig' %}
 
 {% block title %}
     {{ 'Notification Subscriptions' | trans }}
@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+            {% include 'Layout/_flashes.html.twig' %}
 
             <form action="{{ path('user_notification_subscriptions') }}" method="post" class="form" role="form">
                 {{ form_row(form._token) }}

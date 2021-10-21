@@ -1,0 +1,382 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Dashboard Statistic'|trans }}
+{% endblock %}
+
+
+{% block  stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+{% endblock %}
+
+ {% block body_title %}
+ {% endblock %}
+
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>{{ 'Dashboard'|trans }}<small>{{ 'Statistic'|trans }}</small></h1>
+</section>
+
+    <!-- Main content -->
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-3">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ orderCount.created }}</h3>
+                    <p>Pendientes</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{orderCount.searched + orderCount.taken}}</h3>
+
+                    <p>En Busqueda</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{orderCount.requested}}</h3>
+
+                    <p>Solicitatos</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ orderCount.delivered + orderCount.cancelled + orderCount.annulled}}</h3>
+
+                    <p>Finalizados</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+        <br/>
+
+    <form method="post" name="form_estadisticas">
+    <div class="row">
+        <div class="col-lg-3">
+            <select class="form-control operators-select" name="user" id="form_user">
+                <option value="">Todos</option>
+            {% for a in admin %}
+                <option value="{{ a.id }}">{{ a.fullname }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class='col-md-3'>
+            <div class="form-group">
+                    <input type='text' size="30" class="form-control"  id='form_fecha_desde'  />
+            </div>
+        </div>
+        <div class='col-md-3'>
+            <div class="form-group">
+                <input type='text' size="30" class="form-control" id='form_fecha_hasta'  />
+            </div>
+        </div>
+        <div class='col-md-2'>
+            <div class="form-group">
+                <button  type="button" class="btn btn-success" onclick="buscarResultado()">Procesar</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    <br/>
+        <div style="display: none" id="resultado">Procesando, espere por favor...</div>
+
+
+                    <!-- /.col (LEFT) -->
+       <div class="col-md-12">
+                        <!-- LINE CHART -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cantidad de Pedidos Por Operador</h3>
+
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <div id="resultado_operadores">
+
+                        </div>
+
+                    </div>
+                </div>
+                            <!-- /.box-body -->
+            </div>
+                        <!-- /.box -->
+                        <!-- BAR CHART -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Pedidos Cancelados/Anulados</h3>
+
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <div id="resultado_operadores_cancelados">
+
+                        </div>
+                    </div>
+                </div>
+                            <!-- /.box-body -->
+            </div>
+                        <!-- /.box -->
+
+           <!-- BAR CHART -->
+           <div class="box box-success">
+               <div class="box-header with-border">
+                   <h3 class="box-title">Cantidad de Busquedas por Pedidos</h3>
+
+               </div>
+               <div class="box-body">
+                   <div class="chart">
+                       <div id="resultado_operadores_cancelados">
+
+                       </div>
+                   </div>
+               </div>
+               <!-- /.box-body -->
+           </div>
+           <!-- /.box -->
+
+
+        </div>
+
+    <form method="post" name="form_estadisticas_poranio">
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control operators-select" name="user" id="buscarResultadoPorAnio">
+                    <option value="">Todos</option>
+                    {% for a in admin %}
+                        <option value="{{ a.id }}">{{ a.fullname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <select class="form-control operators-select" name="user" id="form_anio_desde">
+                        <option value="">Todos</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <select class="form-control operators-select" name="user" id="form_anio_hasta">
+                        <option value="">Todos</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+            </div>
+            <div class='col-md-2'>
+                <div class="form-group">
+                    <button  type="button" class="btn btn-success" onclick="buscarResultadoPorAnioUser()">Procesar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- /.col (LEFT) -->
+    <div class="col-md-12">
+        <!-- LINE CHART -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Cantidad de Pedidos Por Año</h3>
+
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <div id="resultado_operadores_por_operador">
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+
+
+    </div>
+
+
+                    <!-- /.col (RIGHT) -->
+    </div>
+
+
+                <!-- /.row -->
+</section>
+
+{% block javascripts %}
+        {{ parent() }}
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#form_fecha_desde').datepicker({ dateFormat: 'yy-mm-dd' });
+                $('#form_fecha_hasta').datepicker({ dateFormat: 'yy-mm-dd' });
+            });
+
+            function buscarResultadoPorAnioUser(){
+
+                var parametros = {
+                    "user" : $("#form_operador").val(),
+                    'anio_desde': $("#form_anio_desde").val(),
+                    'anio_hasta': $("#form_anio_hasta").val()
+
+                };
+                $.ajax({
+                    data:  parametros,
+                    url: '{{ path('pedidos_por_estados_anio') }}',
+                    type:  'post',
+                    beforeSend: function () {
+                        $("#resultado").show();
+                        $("#resultado_operadores").html("");
+                    },
+                    success:  function (response) {
+                        $("#resultado").hide();
+                        var html_table_header='<table class="table">';
+                        var html_table_footer="</table>";
+                        var html_completo='';
+                        var html_temp='';
+                        var html_tr_header="<tr><th>Nombre</th><th>Año</th><th>Creados</th><th>Cancelados</th><th>Satisfechos</th><th>Totales</th></tr>";
+
+                        console.log(response);
+                        jQuery.each( response.result, function( i, val ) {
+                            var html_tr_header='<tr>';
+                            var html_tr_footer="</tr>";
+                            var html_td='';
+                            console.log(val.estados)
+                            var total=(parseInt(val.estados.searched) + parseInt(val.estados.taken)+ parseInt(val.estados.requested)+parseInt(val.estados.received)+(parseInt(val.estados.delivered) + parseInt(val.estados.cancelled) + parseInt(val.estados.annulled)) )
+                            html_td="<td>"+val.nombre+"</td><td>"+(parseInt(val.estados.searched) + parseInt(val.estados.taken)) +"</td><td>"+val.estados.requested+"</td><td>"+val.estados.received+"</td><td>"+(parseInt(val.estados.delivered) + parseInt(val.estados.cancelled) + parseInt(val.estados.annulled))+"</td><td>"+total+"</td>";
+                            html_temp+=html_tr_header+html_td+html_tr_footer;
+
+
+                        });
+                        html_completo=html_table_header+html_tr_header+html_temp+html_table_footer;
+
+                        $("#resultado_operadores_por_operador").html(html_completo);
+
+                    }
+                });
+            }
+
+
+
+            function buscarResultado(){
+                var parametros = {
+                    "user" : $("#form_user").val(),
+                    'fecha_desde': $("#form_fecha_desde").val(),
+                    'fecha_hasta': $("#form_fecha_hasta").val()
+
+                };
+                $.ajax({
+                    data:  parametros,
+                    url: '{{ path('pedidos_por_estados') }}',
+                    type:  'post',
+                    beforeSend: function () {
+                        $("#resultado").show();
+                        $("#resultado_operadores").html("");
+                    },
+                    success:  function (response) {
+                        $("#resultado").hide();
+                        var html_table_header='<table class="table">';
+                        var html_table_footer="</table>";
+                        var html_completo='';
+                        var html_temp='';
+                        var html_tr_header="<tr><th>Nombre</th><th>Busqueda</th><th>Solicitado</th><th>Recibidos</th><th>Finalizados</th><th>Totales</th></tr>";
+
+                        var html_cancelado='<table class="table"><tr><th>Nombre</th><th>Cancelados</th><th>Anulados</th></tr>';
+                        var html_table_footer_cancelado="</table>";
+                        var html_temp_cancelado='';
+
+                        var html_completo_cancelado='';
+                        jQuery.each( response.result, function( i, val ) {
+                            var html_tr_header='<tr>';
+                            var html_tr_footer="</tr>";
+                            var html_td='';
+                            console.log(val.estados)
+                            var total=(parseInt(val.estados.searched) + parseInt(val.estados.taken)+ parseInt(val.estados.requested)+parseInt(val.estados.received)+(parseInt(val.estados.delivered) + parseInt(val.estados.cancelled) + parseInt(val.estados.annulled)) )
+                            html_td="<td>"+val.nombre+"</td><td>"+(parseInt(val.estados.searched) + parseInt(val.estados.taken)) +"</td><td>"+val.estados.requested+"</td><td>"+val.estados.received+"</td><td>"+(parseInt(val.estados.delivered) + parseInt(val.estados.cancelled) + parseInt(val.estados.annulled))+"</td><td>"+total+"</td>";
+                            html_temp+=html_tr_header+html_td+html_tr_footer;
+                            html_temp_cancelado+="<tr><td>"+val.nombre+"</td><td>"+val.estados.cancelled+"</td><td>"+val.estados.annulled+"</td></tr>";
+
+
+                        });
+                        html_completo=html_table_header+html_tr_header+html_temp+html_table_footer;
+                        html_completo_cancelado=html_cancelado+html_temp_cancelado+html_table_footer_cancelado;
+
+                        $("#resultado_operadores").html(html_completo);
+                        $("#resultado_operadores_cancelados").html(html_completo_cancelado);
+
+
+
+
+
+
+
+                    }
+                });
+            }
+
+
+
+
+
+
+        </script>
+{% endblock %}
+
+
+
+
+{% endblock %}

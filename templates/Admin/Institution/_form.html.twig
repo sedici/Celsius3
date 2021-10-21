@@ -1,0 +1,107 @@
+{% form_theme form 'Form/fields.html.twig' %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.name.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.name, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.name.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.abbreviation.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.abbreviation, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.abbreviation, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.abbreviation.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.website.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.website, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.website, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.website.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.address.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.address, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.address.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.country.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.country, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.country, { 'attr': {'class': 'form-control country-select'} }) }}
+                {% for error in form.country.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.city.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.city, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.city, { 'attr': {'class': 'form-control city-select'} }) }}
+                {% for error in form.city.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.parent.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.parent, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.parent, { 'attr': {'class': 'form-control institution-select'} }) }}
+                {% for error in form.parent.vars.errors %}
+                    <p class="text-danger">{{ error.message | trans }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>

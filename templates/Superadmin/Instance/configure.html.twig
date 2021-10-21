@@ -1,0 +1,19 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Instance Configuration'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/configure.html.twig" import configure as configure %}
+
+{% block content %}
+
+
+    <div class="panel panel-body">
+        <div class="panel-heading">  <h2>{{ 'Instance Configuration' }}</h2></div>
+        <hr class="separator_hr">
+        {{ configure('superadmin_instance', configure_form, 'Superadmin/Instance/', entity) }}
+    </div>
+    </div>
+{% endblock %}
+

@@ -61,12 +61,12 @@
 
                 {% endblock %}
                 {% block instance_panels %}
-                    {#                            {% include 'Celsius3CoreBundle:Layout:_user_panel.html.twig' %}#}
+                    {#                            {% include 'Layout/_user_panel.html.twig' %}#}
                     {% include 'Celsius3MessageBundle:Layout:_message_panel.html.twig' %}
                     {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
                 {% endblock %}
-                {#                        {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}#}
-                {#                        {% include 'Celsius3CoreBundle:Layout:_activity.html.twig' %}#}
+                {#                        {% include 'Layout/_lang_panel.html.twig' %}#}
+                {#                        {% include 'Layout/_activity.html.twig' %}#}
             </div>
         </nav>
     </div>
@@ -86,9 +86,9 @@
         {% endblock %}
     </div>
 </div>
-{% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
+{% include 'Layout/_mail_modal.html.twig' %}
 {% block javascripts %}
-    {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
+    {% include 'Layout/var.html.twig' %}
     {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
     <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>

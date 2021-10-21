@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Catalog List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Catalog List'|trans }}</h2>
+
+    {{ index('superadmin_catalog', pagination, 'Superadmin/Catalog/', filter_form, null, true) }}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Mail Template Edit'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
+
+{% block content %}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"> <h2>{{ 'Mail Template Edit'|trans }} - {{ entity.title }}</h2></div>
+    <div class="panel-body">
+    {{ edit('superadmin_mails', entity, edit_form) }}
+    </div>
+</div>
+{% endblock %}

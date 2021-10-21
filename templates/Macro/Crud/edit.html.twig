@@ -1,7 +1,7 @@
 {% macro edit(name, entity, form, folder, custom_rendering = false) %}
     <div class="row">
         <div class="col-md-9">
-            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+            {% include 'Layout/_flashes.html.twig' %}
 
             {{ form_start(form, {
                 'attr': {
@@ -11,7 +11,7 @@
                     'novalidate': 'novalidate'
                 }
             }) }}
-            {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+            {% form_theme form 'Form/fields.html.twig' %}
 
             {% if custom_rendering %}
                 {{ form_errors(form) }}

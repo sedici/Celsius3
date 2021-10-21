@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Catalog Union'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/union.html.twig" import union as union %}
+
+{% block content %}
+    <h2>{{ 'Catalog Union'|trans }}</h2>
+
+    {{ union('superadmin_catalog', entities, 'Superadmin/Catalog/') }}
+{% endblock %}

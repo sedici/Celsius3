@@ -1,0 +1,562 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Instance Configuration'|trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <style type="text/css">
+        label.form-check-label input {
+            margin-right: 20px;
+        }
+    </style>
+    <style type="text/css" about="diagram">
+        .mb {
+            border: 1px solid #777;
+        }
+
+        .center {
+            vertical-align: middle;
+            text-align: center;
+            font-size: large;
+        }
+
+        .data {
+            border-left: 2px solid #5bc0de;
+            border-right: 2px solid #5cb85c;
+            padding-top: 20px;
+        }
+
+        .year {
+            display: inline-block;
+            line-height: 200px;
+            float: right;
+            font-size: x-large;
+        }
+
+        .row-height {
+            height: 200px;
+            border-bottom-color: #363636;
+            border-bottom-style: dashed;
+            border-bottom-width: 1px;
+        }
+
+        .arrow-icon {
+            font-size: x-large;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .institution:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            border-bottom: 2px solid #5cb85c;
+        }
+
+        .instance:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            border-bottom: 2px solid #5bc0de;
+        }
+
+        .institution-color {
+            color: #5cb85c
+        }
+
+        .instance-color {
+            color: #5bc0de;
+        }
+
+        .large {
+            font-size: large;
+        }
+    </style>
+    <style type="text/css" about="animations">
+        .animated {
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .fast {
+            -webkit-animation-duration: 0.4s;
+            animation-duration: 0.4s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeIn {
+            animation-name: fadeIn;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="col-xs-12">
+        <div class="panel panel-body">
+            <div class="panel-heading">
+                <h2>{{ 'Exchange' | trans }}</h2>
+            </div>
+            <hr class="separator_hr">
+            <form method="post" name="form_intercambio">
+
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <div class="filter-select" id="filter">
+                            <input type="radio" value="" name="provider" checked onchange="buscarInstituciones()"/>
+                            <label for="provider_institution">{{ 'All' | trans }}</label>
+                            <input type="radio" value="celsius3" name="provider" onchange="buscarInstituciones()"/>
+                            <label for="provider_web">Celsius3</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <select class="select2 form-control operators-select " name="country" id="form_country"
+                                onchange="buscarInstituciones()">
+                            <option></option>
+                            {% for c in countries %}
+                                <option value="{{ c.id }}">{{ c.name|e }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <select class="select2 form-control operators-select select2" name="institucion"
+                                id="form_institucion">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class='col-md-4'>
+                        <div class="form-group">
+                            <select class="form-control operators-select" name="initialYear" id="form_anio_desde">
+                                <option></option>
+                                {% set actual = date().format('Y') %}
+                                {% for i in 2001..actual %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class='col-md-4'>
+                        <div class="form-group">
+                            <select class="form-control operators-select" name="finalYear" id="form_anio_hasta">
+                                <option></option>
+                                {% set actual = date().format('Y') %}
+                                {% for i in 2001..actual %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class='col-md-4'>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success" onclick="buscarResultado()">{{ 'View exchange' | trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br/>
+
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab-table" aria-controls="tab-table" role="tab"
+                                                              data-toggle="tab" class="large">{{ 'Table' | trans }}</a>
+                    </li>
+                    <li role="presentation"><a href="#tab-diagram" aria-controls="tab-diagram" role="tab"
+                                               data-toggle="tab" class="large">{{ 'Diagram' | trans }}</a></li>
+                </ul>
+                <br>
+                <div class="tab-content">
+                    <div style="display: none" id="resultado">{{ 'Procesando, espere por favor...' | trans }}</div>
+                    <div id="not-found-data-message" style="display: none">{{ 'Not found interation data' | trans }}</div>
+                    <div role="tabpanel" class="tab-pane active animated fadeIn" id="tab-table">
+                        <div id="table" class="row"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="tab-diagram">
+                        <div id="diagram" class="row"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <template id="table-template">
+        <div class="col-md-12 animated fadeIn">
+            <!-- LINE CHART -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ 'Instance' | trans }}: <span id="instancia_nombre"></span></h3>
+                    <p>{{ 'Solicitudes de la institución seleccionada atendidas por su instancia' | trans }}</p>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <div id="resultado_institutionInteraction">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- BAR CHART -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ 'institution' | trans }}: <span id="institucion_nombre"></span></h3>
+                    <p>{{ 'Solicitudes de su instancia atendidas por la institución seleccionada' | trans }}</p>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <div id="resultado_instanceInteraction">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </template>
+    <template id="diagram-headers">
+        <div class="row animated fadeIn">
+            <div class="col-md-6 text-center instance">
+                <h3 class="box-title"><span id="instance-name"></span></h3>
+            </div>
+            <div class="col-md-6 text-center institution">
+                <h3 class=""><span id="institution-name"></span></h3>
+            </div>
+        </div>
+    </template>
+    <template id="diagram-data-row">
+        <div class="row animated fadeIn">
+            <div class="col-md-3 row-height center"><span class="year"></span></div>
+            <div class="col-md-6 data center row-height">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        {{ 'Requested_s' | trans }} <span id="requested-number">0</span>
+                    </div>
+                    <div class="col-md-4 left">
+                        <span class="glyphicon glyphicon-arrow-right arrow-icon instance-color"
+                              aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 right">
+                        <span class="glyphicon glyphicon-arrow-left arrow-icon institution-color"
+                              aria-hidden="true"></span>
+                    </div>
+                    <div class="col-md-4">
+                        {{ 'Received_s' | trans }} <span id="received-number">0</span>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-4 right">
+                        <span class="glyphicon glyphicon-arrow-left arrow-icon institution-color"
+                              aria-hidden="true"></span>
+                    </div>
+                    <div class="col-md-4">
+                        {{ 'Requested_s' | trans }} <span id="created-number">0</span>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        {{ 'Received_s' | trans }} <span id="delivered-number">0</span>
+                    </div>
+                    <div class="col-md-4 left">
+                        <span class="glyphicon glyphicon-arrow-right arrow-icon instance-color"
+                              aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 row-height"></div>
+        </div>
+    </template>
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#form_institucion").select2({
+                placeholder: "{{ 'institution' | trans }}",
+                allowClear: true
+            });
+            $("#form_country").select2({
+                placeholder: "{{ 'country' | trans }}",
+                allowClear: true
+            });
+            $('#form_anio_desde').select2({
+                minimumResultsForSearch: -1,
+                placeholder: "{{ 'initialYear' | trans }}",
+                allowClear: true
+            });
+            $('#form_anio_hasta').select2({
+                minimumResultsForSearch: -1,
+                placeholder: "{{ 'finalYear' | trans }}",
+                allowClear: true
+            });
+
+            if($("#form_country").val()) {
+                buscarInstituciones();
+            }
+        });
+
+        function minYear(a1, a2) {
+            var min = (minA = Math.min.apply(null, a1)) < (minB = Math.min.apply(null, a2)) ? minA : minB;
+            var anioDesde = document.querySelector('#form_anio_desde').value;
+            if (anioDesde) {
+                min = min < anioDesde ? min : anioDesde;
+            }
+
+            return min;
+        }
+
+        function maxYear(a1, a2) {
+            var max = (maxA = Math.max.apply(null, a1)) > (maxB = Math.max.apply(null, a2)) ? maxA : maxB;
+            var anioHasta = document.querySelector('#form_anio_hasta').value;
+            if (anioHasta) {
+                max = max > anioHasta ? max : anioHasta;
+            }
+
+            return max;
+        }
+
+        function diagram(response) {
+            var ai = response.instanceInteraction ?? {};
+            var ii = response.institutionInteraction ?? {};
+            var diagram = document.querySelector('#diagram');
+
+            var diagramHeaders = document.querySelector('#diagram-headers');
+            diagramHeaders.content.querySelector('#instance-name').textContent = response.instance;
+            diagramHeaders.content.querySelector('#institution-name').textContent = response.institution;
+            diagram.appendChild(document.importNode(diagramHeaders.content, true));
+
+            if ('data' in ii) {
+                var a1 = Object.keys(ii.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+            if ('data' in ai) {
+                var a2 = Object.keys(ai.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+
+            var min = minYear(a1, a2);
+            var max = maxYear(a1, a2);
+
+            var emptyDataRow = document.querySelector('#diagram-data-row');
+            for (var i = min; i <= max; i++) {
+                var dataRow = emptyDataRow.cloneNode(true);
+
+                dataRow.content.querySelector('.year').textContent = i;
+
+                if ('data' in ai && i in ai.data) {
+                    dataRow.content.querySelector('#requested-number').textContent = ai.data[i].requested ?? 0;
+                    dataRow.content.querySelector('#received-number').textContent = ai.data[i].received ?? 0;
+                }
+
+                if ('data' in ii && i in ii.data) {
+                    dataRow.content.querySelector('#created-number').textContent = ii.data[i].created ?? 0;
+                    dataRow.content.querySelector('#delivered-number').textContent = ii.data[i].received ?? 0;
+                }
+
+                var clone = document.importNode(dataRow.content, true);
+                diagram.appendChild(clone);
+            }
+        }
+
+        function table(response) {
+            var table = document.querySelector('#table');
+            var tt = document.querySelector('#table-template');
+            tt.content.querySelector('#instancia_nombre').textContent = response.instance;
+            tt.content.querySelector('#institucion_nombre').textContent = response.institution;
+
+            var resultado_instanceInteraction = (response.instanceInteraction) ? response.instanceInteraction : [];
+            var resultado_institutionInteraction = (response.institutionInteraction) ? response.institutionInteraction : [];
+
+            if ('data' in resultado_institutionInteraction) {
+                var a1 = Object.keys(resultado_institutionInteraction.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+            if ('data' in resultado_instanceInteraction) {
+                var a2 = Object.keys(resultado_instanceInteraction.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+
+            var min = minYear(a1, a2);
+            var max = maxYear(a1, a2);
+
+            var html_resultado_instanceInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"; //<th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th>
+            var tr_resultado_instanceInteraction = '';
+            var aidata = resultado_instanceInteraction.data ?? [];
+
+            var totalsInstance = [];
+            totalsInstance['received'] = 0;
+            totalsInstance['requested'] = 0;
+            totalsInstance['reclaimed'] = 0;
+            totalsInstance['cancelled'] = 0;
+
+            for (var i = min; i <= max; i++) {
+                aidatarow = aidata[i] ?? {};
+
+                var received = aidatarow.received ?? 0;
+                var requested = aidatarow.requested ?? 0;
+                var reclaimed = aidatarow.reclaimed ?? 0;
+                var cancelled = aidatarow.cancelled ?? 0;
+
+                totalsInstance['received'] += parseInt(received);
+                totalsInstance['requested'] += parseInt(requested);
+                totalsInstance['reclaimed'] += parseInt(reclaimed);
+                totalsInstance['cancelled'] += parseInt(cancelled);
+
+                tr_resultado_instanceInteraction = tr_resultado_instanceInteraction + "<tr><td>" + i + "</td><td>" + requested + "</td><td>" + received + "</td></tr>"; //<td>" + reclaimed + "</td><td>" + cancelled + "</td>
+            }
+            tr_resultado_instanceInteraction = tr_resultado_instanceInteraction + "<tr><td>{{ 'Total' | trans }}</td><td>" + totalsInstance['requested'] + "</td><td>" + totalsInstance['received'] + "</td></tr>"; //<td>" + reclaimed + "</td><td>" + cancelled + "</td>
+
+            html_resultado_instanceInteraction = html_resultado_instanceInteraction + tr_resultado_instanceInteraction + "</table>";
+
+            var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Annulled' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Cancelled' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"
+            var tr_resultado_institutionInteraction = '';
+            var iidata = resultado_institutionInteraction.data ?? [];
+
+            var totalsInstitution = [];
+            totalsInstitution['created'] = 0;
+            totalsInstitution['received'] = 0;
+            totalsInstitution['requested'] = 0;
+            totalsInstitution['searched'] = 0;
+            totalsInstitution['cancelled'] = 0;
+            totalsInstitution['annulled'] = 0;
+
+            for (var i = min; i <= max; i++) {
+                iidatarow = iidata[i] ?? {};
+
+                var created = iidatarow.created ?? 0;
+                var received = iidatarow.received ?? 0;
+                var requested = iidatarow.requested ?? 0;
+                var searched = iidatarow.searched ?? 0;
+                var cancelled = iidatarow.cancelled ?? 0;
+                var annulled = iidatarow.annulled ?? 0;
+
+                totalsInstitution['created'] += parseInt(created);
+                totalsInstitution['received'] += parseInt(received);
+                totalsInstitution['requested'] += parseInt(requested);
+                totalsInstitution['searched'] += parseInt(searched);
+                totalsInstitution['cancelled'] += parseInt(cancelled);
+                totalsInstitution['annulled'] += parseInt(annulled);
+
+                tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>" + i + "</td><td>" + created + "</td><td>" + annulled + "</td><td>" + requested + "</td><td>" + cancelled + "</td><td>" + received + "</td></tr>";
+            }
+            tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>{{ 'Total' | trans }}</td><td>" + totalsInstitution['created'] + "</td><td>" + totalsInstitution['annulled'] + "</td><td>" + totalsInstitution['requested'] + "</td><td>" + totalsInstitution['cancelled'] + "</td><td>" + totalsInstitution['received'] + "</td></tr>";
+
+            html_resultado_institutionInteraction = html_resultado_institutionInteraction + tr_resultado_institutionInteraction + "</table>";
+
+            tt.content.querySelector("#resultado_instanceInteraction").innerHTML = html_resultado_instanceInteraction;
+            tt.content.querySelector("#resultado_institutionInteraction").innerHTML = html_resultado_institutionInteraction;
+
+            table.appendChild(document.importNode(tt.content, true));
+        }
+
+        function buscarResultado() {
+            var parametros = {
+                "id": $("#form_institucion").val(),
+                'anio_desde': $("#form_anio_desde").val(),
+                'anio_hasta': $("#form_anio_hasta").val()
+            };
+
+            $.ajax({
+                data: parametros,
+                url: '{{ path('admin_instance_interaction_get') }}',
+                type: 'post',
+                beforeSend: function () {
+                    $("#not-found-data-message").hide();
+                    $("#resultado").show();
+                    $("#resultado_operadores").html("");
+                    document.querySelector('#table').innerHTML = '';
+                    document.querySelector('#diagram').innerHTML = '';
+                },
+                success: function (response) {
+                    $("#resultado").hide();
+
+                    if (response.instanceInteraction || response.institutionInteraction) {
+                        table(response);
+                        diagram(response);
+                    } else {
+                        $('#not-found-data-message').show();
+                        console.log('datay');
+                    }
+                }
+            });
+        }
+
+        function buscarInstituciones() {
+            var country_id = $("#form_country").val();
+            var filter = $("input[name='provider']:checked").val();
+            var parametros = {
+                "filter": filter,
+                "country_id": country_id
+            };
+
+            $.ajax({
+                data: parametros,
+                url: '{{ path('admin_rest_institution_intercambio') }}',
+                type: 'get',
+                success: function (response) {
+                    $("#form_institucion option").remove();
+                    $('#form_institucion').append('<option value=""></option>');
+                    jQuery.each(response, function (i, val) {
+                        $('#form_institucion').append('<option value="' + val.id + '">' + val.provider_name + '</option>');
+                    })
+                }
+            });
+        }
+    </script>
+{% endblock %}

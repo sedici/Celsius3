@@ -1,0 +1,111 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Journal View'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/show.html.twig" import show as show %}
+
+{% macro search_item(search, class, hide) %}
+    <a href="{{ search.catalog.url }}" class="list-group-item {% if hide %} hidden {% endif %}">
+        <span class="badge {{ class }}">{{ search.result | trans | first_upper }}</span>
+        <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
+        <p class="list-group-item-text">{{ search.createdAt | date }}</p>
+        <p class="list-group-item-text">
+            <span>{{ 'Volume' | trans }}: {{ search.request.order.materialData.volume }}</span>
+            <span>{{ 'Year' | trans }}: {{ search.request.order.materialData.year }}</span>
+            <span>{{ 'Start page' | trans }}: {{ search.request.order.materialData.startPage }}</span>
+            <span>{{ 'End page' | trans }}: {{ search.request.order.materialData.endPage }}</span>
+        </p>
+    </a>
+{% endmacro %}
+
+{% macro reception_item(reception, hide) %}
+    <div class="list-group-item {% if hide %} hidden {% endif %}">
+        <h4 class="list-group-item-heading">{{ reception.requestEvent.provider.getFullName() }}</h4>
+        <p class="list-group-item-text">
+            <span><b>{{ 'Requested' | trans }}</b>: {{ reception.requestEvent.createdAt | date('m M Y') }}                            </span>
+            | <span><b>{{ 'Received' | trans }}</b>: {{ reception.createdAt | date('d M Y') }}</span>
+            {% if reception.request.order.materialData.journal is defined %}
+                | <span><b>{{ 'Journal' | trans }}</b>: {{ reception.request.order.materialData.journal }}</span>
+            {% endif %}
+            | <span><b>{{ 'Title' | trans }}</b>: {{ reception.request.order.materialData.title }}</span>
+            {% if reception.request.order.materialData.chapter is defined %}
+                | <span><b>{{ 'Chapter' | trans }}</b>: {{ reception.request.order.materialData.chapter }}</span>
+            {% endif %}
+            | <span><b>{{ 'Year' | trans }}</b>: {{ reception.request.order.materialData.year }}</span>
+            | <span><b>{{ 'Start page' | trans }}</b>: {{ reception.request.order.materialData.startPage }}</span>
+            | <span><b>{{ 'End page' | trans }}</b>: {{ reception.request.order.materialData.endPage }}</span>
+        </p>
+    </div>
+{% endmacro %}
+
+{% macro list(items, type, class, limit) %}
+
+    {% from _self import search_item as search_item %}
+    {% from _self import reception_item as reception_item %}
+
+    {% set count = 1 %}
+    {% set hide = false %}
+    {% for item in items %}
+        {% if (count > limit) %}
+            {% set hide = true %}
+        {% endif %}
+        {% set count = count + 1 %}
+
+        {% if type == 'searches' %}
+            {{ search_item(item, class, hide) }}
+        {% elseif(type == 'receptions') %}
+            {{ reception_item(item,hide) }}
+        {% endif %}
+    {% endfor %}
+
+    {% if hide %}
+        <a href class="list-group-item view_more">
+            <p class="list-group-item-text text-center">
+                <b>{{ 'view more' | trans | first_upper }}
+                    ({{ count - limit }})</b>
+            </p>
+        </a>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    {% from _self import list as list %}
+    <h2>{{ 'Journal View'|trans }}</h2>
+    {{ show('admin_journal', entity, 'Admin/Journal/', instance, not is_editable_journal(entity,instance,app.user)) }}
+
+    <h2>{{ 'Institution from received requests' | trans }}</h2>
+    <div class="row">
+        <div class="col-md-9">
+            {% if (receptions is not defined or receptions is empty) %}
+                <p class="alert alert-info">{{ 'not_request_received_info' | trans }}</p>
+            {% endif %}
+
+            <div class="list-group">
+                {{ list(receptions, 'receptions', '', 5) }}
+            </div>
+        </div>
+    </div>
+
+    <h2>{{ 'previous searches' | trans | first_upper }}</h2>
+    <div class="row">
+        <div class="col-md-9">
+            {% if ((searches.found is not defined or searches.found is empty) and (searches.partially_found is not defined or searches.partially_found is empty)) %}
+                <p class="alert alert-info">{{ 'not_previous_searches_info' | trans }}</p>
+            {% endif %}
+
+            {% if searches.found is defined %}
+                <div class="list-group">
+                    {{ list(searches.found, 'searches','badge-success', 5) }}
+                </div>
+            {% endif %}
+
+            {% if searches.partially_found is defined %}
+                <div class="list-group">
+                    {{ list(searches.partially_found, 'searches', 'badge-warning', 5) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
