@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
+use Celsius3\Controller\BaseUserController;
 use Celsius3\Form\Type\UserTransformType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +36,7 @@ final class TransformUserViewController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction(
+            return $this->baseDoTransform(
                 $id,
                 UserTransformType::class,
                 [
@@ -48,7 +48,7 @@ final class TransformUserViewController extends BaseUserController
             );
         }
 
-        $response = $this->baseTransformAction(
+        $response = $this->baseTransform(
             $id,
             UserTransformType::class,
             [

@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
+use Celsius3\Controller\BaseUserController;
 
 final class BatchController extends BaseUserController
 {
@@ -36,5 +36,13 @@ final class BatchController extends BaseUserController
     protected function batchEnable($element_ids)
     {
         return $this->baseBatchEnable($element_ids);
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render(
+            'Admin/BaseUser/batchUnion.html.twig',
+            $this->baseUnion('BaseUser', $element_ids)
+        );
     }
 }

@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\FileDownload;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
+use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
 use Symfony\Component\HttpFoundation\Response;
 

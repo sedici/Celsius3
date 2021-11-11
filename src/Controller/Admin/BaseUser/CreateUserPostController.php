@@ -24,14 +24,14 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
+use Celsius3\Controller\BaseUserController;
 use Symfony\Component\HttpFoundation\Request;
 
 final class CreateUserPostController extends BaseUserController
 {
     public function __invoke(Request $request)
     {
-        return $this->baseCreateAction(
+        return $this->baseUserCreate(
             $request,
             'Admin/BaseUser/new.html.twig',
             ['validation_groups' => ['Registration', 'Default']]

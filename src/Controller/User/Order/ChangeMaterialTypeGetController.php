@@ -54,7 +54,7 @@ final class ChangeMaterialTypeGetController extends AbstractController
         );
 
         return $this->render(
-            'Celsius3CoreBundle:Order:_materialData.html.twig',
+            'Order/_materialData.html.twig',
             [
                 'form' => $form->createView(),
                 'material' => $request->get('material'),

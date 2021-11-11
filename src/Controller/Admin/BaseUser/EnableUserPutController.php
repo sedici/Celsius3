@@ -24,12 +24,12 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
+use Celsius3\Controller\BaseUserController;
 
 final class EnableUserPutController extends BaseUserController
 {
     public function __invoke($id)
     {
-        return $this->baseEnableAction($id);
+        return $this->baseEnable($id);
     }
 }
