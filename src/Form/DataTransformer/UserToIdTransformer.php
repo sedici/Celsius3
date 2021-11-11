@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\DataTransformer;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;
@@ -62,7 +63,7 @@ class UserToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $user = $this->em->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $this->em->getRepository(BaseUser::class)
                 ->findOneBy(array('id' => $id));
 
         if (null === $user) {

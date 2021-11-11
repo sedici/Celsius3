@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Filter;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BaseUserFilter implements EntityFilterInterface
@@ -46,7 +47,7 @@ class BaseUserFilter implements EntityFilterInterface
         $function = $this->specialFields[$field_name];
 
         return $this->entityManager
-            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->getRepository(BaseUser::class)
             ->$function(
                 $data,
                 $query,

@@ -57,13 +57,13 @@ class CatalogListener
             $directory = $this->container->get('celsius3_core.instance_manager')
                 ->getDirectory();
             if ($entity->getInstance()->getId() == $directory->getId()) {
-                $instances = $em->getRepository('Celsius3CoreBundle:Instance')
+                $instances = $em->getRepository(Instance::class)
                     ->findAllExceptDirectory()
                     ->getQuery()
                     ->execute();
                 foreach ($instances as $instance) {
                     $place = count(
-                        $em->getRepository('Celsius3CoreBundle:CatalogPosition')
+                        $em->getRepository(CatalogPosition::class)
                             ->findBy(array(
                                          'instance' => $instance->getId(),
                                      ))
@@ -79,7 +79,7 @@ class CatalogListener
                 $em->flush();
             } else {
                 $place = count(
-                    $em->getRepository('Celsius3CoreBundle:CatalogPosition')
+                    $em->getRepository(CatalogPosition::class)
                         ->findBy(array(
                                      'instance' => $entity->getInstance()->getId(),
                                  ))
@@ -94,7 +94,7 @@ class CatalogListener
                 $em->flush();
             }
         } elseif ($entity instanceof Instance) {
-            $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
+            $catalogs = $em->getRepository(Catalog::class)
                 ->findBy(array(
                              'instance' => $this->container->get('celsius3_core.instance_manager')->getDirectory(
                              )->getId(),

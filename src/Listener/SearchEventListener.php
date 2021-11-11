@@ -60,7 +60,7 @@ class SearchEventListener
             }
 
             if (array_key_exists('result', $changeset) && $changeset['result'][0] !== $changeset['result'][1]) {
-                $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
+                $result = $em->getRepository(CatalogResult::class)
                         ->findOneBy(array(
                     'catalog' => $entity->getCatalog()->getId(),
                     'title' => $title,
@@ -123,7 +123,7 @@ class SearchEventListener
                 $title = $entity->getRequest()->getOrder()->getMaterialData()->getTitle();
             }
 
-            $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
+            $result = $em->getRepository(CatalogResult::class)
                     ->findOneBy(array(
                 'catalog' => $entity->getCatalog()->getId(),
                 'title' => $title,

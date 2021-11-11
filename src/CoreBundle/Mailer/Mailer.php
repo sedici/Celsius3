@@ -95,7 +95,7 @@ class Mailer
 
         $em = $this->em;
 
-        $emails = $em->getRepository('Celsius3CoreBundle:Email')
+        $emails = $em->getRepository(Email::class)
                 ->findNotSentEmailsWithLimit($instance, $limit);
 
         if (count($emails) === 0) {

@@ -22,6 +22,7 @@
 
 namespace Celsius3\ApiBundle\Command;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,7 +46,7 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
         $entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 
         $url = $input->getArgument('instance');
-        $instance = $entityManager->getRepository('Celsius3CoreBundle:Instance')
+        $instance = $entityManager->getRepository(Instance::class)
                 ->findOneBy(array('url' => $url));
         
         $argumentError = false;

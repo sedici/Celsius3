@@ -22,6 +22,9 @@
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Entity\Country;
+use Celsius3\CoreBundle\Entity\Institution;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,7 +44,7 @@ class InstanceType extends LegacyInstanceType
 
         if (array_key_exists('institution_select', $options) && $options['institution_select']) {
             $builder->add('country', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Country',
+                'class' => Country::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => true,
@@ -52,7 +55,7 @@ class InstanceType extends LegacyInstanceType
             ));
 
             $builder->add('city', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:City',
+                'class' => City::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
@@ -63,7 +66,7 @@ class InstanceType extends LegacyInstanceType
             ));
 
             $builder->add('institution', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Institution',
+                'class' => Institution::class,
                 'mapped' => false,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',

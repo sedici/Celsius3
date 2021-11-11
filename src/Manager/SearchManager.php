@@ -22,6 +22,7 @@
 
 namespace Celsius3\Manager;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Elastica\Query\Term;
 use Symfony\Component\DependencyInjection\Container;
@@ -174,7 +175,7 @@ class SearchManager
         $usernames = array_unique($usernames);
 
         $baseusers = $this->container->get('doctrine.orm.entity_manager')
-            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->getRepository(BaseUser::class)
             ->findBy(['username' => $usernames]);
 
         $users = [];

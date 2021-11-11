@@ -22,6 +22,7 @@
 
 namespace Celsius3\NotificationBundle\Server;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Ratchet\Wamp\Topic;
@@ -74,7 +75,7 @@ class Pusher implements WampServerInterface
     {
         $data = array();
         foreach ($this->connectionsByOperatorInRequest[$request_id] as $key => $value) {
-            $user = $this->entityManager->getRepository('Celsius3CoreBundle:BaseUser')
+            $user = $this->entityManager->getRepository(BaseUser::class)
             ->find($key);
             $data[$request_id][] = array(
                 'operator_id' => $user->getId(),

@@ -22,6 +22,7 @@
 
 namespace Celsius3\ApiBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use FOS\RestBundle\Controller\FOSRestController;
 use Celsius3\ApiBundle\Entity\AccessToken;
 use Celsius3\Exception\Exception;
@@ -32,7 +33,7 @@ class BaseController extends FOSRestController
     protected function getInstance()
     {
         $instance = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Instance')
+                ->getRepository(Instance::class)
                 ->find($this->get('request_stack')->getCurrentRequest()->request->get('instance_id'));
 
         if (!$instance) {

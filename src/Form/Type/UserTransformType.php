@@ -82,7 +82,7 @@ class UserTransformType extends AbstractType
 //        Un usuario con rol bibliotecario. Se comenta por no estar completamente implementado.
 //
 //        $builder->add('institution', EntityType::class, array(
-//            'class' => 'Celsius3CoreBundle:Institution',
+//            'class' => Institution::class,
 //            'mapped' => false,
 //            'label' => ucfirst('institution'),
 //            'placeholder' => '',

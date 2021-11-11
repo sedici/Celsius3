@@ -64,7 +64,7 @@ class JournalExtension extends AbstractExtension
             return true;
         }
 
-        $entity = $entity_manager->getRepository('Celsius3CoreBundle:Journal')
+        $entity = $entity_manager->getRepository(Journal::class)
             ->findOneBy(['id' => $journal->getId(), 'instance' => $instance->getId()]);
 
         return $entity !== null;

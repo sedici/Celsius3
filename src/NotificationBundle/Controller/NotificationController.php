@@ -25,7 +25,7 @@ namespace Celsius3\NotificationBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Celsius3\CoreBundle\Controller\BaseController;
+use Celsius3\Controller\BaseController;
 use Celsius3\NotificationBundle\Form\Type\SubscriptionType;
 use Celsius3\NotificationBundle\Entity\NotificationSettings;
 use Celsius3\Exception\Exception;

@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Filter;
 
+use Celsius3\CoreBundle\Entity\Catalog;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CatalogFilter implements EntityFilterInterface
@@ -43,7 +44,7 @@ class CatalogFilter implements EntityFilterInterface
     {
         $function = $this->specialFields[$field_name];
 
-        return $this->entityManager->getRepository('Celsius3CoreBundle:Catalog')
+        return $this->entityManager->getRepository(Catalog::class)
             ->$function(
                 $data,
                 $query,

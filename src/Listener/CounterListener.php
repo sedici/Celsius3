@@ -38,7 +38,7 @@ class CounterListener
         if ($entity instanceof Order) {
             $em->getConnection()->beginTransaction();
             try {
-                $code = $em->getRepository('Celsius3CoreBundle:Counter')
+                $code = $em->getRepository(Counter::class)
                         ->findOneBy(array(
                     'name' => $entity->getOriginalRequest()->getInstance()->getId(),
                 ));

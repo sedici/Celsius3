@@ -22,6 +22,28 @@
 
 namespace Celsius3\Manager;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Entity\CatalogPosition;
+use Celsius3\CoreBundle\Entity\CatalogResult;
+use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Entity\Contact;
+use Celsius3\CoreBundle\Entity\Country;
+use Celsius3\CoreBundle\Entity\CustomUserValue;
+use Celsius3\CoreBundle\Entity\Email;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\SearchEvent;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\FileDownload;
+use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Form\Type\JournalType;
+use Celsius3\MessageBundle\Entity\Message;
+use Celsius3\MessageBundle\Entity\ThreadMetadata;
+use Celsius3\NotificationBundle\Entity\BaseUserNotification;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -30,87 +52,87 @@ class UnionManager
     private $em;
     private $instance_manager;
     private $references = array(
-        'Celsius3CoreBundle:Country' => array(
-            'Celsius3CoreBundle:City' => array(
+        Country::class => array(
+            City::class => array(
                 'country',
             ),
-            'Celsius3CoreBundle:Institution' => array(
+            Institution::class => array(
                 'country',
             ),
         ),
-        'Celsius3CoreBundle:City' => array(
-            'Celsius3CoreBundle:Institution' => array(
+        City::class => array(
+            Institution::class => array(
                 'city',
             ),
         ),
-        'Celsius3CoreBundle:Institution' => array(
-            'Celsius3CoreBundle:BaseUser' => array(
+        Institution::class => array(
+            BaseUser::class => array(
                 'institution',
             ),
-            'Celsius3CoreBundle:Institution' => array(
+            Institution::class => array(
                 'parent',
             ),
-            'Celsius3CoreBundle:Catalog' => array(
+            Catalog::class => array(
                 'institution',
             ),
-            'Celsius3CoreBundle:Contact' => array(
+            Contact::class => array(
                 'institution',
             ),
-            'Celsius3CoreBundle:Event\\SingleInstanceRequestEvent' => array(
+            SingleInstanceRequestEvent::class => array(
                 'provider',
             ),
-            'Celsius3CoreBundle:Event\\MultiInstanceRequestEvent' => array(
+            MultiInstanceRequestEvent::class => array(
                 'provider',
             ),
         ),
-        'Celsius3CoreBundle:Catalog' => array(
-            'Celsius3CoreBundle:Event\\SearchEvent' => array(
+        Catalog::class => array(
+            SearchEvent::class => array(
                 'catalog',
             ),
-            'Celsius3CoreBundle:CatalogPosition' => array(
+            CatalogPosition::class => array(
                 'catalog',
             ),
-            'Celsius3CoreBundle:CatalogResult' => array(
+            CatalogResult::class => array(
                 'catalog'
             )
         ),
-        'Celsius3CoreBundle:Journal' => array(
-            'Celsius3CoreBundle:JournalType' => array(
+        Journal::class => array(
+            JournalType::class => array(
                 'journal',
             ),
         ),
-        'Celsius3CoreBundle:BaseUser' => array(
-            'Celsius3CoreBundle:Request' => array(
+        BaseUser::class => array(
+            Request::class => array(
                 'owner',
                 'operator',
                 'creator',
                 'librarian',
             ),
-            'Celsius3CoreBundle:FileDownload' => array(
+            FileDownload::class => array(
                 'user',
             ),
-            'Celsius3CoreBundle:Contact' => array(
+            Contact::class => array(
                 'user',
             ),
-            'Celsius3CoreBundle:CustomUserValue' => array(
+            CustomUserValue::class => array(
                 'user',
             ),
-            'Celsius3CoreBundle:Email' => array(
+            Email::class => array(
                 'sender',
             ),
-            'Celsius3CoreBundle:Event\\Event' => array(
+            Event::class => array(
                 'operator',
             ),
-            'Celsius3CoreBundle:State' => array(
+            State::class => array(
                 'operator',
             ),
-            'Celsius3MessageBundle:Message' => array(
+            Message::class => array(
                 'sender',
             ),
-            'Celsius3MessageBundle:ThreadMetadata' => array(
+            ThreadMetadata::class => array(
                 'participant',
             ),
-            'Celsius3NotificationBundle:BaseUserNotification' => array(
+            BaseUserNotification::class => array(
                 'object',
             ),
         ),

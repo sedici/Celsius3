@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\DataTransformer;
 
+use Celsius3\CoreBundle\Entity\Order;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;
@@ -63,7 +64,7 @@ class OrderToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $order = $this->em->getRepository('Celsius3CoreBundle:Order')
+        $order = $this->em->getRepository(Order::class)
                 ->find($id);
 
         if (null === $order) {

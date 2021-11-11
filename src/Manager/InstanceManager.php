@@ -38,7 +38,7 @@ class InstanceManager
 
     public function getDirectory()
     {
-        return $this->em->getRepository('Celsius3CoreBundle:Instance')
+        return $this->em->getRepository(Instance::class)
                         ->findOneBy(array('url' => self::INSTANCE__DIRECTORY));
     }
 

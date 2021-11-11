@@ -22,6 +22,7 @@
 
 namespace Celsius3\Command;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PDO;
@@ -58,7 +59,7 @@ class FixUsersCommand extends Command
         $em = $this->entityManager;
         $conn = $this->connection;
 
-        $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $users = $em->getRepository(BaseUser::class)
             ->findAll();
 
         $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';

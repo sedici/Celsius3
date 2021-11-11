@@ -71,7 +71,7 @@ class UsersToUsernamesTransformer implements DataTransformerInterface
 
         foreach (explode(',', $usernames) as $username) {
             if (trim($username) !== '') {
-                $user = $this->em->getRepository('Celsius3CoreBundle:BaseUser')
+                $user = $this->em->getRepository(BaseUser::class)
                         ->findOneBy(array('username' => trim($username)));
 
                 if (null === $user) {

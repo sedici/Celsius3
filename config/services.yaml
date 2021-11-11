@@ -190,3 +190,6 @@ services:
         tags:
             - { name: knp_menu.menu_builder, method: publicMenu, alias: public }
             - { name: knp_menu.menu_builder, method: directoryMenu, alias: directory }
+
+    Celsius3\EventListener\ContextListener:
+        alias: celsius3_core.context_listener

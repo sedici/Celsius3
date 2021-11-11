@@ -22,6 +22,8 @@
 
 namespace Celsius3\Form\EventListener;
 
+use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
@@ -60,7 +62,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
+        $catalogPosition = $this->em->getRepository(CatalogPosition::class)
                 ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance())
         );
        
@@ -88,17 +90,17 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
         $data = $event->getData();
 
-        $catalog = (array_key_exists('id', $data)) ? $this->em->getRepository('Celsius3CoreBundle:Catalog')->find($data['id']) : null;
+        $catalog = (array_key_exists('id', $data)) ? $this->em->getRepository(Catalog::class)->find($data['id']) : null;
 
         if (!is_null($catalog)) {
-            $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
+            $catalogPosition = $this->em->getRepository(CatalogPosition::class)
                     ->findOneBy(array('catalog' => $catalog->getId(), 'instance' => $data['instance'])
             );
 
             if (!$catalogPosition) {
                 $catalogPosition = new CatalogPosition();
                 $catalogPosition->setPosition(-1);
-                $catalogPosition->setInstance($this->em->getRepository('Celsius3CoreBundle:Instance')->find($data['instance']));
+                $catalogPosition->setInstance($this->em->getRepository(Instance::class)->find($data['instance']));
                 $catalogPosition->setCatalog($catalog);
             }
 

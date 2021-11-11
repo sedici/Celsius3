@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\DataTransformer;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;
@@ -63,7 +64,7 @@ class InstanceToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
+        $instance = $this->em->getRepository(Instance::class)
                 ->find($id);
 
         if (null === $instance) {

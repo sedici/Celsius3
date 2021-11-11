@@ -22,6 +22,7 @@
 
 namespace Celsius3\ApiBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -45,7 +46,7 @@ class UserController extends BaseController
         $context = SerializationContext::create()->setGroups(array('api'));
         $em = $this->getDoctrine()->getManager();
 
-        $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $qb = $em->getRepository(BaseUser::class)
                   ->findUsersFrom($this->getInstance(), $request->query->get('startDate'));
 
         $users = $qb->getQuery()->getResult();
@@ -64,7 +65,7 @@ class UserController extends BaseController
         $context = SerializationContext::create()->setGroups(array('api'));
 
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $qb = $em->getRepository(BaseUser::class)
               ->findPdfUsers($this->getInstance());
 
         $users = $qb->getQuery()->getResult();
@@ -125,7 +126,7 @@ class UserController extends BaseController
         $context = SerializationContext::create()->setGroups(array('api'));
         $em = $this->getDoctrine()->getManager();
 
-        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository(BaseUser::class)
                 ->findOneBy(array(
             'id' => $user_id,
             'instance' => $this->getInstance()->getId(),
@@ -148,7 +149,7 @@ class UserController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository(BaseUser::class)
                 ->findOneBy(array(
             'id' => $user_id,
             'instance' => $this->getInstance()->getId(),
@@ -177,7 +178,7 @@ class UserController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository(BaseUser::class)
                 ->findOneBy(array(
             'id' => $user_id,
             'instance' => $this->getInstance()->getId(),

@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Command;
 
 use Celsius3\CoreBundle\Entity\CatalogResult;
+use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\Manager\CatalogManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,11 +60,11 @@ class FixSearchesCommand extends Command
         $limit = 1000;
         $offset = 0;
 
-        $event_count = $em->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
+        $event_count = $em->getRepository(SearchEvent::class)
             ->getEventSearchCount()->getQuery()->getSingleScalarResult();
 
         while ($offset < $event_count) {
-            $events = $em->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
+            $events = $em->getRepository(SearchEvent::class)
                 ->getOffsetAndLimitTo($offset, $limit)->getQuery()->execute();
 
             $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';
@@ -90,7 +91,7 @@ class FixSearchesCommand extends Command
                     }
 
                     if ($title !== null) {
-                        $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
+                        $result = $em->getRepository(CatalogResult::class)
                             ->getCatalogResultByTitle($event->getCatalog(), $title)
                             ->getQuery()->getOneOrNullResult();
 

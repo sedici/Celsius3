@@ -22,6 +22,10 @@
 
 namespace Celsius3\Form\Type\Filter;
 
+use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Entity\Country;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\Institution;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -43,7 +47,7 @@ class CatalogFilterType extends AbstractType
         ;
 
         $builder->add('country', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Country',
+                'class' => Country::class,
                 'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
@@ -54,7 +58,7 @@ class CatalogFilterType extends AbstractType
             ));
 
         $builder->add('city', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:City',
+                'class' => City::class,
                 'choices' => [],
                 'mapped' => true,
                 'placeholder' => '',
@@ -66,7 +70,7 @@ class CatalogFilterType extends AbstractType
             ));
 
         $builder->add('institution', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Institution',
+                'class' => Institution::class,
                 'choices' => [],
                 'mapped' => true,
                 'label' => ucfirst('institution'),
@@ -86,7 +90,7 @@ class CatalogFilterType extends AbstractType
 
                 $cities = null === $country ? array() : $country->getCities();
                 $form->add('city', EntityType::class, array(
-                    'class' => 'Celsius3CoreBundle:City',
+                    'class' => City::class,
                     'choices' => $cities,
                     'mapped' => true,
                     'placeholder' => '',
@@ -100,7 +104,7 @@ class CatalogFilterType extends AbstractType
 
                 $institutions = null === $country ? array() : $country->getInstitutions();
                 $form->add('institution', EntityType::class, array(
-                    'class' => 'Celsius3CoreBundle:Institution',
+                    'class' => Institution::class,
                     'choices' => $institutions,
                     'mapped' => true,
                     'label' => ucfirst('institution'),
@@ -123,7 +127,7 @@ class CatalogFilterType extends AbstractType
 
                 $institutions = null === $city ? array() : $city->getInstitutions();
                 $form->add('institution', EntityType::class, array(
-                    'class' => 'Celsius3CoreBundle:Institution',
+                    'class' => Institution::class,
                     'choices' => $institutions,
                     'mapped' => true,
                     'label' => ucfirst('institution'),
@@ -141,7 +145,7 @@ class CatalogFilterType extends AbstractType
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',
+                        'class' => Instance::class,
                     ))
             ;
         }

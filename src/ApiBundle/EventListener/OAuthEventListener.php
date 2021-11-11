@@ -22,6 +22,7 @@
 
 namespace Celsius3\ApiBundle\EventListener;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Doctrine\ORM\EntityManager;
 
@@ -57,7 +58,7 @@ class OAuthEventListener
 
     protected function getUser(OAuthEvent $event)
     {
-        return $this->em->getRepository('Celsius3CoreBundle:BaseUser')
+        return $this->em->getRepository(BaseUser::class)
                         ->findOneBy(array('username' => $event->getUser()->getUsername()));
     }
 }

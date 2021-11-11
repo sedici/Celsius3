@@ -48,7 +48,7 @@ class JournalRepository extends BaseRepository
                 ->orWhere($qb->expr()->like('j.ISSN', $qb->expr()->literal('%'.$term.'%')))
                 ->orWhere($qb->expr()->like('j.ISSNE', $qb->expr()->literal('%'.$term.'%')));
 
-        $directory = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Instance')
+        $directory = $this->getEntityManager()->getRepository(Instance::class)
                 ->findOneBy(array(
             'url' => \Celsius3\Manager\InstanceManager::INSTANCE__DIRECTORY,
         ));

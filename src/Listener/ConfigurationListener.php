@@ -43,7 +43,7 @@ class ConfigurationListener
         $em = $args->getEntityManager();
 
         if ($entity instanceof Instance) {
-            $default = $em->getRepository('Celsius3CoreBundle:Configuration')
+            $default = $em->getRepository(Configuration::class)
                     ->findInstanceConfigurationByUrl(InstanceManager::INSTANCE__DIRECTORY);
 
             foreach ($default as $configuration) {
@@ -63,7 +63,7 @@ class ConfigurationListener
             $em->flush();
         } elseif ($entity instanceof Configuration) {
             if (!$entity->getInstance()) {
-                $instances = $em->getRepository('Celsius3CoreBundle:Instance')
+                $instances = $em->getRepository(Instance::class)
                         ->findAllInstancesExceptByUrl(InstanceManager::INSTANCE__DIRECTORY);
 
                 foreach ($instances as $instance) {

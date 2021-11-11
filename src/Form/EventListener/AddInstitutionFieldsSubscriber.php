@@ -22,6 +22,8 @@
 
 namespace Celsius3\Form\EventListener;
 
+use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Repository\CityRepository;
 use Celsius3\CoreBundle\Repository\CountryRepository;
@@ -80,7 +82,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $institution = null;
 
         if ($bind && array_key_exists($this->property_path, $data)) {
-            $institution = $this->em->getRepository('Celsius3CoreBundle:Institution')
+            $institution = $this->em->getRepository(Institution::class)
                 ->find($data[$this->property_path]);
         } else if (is_object($data)) {
             $function = 'get' . ucfirst($this->property_path);
@@ -98,8 +100,8 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             $city = $data->getCity();
             $country = $data->getCountry();
         } else if (is_array($data) && array_key_exists('city', $data) && array_key_exists('country', $data)) {
-            $city = $this->em->getRepository('Celsius3CoreBundle:City')->find($data['city']);
-            $country = $this->em->getRepository('Celsius3CoreBundle:Country')->find($data['country']);
+            $city = $this->em->getRepository(City::class)->find($data['city']);
+            $country = $this->em->getRepository(Country::class)->find($data['country']);
         }
 
         if ($this->with_filter) {
@@ -121,7 +123,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         }
 
         $form->add($this->factory->createNamed('country', EntityType::class, $country, [
-            'class' => 'Celsius3CoreBundle:Country',
+            'class' => Country::class,
             'mapped' => $this->country_mapped,
             'placeholder' => '',
             'required' => false,
@@ -140,7 +142,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         if ($this->showCity) {
             $form->add($this->factory->createNamed('city', EntityType::class, $city, [
-                'class' => 'Celsius3CoreBundle:City',
+                'class' => City::class,
                 'mapped' => $this->city_mapped,
                 'placeholder' => '',
                 'required' => false,
@@ -158,7 +160,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         }
 
         $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, [
-            'class' => 'Celsius3CoreBundle:Institution',
+            'class' => Institution::class,
             'property_path' => $this->property_path,
             'label' => ucfirst($this->property_path),
             'placeholder' => '',

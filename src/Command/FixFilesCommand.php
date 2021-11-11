@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Command;
 
+use Celsius3\CoreBundle\Entity\File;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PDO;
@@ -65,11 +66,11 @@ class FixFilesCommand extends Command
         $limit = 1000;
         $offset = 0;
 
-        $file_count = $em->getRepository('Celsius3CoreBundle:File')
+        $file_count = $em->getRepository(File::class)
             ->getCount()->getQuery()->getSingleScalarResult();
 
         while ($offset < $file_count) {
-            $files = $em->getRepository('Celsius3CoreBundle:File')
+            $files = $em->getRepository(File::class)
                 ->getOffsetAndLimit($offset, $limit)->getQuery()->execute();
 
             $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';

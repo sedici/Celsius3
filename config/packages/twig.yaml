@@ -9,4 +9,4 @@ twig:
         notification_limit: "%notification_limit%"
         instance_helper: "@celsius3_core.instance_helper"
     form_themes:
-        - 'Celsius3CoreBundle:Form:fields.html.twig'
+        - 'Form/fields.html.twig'

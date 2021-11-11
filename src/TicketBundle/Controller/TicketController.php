@@ -2,6 +2,7 @@
 
 namespace Celsius3\TicketBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,7 +24,7 @@ class TicketController extends Controller
     public function indexAction()
     {
         $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll(array(), array('updated_at' => 'ASC'));
-        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+        $repository = $this->getDoctrine()->getManager()->getRepository(BaseUser::class);
         $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
 
         return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets, 'administradores' => $administradores));
@@ -96,7 +97,7 @@ class TicketController extends Controller
         $em->flush($ticketState);
 
         $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
-        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+        $repository = $this->getDoctrine()->getManager()->getRepository(BaseUser::class);
         $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
 
         return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets, 'administradores' => $administradores));
@@ -114,7 +115,7 @@ class TicketController extends Controller
         $ticket = $em->getRepository('Celsius3TicketBundle:Ticket')->find($id);
 
         $admin_id = $request->get('admin_id');
-        $userAsigned = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($admin_id);
+        $userAsigned = $em->getRepository(BaseUser::class)->find($admin_id);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -123,7 +124,7 @@ class TicketController extends Controller
         $em->flush($ticket);
 
         $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
-        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+        $repository = $this->getDoctrine()->getManager()->getRepository(BaseUser::class);
         $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
 
         return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets, 'administradores' => $administradores));

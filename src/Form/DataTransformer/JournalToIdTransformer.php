@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\DataTransformer;
 
+use Celsius3\CoreBundle\Entity\Journal;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;
@@ -63,7 +64,7 @@ class JournalToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $user = $this->em->getRepository('Celsius3CoreBundle:Journal')
+        $user = $this->em->getRepository(Journal::class)
                 ->findOneBy(array('id' => $id));
 
         if (null === $user) {

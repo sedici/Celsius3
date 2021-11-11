@@ -82,7 +82,7 @@ class EventRepository extends BaseRepository
                 $qb = $qb->setParameter('name', $order->getMaterialData()->getJournal()->getName());
             }
         } else {
-            $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
+            $qb = $this->getEntityManager()->getRepository(SearchEvent::class)
                 ->createQueryBuilder('s')
                 ->select('s, c, r, o')
                 ->join('s.catalog', 'c')

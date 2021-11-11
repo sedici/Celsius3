@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\MailTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
@@ -63,7 +64,7 @@ class InstanceExtension extends AbstractExtension
 
     public function getInstanceUrl($id): string
     {
-        $instance = $this->entityManager->getRepository('Celsius3CoreBundle:Instance')->find($id);
+        $instance = $this->entityManager->getRepository(Instance::class)->find($id);
 
         return $instance->getUrl();
     }

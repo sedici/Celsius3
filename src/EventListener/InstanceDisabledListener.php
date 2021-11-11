@@ -57,7 +57,7 @@ class InstanceDisabledListener
                 return;
             }
 
-            $view = $this->twig->render('Celsius3CoreBundle:Public:instance_disabled.html.twig');
+            $view = $this->twig->render('Public/instance_disabled.html.twig');
             $response = new Response($view);
             $event->setResponse($response);
         }

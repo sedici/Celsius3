@@ -190,8 +190,8 @@ class NotificationManager
         $receivers = new ArrayCollection($message->getThread()->getParticipants());
         $em = $this->container->get('doctrine.orm.entity_manager');
 
-        $usersInterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithMessageNotification('interface', $receivers);
-        $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithMessageNotification('email', $receivers);
+        $usersInterfaceNotification = $em->getRepository(BaseUser::class)->getUsersWithMessageNotification('interface', $receivers);
+        $usersEmailNotification = $em->getRepository(BaseUser::class)->getUsersWithMessageNotification('email', $receivers);
 
         $receiversInterfaceNotification = $receivers->filter(function (BaseUser $receiver) use ($message, $usersInterfaceNotification) {
             return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $usersInterfaceNotification));
@@ -213,8 +213,8 @@ class NotificationManager
     {
         $em = $this->container->get('doctrine.orm.entity_manager');
 
-        $adminsInterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getAdminsWithUserNotification('interface', $user->getInstance());
-        $adminsEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getAdminsWithUserNotification('email', $user->getInstance());
+        $adminsInterfaceNotification = $em->getRepository(BaseUser::class)->getAdminsWithUserNotification('interface', $user->getInstance());
+        $adminsEmailNotification = $em->getRepository(BaseUser::class)->getAdminsWithUserNotification('email', $user->getInstance());
 
         $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array('code' => self::CAUSE__NEW_USER));
@@ -230,9 +230,9 @@ class NotificationManager
         $em = $this->container->get('doctrine.orm.entity_manager');
         $router = $this->container->get('router');
 
-        $usersInsterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $usersInsterfaceNotification = $em->getRepository(BaseUser::class)
                                         ->getUsersWithEventNotification('interface', $event, $type);
-        $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')
+        $usersEmailNotification = $em->getRepository(BaseUser::class)
                                         ->getUsersWithEventNotification('email', $event, $type);
 
         $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')

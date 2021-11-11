@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Helper;
 
 use Celsius3\CoreBundle\Entity\Configuration;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\Validator\Constraints\EmailDomain;
 use Celsius3\Form\Type\ConfirmationType;
 use Celsius3\Form\Type\LanguageType;
@@ -362,7 +363,7 @@ class ConfigurationHelper
                                 'message' => $this->container->get('translator')->trans(
                                     'The domain is not valid',
                                     [],
-                                    'Celsius3CoreBundle_Form'
+                                    'Form'
                                 ),
                             ]),
         ];
@@ -420,7 +421,7 @@ class ConfigurationHelper
     public function updateConfigurations()
     {
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $instances = $em->getRepository('Celsius3CoreBundle:Instance')->findAll();
+        $instances = $em->getRepository(Instance::class)->findAll();
 
         foreach ($this->configurations as $key => $configuration) {
             foreach ($instances as $instance) {

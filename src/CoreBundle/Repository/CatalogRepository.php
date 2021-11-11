@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
+use Celsius3\CoreBundle\Entity\CatalogResult;
 use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\QueryBuilder;
 
@@ -61,7 +62,7 @@ class CatalogRepository extends BaseRepository
     public function getCatalogResults($catalogs, $title)
     {
         return $this->getEntityManager()
-                        ->getRepository('Celsius3CoreBundle:CatalogResult')
+                        ->getRepository(CatalogResult::class)
                         ->createQueryBuilder('cr')
                         ->where('cr.title = :title')
                         ->andWhere('cr.catalog IN (:catalog_ids)')

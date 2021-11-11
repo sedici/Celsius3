@@ -22,6 +22,8 @@
 
 namespace Celsius3\Form\Type\Filter;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -41,7 +43,7 @@ class OrderFilterType extends AbstractType
             $builder
                     ->add('owner', EntityType::class, array(
                         'required' => false,
-                        'class' => 'Celsius3CoreBundle:BaseUser',
+                        'class' => BaseUser::class,
                     ))
             ;
         }
@@ -81,7 +83,7 @@ class OrderFilterType extends AbstractType
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',
+                        'class' => Instance::class,
                     ))
             ;
         }

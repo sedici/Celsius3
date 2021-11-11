@@ -22,6 +22,9 @@
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Entity\Country;
+use Celsius3\CoreBundle\Entity\Institution;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -48,7 +51,7 @@ class InstanceRegisterType extends LegacyInstanceType
             ->add('sitio_institucion',null,['mapped' => false,])
             ->add('observaciones',TextareaType::class)
             ->add('country', EntityType::class, array(
-                    'class' => 'Celsius3CoreBundle:Country',
+                    'class' => Country::class,
                     'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
@@ -59,7 +62,7 @@ class InstanceRegisterType extends LegacyInstanceType
                 ))
 
             ->add('city', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:City',
+                'class' => City::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
@@ -70,7 +73,7 @@ class InstanceRegisterType extends LegacyInstanceType
             ))
 
             ->add('institution', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Institution',
+                'class' => Institution::class,
                 'mapped' => false,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',

@@ -22,7 +22,7 @@
 
 namespace Celsius3\EventListener;
 
-use Celsius3\CoreBundle\Controller\BaseRestController;
+use Celsius3\Controller\BaseRestController;
 use Celsius3\Exception\Exception;
 use Celsius3\Manager\Alert;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;

@@ -72,7 +72,7 @@ class FosUserManager extends DoctrineUserManager
 
     public function findUserBy(array $criteria)
     {
-        return $this->entityManager->getRepository('Celsius3CoreBundle:BaseUser')->findOneBy($criteria);
+        return $this->entityManager->getRepository(BaseUser::class)->findOneBy($criteria);
     }
 
     public function findUsers()

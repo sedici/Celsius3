@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Helper;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -45,7 +46,7 @@ class InstanceHelper
     public function getSessionInstance()
     {
         $instance = $this->em
-            ->getRepository('Celsius3CoreBundle:Instance')
+            ->getRepository(Instance::class)
             ->find($this->session->get('instance_id'));
 
         if (!$instance) {
@@ -59,7 +60,7 @@ class InstanceHelper
     {
         $request = $this->requestStack->getCurrentRequest();
         $instance = $this->em
-            ->getRepository('Celsius3CoreBundle:Instance')
+            ->getRepository(Instance::class)
             ->findOneBy(array(
                             'host' => $request->getHost(),
                         ));
@@ -77,11 +78,11 @@ class InstanceHelper
 
         if ($this->session->has('instance_url')) {
             $instance = $this->em
-                ->getRepository('Celsius3CoreBundle:Instance')
+                ->getRepository(Instance::class)
                 ->findOneBy(array('url' => $this->session->get('instance_url')));
         } else {
             $instance = $this->em
-                ->getRepository('Celsius3CoreBundle:Instance')
+                ->getRepository(Instance::class)
                 ->findOneBy(array(
                                 'host' => (!is_null($request)) ? $request->getHost() : '',
                             ));

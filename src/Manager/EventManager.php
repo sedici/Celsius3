@@ -22,6 +22,11 @@
 
 namespace Celsius3\Manager;
 
+use Celsius3\CoreBundle\Entity\Author;
+use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Web;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -136,7 +141,7 @@ class EventManager
         }
 
         $entity_manager = $this->container->get('doctrine.orm.entity_manager');
-        $extra_data['catalog'] = $entity_manager->getRepository('Celsius3CoreBundle:Catalog')
+        $extra_data['catalog'] = $entity_manager->getRepository(Catalog::class)
             ->find($http_request->request->get('catalog_id'));
 
         return $extra_data;
@@ -151,13 +156,13 @@ class EventManager
 
         $entity_manager = $this->container->get('doctrine.orm.entity_manager');
         if ($http_request->request->get('provider') === 'web') {
-            $provider = $entity_manager->getRepository('Celsius3CoreBundle:Web')
+            $provider = $entity_manager->getRepository(Web::class)
                     ->findOneBy([]);
         } elseif ($http_request->request->get('provider') === 'author') {
-            $provider = $entity_manager->getRepository('Celsius3CoreBundle:Author')
+            $provider = $entity_manager->getRepository(Author::class)
                     ->findOneBy([]);
         } else {
-            $provider = $entity_manager->getRepository('Celsius3CoreBundle:Institution')
+            $provider = $entity_manager->getRepository(Institution::class)
                     ->find($http_request->request->get('provider')['id']);
         }
 
@@ -187,7 +192,7 @@ class EventManager
         $extraData['delivery_type'] = $httpRequest->request->get('delivery_type', $request->getOwner()->getPdf() ? 'pdf' : 'printed');
         $extraData['request'] = $this->container
                 ->get('doctrine.orm.entity_manager')
-                ->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->getRepository(Event::class)
                 ->find($httpRequest->request->get('request'));
         $extraData['files'] = $httpRequest->files->all();
 
@@ -218,7 +223,7 @@ class EventManager
         $extraData['observations'] = $httpRequest->request->get('observations', null);
         $extraData['receive'] = $this->container
                 ->get('doctrine.orm.entity_manager')
-                ->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->getRepository(Event::class)
                 ->find($httpRequest->request->get('receive'));
         $extraData['files'] = $httpRequest->files->all();
 
@@ -237,7 +242,7 @@ class EventManager
         }
 
         $extraData = array();
-        $extraData['receive'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
+        $extraData['receive'] = $em->getRepository(Event::class)
                 ->find($httpRequest->request->get('receive'));
 
         if (!$extraData['receive']) {
@@ -266,7 +271,7 @@ class EventManager
             $id = $httpRequest->request->get('receive');
         }
 
-        $event = $em->getRepository('Celsius3CoreBundle:Event\\Event')
+        $event = $em->getRepository(Event::class)
                 ->find($id);
 
         if (!$event) {
@@ -298,7 +303,7 @@ class EventManager
         $extraData = array();
 
         if ($httpRequest->request->has('request')) {
-            $extraData['request'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
+            $extraData['request'] = $em->getRepository(Event::class)
                     ->find($httpRequest->request->get('request'));
 
             $httpRequest->request->remove('request');
@@ -313,13 +318,13 @@ class EventManager
                         ->getState(StateManager::STATE__CREATED)
                         ->getRemoteEvent();
             }
-            $extraData['sirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
+            $extraData['sirequests'] = $em->getRepository(SingleInstanceRequestEvent::class)
                     ->findBy(array(
                 'request' => $request->getId(),
                 'cancelled' => false,
                 'instance' => $instance->getId(),
             ));
-            $extraData['mirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceRequestEvent')
+            $extraData['mirequests'] = $em->getRepository(MultiInstanceRequestEvent::class)
                     ->findBy(array(
                 'request' => $request->getId(),
                 'cancelled' => false,

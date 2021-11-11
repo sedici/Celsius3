@@ -22,6 +22,8 @@
 
 namespace Celsius3\ApiBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Order;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +46,7 @@ class OrderController extends BaseController
     {
         $code = $request->query->get('code');
 
-        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($code);
+        $order = $this->getDoctrine()->getManager()->getRepository(Order::class)->find($code);
 
         $view = $this->view($order->getReceivedAt(), 200)->setFormat('json');
         return $this->handleView($view);
@@ -70,7 +72,7 @@ class OrderController extends BaseController
                 throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
             }
 
-            $orders = $em->getRepository('Celsius3CoreBundle:Order')
+            $orders = $em->getRepository(Order::class)
                     ->findBy(array(
                 'owner' => $user->getId(),
                 'instance' => $user->getInstance(),
@@ -101,7 +103,7 @@ class OrderController extends BaseController
             $limit = $request->query->get('limit');
             $offset = $request->query->get('offset');
 
-            $orders = $em->getRepository('Celsius3CoreBundle:Order')
+            $orders = $em->getRepository(Order::class)
                     ->findOrdersByStateType($state, $startDate, null, $this->getInstance(), $limit, $offset);
         }
 
@@ -125,14 +127,14 @@ class OrderController extends BaseController
         if ($isValidToken) {
             $em = $this->getDoctrine()->getManager();
 
-            $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
+            $user = $em->getRepository(BaseUser::class)
                     ->find($user_id);
 
             if (!$user) {
                 throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
             }
 
-            $orders = $em->getRepository('Celsius3CoreBundle:Order')
+            $orders = $em->getRepository(Order::class)
                     ->findOrdersByStateType($state, null, $user, $this->getInstance());
         }
 

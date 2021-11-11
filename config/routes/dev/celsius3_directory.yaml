@@ -1,16 +1,16 @@
 directory_homepage:
     path:   /
     host:   directory.localhost
-    defaults: { _controller: Celsius3CoreBundle:Directory:index }
+    defaults: { _controller: Celsius3\Controller\DirectoryController::index }
 
 directory_instances:
     path:   /instances
     host:   directory.localhost
-    defaults: { _controller: Celsius3CoreBundle:Directory:instances }
+    defaults: { _controller: Celsius3\Controller\DirectoryController::instances }
 
 directory_statistics:
     path:   /statistics
     host:   directory.localhost
-    defaults: { _controller: Celsius3CoreBundle:Directory:statistics }
+    defaults: { _controller: Celsius3\Controller\DirectoryController::statistics }
     options:
         expose: true

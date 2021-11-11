@@ -2,6 +2,7 @@
 
 namespace Celsius3\Security;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\HttpFoundation\RequestStack;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Security\UserProvider as BaseUserProvider;
@@ -42,7 +43,7 @@ class UserProvider extends BaseUserProvider
         if ($user->getInstance()->getId()){
             return $user;
         }else{
-            $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
+            $instance = $this->em->getRepository(Instance::class)
                 ->findOneBy(array('host' => $user->getInstance()->getHost()));
         }
         if ($instance) {

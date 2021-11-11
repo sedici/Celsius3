@@ -22,6 +22,9 @@
 
 namespace Celsius3\Manager;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\State;
 use Doctrine\ORM\EntityManager;
 
 class StatisticManager
@@ -29,16 +32,16 @@ class StatisticManager
     private $em;
     private $statistic_data = array(
         'usersPerInstance' => array(
-            'repository' => 'Celsius3CoreBundle:BaseUser',
+            'repository' => BaseUser::class,
         ),
         'newUsersPerInstance' => array(
-            'repository' => 'Celsius3CoreBundle:BaseUser',
+            'repository' => BaseUser::class,
         ),
         'ordersPerStatePerInstance' => array(
-            'repository' => 'Celsius3CoreBundle:State',
+            'repository' => State::class,
         ),
         'totalOrdersPerInstance' => array(
-            'repository' => 'Celsius3CoreBundle:State',
+            'repository' => State::class,
         ),
     );
 
@@ -56,7 +59,7 @@ class StatisticManager
         $response = array();
         foreach ($usersPerInstance as $instance) {
             $response[] = array(
-                'label' => $this->em->getRepository('Celsius3CoreBundle:Instance')
+                'label' => $this->em->getRepository(Instance::class)
                         ->find((string) $instance['_id'])->getAbbreviation(),
                 'data' => $instance['value'],
             );
@@ -74,7 +77,7 @@ class StatisticManager
         $response = array();
         foreach ($newUsersPerInstance as $instance) {
             $response[] = array(
-                'label' => $this->em->getRepository('Celsius3CoreBundle:Instance')
+                'label' => $this->em->getRepository(Instance::class)
                         ->find((string) $instance['_id'])->getAbbreviation(),
                 'data' => $instance['value'],
             );
@@ -92,7 +95,7 @@ class StatisticManager
         $response = array();
         foreach ($ordersPerInstance as $instance) {
             $response[] = array(
-                'label' => $this->em->getRepository('Celsius3CoreBundle:Instance')
+                'label' => $this->em->getRepository(Instance::class)
                         ->find((string) $instance['_id'])->getAbbreviation(),
                 'data' => $instance['value'],
             );
@@ -103,7 +106,7 @@ class StatisticManager
 
     public function getOrderUserTableData()
     {
-        $instances = $this->em->getRepository('Celsius3CoreBundle:Instance')
+        $instances = $this->em->getRepository(Instance::class)
                 ->findBy(array(
             'enabled' => true,
         ));

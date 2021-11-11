@@ -22,6 +22,7 @@
 
 namespace Celsius3\ApiBundle\EventListener;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManager;
@@ -47,7 +48,7 @@ class SecurityListener
     {
         $request = $event->getRequest();
 
-        $instance = $this->entityManager->getRepository('Celsius3CoreBundle:Instance')
+        $instance = $this->entityManager->getRepository(Instance::class)
                 ->findOneBy(array('host' => $request->getHost()));
         $request->request->set('instance_id', $instance);
 
