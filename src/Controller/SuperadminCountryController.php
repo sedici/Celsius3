@@ -144,7 +144,6 @@ class SuperadminCountryController extends BaseController
      * @Route("/doUnion", name="superadmin_country_doUnion")
      * @Method("post")
      *
-     * @return array
      */
     public function doUnion()
     {
@@ -152,6 +151,6 @@ class SuperadminCountryController extends BaseController
         $element_ids = $request->request->get('element');
         $main_id = $request->request->get('main');
 
-        return $this->baseDoUnion('Country', $element_ids, $main_id, 'superadmin_country');
+        return $this->baseDoUnion(Country::class, $element_ids, $main_id, 'superadmin_country');
     }
 }

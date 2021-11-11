@@ -143,6 +143,6 @@ class SuperadminCatalogController extends BaseController
         $elementIds = $request->request->get('element');
         $mainId = $request->request->get('main');
 
-        return $this->baseDoUnion('Catalog', $elementIds, $mainId, 'superadmin_catalog');
+        return $this->baseDoUnion(Catalog::class, $elementIds, $mainId, 'superadmin_catalog');
     }
 }

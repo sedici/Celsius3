@@ -232,14 +232,13 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @Route("/batch/doUnion", name="bibliotecario_user_doUnion")
      * @Method("post")
      *
-     * @return array
      */
     public function doUnion(Request $request)
     {
         $element_ids = $request->request->get('element');
         $main_id = $request->request->get('main');
 
-        return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
+        return $this->baseDoUnion(BaseUser::class, $element_ids, $main_id, 'admin_user', false);
     }
 
     protected function getSortDefaults()

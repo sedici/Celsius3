@@ -74,7 +74,7 @@ final class DoUnionPostController extends BaseUserController
         $this->mergeSecondaryInstances($main_user, $users);
 
         $this->unionManager
-            ->union($this->getBundle() . ':BaseUser', $main_user, $users, false);
+            ->union(BaseUser::class, $main_user, $users, false);
         return $users;
     }
 

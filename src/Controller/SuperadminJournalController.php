@@ -143,7 +143,6 @@ class SuperadminJournalController extends BaseController
      * @Route("/doUnion", name="superadmin_journal_doUnion")
      * @Method("post")
      *
-     * @return array
      */
     public function doUnion()
     {
@@ -151,6 +150,6 @@ class SuperadminJournalController extends BaseController
         $element_ids = $request->request->get('element');
         $main_id = $request->request->get('main');
 
-        return $this->baseDoUnion('Journal', $element_ids, $main_id, 'superadmin_journal');
+        return $this->baseDoUnion(Journal::class, $element_ids, $main_id, 'superadmin_journal');
     }
 }

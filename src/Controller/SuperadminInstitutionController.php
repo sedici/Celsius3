@@ -146,7 +146,6 @@ class SuperadminInstitutionController extends BaseController
      * @Route("/doUnion", name="superadmin_institution_doUnion")
      * @Method("post")
      *
-     * @return array
      */
     public function doUnion()
     {
@@ -154,7 +153,7 @@ class SuperadminInstitutionController extends BaseController
         $element_ids = $request->request->get('element');
         $main_id = $request->request->get('main');
 
-        return $this->baseDoUnion('Institution', $element_ids, $main_id, 'superadmin_institution');
+        return $this->baseDoUnion(Institution::class, $element_ids, $main_id, 'superadmin_institution');
     }
 
     /**

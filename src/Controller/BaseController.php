@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -283,24 +284,24 @@ abstract class BaseController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $main = $em->getRepository('Celsius3CoreBundle:'.$name)->find($main_id);
+        $main = $em->getRepository($name)->find($main_id);
 
         if (!$main) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found');
         }
 
-        $entities = $em->getRepository('Celsius3CoreBundle:'.$name)->findBaseDoUnionEntities($main, $ids);
+        $entities = $em->getRepository($name)->findBaseDoUnionEntities($main, $ids);
 
         if (count($entities) !== count($ids) - 1) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found');
         }
 
-        if ($name === 'BaseUser') {
+        if ($name === BaseUser::class) {
             $this->mergeSecondaryInstances($main, $entities);
         }
 
         $this->get('celsius3_core.union_manager')
-                ->union($this->getBundle().':'.$name, $main, $entities, $updateInstance);
+                ->union($name, $main, $entities, $updateInstance);
 
         /** @var $translator Translator */
         $translator = $this->get('translator');
