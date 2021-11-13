@@ -191,8 +191,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
     }
 
     /**
-     * @Route("/send_reminder_emails_batch", name="admin_send_reminder_emails_batch")
-     * @Method("post")
+     * @Route("/send_reminder_emails_batch", name="admin_send_reminder_emails_batch", methods={"POST"})
      */
     public function sendReminderEmailsBatch(Request $request): RedirectResponse
     {

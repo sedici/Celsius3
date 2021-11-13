@@ -91,9 +91,7 @@ class AdminContactController extends BaseInstanceDependentController
     /**
      * Creates a new Contact document.
      *
-     * @Route("/create", name="admin_contact_create")
-     * @Method("post")
-     *
+     * @Route("/create", name="admin_contact_create", methods={"POST"})
      */
     public function create()
     {
@@ -144,13 +142,11 @@ class AdminContactController extends BaseInstanceDependentController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
-        return $this->render(
-            'Admin/Contact/edit.html.twig',
+        return $this->render('Admin/Contact/edit.html.twig',
             $this->baseEdit('Contact', $id, AdminContactType::class, [
-                'owning_instance' => $this->getInstance(),
-                'user' => $entity->getUser(),
-            ])
-        );
+            'owning_instance' => $this->getInstance(),
+            'user' => $entity->getUser(),
+        ]));
     }
 
     protected function findQuery($name, $id)
@@ -163,8 +159,7 @@ class AdminContactController extends BaseInstanceDependentController
     /**
      * Edits an existing Contact document.
      *
-     * @Route("/{id}/update", name="admin_contact_update")
-     * @Method("post")
+     * @Route("/{id}/update", name="admin_contact_update", methods={"POST"})
      *
      * @param string $id The document ID
      *
@@ -219,8 +214,7 @@ class AdminContactController extends BaseInstanceDependentController
     /**
      * Deletes a Contact document.
      *
-     * @Route("/{id}/delete", name="admin_contact_delete")
-     * @Method("post")
+     * @Route("/{id}/delete", name="admin_contact_delete", methods={"POST"})
      *
      * @param string $id The document ID
      *

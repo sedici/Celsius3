@@ -143,8 +143,7 @@ class SuperadminInstitutionController extends BaseController
     /**
      * Unifies a group of Institution entities.
      *
-     * @Route("/doUnion", name="superadmin_institution_doUnion")
-     * @Method("post")
+     * @Route("/doUnion", name="superadmin_institution_doUnion", methods={"POST"})
      *
      */
     public function doUnion()

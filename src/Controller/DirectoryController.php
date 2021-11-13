@@ -129,8 +129,7 @@ class DirectoryController extends BaseController
     }
 
     /**
-     * @Route("/create-register", name="directory_instance_create")
-     * @Method("post")
+     * @Route("/create-register", name="directory_instance_create", methods={"POST"})
      */
     public function create(Request $request)
     {

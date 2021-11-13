@@ -140,9 +140,7 @@ class SuperadminJournalController extends BaseController
     /**
      * Unifies a group of Journal entities.
      *
-     * @Route("/doUnion", name="superadmin_journal_doUnion")
-     * @Method("post")
-     *
+     * @Route("/doUnion", name="superadmin_journal_doUnion", methods={"POST"})
      */
     public function doUnion()
     {

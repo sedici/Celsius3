@@ -138,9 +138,7 @@ class SuperadminCityController extends BaseController
     /**
      * Unifies a group of City entities.
      *
-     * @Route("/doUnion", name="superadmin_city_doUnion")
-     * @Method("post")
-     *
+     * @Route("/doUnion", name="superadmin_city_doUnion", methods={"POST"})
      */
     public function doUnion()
     {

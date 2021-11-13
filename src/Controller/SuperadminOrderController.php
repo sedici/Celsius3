@@ -243,8 +243,7 @@ class SuperadminOrderController extends OrderController
       /**
        * SoftDelete an existing Order entity.
        *
-       * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true})
-       * @Method("post")
+       * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true}, methods={"POST"})
        *
        * @param string $id The order ID
        *
@@ -287,8 +286,7 @@ class SuperadminOrderController extends OrderController
       /**
        * SoftDelete an existing Order entity.
        *
-       * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true})
-       * @Method("post")
+       * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true}, methods={"POST"})
        *
        * @param string $id The order ID
        *

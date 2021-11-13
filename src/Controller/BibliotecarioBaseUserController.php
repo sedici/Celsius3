@@ -95,8 +95,7 @@ class BibliotecarioBaseUserController extends BaseUserController
     /**
      * Creates a new BaseUser entity.
      *
-     * @Route("/create", name="bibliotecario_user_create")
-     * @Method("post")
+     * @Route("/create", name="bibliotecario_user_create", methods={"POST"})
      */
     public function create(Request $request)
     {
@@ -120,8 +119,7 @@ class BibliotecarioBaseUserController extends BaseUserController
     /**
      * Edits an existing BaseUser entity.
      *
-     * @Route("/{id}/update", name="bibliotecario_user_update")
-     * @Method("post")
+     * @Route("/{id}/update", name="bibliotecario_user_update", methods={"POST"})
      *
      * @throws NotFoundHttpException If entity doesn't exists
      */
@@ -229,9 +227,7 @@ class BibliotecarioBaseUserController extends BaseUserController
     /**
      * Unifies a group of Journal entities.
      *
-     * @Route("/batch/doUnion", name="bibliotecario_user_doUnion")
-     * @Method("post")
-     *
+     * @Route("/batch/doUnion", name="bibliotecario_user_doUnion", methods={"POST"})
      */
     public function doUnion(Request $request)
     {

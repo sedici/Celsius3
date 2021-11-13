@@ -146,8 +146,7 @@ class SuperadminContactController extends BaseController
     /**
      * Deletes a Contact entity.
      *
-     * @Route("/{id}/delete", name="superadmin_contact_delete")
-     * @Method("post")
+     * @Route("/{id}/delete", name="superadmin_contact_delete", methods={"POST"})
      *
      * @param string $id The entity ID
      *

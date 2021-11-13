@@ -141,9 +141,7 @@ class SuperadminCountryController extends BaseController
     /**
      * Unifies a group of Country entities.
      *
-     * @Route("/doUnion", name="superadmin_country_doUnion")
-     * @Method("post")
-     *
+     * @Route("/doUnion", name="superadmin_country_doUnion", methods={"POST"})
      */
     public function doUnion()
     {
