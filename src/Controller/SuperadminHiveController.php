@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Hive;
 use Celsius3\Form\Type\HiveType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Hive controller.
@@ -47,26 +48,23 @@ class SuperadminHiveController extends BaseController
      * Lists all Hive entities.
      *
      * @Route("/", name="superadmin_hive")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Hive');
+        return $this->render('Superadmin/Hive/index.html.twig', $this->baseIndex('Hive'));
     }
 
     /**
      * Displays a form to create a new Hive entity.
      *
      * @Route("/new", name="superadmin_hive_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Hive', new Hive(), HiveType::class);
+        return $this->render(
+            'Superadmin/Hive/new.html.twig',
+            $this->baseNew('Hive', new Hive(), HiveType::class)
+        );
     }
 
     /**
@@ -83,17 +81,14 @@ class SuperadminHiveController extends BaseController
      * Displays a form to edit an existing Hive entity.
      *
      * @Route("/{id}/edit", name="superadmin_hive_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Hive', $id, HiveType::class);
+        return $this->render('Superadmin/Hive/edit.html.twig', $this->baseEdit('Hive', $id, HiveType::class));
     }
 
     /**

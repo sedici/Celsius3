@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\Filter\JournalFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -48,28 +49,28 @@ class SuperadminJournalController extends BaseController
      * Lists all Journal entities.
      *
      * @Route("/", name="superadmin_journal")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Journal', $this->createForm(JournalFilterType::class));
+        return $this->render(
+            'Superadmin/Journal/index.html.twig',
+            $this->baseIndex('Journal', $this->createForm(JournalFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new Journal entity.
      *
      * @Route("/new", name="superadmin_journal_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Journal', new Journal(), JournalType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/Journal/new.html.twig',
+            $this->baseNew('Journal', new Journal(), JournalType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -88,20 +89,19 @@ class SuperadminJournalController extends BaseController
      * Displays a form to edit an existing Journal entity.
      *
      * @Route("/{id}/edit", name="superadmin_journal_edit")
-     * @Template()
      *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
+     * @param string $id The entity ID
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Journal', $id, JournalType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/Journal/edit.html.twig',
+            $this->baseEdit('Journal', $id, JournalType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**

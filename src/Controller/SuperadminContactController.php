@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Contact;
 use Celsius3\Form\Type\SuperadminContactType;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Contact controller.
@@ -36,19 +37,15 @@ use Celsius3\Exception\Exception;
  */
 class SuperadminContactController extends BaseController
 {
-
     /**
      * Lists all Contact entities.
      *
      * @Route("/", name="superadmin_contact")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
         $data = $this->baseIndex('Contact');
-        $deleteForms = array();
+        $deleteForms = [];
 
         foreach ($data['pagination'] as $entity) {
             $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
@@ -56,37 +53,37 @@ class SuperadminContactController extends BaseController
 
         $data['deleteForms'] = $deleteForms;
 
-        return $data;
+        return $this->render('Superadmin/Catalog/index.html.twig', $data);
     }
 
     /**
      * Finds and displays a Contact entity.
      *
      * @Route("/{id}/show", name="superadmin_contact_show")
-     * @Template()
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function show($id)
     {
-        return $this->baseShow('Contact', $id);
+        return $this->render(
+            'Superadmin/Contact/show.html.twig',
+            $this->baseShow('Contact', $id)
+        );
     }
 
     /**
      * Displays a form to create a new Contact entity.
      *
      * @Route("/new", name="superadmin_contact_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Contact', new Contact(), SuperadminContactType::class);
+        return $this->render(
+            'Superadmin/Contact/new.html.twig',
+            $this->baseNew('Contact', new Contact(), SuperadminContactType::class)
+        );
     }
 
     /**
@@ -103,25 +100,25 @@ class SuperadminContactController extends BaseController
      * Displays a form to edit an existing Contact entity.
      *
      * @Route("/{id}/edit", name="superadmin_contact_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
         $entity = $this->findQuery('Contact', $id);
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
-        return $this->baseEdit('Contact', $id, SuperadminContactType::class, array(
-                    'owning_instance' => $entity->getOwningInstance(),
-                    'user' => $entity->getUser(),
-        ));
+        return $this->render(
+            'Superadmin/Contact/edit.html.twig',
+            $this->baseEdit('Contact', $id, SuperadminContactType::class, [
+                'owning_instance' => $entity->getOwningInstance(),
+                'user' => $entity->getUser(),
+            ])
+        );
     }
 
     /**
@@ -130,7 +127,6 @@ class SuperadminContactController extends BaseController
      * @Route("/{id}/update", name="superadmin_contact_update", methods={"POST"})
      *
      * @param string $id The entity ID
-     *
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -154,8 +150,6 @@ class SuperadminContactController extends BaseController
      * @Method("post")
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */

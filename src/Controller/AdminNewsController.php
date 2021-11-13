@@ -40,45 +40,41 @@ class AdminNewsController extends BaseInstanceDependentController
      * Lists all News entities.
      *
      * @Route("/", name="admin_news")
-     * @Template()
-     *
-     * @return array
      */
     public function index()
     {
-        return $this->baseIndex('News', $this->createForm(NewsFilterType::class));
+        return $this->render(
+            'Admin/News/index.html.twig',
+            $this->baseIndex('News', $this->createForm(NewsFilterType::class))
+        );
     }
 
     /**
      * Finds and displays a News entity.
      *
      * @Route("/{id}/show", name="admin_news_show")
-     * @Template()
-     *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function show($id)
     {
-        return $this->baseShow('News', $id);
+        return $this->render('Admin/News/show.html.twig', $this->baseShow('News', $id));
     }
 
     /**
      * Displays a form to create a new News entity.
      *
      * @Route("/new", name="admin_news_new")
-     * @Template()
-     *
-     * @return array
      */
     public function new()
     {
-        return $this->baseNew('News', new News(), NewsType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/News/new.html.twig',
+            $this->baseNew('News', new News(), NewsType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**
@@ -97,19 +93,19 @@ class AdminNewsController extends BaseInstanceDependentController
      * Displays a form to edit an existing News entity.
      *
      * @Route("/{id}/edit", name="admin_news_edit")
-     * @Template()
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function edit($id)
     {
-        return $this->baseEdit('News', $id, NewsType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/Mail/edit.html.twig',
+            $this->baseEdit('News', $id, NewsType::class, array(
+                'instance' => $this->getInstance(),
+            ))
+        );
     }
 
     /**

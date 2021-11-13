@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\ContactType;
 use Celsius3\Form\Type\ContactTypeType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ContactType controller.
@@ -47,26 +48,26 @@ class SuperadminContactTypeController extends BaseController
      * Lists all ContactType entities.
      *
      * @Route("/", name="superadmin_contacttype")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('ContactType');
+        return $this->render(
+            'Superadmin/ContactType/index.html.twig',
+            $this->baseIndex('ContactType')
+        );
     }
 
     /**
      * Displays a form to create a new ContactType entity.
      *
      * @Route("/new", name="superadmin_contacttype_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('ContactType', new ContactType(), ContactTypeType::class);
+        return $this->render(
+            'Superadmin/ContactType/new.html.twig',
+            $this->baseNew('ContactType', new ContactType(), ContactTypeType::class)
+        );
     }
 
     /**
@@ -83,17 +84,17 @@ class SuperadminContactTypeController extends BaseController
      * Displays a form to edit an existing ContactType entity.
      *
      * @Route("/{id}/edit", name="superadmin_contacttype_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('ContactType', $id, ContactTypeType::class);
+        return $this->render(
+            'Superadmin/ContactType/edit.html.twig',
+            $this->baseEdit('ContactType', $id, ContactTypeType::class)
+        );
     }
 
     /**
@@ -102,7 +103,6 @@ class SuperadminContactTypeController extends BaseController
      * @Route("/{id}/update", name="superadmin_contacttype_update", methods={"POST"})
      *
      * @param string $id The entity ID
-     *
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */

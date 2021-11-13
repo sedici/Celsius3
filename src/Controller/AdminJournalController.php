@@ -31,6 +31,7 @@ use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\Filter\JournalFilterType;
 use Celsius3\Manager\CatalogManager;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -65,26 +66,26 @@ class AdminJournalController extends BaseInstanceDependentController
      * Lists all Journal entities.
      *
      * @Route("/", name="admin_journal")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Journal', $this->createForm(JournalFilterType::class, null, array(
-                            'instance' => $this->getInstance(),
-        )));
+        return $this->render(
+            'Admin/Journal/index.html.twig',
+            $this->baseIndex(
+                'Journal',
+                $this->createForm(JournalFilterType::class, null, [
+                    'instance' => $this->getInstance(),
+                ])
+            )
+        );
     }
 
     /**
      * Displays data for a Journal.
      *
      * @Route("/{id}/show", name="admin_journal_show", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
-    public function show($id)
+    public function show($id): Response
     {
         $entity = $this->findShowQuery($id);
 
@@ -92,9 +93,9 @@ class AdminJournalController extends BaseInstanceDependentController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
         }
         $receptions = $this->getDoctrine()->getRepository(Event::class)
-                ->getPreviousJournalReceivedRequests($this->getInstance(), $entity);
+            ->getPreviousJournalReceivedRequests($this->getInstance(), $entity);
         $results = $this->getDoctrine()->getRepository(Event::class)
-                ->getPreviousJournalSearches($this->getInstance(), $entity);
+            ->getPreviousJournalSearches($this->getInstance(), $entity);
 
         $searches = [
             CatalogManager::CATALOG__FOUND => [],
@@ -104,26 +105,26 @@ class AdminJournalController extends BaseInstanceDependentController
             $searches[$search->getResult()][] = $search;
         }
 
-        return array(
+        return $this->render('Admin/Journal/show.html.twig', [
             'entity' => $entity,
             'searches' => $searches,
             'receptions' => $receptions,
-        );
+        ]);
     }
 
     /**
      * Displays a form to create a new Journal entity.
      *
      * @Route("/new", name="admin_journal_new", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Journal', new Journal(), JournalType::class, array(
-                    'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/Journal/new.html.twig',
+            $this->baseNew('Journal', new Journal(), JournalType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**
@@ -143,19 +144,19 @@ class AdminJournalController extends BaseInstanceDependentController
      * Displays a form to edit an existing Journal entity.
      *
      * @Route("/{id}/edit", name="admin_journal_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Journal', $id, JournalType::class, array(
-                    'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/Journal/edit.html.twig',
+            $this->baseEdit('Journal', $id, JournalType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**

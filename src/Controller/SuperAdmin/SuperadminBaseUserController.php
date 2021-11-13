@@ -22,15 +22,17 @@
 
 namespace Celsius3\Controller\SuperAdmin;
 
+use Celsius3\Controller\BaseUserController;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\CoreBundle\Form\Type\UserTransformType;
+use Celsius3\Form\Type\BaseUserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Form\Type\UserTransformType;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
-use Celsius3\CoreBundle\Controller\BaseUserController;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * BaseUser controller.
  *
@@ -68,100 +70,101 @@ class SuperadminBaseUserController extends BaseUserController
      * Lists all BaseUser entities.
      *
      * @Route("/", name="superadmin_user")
-     * @Template()
-     *
-     * @return array
      */
-    public function indexAction()
+    public function index(): Response
     {
-        return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class));
+        return $this->render(
+            'Superadmin/BaseUser/index.html.twig',
+            $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="superadmin_user_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function newAction()
+    public function new(): Response
     {
-        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/BaseUser/new.html.twig',
+            $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
      * Creates a new BaseUser entity.
      *
-     * @Route("/create", name="superadmin_user_create")
-     * @Method("post")
-     * @Template("Celsius3CoreBundle:SuperadminBaseUser:new.html.twig")
-     *
-     * @return array
+     * @Route("/create", name="superadmin_user_create", methods={"POST"})
      */
-    public function createAction()
+    public function create(): Response
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_user');
+        return $this->render(
+            'Superadmin/BaseUser/new.html.twig',
+            $this->baseCreate('BaseUser', new BaseUser(), BaseUserType::class, [
+                'instance' => $this->getDirectory(),
+            ], 'superadmin_user')
+        );
     }
 
     /**
      * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="superadmin_user_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function editAction($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-            'editing' => true,
-        ));
+        return $this->render(
+            'Superadmin/BaseUser/edit.html.twig',
+            $this->baseEdit('BaseUser', $id, BaseUserType::class, [
+                'instance' => $this->getDirectory(),
+                'editing' => true,
+            ])
+        );
     }
 
     /**
      * Edits an existing BaseUser entity.
      *
-     * @Route("/{id}/update", name="superadmin_user_update")
-     * @Method("post")
-     * @Template("Celsius3CoreBundle:SuperadminBaseUser:edit.html.twig")
+     * @Route("/{id}/update", name="superadmin_user_update", methods={"POST"})
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function updateAction($id)
+    public function update($id): Response
     {
-        return $this->baseUpdate('BaseUser', $id, BaseUserType::class, array(
-            'instance' => $this->getDirectory(),
-            'editing' => true,
-        ), 'superadmin_user');
+        return $this->render(
+            'Superadmin/BaseUser/edit.html.twig',
+            $this->baseUpdate(
+                'BaseUser',
+                $id,
+                BaseUserType::class,
+                [
+                    'instance' => $this->getDirectory(),
+                    'editing' => true,
+                ],
+                'superadmin_user'
+            )
+        );
     }
 
     /**
      * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="superadmin_user_transform")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function transformAction($id, Request $request)
+    public function transform($id, Request $request)
     {
         $entity = $this->findQuery('BaseUser', $id);
 

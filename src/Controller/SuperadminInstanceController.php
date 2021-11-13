@@ -55,32 +55,29 @@ class SuperadminInstanceController extends InstanceController
      * Lists all Instance entities.
      *
      * @Route("/", name="superadmin_instance")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class));
+        return $this->render(
+            'Superadmin/Instance/index.html.twig',
+            $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new Instance entity.
      *
      * @Route("/new", name="superadmin_instance_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
         $entity = new Instance();
         $form = $this->createForm(InstanceType::class, $entity, ['institution_select' => true]);
 
-        return array(
+        return $this->render('Superadmin/Instance/new.html.twig', [
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ]);
     }
 
     /**
@@ -157,17 +154,17 @@ class SuperadminInstanceController extends InstanceController
      * Displays a form to edit an existing Instance entity.
      *
      * @Route("/{id}/edit", name="superadmin_instance_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Instance', $id, InstanceType::class);
+        return $this->render(
+            'Superadmin/Instance/edit.html.twig',
+            $this->baseEdit('Instance', $id, InstanceType::class)
+        );
     }
 
     /**
@@ -189,8 +186,6 @@ class SuperadminInstanceController extends InstanceController
      * @Route("/{id}/switch", name="superadmin_instance_switch")
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -219,8 +214,6 @@ class SuperadminInstanceController extends InstanceController
      * @Route("/{id}/invisible", name="superadmin_instance_invisible")
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -261,17 +254,17 @@ class SuperadminInstanceController extends InstanceController
      * Displays a form to configure an existing Instance.
      *
      * @Route("/{id}/configure", name="superadmin_instance_configure")
-     * @Template()
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function configure($id)
     {
-        return $this->baseConfigure($id);
+        return $this->render(
+            'Superadmin/Instance/configure.html.twig',
+            $this->baseConfigure($id)
+        );
     }
 
     /**
@@ -294,8 +287,6 @@ class SuperadminInstanceController extends InstanceController
      * @Route("/{id}/admin", name="superadmin_instance_admin")
      *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */

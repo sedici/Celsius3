@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\Form\Type\CatalogType;
 use Celsius3\Form\Type\Filter\CatalogFilterType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -41,28 +42,28 @@ class SuperadminCatalogController extends BaseController
      * Lists all Catalog entities.
      *
      * @Route("/", name="superadmin_catalog")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Catalog', $this->createForm(CatalogFilterType::class));
+        return $this->render(
+            'Superadmin/Catalog/index.html.twig',
+            $this->baseIndex('Catalog', $this->createForm(CatalogFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new Catalog entity.
      *
      * @Route("/new", name="superadmin_catalog_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Catalog', new Catalog(), CatalogType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/Catalog/new.html.twig',
+            $this->baseNew('Catalog', new Catalog(), CatalogType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -83,9 +84,7 @@ class SuperadminCatalogController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_catalog_edit")
      *
-     * @param string $id
-     *                   The entity ID
-     *
+     * @param string $id The entity ID
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -101,9 +100,7 @@ class SuperadminCatalogController extends BaseController
      *
      * @Route("/{id}/update", name="superadmin_catalog_update", methods={"POST"})
      *
-     * @param string $id
-     *                   The entity ID
-     *
+     * @param string $id The entity ID
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */

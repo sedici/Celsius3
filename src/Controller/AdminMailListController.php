@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -22,15 +24,9 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Email;
-use Celsius3\Exception\Exception;
-#use Celsius3\Form\Type\MailType;
-use Celsius3\Form\Type\Filter\MailFilterType; 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Celsius3\Form\Type\Filter\MailFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * MailList controller.
@@ -39,19 +35,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class AdminMailListController extends BaseInstanceDependentController
 {
-    
     /**
      * Lists all Mail entities.
      *
      * @Route("/", name="admin_maillist")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Email', $this->createForm(MailFilterType::class, null, array(
-            'instance' => $this->getInstance(),
-        )));
+        return $this->render(
+            'Admin/Mail/index.html.twig',
+            $this->baseIndex(
+                'Email',
+                $this->createForm(MailFilterType::class, null, [
+                    'instance' => $this->getInstance(),
+                ])
+            )
+        );
     }
 }

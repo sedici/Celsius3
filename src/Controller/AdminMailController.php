@@ -33,6 +33,8 @@ use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\Exception\Exception;
 use Celsius3\Validator\Constraints as CelsiusAssert;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Translator;
 
 /**
@@ -59,40 +61,45 @@ class AdminMailController extends BaseInstanceDependentController
      * Lists all Templates Mail.
      *
      * @Route("/", name="admin_mails")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class));
+        return $this->render(
+            'Admin/Mail/index.html.twig',
+            $this->baseIndex(
+                'MailTemplate',
+                $this->createForm(MailTemplateFilterType::class)
+            )
+        );
     }
 
     /**
      * Displays a form to create a new mail template.
      *
      * @Route("/new", name="admin_mails_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
+        return $this->render(
+            'Admin/Mail/new.html.twig',
+            $this->baseNew(
+                'MailTemplate',
+                new MailTemplate(),
+                MailTemplateType::class,
+                [
                     'instance' => $this->getInstance(),
                     'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
-        ));
+                ]
+            )
+        );
     }
 
     /**
      * Displays a form to edit an existing mail template.
      *
      * @Route("/{id}/edit", name="admin_mails_edit")
-     * @Template()
      *
      * @param string $id The mail template ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -116,12 +123,15 @@ class AdminMailController extends BaseInstanceDependentController
             $route = $this->generateUrl('admin_mails_create');
         }
 
-        return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
-                    'instance' => $this->getInstance(),
-                    'code' => $template->getCode(),
-                    'action' => $route,
-                    'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
-            ));
+        return $this->render(
+            'Admin/Mail/edit.html.twig',
+            $this->baseEdit('MailTemplate', $id, MailTemplateType::class, [
+                'instance' => $this->getInstance(),
+                'code' => $template->getCode(),
+                'action' => $route,
+                'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
+            ])
+        );
     }
 
     /**
@@ -217,15 +227,11 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @Route("/{id}/change_state", name="admin_mails_change_state")
      *
-     * @Template()
-     *
      * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function changeState($id)
+    public function changeState($id): Response
     {
         $template = $this->findQuery('MailTemplate', $id);
 

@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\Form\Type\InstitutionType;
 use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -49,28 +50,28 @@ class SuperadminInstitutionController extends BaseController
      * Lists all Institution entities.
      *
      * @Route("/", name="superadmin_institution")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class));
+        return $this->render(
+            'Superadmin/Institution/index.html.twig',
+            $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new Institution entity.
      *
      * @Route("/new", name="superadmin_institution_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Institution', new Institution(), InstitutionType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/Institution/new.html.twig',
+            $this->baseNew('Institution', new Institution(), InstitutionType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -90,20 +91,19 @@ class SuperadminInstitutionController extends BaseController
      * Displays a form to edit an existing Institution entity.
      *
      * @Route("/{id}/edit", name="superadmin_institution_edit")
-     * @Template()
      *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
+     * @param string $id The entity ID
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Institution', $id, InstitutionType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/Institution/edit.html.twig',
+            $this->baseEdit('Institution', $id, InstitutionType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -160,15 +160,12 @@ class SuperadminInstitutionController extends BaseController
      * Displays a form to edit an existing Institution entity.
      *
      * @Route("/{id}/show", name="superadmin_institution_show")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
         $entity = $this->getDoctrine()->getRepository(Institution::class)->find($id);
 
@@ -176,8 +173,11 @@ class SuperadminInstitutionController extends BaseController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
         }
 
-        return array(
-            'entity' => $entity,
+        return $this->render(
+            'Superadmin/Institution/show.html.twig',
+            [
+                'entity' => $entity,
+            ]
         );
     }
 }

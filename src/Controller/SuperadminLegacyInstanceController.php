@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\LegacyInstance;
 use Celsius3\Form\Type\LegacyInstanceType;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Instance controller.
@@ -48,26 +49,26 @@ class SuperadminLegacyInstanceController extends InstanceController
      * Lists all Instance entities.
      *
      * @Route("/", name="superadmin_instance_legacy")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('LegacyInstance', $this->createForm(InstanceFilterType::class));
+        return $this->render(
+            'Superadmin/LegacyInstance/index.html.twig',
+            $this->baseIndex('LegacyInstance', $this->createForm(InstanceFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new LegacyInstance entity.
      *
      * @Route("/new", name="superadmin_instance_legacy_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('LegacyInstance', new LegacyInstance(), LegacyInstanceType::class);
+        return $this->render(
+            'Superadmin/LegacyInstance/new.html.twig',
+            $this->baseNew('LegacyInstance', new LegacyInstance(), LegacyInstanceType::class)
+        );
     }
 
     /**
@@ -86,17 +87,17 @@ class SuperadminLegacyInstanceController extends InstanceController
      * Displays a form to edit an existing LegacyInstance entity.
      *
      * @Route("/{id}/edit", name="superadmin_instance_legacy_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('LegacyInstance', $id, LegacyInstanceType::class);
+        return $this->render(
+            'Superadmin/LegacyInstance/edit.html.twig',
+            $this->baseEdit('LegacyInstance', $id, LegacyInstanceType::class)
+        );
     }
 
     /**

@@ -32,6 +32,9 @@ use Celsius3\Form\Type\Filter\OrderFilterType;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+use function get_class;
 
 /**
  * Order controller.
@@ -79,49 +82,49 @@ class SuperadminOrderController extends OrderController
      * Lists all Order entities.
      *
      * @Route("/", name="superadmin_order")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('softdeleteable');
-        return $this->baseIndex('Order', $this->createForm(OrderFilterType::class));
+        return $this->render(
+            'Superadmin/Order/index.html.twig',
+            $this->baseIndex('Order', $this->createForm(OrderFilterType::class))
+        );
     }
 
     /**
      * Finds and displays a Order entity.
      *
      * @Route("/{id}/show", name="superadmin_order_show")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
-        return $this->baseShow('Order', $id);
+        return $this->render(
+            'Superadmin/Order/show.html.twig',
+            $this->baseShow('Order', $id)
+        );
     }
 
     /**
      * Displays a form to create a new Order entity.
      *
      * @Route("/new", name="superadmin_order_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Order', new Order(), OrderType::class, array(
-                    'instance' => $this->getDirectory(),
-                    'user' => $this->getUser(),
-                    'librarian' => false,
-                    'actual_user' => $this->getUser(),
-        ));
+        return $this->render(
+            'Superadmin/Order/new.html.twig',
+            $this->baseNew('Order', new Order(), OrderType::class, [
+                'instance' => $this->getDirectory(),
+                'user' => $this->getUser(),
+                'librarian' => false,
+                'actual_user' => $this->getUser(),
+            ])
+        );
     }
 
     /**
@@ -151,15 +154,12 @@ class SuperadminOrderController extends OrderController
      * Displays a form to edit an existing Order entity.
      *
      * @Route("/{id}/edit", name="superadmin_order_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
         $entity = $this->findQuery('Order', $id);
 
@@ -169,17 +169,20 @@ class SuperadminOrderController extends OrderController
 
         $materialClass = get_class($entity->getMaterialData());
 
-        $editForm = $this->createForm(OrderType::class, $entity, array(
+        $editForm = $this->createForm(OrderType::class, $entity, [
             'instance' => $entity->getOriginalRequest()->getInstance(),
             'material' => $this->getMaterialType($materialClass),
             'user' => $this->getUser(),
             'librarian' => false,
             'actual_user' => $this->getUser(),
-        ));
+        ]);
 
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
+        return $this->render(
+            'Superadmin/Order/edit.html.twig',
+            [
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+            ]
         );
     }
 
@@ -231,9 +234,6 @@ class SuperadminOrderController extends OrderController
      * Updates de form materialData field.
      *
      * @Route("/change", name="superadmin_order_change")
-     * @Template()
-     *
-     * @return array
      */
     public function changeA()
     {

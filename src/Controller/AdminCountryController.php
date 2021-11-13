@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Order controller.
@@ -55,30 +56,33 @@ class AdminCountryController extends BaseInstanceDependentController
      * Lists all Country entities.
      *
      * @Route("/", name="admin_country")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Country', $this->createForm(CountryFilterType::class, null, array(
-            'instance' => $this->getInstance(),
-        )));
+        return $this->render(
+            'Admin/Country/index.html.twig',
+            $this->baseIndex(
+                'Country',
+                $this->createForm(CountryFilterType::class, null, [
+                    'instance' => $this->getInstance(),
+                ])
+            )
+        );
     }
 
     /**
      * Displays a form to create a new Country entity.
      *
      * @Route("/new", name="admin_country_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Country', new Country(), CountryType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/Country/new.html.twig',
+            $this->baseNew('Country', new Country(), CountryType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**
@@ -97,19 +101,19 @@ class AdminCountryController extends BaseInstanceDependentController
      * Displays a form to edit an existing Country entity.
      *
      * @Route("/{id}/edit", name="admin_country_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Country', $id, CountryType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/Country/edit.html.twig',
+            $this->baseEdit('Country', $id, CountryType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**

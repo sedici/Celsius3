@@ -44,9 +44,6 @@ class SuperadminStatisticsController extends BaseController
      * Lists all Catalog entities.
      *
      * @Route("/", name="superadmin_statistics")
-     * @Template()
-     *
-     * @return array
      */
     public function index(Request $request)
     {
@@ -62,11 +59,11 @@ class SuperadminStatisticsController extends BaseController
 
         $admins = $repository->findManagerOrder($instance);
 
-        return array(
+        return $this->render('Superadmin/Statistics/index.html.twig', array(
             'orderCount' => $orderCount,
             'admin' =>$admins
 
-        );
+        ));
     }
 
 

@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\City;
 use Celsius3\Form\Type\CityType;
 use Celsius3\Form\Type\Filter\CityFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -48,28 +49,28 @@ class SuperadminCityController extends BaseController
      * Lists all City entities.
      *
      * @Route("/", name="superadmin_city")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('City', $this->createForm(CityFilterType::class));
+        return $this->render(
+            'Superadmin/City/index.html.twig',
+            $this->baseIndex('City', $this->createForm(CityFilterType::class))
+        );
     }
 
     /**
      * Displays a form to create a new City entity.
      *
      * @Route("/new", name="superadmin_city_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('City', new City(), CityType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/City/new.html.twig',
+            $this->baseNew('City', new City(), CityType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -88,19 +89,19 @@ class SuperadminCityController extends BaseController
      * Displays a form to edit an existing City entity.
      *
      * @Route("/{id}/edit", name="superadmin_city_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('City', $id, CityType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/City/new.html.twig',
+            $this->baseEdit('City', $id, CityType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -123,8 +124,6 @@ class SuperadminCityController extends BaseController
      * Batch actions.
      *
      * @Route("/batch", name="superadmin_city_batch")
-     *
-     * @return array
      */
     public function batch()
     {

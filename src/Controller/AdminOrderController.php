@@ -24,6 +24,7 @@ namespace Celsius3\Controller;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\JournalTypeType;
@@ -36,6 +37,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+
+use function get_class;
 
 /**
  * Order controller.
@@ -99,9 +102,6 @@ class AdminOrderController extends AbstractController //OrderController
      * Lists all Order entities.
      *
      * @Route("/", name="admin_order", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
     public function index()
     {
@@ -112,11 +112,8 @@ class AdminOrderController extends AbstractController //OrderController
      * Finds and displays a Order entity.
      *
      * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
-     * @Template()
      *
      * @param  string  $id  The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -233,11 +230,8 @@ class AdminOrderController extends AbstractController //OrderController
      * Displays a form to edit an existing Order entity.
      *
      * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
-     * @Template()
      *
-     * @param  string  $id  The entity ID
-     *
-     * @return array
+     * @param string $id The entity ID
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -251,14 +245,14 @@ class AdminOrderController extends AbstractController //OrderController
 
         $materialClass = get_class($entity->getMaterialData());
 
-        if ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) {
+        if ($entity->getMaterialData() instanceof JournalType) {
             $journal = $entity->getMaterialData()->getJournal();
         } else {
             $journal = null;
         }
 
         $other = ($entity->getMaterialData(
-            ) instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $entity->getMaterialData()->getOther() : '';
+            ) instanceof JournalType) ? $entity->getMaterialData()->getOther() : '';
 
         $editForm = $this->createForm(
             OrderType::class,
@@ -271,16 +265,16 @@ class AdminOrderController extends AbstractController //OrderController
                 'actual_user' => $this->getUser(),
                 'journal' => $journal,
                 'other' => $other,
-                'journal_id' => !is_null($journal) ? $journal->getId() : '',
+                'journal_id' => $journal !== null ? $journal->getId() : '',
 
             ]
         );
 
 
-        return [
+        return $this->render('Admin/Order/edit.html.twig', [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-        ];
+        ]);
     }
 
     /**
@@ -314,13 +308,13 @@ class AdminOrderController extends AbstractController //OrderController
         $duplicatedMaterialData = clone $order->getMaterialData();
         $duplicatedOrder->setMaterialData($duplicatedMaterialData);
 
-        if ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) {
+        if ($duplicatedMaterialData instanceof JournalType) {
             $journal = $duplicatedMaterialData->getJournal();
         } else {
             $journal = null;
         }
 
-        $other = ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $duplicatedMaterialData->getOther(
+        $other = ($duplicatedMaterialData instanceof JournalType) ? $duplicatedMaterialData->getOther(
         ) : '';
 
         //Se registra duplicado en la base de datos
@@ -423,11 +417,8 @@ class AdminOrderController extends AbstractController //OrderController
      * Updates de form materialData field.
      *
      * @Route("/change", name="admin_order_change", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
-    public function change()
+    public function changeA()
     {
         return $this->change();
     }

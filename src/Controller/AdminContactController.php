@@ -29,6 +29,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\Translator;
 
@@ -43,11 +44,8 @@ class AdminContactController extends BaseInstanceDependentController
      * Lists all Contact documents.
      *
      * @Route("/", name="admin_contact")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
         $data = $this->baseIndex('Contact');
         $deleteForms = [];
@@ -58,39 +56,36 @@ class AdminContactController extends BaseInstanceDependentController
 
         $data['deleteForms'] = $deleteForms;
 
-        return $data;
+        return $this->render('Admin/Contact/index.html.twig', $data);
     }
 
     /**
      * Finds and displays a Contact document.
      *
      * @Route("/{id}/show", name="admin_contact_show")
-     * @Template()
      *
      * @param string $id The document ID
      *
-     * @return array
-     *
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
-        return $this->baseShow('Contact', $id);
+        return $this->render('Admin/Contact/show.html.twig', $this->baseShow('Contact', $id));
     }
 
     /**
      * Displays a form to create a new Contact document.
      *
      * @Route("/new", name="admin_contact_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Contact', new Contact(), AdminContactType::class, [
-            'owning_instance' => $this->getInstance(),
-        ]);
+        return $this->render(
+            'Admin/Contact/new.html.twig',
+            $this->baseNew('Contact', new Contact(), AdminContactType::class, [
+                'owning_instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**
@@ -137,25 +132,25 @@ class AdminContactController extends BaseInstanceDependentController
      * Displays a form to edit an existing Contact document.
      *
      * @Route("/{id}/edit", name="admin_contact_edit")
-     * @Template()
      *
      * @param string $id The document ID
      *
-     * @return array
-     *
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
         $entity = $this->findQuery('Contact', $id);
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
-        return $this->baseEdit('Contact', $id, AdminContactType::class, [
-            'owning_instance' => $this->getInstance(),
-            'user' => $entity->getUser(),
-        ]);
+        return $this->render(
+            'Admin/Contact/edit.html.twig',
+            $this->baseEdit('Contact', $id, AdminContactType::class, [
+                'owning_instance' => $this->getInstance(),
+                'user' => $entity->getUser(),
+            ])
+        );
     }
 
     protected function findQuery($name, $id)

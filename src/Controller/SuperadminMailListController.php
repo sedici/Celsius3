@@ -22,15 +22,9 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Email;
-use Celsius3\Exception\Exception;
-#use Celsius3\Form\Type\MailType;
-use Celsius3\Form\Type\Filter\MailFilterType; 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Celsius3\Form\Type\Filter\MailFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * MailList controller.
@@ -39,17 +33,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class SuperadminMailListController extends BaseController
 {
-    
     /**
      * Lists all Mail entities.
      *
      * @Route("/", name="superadmin_maillist")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('Email', $this->createForm(MailFilterType::class));
+        return $this->render(
+            'Superadmin/MailList/index.html.twig',
+            $this->baseIndex('Email', $this->createForm(MailFilterType::class))
+        );
     }
 }

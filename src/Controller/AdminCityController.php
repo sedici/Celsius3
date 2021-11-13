@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\City;
 use Celsius3\Form\Type\CityType;
 use Celsius3\Form\Type\Filter\CityFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -55,30 +56,33 @@ class AdminCityController extends BaseInstanceDependentController
      * Lists all City entities.
      *
      * @Route("/", name="admin_city")
-     * @Template()
-     *
-     * @return array
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->baseIndex('City', $this->createForm(CityFilterType::class, null, array(
-            'instance' => $this->getInstance(),
-        )));
+        return $this->render(
+            'Admin/City/index.html.twig',
+            $this->baseIndex(
+                'City',
+                $this->createForm(CityFilterType::class, null, [
+                    'instance' => $this->getInstance(),
+                ])
+            )
+        );
     }
 
     /**
      * Displays a form to create a new City entity.
      *
      * @Route("/new", name="admin_city_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('City', new City(), CityType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/City/new.html.twig',
+            $this->baseNew('City', new City(), CityType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**
@@ -97,19 +101,19 @@ class AdminCityController extends BaseInstanceDependentController
      * Displays a form to edit an existing City entity.
      *
      * @Route("/{id}/edit", name="admin_city_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('City', $id, CityType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->render(
+            'Admin/City/edit.html.twig',
+            $this->baseEdit('City', $id, CityType::class, [
+                'instance' => $this->getInstance(),
+            ])
+        );
     }
 
     /**

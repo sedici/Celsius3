@@ -97,7 +97,6 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
 
     /**
      * @Route("/news", name="public_news")
-     * @Template()
      */
     public function news(Request $request)
     {
@@ -133,20 +132,19 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
 
     /**
      * @Route("/countries", name="public_countries", options={"expose"=true})
-     * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function countries()
+    public function countries(): Response
     {
         $countries = $this->getDoctrine()->getManager()
             ->getRepository(Country::class)
             ->getAllOrderedByNameQB()
             ->getQuery()->execute();
 
-        $response = array();
+        $response = [];
         foreach ($countries as $country) {
-            $response[] = array('value' => $country->getId(), 'name' => ucfirst(strtolower($country->getName())));
+            $response[] = ['value' => $country->getId(), 'name' => ucfirst(strtolower($country->getName()))];
         }
 
         return new Response(json_encode($response));
@@ -154,24 +152,23 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
 
     /**
      * @Route("/cities", name="public_cities", options={"expose"=true})
-     * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function cities(Request $request)
+    public function cities(Request $request): Response
     {
         if (!$request->query->has('country_id')) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
         }
 
         $cities = $this->getDoctrine()->getManager()
-                        ->getRepository(City::class)
-                        ->findForCountry($request->query->get('country_id'));
+            ->getRepository(City::class)
+            ->findForCountry($request->query->get('country_id'));
 
-        $response = array();
+        $response = [];
 
         foreach ($cities as $city) {
-            $response[] = array('value' => $city->getId(), 'name' => $city->getName());
+            $response[] = ['value' => $city->getId(), 'name' => $city->getName()];
         }
 
         return new Response(json_encode($response));
@@ -179,7 +176,6 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
 
     /**
      * @Route("/institutions", name="public_institutions", options={"expose"=true})
-     * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -193,12 +189,12 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
             ->getRepository(Institution::class)
             ->findByCountry($request->query->get('country_id'), $this->getInstance(), $this->getDirectory());
 
-        $response = array();
+        $response = [];
         foreach ($institutions as $institution) {
-            $response[] = array(
+            $response[] = [
                 'value' => $institution->getId(),
                 'name' => $institution->getName(),
-            );
+            ];
         }
 
         return new Response(json_encode($response));
@@ -206,11 +202,10 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
 
     /**
      * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
-     * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function institutionsFull(Request $request)
+    public function institutionsFull(Request $request): Response
     {
         if (!$request->query->has('country_id') && !$request->query->has('city_id') && !$request->query->has('institution_id')) {
             throw $this->createNotFoundException();
@@ -236,13 +231,13 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
 
                 $instAbbr = ' | '.(($institution['abbreviation']) ?: $institution['name']);
 
-                $response[] = array(
+                $response[] = [
                     'value' => $institution['id'],
                     'hasChildren' => count($children) > 0,
                     'name' => $institution['name'].(($institution['abbreviation']) ? ' ('.$institution['abbreviation'].')' : ''),
                     'level' => $level,
                     'children' => $this->getChildrenInstitution($institutions, $children, $level + 1, $instAbbr),
-                );
+                ];
             }
         }
 

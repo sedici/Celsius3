@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\News;
 use Celsius3\Form\Type\NewsType;
 use Celsius3\Form\Type\Filter\NewsFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * News controller.
@@ -48,45 +49,45 @@ class SuperadminNewsController extends BaseController
      * Lists all News entities.
      *
      * @Route("/", name="superadmin_news")
-     * @Template()
-     *
-     * @return array
      */
     public function index()
     {
-        return $this->baseIndex('News', $this->createForm(NewsFilterType::class));
+        return $this->render(
+            'Superadmin/News/index.html.twig',
+            $this->baseIndex('News', $this->createForm(NewsFilterType::class))
+        );
     }
 
     /**
      * Finds and displays a News entity.
      *
      * @Route("/{id}/show", name="superadmin_news_show")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
-        return $this->baseShow('News', $id);
+        return $this->render(
+            'Superadmin/News/show.html.twig',
+            $this->baseShow('News', $id)
+        );
     }
 
     /**
      * Displays a form to create a new News entity.
      *
      * @Route("/new", name="superadmin_news_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('News', new News(), NewsType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/News/new.html.twig',
+            $this->baseNew('News', new News(), NewsType::class, [
+                'instance' => $this->getDirectory(),
+            ])
+        );
     }
 
     /**
@@ -105,19 +106,19 @@ class SuperadminNewsController extends BaseController
      * Displays a form to edit an existing News entity.
      *
      * @Route("/{id}/edit", name="superadmin_news_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('News', $id, NewsType::class, array(
-            'instance' => $this->getDirectory(),
-        ));
+        return $this->render(
+            'Superadmin/News/edit.html.twig',
+            $this->baseEdit('News', $id, NewsType::class, array(
+                'instance' => $this->getDirectory(),
+            ))
+        );
     }
 
     /**
@@ -126,7 +127,6 @@ class SuperadminNewsController extends BaseController
      * @Route("/{id}/update", name="superadmin_news_update", methods={"POST"})
      *
      * @param string $id The entity ID
-     *
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */

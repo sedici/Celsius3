@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\Form\Type\InstitutionType;
 use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -56,31 +57,34 @@ class AdminInstitutionController extends BaseInstanceDependentController
      * Lists all Institution entities.
      *
      * @Route("/", name="admin_institution")
-     * @Template()
-     *
-     * @return array
      */
     public function index()
     {
-        return $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class, null, array(
-                            'instance' => $this->getInstance(),
-        )));
+        return $this->render(
+            'Admin/Institution/index.html.twig',
+            $this->baseIndex(
+                'Institution',
+                $this->createForm(InstitutionFilterType::class, null, array(
+                    'instance' => $this->getInstance(),
+                ))
+            )
+        );
     }
 
     /**
      * Displays a form to create a new Institution entity.
      *
      * @Route("/new", name="admin_institution_new", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('Institution', new Institution(), InstitutionType::class, array(
-                    'instance' => $this->getInstance(),
-                    'show_city' => true
-        ));
+        return $this->render(
+            'Admin/Institution/new.html.twig',
+            $this->baseNew('Institution', new Institution(), InstitutionType::class, [
+                'instance' => $this->getInstance(),
+                'show_city' => true
+            ])
+        );
     }
 
     /**
@@ -100,20 +104,20 @@ class AdminInstitutionController extends BaseInstanceDependentController
      * Displays a form to edit an existing Institution entity.
      *
      * @Route("/{id}/edit", name="admin_institution_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        return $this->baseEdit('Institution', $id, InstitutionType::class, array(
-                    'instance' => $this->getInstance(),
-                    'show_city' => true
-        ));
+        return $this->render(
+            'Admin/Institution/edit.html.twig',
+            $this->baseEdit('Institution', $id, InstitutionType::class, [
+                'instance' => $this->getInstance(),
+                'show_city' => true
+            ])
+        );
     }
 
     /**
@@ -136,15 +140,12 @@ class AdminInstitutionController extends BaseInstanceDependentController
      * Displays a form to edit an existing Institution entity.
      *
      * @Route("/{id}/show", name="admin_institution_show")
-     * @Template()
      *
      * @param string $id The entity ID
      *
-     * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
         $entity = $this->getDoctrine()->getRepository(Institution::class)->find($id);
 
@@ -156,8 +157,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
             throw Exception::create(Exception::ACCESS_DENIED);
         }
 
-        return array(
+        return $this->render('Admin/Institution/show.html.twig', [
             'entity' => $entity,
-        );
+        ]);
     }
 }

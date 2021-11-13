@@ -37,9 +37,6 @@ class AdminSearchController extends BaseInstanceDependentController
 
     /**
      * @Route("/", name="admin_search")
-     * @Template()
-     *
-     * @return array
      */
     public function search(Request $request)
     {
@@ -61,16 +58,23 @@ class AdminSearchController extends BaseInstanceDependentController
 
         $aggregations = $results->getAggregations();
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($results, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1), $this->container->getParameter('max_per_page'));
+        $pagination = $paginator->paginate(
+            $results,
+            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1),
+            $this->container->getParameter('max_per_page')
+        );
 
         $users = $searchManager->getAggsUsersData($aggregations);
 
-        return array(
-            'keyword' => $keyword,
-            'pagination' => $pagination,
-            'aggregations' => $aggregations,
-            'filters' => $filters,
-            'users' => $users
+        return $this->render(
+            'Admin/Search/search.html.twig',
+            [
+                'keyword' => $keyword,
+                'pagination' => $pagination,
+                'aggregations' => $aggregations,
+                'filters' => $filters,
+                'users' => $users
+            ]
         );
     }
 

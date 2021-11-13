@@ -28,6 +28,7 @@ use Celsius3\Form\Type\Filter\CustomFieldFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Order controller.
@@ -48,30 +49,31 @@ class AdminCustomFieldController extends BaseInstanceDependentController
      * Lists all CustomField entities.
      *
      * @Route("/", name="admin_customuserfield")
-     * @Template()
-     *
-     * @return array
      */
     public function index()
     {
-        return $this->baseIndex('CustomField', $this->createForm(CustomFieldFilterType::class, null, [
-            'instance' => $this->getInstance(),
-        ]));
+        return $this->render(
+            'Admin/CustomField/index.html.twig',
+            $this->baseIndex(
+                'CustomField',
+                $this->createForm(CustomFieldFilterType::class, null, [
+                    'instance' => $this->getInstance(),
+                ])
+            )
+        );
     }
 
     /**
      * Displays a form to create a new CustomField entity.
      *
      * @Route("/new", name="admin_customuserfield_new")
-     * @Template()
-     *
-     * @return array
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->baseNew('CustomField', new CustomField(), CustomFieldType::class, [
+        return $this->render('Admin/CustomField/new.html.twig',
+            $this->baseNew('CustomField', new CustomField(), CustomFieldType::class, [
             'instance' => $this->getInstance(),
-        ]);
+        ]));
     }
 
     /**
@@ -91,7 +93,6 @@ class AdminCustomFieldController extends BaseInstanceDependentController
      * Displays a form to edit an existing CustomField entity.
      *
      * @Route("/{id}/edit", name="admin_customuserfield_edit")
-     * @Template()
      *
      * @param string $id The entity ID
      *
