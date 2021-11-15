@@ -20,28 +20,28 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 
 /**
- * EmailRepository.
+ * CountryRepository.
  */
-class EmailRepository extends BaseRepository
+class CountryRepository extends BaseRepository
 {
-    public function findNotSentEmailsWithLimit(Instance $instance, $limit)
+    public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
-        $qb = $this->createQueryBuilder('e');
+        return $this->createQueryBuilder('e')
+                        ->where('e.instance = :instance_id')
+                        ->orWhere('e.instance = :directory_id')
+                        ->orderBy('e.name', 'asc')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->setParameter('directory_id', $directory->getId());
+    }
 
-        $qb->where('e.instance = :instance')
-                ->setParameter('instance', $instance->getId())
-                ->andWhere('e.sent = :sent')
-                ->setParameter('sent', false)
-                ->andWhere('e.error = :error')
-                ->setParameter('error', false)
-                ->setMaxResults($limit)
-        ;
-
-        return $qb->getQuery()->execute();
+    public function getAllOrderedByNameQB()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.name', 'asc');
     }
 }

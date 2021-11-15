@@ -20,15 +20,21 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
+
+use Celsius3\Entity\Catalog;
 
 /**
- * SingleInstanceReceiveEventRepository.
+ * CatalogResultRepository.
  */
-class SingleInstanceReceiveEventRepository extends BaseRepository
+class CatalogResultRepository extends BaseRepository
 {
-    public function getEventsWithoutDeliveryType()
+    public function getCatalogResultByTitle(Catalog $catalog, $title)
     {
-        return $this->createQueryBuilder('s')->where('s.deliveryType IS NULL');
+        return $this->createQueryBuilder('cr')
+                    ->where('cr.catalog = :catalog_id')
+                    ->andWhere('cr.title LIKE :title')
+                    ->setParameter(':catalog_id', $catalog)
+                    ->setParameter(':title', $title);
     }
 }

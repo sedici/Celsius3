@@ -20,19 +20,19 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\SearchEvent;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\Journal;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\Entity\Event\SearchEvent;
+use Celsius3\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\Journal;
+use Celsius3\Entity\JournalType;
+use Celsius3\Entity\Order;
 use Celsius3\Manager\CatalogManager;
 use Doctrine\ORM\Query\Expr\Join;
 

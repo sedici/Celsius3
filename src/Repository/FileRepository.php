@@ -20,19 +20,22 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
 /**
- * ReclaimEventRepository.
+ * FileRepository.
  */
-class ReclaimEventRepository extends BaseRepository
+class FileRepository extends BaseRepository
 {
-    public function getReclaimEventsFor(array $keys)
+    public function getFilesCount()
     {
-        return $this->createQueryBuilder('e')
-                    ->where('e.requestEvent IN (:event_ids)')
-                    ->orWhere('e.receiveEvent IN (:event_ids)')
-                    ->setParameter('event_ids', $keys)
-                    ->getQuery()->getResult();
+        return $this->createQueryBuilder('f')->select('COUNT(f.id)');
+    }
+
+    public function getOffsetAndLimitTo($offset, $limit)
+    {
+        return $this->createQueryBuilder('f')
+                    ->setMaxResults($limit)
+                    ->setFirstResult($offset);
     }
 }

@@ -20,10 +20,10 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
 use Celsius3\Manager\StateManager;
 use Doctrine\ORM\Query\Expr\Join;
 
@@ -287,7 +287,7 @@ class StateRepository extends BaseRepository
             ->andWhere('s.type = :type')->setParameter('type', 'received')
             ->andWhere('s.current = :current')->setParameter('current', true)
             ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
-            ->andWhere('es INSTANCE OF Celsius3CoreBundle:Event\SingleInstanceReceiveEvent')
+            ->andWhere('es INSTANCE OF Celsius3:Event\SingleInstanceReceiveEvent')
             ->andWhere('ow.wrongEmail = false')
             ->orderBy('ow.id')
             ->andHaving('days >= :minDays')->setParameter('minDays', $minDays)
@@ -314,7 +314,7 @@ class StateRepository extends BaseRepository
             ->andWhere('s.type = :type')->setParameter('type', 'received')
             ->andWhere('s.current = :current')->setParameter('current', true)
             ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
-            ->andWhere('es INSTANCE OF Celsius3CoreBundle:Event\SingleInstanceReceiveEvent')
+            ->andWhere('es INSTANCE OF Celsius3:Event\SingleInstanceReceiveEvent')
             ->andWhere('ow.wrongEmail = :wrongEmail')->setParameter('wrongEmail', false)
             ->orderBy('ow.id')
             ->groupBy('ow.id')

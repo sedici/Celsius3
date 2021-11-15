@@ -20,21 +20,19 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
 /**
- * FileRepository.
+ * ReclaimEventRepository.
  */
-class LegacyInstanceRepository extends BaseRepository
+class ReclaimEventRepository extends BaseRepository
 {
-    public function findEnabled()
+    public function getReclaimEventsFor(array $keys)
     {
-        return $this->createQueryBuilder('li')
-                    ->select('o, c, li')
-                    ->innerJoin('li.ownerInstitutions', 'o')
-                    ->innerJoin('o.country', 'c')
-                    ->where('li.enabled = true')
-                    ->andWhere('li INSTANCE OF Celsius3CoreBundle:LegacyInstance')
+        return $this->createQueryBuilder('e')
+                    ->where('e.requestEvent IN (:event_ids)')
+                    ->orWhere('e.receiveEvent IN (:event_ids)')
+                    ->setParameter('event_ids', $keys)
                     ->getQuery()->getResult();
     }
 }

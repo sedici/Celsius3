@@ -20,13 +20,13 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\Country;
-use Celsius3\CoreBundle\Entity\City;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Hive;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\Country;
+use Celsius3\Entity\City;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Hive;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\InstanceManager;
 

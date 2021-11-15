@@ -20,10 +20,10 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\Entity\Event\SingleInstanceRequestEvent;
 use Celsius3\Manager\EventManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -89,13 +89,13 @@ class RequestRepository extends BaseRepository
     public function findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType)
     {
         $dql = "SELECT YEAR(r.createdAt) cYear, DATEDIFF(sB.createdAt,sA.createdAt) delay, COUNT(r.id) rCount
-                FROM Celsius3\CoreBundle\Entity\Request r
-                JOIN Celsius3\CoreBundle\Entity\State sA WITH r = sA.request
-                LEFT JOIN Celsius3\CoreBundle\Entity\State sB WITH sA.request = sB.request
+                FROM Celsius3\Entity\Request r
+                JOIN Celsius3\Entity\State sA WITH r = sA.request
+                LEFT JOIN Celsius3\Entity\State sB WITH sA.request = sB.request
                 WHERE r NOT IN (
                     SELECT rs
-                    FROM Celsius3\CoreBundle\Entity\Request rs
-                    JOIN Celsius3\CoreBundle\Entity\State st WITH rs = st.request
+                    FROM Celsius3\Entity\Request rs
+                    JOIN Celsius3\Entity\State st WITH rs = st.request
                     WHERE st.type = 'annulled' OR st.type = 'cancelled'
                 )";
         if (!is_null($instance)) {

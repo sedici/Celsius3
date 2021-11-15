@@ -20,10 +20,10 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\CatalogResult;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\CatalogResult;
+use Celsius3\Entity\Instance;
 use Doctrine\ORM\QueryBuilder;
 
 /**

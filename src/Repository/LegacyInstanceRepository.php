@@ -20,19 +20,21 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
 /**
- * ConfigurationRepository.
+ * FileRepository.
  */
-class ConfigurationRepository extends BaseRepository
+class LegacyInstanceRepository extends BaseRepository
 {
-    public function findInstanceConfigurationByUrl($url)
+    public function findEnabled()
     {
-        return $this->createQueryBuilder('c')
-                    ->join('c.instance', 'i')
-                    ->where('i.url = :url')
-                    ->setParameter(':url', $url)
+        return $this->createQueryBuilder('li')
+                    ->select('o, c, li')
+                    ->innerJoin('li.ownerInstitutions', 'o')
+                    ->innerJoin('o.country', 'c')
+                    ->where('li.enabled = true')
+                    ->andWhere('li INSTANCE OF Celsius3:LegacyInstance')
                     ->getQuery()->getResult();
     }
 }

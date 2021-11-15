@@ -20,21 +20,29 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\Entity\Instance;
 
-/**
- * CatalogResultRepository.
- */
-class CatalogResultRepository extends BaseRepository
+class CustomFieldRepository extends BaseRepository
 {
-    public function getCatalogResultByTitle(Catalog $catalog, $title)
+    public function getByInstance(Instance $instance, string $entity, bool $showPrivates)
     {
-        return $this->createQueryBuilder('cr')
-                    ->where('cr.catalog = :catalog_id')
-                    ->andWhere('cr.title LIKE :title')
-                    ->setParameter(':catalog_id', $catalog)
-                    ->setParameter(':title', $title);
+        $builder = $this->createQueryBuilder('cuf');
+
+        $builder->where('cuf.instance = :instance_id')
+            ->andWhere('cuf.entity = :entity')
+            ->andWhere('cuf.enabled = :enabled')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('entity', $entity)
+            ->setParameter('enabled', true)
+            ->orderBy('cuf.position');
+
+        if (!$showPrivates) {
+            $builder->andWhere('cuf.private = :private')
+                ->setParameter('private', false);
+        }
+
+        return $builder->getQuery()->getResult();
     }
 }

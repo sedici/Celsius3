@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
 use Celsius3\Manager\UserManager;
 use DateInterval;
 use DateTime;

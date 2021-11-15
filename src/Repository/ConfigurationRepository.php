@@ -20,23 +20,19 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
+namespace Celsius3\Repository;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
+ * ConfigurationRepository.
  */
-class Author extends Provider
+class ConfigurationRepository extends BaseRepository
 {
-
-    public function getProviderType()
+    public function findInstanceConfigurationByUrl($url)
     {
-        return 'author';
-    }
-
-    public function getProviderName()
-    {
-        return 'Provided by the author';
+        return $this->createQueryBuilder('c')
+                    ->join('c.instance', 'i')
+                    ->where('i.url = :url')
+                    ->setParameter(':url', $url)
+                    ->getQuery()->getResult();
     }
 }

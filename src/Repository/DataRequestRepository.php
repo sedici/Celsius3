@@ -22,10 +22,10 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\Instance;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityRepository;

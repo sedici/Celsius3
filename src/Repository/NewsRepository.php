@@ -20,22 +20,32 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
+
+use Celsius3\Entity\Instance;
 
 /**
- * SearchEventRepository.
+ * NewsRepository.
  */
-class SearchEventRepository extends BaseRepository
+class NewsRepository extends BaseRepository
 {
-    public function getEventSearchCount()
+    public function findLastNews(Instance $instance, $limit = 3)
     {
-        return $this->createQueryBuilder('s')->select('COUNT(s.id)');
+        return $this->createQueryBuilder('n')
+                        ->where('n.instance = :instance_id')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->orderBy('n.date', 'desc')
+                        ->setMaxResults($limit)
+                        ->getQuery()
+                        ->getResult();
     }
 
-    public function getOffsetAndLimitTo($offset, $limit)
+    public function findByInstanceQB(Instance $instance)
     {
-        return $this->createQueryBuilder('s')
-                ->setMaxResults($limit)
-                ->setFirstResult($offset);
+        return $this->createQueryBuilder('n')
+                    ->where('n.instance = :instance_id')
+                    ->orderBy('n.createdAt', 'desc')
+                    ->setParameter(':instance_id', $instance->getId())
+                    ->getQuery();
     }
 }

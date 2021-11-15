@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 
 interface BaseUserRepositoryInterface
 {

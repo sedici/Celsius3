@@ -20,18 +20,22 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
 /**
- * MultiInstanceEventRepository.
+ * SearchEventRepository.
  */
-class MultiInstanceEventRepository extends BaseRepository
+class SearchEventRepository extends BaseRepository
 {
-    public function getRemoteEvents($requests)
+    public function getEventSearchCount()
     {
-        return $this->createQueryBuilder('e')
-                    ->where('e.request IN (:requests)')
-                    ->setParameter('requests', $requests)
-                    ->getQuery()->getResult();
+        return $this->createQueryBuilder('s')->select('COUNT(s.id)');
+    }
+
+    public function getOffsetAndLimitTo($offset, $limit)
+    {
+        return $this->createQueryBuilder('s')
+                ->setMaxResults($limit)
+                ->setFirstResult($offset);
     }
 }

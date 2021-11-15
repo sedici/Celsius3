@@ -20,20 +20,15 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
-
-use Celsius3\CoreBundle\Entity\Instance;
+namespace Celsius3\Repository;
 
 /**
- * ContactRepository.
+ * SingleInstanceReceiveEventRepository.
  */
-class ContactRepository extends BaseRepository
+class SingleInstanceReceiveEventRepository extends BaseRepository
 {
-    public function findByInstance(Instance $instance, $id)
+    public function getEventsWithoutDeliveryType()
     {
-        return $this->createQueryBuilder('e')
-                ->where('e.owningInstance = :owning')->setParameter('owning', $instance->getId())
-                ->andWhere('e.id = :id')->setParameter('id', $id)
-                ->getQuery()->getSingleResult();
+        return $this->createQueryBuilder('s')->where('s.deliveryType IS NULL');
     }
 }

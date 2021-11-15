@@ -20,22 +20,27 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
+
+use Celsius3\Entity\Instance;
 
 /**
- * FileRepository.
+ * JournalTypeRepository.
  */
-class FileRepository extends BaseRepository
+class JournalTypeRepository extends BaseRepository
 {
-    public function getFilesCount()
+    public function findByTerm($term, Instance $instance = null, $limit = null)
     {
-        return $this->createQueryBuilder('f')->select('COUNT(f.id)');
-    }
+        $qb = $this->createQueryBuilder('jt')
+                ->leftJoin('jt.journal', 'j')
+                ->where('j.name LIKE :term')
+                ->orWhere('jt.other LIKE :term')
+                ->setParameter('term', '%'.$term.'%');
 
-    public function getOffsetAndLimitTo($offset, $limit)
-    {
-        return $this->createQueryBuilder('f')
-                    ->setMaxResults($limit)
-                    ->setFirstResult($offset);
+        if (!is_null($limit)) {
+            $qb = $qb->setMaxResults(10);
+        }
+
+        return $qb->getQuery();
     }
 }

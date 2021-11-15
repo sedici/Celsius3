@@ -20,27 +20,20 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Repository;
+namespace Celsius3\Repository;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 
 /**
- * JournalTypeRepository.
+ * ContactRepository.
  */
-class JournalTypeRepository extends BaseRepository
+class ContactRepository extends BaseRepository
 {
-    public function findByTerm($term, Instance $instance = null, $limit = null)
+    public function findByInstance(Instance $instance, $id)
     {
-        $qb = $this->createQueryBuilder('jt')
-                ->leftJoin('jt.journal', 'j')
-                ->where('j.name LIKE :term')
-                ->orWhere('jt.other LIKE :term')
-                ->setParameter('term', '%'.$term.'%');
-
-        if (!is_null($limit)) {
-            $qb = $qb->setMaxResults(10);
-        }
-
-        return $qb->getQuery();
+        return $this->createQueryBuilder('e')
+                ->where('e.owningInstance = :owning')->setParameter('owning', $instance->getId())
+                ->andWhere('e.id = :id')->setParameter('id', $id)
+                ->getQuery()->getSingleResult();
     }
 }
