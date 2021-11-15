@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 
 class BaseInstanceDependentRestController extends BaseRestController
 {

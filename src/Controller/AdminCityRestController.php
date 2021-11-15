@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\City;
+use Celsius3\Entity\City;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;

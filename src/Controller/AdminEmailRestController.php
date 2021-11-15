@@ -22,8 +22,8 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Order;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Email;

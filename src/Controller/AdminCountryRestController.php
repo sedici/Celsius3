@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Country;
+use Celsius3\Entity\Country;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;

@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Contact;
+use Celsius3\Entity\Contact;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Celsius3\Exception\Exception;

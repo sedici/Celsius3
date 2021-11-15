@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;

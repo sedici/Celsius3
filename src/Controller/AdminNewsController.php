@@ -25,7 +25,7 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\News;
+use Celsius3\Entity\News;
 use Celsius3\Form\Type\NewsType;
 use Celsius3\Form\Type\Filter\NewsFilterType;
 

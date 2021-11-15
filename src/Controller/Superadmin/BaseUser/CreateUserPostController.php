@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Superadmin\BaseUser;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Manager\InstanceManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;

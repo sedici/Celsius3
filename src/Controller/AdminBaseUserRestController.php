@@ -22,8 +22,8 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Order;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -35,7 +35,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\Manager\StateManager;
 use Celsius3\Exception\Exception;
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Symfony\Component\Security\Core\Security;
 
 /**

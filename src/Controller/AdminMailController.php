@@ -27,7 +27,7 @@ use Celsius3\Manager\InstanceManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\MailTemplate;
+use Celsius3\Entity\MailTemplate;
 use Celsius3\Form\Type\MailTemplateType;
 use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\Exception\Exception;
@@ -47,14 +47,14 @@ class AdminMailController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)->find($id);
+                        ->getRepository('Celsius3:'.$name)->find($id);
     }
 
     /**

@@ -45,7 +45,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $requests = $em->getRepository(\Celsius3\CoreBundle\Entity\Request::class)
+        $requests = $em->getRepository(\Celsius3\Entity\Request::class)
                 ->findBy(array('instance' => $this->getInstance()->getId()));
 
         $view = $this->view(array_values($requests), 200)->setFormat('json');
@@ -64,7 +64,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
         $em = $this->getDoctrine()->getManager();
 
-        $request = $em->getRepository(\Celsius3\CoreBundle\Entity\Request::class)
+        $request = $em->getRepository(\Celsius3\Entity\Request::class)
                 ->findOneBy(array(
             'order' => $order_id,
             'instance' => $this->getInstance()->getId(),
@@ -89,7 +89,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
     {
         $request_id = $req->request->get('request_id');
         $manager = $this->getDoctrine()->getManager();
-        $request = $this->getDoctrine()->getRepository(\Celsius3\CoreBundle\Entity\Request::class)->find($request_id);
+        $request = $this->getDoctrine()->getRepository(\Celsius3\Entity\Request::class)->find($request_id);
 
         foreach ($request->getFiles() as $file) {
             if ($file->getEnabled()) {

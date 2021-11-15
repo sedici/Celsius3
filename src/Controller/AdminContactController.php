@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Contact;
+use Celsius3\Entity\Contact;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\AdminContactType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -152,7 +152,7 @@ class AdminContactController extends BaseInstanceDependentController
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->getRepository('Celsius3:' . $name)
             ->findByInstance($this->getInstance(), $id);
     }
 
@@ -230,7 +230,7 @@ class AdminContactController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->getRepository('Celsius3:' . $name)
             ->createQueryBuilder('e')
             ->select('e')
             ->where('e.owningInstance = :instance')

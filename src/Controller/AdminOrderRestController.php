@@ -22,10 +22,10 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\Order;
+use Celsius3\Entity\State;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -188,14 +188,14 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
         $paginator = $this->paginator;
         $pagination = $paginator->paginate($states, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, ['sort' => 'createdAt'])->getItems();
 
-        $requests = $em->getRepository(\Celsius3\CoreBundle\Entity\Request::class)
+        $requests = $em->getRepository(\Celsius3\Entity\Request::class)
                         ->findRequestForOrders($pagination);
 
         $response = array(
             'orders' => array_values($pagination),
             'requests' => array_column(
                     array_map(
-                            function (\Celsius3\CoreBundle\Entity\Request $request) {
+                            function (\Celsius3\Entity\Request $request) {
                                 return array(
                                     'id' => $request->getOrder()->getId(),
                                     'request' => $request,
@@ -250,7 +250,7 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
                     $interaction['result'] = true;
                     $institutions = $this->entityManager->getRepository(Institution::class)->getInstitutionsTree($baseInstitution);
 
-                    $requestRepository = $this->entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class);
+                    $requestRepository = $this->entityManager->getRepository(\Celsius3\Entity\Request::class);
                     $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions);
                     $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions);
 
@@ -315,7 +315,7 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
                     throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
                 }
 
-                $request = $this->entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class)->findOneBy(array('order' => $order, 'instance' => $instance));
+                $request = $this->entityManager->getRepository(\Celsius3\Entity\Request::class)->findOneBy(array('order' => $order, 'instance' => $instance));
 
                 $request->setOperator($operator);
                 $em = $this->entityManager;

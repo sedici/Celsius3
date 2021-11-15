@@ -25,10 +25,10 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\Event;
 
 use Celsius3\Controller\BaseInstanceDependentRestController;
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceEvent;
-use Celsius3\CoreBundle\Entity\Event\ReclaimEvent;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\MultiInstanceEvent;
+use Celsius3\Entity\Event\ReclaimEvent;
+use Celsius3\Entity\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 

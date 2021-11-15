@@ -22,16 +22,16 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\City;
-use Celsius3\CoreBundle\Entity\Country;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\City;
+use Celsius3\Entity\Country;
+use Celsius3\Entity\Instance;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
-use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\Entity\Institution;
 use Celsius3\Exception\Exception;
 
 /**

@@ -25,7 +25,7 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\Entity\Institution;
 use Celsius3\Form\Type\InstitutionType;
 use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
@@ -41,7 +41,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 

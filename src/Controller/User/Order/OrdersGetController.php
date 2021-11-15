@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Order;
 
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\Order;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Repository\OrderRepositoryInterface;
@@ -57,7 +57,7 @@ final class OrdersGetController extends FOSRestController
         ViewHandlerInterface $viewHandler
     ) {
         $this->orderRepository = $orderRepository;
-        $this->requestRepository = $entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class);
+        $this->requestRepository = $entityManager->getRepository(\Celsius3\Entity\Request::class);
         $this->instanceHelper = $instanceHelper;
         $this->security = $security;
         $this->configurationHelper = $configurationHelper;
@@ -100,7 +100,7 @@ final class OrdersGetController extends FOSRestController
                 'orders' => array_values($pagination),
                 'requests' => array_column(
                     array_map(
-                        function (\Celsius3\CoreBundle\Entity\Request $request) {
+                        function (\Celsius3\Entity\Request $request) {
                             return array(
                                 'id' => $request->getOrder()->getId(),
                                 'request' => $request,

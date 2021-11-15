@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Symfony\Component\Translation\Translator;
 
@@ -68,7 +68,7 @@ abstract class BaseController extends AbstractController
 
     protected function getBundle()
     {
-        return 'Celsius3CoreBundle';
+        return 'Celsius3';
     }
 
     protected function listQuery($name)
@@ -101,7 +101,7 @@ abstract class BaseController extends AbstractController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
+        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius\\Entity\\'.$name);
     }
 
     protected function baseIndex($name, FormInterface $filter_form = null)
@@ -273,7 +273,7 @@ abstract class BaseController extends AbstractController
     protected function baseUnion($name, $ids)
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('Celsius3CoreBundle:'.$name)->findBy(['id' => $ids]);
+        $entities = $em->getRepository('Celsius3:'.$name)->findBy(['id' => $ids]);
 
         return array(
             'entities' => $entities,
@@ -340,7 +340,7 @@ abstract class BaseController extends AbstractController
         }
 
         $result = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:'.$target)
+                ->getRepository('Celsius3'.$target)
                 ->findByTerm($term, $instance, null, $insts)
                 ->getResult();
 

@@ -25,7 +25,7 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\MailTemplate;
+use Celsius3\Entity\MailTemplate;
 use Celsius3\Form\Type\MailTemplateType;
 use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\Exception\Exception;
@@ -41,7 +41,7 @@ class SuperadminMailController extends BaseController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:'.$name)
+            ->getRepository('Celsius3:'.$name)
             ->createQueryBuilder('e')
             ->where('e.instance = :instance')
             ->setParameter('instance', $this->getDirectory()->getId());

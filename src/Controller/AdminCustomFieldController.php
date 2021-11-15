@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\CustomField;
+use Celsius3\Entity\CustomField;
 use Celsius3\Form\Type\CustomFieldType;
 use Celsius3\Form\Type\Filter\CustomFieldFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

@@ -25,7 +25,7 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Hive;
+use Celsius3\Entity\Hive;
 use Celsius3\Form\Type\HiveType;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -22,12 +22,12 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\JournalType;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
-use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\Entity\Journal;
 
 /**
  * Journal rest controller.

@@ -36,7 +36,7 @@ abstract class InstanceController extends BaseController
                 ->where('e.id != :id')
                 ->setParameter('id', $this->getDirectory()->getId());
         if ($name == 'LegacyInstance') {
-            return $qb->andWhere('e INSTANCE OF Celsius3CoreBundle:LegacyInstance');
+            return $qb->andWhere('e INSTANCE OF Celsius3:LegacyInstance');
         } else {
             return $qb;
         }

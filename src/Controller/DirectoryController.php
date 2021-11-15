@@ -24,11 +24,11 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\City;
-use Celsius3\CoreBundle\Entity\Country;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\News;
+use Celsius3\Entity\City;
+use Celsius3\Entity\Country;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\News;
 use Celsius3\Form\Type\InstanceRegisterType;
 use Celsius3\TicketBundle\Entity\Category;
 use Celsius3\TicketBundle\Entity\Priority;

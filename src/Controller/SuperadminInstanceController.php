@@ -22,8 +22,8 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Institution;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Form\Type\InstanceType;

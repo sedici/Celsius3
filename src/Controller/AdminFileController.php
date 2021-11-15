@@ -23,8 +23,8 @@
 namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\File;
+use Celsius3\Entity\Request;
 use Celsius3\Controller\Mixin\FileControllerTrait;
 use Celsius3\Exception\NotFoundException;
 

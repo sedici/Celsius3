@@ -25,7 +25,7 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\News;
+use Celsius3\Entity\News;
 use Celsius3\Form\Type\NewsType;
 use Celsius3\Form\Type\Filter\NewsFilterType;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +40,7 @@ class SuperadminNewsController extends BaseController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->createQueryBuilder('e')
                         ->where('e.instance = :instance')->setParameter('instance', $this->getDirectory()->getId());
     }

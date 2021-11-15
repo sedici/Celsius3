@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\Catalog;
 
 use Celsius3\Controller\BaseInstanceDependentRestController;
-use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\Entity\Catalog;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;

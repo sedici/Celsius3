@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\CatalogPosition;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\CatalogPosition;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

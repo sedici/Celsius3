@@ -22,10 +22,10 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Journal;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Journal;
+use Celsius3\Entity\JournalType;
+use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Form\Type\OrderType;
@@ -87,14 +87,14 @@ class AdminOrderController extends AbstractController //OrderController
     protected function listQuery($name)
     {
         return $this->entityManager
-            ->getRepository('Celsius3CoreBundle:'.$name)
+            ->getRepository('Celsius3:'.$name)
             ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->entityManager
-            ->getRepository('Celsius3CoreBundle:'.$name)
+            ->getRepository('Celsius3:'.$name)
             ->findOneForInstance($this->getInstance(), $id);
     }
 

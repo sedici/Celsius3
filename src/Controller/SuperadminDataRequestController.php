@@ -22,8 +22,8 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\UsersDataRequest;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\UsersDataRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;

@@ -22,8 +22,8 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Journal;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\Journal;
+use Celsius3\Entity\Order;
 use Celsius3\Form\Type\OrderType;
 
 abstract class OrderController extends BaseInstanceDependentController

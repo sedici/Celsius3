@@ -24,13 +24,13 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Configuration;
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\MailTemplate;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Configuration;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\State;
 use Celsius3\Form\Type\DataRequestType;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
@@ -309,7 +309,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
                 Institution::class
             )->getInstitutionsTree($institution);
 
-            $request_repository = $this->entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class);
+            $request_repository = $this->entityManager->getRepository(\Celsius3\Entity\Request::class);
             $response['institutionInteraction'] = $request_repository->getInteractionOfInstitutionWithInstance(
                 $instance,
                 $institutions,

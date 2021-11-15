@@ -22,11 +22,11 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\Entity\Event\Event;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\Entity\Journal;
 use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\Filter\JournalFilterType;
 use Celsius3\Manager\CatalogManager;
@@ -43,7 +43,7 @@ class AdminJournalController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 

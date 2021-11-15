@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Superadmin\Dashboard;
 
 use Celsius3\Controller\BaseController;
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

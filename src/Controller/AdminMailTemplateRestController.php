@@ -22,9 +22,9 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\Contact;
-use Celsius3\CoreBundle\Entity\MailTemplate;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\Contact;
+use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Celsius3\Exception\Exception;

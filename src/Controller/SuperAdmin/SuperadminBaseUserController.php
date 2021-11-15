@@ -23,9 +23,9 @@
 namespace Celsius3\Controller\SuperAdmin;
 
 use Celsius3\Controller\BaseUserController;
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
-use Celsius3\CoreBundle\Form\Type\UserTransformType;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\Form\Type\UserTransformType;
 use Celsius3\Form\Type\BaseUserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,14 +44,14 @@ class SuperadminBaseUserController extends BaseUserController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->find($id);
     }
 
@@ -63,7 +63,7 @@ class SuperadminBaseUserController extends BaseUserController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
+                        ->filter($query, $filter_form, 'Celsius3\\Entity\\'.$name);
     }
 
     /**
@@ -184,7 +184,7 @@ class SuperadminBaseUserController extends BaseUserController
             return $response;
         }
 
-        return $this->render('Celsius3CoreBundle:SuperadminBaseUser:transform.html.twig', $response);
+        return $this->render('Celsius3:SuperadminBaseUser:transform.html.twig', $response);
     }
 
     /**

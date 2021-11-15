@@ -26,7 +26,7 @@ use Celsius3\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\Order;
 use Celsius3\Form\Type\OrderType;
 use Celsius3\Form\Type\Filter\OrderFilterType;
 use Celsius3\Exception\Exception;
@@ -46,7 +46,7 @@ class SuperadminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->createQueryBuilder('e')
                         ->select('e, r, m')
                         ->join('e.requests', 'r')
@@ -56,7 +56,7 @@ class SuperadminOrderController extends OrderController
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->getRepository('Celsius3:'.$name)
                         ->find($id);
     }
 
@@ -75,7 +75,7 @@ class SuperadminOrderController extends OrderController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
+        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\Entity\\'.$name);
     }
 
     /**

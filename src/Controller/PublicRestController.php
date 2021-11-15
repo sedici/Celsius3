@@ -22,10 +22,10 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\State;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
@@ -74,7 +74,7 @@ class PublicRestController extends FOSRestController//BaseInstanceDependentRestC
                 ->getRepository(BaseUser::class)
                 ->countNewUsersFor($instance, $initialYear, $finalYear);
         $activeUsers = $this->entityManager
-                ->getRepository(\Celsius3\CoreBundle\Entity\Request::class)
+                ->getRepository(\Celsius3\Entity\Request::class)
                 ->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
 
         $result = array();
@@ -297,7 +297,7 @@ class PublicRestController extends FOSRestController//BaseInstanceDependentRestC
         $type = $request->query->get('type');
 
         $result = $this->entityManager
-                ->getRepository(\Celsius3\CoreBundle\Entity\Request::class)
+                ->getRepository(\Celsius3\Entity\Request::class)
                 ->findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear);
 
         $data = array();
@@ -341,7 +341,7 @@ class PublicRestController extends FOSRestController//BaseInstanceDependentRestC
         $finalYear = $request->query->get('finalYear');
         $type = $request->query->get('type');
         $delayType = $request->query->get('delayType');
-        $result = $this->entityManager->getRepository(\Celsius3\CoreBundle\Entity\Request::class)->findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType);
+        $result = $this->entityManager->getRepository(\Celsius3\Entity\Request::class)->findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType);
 
         $order = array();
         foreach ($result as $row) {

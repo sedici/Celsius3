@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Order;
 
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\Order;
 use Celsius3\Form\Type\Filter\OrderFilterType;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
