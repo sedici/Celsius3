@@ -20,9 +20,9 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity\Mixin;
+namespace Celsius3\Entity\Mixin;
 
-use Celsius3\CoreBundle\Entity\Provider;
+use Celsius3\Entity\Provider;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,7 +30,7 @@ trait ProviderTrait
 {
     /**
      * @Assert\NotNull(groups={"request"})
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Provider")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Provider")
      * @ORM\JoinColumn(name="provider_id", referencedColumnName="id")
      */
     private $provider;
