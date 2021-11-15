@@ -22,14 +22,14 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  */
 class LocalCancelEvent extends MultiInstanceEvent
 {

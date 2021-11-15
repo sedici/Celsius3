@@ -22,10 +22,10 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
@@ -33,7 +33,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SearchEventRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\SearchEventRepository")
  */
 class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
@@ -49,7 +49,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Catalog")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Catalog")
      * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id")
      */
     private $catalog;

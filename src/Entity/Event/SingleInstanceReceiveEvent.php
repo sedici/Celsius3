@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
@@ -35,7 +35,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SingleInstanceReceiveEventRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\SingleInstanceReceiveEventRepository")
  */
 class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiable
 {
@@ -48,7 +48,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     private $deliveryType;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="sirequests_files",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
@@ -58,7 +58,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
      */
     private $requestEvent;

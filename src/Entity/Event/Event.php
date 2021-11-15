@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Request;
@@ -36,7 +36,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\EventRepository")
  * @ORM\Table(name="event", indexes={
  *   @ORM\Index(name="idx_request", columns={"request_id"}),
  *   @ORM\Index(name="idx_operator", columns={"operator_id"}),

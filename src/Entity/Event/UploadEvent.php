@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\File;
@@ -39,7 +39,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  */
 class UploadEvent extends MultiInstanceEvent implements Notifiable
 {
@@ -55,7 +55,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(
-     *     targetEntity="Celsius3\CoreBundle\Entity\State",
+     *     targetEntity="Celsius3\Entity\State",
      *     inversedBy="remoteEvents",
      *     cascade={"persist",  "refresh"})
      * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
@@ -63,7 +63,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     private $remoteState;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="uploads_files",
      *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},

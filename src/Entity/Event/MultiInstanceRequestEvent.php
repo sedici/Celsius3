@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Mixin\AnnullableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\CancellableTrait;
@@ -37,7 +37,7 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  */
 class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 {
@@ -47,7 +47,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     use ProviderTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", cascade={"persist", "refresh"})
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Request", cascade={"persist", "refresh"})
      * @ORM\JoinColumn(name="remote_request_id", referencedColumnName="id")
      */
     private $remoteRequest;

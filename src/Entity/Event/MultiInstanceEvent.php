@@ -22,20 +22,20 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\MultiInstanceEventRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\MultiInstanceEventRepository")
  */
 class MultiInstanceEvent extends Event
 {
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Instance")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Instance")
      * @ORM\JoinColumn(name="remote_instance_id", referencedColumnName="id")
      */
     private $remoteInstance;

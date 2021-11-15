@@ -22,9 +22,9 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\StateManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
@@ -35,18 +35,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use function array_key_exists;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ReclaimEventRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\ReclaimEventRepository")
  */
 class ReclaimEvent extends SingleInstanceEvent implements Notifiable
 {
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
      */
     private $requestEvent;
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
      */
     private $receiveEvent;
