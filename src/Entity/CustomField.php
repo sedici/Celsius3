@@ -29,7 +29,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CustomFieldRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\CustomFieldRepository")
  * @ORM\Table(name="custom_field", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
  * }, indexes={

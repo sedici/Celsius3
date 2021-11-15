@@ -27,7 +27,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EmailRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\EmailRepository")
  * @ORM\Table(name="email")
  */
 class Email

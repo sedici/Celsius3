@@ -28,7 +28,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  */
 class CustomContactValue extends CustomValue
 {
@@ -41,7 +41,7 @@ class CustomContactValue extends CustomValue
 
     /**
      * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Contact", inversedBy="customValues")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Contact", inversedBy="customValues")
      * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true)
      */
     private $contact;

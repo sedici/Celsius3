@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\File;
+use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,12 +33,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  */
 class ApproveEvent extends MultiInstanceEvent
 {
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="approves_files",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
@@ -47,7 +47,7 @@ class ApproveEvent extends MultiInstanceEvent
     private $files;
     /**
      * @Assert\NotNull
-     * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\OneToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
      */
     private $receiveEvent;

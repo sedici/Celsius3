@@ -29,7 +29,7 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  */
 class DeliverEvent extends SingleInstanceEvent implements Notifiable
 {

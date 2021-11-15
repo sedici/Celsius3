@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ContactRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\ContactRepository")
  * @ORM\Table(name="contact", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_surname", columns={"surname"}),
