@@ -20,13 +20,13 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity;
+namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  * @ORM\Table(name="provider", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_city", columns={"city_id"}),

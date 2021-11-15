@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity;
+namespace Celsius3\Entity;
 
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,7 +31,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\RequestRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\RequestRepository")
  * @ORM\Table(name="request", indexes={
  *   @ORM\Index(name="idx_type", columns={"type"}),
  *   @ORM\Index(name="idx_owner", columns={"owner_id"}),
@@ -94,7 +94,7 @@ class Request
     private $files;
 
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="request", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="request", fetch="EAGER")
      */
     private $events;
 

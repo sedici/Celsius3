@@ -20,10 +20,10 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity;
+namespace Celsius3\Entity;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\MultiInstanceReceiveEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -32,7 +32,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\StateRepository")
  * @ORM\Table(name="state", indexes={
  *   @ORM\Index(name="idx_current", columns={"current"}),
  *   @ORM\Index(name="idx_type", columns={"type"}),
@@ -72,7 +72,7 @@ class State
      */
     private $type;
     /**
-     * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Celsius3\Entity\Event\Event", cascade={"persist"})
      * @ORM\JoinColumn(name="remote_event_id", referencedColumnName="id")
      */
     private $remoteEvent;
@@ -83,11 +83,11 @@ class State
      */
     private $instance;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="state", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="state", cascade={"persist"})
      */
     private $events;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent", mappedBy="remoteState")
+     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\MultiInstanceReceiveEvent", mappedBy="remoteState")
      */
     private $remoteEvents;
     /**

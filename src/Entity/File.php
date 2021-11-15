@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity;
+namespace Celsius3\Entity;
 
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Doctrine\Common\Collections\ArrayCollection;

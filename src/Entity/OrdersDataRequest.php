@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity;
+namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Entity;
+namespace Celsius3\Entity;
 
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\Repository\InstanceRepository;
