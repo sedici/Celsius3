@@ -22,13 +22,16 @@
 
 namespace Celsius3\Helper;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MailerHelper
 {
-    public function __construct($container)
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
     {
-        $this->container = $container;
+        $this->translator = $translator;
     }
 
     public function validateSmtpServerData(Instance $instance)
@@ -63,7 +66,7 @@ class MailerHelper
                 'message' => $e->getMessage(),
             );
         }
-        $translator = $this->container->get('translator');
+        $translator = $this->translator;
 
         return array(
             'test' => true,

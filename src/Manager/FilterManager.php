@@ -22,10 +22,10 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Order;
 use Celsius3\Filter\BaseUserFilter;
 use Celsius3\Filter\CatalogFilter;
 use Celsius3\Filter\OrderFilter;

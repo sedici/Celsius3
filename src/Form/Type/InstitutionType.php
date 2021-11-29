@@ -28,7 +28,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\Manager\InstanceManager;
 

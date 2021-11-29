@@ -22,7 +22,7 @@
 
 namespace Celsius3\EventListener;
 
-use Celsius3\CoreBundle\Entity\File;
+use Celsius3\Entity\File;
 use Celsius3\Manager\FileManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 

@@ -1,4 +1,4 @@
-celsius3_api:
-    resource: "@Celsius3ApiBundle/Controller/"
-    type:     annotation
-    prefix:   /api
+#celsius3_api:
+#    resource: "@Celsius3ApiBundle/Controller/"
+#    type:     annotation
+#    prefix:   /api

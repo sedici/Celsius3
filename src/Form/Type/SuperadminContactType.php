@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;

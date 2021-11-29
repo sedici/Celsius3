@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\Request;
+use Celsius3\Entity\State;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

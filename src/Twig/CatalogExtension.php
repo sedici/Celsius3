@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Instance;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\CatalogManager;
 use Celsius3\Manager\InstanceManager;

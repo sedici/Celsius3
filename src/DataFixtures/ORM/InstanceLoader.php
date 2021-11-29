@@ -28,7 +28,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Entity;
+use Celsius3\Entity;
 
 /**
  * Description of FixtureLoader

@@ -22,8 +22,8 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
 use Elastica\Query\Term;
 use Symfony\Component\DependencyInjection\Container;
 use Elastica\Query;

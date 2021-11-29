@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         fos_userbundle:
-            id: celsius3_core.security.user_provider.username_email
+            id: Celsius3\Security\UserProvider
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
@@ -20,14 +20,14 @@ security:
                 csrf_token_generator: security.csrf.token_manager
                 login_path: fos_user_security_login
                 check_path: fos_user_security_check
-                failure_handler: celsius3_core.security.authentication_failure_handler
-                success_handler: celsius3_core.security.authentication_success_handler
+                failure_handler: Celsius3\Handler\CustomAuthenticationFailureHandler
+                success_handler: Celsius3\Handler\CustomAuthenticationSuccessHandler
                 default_target_path: user_index
                 use_referer: true
             logout:
                 path: fos_user_security_logout
                 target: public_index
-                success_handler: celsius3_core.security.logout_success_handler
+                success_handler: Celsius3\Handler\CustomLogoutSuccessHandler
             anonymous: true
             switch_user: { role: ROLE_ADMIN }
 

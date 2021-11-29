@@ -24,15 +24,14 @@ declare(strict_types=1);
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\MailTemplate;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Twig\Environment;
 use Twig\Error\Error;
 
@@ -59,7 +58,7 @@ class MailManager
         EntityManagerInterface $entityManager,
         InstanceManager $instanceManager,
         Environment $twig,
-        Serializer $serializer
+        SerializerInterface $serializer
     ) {
         $this->entityManager = $entityManager;
         $this->instanceManager = $instanceManager;

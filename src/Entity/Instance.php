@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\Entity\Event\Event;
 use Celsius3\Repository\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -98,7 +98,7 @@ class Instance extends LegacyInstance
     protected $catalogs;
 
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="instance")
+     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="instance")
      */
     protected $events;
 

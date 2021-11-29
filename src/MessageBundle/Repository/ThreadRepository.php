@@ -25,7 +25,7 @@ namespace Celsius3\MessageBundle\Repository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 
 class ThreadRepository extends BaseRepository
 {

@@ -22,10 +22,10 @@
 
 namespace Celsius3\Form\Type\Filter;
 
-use Celsius3\CoreBundle\Entity\City;
-use Celsius3\CoreBundle\Entity\Country;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\Entity\City;
+use Celsius3\Entity\Country;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Institution;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

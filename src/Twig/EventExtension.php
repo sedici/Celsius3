@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\SearchEvent;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\Entity\Event\SearchEvent;
+use Celsius3\Entity\Request;
 use Celsius3\Manager\CatalogManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

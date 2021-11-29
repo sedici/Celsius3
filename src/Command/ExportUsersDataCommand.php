@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\UsersDataRequest;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\UsersDataRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

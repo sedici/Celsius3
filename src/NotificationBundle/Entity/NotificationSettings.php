@@ -2,8 +2,8 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,7 +26,7 @@ class NotificationSettings
     /**
      * @var BaseUser
      *
-     * @ORM\ManyToOne(targetEntity="\Celsius3\CoreBundle\Entity\BaseUser", inversedBy="notificationSettings")
+     * @ORM\ManyToOne(targetEntity="\Celsius3\Entity\BaseUser", inversedBy="notificationSettings")
      * @ORM\JoinColumn(name="user", referencedColumnName="id")
      */
     private $user;
@@ -34,7 +34,7 @@ class NotificationSettings
     /**
      * @var Instance
      *
-     * @ORM\ManyToOne(targetEntity="\Celsius3\CoreBundle\Entity\Instance")
+     * @ORM\ManyToOne(targetEntity="\Celsius3\Entity\Instance")
      * @ORM\JoinColumn(name="instance", referencedColumnName="id")
      */
     private $instance;

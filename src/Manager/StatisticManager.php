@@ -22,9 +22,9 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\State;
 use Doctrine\ORM\EntityManager;
 
 class StatisticManager

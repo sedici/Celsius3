@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="Celsius3\Entity\Event\Event">
+        <attribute name="id">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="createdAt">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="observations">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="operator">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="request">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="eventType">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+    </class>
+</serializer>

@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\MailTemplate;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\MailTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

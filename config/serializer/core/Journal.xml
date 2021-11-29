@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="Celsius3\Entity\Journal">
+        <attribute name="id">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="name">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="abbreviation">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="responsible">
+        </attribute>
+        <attribute name="ISSN">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="ISSNE">
+        </attribute>
+        <attribute name="frecuency">
+        </attribute>
+    </class>
+</serializer>

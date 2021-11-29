@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\NotificationBundle\Entity;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -35,7 +35,7 @@ class BaseUserNotification extends Notification
 {
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser", inversedBy="notifications")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser", inversedBy="notifications")
      * @ORM\JoinColumn(name="base_user_notification_id", referencedColumnName="id")
      */
     protected $object;

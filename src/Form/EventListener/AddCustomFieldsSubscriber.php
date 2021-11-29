@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace Celsius3\Form\EventListener;
 
-use Celsius3\CoreBundle\Entity\CustomContactValue;
-use Celsius3\CoreBundle\Entity\CustomField;
-use Celsius3\CoreBundle\Entity\CustomUserValue;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\CustomContactValue;
+use Celsius3\Entity\CustomField;
+use Celsius3\Entity\CustomUserValue;
+use Celsius3\Entity\Instance;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\TranslationBundle\Annotation\Ignore;

@@ -90,13 +90,13 @@ abstract class Event implements EventInterface
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Request", inversedBy="events")
      * @ORM\JoinColumn(name="request_id", referencedColumnName="id", nullable=false)
      */
     private $request;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;
@@ -104,7 +104,7 @@ abstract class Event implements EventInterface
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(
-     *     targetEntity="Celsius3\CoreBundle\Entity\State",
+     *     targetEntity="Celsius3\Entity\State",
      *     inversedBy="events",
      *     cascade={"persist", "refresh"}
      * )
@@ -114,7 +114,7 @@ abstract class Event implements EventInterface
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Instance", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Instance", inversedBy="events")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;

@@ -24,27 +24,30 @@ declare(strict_types=1);
 
 namespace Celsius3\Listener;
 
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\CatalogPosition;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\CatalogPosition;
+use Celsius3\Entity\Instance;
+use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CatalogListener
 {
+    private $requestStack;
+    private $instanceManager;
 
-    private $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(RequestStack $requestStack, InstanceManager $instanceManager)
     {
-        $this->container = $container;
+        $this->requestStack = $requestStack;
+        $this->instanceManager = $instanceManager;
     }
 
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
-        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
         $em = $args->getEntityManager();
 
         if ($entity instanceof Catalog) {
@@ -54,8 +57,7 @@ class CatalogListener
                 $enable = false;
             }
 
-            $directory = $this->container->get('celsius3_core.instance_manager')
-                ->getDirectory();
+            $directory = $this->instanceManager->getDirectory();
             if ($entity->getInstance()->getId() == $directory->getId()) {
                 $instances = $em->getRepository(Instance::class)
                     ->findAllExceptDirectory()
@@ -96,8 +98,7 @@ class CatalogListener
         } elseif ($entity instanceof Instance) {
             $catalogs = $em->getRepository(Catalog::class)
                 ->findBy(array(
-                             'instance' => $this->container->get('celsius3_core.instance_manager')->getDirectory(
-                             )->getId(),
+                             'instance' => $this->instanceManager->getDirectory()->getId(),
                          ));
 
             $place = 0;

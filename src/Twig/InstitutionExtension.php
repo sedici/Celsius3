@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\Entity\Institution;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

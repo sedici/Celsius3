@@ -40,7 +40,7 @@ class Thread extends BaseThread
      */
     protected $id;
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      *
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */

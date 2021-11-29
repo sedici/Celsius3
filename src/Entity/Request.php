@@ -22,7 +22,7 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\Entity\Event\Event;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;

@@ -71,7 +71,7 @@ fos_elastica:
                                 boost: 2
                     persistence:
                         driver: orm
-                        model: Celsius3\CoreBundle\Entity\Request
+                        model: Celsius3\Entity\Request
                         provider: ~
                         listener: ~
                         finder: ~

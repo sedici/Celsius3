@@ -88,68 +88,68 @@ services:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.institution:
-        class: Celsius3\CoreBundle\Form\Type\InstitutionType
+        class: Celsius3\Form\Type\InstitutionType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.registration_form:
-        class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
+        class: Celsius3\Form\Type\RegistrationFormType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper']
     celsius3_core.form.statitistics_form:
-         class: Celsius3\CoreBundle\Form\Type\SuperadminStatisticsType
+         class: Celsius3\Form\Type\SuperadminStatisticsType
          tags:
             - { name: form.type }
          arguments: ['@doctrine.orm.entity_manager']
 
     celsius3_core.form.user_selector:
-        class: Celsius3\CoreBundle\Form\Type\UserSelectorType
+        class: Celsius3\Form\Type\UserSelectorType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.users_selector:
-        class: Celsius3\CoreBundle\Form\Type\UsersSelectorType
+        class: Celsius3\Form\Type\UsersSelectorType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.order_selector:
-        class: Celsius3\CoreBundle\Form\Type\OrderSelectorType
+        class: Celsius3\Form\Type\OrderSelectorType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.instance_selector:
-        class: Celsius3\CoreBundle\Form\Type\InstanceSelectorType
+        class: Celsius3\Form\Type\InstanceSelectorType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.journal_selector:
-        class: Celsius3\CoreBundle\Form\Type\JournalSelectorType
+        class: Celsius3\Form\Type\JournalSelectorType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.logo_selector:
-        class: Celsius3\CoreBundle\Form\Type\LogoSelectorType
+        class: Celsius3\Form\Type\LogoSelectorType
         tags:
             - { name: form.type }
         arguments: ['@celsius3_core.file_manager']
     celsius3_core.form.type.filter.institution:
-        class: Celsius3\CoreBundle\Form\Type\Filter\InstitutionFilterType
+        class: Celsius3\Form\Type\Filter\InstitutionFilterType
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.type.language:
-        class: Celsius3\CoreBundle\Form\Type\LanguageType
+        class: Celsius3\Form\Type\LanguageType
         tags:
             - { name: form.type }
         arguments: ['@celsius3_core.configuration_helper']
     celsius3_core.form.type.confirmation:
-        class: Celsius3\CoreBundle\Form\Type\ConfirmationType
+        class: Celsius3\Form\Type\ConfirmationType
         tags:
             - { name: form.type }
         arguments: ['@celsius3_core.configuration_helper']
     celsius3_core.form.type.results:
-        class: Celsius3\CoreBundle\Form\Type\ResultsType
+        class: Celsius3\Form\Type\ResultsType
         tags:
             - { name: form.type }
         arguments: ['@celsius3_core.configuration_helper']
@@ -180,7 +180,7 @@ services:
             - { name: knp_menu.voter }
         arguments: ['@request_stack']
     celsius3_core.field.guesser:
-        class: Celsius3\CoreBundle\Guesser\FieldGuesser
+        class: Celsius3\Guesser\FieldGuesser
         arguments: ['@doctrine']
     celsius3_core.lifecycle_helper:
         alias: Celsius3\Helper\LifecycleHelper
@@ -196,16 +196,16 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
         public: true
     celsius3_core.database_helper:
-        class: Celsius3\CoreBundle\Helper\DatabaseHelper
+        class: Celsius3\Helper\DatabaseHelper
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.event_manager:
-        class: Celsius3\CoreBundle\Manager\EventManager
+        class: Celsius3\Manager\EventManager
         arguments: ['@service_container']
     celsius3_core.search_manager:
-        class: Celsius3\CoreBundle\Manager\SearchManager
+        class: Celsius3\Manager\SearchManager
         arguments: ['@service_container']
     celsius3_core.state_manager:
-        class: Celsius3\CoreBundle\Manager\StateManager
+        class: Celsius3\Manager\StateManager
         arguments: ['@celsius3_core.event_manager', '@request_stack']
     celsius3_core.file_manager:
         alias: Celsius3\Manager\FileManager
@@ -213,29 +213,29 @@ services:
 #        calls:
 #            - [setContainer, ['@service_container']]
     celsius3_core.user_manager:
-        class: Celsius3\CoreBundle\Manager\UserManager
+        class: Celsius3\Manager\UserManager
     celsius3_core.union_manager:
         alias: Celsius3\Manager\UnionManager
 #        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager']
     celsius3_core.catalog_manager:
-        class: Celsius3\CoreBundle\Manager\CatalogManager
+        class: Celsius3\Manager\CatalogManager
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper', '@celsius3_core.instance_manager']
     celsius3_core.map_manager:
-        class: Celsius3\CoreBundle\Manager\MapManager
+        class: Celsius3\Manager\MapManager
     celsius3_core.statistic_manager:
-        class: Celsius3\CoreBundle\Manager\StatisticManager
+        class: Celsius3\Manager\StatisticManager
         arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.instance_manager:
         alias: Celsius3\Manager\InstanceManager
 #        arguments: ['@doctrine.orm.entity_manager']
-    celsius3_core.mail_manager:
-        class: Celsius3\Manager\MailManager
-        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager', '@twig', '@jms_serializer']
-    celsius3_core.listener.confirmation:
-        class: Celsius3\EventListener\ConfirmationListener
-        tags:
-            - { name: kernel.event_subscriber }
-        arguments: ['@fos_user.mailer', '@fos_user.util.token_generator', '@router', '@session', '@celsius3_core.configuration_helper']
+#    celsius3_core.mail_manager:
+#        class: Celsius3\Manager\MailManager
+#        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager', '@twig', '@jms_serializer']
+#    celsius3_core.listener.confirmation:
+#        class: Celsius3\EventListener\ConfirmationListener
+#        tags:
+#            - { name: kernel.event_subscriber }
+#        arguments: ['@fos_user.mailer', '@fos_user.util.token_generator', '@router', '@session', '@celsius3_core.configuration_helper']
     celsius3_core.fos_mailer.custom:
         class: Celsius3\CoreBundle\Mailer\FosMailer
         public: false

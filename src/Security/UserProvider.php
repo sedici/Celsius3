@@ -2,7 +2,8 @@
 
 namespace Celsius3\Security;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Security\UserProvider as BaseUserProvider;
@@ -19,7 +20,7 @@ class UserProvider extends BaseUserProvider
      *
      * @param UserManagerInterface $userManager
      */
-    public function __construct(UserManagerInterface $userManager, EntityManager $em, RequestStack $request_stack)
+    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em, RequestStack $request_stack)
     {
         parent::__construct($userManager);
         $this->em = $em;

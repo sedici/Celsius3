@@ -22,7 +22,7 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
-use Celsius3\CoreBundle\Entity\Template;
+use Celsius3\Entity\Template;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -2,7 +2,6 @@
 
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
-    Ivory\SerializerBundle\IvorySerializerBundle::class => ['all' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     FOS\MessageBundle\FOSMessageBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -22,7 +21,6 @@ return [
     JMS\AopBundle\JMSAopBundle::class => ['all' => true],
     JMS\DiExtraBundle\JMSDiExtraBundle::class => ['all' => true],
     JMS\I18nRoutingBundle\JMSI18nRoutingBundle::class => ['all' => true],
-    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     JMS\TranslationBundle\JMSTranslationBundle::class => ['all' => true],
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
@@ -34,10 +32,8 @@ return [
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
     Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle::class => ['all' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
-    Celsius3\CoreBundle\Celsius3CoreBundle::class => ['all' => true],
     Celsius3\NotificationBundle\Celsius3NotificationBundle::class => ['all' => true],
     Celsius3\MessageBundle\Celsius3MessageBundle::class => ['all' => true],
-    Celsius3\ApiBundle\Celsius3ApiBundle::class => ['all' => true],
     Celsius3\TicketBundle\Celsius3TicketBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
 ];

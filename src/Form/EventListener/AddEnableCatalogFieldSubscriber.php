@@ -22,8 +22,8 @@
 
 namespace Celsius3\Form\EventListener;
 
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Instance;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
@@ -31,7 +31,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
-use Celsius3\CoreBundle\Entity\CatalogPosition;
+use Celsius3\Entity\CatalogPosition;
 
 class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 {

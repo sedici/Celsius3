@@ -24,11 +24,11 @@ declare(strict_types=1);
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Entity\FileDownload;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\File;
+use Celsius3\Entity\FileDownload;
+use Celsius3\Entity\Request;
 use Exception;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

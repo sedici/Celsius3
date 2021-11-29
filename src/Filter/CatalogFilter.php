@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Filter;
 
-use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\Entity\Catalog;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CatalogFilter implements EntityFilterInterface

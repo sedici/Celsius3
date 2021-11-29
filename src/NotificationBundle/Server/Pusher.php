@@ -22,7 +22,7 @@
 
 namespace Celsius3\NotificationBundle\Server;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Ratchet\Wamp\Topic;

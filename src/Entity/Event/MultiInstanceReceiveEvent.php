@@ -24,12 +24,12 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
-use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
-use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\File;
+use Celsius3\Entity\Mixin\ApprovableTrait;
+use Celsius3\Entity\Mixin\ReclaimableTrait;
+use Celsius3\Entity\Request;
+use Celsius3\Entity\State;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\StateManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
@@ -53,7 +53,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     private $deliveryType;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="mirequests_files",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
@@ -64,7 +64,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(
-     *     targetEntity="Celsius3\CoreBundle\Entity\State",
+     *     targetEntity="Celsius3\Entity\State",
      *     inversedBy="remoteEvents",
      *     cascade={"persist",  "refresh"}
      * )
@@ -74,7 +74,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
      */
     private $requestEvent;

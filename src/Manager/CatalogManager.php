@@ -22,8 +22,8 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Instance;
 use Doctrine\ORM\EntityManager;
 use Celsius3\Helper\InstanceHelper;
 

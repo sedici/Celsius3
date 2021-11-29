@@ -28,7 +28,7 @@ use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Celsius3\CoreBundle\Entity\Login;
+use Celsius3\Entity\Login;
 
 class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterface
 {
