@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<serializer>
-    <class name="Celsius3\CoreBundle\Entity\Event\ReuploadEvent" exclusion-policy="all">
-        <property name="receiveEvent" type="Celsius3\CoreBundle\Entity\Event\Event" expose="true" access-type="public_method" read-only="true" groups="administration_order_show"></property>
-    </class>
-</serializer>

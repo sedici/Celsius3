@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="Celsius3\Entity\Institution">
+        <attribute name="id">
+            <group>administration</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+        <attribute name="name">
+            <group>administration_list</group>
+            <group>administration</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+        <attribute name="abbreviation">
+            <group>administration_list</group>
+            <group>administration</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+        <attribute name="parent">
+            <group>administration_list</group>
+            <group>administration</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+        <attribute name="city">
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+        <attribute name="country">
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+        <attribute name="celsiusInstance">
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>institution_show</group>
+        </attribute>
+    </class>
+</serializer>

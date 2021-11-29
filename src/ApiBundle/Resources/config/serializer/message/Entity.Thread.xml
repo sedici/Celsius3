@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<serializer>
-    <class name="Celsius3\MessageBundle\Entity\Thread" exclusion-policy="all">
-        <property name="id" type="integer" expose="true" read-only="true" groups="user_list"></property>
-        <property name="createdBy" type="Celsius3\CoreBundle\Entity\BaseUser" expose="true" access-type="public_method" groups="user_list"></property>
-    </class>
-</serializer>
