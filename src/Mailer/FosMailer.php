@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\CoreBundle\Mailer;
+namespace Celsius3\Mailer;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;

@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\ContactType as Entity;
+use Celsius3\Entity\ContactType as Entity;
 use Celsius3\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;

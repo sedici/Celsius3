@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Symfony\Component\Form\AbstractType;
 class SuperadminStatisticsType extends AbstractType

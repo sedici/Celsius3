@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\Instance;
 use Celsius3\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;

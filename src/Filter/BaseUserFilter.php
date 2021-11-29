@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Filter;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BaseUserFilter implements EntityFilterInterface

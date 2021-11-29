@@ -29,7 +29,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\LegacyInstanceRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\LegacyInstanceRepository")
  * @ORM\Table(name="instance", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_website", columns={"website"}),

@@ -1,5 +1,5 @@
-ivory_serializer:
-    mapping:
-        auto:
-            enabled: false
-        reflection: false
+#ivory_serializer:
+#    mapping:
+#        auto:
+#            enabled: false
+#        reflection: false

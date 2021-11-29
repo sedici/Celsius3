@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\NewspaperType;
+use Celsius3\Entity\NewspaperType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;

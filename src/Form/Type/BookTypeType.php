@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\BookType;
+use Celsius3\Entity\BookType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

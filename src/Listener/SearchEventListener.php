@@ -23,9 +23,9 @@
 namespace Celsius3\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Celsius3\CoreBundle\Entity\Event\SearchEvent;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Entity\CatalogResult;
+use Celsius3\Entity\Event\SearchEvent;
+use Celsius3\Entity\JournalType;
+use Celsius3\Entity\CatalogResult;
 use Celsius3\Manager\CatalogManager;
 
 class SearchEventListener

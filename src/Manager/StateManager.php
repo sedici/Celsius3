@@ -24,7 +24,7 @@ namespace Celsius3\Manager;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Celsius3\Exception\NotFoundException;
-use Celsius3\CoreBundle\Entity\State;
+use Celsius3\Entity\State;
 use Celsius3\Exception\Exception;
 
 class StateManager

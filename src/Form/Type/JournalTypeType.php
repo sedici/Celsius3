@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\Entity\JournalType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

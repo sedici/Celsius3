@@ -24,14 +24,14 @@ declare(strict_types=1);
 
 namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\BookType;
-use Celsius3\CoreBundle\Entity\CongressType;
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Entity\OrdersDataRequest;
-use Celsius3\CoreBundle\Entity\State;
-use Celsius3\CoreBundle\Entity\ThesisType;
+use Celsius3\Entity\BookType;
+use Celsius3\Entity\CongressType;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\JournalType;
+use Celsius3\Entity\Order;
+use Celsius3\Entity\OrdersDataRequest;
+use Celsius3\Entity\State;
+use Celsius3\Entity\ThesisType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Console\Command\Command;

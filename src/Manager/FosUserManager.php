@@ -22,13 +22,15 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
 use FOS\UserBundle\Util\CanonicalFieldsUpdater;
 use FOS\UserBundle\Util\PasswordUpdaterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class FosUserManager extends DoctrineUserManager
 {
@@ -40,8 +42,8 @@ class FosUserManager extends DoctrineUserManager
         PasswordUpdaterInterface $passwordUpdater,
         CanonicalFieldsUpdater $canonicalFieldsUpdater, 
         InstanceHelper $instanceHelper,
-        EntityManager $entityManager,
-        TokenStorage $tokenStorage,
+        EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage,
         $class)
     {
         parent::__construct($passwordUpdater, $canonicalFieldsUpdater);

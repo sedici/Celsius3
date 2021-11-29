@@ -22,8 +22,8 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Institution;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 class UserManager

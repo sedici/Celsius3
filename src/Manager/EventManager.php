@@ -22,23 +22,23 @@
 
 namespace Celsius3\Manager;
 
-use Celsius3\CoreBundle\Entity\Author;
-use Celsius3\CoreBundle\Entity\Catalog;
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Web;
+use Celsius3\Entity\Author;
+use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\Entity\Web;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\Entity\Institution;
+use Celsius3\Entity\Request;
 use Celsius3\Exception\Exception;
 use Celsius3\Exception\NotFoundException;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 
 class EventManager
 {

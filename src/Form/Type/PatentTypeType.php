@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\PatentType;
+use Celsius3\Entity\PatentType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

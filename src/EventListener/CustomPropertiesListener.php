@@ -13,11 +13,11 @@ class CustomPropertiesListener implements EventSubscriberInterface
         $object = $event->getObject();
         $document = $event->getDocument();
 
-        if ($object instanceof \Celsius3\CoreBundle\Entity\BookType) {
+        if ($object instanceof \Celsius3\Entity\BookType) {
             $document->set('editor', $object->getEditor());
             $document->set('isbn', $object->getISBN());
             $document->set('chapter', $object->getChapter());
-        } elseif ($object instanceof \Celsius3\CoreBundle\Entity\JournalType) {
+        } elseif ($object instanceof \Celsius3\Entity\JournalType) {
             if (!is_null($object->getJournal())) {
                 $document->set('journal', $object->getJournal()->getName());
             } else {

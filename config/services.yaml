@@ -49,12 +49,14 @@ services:
             $uploadRootDir: '%upload_root_dir%'
             $logosUploadDir: '%logos_upload_dir%'
             $firewallName: 'main'
+            $parameters: { confirmation.template: '%fos_user.registration.confirmation.template%', resetting.template: '%fos_user.resetting.email.template%', from_email: { confirmation: '%fos_user.registration.confirmation.from_email%', resetting: '%fos_user.resetting.email.from_email%' } }
+            $class: '%fos_user.model.user.class%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     Celsius3\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Form/EventListener,Migrations,Tests,Kernel.php,CoreBundle,ApiBundle,NotificationBundle,TicketBundle,MessageBundle}'
+        exclude: '../src/{DependencyInjection,Entity,Form/EventListener,Migrations,Tests,Kernel.php,CoreBundle,NotificationBundle,TicketBundle,MessageBundle}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -80,7 +82,7 @@ services:
     # Formulario de registro personalizado
     registration.form.type:
         class: Celsius3\Form\Type\RegistrationFormType
-        arguments: [ "@doctrine.orm.entity_manager", "@celsius3_core.instance_helper" ]
+        arguments: [ "@doctrine.orm.entity_manager", Celsius3\Helper\InstanceHelper ]
         tags:
             - { name: form.type }
 
@@ -90,15 +92,15 @@ services:
         tags:
             - { name: form.type }
 
-    jms_serializer.metadata.doctrine_type_driver:
-        class: "%jms_serializer.metadata.doctrine_type_driver.class%"
-        public: false
-        arguments: [ "@jms_serializer.metadata.chain_driver", "@doctrine" ]
+#    jms_serializer.metadata.doctrine_type_driver:
+#        class: "%jms_serializer.metadata.doctrine_type_driver.class%"
+#        public: false
+#        arguments: [ "@jms_serializer.metadata.chain_driver", "@doctrine" ]
 
-    jms_serializer.metadata.doctrine_object_constructor:
-        class: "%jms_serializer.doctrine_object_constructor.class%"
-        public: false
-        arguments: [ "@doctrine", "@jms_serializer.unserialize_object_constructor" ]
+#    jms_serializer.metadata.doctrine_object_constructor:
+#        class: "%jms_serializer.doctrine_object_constructor.class%"
+#        public: false
+#        arguments: [ "@doctrine", "@jms_serializer.unserialize_object_constructor" ]
 
     gedmo.listener.softdeleteable:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
@@ -116,7 +118,7 @@ services:
             - { name: kernel.event_listener, event: console.terminate }
 
     oauth_event_listener:
-        class: Celsius3\ApiBundle\EventListener\OAuthEventListener
+        class: Celsius3\EventListener\OAuthEventListener
         arguments:
             $em: "@doctrine.orm.entity_manager"
         tags:
@@ -137,19 +139,19 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
-#    Celsius3\CoreBundle\Manager\UnionManager:
+#    Celsius3\Manager\UnionManager:
 #        alias: celsius3_core.union_manager
 
     FOS\MessageBundle\ModelManager\ThreadManagerInterface:
         alias: celsius3_message.thread_manager.default
 
-#    Celsius3\CoreBundle\Manager\EventManager:
+#    Celsius3\Manager\EventManager:
 #        alias: celsius3_core.event_manager
 #
-#    Celsius3\CoreBundle\Manager\InstanceManager:
+#    Celsius3\Manager\InstanceManager:
 #        alias: celsius3_core.instance_manager
 #
-#    Celsius3\CoreBundle\Manager\FileManager:
+#    Celsius3\Manager\FileManager:
 #        alias: celsius3_core.file_manager
 
     FOS\RestBundle\View\ViewHandlerInterface:
@@ -158,10 +160,10 @@ services:
     Knp\Component\Pager\Paginator:
         alias: knp_paginator
         
-#    Celsius3\CoreBundle\Manager\UserManager:
+#    Celsius3\Manager\UserManager:
 #        alias: celsius3_core.user_manager
 #
-#    Celsius3\CoreBundle\Manager\StateManager:
+#    Celsius3\Manager\StateManager:
 #        alias: celsius3_core.state_manager
         
     Celsius3\Twig\AssetsExtension:
@@ -179,7 +181,7 @@ services:
         alias: fos_user.security.login_manager
         
     FOS\UserBundle\Mailer\MailerInterface:
-        alias: celsius3_core.fos_mailer.custom
+        alias: Celsius3\Mailer\FosMailer
         
     FOS\UserBundle\Util\TokenGeneratorInterface:
         alias: fos_user.util.token_generator.default
@@ -193,3 +195,15 @@ services:
 
     Celsius3\EventListener\ContextListener:
         alias: celsius3_core.context_listener
+
+    celsius3_api.security_listener:
+        class: Celsius3\EventListener\SecurityListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+        arguments: [ '@doctrine.orm.entity_manager', '@fos_oauth_server.access_token_manager.default', '@security.token_storage' ]
+
+    FOS\UserBundle\Util\PasswordUpdaterInterface:
+        alias: fos_user.util.password_updater
+
+    FOS\UserBundle\Util\CanonicalFieldsUpdater:
+        alias: fos_user.util.canonical_fields_updater

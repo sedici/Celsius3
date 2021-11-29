@@ -34,7 +34,7 @@ class EventNotification extends Notification
 {
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="event_notification_id", referencedColumnName="id")
      */
     protected $object;

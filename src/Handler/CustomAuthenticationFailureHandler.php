@@ -40,10 +40,9 @@ class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHan
         RouterInterface $router,
         HttpKernelInterface $httpKernel,
         HttpUtils $httpUtils,
-        array $options,
         LoggerInterface $logger = null
     ) {
-        parent::__construct($httpKernel, $httpUtils, $options, $logger);
+        parent::__construct($httpKernel, $httpUtils, [], $logger);
         $this->router = $router;
     }
 

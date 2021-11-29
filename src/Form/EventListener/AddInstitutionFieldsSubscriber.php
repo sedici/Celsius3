@@ -22,12 +22,12 @@
 
 namespace Celsius3\Form\EventListener;
 
-use Celsius3\CoreBundle\Entity\City;
-use Celsius3\CoreBundle\Entity\Country;
-use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Repository\CityRepository;
-use Celsius3\CoreBundle\Repository\CountryRepository;
-use Celsius3\CoreBundle\Repository\InstitutionRepository;
+use Celsius3\Entity\City;
+use Celsius3\Entity\Country;
+use Celsius3\Entity\Institution;
+use Celsius3\Repository\CityRepository;
+use Celsius3\Repository\CountryRepository;
+use Celsius3\Repository\InstitutionRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

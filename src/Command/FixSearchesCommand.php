@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\CatalogResult;
-use Celsius3\CoreBundle\Entity\Event\SearchEvent;
-use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\Entity\CatalogResult;
+use Celsius3\Entity\Event\SearchEvent;
+use Celsius3\Entity\JournalType;
 use Celsius3\Manager\CatalogManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PDO;

@@ -22,8 +22,8 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Template;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Template;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -84,7 +84,7 @@ abstract class Notification
     private $template;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\BaseUser")
      * @ORM\JoinTable(name="notification_receiver",
      *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="receiver_id", referencedColumnName="id")}
@@ -93,7 +93,7 @@ abstract class Notification
     private $receivers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\BaseUser")
      * @ORM\JoinTable(name="notification_viewer",
      *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="receiver_id", referencedColumnName="id", unique=true)}

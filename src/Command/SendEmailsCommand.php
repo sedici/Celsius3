@@ -22,8 +22,8 @@
 
 namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Mailer\Mailer;
+use Celsius3\Entity\Instance;
+use Celsius3\Mailer\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;

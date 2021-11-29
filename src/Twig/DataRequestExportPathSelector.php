@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Twig;
 
-use Celsius3\CoreBundle\Entity\OrdersDataRequest;
-use Celsius3\CoreBundle\Entity\UsersDataRequest;
+use Celsius3\Entity\OrdersDataRequest;
+use Celsius3\Entity\UsersDataRequest;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use function get_class;

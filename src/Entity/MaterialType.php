@@ -29,7 +29,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
  * @ORM\Table(name="material_type", indexes={
  *   @ORM\Index(name="idx_type", columns={"type"}),
  *   @ORM\Index(name="idx_title", columns={"title"})

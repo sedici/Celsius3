@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type\Filter;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\MailTemplateRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\MailTemplateRepository")
  */
 class MailTemplate extends Template
 {

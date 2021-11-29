@@ -22,7 +22,7 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\Entity\Event\Event;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\FileRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\FileRepository")
  * @ORM\Table(name="file", indexes={
  *   @ORM\Index(name="idx_event", columns={"event_id"}),
  *   @ORM\Index(name="idx_request", columns={"request_id"}),
@@ -84,7 +84,7 @@ class File
     private $instance;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
      */
     private $event;
 

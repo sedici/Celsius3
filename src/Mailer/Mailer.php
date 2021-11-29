@@ -20,30 +20,32 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Mailer;
+namespace Celsius3\Mailer;
 
-use Celsius3\CoreBundle\Entity\Email;
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Email;
+use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Mailer
 {
-    private $em;
+    private $entityManager;
     private $tokenStorage;
     private $validator;
     private $mailerHelper;
 
-    public function __construct(EntityManager $em, TokenStorage $tokenStorage, ValidatorInterface $validator, MailerHelper $mailerHelper)
+    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, ValidatorInterface $validator, MailerHelper $mailerHelper)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
         $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->mailerHelper = $mailerHelper;
@@ -51,7 +53,7 @@ class Mailer
 
     public function saveEmail($address, $subject, $text, Instance $instance)
     {
-        $em = $this->em;
+        $em = $this->entityManager;
 
         $email = new Email();
         $email->setAddress($address);
@@ -73,7 +75,7 @@ class Mailer
             return false;
         }
 
-        if (!is_null($this->tokenStorage->getToken()) && $this->tokenStorage->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
+        if (!is_null($this->tokenStorage->getToken()) && $this->tokenStorage->getToken()->getUser() instanceof \Celsius3\Entity\BaseUser) {
             $this->saveEmail($address, $subject, $text, $instance);
 
             return true;
@@ -93,7 +95,7 @@ class Mailer
             return;
         }
 
-        $em = $this->em;
+        $em = $this->entityManager;
 
         $emails = $em->getRepository(Email::class)
                 ->findNotSentEmailsWithLimit($instance, $limit);
@@ -162,8 +164,8 @@ class Mailer
                     $email->setError(true);
                 }
 
-                $this->em->persist($email);
-                $this->em->flush();
+                $this->entityManager->persist($email);
+                $this->entityManager->flush();
 
                 $message = "Error al enviar el correo con ID: " . $email->getId();
 

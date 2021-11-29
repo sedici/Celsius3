@@ -22,7 +22,7 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\ApiBundle\Entity\Client;
+use Celsius3\Entity\Client;
 use Celsius3\Manager\UserManager;
 use Celsius3\NotificationBundle\Entity\BaseUserNotification;
 use Celsius3\NotificationBundle\Entity\Notifiable;
@@ -159,7 +159,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $customValues;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\ApiBundle\Entity\Client")
+     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\Client")
      * @ORM\JoinTable(name="user_client",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")}

@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\CoreBundle\Entity\File;
+use Celsius3\Entity\File;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType as BaseFileType;

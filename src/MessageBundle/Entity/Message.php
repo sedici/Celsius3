@@ -52,7 +52,7 @@ class Message extends BaseMessage implements Notifiable
      */
     protected $thread;
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      *
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */

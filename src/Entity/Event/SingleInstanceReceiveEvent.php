@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
-use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\Entity\File;
+use Celsius3\Entity\Mixin\ReclaimableTrait;
+use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;

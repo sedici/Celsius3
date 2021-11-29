@@ -22,7 +22,7 @@
 
 namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\Entity\Event\SingleInstanceReceiveEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

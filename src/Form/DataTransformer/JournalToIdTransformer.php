@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\DataTransformer;
 
-use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\Entity\Journal;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;

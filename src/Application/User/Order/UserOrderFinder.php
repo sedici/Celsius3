@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Application\User\Order;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Order;
 use Celsius3\Exception\EntityNotFoundException;
 use Celsius3\Repository\OrderRepositoryInterface;
 

@@ -25,7 +25,7 @@ namespace Celsius3\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Celsius3\CoreBundle\Entity\Hive;
+use Celsius3\Entity\Hive;
 
 class LegacyInstanceType extends AbstractType
 {
