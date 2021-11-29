@@ -15,7 +15,7 @@
             <group>administration_order_show</group>
             <group>administration_user_show</group>
         </attribute>
-        <attribute name="providerName" serialized-name="provider_name">
+        <attribute name="providerName">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>
