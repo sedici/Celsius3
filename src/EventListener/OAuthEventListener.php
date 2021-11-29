@@ -20,9 +20,9 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\EventListener;
+namespace Celsius3\EventListener;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Doctrine\ORM\EntityManager;
 

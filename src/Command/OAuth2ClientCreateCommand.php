@@ -20,9 +20,9 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\Command;
+namespace Celsius3\Command;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

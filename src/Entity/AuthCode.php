@@ -20,29 +20,33 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\DependencyInjection;
+namespace Celsius3\Entity;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use FOS\OAuthServerBundle\Entity\AuthCode as BaseAuthCode;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * This is the class that validates and merges configuration from your app/config files.
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
+ * @ORM\Entity
  */
-class Configuration implements ConfigurationInterface
+class AuthCode extends BaseAuthCode
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
-    {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('celsius3_api');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-        return $treeBuilder;
-    }
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
+     */
+    protected $user;
+
 }

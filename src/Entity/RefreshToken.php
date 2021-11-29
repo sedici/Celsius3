@@ -20,15 +20,15 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\Entity;
+namespace Celsius3\Entity;
 
-use FOS\OAuthServerBundle\Entity\AccessToken as BaseAccessToken;
+use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class AccessToken extends BaseAccessToken
+class RefreshToken extends BaseRefreshToken
 {
 
     /**
@@ -39,13 +39,13 @@ class AccessToken extends BaseAccessToken
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Client")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      */
     protected $user;
 

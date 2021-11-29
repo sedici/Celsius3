@@ -20,9 +20,9 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\Controller;
+namespace Celsius3\Controller\Api;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -34,7 +34,7 @@ use Celsius3\Exception\Exception;
 /**
  * User controller.
  *
- * @Route("/users")
+ * @Route("/api/users")
  */
 class UserController extends BaseController
 {

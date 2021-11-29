@@ -20,17 +20,16 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\Entity;
+namespace Celsius3\Entity;
 
-use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
+use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  */
-class RefreshToken extends BaseRefreshToken
+class Client extends BaseClient
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -39,14 +38,23 @@ class RefreshToken extends BaseRefreshToken
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Instance")
+     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
-    protected $client;
+    protected $instance;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
-     */
-    protected $user;
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
+    public function getInstance()
+    {
+        return $this->instance;
+    }
+
+    public function setInstance($instance)
+    {
+        $this->instance = $instance;
+    }
 }

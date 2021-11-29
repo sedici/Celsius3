@@ -20,11 +20,33 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle;
+namespace Celsius3\Entity;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use FOS\OAuthServerBundle\Entity\AccessToken as BaseAccessToken;
+use Doctrine\ORM\Mapping as ORM;
 
-class Celsius3ApiBundle extends Bundle
+/**
+ * @ORM\Entity
+ */
+class AccessToken extends BaseAccessToken
 {
-    
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
+     */
+    protected $user;
+
 }

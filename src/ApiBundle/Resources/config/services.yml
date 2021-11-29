@@ -1,6 +1,0 @@
-services:
-    celsius3_api.security_listener:
-        class: Celsius3\ApiBundle\EventListener\SecurityListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-        arguments: ['@doctrine.orm.entity_manager', '@fos_oauth_server.access_token_manager.default', '@security.token_storage']

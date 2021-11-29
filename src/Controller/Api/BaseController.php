@@ -20,11 +20,11 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\Controller;
+namespace Celsius3\Controller\Api;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use FOS\RestBundle\Controller\FOSRestController;
-use Celsius3\ApiBundle\Entity\AccessToken;
+use Celsius3\Entity\AccessToken;
 use Celsius3\Exception\Exception;
 
 class BaseController extends FOSRestController

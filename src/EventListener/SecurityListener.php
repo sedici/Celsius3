@@ -20,14 +20,14 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\ApiBundle\EventListener;
+namespace Celsius3\EventListener;
 
-use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\Entity\Instance;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManager;
 use FOS\OAuthServerBundle\Entity\AccessTokenManager;
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
