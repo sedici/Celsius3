@@ -30,6 +30,7 @@ use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
 use FOS\UserBundle\Util\CanonicalFieldsUpdater;
 use FOS\UserBundle\Util\PasswordUpdaterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class FosUserManager extends DoctrineUserManager
@@ -37,20 +38,21 @@ class FosUserManager extends DoctrineUserManager
     private $instanceHelper;
     private $entityManager;
     private $class;
+    private $security;
 
     public function __construct(
         PasswordUpdaterInterface $passwordUpdater,
         CanonicalFieldsUpdater $canonicalFieldsUpdater, 
         InstanceHelper $instanceHelper,
         EntityManagerInterface $entityManager,
-        TokenStorageInterface $tokenStorage,
+        Security $security,
         $class)
     {
         parent::__construct($passwordUpdater, $canonicalFieldsUpdater);
         $this->instanceHelper = $instanceHelper;
         $this->entityManager = $entityManager;
-        $this->tokenStorage = $tokenStorage;
         $this->class = $class;
+        $this->security = $security;
     }
 
     public function findUserByUsernameOrEmail($usernameOrEmail)
@@ -61,9 +63,9 @@ class FosUserManager extends DoctrineUserManager
             $user = $this->findUserByUsername($usernameOrEmail);
         }
 
-        $currentUser = ($token = $this->tokenStorage->getToken()) ? $token->getUser() : null;
+        $currentUser = ($token = $this->security->getToken()) ? $token->getUser() : null;
 
-        return (!is_null($user) && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || (($currentUser instanceof BaseUser) && $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN)))) ? $user : null;
+        return ($user !== null && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || (($currentUser instanceof BaseUser) && $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN)))) ? $user : null;
     }
 
     public function deleteUser(\FOS\UserBundle\Model\UserInterface $user)

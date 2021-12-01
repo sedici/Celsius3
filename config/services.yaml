@@ -51,6 +51,9 @@ services:
             $firewallName: 'main'
             $parameters: { confirmation.template: '%fos_user.registration.confirmation.template%', resetting.template: '%fos_user.resetting.email.template%', from_email: { confirmation: '%fos_user.registration.confirmation.from_email%', resetting: '%fos_user.resetting.email.from_email%' } }
             $class: '%fos_user.model.user.class%'
+            $notificationLimit: '%notification_limit%'
+            $zmqHost: '%notification_zmq_host%'
+            $zmqPort: '%notification_zmq_port%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -207,3 +210,21 @@ services:
 
     FOS\UserBundle\Util\CanonicalFieldsUpdater:
         alias: fos_user.util.canonical_fields_updater
+
+    Celsius3\Listener\NotificationListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+        arguments: [ '@Celsius3\Manager\NotificationManager' ]
+
+#    Celsius3\Manager\NotificationManager:
+#        arguments: [ '@service_container', '%celsius3_notification.web_socket_server.zmq_host%', '%celsius3_notification.web_socket_server.zmq_port%' ]
+
+    Celsius3\Server\Pusher:
+        arguments: [ '@Celsius3\Manager\NotificationManager', '@doctrine.orm.entity_manager' ]
+
+    Celsius3\Server\PusherType:
+        arguments: [ '@celsius3_notification.wamp_server', '%celsius3_notification.web_socket_server.host%', '%celsius3_notification.web_socket_server.port%', '%celsius3_notification.web_socket_server.zmq_host%', '%celsius3_notification.web_socket_server.zmq_port%' ]
+
+    Celsius3\Server\EntryPoint:
+        arguments: [ '@celsius3_notification.web_socket_server' ]

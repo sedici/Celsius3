@@ -20,14 +20,14 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Controller;
+namespace Celsius3\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\Controller\BaseController;
-use Celsius3\NotificationBundle\Form\Type\SubscriptionType;
-use Celsius3\NotificationBundle\Entity\NotificationSettings;
+use Celsius3\Form\Type\SubscriptionType;
+use Celsius3\Entity\NotificationSettings;
 use Celsius3\Exception\Exception;
 
 /**

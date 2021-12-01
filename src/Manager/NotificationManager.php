@@ -20,19 +20,24 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Manager;
+namespace Celsius3\Manager;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Celsius3\Mailer\Mailer;
+use Celsius3\Entity\NotificationTemplate;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Celsius3\NotificationBundle\Entity\BaseUserNotification;
-use Celsius3\NotificationBundle\Entity\MessageNotification;
-use Celsius3\NotificationBundle\Entity\EventNotification;
-use Celsius3\NotificationBundle\Entity\Notification;
+use Celsius3\Entity\BaseUserNotification;
+use Celsius3\Entity\MessageNotification;
+use Celsius3\Entity\EventNotification;
+use Celsius3\Entity\Notification;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
 use Celsius3\MessageBundle\Entity\Message;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class NotificationManager
 {
@@ -48,20 +53,37 @@ class NotificationManager
     public const CAUSE__UPLOAD = 'upload';
     public const CAUSE__RECLAIM = 'reclaim';
 
-    private $container;
     private $zmq_port;
     private $zmq_host;
+    private $mailer;
+    private $translator;
+    private $entityManager;
+    private $twig;
+    private $router;
+    private $notificationLimit;
 
-    public function __construct(ContainerInterface $container, $zmq_host, $zmq_port)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        Mailer $mailer,
+        TranslatorInterface $translator,
+        Environment $twig,
+        RouterInterface $router,
+        $notificationLimit,
+        $zmqHost, $zmqPort)
     {
-        $this->container = $container;
-        $this->zmq_host = $zmq_host;
-        $this->zmq_port = $zmq_port;
+        $this->zmq_host = $zmqHost;
+        $this->zmq_port = $zmqPort;
+        $this->mailer = $mailer;
+        $this->translator = $translator;
+        $this->entityManager = $entityManager;
+        $this->twig = $twig;
+        $this->router = $router;
+        $this->notificationLimit = $notificationLimit;
     }
 
     private function getMap()
     {
-        $translator = $this->container->get('translator');
+        $translator = $this->translator;
         $eventArray = array(
             'template_data' => function (Notification $notification) use ($translator) {
                 return array(
@@ -122,7 +144,7 @@ class NotificationManager
     {
         $data = $this->getMap()[$notification->getCause()]['template_data'];
 
-        $template = $this->container->get('twig')->createTemplate($notification->getTemplate()->getText());
+        $template = $this->twig->createTemplate($notification->getTemplate()->getText());
 
         return $template->render($data($notification));
     }
@@ -132,7 +154,7 @@ class NotificationManager
         $route = $this->getMap()[$notification->getCause()]['route'];
         $params = $this->getMap()[$notification->getCause()]['route_params'];
 
-        return $this->container->get('router')->generate($route, $params($notification));
+        return $this->router->generate($route, $params($notification));
     }
 
     private function notifyRatchet(Notification $notification)
@@ -151,7 +173,7 @@ class NotificationManager
 
     private function notifyInterface(Notification $notification, $receivers)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
 
         foreach ($receivers as $receiver) {
             $notification->addReceiver($receiver);
@@ -165,13 +187,10 @@ class NotificationManager
 
     private function notifyEmail(Notification $notification, $receivers, $instance, $otherText = '')
     {
-        $mailer = $this->container->get('celsius3_core.mailer');
-        $translator = $this->container->get('translator');
-
         $function = $this->getMap()[$notification->getCause()]['template_data'];
         $data = $function($notification);
 
-        $template = $this->container->get('twig')->createTemplate($notification->getTemplate()->getText());
+        $template = $this->twig->createTemplate($notification->getTemplate()->getText());
 
         foreach ($receivers as $user) {
             $text = 'Celsius3 - '.$user->getInstance();
@@ -180,7 +199,7 @@ class NotificationManager
             $text .= $otherText;
 
             if (/** @Ignore */!$user->getWrongEmail()) {
-                $mailer->sendEmail($user->getEmail(), 'Celsius 3 '.$translator->trans(/** @Ignore */$notification->getCause()), $text, $instance);
+                $this->mailer->sendEmail($user->getEmail(), 'Celsius 3 '.$this->translator->trans(/** @Ignore */$notification->getCause()), $text, $instance);
             }
         }
     }
@@ -188,7 +207,7 @@ class NotificationManager
     public function notifyNewMessage(Message $message)
     {
         $receivers = new ArrayCollection($message->getThread()->getParticipants());
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
 
         $usersInterfaceNotification = $em->getRepository(BaseUser::class)->getUsersWithMessageNotification('interface', $receivers);
         $usersEmailNotification = $em->getRepository(BaseUser::class)->getUsersWithMessageNotification('email', $receivers);
@@ -200,7 +219,7 @@ class NotificationManager
             return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $usersEmailNotification));
         });
 
-        $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+        $template = $em->getRepository(NotificationTemplate::class)
                                         ->findOneBy(array('code' => self::CAUSE__NEW_MESSAGE));
 
         $notification = new MessageNotification(self::CAUSE__NEW_MESSAGE, $message, $template);
@@ -211,12 +230,12 @@ class NotificationManager
 
     public function notifyNewUser(BaseUser $user)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
 
         $adminsInterfaceNotification = $em->getRepository(BaseUser::class)->getAdminsWithUserNotification('interface', $user->getInstance());
         $adminsEmailNotification = $em->getRepository(BaseUser::class)->getAdminsWithUserNotification('email', $user->getInstance());
 
-        $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+        $template = $em->getRepository(NotificationTemplate::class)
                                         ->findOneBy(array('code' => self::CAUSE__NEW_USER));
 
         $notification = new BaseUserNotification(self::CAUSE__NEW_USER, $user, $template);
@@ -227,15 +246,15 @@ class NotificationManager
 
     public function notifyEvent(Event $event, $type)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $router = $this->container->get('router');
+        $em = $this->entityManager;
+        $router = $this->router;
 
         $usersInsterfaceNotification = $em->getRepository(BaseUser::class)
                                         ->getUsersWithEventNotification('interface', $event, $type);
         $usersEmailNotification = $em->getRepository(BaseUser::class)
                                         ->getUsersWithEventNotification('email', $event, $type);
 
-        $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+        $template = $em->getRepository(NotificationTemplate::class)
                                         ->findOneBy(array('code' => 'order_event'));
 
         $notification = new EventNotification($type, $event, $template);
@@ -244,7 +263,7 @@ class NotificationManager
             $this->notifyInterface($notification, array($user));
         }
 
-        $otherText = "\n\n" . $this->container->get('translator')->trans("Para acceder al pedido ingrese al siguiente enlace") . ".\n";
+        $otherText = "\n\n" . $this->translator->trans("Para acceder al pedido ingrese al siguiente enlace") . ".\n";
         $otherText .= $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance(), $otherText);
@@ -252,8 +271,8 @@ class NotificationManager
 
     public function notifyRemoteEvent(Event $event, $type)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+        $em = $this->entityManager;
+        $template = $em->getRepository(NotificationTemplate::class)
                                         ->findOneBy(array('code' => 'order_event'));
 
         $notification = new EventNotification($type, $event, $template);
@@ -267,15 +286,16 @@ class NotificationManager
 
     public function getUnreadNotificationsCount($user_id)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
 
-        return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotificationsCount($user_id);
+        return $em->getRepository(Notification::class)->getUnreadNotificationsCount($user_id);
     }
 
     public function getUnreadNotifications($user_id)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
 
-        return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
+        return $em->getRepository(Notification::class)
+            ->getUnreadNotifications($user_id, $this->notificationLimit);
     }
 }

@@ -20,32 +20,37 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Listener;
+declare(strict_types=1);
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
-use Celsius3\NotificationBundle\Entity\Notifiable;
+namespace Celsius3\Entity;
 
-class NotificationListener
+use Celsius3\MessageBundle\Entity\Message;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Repository\BaseNotificationRepository;
+/**
+ * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
+ */
+class MessageNotification extends Notification
 {
-    private $notification_manager;
+    /**
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="Celsius3\MessageBundle\Entity\Message")
+     * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id")
+     */
+    protected $object;
 
-    public function __construct(NotificationManager $notification_manager)
+    public function __construct($cause, Message $object, $template)
     {
-        $this->notification_manager = $notification_manager;
+        parent::__construct();
+
+        $this->setCause($cause);
+        $this->setObject($object);
+        $this->setTemplate($template);
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function setObject($object)
     {
-        $entity = $args->getEntity();
-
-        if ($entity instanceof Notifiable) {
-            $entity->notify($this->notification_manager);
-        }
-    }
-
-    public function postUpdate(LifecycleEventArgs $args)
-    {
-        $this->postPersist($args);
+        $this->object = $object;
     }
 }

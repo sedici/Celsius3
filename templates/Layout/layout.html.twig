@@ -92,7 +92,7 @@
                     {% include 'Layout/_user_panel.html.twig' %}
                     {% include 'Layout/_instances_panel.html.twig' %}
                     {% include 'Celsius3MessageBundle:Layout:_message_panel.html.twig' %}
-                    {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
+                    {% include 'Notification/_notification_panel.html.twig' %}
                 {% endblock %}
                 {% include 'Layout/_lang_panel.html.twig' %}
                 {% include 'Layout/_activity.html.twig' %}
@@ -172,7 +172,7 @@
 {% include 'Layout/_mail_modal.html.twig' %}
 {% block javascripts %}
     {% include 'Layout/var.html.twig' %}
-    {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
+    {% include 'Notification/var.html.twig' %}
     <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
@@ -186,7 +186,7 @@
     {% include 'Layout/cci.html.twig' %}
     {% include 'Layout/table.html.twig' %}
     {% include 'Layout/mail.html.twig' %}
-    {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
+    {% include 'Notification/notification.html.twig' %}
 
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>

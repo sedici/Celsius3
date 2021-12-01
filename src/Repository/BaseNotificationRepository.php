@@ -20,11 +20,25 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Entity;
+namespace Celsius3\Repository;
 
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\EntityRepository;
 
-interface Notifiable
+/**
+ * BaseRepository.
+ */
+class BaseNotificationRepository extends EntityRepository
 {
-    public function notify(NotificationManager $manager): void;
+
+    public function union($field, $main_id, $elements)
+    {
+        return $this->createQueryBuilder('e')
+                    ->update()
+                    ->set('e.'.$field, ':main_id')
+                    ->where('e.'.$field.' IN (:ids)')
+                    ->setParameter('ids', $elements)
+                    ->setParameter('main_id', $main_id)
+                    ->getQuery()->getResult();
+    }
+
 }

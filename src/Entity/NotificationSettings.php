@@ -1,16 +1,16 @@
 <?php
 
-namespace Celsius3\NotificationBundle\Entity;
+namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Doctrine\ORM\Mapping as ORM;
-
+use Celsius3\Repository\BaseNotificationRepository;
 /**
  * NotificationSettings.
  *
  * @ORM\Table(name="notification_settings")
- * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
  */
 class NotificationSettings
 {

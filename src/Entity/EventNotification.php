@@ -20,14 +20,36 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Entity;
+declare(strict_types=1);
 
-use Celsius3\Entity\Template;
+namespace Celsius3\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Repository\BaseNotificationRepository;
 /**
- * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\BaseRepository")
+ * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
  */
-class NotificationTemplate extends Template
+class EventNotification extends Notification
 {
+    /**
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
+     * @ORM\JoinColumn(name="event_notification_id", referencedColumnName="id")
+     */
+    protected $object;
+
+    public function __construct($cause, $object, $template)
+    {
+        parent::__construct();
+
+        $this->setCause($cause);
+        $this->setObject($object);
+        $this->setTemplate($template);
+    }
+
+    public function setObject($object)
+    {
+        $this->object = $object;
+    }
 }

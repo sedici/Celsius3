@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Entity;
+namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Template;
@@ -31,7 +31,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\NotificationRepository")
  * @ORM\Table(name="notification", indexes={
  *   @ORM\Index(name="idx_viewed", columns={"viewed"}),
  *   @ORM\Index(name="idx_template", columns={"template_id"}),
@@ -78,7 +78,7 @@ abstract class Notification
     private $viewedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\NotificationBundle\Entity\NotificationTemplate")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\NotificationTemplate")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=false)
      */
     private $template;

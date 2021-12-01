@@ -20,26 +20,29 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
+namespace Celsius3\Command;
 
-namespace Celsius3\Entity\Event;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-use Celsius3\Entity\Notifiable;
-use Celsius3\Manager\NotificationManager;
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
-class DeliverEvent extends SingleInstanceEvent implements Notifiable
+class ServerCommand extends ContainerAwareCommand
 {
-    public function getEventType(): string
+
+    protected function configure()
     {
-        return 'deliver';
+        $this->setName('notification:server')
+                ->setDescription('Starts the Notification Server');
     }
 
-    public function notify(NotificationManager $manager): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $manager->notifyEvent($this, 'deliver');
+        $main = $this->getContainer()->get('celsius3_notification.entry_point');
+
+        $output->writeln('Starting Notification Server');
+
+        $main->setOutput($output);
+
+        $main->launch();
     }
 }

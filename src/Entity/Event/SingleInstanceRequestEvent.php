@@ -29,8 +29,8 @@ use Celsius3\Entity\Mixin\ProviderTrait;
 use Celsius3\Entity\Mixin\ReclaimableTrait;
 use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
-use Celsius3\NotificationBundle\Entity\Notifiable;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\Entity\Notifiable;
+use Celsius3\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -24,10 +24,10 @@ namespace Celsius3\Entity;
 
 use Celsius3\Entity\Client;
 use Celsius3\Manager\UserManager;
-use Celsius3\NotificationBundle\Entity\BaseUserNotification;
-use Celsius3\NotificationBundle\Entity\Notifiable;
-use Celsius3\NotificationBundle\Entity\NotificationSettings;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\Entity\BaseUserNotification;
+use Celsius3\Entity\Notifiable;
+use Celsius3\Entity\NotificationSettings;
+use Celsius3\Manager\NotificationManager;
 use Celsius3\Repository\BaseUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -168,12 +168,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $clientApplications;
 
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\NotificationBundle\Entity\NotificationSettings", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Celsius3\Entity\NotificationSettings", mappedBy="user", cascade={"remove"})
      */
     protected $notificationSettings;
 
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\NotificationBundle\Entity\BaseUserNotification", mappedBy="object", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Celsius3\Entity\BaseUserNotification", mappedBy="object", cascade={"remove"})
      */
     protected $notifications;
 

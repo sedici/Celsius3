@@ -43,7 +43,7 @@ use Celsius3\Entity\State;
 use Celsius3\Form\Type\JournalType;
 use Celsius3\MessageBundle\Entity\Message;
 use Celsius3\MessageBundle\Entity\ThreadMetadata;
-use Celsius3\NotificationBundle\Entity\BaseUserNotification;
+use Celsius3\Entity\BaseUserNotification;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 

@@ -22,8 +22,8 @@
 
 namespace Celsius3\MessageBundle\Entity;
 
-use Celsius3\NotificationBundle\Entity\Notifiable;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\Entity\Notifiable;
+use Celsius3\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Entity\Message as BaseMessage;
 

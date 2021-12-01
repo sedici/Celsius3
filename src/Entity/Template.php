@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *   "mail"="MailTemplate",
- *   "notification"="Celsius3\NotificationBundle\Entity\NotificationTemplate"
+ *   "notification"="Celsius3\Entity\NotificationTemplate"
  * })
  */
 abstract class Template

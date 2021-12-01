@@ -20,13 +20,13 @@
 * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Celsius3\NotificationBundle\Server;
+namespace Celsius3\Server;
 
 use Celsius3\Entity\BaseUser;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Ratchet\Wamp\Topic;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\Manager\NotificationManager;
 use Doctrine\ORM\EntityManager;
 
 class Pusher implements WampServerInterface

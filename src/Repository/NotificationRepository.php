@@ -20,25 +20,30 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Repository;
+namespace Celsius3\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-/**
- * BaseRepository.
- */
-class BaseRepository extends EntityRepository
+class NotificationRepository extends EntityRepository
 {
-
-    public function union($field, $main_id, $elements)
+    public function getUnreadNotificationsCount($user_id)
     {
-        return $this->createQueryBuilder('e')
-                    ->update()
-                    ->set('e.'.$field, ':main_id')
-                    ->where('e.'.$field.' IN (:ids)')
-                    ->setParameter('ids', $elements)
-                    ->setParameter('main_id', $main_id)
-                    ->getQuery()->getResult();
+        return $this->createQueryBuilder('n')
+                        ->select('COUNT(n.id)')
+                        ->where(':user_id MEMBER OF n.receivers')
+                        ->andWhere('n.viewed = false')
+                        ->setParameter('user_id', $user_id)
+                        ->getQuery()
+                        ->getSingleScalarResult();
     }
 
+    public function getUnreadNotifications($user_id, $limit)
+    {
+        return $this->createQueryBuilder('n')
+                        ->where(':user_id MEMBER OF n.receivers')
+                        ->andWhere('n.viewed = false')
+                        ->setParameter('user_id', $user_id)
+                        ->getQuery()
+                        ->getResult();
+    }
 }

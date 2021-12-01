@@ -30,8 +30,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\Manager\MailManager;
 use Celsius3\Entity\MailTemplate;
-use Celsius3\NotificationBundle\Entity\NotificationTemplate;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\Entity\NotificationTemplate;
+use Celsius3\Manager\NotificationManager;
 
 /**
  * Description of FixtureLoader
