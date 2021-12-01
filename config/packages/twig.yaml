@@ -7,6 +7,6 @@ twig:
         notification_public_url: "%notification_public_url%"
         notification_port: "%notification_port%"
         notification_limit: "%notification_limit%"
-        instance_helper: Celsius3\Helper\InstanceHelper
+        instance_helper: "@Celsius3\\Helper\\InstanceHelper"
     form_themes:
         - 'Form/fields.html.twig'
