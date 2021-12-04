@@ -31,7 +31,7 @@ use Celsius3\Entity\JournalType;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
+use FOS\RestBundle\Context\Context;
 
 final class GetOrderCatalogResultsRestController extends BaseInstanceDependentRestController
 {
@@ -48,8 +48,6 @@ final class GetOrderCatalogResultsRestController extends BaseInstanceDependentRe
 
     public function __invoke($order_id)
     {
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-
         $order = $this->orderRepository->find($order_id);
 
         if (!$order) {
@@ -80,7 +78,10 @@ final class GetOrderCatalogResultsRestController extends BaseInstanceDependentRe
         ];
 
         $view = $this->view($response, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\BaseUser;
 
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
-use JMS\Serializer\SerializationContext;
 use Symfony\Component\Security\Core\Security;
 
 final class UserGetController extends FOSRestController
@@ -48,12 +48,13 @@ final class UserGetController extends FOSRestController
 
     public function __invoke($id)
     {
-        $context = SerializationContext::create()->setGroups(['user_list']);
-
         $user = $this->security->getUser()->getId() === (int)$id ? $this->security->getUser() : null;
 
         $view = $this->view($user, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('user_list');
+        $view->setContext($context);
 
         return $this->viewHandler->handle($view);
     }

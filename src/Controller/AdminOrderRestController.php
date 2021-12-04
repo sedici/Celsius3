@@ -29,13 +29,13 @@ use Celsius3\Entity\State;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Knp\Component\Pager\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use JMS\Serializer\SerializationContext;
 use Celsius3\Exception\Exception;
 use Symfony\Component\Security\Core\Security;
 
@@ -164,7 +164,6 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
      */
     public function getOrdersAndRequests(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_list'));
         $em = $this->entityManager;
 
         if ($request->query->get('type', null) === 'mine') {
@@ -204,7 +203,10 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
                 );
 
         $view = $this->view($response, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_list');
+        $view->setContext($context);
 
         return $this->viewHandler->handle($view);
     }
@@ -216,8 +218,6 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
              */
             public function getOrder($id)
             {
-                $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
                 $em = $this->entityManager;
 
                 $order = $em->getRepository(Order::class)->find($id);
@@ -227,7 +227,10 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
                 }
 
                 $view = $this->view($order, 200)->setFormat('json');
-                $view->setSerializationContext($context);
+
+                $context = new Context();
+                $context->addGroup('administration_order_show');
+                $view->setContext($context);
 
                 return $this->viewHandler->handle($view);
             }
@@ -305,8 +308,6 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
              */
             public function changeOperator($order_id, $id)
             {
-                $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
                 $instance = $this->instanceHelper->getSessionInstance();
 
                 $operator = $this->entityManager->getRepository(BaseUser::class)->find($id);
@@ -323,7 +324,10 @@ class AdminOrderRestController extends FOSRestController//BaseInstanceDependentR
                 $em->flush();
 
                 $view = $this->view($request, 200)->setFormat('json');
-                $view->setSerializationContext($context);
+
+                $context = new Context();
+                $context->addGroup('administration_order_show');
+                $view->setContext($context);
 
                 return $this->viewHandler->handle($view);
             }

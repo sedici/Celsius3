@@ -26,13 +26,13 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
-use JMS\Serializer\SerializationContext;
 use Celsius3\Manager\StateManager;
 use Celsius3\Exception\Exception;
 use Celsius3\Entity\BaseUser;
@@ -95,14 +95,15 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
      */
     public function getPendingUsers()
     {
-        $context = SerializationContext::create()->setGroups(['administration']);
-
         $users = $this->entityManager
             ->getRepository(BaseUser::class)
             ->findPendingUsers($this->getInstance());
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration');
+        $view->setContext($context);
 
         return $this->viewHandler->handle($view);
     }
@@ -206,10 +207,11 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
             }
         );
 
-        $context = SerializationContext::create()->setGroups(['admins-select']);
-
         $view = $this->view(array_values($filteredAdmins), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('admins-select');
+        $view->setContext($context);
 
         return $this->viewHandler->handle($view);
     }
@@ -241,8 +243,6 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
      */
     public function getOrders($id, $type)
     {
-        $context = SerializationContext::create()->setGroups(['administration_user_show']);
-
         $em = $this->entityManager;
 
         $entity = $em->getRepository(BaseUser::class)->find($id);
@@ -294,7 +294,10 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
         )->getItems();
 
         $view = $this->view(['orders' => $orders, 'total' => $total], 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_user_show');
+        $view->setContext($context);
 
         return $this->viewHandler->handle($view);
     }

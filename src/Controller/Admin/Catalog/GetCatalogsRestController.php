@@ -27,7 +27,7 @@ namespace Celsius3\Controller\Admin\Catalog;
 use Celsius3\Controller\BaseInstanceDependentRestController;
 use Celsius3\Entity\Catalog;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
+use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Response;
 
 final class GetCatalogsRestController extends BaseInstanceDependentRestController
@@ -41,15 +41,16 @@ final class GetCatalogsRestController extends BaseInstanceDependentRestControlle
 
     public function __invoke(): Response
     {
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-
         $catalogs = $this->catalogRepository
             ->findForInstanceAndGlobalWithoutDisabled($this->getInstance(), $this->getDirectory())
             ->getQuery()
             ->execute();
 
         $view = $this->view(array_values($catalogs), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

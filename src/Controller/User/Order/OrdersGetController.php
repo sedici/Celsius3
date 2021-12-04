@@ -29,9 +29,9 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
-use JMS\Serializer\SerializationContext;
 use Knp\Component\Pager\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,8 +67,6 @@ final class OrdersGetController extends FOSRestController
 
     public function __invoke(Request $request): Response
     {
-        $context = SerializationContext::create()->setGroups(['user_list']);
-
         $with_request = $request->query->get('withRequest', false);
 
         $states = explode(',', $request->query->get('state', ''));
@@ -117,7 +115,10 @@ final class OrdersGetController extends FOSRestController
         } else {
             $view = $this->view(array_values($pagination), 200)->setFormat('json');
         }
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('user_list');
+        $view->setContext($context);
 
         return $this->viewHandler->handle($view);
     }

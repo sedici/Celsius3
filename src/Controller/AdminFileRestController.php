@@ -23,9 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\File;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
-use JMS\Serializer\SerializationContext;
 use Celsius3\Exception\Exception;
 
 /**
@@ -41,8 +41,6 @@ class AdminFileRestController extends BaseInstanceDependentRestController
      */
     public function changeState($file_id)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
         $em = $this->getDoctrine()->getManager();
 
         $file = $em->getRepository(File::class)->find($file_id);
@@ -57,7 +55,10 @@ class AdminFileRestController extends BaseInstanceDependentRestController
         $em->flush();
 
         $view = $this->view($file, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

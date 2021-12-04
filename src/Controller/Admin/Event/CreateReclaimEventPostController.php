@@ -29,7 +29,7 @@ use Celsius3\Entity\Request;
 use Celsius3\Exception\Exception;
 use Celsius3\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
+use FOS\RestBundle\Context\Context;
 
 final class CreateReclaimEventPostController extends BaseInstanceDependentRestController
 {
@@ -50,8 +50,9 @@ final class CreateReclaimEventPostController extends BaseInstanceDependentRestCo
 
         $view = $this->view($result, 200)->setFormat('json');
 
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-        $view->setSerializationContext($context);
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

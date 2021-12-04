@@ -22,13 +22,13 @@
 
 namespace Celsius3\MessageBundle\Controller;
 
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -48,10 +48,11 @@ class MessageRestController extends FOSRestController
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->findUserMessages($this->getUser());
 
-        $context = SerializationContext::create()->setGroups(array('user_list'));
         $view = $this->view(array_values($messages), 200)->setFormat('json');
 
-        $view->setSerializationContext($context);
+        $context = new Context();
+        $context->addGroup('user_list');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

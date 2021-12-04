@@ -22,10 +22,10 @@
 
 namespace Celsius3\Controller;
 
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
-use JMS\Serializer\SerializationContext;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -60,8 +60,6 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
      */
     public function getRequest($order_id)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
         $em = $this->getDoctrine()->getManager();
 
         $request = $em->getRepository(\Celsius3\Entity\Request::class)
@@ -75,7 +73,10 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         }
 
         $view = $this->view($request, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

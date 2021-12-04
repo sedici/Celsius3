@@ -23,11 +23,11 @@
 namespace Celsius3\Controller\Api;
 
 use Celsius3\Entity\BaseUser;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
-use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Celsius3\Exception\Exception;
 
@@ -43,7 +43,6 @@ class UserController extends BaseController
      */
     public function usersAction(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('api'));
         $em = $this->getDoctrine()->getManager();
 
         $qb = $em->getRepository(BaseUser::class)
@@ -52,7 +51,10 @@ class UserController extends BaseController
         $users = $qb->getQuery()->getResult();
 
         $view = $this->view($users, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('api');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -62,8 +64,6 @@ class UserController extends BaseController
      */
     public function updateAllUsersAction(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('api'));
-
         $em = $this->getDoctrine()->getManager();
         $qb = $em->getRepository(BaseUser::class)
               ->findPdfUsers($this->getInstance());
@@ -71,7 +71,10 @@ class UserController extends BaseController
         $users = $qb->getQuery()->getResult();
 
         $view = $this->view($users, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('api');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -81,8 +84,6 @@ class UserController extends BaseController
      */
     public function currentUserAction(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('api'));
-
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
 
         $isValidToken = false;
@@ -97,7 +98,9 @@ class UserController extends BaseController
             $view = $this->view($user, 200)->setFormat('json');
         }
 
-        $view->setSerializationContext($context);
+        $context = new Context();
+        $context->addGroup('api');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -123,7 +126,6 @@ class UserController extends BaseController
      */
     public function userAction($user_id)
     {
-        $context = SerializationContext::create()->setGroups(array('api'));
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository(BaseUser::class)
@@ -137,7 +139,10 @@ class UserController extends BaseController
         }
 
         $view = $this->view($user, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('api');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

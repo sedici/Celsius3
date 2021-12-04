@@ -30,7 +30,7 @@ use Celsius3\Entity\Event\MultiInstanceEvent;
 use Celsius3\Entity\Event\ReclaimEvent;
 use Celsius3\Entity\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
+use FOS\RestBundle\Context\Context;
 
 final class AllRequestEventsGetController extends BaseInstanceDependentRestController
 {
@@ -43,12 +43,13 @@ final class AllRequestEventsGetController extends BaseInstanceDependentRestContr
 
     public function __invoke($request_id)
     {
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-
         $all = $this->allEvents($request_id);
 
         $view = $this->view(array_values($all), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

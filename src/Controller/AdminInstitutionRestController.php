@@ -26,11 +26,11 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
+use FOS\RestBundle\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
-use JMS\Serializer\SerializationContext;
 use Celsius3\Entity\Institution;
 use Celsius3\Exception\Exception;
 
@@ -49,8 +49,6 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInteractionInstitutions(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
         $em = $this->getDoctrine()->getManager();
         $city_id = null;
         $filter = null;
@@ -64,7 +62,10 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
             ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
             ->getQuery()->getResult();
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -79,15 +80,16 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionByParent($parent_id)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
         $em = $this->getDoctrine()->getManager();
 
         $institutions = $em->getRepository(Institution::class)
                 ->findBy(array('parent' => $parent_id));
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -109,8 +111,9 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
         $view = $this->view($institution, 200)->setFormat('json');
 
-        $context = SerializationContext::create()->setGroups(array('institution_show'));
-        $view->setSerializationContext($context);
+        $context = new Context();
+        $context->addGroup('institution_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
@@ -134,8 +137,6 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutions($country_id, $city_id, Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
         $em = $this->getDoctrine()->getManager();
 
         $filter = null;
@@ -150,7 +151,10 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
                         ->getQuery()->getResult();
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

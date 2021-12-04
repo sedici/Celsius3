@@ -23,9 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Country;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use JMS\Serializer\SerializationContext;
 use Celsius3\Exception\Exception;
 
 /**
@@ -42,8 +42,6 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
      */
     public function getCountries()
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
-
         $em = $this->getDoctrine()->getManager();
 
         $countries = $em->getRepository(Country::class)
@@ -52,7 +50,10 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
                 ->execute();
 
         $view = $this->view(array_values($countries), 200)->setFormat('json');
-        $view->setSerializationContext($context);
+
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }
