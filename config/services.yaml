@@ -167,6 +167,9 @@ services:
 
     Knp\Component\Pager\Paginator:
         alias: knp_paginator
+
+    Knp\Component\Pager\PaginatorInterface:
+        alias: knp_paginator
         
 #    Celsius3\Manager\UserManager:
 #        alias: celsius3_core.user_manager

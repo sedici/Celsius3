@@ -24,8 +24,16 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Email;
 use Celsius3\Form\Type\Filter\MailFilterType;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,23 +41,93 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/maillist")
  */
-class AdminMailListController extends BaseInstanceDependentController
+class AdminMailListController extends AbstractController
 {
+
+    /**
+     * @var InstanceHelper
+     */
+    private $instanceHelper;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var FilterManager
+     */
+    private $filterManager;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    public function __construct(
+        InstanceHelper $instanceHelper,
+        EntityManagerInterface $entityManager,
+        FilterManager $filterManager,
+        ConfigurationHelper $configurationHelper,
+        PaginatorInterface $paginator
+    ) {
+        $this->instanceHelper = $instanceHelper;
+        $this->entityManager = $entityManager;
+        $this->filterManager = $filterManager;
+        $this->configurationHelper = $configurationHelper;
+        $this->paginator = $paginator;
+    }
+
+    protected function listQuery()
+    {
+        return $this->entityManager
+            ->getRepository(Email::class)
+            ->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter('instance_id', $this->instanceHelper->getSessionOrUrlInstance()->getId());
+    }
+
     /**
      * Lists all Mail entities.
      *
      * @Route("/", name="admin_maillist")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->render(
-            'Admin/Mail/index.html.twig',
-            $this->baseIndex(
-                'Email',
-                $this->createForm(MailFilterType::class, null, [
-                    'instance' => $this->getInstance(),
-                ])
-            )
+        $filterForm = $this->createForm(MailFilterType::class, null, [
+            'instance' => $this->instanceHelper->getSessionOrUrlInstance(),
+        ]);
+
+        $query = $this->listQuery();
+
+        if ($filterForm !== null) {
+            $filterForm = $filterForm->handleRequest($request);
+            $query = $this->filterManager->filter($query, $filterForm, Email::class);
+        }
+
+        $pagination = $this->paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $this->getResultsPerPage(),
+            [
+                'defaultSortFieldName' => 'e.updatedAt',
+                'defaultSortDirection' => 'desc',
+            ]
         );
+
+        return $this->render(
+            'Admin/MailList/index.html.twig',
+            [
+                'pagination' => $pagination,
+                'filter_form' => ($filterForm !== null) ? $filterForm->createView() : $filterForm,
+            ]
+        );
+    }
+
+    protected function getResultsPerPage()
+    {
+        return $this->configurationHelper
+            ->getCastedValue($this->instanceHelper->getSessionOrUrlInstance()->get('results_per_page'));
     }
 }
