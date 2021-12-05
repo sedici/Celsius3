@@ -59,7 +59,10 @@ final class ListUsersViewController extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $query = $this->baseUserRepository->createQueryBuilder('e');
+        $query = $this->baseUserRepository->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter('instance_id', $this->instanceHelper->getSessionOrUrlInstance()->getId());
+        
         $filterForm = $this->createForm(
             BaseUserFilterType::class,
             null,
