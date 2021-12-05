@@ -64,7 +64,7 @@ class EventManager
     public const EVENT__REQUEST = 'request';
     public const EVENT__RECEIVE = 'receive';
 
-    private $class_prefix = 'Celsius3\\CoreBundle\\Entity\\Event\\';
+    private $class_prefix = 'Celsius3\\Entity\\Event\\';
     public $event_classes = array(
         self::EVENT__CREATION => 'CreationEvent',
         self::EVENT__SEARCH => 'SearchEvent',
@@ -477,7 +477,7 @@ class EventManager
 
         $results = [];
         foreach ($repositories as $repository) {
-            $results[] = $entity_manager->getRepository('Celsius3CoreBundle:Event\\'.$repository)
+            $results[] = $entity_manager->getRepository('Celsius3\\Entity\\Event\\'.$repository)
                             ->findBy(['request' => $request_id]);
         }
 

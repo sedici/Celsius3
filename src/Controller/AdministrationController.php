@@ -35,6 +35,7 @@ use Celsius3\Form\Type\DataRequestType;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\Alert;
+use Celsius3\Manager\UserManager;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -65,16 +66,22 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
     private $configurationHelper;
     private $entityManager;
     private $instanceHelper;
+    /**
+     * @var UserManager
+     */
+    private $userManager;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        UserManager $userManager
     )
     {
         $this->configurationHelper = $configurationHelper;
         $this->entityManager = $entityManager;
         $this->instanceHelper = $instanceHelper;
+        $this->userManager = $userManager;
     }
     
     protected function getInstance(): Instance
@@ -107,7 +114,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
      */
     public function ajax(Request $request)
     {
-        return $this->ajax($request, $this->getInstance());
+        return $this->parentAjax($request, $this->getInstance());
     }
 
     /**
@@ -346,5 +353,52 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
         ];
 
         return in_array($target, $allowed_targets, true);
+    }
+
+    protected function parentAjax(Request $request, Instance $instance = null, $librarian = null)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw $this->createNotFoundException();
+        }
+
+        $target = $request->query->get('target');
+        if (!$this->validateAjax($target)) {
+            throw $this->createNotFoundException();
+        }
+
+        $term = $request->query->get('term');
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $insts = [];
+        } else {
+            $insts = $this->userManager->getLibrarianInstitutions($librarian);
+        }
+
+        $result = $this->entityManager
+            ->getRepository('Celsius3\\Entity\\'.$target)
+            ->findByTerm($term, $instance, null, $insts)
+            ->getResult();
+
+        $json = [];
+
+
+        foreach ($result as $element) {
+            if (method_exists( $element,  'asJson' )){
+                $json[] = $element -> asJSon();
+            }
+            else{
+                $json[] = [
+                    'id' => $element->getId(),
+                    'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
+
+                ];
+            }
+        }
+
+
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }

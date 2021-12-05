@@ -234,73 +234,46 @@ services:
     Celsius3\Server\EntryPoint:
         arguments: [ '@celsius3_notification.web_socket_server' ]
 
-#
-#    twig.extension.text:
-#        class: Twig_Extensions_Extension_Text
-#        tags:
-#            - { name: twig.extension }
-#    twig.extension.intl:
-#        class: Twig_Extensions_Extension_Intl
-#        tags:
-#            - { name: twig.extension }
-#    salavert.twig.time_ago:
-#        class: Salavert\Twig\Extension\TimeAgoExtension
+    salavert.twig.time_ago:
+        class: Salavert\Twig\Extension\TimeAgoExtension
 #        arguments: ["@translator"]
-#        tags:
-#            - { name: twig.extension }
-#    celsius3_core.twig.extension.administration:
-#        class: Celsius3\CoreBundle\Twig\AdministrationExtension
-#        tags:
-#            - { name: twig.extension }
-#        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.user_manager']
-#    celsius3_core.twig.extension.institution:
-#        class: Celsius3\CoreBundle\Twig\InstitutionExtension
-#        tags:
-#            - { name: twig.extension }
-#    celsius3_core.twig.extension.instance:
-#        class: Celsius3\CoreBundle\Twig\InstanceExtension
-#        arguments: ['@doctrine.orm.entity_manager']
-#        tags:
-#            - { name: twig.extension }
-#    celsius3_core.twig.extension.events:
-#        class: Celsius3\CoreBundle\Twig\EventExtension
-#        tags:
-#            - { name: twig.extension }
-#    celsius3_core.twig.extension.catalogs:
-#        class: Celsius3\CoreBundle\Twig\CatalogExtension
-#        tags:
-#            - { name: twig.extension }
-#        arguments: ['@doctrine.orm.default_entity_manager', '@celsius3_core.instance_helper', '@celsius3_core.instance_manager']
-#    celsius3_core.twig.extension.material_type:
-#        class: Celsius3\CoreBundle\Twig\MaterialTypeExtension
-#        tags:
-#            - { name: twig.extension }
-#    celsius3_core.twig.extension.journal:
-#        class: Celsius3\CoreBundle\Twig\JournalExtension
-#        tags:
-#            - { name: twig.extension }
-#        arguments: ['@service_container']
-#    celsius3_core.twig.extension.request:
-#        class: Celsius3\CoreBundle\Twig\RequestExtension
-#        tags:
-#            - { name: twig.extension }
-#    celsius3_core.twig.extension.assets:
-#        class: Celsius3\CoreBundle\Twig\AssetsExtension
-#        tags:
-#            - { name: twig.extension }
-#        arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']
-#    celsius3_core.twig.extension.data_request_export_path_selector:
-#        class: Celsius3\CoreBundle\Twig\DataRequestExportPathSelector
-#        tags:
-#            - { name: twig.extension }
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\AdministrationExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\InstitutionExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\InstanceExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\EventExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\CatalogExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\MaterialTypeExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\JournalExtension:
+        tags:
+            - { name: twig.extension }
+    Celsius3\Twig\RequestExtension:
+        tags:
+            - { name: twig.extension }
+
+    Celsius3\Twig\DataRequestExportPathSelector:
+        tags:
+            - { name: twig.extension }
 #    celsius3_core.mailer:
 #        class: Celsius3\CoreBundle\Mailer\Mailer
 #        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@validator', '@celsius3_core.mailer_helper']
-#    celsius3_core.counter_listener:
-#        class: Celsius3\CoreBundle\Listener\CounterListener
-#        tags:
-#            - { name: doctrine.event_listener, event: prePersist }
-#            - { name: doctrine.event_listener, event: postPersist }
+    Celsius3\Listener\CounterListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
 #    celsius3_core.catalog_listener:
 #        class: Celsius3\CoreBundle\Listener\CatalogListener
 #        tags:
@@ -311,13 +284,11 @@ services:
 #        tags:
 #            - { name: doctrine.event_listener, event: postPersist }
 #        arguments: ['@celsius3_core.configuration_helper']
-#    celsius3_core.order_listener:
-#        class: Celsius3\CoreBundle\Listener\OrderListener
-#        tags:
-#            - { name: doctrine.event_listener, event: prePersist }
-#            - { name: doctrine.event_listener, event: postPersist }
-#            - { name: doctrine.event_listener, event: postUpdate }
-#        arguments: ['@service_container']
+    Celsius3\Listener\OrderListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
 #    celsius3_core.search_event_listener:
 #        class: Celsius3\CoreBundle\Listener\SearchEventListener
 #        tags:
@@ -553,3 +524,6 @@ services:
 #        arguments: [ '@celsius3_core.instance_helper', '@twig' , '@security.helper', '@router' ]
 #        tags:
 #            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    FOS\ElasticaBundle\Persister\ObjectPersisterInterface:
+        alias: fos_elastica.object_persister.app.request

@@ -26,27 +26,32 @@ namespace Celsius3\Helper;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
-use Doctrine\ORM\EntityManagerInterface;
+use Celsius3\Repository\InstanceRepositoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class InstanceHelper
 {
-    private $em;
     private $requestStack;
     private $session;
+    /**
+     * @var InstanceRepositoryInterface
+     */
+    private $instanceRepository;
 
-    public function __construct(EntityManagerInterface $em, RequestStack $requestStack, SessionInterface $session)
-    {
-        $this->em = $em;
+    public function __construct(
+        RequestStack $requestStack,
+        SessionInterface $session,
+        InstanceRepositoryInterface $instanceRepository
+    ) {
         $this->requestStack = $requestStack;
         $this->session = $session;
+        $this->instanceRepository = $instanceRepository;
     }
 
     public function getSessionInstance()
     {
-        $instance = $this->em
-            ->getRepository(Instance::class)
+        $instance = $this->instanceRepository
             ->find($this->session->get('instance_id'));
 
         if (!$instance) {
@@ -59,11 +64,8 @@ class InstanceHelper
     public function getUrlInstance()
     {
         $request = $this->requestStack->getCurrentRequest();
-        $instance = $this->em
-            ->getRepository(Instance::class)
-            ->findOneBy(array(
-                            'host' => $request->getHost(),
-                        ));
+        $instance = $this->instanceRepository
+            ->findOneBy(['host' => $request->getHost()]);
 
         if (!$instance) {
             throw Exception::create(Exception::INSTANCE_NOT_FOUND, 'exception.not_found.instance');
@@ -77,15 +79,11 @@ class InstanceHelper
         $request = $this->requestStack->getCurrentRequest();
 
         if ($this->session->has('instance_url')) {
-            $instance = $this->em
-                ->getRepository(Instance::class)
-                ->findOneBy(array('url' => $this->session->get('instance_url')));
+            $instance = $this->instanceRepository
+                ->findOneBy(['url' => $this->session->get('instance_url')]);
         } else {
-            $instance = $this->em
-                ->getRepository(Instance::class)
-                ->findOneBy(array(
-                                'host' => (!is_null($request)) ? $request->getHost() : '',
-                            ));
+            $instance = $this->instanceRepository
+                ->findOneBy(['host' => ($request !== null) ? $request->getHost() : '']);
         }
 
         return $instance;

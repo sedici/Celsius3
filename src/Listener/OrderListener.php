@@ -22,23 +22,41 @@
 
 namespace Celsius3\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\Entity\Order;
 use Celsius3\Entity\Request;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
 
 class OrderListener
 {
+    /**
+     * @var LifecycleHelper
+     */
+    private $lifecycleHelper;
+    /**
+     * @var InstanceHelper
+     */
+    private $instanceHelper;
+    /**
+     * @var ObjectPersisterInterface
+     */
+    private $objectPersister;
 
-    private $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct
+    (
+        LifecycleHelper $lifecycleHelper,
+        InstanceHelper $instanceHelper,
+        ObjectPersisterInterface $objectPersister
+    ) {
+        $this->lifecycleHelper = $lifecycleHelper;
+        $this->instanceHelper = $instanceHelper;
+        $this->objectPersister = $objectPersister;
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 
@@ -47,29 +65,32 @@ class OrderListener
         }
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 
         if ($entity instanceof Request) {
-            $this->container->get('celsius3_core.lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $entity, $entity->getInstance());
+            $this->lifecycleHelper->createEvent(
+                EventManager::EVENT__CREATION,
+                $entity,
+                $entity->getInstance()
+            );
 
             // Update elasticsearch index
-            $this->container->get('fos_elastica.object_persister.app.request')
-                    ->insertOne($entity);
+            $this->objectPersister->insertOne($entity);
         }
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
 
         if ($entity instanceof Order) {
-            $instance = $this->container->get('celsius3_core.instance_helper')->getSessionInstance();
+            $instance = $this->instanceHelper->getSessionInstance();
             $request = $entity->getRequest($instance);
             if ($request !== null) {
                 // Update elasticsearch index
-                $this->container->get('fos_elastica.object_persister.app.request')->replaceOne($request);
+                $this->objectPersister->replaceOne($request);
             }
         }
     }

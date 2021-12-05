@@ -159,9 +159,10 @@ class AdminOrderController extends AbstractController //OrderController
      */
     public function create(Request $request)
     {
+        $materialType = 'Celsius3\\Form\\Type\\' . ucfirst($request->request->get('order', null, true)['materialDataType']) . 'TypeType';
         $options = [
             'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType(),
+            'material' => $materialType,
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
             'create' => true,
@@ -170,7 +171,7 @@ class AdminOrderController extends AbstractController //OrderController
                 ->find($request->request->get('order')['originalRequest']['owner']),
         ];
 
-        if ($this->getMaterialType() === JournalTypeType::class) {
+        if ($materialType === JournalTypeType::class) {
             $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
             $options['journal_id'] = $request->request->get('order')['materialData']['journal'];
         }
@@ -189,7 +190,7 @@ class AdminOrderController extends AbstractController //OrderController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getMaterialType() === 'Celsius3\Form\Type\JournalTypeType') {
+            if ($materialType === JournalTypeType::class) {
                 $journal = $this->entityManager->getRepository(Journal::class)->find(
                     $request->request->get('order')['materialData']['journal']
                 );
@@ -201,7 +202,9 @@ class AdminOrderController extends AbstractController //OrderController
                 }
             }
 
-            $this->persistEntity($order);
+            $this->entityManager->persist($order);
+            $this->entityManager->flush();
+
             $this->get('session')
                 ->getFlashBag()
                 ->add('success', 'The Order was successfully created.');
