@@ -28,6 +28,7 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\News;
 use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,18 +49,24 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
     private $instanceHelper;
     private $paginator;
     private $maxPerPage;
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         InstanceHelper $instanceHelper,
         Paginator $paginator,
-        string $maxPerPage
+        string $maxPerPage,
+        InstanceManager $instanceManager
     )
     {
         $this->entityManager = $entityManager;
         $this->instanceHelper = $instanceHelper;
         $this->paginator = $paginator;
         $this->maxPerPage = $maxPerPage;
+        $this->instanceManager = $instanceManager;
     }
 
     protected function getInstance(): ?Instance
@@ -211,9 +218,12 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
             throw $this->createNotFoundException();
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $institutions = $em->getRepository(Institution::class)
-                ->findForCountryOrCity($request->query->get('country_id'), $request->query->get('city_id'), $this->getDirectory(), $this->getInstance());
+        $institutions = $this->entityManager->getRepository(Institution::class)
+                ->findForCountryOrCity(
+                    $request->query->get('country_id'),
+                    $request->query->get('city_id'),
+                    $this->instanceManager->getDirectory(),
+                    $this->instanceHelper->getSessionOrUrlInstance());
 
         $actual = array_filter($institutions, function ($i) {
             return is_null($i['parent_id']);
