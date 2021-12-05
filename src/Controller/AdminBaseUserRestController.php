@@ -24,11 +24,13 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
+use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -49,18 +51,30 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
     private $entityManager;
     private $instanceHelper;
     private $security;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
 
     public function __construct(
         ViewHandlerInterface $viewHandler,
         EntityManagerInterface $entityManager,
         InstanceHelper $instanceHelper,
-        Security $security
+        Security $security,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper
     )
     {
         $this->viewHandler = $viewHandler;
         $this->entityManager = $entityManager;
         $this->instanceHelper = $instanceHelper;
         $this->security = $security;
+        $this->paginator = $paginator;
+        $this->configurationHelper = $configurationHelper;
     }
 
     protected function getInstance(): Instance
@@ -241,7 +255,7 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
      *
      * @Get("/{id}/orders/{type}", name="admin_rest_user_get_orders", options={"expose"=true})
      */
-    public function getOrders($id, $type)
+    public function getOrders(Request $request, $id, $type)
     {
         $em = $this->entityManager;
 
@@ -284,12 +298,11 @@ class AdminBaseUserRestController extends FOSRestController//BaseInstanceDepende
         $totalQuery = clone $ordersQuery;
         $total = $totalQuery->select('count(DISTINCT o)')->getQuery()->getSingleScalarResult();
 
-        $paginator = $this->get('knp_paginator');
-        $orders = $paginator->paginate(
+        $orders = $this->paginator->paginate(
             $ordersQuery,
-            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)
-            /* page number */,
-            $this->getResultsPerPage()/* limit per page */,
+            $request->query->get('page', 1),
+            $this->configurationHelper
+                ->getCastedValue($this->getInstance()->get('results_per_page')),
             $this->getSortDefaults()
         )->getItems();
 
