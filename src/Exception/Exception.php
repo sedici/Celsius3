@@ -22,10 +22,10 @@
 
 namespace Celsius3\Exception;
 
-use Celsius3\Kernel;
-use Symfony\Component\VarDumper\VarDumper;
+use function array_key_exists;
 
-class Exception {
+class Exception
+{
 
     public const NOT_FOUND = 'not_found';
     public const PREVIOUS_STATE_NOT_FOUND = 'previous_state_not_found';
@@ -39,28 +39,39 @@ class Exception {
     public const CAN_NOT_DELETE = 'can_not_delete';
 
     private static $rest = false;
-    private static $class_prefix = 'Celsius3\\CoreBundle\\Exception\\';
+    private static $class_prefix = 'Celsius3\\Exception\\';
     private static $classes = [
         self::NOT_FOUND => 'NotFound'
-        , self::PREVIOUS_STATE_NOT_FOUND => 'PreviousStateNotFound'
-        , self::EXCEPTION_NOT_FOUND => 'ExceptionNotFound'
-        , self::ENTITY_NOT_FOUND => 'EntityNotFound'
-        , self::NOT_IMPLEMENTED => 'NotImplemented'
-        , self::RENDER_TEMPLATE => 'RenderTemplate'
-        , self::INVALID_SEARCH => 'InvalidSearch'
-        , self::ACCESS_DENIED => 'AccessDenied'
-        , self::CAN_NOT_DELETE => 'CanNotDelete'
+        ,
+        self::PREVIOUS_STATE_NOT_FOUND => 'PreviousStateNotFound'
+        ,
+        self::EXCEPTION_NOT_FOUND => 'ExceptionNotFound'
+        ,
+        self::ENTITY_NOT_FOUND => 'EntityNotFound'
+        ,
+        self::NOT_IMPLEMENTED => 'NotImplemented'
+        ,
+        self::RENDER_TEMPLATE => 'RenderTemplate'
+        ,
+        self::INVALID_SEARCH => 'InvalidSearch'
+        ,
+        self::ACCESS_DENIED => 'AccessDenied'
+        ,
+        self::CAN_NOT_DELETE => 'CanNotDelete'
     ];
 
-    public static function isRest() {
+    public static function isRest()
+    {
         return self::$rest;
     }
 
-    public static function setRest() {
+    public static function setRest()
+    {
         self::$rest = true;
     }
 
-    private static function getClass($type) {
+    private static function getClass($type)
+    {
         if (!array_key_exists($type, self::$classes)) {
             throw self::create(self::EXCEPTION_NOT_FOUND, 'exception.not_found.exception');
         }
@@ -76,13 +87,11 @@ class Exception {
         return $class;
     }
 
-    public static function create($type, $message = '') {
-        $kernel = ($GLOBALS['kernel'] instanceof Kernel) ? $GLOBALS['kernel'] : $GLOBALS['kernel']->getKernel();
-
-        $translator = $kernel->getContainer()->get('translator');
+    public static function create($type, $message = null)
+    {
         $class = self::getClass($type);
 
-        return new $class($translator->trans($message, [], 'Flashes'));
+        return new $class($message);
     }
 
 }
