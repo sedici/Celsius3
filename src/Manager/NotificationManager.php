@@ -32,7 +32,7 @@ use Celsius3\Entity\EventNotification;
 use Celsius3\Entity\Notification;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
-use Celsius3\MessageBundle\Entity\Message;
+use Celsius3\Entity\Message;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;

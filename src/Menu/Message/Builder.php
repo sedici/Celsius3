@@ -20,37 +20,24 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
+namespace Celsius3\Menu\Message;
 
-namespace Celsius3\Entity;
+use Knp\Menu\FactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-use Celsius3\Entity\Message;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Repository\BaseNotificationRepository;
-/**
- * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
- */
-class MessageNotification extends Notification
+class Builder
 {
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Message")
-     * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id")
-     */
-    protected $object;
+    use ContainerAwareTrait;
 
-    public function __construct($cause, Message $object, $template)
+    public function messageMenu(FactoryInterface $factory)
     {
-        parent::__construct();
+        $menu = $factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked');
 
-        $this->setCause($cause);
-        $this->setObject($object);
-        $this->setTemplate($template);
-    }
+        $menu->addChild('Inbox', array('route' => 'fos_message_inbox'))->setAttribute('class', 'fa fa-inbox');
+        $menu->addChild('Sent', array('route' => 'fos_message_sent'))->setAttribute('class', 'fa fa-inbox');
+        $menu->addChild('Trash', array('route' => 'fos_message_deleted'))->setAttribute('class', 'fa fa-inbox');
 
-    public function setObject($object)
-    {
-        $this->object = $object;
+        return $menu;
     }
 }

@@ -20,37 +20,24 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
+namespace Celsius3\Provider\Message;
 
-namespace Celsius3\Entity;
+use FOS\MessageBundle\Provider\Provider as BaseProvider;
 
-use Celsius3\Entity\Message;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Repository\BaseNotificationRepository;
-/**
- * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
- */
-class MessageNotification extends Notification
+class Provider extends BaseProvider
 {
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Message")
-     * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id")
-     */
-    protected $object;
 
-    public function __construct($cause, Message $object, $template)
+    public function getInboxThreadsQuery()
     {
-        parent::__construct();
+        $participant = $this->getAuthenticatedParticipant();
 
-        $this->setCause($cause);
-        $this->setObject($object);
-        $this->setTemplate($template);
+        return $this->threadManager->getParticipantInboxThreadsQueryBuilder($participant);
     }
 
-    public function setObject($object)
+    public function getSentThreadsQuery()
     {
-        $this->object = $object;
+        $participant = $this->getAuthenticatedParticipant();
+
+        return $this->threadManager->getParticipantSentThreadsQueryBuilder($participant);
     }
 }

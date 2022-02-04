@@ -27,7 +27,7 @@ namespace Celsius3\Controller\User\Dashboard;
 use Celsius3\Entity\Configuration;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\MessageBundle\Entity\Thread;
+use Celsius3\Entity\Thread;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
