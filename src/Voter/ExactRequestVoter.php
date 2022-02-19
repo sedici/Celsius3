@@ -39,7 +39,7 @@ class ExactRequestVoter extends RequestVoter
      * @param  ItemInterface $item
      * @return boolean|null
      */
-    public function matchItem(ItemInterface $item)
+    public function matchItem(ItemInterface $item): ?bool
     {
         if ($item->getUri() === preg_replace('/\?.*/', '', $this->request_stack->getCurrentRequest()->getRequestUri())) {
             return true;

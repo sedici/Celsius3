@@ -47,7 +47,7 @@ class RequestVoter implements VoterInterface
      * @param  ItemInterface $item
      * @return boolean|null
      */
-    public function matchItem(ItemInterface $item)
+    public function matchItem(ItemInterface $item): ?bool
     {
         if (false !== strpos($this->request_stack->getCurrentRequest()->getRequestUri(), $item->getUri())) {
             return true;
