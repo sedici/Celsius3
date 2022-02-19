@@ -1,21 +1,21 @@
-fos_user:
-    db_driver: orm # 'orm', 'mongodb', 'couchdb' and 'propel'
-    firewall_name: main
-    user_class: Celsius3\Entity\BaseUser
-    profile:
-        form:
-            type: Celsius3\Form\Type\ProfileFormType
-    registration:
-        form:
-            type: Celsius3\Form\Type\RegistrationFormType
-    change_password:
-        form:
-            validation_groups:  [ChangePassword]
-    service:
-        mailer: Celsius3\Mailer\FosMailer
-        user_manager: Celsius3\Manager\FosUserManager
-    from_email:
-        address: "%mailer_user%"
-        sender_name: "%mailer_user%"
-    resetting:
-        token_ttl: 259200
+#fos_user:
+#    db_driver: orm # 'orm', 'mongodb', 'couchdb' and 'propel'
+#    firewall_name: main
+#    user_class: Celsius3\Entity\BaseUser
+#    profile:
+#        form:
+#            type: Celsius3\Form\Type\ProfileFormType
+#    registration:
+#        form:
+#            type: Celsius3\Form\Type\RegistrationFormType
+#    change_password:
+#        form:
+#            validation_groups:  [ChangePassword]
+#    service:
+#        mailer: Celsius3\Mailer\FosMailer
+#        user_manager: Celsius3\Manager\FosUserManager
+#    from_email:
+#        address: "%mailer_user%"
+#        sender_name: "%mailer_user%"
+#    resetting:
+#        token_ttl: 259200
