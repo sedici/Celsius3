@@ -29,4 +29,6 @@ use Celsius3\Entity\BaseUser;
 interface BaseUserRepositoryInterface
 {
     public function save(BaseUser $user): void;
+
+    public function findUserByUsernameOrEmail(string $identifier);
 }

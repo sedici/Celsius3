@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Command;
 
 use Celsius3\Entity\File;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PDO;
 use Symfony\Component\Console\Command\Command;

@@ -23,6 +23,7 @@
 namespace Celsius3\Manager;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class Alert
 {
@@ -49,7 +50,7 @@ class Alert
         self::$alerts[$type][] = $message;
     }
 
-    public static function getAlerts(FlashBag $flashBag)
+    public static function getAlerts(FlashBagInterface $flashBag)
     {
         foreach (self::$alerts as $type => $messages) {
             foreach ($messages as $message) {

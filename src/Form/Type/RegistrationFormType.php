@@ -24,16 +24,22 @@ declare(strict_types=1);
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\UserBundle\Form\Type\RegistrationFormType as FOSRegistrationFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
 {
@@ -63,9 +69,9 @@ class RegistrationFormType extends AbstractType
                 [
                     'required' => false,
                     'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
                     'attr' => [
                         'class' => 'date',
+                        'placeholder' => 'birthday'
                     ],
                 ]
             )
@@ -86,7 +92,31 @@ class RegistrationFormType extends AbstractType
                         'readonly' => 'readonly',
                     ],
                 ]
-            );
+            )
+            ->add('email')
+            ->add('username')
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Repeat Password'],
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank([
+                                     'message' => 'Please enter a password',
+                                 ]),
+                    new Length([
+                                   'min' => 6,
+                                   'minMessage' => 'Your password should be at least {{ limit }} characters',
+                                   // max length allowed by Symfony for security reasons
+                                   'max' => 4096,
+                               ]),
+                ],
+            ])
+        ;
 
         $custom_fileds_subscriber = new AddCustomFieldsSubscriber(
             'BaseUser',
@@ -104,16 +134,17 @@ class RegistrationFormType extends AbstractType
         $builder->addEventSubscriber($institution_fileds_subscriber);
     }
 
-    public function getParent(): string
-    {
-        return FOSRegistrationFormType::class;
-    }
+//    public function getParent(): string
+//    {
+//        return FOSRegistrationFormType::class;
+//    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
                 'show_privates' => false,
+                'data_class' => BaseUser::class,
             ]
         );
     }

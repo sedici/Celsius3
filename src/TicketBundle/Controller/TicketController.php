@@ -3,8 +3,8 @@
 namespace Celsius3\TicketBundle\Controller;
 
 use Celsius3\Entity\BaseUser;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\TicketBundle\Entity\Ticket;
@@ -15,7 +15,7 @@ use Celsius3\TicketBundle\Entity\TicketState;
  *
  * @Route("/")
  */
-class TicketController extends Controller
+class TicketController extends AbstractController
 {
     /**
      * @Route("/", name="ticket_index")

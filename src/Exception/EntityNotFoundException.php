@@ -22,20 +22,20 @@
 
 namespace Celsius3\Exception;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Routing\Router;
 
 class EntityNotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
     private $router;
 
-    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         Alert::add(Alert::ERROR, $exception->getMessage());
 

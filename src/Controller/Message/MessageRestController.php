@@ -24,7 +24,7 @@ namespace Celsius3\Controller\Message;
 
 use Celsius3\Entity\Thread;
 use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @Route("/user/rest/message")
  */
-class MessageRestController extends FOSRestController
+class MessageRestController extends AbstractFOSRestController
 {
     /**
      * GET Route annotation.

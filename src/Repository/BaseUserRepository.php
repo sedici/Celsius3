@@ -461,4 +461,15 @@ class BaseUserRepository extends ServiceEntityRepository implements BaseUserRepo
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    public function findUserByUsernameOrEmail(string $identifier)
+    {
+        $query = $this->createQueryBuilder('user')
+            ->where('user.email = :identifier')
+            ->orWhere('user.username = :identifier')
+            ->setParameter('identifier', $identifier)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

@@ -5,7 +5,7 @@ fos_oauth_server:
     refresh_token_class: Celsius3\Entity\RefreshToken
     auth_code_class: Celsius3\Entity\AuthCode
     service:
-        user_provider: fos_userbundle
+        user_provider: celsius3_user_provider
         options:
             supported_scopes: admin superadmin
             access_token_lifetime: 3600 # Una hora

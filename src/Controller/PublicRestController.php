@@ -27,19 +27,19 @@ use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\State;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * User controller.
  *
  * @Route("/public/rest")
  */
-class PublicRestController extends FOSRestController//BaseInstanceDependentRestController
+class PublicRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {
     private $translator;
     private $entityManager;

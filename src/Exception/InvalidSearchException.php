@@ -22,16 +22,16 @@
 
 namespace Celsius3\Exception;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Celsius3\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bridge\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class InvalidSearchException extends \InvalidArgumentException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         Alert::add(Alert::WARNING, 'Invalid search. Only letters, numbers and spaces are allowed.');
 

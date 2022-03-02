@@ -5,6 +5,10 @@
 #    path: /
 #    defaults: { _controller: 'App\Controller\DefaultController::index' }
 
+security_logout:
+    path: /logout
+    methods: GET
+
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3\Controller\PublicController::index }

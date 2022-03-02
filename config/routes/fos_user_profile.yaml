@@ -1,5 +1,5 @@
-fos_user_profile:
-    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /user/profile
-    options:
-        expose: true
+#fos_user_profile:
+#    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+#    prefix: /user/profile
+#    options:
+#        expose: true

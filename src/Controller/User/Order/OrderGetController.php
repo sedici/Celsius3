@@ -27,19 +27,13 @@ namespace Celsius3\Controller\User\Order;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\FOSRestController;
-use JMS\DiExtraBundle\Annotation as DI;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class OrderGetController extends FOSRestController
+final class OrderGetController extends AbstractFOSRestController
 {
     private $orderRepository;
 
-    /**
-     * @DI\InjectParams({
-     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     * })
-     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->orderRepository = $entityManager->getRepository(Order::class);

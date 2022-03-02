@@ -30,7 +30,7 @@ use Celsius3\Exception\Exception;
 use Celsius3\Manager\UnionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class DoUnionPostController extends BaseUserController
 {

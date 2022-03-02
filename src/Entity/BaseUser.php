@@ -32,11 +32,13 @@ use Celsius3\Repository\BaseUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Model\ParticipantInterface;
-use FOS\UserBundle\Model\User;
+//use FOS\MessageBundle\Model\ParticipantInterface;
+//use FOS\UserBundle\Model\User;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=BaseUserRepository::class)
@@ -53,8 +55,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks
  * @DoctrineAssert\UniqueEntity("username")
  * @DoctrineAssert\UniqueEntity("email")
+// * @method string getUserIdentifier()
  */
-class BaseUser extends User implements ParticipantInterface, Notifiable
+class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, Notifiable
 {
     use TimestampableEntity;
 
@@ -67,13 +70,48 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     /**
      * @Assert\Email(
-     *     strict = true,
-     *     checkMX = true,
-     *     checkHost = true,
      *     groups = {"Default"}
      * )
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     protected $email;
+
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $username_canonical;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $email_canonical;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @var string The salt
+     * @ORM\Column(type="string")
+     */
+    private $salt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled = false;
 
     /**
      * @Assert\NotBlank(groups={"Default"})
@@ -203,7 +241,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     public function __construct()
     {
-        parent::__construct();
         $this->orders = new ArrayCollection();
         $this->operatedOrders = new ArrayCollection();
         $this->createdOrders = new ArrayCollection();
@@ -216,6 +253,101 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function __toString()
     {
         return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        $this->email_canonical = $email;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        $this->username_canonical = $username;
+
+        return $this;
+    }
+
+    /**
+     * The public representation of the user (e.g. a username, an email address, etc.)
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     /**
@@ -282,16 +414,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function prePersist()
     {
         $this->addRole(UserManager::ROLE_USER);
-    }
-
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -898,5 +1020,18 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->hasRole('ROLE_SUPER_ADMIN')
             || ($this->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN'));
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
     }
 }

@@ -23,7 +23,6 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\Thread as BaseThread;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
@@ -31,7 +30,7 @@ use FOS\MessageBundle\Entity\Thread as BaseThread;
  *   @ORM\Index(name="idx_created_at", columns={"created_at"})
  * })
  */
-class Thread extends BaseThread
+class Thread
 {
     /**
      * @ORM\Id
@@ -39,10 +38,9 @@ class Thread extends BaseThread
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     *
-     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $createdBy;
     /**
@@ -65,6 +63,10 @@ class Thread extends BaseThread
      */
     protected $metadata;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $createdAt;
     /**
      * Remove message.
      *
@@ -107,5 +109,26 @@ class Thread extends BaseThread
     public function getMetadata()
     {
         return $this->metadata;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Message[]|\Doctrine\Common\Collections\Collection
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
     }
 }

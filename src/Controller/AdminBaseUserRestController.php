@@ -28,7 +28,7 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +45,7 @@ use Symfony\Component\Security\Core\Security;
  *
  * @Route("/admin/rest/users")
  */
-class AdminBaseUserRestController extends FOSRestController//BaseInstanceDependentRestController
+class AdminBaseUserRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {
     private $viewHandler;
     private $entityManager;

@@ -27,36 +27,36 @@ doctrine:
             gedmo_translatable:
                 type: annotation
                 prefix: Gedmo\Translatable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
                 alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
                 is_bundle: false
             gedmo_translator:
                 type: annotation
                 prefix: Gedmo\Translator\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translator/Entity"
                 alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
                 is_bundle: false
             gedmo_loggable:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
                 alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
                 is_bundle: false
             gedmo_tree:
                 type: annotation
                 prefix: Gedmo\Tree\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity"
                 alias: GedmoTree # this one is optional and will default to the name set for the mapping
                 is_bundle: false
-        metadata_cache_driver:
-            type: service
-            id: Doctrine\Common\Cache\RedisCache
-        query_cache_driver:
-            type: service
-            id: Doctrine\Common\Cache\RedisCache
-        result_cache_driver:
-            type: service
-            id: Doctrine\Common\Cache\RedisCache
+#        metadata_cache_driver:
+#            type: service
+#            id: Doctrine\Common\Cache\RedisCache
+#        query_cache_driver:
+#            type: service
+#            id: Doctrine\Common\Cache\RedisCache
+#        result_cache_driver:
+#            type: service
+#            id: Doctrine\Common\Cache\RedisCache
         filters:
             softdeleteable:
                 class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
@@ -76,3 +76,28 @@ doctrine:
                 SIN: DoctrineExtensions\Query\Mysql\Sin
                 RADIANS: DoctrineExtensions\Query\Mysql\Radians
                 IFELSE: DoctrineExtensions\Query\Mysql\IfElse
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

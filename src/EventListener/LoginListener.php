@@ -22,9 +22,9 @@
 
 namespace Celsius3\EventListener;
 
-use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class LoginListener
 {
@@ -35,10 +35,11 @@ class LoginListener
         $this->session = $session;
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(AuthenticationSuccessEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
-
+        dump($user);
+        dump('si paso por acá');
         if ($user instanceof UserInterface) {
             $this->session->set('instance_id', $user->getInstance()->getId());
             $this->session->set('instance_url', $user->getInstance()->getUrl());

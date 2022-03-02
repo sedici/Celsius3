@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\BaseUser;
 
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
-final class UsersGetController extends FOSRestController
+final class UsersGetController extends AbstractFOSRestController
 {
     public function __invoke()
     {

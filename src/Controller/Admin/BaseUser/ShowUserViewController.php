@@ -45,11 +45,11 @@ final class ShowUserViewController extends AbstractController //BaseUserControll
     private $configurationHelper;
 
     public function __construct(
-        ThreadManagerInterface $threadManager,
+//        ThreadManagerInterface $threadManager,
         InstanceHelper $instanceHelper,
         ConfigurationHelper $configurationHelper
     ) {
-        $this->threadManager = $threadManager;
+//        $this->threadManager = $threadManager;
         $this->instanceHelper = $instanceHelper;
         $this->configurationHelper = $configurationHelper;
     }
@@ -86,9 +86,10 @@ final class ShowUserViewController extends AbstractController //BaseUserControll
 
     private function findMessagesForUser($user)
     {
-        $messages = $this->threadManager
-            ->getParticipantSentThreadsQueryBuilder($user)
-            ->getQuery()->getResult();
+        $messages = [];
+        //$this->threadManager
+//            ->getParticipantSentThreadsQueryBuilder($user)
+//            ->getQuery()->getResult();
 
         return $messages;
     }

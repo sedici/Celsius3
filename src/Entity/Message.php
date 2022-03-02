@@ -25,7 +25,7 @@ namespace Celsius3\Entity;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\Message as BaseMessage;
+//use FOS\MessageBundle\Entity\Message as BaseMessage;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
@@ -34,7 +34,7 @@ use FOS\MessageBundle\Entity\Message as BaseMessage;
  *   @ORM\Index(name="idx_sender", columns={"sender_id"})
  * })
  */
-class Message extends BaseMessage implements Notifiable
+class Message /*extends BaseMessage*/ implements Notifiable
 {
     /**
      * @ORM\Id

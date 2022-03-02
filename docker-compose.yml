@@ -68,6 +68,14 @@ services:
         entrypoint: /bin/sh
         command: /bin/deploy.sh
 
+    mailer:
+        image: schickling/mailcatcher
+        container_name: celsius3_mailer
+        network_mode: host
+#        ports:
+#            - 1025:1025
+#            - 1080:1080
+
 volumes:
     c3data:
     c3logs:

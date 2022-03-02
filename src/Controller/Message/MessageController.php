@@ -24,11 +24,11 @@ namespace Celsius3\Controller\Message;
 
 use Celsius3\Entity\Thread;
 use Celsius3\Form\Type\Filter\MessageFilterType;
-use FOS\MessageBundle\Controller\MessageController as BaseController;
+//use FOS\MessageBundle\Controller\MessageController as BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class MessageController extends BaseController
+class MessageController //extends BaseController
 {
     /**
      * Displays the authenticated participant inbox.
@@ -137,28 +137,28 @@ class MessageController extends BaseController
      */
     public function newThreadAction()
     {
-        $form = $this->container->get('celsius3_message.new_thread_form.factory')->create();
-        $formHandler = $this->container->get('fos_message.new_thread_form.handler');
+//        $form = $this->container->get('celsius3_message.new_thread_form.factory')->create();
+//        $formHandler = $this->container->get('fos_message.new_thread_form.handler');
+//
+//        if ($message = $formHandler->process($form)) {
+//            return new RedirectResponse(
+//                $this->container->get('router')->generate(
+//                    'fos_message_thread_view',
+//                    array(
+//                        'threadId' => $message->getThread()->getId(),
+//                    )
+//                )
+//            );
+//        }
 
-        if ($message = $formHandler->process($form)) {
-            return new RedirectResponse(
-                $this->container->get('router')->generate(
-                    'fos_message_thread_view',
-                    array(
-                        'threadId' => $message->getThread()->getId(),
-                    )
-                )
-            );
-        }
-
-        return $this->container->get('templating')
-            ->renderResponse(
-                'bundles/FOSMessageBundle/Message/newThread.html.twig',
-                array(
-                    'form' => $form->createView(),
-                    'data' => $form->getData(),
-                )
-            );
+//        return $this->container->get('templating')
+//            ->renderResponse(
+//                'bundles/FOSMessageBundle/Message/newThread.html.twig',
+//                array(
+//                    'form' => $form->createView(),
+//                    'data' => $form->getData(),
+//                )
+//            );
     }
 
     /**
@@ -166,49 +166,49 @@ class MessageController extends BaseController
      */
     public function searchAction()
     {
-        $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
-        $threads = $this->get('doctrine.orm.entity_manager')
-            ->getRepository(Thread::class)
-            ->applyExtraFilters(
-                $this->container->get('fos_message.search_finder')->getQueryBuilder($query),
-                $this->get('request_stack')->getCurrentRequest(),
-                $this->get('security.token_storage')->getToken()->getUser()
-            );
-
-        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
-        $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());
-
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $threads,
-            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1),
-            $this->getResultsPerPage()
-        );
-
-        return $this->container->get('templating')->renderResponse(
-            'bundles/FOSMessageBundle/Message/search.html.twig',
-            array(
-                'query' => $query,
-                'threads' => $pagination,
-                'filter_form' => $filter_form->createView(),
-            )
-        );
+//        $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
+//        $threads = $this->get('doctrine.orm.entity_manager')
+//            ->getRepository(Thread::class)
+//            ->applyExtraFilters(
+//                $this->container->get('fos_message.search_finder')->getQueryBuilder($query),
+//                $this->get('request_stack')->getCurrentRequest(),
+//                $this->get('security.token_storage')->getToken()->getUser()
+//            );
+//
+//        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
+//        $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());
+//
+//        $paginator = $this->get('knp_paginator');
+//        $pagination = $paginator->paginate(
+//            $threads,
+//            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1),
+//            $this->getResultsPerPage()
+//        );
+//
+//        return $this->container->get('templating')->renderResponse(
+//            'bundles/FOSMessageBundle/Message/search.html.twig',
+//            array(
+//                'query' => $query,
+//                'threads' => $pagination,
+//                'filter_form' => $filter_form->createView(),
+//            )
+//        );
     }
 
     public function markAsReadAction(Request $request)
     {
-        $threadManager = $this->get('fos_message.thread_manager');
-        $participantProvider = $this->get('fos_message.participant_provider');
-
-        $participant = $participantProvider->getAuthenticatedParticipant();
-
-        $threads = $request->request->get('threads', []);
-
-        foreach ($threads as $threadId) {
-            $threadManager->markAsReadByParticipant($threadManager->findThreadById($threadId), $participant);
-        }
-
-        return new RedirectResponse($this->container->get('router')->generate('fos_message_inbox'));
+//        $threadManager = $this->get('fos_message.thread_manager');
+//        $participantProvider = $this->get('fos_message.participant_provider');
+//
+//        $participant = $participantProvider->getAuthenticatedParticipant();
+//
+//        $threads = $request->request->get('threads', []);
+//
+//        foreach ($threads as $threadId) {
+//            $threadManager->markAsReadByParticipant($threadManager->findThreadById($threadId), $participant);
+//        }
+//
+//        return new RedirectResponse($this->container->get('router')->generate('fos_message_inbox'));
     }
 
     /**
@@ -219,40 +219,40 @@ class MessageController extends BaseController
      */
     public function threadAction($threadId)
     {
-        $thread = $this->getProvider()->getThread($threadId);
-        $form = $this->container->get('celsius3_message.reply_form.factory')->create($thread);
-        $formHandler = $this->container->get('fos_message.reply_form.handler');
-
-        if ($message = $formHandler->process($form)) {
-            return new RedirectResponse(
-                $this->container->get('router')->generate(
-                    'fos_message_thread_view',
-                    array(
-                        'threadId' => $message->getThread()->getId(),
-                    )
-                )
-            );
-        }
-
-        return $this->container->get('templating')->renderResponse(
-            'bundles/FOSMessageBundle/Message/thread.html.twig',
-            [
-                'form' => $form->createView(),
-                'thread' => $thread,
-            ]
-        );
+//        $thread = $this->getProvider()->getThread($threadId);
+//        $form = $this->container->get('celsius3_message.reply_form.factory')->create($thread);
+//        $formHandler = $this->container->get('fos_message.reply_form.handler');
+//
+//        if ($message = $formHandler->process($form)) {
+//            return new RedirectResponse(
+//                $this->container->get('router')->generate(
+//                    'fos_message_thread_view',
+//                    array(
+//                        'threadId' => $message->getThread()->getId(),
+//                    )
+//                )
+//            );
+//        }
+//
+//        return $this->container->get('templating')->renderResponse(
+//            'bundles/FOSMessageBundle/Message/thread.html.twig',
+//            [
+//                'form' => $form->createView(),
+//                'thread' => $thread,
+//            ]
+//        );
     }
 
     protected function generateFormsToThreads($threads)
     {
-        $forms = [];
-        foreach ($threads as $thread) {
-            $form = $this->container->get('fos_message.reply_form.factory')
-                ->create($thread);
-            $forms[$thread->getId()] = $form->createView();
-        }
-
-        return $forms;
+//        $forms = [];
+//        foreach ($threads as $thread) {
+//            $form = $this->container->get('fos_message.reply_form.factory')
+//                ->create($thread);
+//            $forms[$thread->getId()] = $form->createView();
+//        }
+//
+//        return $forms;
     }
 
     /**
@@ -262,11 +262,11 @@ class MessageController extends BaseController
      */
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
+//        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     protected function getRequest()
     {
-        return $this->container->get('request_stack')->getCurrentRequest();
+//        return $this->container->get('request_stack')->getCurrentRequest();
     }
 }

@@ -33,19 +33,21 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 final class SwitchUserPutController extends AbstractController
 {
-    private $userManager;
+//    private $userManager;
     private $tokenStorage;
 
-    public function __construct(UserManagerInterface $userManager, TokenStorageInterface $tokenStorage)
+    public function __construct(
+//        UserManagerInterface $userManager,
+        TokenStorageInterface $tokenStorage)
     {
-        $this->userManager = $userManager;
+//        $this->userManager = $userManager;
         $this->tokenStorage = $tokenStorage;
     }
 
     public function __invoke(Request $request): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $user = $this->userManager->findUserByUsername($request->get('_switch_user'));
+            $user = null; //$this->userManager->findUserByUsername($request->get('_switch_user'));
             $token = new UsernamePasswordToken($user, $user->getPassword(), 'secured_area', $user->getRoles());
             $this->tokenStorage->setToken($token);
         }

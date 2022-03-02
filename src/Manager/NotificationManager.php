@@ -36,7 +36,7 @@ use Celsius3\Entity\Message;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class NotificationManager
@@ -159,16 +159,16 @@ class NotificationManager
 
     private function notifyRatchet(Notification $notification)
     {
-        $context = new \ZMQContext();
-        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
-        $socket->connect('tcp://'.$this->zmq_host.':'.$this->zmq_port);
-
-        $socket->send(json_encode(array(
-                                    'type' => 'notification',
-                                    'data' => array('notification_id' => $notification->getId()),
-                                )));
-
-        $socket->disconnect('tcp://'.$this->zmq_host.':'.$this->zmq_port);
+//        $context = new \ZMQContext();
+//        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
+//        $socket->connect('tcp://'.$this->zmq_host.':'.$this->zmq_port);
+//
+//        $socket->send(json_encode(array(
+//                                    'type' => 'notification',
+//                                    'data' => array('notification_id' => $notification->getId()),
+//                                )));
+//
+//        $socket->disconnect('tcp://'.$this->zmq_host.':'.$this->zmq_port);
     }
 
     private function notifyInterface(Notification $notification, $receivers)

@@ -22,10 +22,10 @@
 
 namespace Celsius3\Exception;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Celsius3\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Throw when the functionnality is not implemented.
@@ -34,9 +34,9 @@ use Symfony\Bridge\Monolog\Logger;
  */
 class NotImplementedException extends \LogicException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         Alert::add(Alert::WARNING, $exception->getMessage());
 

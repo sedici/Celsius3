@@ -25,11 +25,11 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\BaseUser;
 
 use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\Security\Core\Security;
 
-final class UserGetController extends FOSRestController
+final class UserGetController extends AbstractFOSRestController
 {
     /**
      * @var Security

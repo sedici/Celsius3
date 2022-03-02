@@ -23,18 +23,18 @@
 namespace Celsius3\Exception;
 
 use Celsius3\Manager\Alert;
-use Symfony\Bridge\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Routing\Router;
 
 class InstanceNotFoundException extends \RuntimeException implements Celsius3ExceptionInterface
 {
     private $router;
 
-    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         Alert::add(Alert::ERROR, $exception->getMessage());
 

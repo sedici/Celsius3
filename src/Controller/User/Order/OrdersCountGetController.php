@@ -27,12 +27,12 @@ namespace Celsius3\Controller\User\Order;
 use Celsius3\Entity\State;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
-final class OrdersCountGetController extends FOSRestController
+final class OrdersCountGetController extends AbstractFOSRestController
 {
     private $stateRepository;
     private $instanceHelper;

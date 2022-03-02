@@ -1,25 +1,25 @@
-fos_user_resetting_admin:
-    path: /admin/user/reset/{username}
-    methods: [ GET ]
-    defaults: { _controller: FOSUserBundle:Resetting:userReset }
-
-
-fos_user_resetting_request:
-    path: /public/resetting/request
-    methods: [ GET ]
-    defaults: { _controller: FOSUserBundle:Resetting:request }
-
-fos_user_resetting_send_email:
-    path: /public/resetting/send-email
-    methods: [ POST ]
-    defaults: { _controller: FOSUserBundle:Resetting:sendEmail }
-
-fos_user_resetting_check_email:
-    path: /public/resetting/check-email
-    methods: [ GET ]
-    defaults: { _controller: FOSUserBundle:Resetting:checkEmail }
-
-fos_user_resetting_reset:
-    path: /public/resetting/reset/{token}
-    methods: [ GET, POST ]
-    defaults: { _controller: FOSUserBundle:Resetting:reset }
+#fos_user_resetting_admin:
+#    path: /admin/user/reset/{username}
+#    methods: [ GET ]
+#    defaults: { _controller: FOSUserBundle:Resetting:userReset }
+#
+#
+#fos_user_resetting_request:
+#    path: /public/resetting/request
+#    methods: [ GET ]
+#    defaults: { _controller: FOSUserBundle:Resetting:request }
+#
+#fos_user_resetting_send_email:
+#    path: /public/resetting/send-email
+#    methods: [ POST ]
+#    defaults: { _controller: FOSUserBundle:Resetting:sendEmail }
+#
+#fos_user_resetting_check_email:
+#    path: /public/resetting/check-email
+#    methods: [ GET ]
+#    defaults: { _controller: FOSUserBundle:Resetting:checkEmail }
+#
+#fos_user_resetting_reset:
+#    path: /public/resetting/reset/{token}
+#    methods: [ GET, POST ]
+#    defaults: { _controller: FOSUserBundle:Resetting:reset }

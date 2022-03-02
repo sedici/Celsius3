@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\Exception\Exception;
-use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Public controller.
@@ -57,7 +57,7 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
     public function __construct(
         EntityManagerInterface $entityManager,
         InstanceHelper $instanceHelper,
-        Paginator $paginator,
+        PaginatorInterface $paginator,
         string $maxPerPage,
         InstanceManager $instanceManager
     )

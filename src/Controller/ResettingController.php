@@ -22,15 +22,15 @@
 
 namespace Celsius3\Controller;
 
-use FOS\UserBundle\Controller\ResettingController as BaseResettingController;
-use FOS\UserBundle\Model\UserInterface;
+//use FOS\UserBundle\Controller\ResettingController as BaseResettingController;
+//use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\Exception\Exception;
 
-class ResettingController extends BaseResettingController
+class ResettingController //extends BaseResettingController
 {
     public function userReset($username)
     {

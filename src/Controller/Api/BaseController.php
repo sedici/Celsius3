@@ -23,11 +23,11 @@
 namespace Celsius3\Controller\Api;
 
 use Celsius3\Entity\Instance;
-use FOS\RestBundle\Controller\FOSRestController;
 use Celsius3\Entity\AccessToken;
 use Celsius3\Exception\Exception;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
-class BaseController extends FOSRestController
+class BaseController extends AbstractFOSRestController
 {
 
     protected function getInstance()

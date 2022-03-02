@@ -23,7 +23,7 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
+//use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
@@ -33,7 +33,7 @@ use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
  *   @ORM\Index(name="idx_read", columns={"is_read"})
  * })
  */
-class MessageMetadata extends BaseMessageMetadata
+class MessageMetadata //extends BaseMessageMetadata
 {
     /**
      * @ORM\Id
@@ -56,4 +56,9 @@ class MessageMetadata extends BaseMessageMetadata
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $isRead;
 }

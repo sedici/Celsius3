@@ -2,53 +2,79 @@
 
 namespace Celsius3\Security;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
+use Celsius3\Repository\BaseUserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use FOS\UserBundle\Model\UserManagerInterface;
-use FOS\UserBundle\Security\UserProvider as BaseUserProvider;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class UserProvider extends BaseUserProvider
+use function array_key_exists;
+
+//use FOS\UserBundle\Model\UserManagerInterface;
+//use FOS\UserBundle\Security\UserProvider as BaseUserProvider;
+
+/**
+ * @method void upgradePassword(PasswordAuthenticatedUserInterface|UserInterface $user, string $newHashedPassword)
+ * @method UserInterface loadUserByIdentifier(string $identifier)
+ */
+class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
 
     protected $em;
     protected $request_stack;
+    private BaseUserRepositoryInterface $baseUserRepository;
 
-    /**
-     * Constructor.
-     *
-     * @param UserManagerInterface $userManager
-     */
-    public function __construct(UserManagerInterface $userManager, EntityManagerInterface $em, RequestStack $request_stack)
-    {
-        parent::__construct($userManager);
+    public function __construct(
+        BaseUserRepositoryInterface $baseUserRepository,
+        EntityManagerInterface $em,
+        RequestStack $request_stack
+    ) {
         $this->em = $em;
         $this->request_stack = $request_stack;
+        $this->baseUserRepository = $baseUserRepository;
     }
 
-    /**
-     * Finds a user by username.
-     *
-     * This method is meant to be an extension point for child classes.
-     *
-     * @param string $identifier
-     *
-     * @return UserInterface|null
-     */
-    protected function findUser($identifier)
+    public function refreshUser(UserInterface $user)
     {
-        $user = $this->userManager->findUserByUsernameOrEmail($identifier);
-        if ($user) {
+        return $user;
+    }
 
-        if ($user->getInstance()->getId()){
-            return $user;
-        }else{
+    public function supportsClass(string $class)
+    {
+        return $class === BaseUser::class;
+    }
+
+    public function loadUserByIdentifier(string $identifier): ?UserInterface
+    {
+        return $this->findUser($identifier);
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method void upgradePassword(PasswordAuthenticatedUserInterface|UserInterface $user, string $newHashedPassword)
+        // TODO: Implement @method UserInterface loadUserByIdentifier(string $identifier)
+    }
+
+    private function findUser(string $identifier)
+    {
+        $user = $this->baseUserRepository->findUserByUsernameOrEmail($identifier);
+
+        if ($user) {
+            if ($user->getInstance()->getId()) {
+                return $user;
+            }
+
             $instance = $this->em->getRepository(Instance::class)
-                ->findOneBy(array('host' => $user->getInstance()->getHost()));
-        }
-        if ($instance) {
-                if ($user->getInstance()->getHost() === $this->request_stack->getCurrentRequest()->getHost() || array_key_exists($instance->getId(), $user->getSecondaryInstances())) {
+                ->findOneBy(['host' => $user->getInstance()->getHost()]);
+            if ($instance) {
+                if (array_key_exists($instance->getId(), $user->getSecondaryInstances())
+                    || $user->getInstance()->getHost() === $this->request_stack->getCurrentRequest()->getHost()) {
                     return $user;
                 }
             }
@@ -57,4 +83,8 @@ class UserProvider extends BaseUserProvider
         return null;
     }
 
+    public function loadUserByUsername(string $username): ?UserInterface
+    {
+        return $this->findUser($username);
+    }
 }

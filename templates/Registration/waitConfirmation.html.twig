@@ -1,0 +1,24 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Wait Confirmation' | trans }}
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% if registration_wait_confirmation_title is defined and registration_wait_confirmation_title is not empty %}
+            {{ registration_wait_confirmation_title }}
+        {% else %}
+            {{ 'Wait Confirmation' | trans }}
+        {% endif %}
+    </h2>
+    <p>
+        {% if registration_wait_confirmation_text is defined and registration_wait_confirmation_text is not empty %}
+            {% autoescape false %}
+                {{ registration_wait_confirmation_text }}
+            {% endautoescape %}
+        {% else %}
+            {{ 'Please wait until some administrator confirms your account.' | trans }}
+        {% endif %}
+    </p>
+{% endblock %}

@@ -23,7 +23,7 @@
 namespace Celsius3\Helper;
 
 use Celsius3\Entity\Instance;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MailerHelper
 {

@@ -22,65 +22,74 @@
 
 namespace Celsius3\EventListener;
 
-use Celsius3\Entity\Instance;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManager;
-use FOS\OAuthServerBundle\Entity\AccessTokenManager;
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
+use Doctrine\ORM\EntityManagerInterface;
+use FOS\OAuthServerBundle\Entity\AccessTokenManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SecurityListener
 {
     private $entityManager;
-    private $tokenManager;
+//    private $tokenManager;
     private $tokenStorage;
 
-    public function __construct(EntityManager $entityManager, AccessTokenManager $tokenManager, TokenStorage $tokenStorage)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+//        AccessTokenManager $tokenManager,
+        TokenStorageInterface $tokenStorage
+    ) {
         $this->entityManager = $entityManager;
-        $this->tokenManager = $tokenManager;
+//        $this->tokenManager = $tokenManager;
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
-        $request = $event->getRequest();
-
-        $instance = $this->entityManager->getRepository(Instance::class)
-                ->findOneBy(array('host' => $request->getHost()));
-        $request->request->set('instance_id', $instance);
-
-        $uri = $request->getUri();
-
-        $user = (!is_null($this->tokenStorage->getToken())) ? $this->tokenStorage->getToken()->getUser() : null;
-
-        if ((false !== strpos($uri, '/oauth/v2/auth')) && ($user instanceof BaseUser)) {
-            if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPERADMIN', $user->getRoles())) {
-                return;
-            }
-
-            $this->generateErrorResponse($event, 401);
-
-            return;
-        }
-
-        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos($uri, '/oauth/v2/token') || false !== strpos($uri, '/users/current_user') || false !== strpos($uri, '/received_at_update') || false !== strpos($uri, '/_trans'))) {
-            $access_token = $request->query->get('access_token');
-
-            if (is_null($access_token)) {
-                $this->generateErrorResponse($event, 403);
-
-                return;
-            }
-
-            if (!$this->validateToken($access_token)) {
-                $event->setResponse((new JsonResponse())->setData(array('validAccessToken' => false)));
-
-                return;
-            }
-        }
+//        $request = $event->getRequest();
+//
+//        $instance = $this->entityManager->getRepository(Instance::class)
+//            ->findOneBy(array('host' => $request->getHost()));
+//        $request->request->set('instance_id', $instance);
+//
+//        $uri = $request->getUri();
+//
+//        $user = (!is_null($this->tokenStorage->getToken())) ? $this->tokenStorage->getToken()->getUser() : null;
+//
+//        if ((false !== strpos($uri, '/oauth/v2/auth')) && ($user instanceof BaseUser)) {
+//            if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPERADMIN', $user->getRoles())) {
+//                return;
+//            }
+//
+//            $this->generateErrorResponse($event, 401);
+//
+//            return;
+//        }
+//
+//        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos(
+//                    $uri,
+//                    '/oauth/v2/token'
+//                ) || false !== strpos($uri, '/users/current_user') || false !== strpos(
+//                    $uri,
+//                    '/received_at_update'
+//                ) || false !== strpos($uri, '/_trans'))) {
+//            $access_token = $request->query->get('access_token');
+//
+//            if (is_null($access_token)) {
+//                $this->generateErrorResponse($event, 403);
+//
+//                return;
+//            }
+//
+//            if (!$this->validateToken($access_token)) {
+//                $event->setResponse((new JsonResponse())->setData(array('validAccessToken' => false)));
+//
+//                return;
+//            }
+//        }
     }
 
     private function validateToken($accessToken)

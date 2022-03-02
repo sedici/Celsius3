@@ -30,14 +30,15 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
-final class OrdersGetController extends FOSRestController
+final class OrdersGetController extends AbstractFOSRestController
 {
     private $orderRepository;
     private $instanceHelper;
@@ -53,7 +54,7 @@ final class OrdersGetController extends FOSRestController
         InstanceHelper $instanceHelper,
         Security $security,
         ConfigurationHelper $configurationHelper,
-        Paginator $paginator,
+        PaginatorInterface $paginator,
         ViewHandlerInterface $viewHandler
     ) {
         $this->orderRepository = $orderRepository;
@@ -80,8 +81,8 @@ final class OrdersGetController extends FOSRestController
 
         $pagination = $this->paginator->paginate(
             $orders,
-            $request->query->get('page', 1),
-            $this->configurationHelper->getCastedValue($instance->get('results_per_page'))
+            (int) $request->query->get('page', 1),
+            (int) $this->configurationHelper->getCastedValue($instance->get('results_per_page'))
         )->getItems();
 
         if ($with_request) {

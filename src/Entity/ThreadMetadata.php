@@ -23,7 +23,7 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
+//use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
@@ -33,7 +33,7 @@ use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
  *   @ORM\Index(name="idx_last_message_date", columns={"last_message_date"})
  * })
  */
-class ThreadMetadata extends BaseThreadMetadata
+class ThreadMetadata //extends BaseThreadMetadata
 {
     /**
      * @ORM\Id
@@ -56,4 +56,18 @@ class ThreadMetadata extends BaseThreadMetadata
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;
+
+    /**
+     * @ORM\Column(type="date", name="last_message_date")
+     */
+    protected $lastMessageDate;
+
+    /**
+     * @return mixed
+     */
+    public function getLastMessageDate()
+    {
+        return $this->lastMessageDate;
+    }
+
 }

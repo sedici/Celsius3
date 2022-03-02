@@ -30,7 +30,7 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use Knp\Component\Pager\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,7 @@ use Symfony\Component\Security\Core\Security;
  *
  * @Route("/admin/rest/orders")
  */
-class AdminOrderRestController extends FOSRestController//BaseInstanceDependentRestController
+class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {
 
     /**

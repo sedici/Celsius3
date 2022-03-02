@@ -23,7 +23,7 @@
 namespace Celsius3\Guesser;
 
 use Celsius3\Exception\NotImplementedException;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -35,7 +35,7 @@ class FieldGuesser
     private $metadata;
     private static $current_class;
 
-    public function __construct(Registry $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }

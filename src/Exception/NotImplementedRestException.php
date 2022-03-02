@@ -22,9 +22,9 @@
 
 namespace Celsius3\Exception;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Throw when the functionnality is not implemented.
@@ -33,9 +33,9 @@ use Symfony\Bridge\Monolog\Logger;
  */
 class NotImplementedRestException extends \LogicException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         $response = new JsonResponse([
             'error' => true,

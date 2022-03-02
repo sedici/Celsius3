@@ -26,29 +26,29 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
+//use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
 
 class RecipientsHiddenType extends AbstractType
 {
-    /**
-     * @var RecipientsDataTransformer
-     */
-    private $recipientsTransformer;
-
-    /**
-     * @param RecipientsDataTransformer $transformer
-     */
-    public function __construct(RecipientsDataTransformer $transformer)
-    {
-        $this->recipientsTransformer = $transformer;
-    }
+//    /**
+//     * @var RecipientsDataTransformer
+//     */
+//    private $recipientsTransformer;
+//
+//    /**
+//     * @param RecipientsDataTransformer $transformer
+//     */
+//    public function __construct(RecipientsDataTransformer $transformer)
+//    {
+//        $this->recipientsTransformer = $transformer;
+//    }
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer($this->recipientsTransformer);
+//        $builder->addModelTransformer($this->recipientsTransformer);
     }
 
     /**

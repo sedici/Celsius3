@@ -23,7 +23,7 @@
 namespace Celsius3\Command;
 
 use Celsius3\Entity\BaseUser;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PDO;
 use Symfony\Component\Console\Command\Command;

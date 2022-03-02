@@ -2,23 +2,26 @@
 
 namespace Celsius3\EventListener;
 
+use Celsius3\Entity\BookType;
+use Celsius3\Entity\JournalType;
+use FOS\ElasticaBundle\Event\PostTransformEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use FOS\ElasticaBundle\Event\TransformEvent;
+use FOS\ElasticaBundle\Event\AbstractTransformEvent;
 
 class CustomPropertiesListener implements EventSubscriberInterface
 {
 
-    public function addCustomProperties(TransformEvent $event)
+    public function addCustomProperties(AbstractTransformEvent $event)
     {
         $object = $event->getObject();
         $document = $event->getDocument();
 
-        if ($object instanceof \Celsius3\Entity\BookType) {
+        if ($object instanceof BookType) {
             $document->set('editor', $object->getEditor());
             $document->set('isbn', $object->getISBN());
             $document->set('chapter', $object->getChapter());
-        } elseif ($object instanceof \Celsius3\Entity\JournalType) {
-            if (!is_null($object->getJournal())) {
+        } elseif ($object instanceof JournalType) {
+            if ($object->getJournal() !== null) {
                 $document->set('journal', $object->getJournal()->getName());
             } else {
                 $document->set('journal', $object->getOther());
@@ -28,9 +31,9 @@ class CustomPropertiesListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
-            TransformEvent::POST_TRANSFORM => 'addCustomProperties',
-        );
+        return [
+            PostTransformEvent::class => 'addCustomProperties',
+        ];
     }
 
 }

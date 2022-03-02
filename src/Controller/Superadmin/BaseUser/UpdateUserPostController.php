@@ -30,7 +30,7 @@ use Celsius3\Manager\InstanceManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class UpdateUserPostController extends AbstractController
 {

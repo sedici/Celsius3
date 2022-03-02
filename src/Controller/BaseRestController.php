@@ -22,13 +22,14 @@
 
 namespace Celsius3\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
+use Celsius3\Manager\InstanceManager;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
-class BaseRestController extends FOSRestController
+class BaseRestController extends AbstractFOSRestController
 {
 
     protected function getDirectory()
     {
-        return $this->get('celsius3_core.instance_manager')->getDirectory();
+        return $this->container->get(InstanceManager::class)->getDirectory();
     }
 }

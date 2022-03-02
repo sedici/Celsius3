@@ -50,6 +50,7 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
+        dump('paso');
         $response = parent::onAuthenticationSuccess($request, $token);
 
         if (!(strpos($response->getTargetUrl(), 'redirect') === false)) {

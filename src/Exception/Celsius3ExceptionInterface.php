@@ -22,10 +22,10 @@
 
 namespace Celsius3\Exception;
 
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Psr\Log\LoggerInterface;
 
 interface Celsius3ExceptionInterface
 {
-    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger);
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger);
 }

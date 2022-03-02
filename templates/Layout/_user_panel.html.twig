@@ -7,7 +7,7 @@
             <ul class="dropdown-menu dropdown-menu-right">
                 {% if app.user %}
                     <li>
-                        <a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile' | trans }}</a>
+                        <a href=""><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile' | trans }}</a>
                     </li>
                     
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
@@ -16,16 +16,16 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
+                            <a href="{{ path('security_logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
                         </li>
                     {% endif %}
 
                 {% else %}
                     <li>
-                        <a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
+                        <a href="{{ path('security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
+                        <a href="{{ path('registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>

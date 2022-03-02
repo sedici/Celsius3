@@ -25,13 +25,13 @@ namespace Celsius3\EventListener;
 use Celsius3\Controller\BaseRestController;
 use Celsius3\Exception\Exception;
 use Celsius3\Manager\Alert;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 use function is_array;
 
 class ContextListener
 {
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         $controller = $event->getController();
 
