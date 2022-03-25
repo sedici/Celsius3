@@ -30,7 +30,7 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Repository\BaseUserRepositoryInterface;
-use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +48,7 @@ final class ListUsersViewController extends AbstractController
         InstanceHelper $instanceHelper,
         FilterManager $filterManager,
         ConfigurationHelper $configurationHelper,
-        Paginator $paginator
+        PaginatorInterface $paginator
     ) {
         $this->baseUserRepository = $baseUserRepository;
         $this->instanceHelper = $instanceHelper;

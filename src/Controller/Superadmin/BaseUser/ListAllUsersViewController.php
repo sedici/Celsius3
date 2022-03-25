@@ -28,7 +28,7 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Manager\FilterManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +43,7 @@ final class ListAllUsersViewController extends AbstractController
     public function __construct(
         FilterManager $filterManager,
         EntityManagerInterface $entityManager,
-        Paginator $paginator,
+        PaginatorInterface $paginator,
         string $maxPerPage
     ) {
         $this->filterManager = $filterManager;
