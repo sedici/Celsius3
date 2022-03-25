@@ -36,7 +36,7 @@ class SubscriptionType extends AbstractType
         if ($options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPER_ADMIN')) {
             $builder
                     ->add('user_notification', ChoiceType::class, array(
-                        'choices_as_values' => true,
+//                        'choices_as_values' => true,
                         'choices' => array(
                             /** @Ignore */ 'Notification' => 'notification',
                             /** @Ignore */ 'Email' => 'email',
@@ -49,7 +49,7 @@ class SubscriptionType extends AbstractType
         }
         $builder
                 ->add('message_notification', ChoiceType::class, array(
-                    'choices_as_values' => true,
+//                    'choices_as_values' => true,
                     'choices' => array(
                         /** @Ignore */ 'Notification' => 'notification',
                         /** @Ignore */ 'Email' => 'email',

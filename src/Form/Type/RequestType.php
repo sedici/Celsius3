@@ -45,7 +45,7 @@ class RequestType extends AbstractType
                         /** @Ignore */ OrderManager::TYPE__SEARCH => OrderManager::TYPE__SEARCH,
                         /** @Ignore */ ucfirst(OrderManager::TYPE__PROVISION) => OrderManager::TYPE__PROVISION,
                     ),
-                    'choices_as_values' => true,
+//                    'choices_as_values' => true,
                 ));
         } else {
             $builder->add('type', HiddenType::class, array(
@@ -84,7 +84,7 @@ class RequestType extends AbstractType
                             'Me' => 'me',
                             'Other' => 'other',
                         ),
-                        'choices_as_values' => true,
+//                        'choices_as_values' => true,
                         'mapped' => false,
                     ))
                     ->add('librarian', UserSelectorType::class, array(

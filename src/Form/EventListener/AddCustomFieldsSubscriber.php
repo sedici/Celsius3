@@ -117,7 +117,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                             'choices' => $array_choices,
                             'required' => $field->isRequired(),
                             'mapped' => false,
-                            'choices_as_values' => true,
+//                            'choices_as_values' => true,
                             'auto_initialize' => false,
                             'attr' => [
                                 'class' => 'select2 select2-without-search',

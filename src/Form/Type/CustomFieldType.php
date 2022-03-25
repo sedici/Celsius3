@@ -41,7 +41,7 @@ class CustomFieldType extends AbstractType
                     'User' => 'BaseUser',
                     'Contact' => 'Contact',
                 ],
-                'choices_as_values' => true,
+//                'choices_as_values' => true,
                 'required' => true,
                 'label' => 'Associated to'
             ])
@@ -61,7 +61,7 @@ class CustomFieldType extends AbstractType
                     'Texto' => TextType::class,
                     'Fecha' => DateType::class,
                 ],
-                'choices_as_values' => true,
+//                'choices_as_values' => true,
             ])
             ->add('value', TextType::class, [
                 'label' => 'Value',

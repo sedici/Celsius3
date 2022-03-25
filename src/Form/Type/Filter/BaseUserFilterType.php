@@ -59,7 +59,7 @@ class BaseUserFilterType extends AbstractType
                     'required' => false,
                 ))
                 ->add('state', ChoiceType::class, array(
-                    'choices_as_values' => true,
+//                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
                         /** @Ignore */ 'Enabled' => 'enabled',
@@ -69,17 +69,17 @@ class BaseUserFilterType extends AbstractType
                     'expanded' => true,
                     'multiple' => true,
                 ))
-                ->add('roles', ChoiceType::class, array(
-                    'choices_as_values' => true,
+                ->add('roles', ChoiceType::class, [
+//                    'choices_as_values' => true,
                     'required' => false,
-                    'choices' => array(
+                    'choices' => [
                         /** @Ignore */ 'User' => 'ROLE_USER',
                         /** @Ignore */ 'Manager Orden' => 'ROLE_ORDER_MANAGER',
                         /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
                         /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
                         /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
-                    ),
-                ))
+                    ],
+                ])
             ->add('country', EntityType::class, array(
                 'class' => Country::class,
                 'mapped' => true,

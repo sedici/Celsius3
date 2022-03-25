@@ -53,7 +53,7 @@ class EventSubscriptionType extends AbstractType
         foreach ($events as $key => $label) {
             $builder
                     ->add($key . '_notification', ChoiceType::class, array(
-                        'choices_as_values' => true,
+//                        'choices_as_values' => true,
                         'choices' => array(
                             /** @Ignore */ 'Notification' => 'notification',
                             /** @Ignore */ 'Email' => 'email',

@@ -53,7 +53,7 @@ class OrderFilterType extends AbstractType
                     'required' => false,
                 ))
                 ->add('type', ChoiceType::class, array(
-                    'choices_as_values' => true,
+//                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
                         '' => '',
@@ -62,7 +62,7 @@ class OrderFilterType extends AbstractType
                     ),
                 ))
                 ->add('state', ChoiceType::class, array(
-                    'choices_as_values' => true,
+//                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
                         /** @Ignore */ ucfirst(StateManager::STATE__CREATED) => StateManager::STATE__CREATED,
