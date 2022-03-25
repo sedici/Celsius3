@@ -12,23 +12,23 @@
         </div>
 
         <!-- index.html -->
-        <script type="text/ng-template" id="index.html?{{ assets_version('administration') }}">
+        <script type="text/ng-template" id="index.html">
             {% verbatim %}
                 <div class="row">
-                <div class="col-md-12" ng-include="'dash.html?' + assets_version">
+                <div class="col-md-12" ng-include="'dash.html'">
                 </div>
                 </div>
                 <div class="row">
-                <div class="col-md-8" ng-include="'orders.html?' + assets_version">
+                <div class="col-md-8" ng-include="'orders.html'">
                 </div>
-                <div class="col-md-4" ng-include="'users.html?' + assets_version">
+                <div class="col-md-4" ng-include="'users.html'">
                 </div>
                 </div>
             {% endverbatim %}
         </script>
 
         <!-- dash.html -->
-        <script type="text/ng-template" id="dash.html?{{ assets_version('administration') }}">
+        <script type="text/ng-template" id="dash.html">
             {% verbatim %}
                 <div class="clearfix row">
                 <ul class="nav nav-pills pull-left" id="pedidos">
@@ -58,7 +58,7 @@
                 <div id="barrita2" class="row">
                 <div class="col-md-1">
                 <a class="btn btn-link botonespecial" href="{{ {path: 'admin_order_new'}|get_url}}">
-                <span id="botonespecial" aria-hidden="true"><img src="/bundles/celsius3core/images/plus.png" width="63" height="63" alt="Add Order" /></span>
+                <span id="botonespecial" aria-hidden="true"><img src="/build/images/plus.png" width="63" height="63" alt="Add Order" /></span>
                 </a>
                 </div>
                 <div class="col-md-11">
@@ -76,10 +76,10 @@
         </script>
 
         <!-- orders.html -->
-        <script type="text/ng-template" id="orders.html?{{ assets_version('administration') }}">
+        <script type="text/ng-template" id="orders.html">
             {% verbatim %}
             <div class="col-md-12" ng-if="orders.length > 0">
-                <div ng-include="'pagination.html?' + assets_version" ng-if="total > pagination.resultsPerPage"></div>
+                <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
 
                 <div class="sorting-group pull-right">
                 <span>
@@ -95,13 +95,13 @@
                 <div class="item_container" ng-repeat="order in orders">
                     <div class="top_info">
                         <div class="top_left">
-                            <div ng-class="order.request.type | request_type">{{ order.request.type| request_type_abbr | trans }}</div>
-                            <div class="tipoarticulo">{{ order.material_data.type | trans }}</div>
+                            <div ng-class="order.request.type | request_type">{{ order.request.type | request_type_abbr | trans }}</div>
+                            <div class="tipoarticulo">{{ order.materialData.materialType | trans }}</div>
                         </div>
 
                         <div class="top_right">
-                            <div class="status-{{ order.request.current_state }}" data-toggle="tooltip"
-                                 title="{{ order.request.current_state | trans }}"></div>
+                            <div class="status-{{ order.request.currentState.type }}" data-toggle="tooltip"
+                                 title="{{ order.request.currentState | trans }}"></div>
                             <div class="uri">{{ order.code }}</div>
                             <div class="usuario">
                                 {{ order.request.operator ? order.request.operator.name : '-' }}
@@ -116,23 +116,24 @@
 
                     <div class="main_info" data-order-id="{{ order.id }}">
                         <div class="title_and_author">
-                            <div class="titulo" ng-if="order.material_data.type === 'journal'">
-                                <a ng-if="order.material_data.journal"
-                                   ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url }}">{{ order.material_data.journal.name | uppercase }}</a>
-                                <span ng-if="!order.material_data.journal">{{ order.material_data.other | uppercase }}</span>
+                            <div class="titulo" ng-if="order.materialData.type === 'journal'">
+                                <a ng-if="order.materialData.journal"
+                                   ng-href="{{ {path: 'admin_journal_show', params: {'id':order.materialData.journal.id} }|get_url }}">{{ order.materialData.journal.name | uppercase }}</a>
+                                <span ng-if="!order.materialData.journal">{{ order.materialData.other | uppercase }}</span>
                             </div>
-                            <div class="titulo" ng-if="order.material_data.type === 'book'">
-                                <span>{{ order.material_data.title | uppercase }}</span>
+                            <div class="titulo" ng-if="order.materialData.type === 'book'">
+                                <span>{{ order.materialData.title | uppercase }}</span>
                             </div>
-                            <div class="titulo" ng-if="order.material_data.type !== 'book'">
-                                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
-                                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | trans }} ] - </span>
+                            {{dump(order.materialData)}}
+                            <div class="titulo" ng-if="order.materialData.type !== 'book'">
+                                <span ng-if="order.materialData.title">{{ order.materialData.title }}</span>
+                                <span ng-if="!order.materialData.title">[ {{ 'sinTitulo' | trans }} ] - </span>
                             </div>
-                            <div class="titulo" ng-if="order.material_data.type === 'book'">
-                                <span>{{ order.material_data.chapter }}</span>
+                            <div class="titulo" ng-if="order.materialData.type === 'book'">
+                                <span>{{ order.materialData.chapter }}</span>
                             </div>
-                            <div class="autor">{{ order.material_data.authors }}</div>
-                            <div class="doc_year">{{ order.material_data.year }}</div>
+                            <div class="autor">{{ order.materialData.authors }}</div>
+                            <div class="doc_year">{{ order.materialData.year }}</div>
                         </div>
                         <div class="doc_and_year">
                             <div ng-if="order.request.owner.pdf === true" class="doc_type_pdf"></div>
@@ -158,7 +159,7 @@
                     <div class="order-actions">
                         <ul class="list-unstyled actions">
                             <li ng-if="searchPending(order.request)">
-                                <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15"
+                                <img src="/build/images/stateline/circulo_con_exclamacion.png" width="15"
                                      height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom"
                                      title="{{ 'Pending searchs' | trans }}"/>
                             </li>
@@ -173,7 +174,7 @@
                                       action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}"
                                       style="display: inline-block">
                                     <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span
-                                                class="fa fa-files-o"></span></a>
+                                                class="glyphicon glyphicon-duplicate"></span></a>
                                 </form>
                             </li>
                         </ul>
@@ -190,7 +191,7 @@
                         </p>
                     </div>
                 </div>
-                <div ng-include="'pagination.html?' + assets_version" ng-if="total > pagination.resultsPerPage"></div>
+                <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
             </div>
 
             <div class="col-md-12" ng-if="orders.length === 0">
@@ -200,7 +201,7 @@
         </script>
 
         <!-- pagination.html -->
-        <script type="text/ng-template" id="pagination.html?{{ assets_version('administration') }}">
+        <script type="text/ng-template" id="pagination.html">
             {% verbatim %}
                 <div class="navigation">
                 <pagination total-items="total"
@@ -221,7 +222,7 @@
         </script>
 
         <!-- users.html -->
-        <script type="text/ng-template" id="users.html?{{ assets_version('administration') }}">
+        <script type="text/ng-template" id="users.html">
             {% verbatim %}
                 <h2>{{'pendingUsersTitle'|trans}}</h2>
                 <ul class="list-group" ng-if="users.length > 0">
@@ -325,6 +326,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('build/administration.js') }}"></script>
+    {{ encore_entry_script_tags('angular') }}
+    {{ encore_entry_script_tags('administration') }}
+{#    <script src="{{ enc asset('build/angular.js') }}"></script>#}
+{#    <script src="{{ asset('build/administration.js') }}"></script>#}
 {% endblock %}

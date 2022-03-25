@@ -14,13 +14,13 @@ administrationApp.config(['$routeProvider', '$translateProvider',
     function ($routeProvider, $translateProvider) {
         'use strict';
         $routeProvider.when('/:type', {
-            templateUrl: 'index.html?' + assets_version_administration,
+            templateUrl: 'index.html',
             controller: 'AdministrationCtrl'
         }).when('/:type/:state', {
-            templateUrl: 'index.html?' + assets_version_administration,
+            templateUrl: 'index.html',
             controller: 'AdministrationCtrl'
         }).when('/:type/:state/:orderType', {
-            templateUrl: 'index.html?' + assets_version_administration,
+            templateUrl: 'index.html',
             controller: 'AdministrationCtrl'
         }).when('/', {
             redirectTo: '/mine',
@@ -28,10 +28,10 @@ administrationApp.config(['$routeProvider', '$translateProvider',
             redirectTo: '/'
         });
 
-        $translateProvider.useStaticFilesLoader({
-            prefix: '/bundles/celsius3core/ng/locales/locale-',
-            suffix: '.json'
-        });
+        // $translateProvider.useStaticFilesLoader({
+        //     prefix: '/build/ng/locales/locale-',
+        //     suffix: '.json'
+        // });
         $translateProvider.preferredLanguage(_locale);
         $translateProvider.useSanitizeValueStrategy('escaped');
     }]);
