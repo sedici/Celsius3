@@ -79,11 +79,20 @@ Encore
     .addEntry('login', [
         './assets/js/login.js'
     ])
-    .addEntry('search',[
+    .addEntry('search', [
         './assets/js/search.js'
     ])
     .addStyleEntry('global', './assets/scss/celsius3.scss')
     .enableSassLoader()
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]'
+    })
+    .copyFiles({
+        from: './assets/ng',
+        to: 'ng/[path][name].[hash:8].[ext]'
+    })
+    .enableSingleRuntimeChunk()
     .autoProvideVariables({
         _: 'underscore',
         $: 'jquery',

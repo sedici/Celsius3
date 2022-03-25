@@ -8,9 +8,9 @@
 /web/maintenance/index.html
 
 # Docker folder
-!/.docker/.gitignore
-!/.docker/mysql/.gitignore
-.composer
+/docker/mysql/data/*
+!/docker/mysql/data/.gitignore
+docker-compose.override.yaml
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -25,7 +25,6 @@
 /node_modules/
 /public/build/
 npm-debug.log
-yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> symfony/web-server-bundle ###

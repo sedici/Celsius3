@@ -112,8 +112,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Celsius3\\": "src/",
-      "App\\": "app/"
+      "Celsius3\\": "src/"
     }
   },
   "autoload-dev": {

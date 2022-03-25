@@ -1,0 +1,87 @@
+version: "3"
+
+services:
+
+    apache:
+        build: docker/apache/
+        ports: [ "80" ]
+        volumes:
+            - .:/var/www/html
+        networks:
+            - backend
+            - frontend
+        depends_on:
+            - php
+
+    php:
+        build:
+            context: docker/php/
+            args:
+                - USERID=1000
+                - USERNAME=root
+        volumes:
+            - .:/var/www/html
+        networks:
+            - backend
+        depends_on:
+            - mysql
+        command: bash -c "composer install && php-fpm"
+
+    mysql:
+        image: mysql:5
+        command:
+            - --default-authentication-plugin=mysql_native_password
+        ports: [ "3306" ]
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: celsius3
+        volumes:
+            - mysql:/var/lib/mysql
+            - ./docker/mysql:/docker-entrypoint-initdb.d
+        networks:
+            - backend
+
+    node:
+        image: node:16
+        user: node
+        working_dir: /home/node/app
+        volumes:
+            - ./:/home/node/app
+        command: bash -c "npm install && npm run watch"
+
+    elasticsearch:
+        image: elasticsearch:6.8.14
+        environment:
+            discovery.type: single-node
+        volumes:
+            - elasticsearch:/usr/share/elasticsearch/data
+
+    #    redis:
+    #        image: redis:alpine
+    #        container_name: celsius3_redis
+    #        network_mode: host
+    #        volumes:
+    #          - c3redis:/data
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports: [ "80" ]
+        environment:
+            PMA_HOST: "mysql"
+            PMA_PORT: "3306"
+            PMA_USER: "root"
+            PMA_PASSWORD: "root"
+        depends_on:
+            - mysql
+
+    mailer:
+        image: schickling/mailcatcher
+        ports: [ "1025", "1080" ]
+
+networks:
+    backend: ~
+    frontend: ~
+
+volumes:
+    mysql: ~
+    elasticsearch: ~
