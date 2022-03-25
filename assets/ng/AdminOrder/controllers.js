@@ -1,5 +1,3 @@
-require('bootstrap-sass');
-
 var orderControllers = angular.module('orderControllers', ['ngFileUpload']);
 
 orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter', '$translate', 'Order', 'Request', 'Catalog', 'Event', 'Contact', 'MailTemplate', 'CatalogResult',

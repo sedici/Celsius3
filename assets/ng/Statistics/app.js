@@ -20,10 +20,10 @@ statisticsApp.config(['$routeProvider', '$translateProvider',
                     redirectTo: '/'
                 });
 
-        $translateProvider.useStaticFilesLoader({
-            prefix: '/bundles/celsius3core/ng/locales/locale-',
-            suffix: '.json'
-        });
+        // $translateProvider.useStaticFilesLoader({
+        //     prefix: '/bundles/celsius3core/ng/locales/locale-',
+        //     suffix: '.json'
+        // });
         $translateProvider.preferredLanguage(_locale);
         $translateProvider.useSanitizeValueStrategy('escaped');
     }]);

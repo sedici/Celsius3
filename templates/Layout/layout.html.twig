@@ -24,7 +24,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
     {% block stylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('build/global.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('build/celsius3core.css') }}"/>
+{#        <link rel="stylesheet" type="text/css" href="{{ asset('build/celsius3core.css') }}"/>#}
 
         {% if instance.get('instance_css').value is not null %}
             <style type="text/css">
@@ -190,7 +190,7 @@
 
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>
-    <script src="{{ asset('bundles/celsius3core/js/angular-locale_' ~ app.request.get("_locale") ~ '.js') }}"></script>
+{#    <script src="{{ asset('bundles/celsius3core/js/angular-locale_' ~ app.request.get("_locale") ~ '.js') }}"></script>#}
 {% endblock %}
 </body>
 </html>
