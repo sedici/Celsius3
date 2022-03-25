@@ -8,7 +8,7 @@
     </li>
     {% if (element.username is not empty) %}
         <li>
-            <a href="{{ path('fos_user_resetting_admin', {'username': element.username}) }}">
+            <a href="{{ path('celsius3_reset_password', {'username': element.username}) }}">
                 <span class="fa fa-key"></span> {{ 'Reset password' | trans }}
             </a>
         </li>
