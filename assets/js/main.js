@@ -1,19 +1,15 @@
 require('jquery');
 require('select2');
-require('select2/dist/css/select2.min.css');
-require('select2-bootstrap-theme/dist/select2-bootstrap.min.css');
-
-require('jquery-ui-dist/jquery-ui.min.js');
+require('jquery-ui-dist/jquery-ui.js');
 require('jquery-slimscroll');
 require('fastclick');
 require('mousetrap');
 require('jquery-datepicker');
 
-require('bootstrap-sass');
+require('bootstrap');
 require('bootstrap-notify');
 require('bootstrap-switch');
-require('summernote');
-require('summernote/dist/summernote.css');
+// require('summernote');
 
 require('icanhaz');
 require('underscore');

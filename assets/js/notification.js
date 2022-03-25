@@ -1,7 +1,7 @@
 var ich = require('icanhaz');
 require('angular');
-require('angular-i18n/angular-locale_es.js');
-require('angular-i18n/angular-locale_pt.js');
+// require('angular-i18n/angular-locale_es.js');
+// require('angular-i18n/angular-locale_pt.js');
 
 $(document).ready(function () {
     'use strict';

@@ -80,12 +80,12 @@ stateBar.directive('stateBar', ['$translate',
             scope.drawLine = function (canvas) {
                 if (scope.request.current_state === 'delivered') {
                     states.forEach(function (state) {
-                        fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.final_image, function (oImg) {
+                        fabric.Image.fromURL('/assets/images/stateline/' + state.final_image, function (oImg) {
                             oImg.setTop(state.top);
                             oImg.setLeft(state.left);
                             canvas.add(oImg);
                             if (!_.isUndefined(state.line)) {
-                                fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.line.final_image, function (oImg) {
+                                fabric.Image.fromURL('/assets/images/stateline/' + state.line.final_image, function (oImg) {
                                     oImg.setTop(state.line.top);
                                     oImg.setLeft(state.line.left);
                                     oImg.setWidth(state.line.width);
@@ -111,13 +111,13 @@ stateBar.directive('stateBar', ['$translate',
                         if (!_.isUndefined(_.find(scope.request.states, function (s) {
                                 return s.type === state.name;
                             }))) {
-                            fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.max_image, function (oImg) {
+                            fabric.Image.fromURL('/assets/images/stateline/' + state.max_image, function (oImg) {
                                 oImg.setTop(state.top);
                                 oImg.setLeft(state.left);
                                 canvas.add(oImg);
                                 oImg.sendToBack();
                                 if (!_.isUndefined(state.line)) {
-                                    fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.line.max_image, function (oImg) {
+                                    fabric.Image.fromURL('/assets/images/stateline/' + state.line.max_image, function (oImg) {
                                         oImg.setTop(state.line.top);
                                         oImg.setLeft(state.line.left);
                                         oImg.setWidth(state.line.width);
@@ -138,13 +138,13 @@ stateBar.directive('stateBar', ['$translate',
                                 }
                             }
                             if (states_order.indexOf(scope.request.current_state) >= states_order.indexOf(state.name)) {
-                                fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + image, function (oImg) {
+                                fabric.Image.fromURL('/assets/images/stateline/' + image, function (oImg) {
                                     oImg.setTop(state.top);
                                     oImg.setLeft(state.left);
                                     canvas.add(oImg);
                                     oImg.bringToFront();
                                     if (!_.isUndefined(state.line)) {
-                                        fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.line.current_image, function (oImg) {
+                                        fabric.Image.fromURL('/assets/images/stateline/' + state.line.current_image, function (oImg) {
                                             oImg.setTop(state.line.top);
                                             oImg.setLeft(state.line.left);
                                             oImg.setWidth(state.line.width);
@@ -155,13 +155,13 @@ stateBar.directive('stateBar', ['$translate',
                                 });
                             }
                         }
-                        fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.back_image, function (oImg) {
+                        fabric.Image.fromURL('/assets/images/stateline/' + state.back_image, function (oImg) {
                             oImg.setTop(state.top);
                             oImg.setLeft(state.left);
                             canvas.add(oImg);
                             oImg.sendToBack();
                             if (!_.isUndefined(state.line)) {
-                                fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.line.back_image, function (oImg) {
+                                fabric.Image.fromURL('/assets/images/stateline/' + state.line.back_image, function (oImg) {
                                     oImg.setTop(state.line.top);
                                     oImg.setLeft(state.line.left);
                                     oImg.setWidth(state.line.width);

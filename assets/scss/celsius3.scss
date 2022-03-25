@@ -1,17 +1,17 @@
-@import '~bootstrap-sass/assets/stylesheets/bootstrap';
-@import '~jquery-ui-dist/jquery-ui.min.css';
-@import '~font-awesome/css/font-awesome.min.css';
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~jquery-ui-dist/jquery-ui.css';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
 @import '~ui-select/dist/select.css';
 @import '~select2-bootstrap-css/select2-bootstrap.css';
-@import '~select2/dist/css/select2.min.css';
-@import '~select2-bootstrap-theme/dist/select2-bootstrap.min.css';
-@import '~datatables/media/css/jquery.dataTables.min.css';
-@import '~angular-loading-bar/build/loading-bar.min.css';
+@import '~select2/dist/css/select2.css';
+@import '~select2-bootstrap-theme/dist/select2-bootstrap.css';
+@import '~datatables/media/css/jquery.dataTables.css';
+@import '~angular-loading-bar/build/loading-bar.css';
 @import '~summernote/dist/summernote.css';
 @import '~c3/c3.min.css';
-@import '~bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
-@import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css';
-@import '~admin-lte/dist/css/AdminLTE.min.css';
+@import '~bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css';
+@import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css';
+//@import '~admin-lte/dist/css/AdminLTE.min.css';
 
 .panel-group .panel + .panel {
   margin-top: -1px;
@@ -38,14 +38,14 @@
 body {
   padding-top: 60px;
   padding-bottom: 40px;
-  background-image: url(/bundles/celsius3core/images/mundo_fondo.png);
+  background-image: url(/assets/images/mundo_fondo.png);
   background-repeat: no-repeat;
   background-position: bottom right;
   background-attachment: fixed;
 }
 
 .mantenimiento {
-  background-image: url(/bundles/celsius3core/images/mantenimiento-sin-texto.png);
+  background-image: url(/assets/images/mantenimiento-sin-texto.png);
   height: 189px;
   margin-top: 100px;
 }
@@ -395,7 +395,7 @@ body {
         float: right;
         padding: 3px 15px 1px 10px;
         color: white;
-        background-image: url(/bundles/celsius3core/images/top_all.png);
+        background-image: url(/assets/images/top_all.png);
         background-position: 100% -20px;
         background-repeat: no-repeat;
         background-color: #babbbb;
@@ -404,12 +404,12 @@ body {
         float: right;
         padding: 3px 15px 1px 5px;
         /*	background-color: #e2e2e2;*/
-        background-image: url(/bundles/celsius3core/images/top_all.png);
+        background-image: url(/assets/images/top_all.png);
         background-position: right 0px;
         background-color: #d8d8d8;
       }
       .decoracion {
-        background-image: url(/bundles/celsius3core/images/top_all.png);
+        background-image: url(/assets/images/top_all.png);
         background-repeat: no-repeat;
         background-position: 0px -41px;
         width: 11px;
@@ -426,47 +426,47 @@ body {
       }
       .status-created {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0 3;
       }
       .status-searched {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 123px;
       }
       .status-taken {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 123px;
       }
       .status-requested {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 105px;
       }
       .status-approval_pending {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 88px;
       }
       .status-received {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 70px;
       }
       .status-delivered {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 53px;
       }
       .status-annulled {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 35px;
       }
       .status-cancelled {
         @extend .status;
-        background-image: url(/bundles/celsius3core/images/progreso2.png);
+        background-image: url(/assets/images/progreso2.png);
         background-position: 0px 18px;
       }
     }
@@ -494,7 +494,7 @@ body {
       .tipoarticulo {
         float: left;
         padding: 3px 15px 1px 5px;
-        background-image: url(/bundles/celsius3core/images/fondo_labels.png);
+        background-image: url(/assets/images/fondo_labels.png);
         background-position: 100% 0%;
       }
     }
@@ -563,7 +563,7 @@ body {
 .tipobusqueda {
   float: left;
   padding: 3px 15px 1px 5px;
-  background-image: url(/bundles/celsius3core/images/fondo_labels.png);
+  background-image: url(/assets/images/fondo_labels.png);
   background-position: 100% 100%;
 }
 
@@ -571,7 +571,7 @@ body {
   height: 200px;
   #columna1 {
     height: 200px;
-    background-image: url(/bundles/celsius3core/images/linea.png);
+    background-image: url(/assets/images/linea.png);
     background-repeat: no-repeat;
     background-position: right;
     h4, ul {
@@ -588,7 +588,7 @@ body {
   }
   #columna2 {
     height: 200px;
-    background-image: url(/bundles/celsius3core/images/linea.png);
+    background-image: url(/assets/images/linea.png);
     background-repeat: no-repeat;
     background-position: right;
     ul li {
@@ -636,72 +636,72 @@ body {
 
 .iconhistorial-lupa1 {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
 }
 
 .iconhistorial-reloj1 {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
   background-position: 0px -22px;
 }
 
 .iconhistorial-papel1 {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
   background-position: 0px -46px;
 }
 
 .iconhistorial-papel2 {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
   background-position: 0px -72px;
 }
 
 .iconhistorial-lupa2 {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
   background-position: 0px -95px;
 }
 
 .iconhistorial-reloj2 {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
   background-position: 0px -118px;
 }
 
 .iconhistorial-ok {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+  background-image: url(/assets/images/iconos_historial.png);
   background-position: 0px -145px;
 }
 
 .iconhistorial-undo {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/icono_historial_undo.png);
+  background-image: url(/assets/images/icono_historial_undo.png);
 }
 
 .iconhistorial-cancel {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/icono_historial_cancel.png);
+  background-image: url(/assets/images/icono_historial_cancel.png);
 }
 
 .iconhistorial-annul {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/icono_historial_annul.png);
+  background-image: url(/assets/images/icono_historial_annul.png);
 }
 
 .iconhistorial-reclaim {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/icono_historial_reclaim.png);
+  background-image: url(/assets/images/icono_historial_reclaim.png);
 }
 
 .iconhistorial-localcancel {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/icono_historial_rcancel.png);
+  background-image: url(/assets/images/icono_historial_rcancel.png);
 }
 .iconhistorial-remotecancel {
   @extend .iconhistorial;
-  background-image: url(/bundles/celsius3core/images/icono_historial_rcancel.png);
+  background-image: url(/assets/images/icono_historial_rcancel.png);
 }
 
 .historial_encargado {
@@ -709,14 +709,14 @@ body {
 }
 
 .doc_type_pdf {
-  background-image: url(/bundles/celsius3core/images/item_online.png);
+  background-image: url(/assets/images/item_online.png);
   width: 21px;
   height: 20px;
   background-repeat: no-repeat;
 }
 
 .doc_type_print {
-  background-image: url(/bundles/celsius3core/images/item_impreso.png);
+  background-image: url(/assets/images/item_impreso.png);
   width: 21px;
   height: 20px;
   background-repeat: no-repeat;
@@ -732,7 +732,7 @@ body {
     min-width: 700px;
     float: left;
     text-align: center;
-    background-image: url(/bundles/celsius3core/images/fondo_tira.png);
+    background-image: url(/assets/images/fondo_tira.png);
     background-repeat: no-repeat;
     background-position: 150px 15px;
     height: 75px;
@@ -798,7 +798,7 @@ body {
   color: #8B8C8C;
   h3 {
     display: block;
-    background-image: url(/bundles/celsius3core/images/h1_historial.png);
+    background-image: url(/assets/images/h1_historial.png);
     width: 315px;
     height: 42px;
     background-position: -20px 0px;
@@ -908,20 +908,20 @@ body {
     color: #FFFFFF;
   }
   .panel1 {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_01_grey_larger.png);
+    background-image: url(/assets/images/item_catalogos_01_grey_larger.png);
     height: 62px;
     padding: 10px 0px 0px 10px;
     background-repeat: no-repeat;
     white-space: normal;
   }
   .panel2 {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_02_transicion.png);
+    background-image: url(/assets/images/item_catalogos_02_transicion.png);
     height: 62px;
     margin-right: -22px;
     background-repeat: no-repeat;
   }
   .panel3 {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_03_blue.png);
+    background-image: url(/assets/images/item_catalogos_03_blue.png);
     height: 62px;
     padding-right: 10px;
     background-position: right;
@@ -930,13 +930,13 @@ body {
     margin-left: -2px;
   }
   .panel2_ok {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_03_ok.png);
+    background-image: url(/assets/images/item_catalogos_03_ok.png);
     height: 62px;
     margin-right: -22px;
     background-repeat: no-repeat;
   }
   .panel3_ok {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_04_ok.png);
+    background-image: url(/assets/images/item_catalogos_04_ok.png);
     height: 62px;
     background-position: right;
   }
@@ -944,13 +944,13 @@ body {
     margin-left: -2px;
   }
   .panel2_cancel {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_02_cancel.png);
+    background-image: url(/assets/images/item_catalogos_02_cancel.png);
     height: 62px;
     margin-right: -22px;
     background-repeat: no-repeat;
   }
   .panel3_cancel {
-    background-image: url(/bundles/celsius3core/images/item_catalogos_03_cancel.png);
+    background-image: url(/assets/images/item_catalogos_03_cancel.png);
     height: 62px;
     background-position: right;
   }
@@ -979,7 +979,7 @@ body {
   width: 13px;
   height: 13px;
   float: left;
-  background-image: url(/bundles/celsius3core/images/estrella.png);
+  background-image: url(/assets/images/estrella.png);
   margin-right: 8px;
   margin-left: 8px;
 }
@@ -988,7 +988,7 @@ body {
   width: 13px;
   height: 13px;
   float: left;
-  background-image: url(/bundles/celsius3core/images/estrella_.png);
+  background-image: url(/assets/images/estrella_.png);
   background-position: bottom;
   margin-right: 8px;
   margin-left: 8px;
@@ -1303,7 +1303,7 @@ div#celsius-search {
 }
 
 .ui-state-hover .ui-icon {
-  background-image: url('/build/images/ui-icons_228ef1_256x240.b5c094c2.png');
+  //background-image: url('/assets/images/ui-icons_228ef1_256x240.b5c094c2.png');
 }
 
 // Se utiliza para desplegar el menú de administración
