@@ -15,8 +15,6 @@ return [
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
     FOS\OAuthServerBundle\FOSOAuthServerBundle::class => ['all' => true],
     FOS\RestBundle\FOSRestBundle::class => ['all' => true],
-    JMS\I18nRoutingBundle\JMSI18nRoutingBundle::class => ['all' => true],
-    JMS\TranslationBundle\JMSTranslationBundle::class => ['all' => true],
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     Http\HttplugBundle\HttplugBundle::class => ['all' => true],

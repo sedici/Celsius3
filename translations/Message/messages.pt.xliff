@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-    <file date="2015-06-04T16:08:46Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file date="2015-06-04T16:08:46Z" source-language="en" target-language="pt" datatype="plaintext"
+          original="not.available">
         <header>
             <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
-            <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+            <note>The source node in most cases contains the sample message as written by the developer. If it looks
+                like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a
+                default message.
+            </note>
         </header>
         <body>
             <trans-unit id="2e616de0ef62b87c63806092b15bc9a39d635583" resname="Content or participant">
                 <source>Content or participant</source>
                 <target state="new">Content or participant</target>
-                <jms:reference-file line="37">Form/Type/Filter/MessageFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="44caf74675ceb79ba5cc13bafa102509369c2b53" resname="Inbox">
                 <source>Inbox</source>
                 <target state="new">Inbox</target>
-                <jms:reference-file line="13">views/Layout/_message_panel.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="6403f2b7eb2aaafe6de34cbf2a029b01afebc512" resname="New">
                 <source>New</source>
                 <target state="new">New</target>
-                <jms:reference-file line="10">views/Layout/_message_panel.html.twig</jms:reference-file>
             </trans-unit>
         </body>
     </file>

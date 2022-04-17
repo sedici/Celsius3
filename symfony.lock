@@ -264,12 +264,6 @@
     "hamcrest/hamcrest-php": {
         "version": "v2.0.1"
     },
-    "jms/i18n-routing-bundle": {
-        "version": "3.1.0"
-    },
-    "jms/translation-bundle": {
-        "version": "1.6.2"
-    },
     "knplabs/knp-components": {
         "version": "v3.5.0"
     },

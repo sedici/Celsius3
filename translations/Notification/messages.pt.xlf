@@ -1,46 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-    <file date="2015-06-04T16:08:56Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file date="2015-06-04T16:08:56Z" source-language="en" target-language="pt" datatype="plaintext"
+          original="not.available">
         <header>
             <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
-            <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+            <note>The source node in most cases contains the sample message as written by the developer. If it looks
+                like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a
+                default message.
+            </note>
         </header>
         <body>
             <trans-unit id="08f98583c1ffe2e492a2510d98ff6f120d45719e" resname="Cause">
                 <source>Cause</source>
                 <target state="new">Cause</target>
-                <jms:reference-file line="3">views/Notification/_index_sort.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="f1c69716be47f3a1cb7d0bfc922d70909efbe2b6" resname="Created at">
                 <source>Created at</source>
                 <target state="new">Created at</target>
-                <jms:reference-file line="4">views/Notification/_index_sort.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="808d7dca8a74d84af27a2d6602c3d786de45fe1e" resname="Default">
                 <source>Default</source>
                 <target state="new">Default</target>
-                <jms:reference-file line="2">views/Notification/_index_sort.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="e1d848c33a6714fba3eb89a5c3f0d6d9894fd265" resname="Notification List">
                 <source>Notification List</source>
                 <target state="new">Notification List</target>
-                <jms:reference-file line="4">views/Notification/index.html.twig</jms:reference-file>
-                <jms:reference-file line="10">views/Notification/index.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="50a279de829f2dc398ac2ac7c9367508ea4b5df5" resname="Show all">
                 <source>Show all</source>
                 <target state="new">Show all</target>
-                <jms:reference-file line="9">views/Layout/_notification_panel.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="69bd4ef9fbd0894a22759c3766b859defbdedbc8" resname="View">
                 <source>View</source>
                 <target state="new">View</target>
-                <jms:reference-file line="3">views/Notification/_index_list_actions.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="f357562267187a09a657ee77d7c9194e8fafb291" resname="Viewed">
                 <source>Viewed</source>
                 <target state="new">Viewed</target>
-                <jms:reference-file line="5">views/Notification/_index_sort.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="1">
                 <source>Notification Subscriptions</source>
