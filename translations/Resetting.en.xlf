@@ -5,9 +5,13 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="9VAgNVl" resname="title.register_user">
-        <source>title.register_user</source>
-        <target>register user</target>
+      <trans-unit id="ibixsLs" resname="Password Reset">
+        <source>Password Reset</source>
+        <target>__Password Reset</target>
+      </trans-unit>
+      <trans-unit id="2u52BrM" resname="Reset">
+        <source>Reset</source>
+        <target>__Reset</target>
       </trans-unit>
     </body>
   </file>

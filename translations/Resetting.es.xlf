@@ -5,13 +5,13 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="hHF6bmz" resname="authorize.accept">
-        <source>authorize.accept</source>
-        <target>aceptar</target>
+      <trans-unit id="ibixsLs" resname="Password Reset">
+        <source>Password Reset</source>
+        <target>__Password Reset</target>
       </trans-unit>
-      <trans-unit id="xFYXz3C" resname="authorize.reject">
-        <source>authorize.reject</source>
-        <target>rechazar</target>
+      <trans-unit id="2u52BrM" resname="Reset">
+        <source>Reset</source>
+        <target>__Reset</target>
       </trans-unit>
     </body>
   </file>

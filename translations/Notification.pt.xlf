@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="pt" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="e6Yxeu_" resname="Cause">
+        <source>Cause</source>
+        <target state="new">Cause</target>
+      </trans-unit>
+      <trans-unit id="d1tb_WR" resname="Created at">
+        <source>Created at</source>
+        <target state="new">Created at</target>
+      </trans-unit>
+      <trans-unit id="IbERy.5" resname="Default">
+        <source>Default</source>
+        <target state="new">Default</target>
+      </trans-unit>
+      <trans-unit id="SBQl8nn" resname="Notification List">
+        <source>Notification List</source>
+        <target state="new">Notification List</target>
+      </trans-unit>
+      <trans-unit id="IVDY3zf" resname="Show all">
+        <source>Show all</source>
+        <target state="new">Show all</target>
+      </trans-unit>
+      <trans-unit id="3Mg5pAF" resname="View">
+        <source>View</source>
+        <target state="new">View</target>
+      </trans-unit>
+      <trans-unit id="GyjReFW" resname="Viewed">
+        <source>Viewed</source>
+        <target state="new">Viewed</target>
+      </trans-unit>
+      <trans-unit id="TbwJ6SP" resname="Notification Subscriptions">
+        <source>Notification Subscriptions</source>
+        <target>Notification Subscriptions</target>
+      </trans-unit>
+      <trans-unit id="oVHy6RL" resname="Subscriptions">
+        <source>Subscriptions</source>
+        <target>Subscriptions</target>
+      </trans-unit>
+      <trans-unit id="MVJ_u5A" resname="New User">
+        <source>New User</source>
+        <target>New User</target>
+      </trans-unit>
+      <trans-unit id="fTG4MxO" resname="Notification">
+        <source>Notification</source>
+        <target>Notification</target>
+      </trans-unit>
+      <trans-unit id="jlGoCk1" resname="New Message">
+        <source>New Message</source>
+        <target>New Message</target>
+      </trans-unit>
+      <trans-unit id="QYTlpk1" resname="Order Events">
+        <source>Order Events</source>
+        <target>Order Events</target>
+      </trans-unit>
+      <trans-unit id="bQqINz0" resname="Creation">
+        <source>Creation</source>
+        <target>Creation</target>
+      </trans-unit>
+      <trans-unit id="WfA9ZCt" resname="Request">
+        <source>Request</source>
+        <target>Request</target>
+      </trans-unit>
+      <trans-unit id="usnRWtn" resname="Receive">
+        <source>Receive</source>
+        <target>Receive</target>
+      </trans-unit>
+      <trans-unit id="piuP339" resname="Deliver">
+        <source>Deliver</source>
+        <target>Deliver</target>
+      </trans-unit>
+      <trans-unit id="GXZu1sy" resname="Cancel">
+        <source>Cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="X8SqEZE" resname="Annul">
+        <source>Annul</source>
+        <target>Annul</target>
+      </trans-unit>
+      <trans-unit id="EkKrmfZ" resname="notification">
+        <source>notification</source>
+        <target>Notification</target>
+      </trans-unit>
+      <trans-unit id="giREF.l" resname="email">
+        <source>email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="SJluaHt" resname="new_message">
+        <source>new_message</source>
+        <target>New Message</target>
+      </trans-unit>
+      <trans-unit id="D28oT1h" resname="new_user">
+        <source>new_user</source>
+        <target>New User</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
