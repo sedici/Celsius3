@@ -215,7 +215,7 @@ class RequestRepository extends BaseRepository
             . 'INNER JOIN request r ON e.request_id = r.id '
             . 'INNER JOIN event re ON e.request_event_id = re.id '
             . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND re.provider_id IN (:institutions) '
-            . 'AND YEAR(e.created_at) >= :initialYear AND YEAR(e.created_t) <= :finalYear '
+            . 'AND YEAR(e.created_at) >= :initialYear AND YEAR(e.created_at) <= :finalYear '
             . 'GROUP BY year '
         ;
 
