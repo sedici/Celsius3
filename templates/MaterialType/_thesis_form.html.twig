@@ -1,0 +1,83 @@
+{% form_theme form 'Form/fields.html.twig' %}
+
+<div class="form-group {% if not form.materialData.title.vars.valid %} has-error {% endif %}">
+    {{ form_label(form.materialData.title, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.title, { 'attr': {'class': 'form-control'} }) }}
+        {% for error in form.materialData.title.vars.errors %}
+            <p class="text-danger">{{ error.message }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="form-group {% if not form.materialData.authors.vars.valid %} has-error {% endif %}">
+    {{ form_label(form.materialData.authors, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.authors, { 'attr': {'class': 'form-control'} }) }}
+        {% for error in form.materialData.authors.vars.errors %}
+            <p class="text-danger">{{ error.message }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="form-group {% if not form.materialData.director.vars.valid %} has-error {% endif %}">
+    {{ form_label(form.materialData.director, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.director, { 'attr': {'class': 'form-control'} }) }}
+        {% for error in form.materialData.director.vars.errors %}
+            <p class="text-danger">{{ error.message }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group {% if not form.materialData.degree.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.materialData.degree, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.materialData.degree, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.materialData.degree.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group {% if not form.materialData.year.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.materialData.year, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.materialData.year, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.materialData.year.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group {% if not form.materialData.startPage.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.materialData.startPage, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.materialData.startPage, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.materialData.startPage.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group {% if not form.materialData.endPage.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.materialData.endPage, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+            <div class="col-md-8">
+                {{ form_widget(form.materialData.endPage, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.materialData.endPage.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

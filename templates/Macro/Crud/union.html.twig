@@ -1,7 +1,7 @@
 {% macro union(name, entities, folder) %}
     <div class="row">
         <div class="col-md-9">
-            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+            {% include 'Layout/_flashes.html.twig' %}
 
             <form action="{{ path(name~'_doUnion') }}" method="post" role="form">
                 <p>{{ 'Please select the element you want to overwrite the others.'|trans }}</p>

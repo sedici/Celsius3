@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+    <file date="2018-01-05T11:47:51Z" source-language="en" target-language="es" datatype="plaintext"
+          original="not.available">
+        <header>
+            <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+            <note>The source node in most cases contains the sample message as written by the developer. If it looks
+                like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a
+                default message.
+            </note>
+        </header>
+        <body>
+            <trans-unit id="442d6c2d75692f82c7a02e78a0e4557d67ea3619" resname="threads_found&#10;">
+                <source xml:space="preserve">threads_found</source>
+                <target>Hilos encontrados</target>
+                <jms:reference-file line="13">/Resources/FOSMessageBundle/views/Message/search.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="b639f5cc719831458c83999303237e8499c0cabe" resname="deleted">
+                <source>deleted</source>
+                <target state="new">Papelera</target>
+                <jms:reference-file line="4">/Resources/FOSMessageBundle/views/Message/deleted.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="08a5564a79b3d56562ff091aa4077e9abd0cdc3e" resname="inbox">
+                <source>inbox</source>
+                <target state="new">Bandeja de entrada</target>
+                <jms:reference-file line="4">/Resources/FOSMessageBundle/views/Message/inbox.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="5df9221d482c3262846af57f37b948de8cc30ea4" resname="messenger">
+                <source>messenger</source>
+                <target>Correo</target>
+                <jms:reference-file line="4">/Resources/FOSMessageBundle/views/layout.html.twig</jms:reference-file>
+            </trans-unit>
+            <trans-unit id="218dbf4ddb5ce5cafcb3b69fd4a3a41f9752d206" resname="no_thread">
+                <source>no_thread</source>
+                <target>Sin hilo</target>
+                <jms:reference-file line="214">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="a5dfd1e2a15413c239c56947f6e8790101036d25" resname="reply">
+                <source>reply</source>
+                <target>responder</target>
+                <jms:reference-file line="31">/Resources/FOSMessageBundle/views/Message/thread.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="3559d7accf00360971961ca18989adc0614089c0" resname="search">
+                <source>search</source>
+                <target>buscar</target>
+                <jms:reference-file line="5">/Resources/FOSMessageBundle/views/Message/search.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="73757863f140c0a34b508cfadb9174c998de71e6" resname="send_new">
+                <source>send_new</source>
+                <target>Enviar nuevo</target>
+                <jms:reference-file line="68">/Resources/FOSMessageBundle/views/Message/newThread.html.twig
+                </jms:reference-file>
+                <jms:reference-file line="81">/Resources/FOSMessageBundle/views/Message/sidebar.html.twig
+                </jms:reference-file>
+            </trans-unit>
+            <trans-unit id="27e7700fdaa16b99ae9d594813284eb0a992cc16" resname="sent">
+                <source>sent</source>
+                <target state="new">Enviado</target>
+                <jms:reference-file line="4">/Resources/FOSMessageBundle/views/Message/sent.html.twig
+                </jms:reference-file>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

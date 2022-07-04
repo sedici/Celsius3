@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="Celsius3\Entity\Request">
+        <attribute name="id">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="type">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="comments">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="owner">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="operator">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="previousRequest">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="instance">
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="states">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="events">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="files">
+            <group>administration_order_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="createdAt">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="order">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="currentState">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="has_downloadable_files">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+    </class>
+</serializer>

@@ -1,4 +1,4 @@
-{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+{% extends 'Admin/Dashboard/layout.html.twig' %}
 
 {% block title %}
     {{ 'Catalog List'|trans }}
@@ -37,7 +37,7 @@
     </div>
 
     <div class="row">
-        {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+        {% include 'Layout/_flashes.html.twig' %}
     </div>
     <div class="row">
         {% set count = (pagination|length) %}

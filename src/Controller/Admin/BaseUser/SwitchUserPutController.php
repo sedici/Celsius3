@@ -24,31 +24,32 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-final class SwitchUserPutController extends BaseUserController
+final class SwitchUserPutController extends AbstractController
 {
     private $userManager;
     private $tokenStorage;
-    
+
     public function __construct(UserManagerInterface $userManager, TokenStorageInterface $tokenStorage)
     {
         $this->userManager = $userManager;
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->userManager->findUserByUsername($request->get('_switch_user'));
             $token = new UsernamePasswordToken($user, $user->getPassword(), 'secured_area', $user->getRoles());
             $this->tokenStorage->setToken($token);
         }
 
-        return $this->redirectToRoute('user_index', []);
+        return $this->redirectToRoute('user_index');
     }
 }

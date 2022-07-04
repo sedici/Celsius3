@@ -1,7 +1,7 @@
 {% macro configure(name, configure_form, folder, entity) %}
     <div class="row">
         <div class="col-md-9">
-            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+            {% include 'Layout/_flashes.html.twig' %}
             {{ form_start(configure_form, {
                 'attr': {
                     'action': path(name ~ '_update_configuration', { 'code': app.request.get('code'), 'id': entity.id }),

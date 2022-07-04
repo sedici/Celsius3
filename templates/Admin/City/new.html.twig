@@ -1,0 +1,13 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'City Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <h2>{{ 'City Creation'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_city', form, 'Admin/City/', true) }}
+{% endblock %}

@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Event;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
-use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\Controller\BaseInstanceDependentRestController;
+use Celsius3\Entity\Request;
+use Celsius3\Exception\Exception;
+use Celsius3\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class CreateUndoEventPostController extends BaseInstanceDependentRestController

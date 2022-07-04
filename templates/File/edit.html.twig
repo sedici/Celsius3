@@ -1,0 +1,11 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'File Edit'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
+
+{% block content %}
+    {{ edit('file', entity, edit_form) }}
+{% endblock %}

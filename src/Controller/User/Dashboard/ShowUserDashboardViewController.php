@@ -24,30 +24,35 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Dashboard;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
-use Celsius3\CoreBundle\Entity\Configuration;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\MessageBundle\Entity\Thread;
+use Celsius3\Entity\Configuration;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Entity\Thread;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ShowUserDashboardViewController extends BaseInstanceDependentController
+final class ShowUserDashboardViewController extends AbstractController
 {
     private $threadRepository;
     private $configurationRepository;
+    private $instanceHelper;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper
+    ) {
         $this->threadRepository = $entityManager->getRepository(Thread::class);
         $this->configurationRepository = $entityManager->getRepository(Configuration::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke(): Response
     {
-        $lastMessages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
+        $last_messages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
         $results_per_page_config = $this->configurationRepository->findOneBy(
             [
-                'instance' => $this->getInstance(),
+                'instance' => $this->instanceHelper->getSessionInstance(),
                 'key' => ConfigurationHelper::CONF__RESULTS_PER_PAGE,
             ]
         );

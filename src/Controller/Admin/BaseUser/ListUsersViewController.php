@@ -24,24 +24,73 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Repository\BaseUserRepositoryInterface;
+use Knp\Component\Pager\Paginator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-final class ListUsersViewController extends BaseUserController
+final class ListUsersViewController extends AbstractController
 {
-    public function __invoke()
+    private $baseUserRepository;
+    private $instanceHelper;
+    private $filterManager;
+    private $configurationHelper;
+    private $paginator;
+
+    public function __construct(
+        BaseUserRepositoryInterface $baseUserRepository,
+        InstanceHelper $instanceHelper,
+        FilterManager $filterManager,
+        ConfigurationHelper $configurationHelper,
+        Paginator $paginator
+    ) {
+        $this->baseUserRepository = $baseUserRepository;
+        $this->instanceHelper = $instanceHelper;
+        $this->filterManager = $filterManager;
+        $this->configurationHelper = $configurationHelper;
+        $this->paginator = $paginator;
+    }
+
+    public function __invoke(Request $request): Response
     {
-        $parameters = $this->baseIndex(
-            'BaseUser',
-            $this->createForm(
-                BaseUserFilterType::class,
-                null,
-                [
-                    'instance' => $this->getInstance(),
-                ]
-            )
+        $query = $this->baseUserRepository->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter('instance_id', $this->instanceHelper->getSessionOrUrlInstance()->getId());
+        
+        $filterForm = $this->createForm(
+            BaseUserFilterType::class,
+            null,
+            [
+                'instance' => $this->instanceHelper->getSessionInstance(),
+            ]
         );
 
-        return $this->render('Admin/BaseUser/index.html.twig', $parameters);
+        if ($filterForm !== null) {
+            $filterForm = $filterForm->handleRequest($request);
+            $query = $this->filterManager
+                ->filter($query, $filterForm, BaseUser::class, $this->instanceHelper->getSessionInstance());
+        }
+
+        $pagination = $this->paginator->paginate(
+            $query,
+            $request->query->get('page', 1),
+            $this->configurationHelper
+                ->getCastedValue($this->instanceHelper->getSessionInstance()->get('results_per_page')),
+            [
+                'defaultSortFieldName' => 'e.surname',
+                'defaultSortDirection' => 'asc',
+            ]
+        );
+
+        return $this->render('Admin/BaseUser/index.html.twig', [
+            'pagination' => $pagination,
+            'filter_form' => $filterForm->createView(),
+        ]);
     }
 }

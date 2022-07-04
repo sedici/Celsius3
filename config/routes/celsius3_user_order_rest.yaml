@@ -1,0 +1,20 @@
+user_rest_order:
+    path: /user/rest/orders
+    defaults: { _controller: Celsius3\Controller\User\Order\OrdersGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+user_rest_order_count_get:
+    path: /user/rest/orders/count
+    defaults: { _controller: Celsius3\Controller\User\Order\OrdersCountGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+user_rest_order_get:
+    path: /user/rest/orders/{id}
+    defaults: { _controller: Celsius3\Controller\User\Order\OrderGetController }
+    methods: [ GET ]
+    options:
+        expose: true

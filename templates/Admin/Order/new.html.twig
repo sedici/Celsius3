@@ -1,0 +1,18 @@
+{% set ajax_path = 'admin_ajax' %}
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Order Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>{{ 'Order Creation' | trans }}</h2>
+            <hr class="separator_hr">
+            {{ new('admin_order', form, 'Admin/Order/', true, entity) }}
+        </div>
+    </div>
+{% endblock %}

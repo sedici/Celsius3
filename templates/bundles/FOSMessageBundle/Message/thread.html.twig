@@ -8,7 +8,7 @@
                 <div class="well {{ thread.createdBy == message.sender ? 'starter-message' : '' }}">
                     <div class="message-header">
                         <span class="pull-left message-sender">
-                            {{  message.sender }}
+                            {{ message.sender }}
                         </span>
                         <span class="pull-right">
                             {{ message.createdAt|localizeddate }} ({{ message.createdAt|time_ago_in_words }})
@@ -30,8 +30,9 @@
             {% endfor %}
             <h4>{{ 'reply' | trans({}, 'FOSMessageBundle') | first_upper }}</h4>
             {{ form_start(form, {'action': url('fos_message_thread_view', {'threadId': thread.id}), 'method': 'POST', 'attr': {'class': 'form' } }) }}
-                {{ form_widget(form.body) }}
-                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-envelope"></span> {{ 'Send'|trans }}</button>
+            {{ form_widget(form.body) }}
+            <button type="submit" class="btn btn-primary submit-button"><span
+                        class="glyphicon glyphicon-envelope"></span> {{ 'Send'|trans }}</button>
             {{ form_end(form) }}
         </div>
         <div class="col-md-3">

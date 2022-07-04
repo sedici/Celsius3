@@ -1,4 +1,4 @@
-{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+{% extends 'Admin/Dashboard/layout.html.twig' %}
 
 {% block title %}
     {{ 'User View' | trans }}
@@ -18,7 +18,7 @@
     <hr class="separator_hr">
     <div class="row" ng-app="userApp">
         <div class="col-md-9">
-            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+            {% include 'Layout/_flashes.html.twig' %}
 
             <h3>{{ 'Personal data'|trans }}</h3>
             {% embed 'Admin/BaseUser/_show_fields.html.twig' %}

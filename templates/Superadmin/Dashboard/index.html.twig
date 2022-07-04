@@ -1,0 +1,41 @@
+{% extends 'Layout/superadministration_layout.html.twig' %}
+
+{% block title %}
+    {{ 'Network Administration'|trans }}
+{% endblock %}
+
+{% block content %}
+    {% for flash_message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+
+    <div class="row">
+        <div class="col-md-6">
+            {% include 'Superadmin/Dashboard/_global_span.html.twig' %}
+        </div>
+        <div class="col-md-6">
+            {% include 'Superadmin/Dashboard/_other_span.html.twig' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'Superadmin/Dashboard/_shared_span.html.twig' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'Superadmin/Dashboard/_dash.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('build/superadministration.js') }}"></script>
+{% endblock %}

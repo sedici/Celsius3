@@ -6,6 +6,7 @@ services:
         network_mode: host
         volumes:
           - .:/var/www/html
+          - .composer:/.composer
         depends_on:
           - mysql
           - elasticsearch

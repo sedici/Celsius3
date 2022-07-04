@@ -24,8 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Event;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Controller\BaseInstanceDependentRestController;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class EventGetController extends BaseInstanceDependentRestController
@@ -48,7 +49,7 @@ final class EventGetController extends BaseInstanceDependentRestController
 
     private function findEvent($id)
     {
-        $event = $this->entityManager->getRepository('Celsius3CoreBundle:Event')
+        $event = $this->entityManager->getRepository(Event::class)
             ->find($id);
 
         if (!$event) {

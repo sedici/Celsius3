@@ -22,7 +22,7 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\Entity\BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -46,7 +46,7 @@ class TicketState
      * @var Baseuser
      *
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;

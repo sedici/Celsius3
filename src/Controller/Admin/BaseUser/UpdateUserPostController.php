@@ -24,23 +24,34 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
-use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Helper\CustomFieldHelper;
+use Celsius3\Controller\BaseUserController;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Exception\Exception;
+use Celsius3\Form\Type\BaseUserType;
+use Celsius3\Helper\CustomFieldHelper;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-final class UpdateUserPostController extends BaseUserController
+final class UpdateUserPostController extends AbstractController
 {
     private $entityManager;
     private $customFieldHelper;
+    /**
+     * @var InstanceHelper
+     */
+    private $instanceHelper;
 
-    public function __construct(EntityManagerInterface $entityManager, CustomFieldHelper $customFieldHelper)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        CustomFieldHelper $customFieldHelper,
+        InstanceHelper $instanceHelper
+    ) {
         $this->entityManager = $entityManager;
         $this->customFieldHelper = $customFieldHelper;
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke($id, Request $request)
@@ -63,9 +74,7 @@ final class UpdateUserPostController extends BaseUserController
             return $this->redirect($this->generateUrl('admin_user_edit', ['id' => $id]));
         }
 
-        $this->get('session')
-            ->getFlashBag()
-            ->add('error', 'There were errors editing the BaseUser.');
+        $this->addFlash('error', 'There were errors editing the BaseUser.');
 
         return $this->render(
             'Admin/BaseUser/edit.html.twig',
@@ -78,11 +87,14 @@ final class UpdateUserPostController extends BaseUserController
 
     private function findUser($id)
     {
-        $entity = $this->findQuery('BaseUser', $id);
+        $entity = $this->entityManager
+            ->getRepository(BaseUser::class)
+            ->findOneForInstance($this->instanceHelper->getSessionOrUrlInstance(), $id);
 
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
+        
         return $entity;
     }
 
@@ -96,13 +108,11 @@ final class UpdateUserPostController extends BaseUserController
         $this->entityManager->flush();
 
         $this->customFieldHelper->processCustomUserFields(
-            $this->getInstance(),
+            $this->instanceHelper->getSessionOrUrlInstance(),
             $editForm,
             $entity
         );
 
-        $this->get('session')
-            ->getFlashBag()
-            ->add('success', 'The BaseUser was successfully edited.');
+        $this->addFlash('success', 'The BaseUser was successfully edited.');
     }
 }

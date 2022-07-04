@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="Celsius3\Entity\Event\SingleInstanceReceiveEvent">
+        <attribute name="deliveryType">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="files">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="requestEvent">
+            <group>administration_order_show</group>
+        </attribute>
+        <attribute name="isReclaimed">
+            <group>administration_order_show</group>
+        </attribute>
+    </class>
+</serializer>

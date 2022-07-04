@@ -1,0 +1,290 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'User View' | trans }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var element_id = {{ (element is defined and element) ? element.id : '' }};
+    </script>
+    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/admin_base_user.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ 'User View'|trans }}</h2>
+
+    <div class="row" ng-app="userApp">
+        <div class="col-md-9">
+            {% include 'Layout/_flashes.html.twig' %}
+
+            <h3>{{ 'Personal data'|trans }}</h3>
+            {% embed 'Admin/BaseUser/_show_fields.html.twig' %}
+                {% block actions %}
+                {% endblock %}
+            {% endembed %}
+
+            <h3>{{ 'Institutional data'|trans }}</h3>
+            <div class="row">
+                <dl class="dl-horizontal">
+                    <dt>{{ 'Institution'|trans }}</dt>
+                    <dd>{{ element.institution }}</dd>
+                    {% include 'Admin/BaseUser/_institution.html.twig' with {'institution': element.institution.parent } only %}
+                </dl>
+            </div>
+
+            <h3>{{ 'Orders'|trans }}</h3>
+            <div>
+                <div ng-controller="UserCtrl">
+                    <div ng-include="'orders.html'" ng-view>
+
+                    </div>
+                    {% verbatim %}
+                        <!-- orders.html -->
+                        <script type="text/ng-template" id="orders.html">
+                            <div class="row" >
+                            <ul class="nav nav-tabs">
+                            <li class="active"><a id="active-tab" href="#active" data-toggle="tab">{{ 'Active' | trans }}</a></li>
+                            <li><a id="ready-tab" href="#ready" data-toggle="tab">{{ 'Ready' | trans }}</a></li>
+                            <li><a id="history-tab" href="#history" data-toggle="tab">{{ 'History' | trans }}</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                            <div class="tab-pane active" id="active">
+                            <br/>
+                            <div class="navigation" ng-if="paginationActive.total > paginationActive.resultsPerPage">
+                            <pagination total-items="paginationActive.total"
+                            items-per-page="paginationActive.resultsPerPage"
+                            max-size="7"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="paginationActive.numPages"
+                            ng-model="paginationActive.currentPage"
+                            ng-change="pageChangedActive()"
+                            previous-text="{{ 'Previous' | trans }}"
+                            next-text="{{ 'Next' | trans }}"
+                            first-text="{{ 'First' | trans }}"
+                            last-text="{{ 'Last' | trans }}">
+                            </pagination>
+                            </div>
+
+                            <div class="item_container" ng-repeat="order in paginationActive.orders">
+                            <div ng-include="'_index_element.html'"></div>
+                            </div>
+                            <div ng-if="paginationActive.total == 0">
+                            <p>{{ 'There are no orders' | trans }}</p>
+                            </div>
+                            </div>
+
+
+                            <div class="tab-pane" id="ready">
+                            <br/>
+                            <div class="navigation" ng-if="paginationReady.total > paginationReady.resultsPerPage">
+                            <pagination total-items="paginationReady.total"
+                            items-per-page="paginationReady.resultsPerPage"
+                            max-size="7"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="paginationReady.numPages"
+                            ng-model="paginationReady.currentPage"
+                            ng-change="pageChangedReady()"
+                            previous-text="{{ 'Previous' | trans }}"
+                            next-text="{{ 'Next' | trans }}"
+                            first-text="{{ 'First' | trans }}"
+                            last-text="{{ 'Last' | trans }}">
+                            </pagination>
+                            </div>
+
+
+                            <div class="item_container" ng-repeat="order in paginationReady.orders">
+                            <div ng-include="'_index_element.html'"></div>
+                            </div>
+                            <div ng-if="paginationReady.total == 0">
+                            <p>{{ 'There are no orders' | trans }}</p>
+                            </div>
+                            </div>
+
+
+                            <div class="tab-pane" id="history">
+                            <br/>
+                            <div class="navigation" ng-if="paginationHistory.total > paginationHistory.resultsPerPage">
+                            <pagination total-items="paginationHistory.total"
+                            items-per-page="paginationHistory.resultsPerPage"
+                            max-size="7"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="paginationHistory.numPages"
+                            ng-model="paginationHistory.currentPage"
+                            ng-change="pageChangedHistory()"
+                            previous-text="{{ 'Previous' | trans }}"
+                            next-text="{{ 'Next' | trans }}"
+                            first-text="{{ 'First' | trans }}"
+                            last-text="{{ 'Last' | trans }}">
+                            </pagination>
+                            </div>
+
+                            <div class="item_container" ng-repeat="order in paginationHistory.orders">
+                            <div ng-include="'_index_element.html'"></div>
+                            </div>
+                            <div ng-if="paginationHistory.total == 0">
+                            <p>{{ 'There are no orders' | trans }}</p>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                        </script>
+
+                        <!-- _index_element.html -->
+                        <script type="text/ng-template" id="_index_element.html">
+                            <div class="top_info">
+                            <div class="top_left">
+                            <div ng-class="order.original_request.type | request_type">{{order.original_request.type| request_type_abbr | trans}}</div>
+                            <div class="tipoarticulo">{{order.material_data.type | trans}}</div>
+                            </div>
+
+                            <div class="top_right">
+                            <div class="status-{{order.original_request.current_state}}" data-toggle="tooltip" title="{{order.original_request.current_state | trans}}"></div>
+                            <div class="uri">{{order.code}}</div>
+                            <div class="usuario">
+                            {{order.original_request.operator ? order.original_request.operator.name : '-'}}
+                            </div>
+                            <div class="decoracion"></div>
+                            </div>
+
+                            <div class="top_center pull-right text-center">
+                            {{order.original_request.created_at|date:'mediumDate'}}
+                            </div>
+                            </div>
+
+                            <div class="main_info" data-order-id="{{ order.id }}">
+                            <div class="title_and_author">
+                            <div class="titulo" ng-if="order.material_data.type === 'journal'">
+                            <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}" ng-if="order.material_data.journal">{{ order.material_data.journal.name | uppercase }}</a>
+                            <span ng-if="!order.material_data.journal">{{ order.material_data.other | uppercase }}</span>
+                            </div>
+                            <div class="titulo" ng-if="order.material_data.type === 'book'">
+                            {{ order.material_data.title | uppercase }}
+                            </div>
+                            <div class="titulo" ng-if="order.material_data.type !== 'book'">
+                            <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                            <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | trans}} ] - </span>
+                            </div>
+                            <div class="titulo" ng-if="order.material_data.type === 'book'">
+                            <span>{{ order.material_data.chapter }}</span>
+                            </div>
+                            <div class="autor">{{order.material_data.authors}}</div>
+                            <div class="doc_year">{{order.material_data.year}}</div>
+                            </div>
+                            <div class="doc_and_year">
+                            <div ng-if="order.original_request.owner.pdf === true" class="doc_type_pdf"></div>
+                            <div ng-if="order.original_request.owner.pdf !== true" class="doc_type_print"></div>
+                            <div class="busquedas">
+                            {{'searches'|trans}}: {{countSearches(order.original_request)}}
+                            </div>
+                            <div ng-repeat="event in order.original_request.events" ng-if="event.type === 'cancel' && event.cancelled_by_user">
+                            {{ 'cancelledByUser' | trans }}
+                            </div>
+                            </div>
+                            </div>
+
+                            <div class="owner_data">
+                            <p class="owner">{{ order.original_request.owner.surname | first_upper }}, {{ order.original_request.owner.name | first_upper }} ({{ order.original_request.owner.username | lowercase }})</p>
+                            <p class="institution">{{ printInstitutions(order.original_request.owner.institution) }}</p>
+                            </div>
+
+                            <div class="order-actions">
+                            <ul class="list-unstyled actions">
+                            <li ng-if="searchPending(order.original_request)">
+                            <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | trans }}"/>
+                            </li>
+                            <li>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | trans }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </li>
+                            <li>
+                            <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
+                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span class="fa fa-files-o"></span></a>
+                            </form>
+                            </li>
+                            </ul>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="requests" ng-if="hasRequests(order.original_request.events)">
+                            <h5>{{ 'Requests' | trans }}</h5>
+                            <p ng-repeat="event in order.original_request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
+                            <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> |
+                            <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
+                            <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>
+                            </p>
+                            </div>
+                        </script>
+                    {% endverbatim %}
+                </div>
+            </div>
+
+            <h3>{{ 'Messages' | trans }}</h3>
+            <div class="row">
+                {% for thread in messages %}
+                    <div id="id{{ thread.id }}">
+                        <div class="message-heading {{ fos_message_is_read(thread)?'message-read':'' }}">
+                            <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
+                                <span class="label label-default message-creator col-md-4">
+                                    {{ thread.lastMessage.sender.fullName }}
+                                </span>
+                                <span class="message-subject col-md-7 autoellipsis">
+                                    ({{ get_unread_messages(thread) }}) {{ thread.subject }}
+                                </span>
+                                <span class="pull-right">
+                                    {{ thread.lastMessage.createdAt|localizeddate }}
+                                </span>
+                                <span class="clearfix"></span>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id="accordion" class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
+                                <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse in collapse" id="collapseTwo">
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('admin_user') }}">
+                                        <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_user_edit', { 'id': element.id }) }}">
+                                        <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_order_new', { 'user_id': element.id }) }}">
+                                        <span class="glyphicon glyphicon-plus"></span> {{ 'Add order'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('fos_user_resetting_admin', { 'username': element.username }) }}">
+                                        <span class="fa fa-key"></span> {{ 'Reset password'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,4 +1,0 @@
-celsius3_notification:
-    resource: "@Celsius3NotificationBundle/Controller/"
-    type:     annotation
-    prefix:   /

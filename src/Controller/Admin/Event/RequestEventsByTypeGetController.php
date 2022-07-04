@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Event;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
-use Celsius3\CoreBundle\Manager\EventManager;
+use Celsius3\Controller\BaseInstanceDependentRestController;
+use Celsius3\Manager\EventManager;
 
 final class RequestEventsByTypeGetController extends BaseInstanceDependentRestController
 {

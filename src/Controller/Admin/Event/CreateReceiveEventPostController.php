@@ -24,12 +24,12 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\Event;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
-use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\Controller\BaseInstanceDependentRestController;
+use Celsius3\Entity\Request;
+use Celsius3\Exception\Exception;
+use Celsius3\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
+use FOS\RestBundle\Context\Context;
 
 final class CreateReceiveEventPostController extends BaseInstanceDependentRestController
 {
@@ -50,8 +50,9 @@ final class CreateReceiveEventPostController extends BaseInstanceDependentRestCo
 
         $view = $this->view($result, 200)->setFormat('json');
 
-        $context = SerializationContext::create()->setGroups(['administration_order_show']);
-        $view->setSerializationContext($context);
+        $context = new Context();
+        $context->addGroup('administration_order_show');
+        $view->setContext($context);
 
         return $this->handleView($view);
     }

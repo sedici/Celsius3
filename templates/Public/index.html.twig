@@ -1,0 +1,33 @@
+{% extends 'Public/public.html.twig' %}
+
+{% block title %}
+    {{ 'Home'|trans }}
+{% endblock %}
+
+{% block content %}
+    {% set show_news = instance.get('show_news').getValue() %}
+
+    {% if show_news %}
+        {% set columns = 6 %}
+    {% else %}
+        {% set columns = 12 %}
+    {% endif %}
+    <br>
+    <div class="row">
+        <div id="description" class="col-md-{{columns}}">
+            {{ instance.get('instance_description').value|raw }}
+        </div>
+        {% if show_news %}
+            <div id="news" class="col-md-{{columns}}">
+                <h3>
+                    {{ 'Latest News'|trans }}
+                    <a href="{{path('rss_news')}}" class="fa fa-rss" title="RSS"></a>
+                </h3>
+                {% for news in lastNews %}
+                    {% include 'Public/_news.html.twig' %}
+                    {% include 'Public/_news_modal.html.twig' %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

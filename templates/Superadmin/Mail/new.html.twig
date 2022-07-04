@@ -1,0 +1,21 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Mail Template Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>{{ 'Mail Template Creation'|trans }}</h2></div>
+    <div class="panel-body">
+    {{ new('superadmin_mails', form) }}
+</div>
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+    <class name="Celsius3\Entity\MaterialType">
+        <attribute name="id">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="title">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+            <group>email_template</group>
+        </attribute>
+        <attribute name="authors">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="year">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="startPage">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="endPage">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="materialType">
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+    </class>
+</serializer>

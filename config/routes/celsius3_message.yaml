@@ -1,4 +1,50 @@
-celsius3_message:
-    resource: "@Celsius3MessageBundle/Controller/"
-    type:     annotation
-    prefix:   /
+fos_message_inbox:
+    path: /user/message/
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::inboxAction }
+    methods: [ GET ]
+    options:
+        expose: true
+
+fos_message_sent:
+    path: /user/message/sent
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::sentAction }
+    methods: [ GET ]
+
+fos_message_deleted:
+    path: /user/message/deleted
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::deletedAction }
+    methods: [ GET ]
+
+fos_message_search:
+    path: /user/message/search
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::searchAction }
+    methods: [ GET ]
+
+fos_message_thread_new:
+    path: /user/message/new
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::newThreadAction }
+    methods: [ GET ]
+    options:
+        expose: true
+
+fos_message_mark_read:
+    path: /user/message/mark_read
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::markAsReadAction }
+    methods: [ POST ]
+
+fos_message_thread_delete:
+    path: /user/message/{threadId}/delete
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::deleteAction }
+    methods: [ POST, DELETE ]
+
+fos_message_thread_undelete:
+    path: /user/message/{threadId}/undelete
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::undeleteAction }
+    methods: [ POST ]
+
+fos_message_thread_view:
+    path: /user/message/{threadId}
+    defaults: { _controller: \Celsius3\Controller\Message\MessageController::threadAction }
+    methods: [ GET ]
+    options:
+        expose: true

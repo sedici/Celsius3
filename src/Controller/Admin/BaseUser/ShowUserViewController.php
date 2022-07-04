@@ -24,17 +24,34 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\CoreBundle\Controller\BaseUserController;
-use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\Controller\BaseUserController;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Exception\Exception;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use FOS\MessageBundle\ModelManager\ThreadManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class ShowUserViewController extends BaseUserController
+final class ShowUserViewController extends AbstractController //BaseUserController
 {
     private $threadManager;
-    
-    public function __construct(ThreadManagerInterface $threadManager)
-    {
+    /**
+     * @var InstanceHelper
+     */
+    private $instanceHelper;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+
+    public function __construct(
+        ThreadManagerInterface $threadManager,
+        InstanceHelper $instanceHelper,
+        ConfigurationHelper $configurationHelper
+    ) {
         $this->threadManager = $threadManager;
+        $this->instanceHelper = $instanceHelper;
+        $this->configurationHelper = $configurationHelper;
     }
 
     public function __invoke($id)
@@ -45,7 +62,10 @@ final class ShowUserViewController extends BaseUserController
         $parameters = [
             'element' => $user,
             'messages' => $messages,
-            'resultsPerPage' => $this->getResultsPerPage(),
+            'resultsPerPage' => $this->configurationHelper
+                ->getCastedValue(
+                    $this->instanceHelper->getSessionOrUrlInstance()->get('results_per_page')
+                )
         ];
 
         return $this->render('Admin/BaseUser/show.html.twig', $parameters);
@@ -53,7 +73,9 @@ final class ShowUserViewController extends BaseUserController
 
     private function findUser($id)
     {
-        $user = $this->findQuery('BaseUser', $id);
+        $user = $this->getDoctrine()->getManager()
+            ->getRepository(BaseUser::class)
+            ->findOneForInstance($this->instanceHelper->getSessionOrUrlInstance(), $id);
 
         if (!$user) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');

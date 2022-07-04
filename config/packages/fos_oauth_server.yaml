@@ -1,9 +1,9 @@
 fos_oauth_server:
     db_driver: orm
-    client_class: Celsius3\ApiBundle\Entity\Client
-    access_token_class: Celsius3\ApiBundle\Entity\AccessToken
-    refresh_token_class: Celsius3\ApiBundle\Entity\RefreshToken
-    auth_code_class: Celsius3\ApiBundle\Entity\AuthCode
+    client_class: Celsius3\Entity\Client
+    access_token_class: Celsius3\Entity\AccessToken
+    refresh_token_class: Celsius3\Entity\RefreshToken
+    auth_code_class: Celsius3\Entity\AuthCode
     service:
         user_provider: fos_userbundle
         options:

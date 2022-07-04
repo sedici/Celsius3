@@ -1,0 +1,29 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Instance Configuration'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/configure.html.twig" import configure as configure %}
+
+{% block content %}
+    <div class="col-xs-12">
+        <div class="panel panel-body">
+            <div class="panel-heading">
+                <h2>{{ 'Instance Configuration' }}</h2>
+            </div>
+            <hr class="separator_hr">
+            {{ configure('admin_instance', configure_form, 'Admin/Instance/', entity) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        label.form-check-label input {
+            margin-right: 20px;
+        }
+    </style>
+
+{% endblock %}

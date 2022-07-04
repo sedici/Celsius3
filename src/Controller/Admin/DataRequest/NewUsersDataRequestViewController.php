@@ -24,21 +24,24 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\DataRequest;
 
-use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
-use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Entity\UsersDataRequest;
-use Celsius3\CoreBundle\Form\Type\UsersDataRequestType;
-use Celsius3\CoreBundle\Manager\Alert;
+use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\UsersDataRequest;
+use Celsius3\Form\Type\UsersDataRequestType;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-final class NewUsersDataRequestViewController extends BaseInstanceDependentController
+final class NewUsersDataRequestViewController extends AbstractController
 {
     private $dataRequestRepository;
-    
-    public function __construct(EntityManagerInterface $entityManager)
+    private $instanceHelper;
+
+    public function __construct(EntityManagerInterface $entityManager, InstanceHelper $instanceHelper)
     {
         $this->dataRequestRepository = $entityManager->getRepository(DataRequest::class);
+        $this->instanceHelper = $instanceHelper;
     }
 
     public function __invoke(Request $request)
@@ -67,7 +70,7 @@ final class NewUsersDataRequestViewController extends BaseInstanceDependentContr
 
     private function createDataRequest(?array $dr): DataRequest
     {
-        $data_request = new UsersDataRequest($this->getInstance());
+        $data_request = new UsersDataRequest($this->instanceHelper->getSessionInstance());
 
         $data = null;
         if ($dr) {

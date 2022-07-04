@@ -1,0 +1,17 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Country Creation' | trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>{{ 'Country Creation' | trans }}</h2>
+            <hr class="separator_hr">
+            {{ new('admin_country', form, 'Admin/Country/', true) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Institution Edit'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
+
+{% block content %}
+    <h2>{{ 'Institution Edit'|trans }} - {{ entity.name }}</h2>
+    <hr class="separator_hr">
+    {{ edit('admin_institution', entity, edit_form, 'Admin/Institution/', true) }}
+{% endblock %}

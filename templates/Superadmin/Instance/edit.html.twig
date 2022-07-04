@@ -1,0 +1,17 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Instance Edit'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
+
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Instance Edit'|trans }} - {{ entity.name }}</h2></div>
+    <div class="panel-body">
+        {{ edit('superadmin_instance', entity, edit_form) }}
+        </div>
+    </div>
+{% endblock %}

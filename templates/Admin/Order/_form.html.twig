@@ -1,0 +1,64 @@
+{% form_theme form 'Form/fields.html.twig' %}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            {{ form_label(form.originalRequest.type, null, {
+                'label_attr': {'class': 'col-lg-2 control-label'}
+            }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.originalRequest.type, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="form-group {% if not form.originalRequest.owner_autocomplete.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.originalRequest.owner_autocomplete, null, { 'label_attr': {'class': 'col-lg-2 control-label'} }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.originalRequest.owner_autocomplete, { 'attr': {'class': 'autocomplete form-control'} }) }}
+                {% for error in form.originalRequest.owner_autocomplete.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="form-group">
+            {{ form_label(form.materialDataType, null, { 'label_attr': {'class': 'col-lg-2 control-label'} }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.materialDataType, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div id="material_data">
+            {% if (entity is defined) and (entity is not null) and (entity.materialData is not null) %}
+                {% set material = get_material_type(entity.materialData) %}
+            {% else %}
+                {% set material = 'journal' %}
+            {% endif %}
+
+            {% include 'Order/_materialData.html.twig' %}
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        {{ form_row(form.originalRequest.comments) }}
+    </div>
+</div>
+{% if (form.save_and_show is defined) %}
+    {{ form_row(form.save_and_show) }}
+{% endif %}
+
+{{ form_rest(form.originalRequest) }}
+{{ form_widget(form._token) }}
+
+

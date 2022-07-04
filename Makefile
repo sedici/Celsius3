@@ -37,3 +37,7 @@ database:
 encore:
 	@docker-compose exec --user $(id -u):$(id -g) web php bin/console assets:install
 	@docker-compose exec --user $(id -u):$(id -g) web yarn run encore dev
+
+.PHONY: tests
+tests:
+	@docker-compose exec web php vendor/phpunit/phpunit/phpunit --bootstrap ./tests/bootstrap.php --configuration ./phpunit.xml.dist ./tests

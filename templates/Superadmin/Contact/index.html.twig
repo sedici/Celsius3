@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Contact List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Contact List'|trans }}</h2>
+
+    {{ index('superadmin_contact', pagination, 'Superadmin/Contact/', null, null, false, false, _context) }}
+{% endblock %}

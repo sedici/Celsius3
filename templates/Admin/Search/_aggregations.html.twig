@@ -1,0 +1,89 @@
+<h4>{{ 'search filter' | trans | first_upper }}</h4>
+<div>
+    {% if filters is not empty %}
+        <div class="alert alert-info">
+            {% for name, value in filters %}
+
+                <h5>
+                    {% set names = ['operators', 'owners'] %}
+                    {% if name in names %}
+                        {{ name | trans | first_upper }}:
+                        <b>{{ users[value].surname | first_upper }},
+                            {{ users[value].name | first_upper }}</b>
+                        {% else%}
+                        {{ name | trans | first_upper }}:
+                        <b>{{ value | trans }}</b>
+                    {% endif %}
+                    <a class="pull-right" href="{{ path('admin_search') ~ '?' ~ { 'keyword': keyword, 'filters': filters, 'del-filter': { 'name': name, 'value': value } } | url_encode }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </h5>
+
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+<div>
+    {% set name = 'owners' %}
+    {% set agg = aggregations[name] %}
+    {% set buckets = get_buckets(name, agg) %}
+    {% if buckets is not empty and filters[name] is not defined %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ name | trans | first_upper }}
+                <span class="pull-right" style="cursor:pointer">
+                    <a data-target="#{{name}}buckets" data-toggle="collapse">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                </span>
+            </div>
+            <ul id="{{name}}buckets" class="list-group in">
+                {% for a in buckets %}
+                    <li class="list-group-item">
+                        <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
+                            {{ users[a.key].surname | first_upper }},
+                            {{ users[a.key].name | first_upper }}
+                            ({{ a.doc_count }})
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% set name = 'states' %}
+    {% include 'Admin/Search/_agg_panel.html.twig' %}
+
+    {% set name = 'operators' %}
+    {% set agg = aggregations[name] %}
+    {% set buckets = get_buckets(name, agg) %}
+    {% if buckets is not empty and filters[name] is not defined %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ name | trans | first_upper }}
+                <span class="pull-right" style="cursor:pointer">
+                    <a data-target="#{{name}}buckets" data-toggle="collapse">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                </span>
+            </div>
+            <ul id="{{name}}buckets" class="list-group in">
+                {% for a in buckets %}
+                    <li class="list-group-item">
+                        <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
+                            {{ users[a.key].surname | first_upper }},
+                            {{ users[a.key].name | first_upper }}
+                            ({{ a.doc_count }})
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% set name = 'materials' %}
+    {% include 'Admin/Search/_agg_panel.html.twig' %}
+
+    {% set name = 'types' %}
+    {% include 'Admin/Search/_agg_panel.html.twig' %}
+</div>

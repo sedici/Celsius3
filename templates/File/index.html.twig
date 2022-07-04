@@ -1,0 +1,11 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'File List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    {{ index('file', pagination, 'File/') }}
+{% endblock %}

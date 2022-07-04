@@ -7,4 +7,4 @@
 
 blog_show:
     path:      /
-    defaults:  { _controller: Celsius3\CoreBundle\Controller\PublicController::indexAction }
+    defaults:  { _controller: Celsius3\Controller\PublicController::index }

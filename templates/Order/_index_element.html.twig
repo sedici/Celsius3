@@ -1,0 +1,114 @@
+{% if instance %}
+    {% set request = element.request(instance) %}
+{% else %}
+    {% set request = element.originalRequest %}
+{% endif %}
+<div class="item_container" id="{{ 'order_' ~ element.id }}">
+
+    <div class="top_info">
+        <div class="top_left">
+            {% if request.type == constant('Celsius3\\Manager\\OrderManager::TYPE__SEARCH') %}
+                <div class="busqueda">B</div>
+            {% else %}
+                <div class="provision">P</div>
+            {% endif %}
+            <div class="tipoarticulo">{{ get_material_type(element.materialData)|trans }}</div>
+        </div>
+
+        <div class="top_right">
+            <div class="status-{{ request.currentState }}" data-toggle="tooltip" title="{{ request.currentState | transchoice(1) }}"></div>
+            <div class="uri">{{ element.code }}</div>
+            <div class="usuario">
+                {% if request.operator %}
+                    {{ request.operator }}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </div>
+            <div class="decoracion"></div>
+        </div>
+
+        <div class="top_center pull-right text-center">
+            {{ request.createdAt | localizeddate('medium', 'none')}}
+        </div>
+    </div>
+
+    <div class="main_info" data-order-id="{{ element.id }}">
+        <div class="title_and_author">
+            <div class="titulo">
+                {% if (get_material_type(element.materialData) == 'journal') %}
+                    {% if (element.materialData.journal) %}
+                        <a href="{{ path('admin_journal_show', {'id': element.materialData.journal.id}) }}">{{ element.materialData.journal.name | upper }}</a>
+                    {% else %}
+                        {{ element.materialData.other | upper }}
+                    {% endif %}
+                {% elseif (get_material_type(element.materialData) == 'book') %}
+                    {{ element.materialData.title | upper }}
+                {% endif %}
+                {% block deleted_title %}{% endblock %}
+            </div>
+            <div class="titulo">
+                {% if (get_material_type(element.materialData) == 'book') %}
+                    <span>{{ element.materialData.chapter }}</span>
+                {% else %}
+                    {% if (element.materialData.title is not empty) %}
+                        <span>{{ element.materialData.title }}</span>
+                    {% else %}
+                        <span>[ {{ 'sinTitulo' | trans }} ]</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="autor">{{ element.materialData.authors }}</div>
+            <div class="doc_year">{{ element.materialData.year }}</div>
+        </div>
+        <div class="doc_and_year">
+            {% if request.owner.pdf %}
+                <div class="doc_type_pdf"></div>
+            {% else %}
+                <div class="doc_type_print"></div>
+            {% endif %}
+        {% block admin_data %}{% endblock %}
+    </div>
+</div>
+<div class="owner_data">
+    <p class="owner">{{ request.owner.surname | first_upper }}, {{ request.owner.name | first_upper }} ({{ request.owner.username | lower }})</p>
+    <p class="institution">{{ print_institutions(request.owner.institution) }}</p>
+</div>
+
+<div class="order-actions" id="{{ 'order-actions-' ~ element.id }}">
+    <ul class="list-unstyled actions">
+        {% if (search_pending(request)) %}
+            <li>
+                <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | trans }}"/>
+            </li>
+        {% endif %}
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_order_edit', { 'id' : request.order.id }) }}" title="{{ 'EditOrder' | trans }}"><span class="glyphicon glyphicon-pencil"></span></a>
+        </li>
+        <li>
+            <form method="POST" action="{{ path('admin_order_duplicate', {'id': request.order.id} ) }}" style="display: inline-block" >
+                <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span class="fa fa-files-o"></span></a>
+            </form>
+        </li>
+        {% block actions %}{% endblock %}
+    </ul>
+</div>
+
+<div class="clearfix"></div>
+{% if (has_requests(request.events)) %}
+    <div class="requests">
+        <h5>{{ 'Requests' | trans }}</h5>
+        {% for event in request.events %}
+            {% if (event.getEventType() == 'sirequest' or event.getEventType() == 'mirequest') %}
+                <p {% if (event.cancelled is defined and event.cancelled) or (event.annulled is defined and event.annulled) %} style="text-decoration: line-through" {% endif %}>
+                {% if (event.provider.getProviderType() == 'institution') %}
+                    <span class="event_date">{{ event.createdAt | date('d M Y H:m') }}</span> | {{ print_institutions(event.provider) }}
+                {% elseif (event.provider.getProviderType() == 'author' or event.provider.getProviderType() == 'web') %}
+                    <span class="event_date">{{ event.createdAt | date('d M Y H:m') }}</span> | {{ event.provider.getProviderName() }}
+                {% endif %}
+                </p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+</div>

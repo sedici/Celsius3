@@ -1,0 +1,17 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Journal Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Journal Creation'|trans }}</h2></div>
+    <div class="panel-body">
+    {{ new('superadmin_journal', form) }}
+    </div>
+</div>
+{% endblock %}

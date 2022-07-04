@@ -1,0 +1,25 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block navigation_top %}
+{% endblock %}
+
+
+{% block instance_panels %}
+{% endblock %}
+
+{% block navigation_content %}
+
+
+    <div class="pull-left">
+        {{ knp_menu_render('directory', { 'currentClass': 'active' }) }}
+    </div>
+{#        <ul class="list-unstyled list-horizontal pull-right">#}
+{#            <li>#}
+{#                <a href="{{ path('instance_register') }}" class="btn btn-lg btn-success">{{ 'Request Instance'|trans }}</a>#}
+{#            </li>#}
+{#        </ul>#}
+
+    <div class="clearfix"></div>
+
+
+{% endblock %}

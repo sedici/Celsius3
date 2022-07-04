@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<serializer>
-    <class name="Celsius3\CoreBundle\Entity\CustomUserValue" exclusion-policy="all">
-        <property name="id" type="string" expose="true" read-only="true" groups="administration"></property>
-        <property name="value" type="string" expose="true" access-type="public_method" groups="administration"></property>
-        <property name="field" type="Celsius3\CoreBundle\Entity\CustomUserField" expose="true" access-type="public_method" groups="administration"></property>
-    </class>
-</serializer>
