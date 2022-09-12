@@ -102,7 +102,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    protected $downloadAuth = false;
+    protected $downloadAuth = true;
 
     /**
      * @Assert\NotNull()
