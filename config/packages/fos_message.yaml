@@ -1,13 +1,13 @@
-fos_message:
-    db_driver: orm
-    thread_class: Celsius3\MessageBundle\Entity\Thread
-    message_class: Celsius3\MessageBundle\Entity\Message
-    provider: celsius3_message.provider.default
-    new_thread_form:
-        name: message
-        type: Celsius3\MessageBundle\Form\Type\NewThreadMultipleMessageFormType
-        handler: fos_message.new_thread_multiple_form.handler
-        model: FOS\MessageBundle\FormModel\NewThreadMultipleMessage
-    reply_form:
-        type: Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType
-    thread_manager: celsius3_message.thread_manager.default
+#fos_message:
+#    db_driver: orm
+#    thread_class: Celsius3\Entity\Thread
+#    message_class: Celsius3\Entity\Message
+#    provider: celsius3_message.provider.default
+#    new_thread_form:
+#        name: message
+#        type: Celsius3\Form\Type\NewThreadMultipleMessageFormType
+#        handler: fos_message.new_thread_multiple_form.handler
+#        model: FOS\MessageBundle\FormModel\NewThreadMultipleMessage
+#    reply_form:
+#        type: Celsius3\Form\Type\ReplyMessageFormCustomType
+#    thread_manager: celsius3_message.thread_manager.default

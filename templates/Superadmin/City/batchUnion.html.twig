@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'City Union'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/union.html.twig" import union as union %}
+
+{% block content %}
+    <h2>{{ 'City Union'|trans }}</h2>
+
+    {{ union('superadmin_city', entities, 'Superadmin/City/') }}
+{% endblock %}

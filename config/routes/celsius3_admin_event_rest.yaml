@@ -1,3 +1,111 @@
-celsius3_admin_event_rest:
-    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/EventRest.yaml"
-    prefix: /admin/rest/event
+admin_rest_events:
+    path: /admin/rest/event/{request_id}
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\AllRequestEventsGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_event:
+    path: /admin/rest/event/{request_id}/{event}
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\RequestEventsByTypeGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_event_get:
+    path: /admin/rest/event/{id}/get
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\EventGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_event_update_observations:
+    path: /admin/rest/event/update_observations/{id}
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\UpdateEventObservationsPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_event_undo:
+    path: /admin/rest/event/{request_id}/undo
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\CreateUndoEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_request_event:
+    path: /admin/rest/event/{request_id}/request
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\CreateRequestEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_creation_event:
+    path: /admin/rest/event/{request_id}/creation
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateCreationEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_search_event:
+    path: /admin/rest/event/{request_id}/search
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateSearchEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_approve_event:
+    path: /admin/rest/event/{request_id}/approve
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateApproveEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_reclaim_event:
+    path: /admin/rest/event/{request_id}/reclaim
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateReclaimEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_deliver_event:
+    path: /admin/rest/event/{request_id}/deliver
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateDeliverEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_annul_event:
+    path: /admin/rest/event/{request_id}/annul
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateAnnulEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_take_event:
+    path: /admin/rest/event/{request_id}/take
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateTakeEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_receive_event:
+    path: /admin/rest/event/{request_id}/receive
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateReceiveEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_cancel_event:
+    path: /admin/rest/event/{request_id}/cancel
+    defaults: { _controller: Celsius3\Controller\Admin\Event\CreateCancelEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_event:
+    path: /admin/rest/event/{request_id}/{event}
+    defaults: { _controller: \Celsius3\Controller\Admin\Event\CreateEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true

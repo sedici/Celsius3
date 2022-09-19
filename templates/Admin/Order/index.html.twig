@@ -1,0 +1,12 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Orders List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    {{ parent() }}
+    {{ index('admin_order', pagination, 'Admin/Order/', filter_form, instance, false, true) }}
+{% endblock %}

@@ -1,0 +1,3216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="e6Yxeu_" resname="Cause">
+        <source>Cause</source>
+        <target>Causa</target>
+      </trans-unit>
+      <trans-unit id="d1tb_WR" resname="Created at">
+        <source>Created at</source>
+        <target>Creado</target>
+      </trans-unit>
+      <trans-unit id="IbERy.5" resname="Default">
+        <source>Default</source>
+        <target>Por defecto</target>
+      </trans-unit>
+      <trans-unit id="SBQl8nn" resname="Notification List">
+        <source>Notification List</source>
+        <target>Lista de notificaciones</target>
+      </trans-unit>
+      <trans-unit id="IVDY3zf" resname="Show all">
+        <source>Show all</source>
+        <target>Mostrar todos</target>
+      </trans-unit>
+      <trans-unit id="3Mg5pAF" resname="View">
+        <source>View</source>
+        <target>Vista</target>
+      </trans-unit>
+      <trans-unit id="GyjReFW" resname="Viewed">
+        <source>Viewed</source>
+        <target>Visto</target>
+      </trans-unit>
+      <trans-unit id="TbwJ6SP" resname="Notification Subscriptions">
+        <source>Notification Subscriptions</source>
+        <target>Subscripciones a notificaciones</target>
+      </trans-unit>
+      <trans-unit id="0QX6TG9" resname="Susbcriptions">
+        <source>Susbcriptions</source>
+        <target>Suscripciones</target>
+      </trans-unit>
+      <trans-unit id="MVJ_u5A" resname="New User">
+        <source>New User</source>
+        <target>Nuevo usuario</target>
+      </trans-unit>
+      <trans-unit id="fTG4MxO" resname="Notification">
+        <source>Notification</source>
+        <target>Notificación</target>
+      </trans-unit>
+      <trans-unit id="jlGoCk1" resname="New Message">
+        <source>New Message</source>
+        <target>Nuevo mensaje</target>
+      </trans-unit>
+      <trans-unit id="QYTlpk1" resname="Order Events">
+        <source>Order Events</source>
+        <target>Eventos del pedido</target>
+      </trans-unit>
+      <trans-unit id="bQqINz0" resname="Creation">
+        <source>Creation</source>
+        <target>Creación</target>
+      </trans-unit>
+      <trans-unit id="WfA9ZCt" resname="Request">
+        <source>Request</source>
+        <target>Solicitud</target>
+      </trans-unit>
+      <trans-unit id="usnRWtn" resname="Receive">
+        <source>Receive</source>
+        <target>Recepción</target>
+      </trans-unit>
+      <trans-unit id="piuP339" resname="Deliver">
+        <source>Deliver</source>
+        <target>Entrega</target>
+      </trans-unit>
+      <trans-unit id="GXZu1sy" resname="Cancel">
+        <source>Cancel</source>
+        <target>Cancelación</target>
+      </trans-unit>
+      <trans-unit id="X8SqEZE" resname="Annul">
+        <source>Annul</source>
+        <target>Anulación</target>
+      </trans-unit>
+      <trans-unit id="EkKrmfZ" resname="notification">
+        <source>notification</source>
+        <target>notificación</target>
+      </trans-unit>
+      <trans-unit id="giREF.l" resname="email">
+        <source>email</source>
+        <target>Correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="SJluaHt" resname="new_message">
+        <source>new_message</source>
+        <target>Mensaje Nuevo</target>
+      </trans-unit>
+      <trans-unit id="D28oT1h" resname="new_user">
+        <source>new_user</source>
+        <target>Usuario Nuevo</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="SkTcFTZ" resname="10">
+        <source>10</source>
+        <target>10</target>
+      </trans-unit>
+      <trans-unit id="5in6ZZj" resname="15">
+        <source>15</source>
+        <target>15</target>
+      </trans-unit>
+      <trans-unit id="t6Voc81" resname="25">
+        <source>25</source>
+        <target>25</target>
+      </trans-unit>
+      <trans-unit id="pV9NnrE" resname="A test mail was sent to">
+        <source>A test mail was sent to</source>
+        <target>Un correo electrónico de prueba fue enviado a</target>
+      </trans-unit>
+      <trans-unit id="s7GQNjB" resname="Abbreviation">
+        <source>Abbreviation</source>
+        <target>Abreviatura</target>
+      </trans-unit>
+      <trans-unit id="Jv_J8DT" resname="Acerca de">
+        <source>Acerca de</source>
+        <target>Acerca de</target>
+      </trans-unit>
+      <trans-unit id=".4BZ3Gd" resname="Actions">
+        <source>Actions</source>
+        <target>Acciones</target>
+      </trans-unit>
+      <trans-unit id="kjQGlYm" resname="Active">
+        <source>Active</source>
+        <target>Activo</target>
+      </trans-unit>
+      <trans-unit id="Vjm58SZ" resname="Active Users">
+        <source>Active Users</source>
+        <target>Usuarios activos</target>
+      </trans-unit>
+      <trans-unit id="2ZJsUeL" resname="Add order">
+        <source>Add order</source>
+        <target>Agregar pedido</target>
+      </trans-unit>
+      <trans-unit id="Vu_PIJV" resname="Address">
+        <source>Address</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="wcIksDz" resname="Admin">
+        <source>Admin</source>
+        <target>Administrador</target>
+      </trans-unit>
+      <trans-unit id="42LVF6a" resname="Admin List">
+        <source>Admin List</source>
+        <target>Lista de administradores</target>
+      </trans-unit>
+      <trans-unit id="S0LGaQ6" resname="Administration">
+        <source>Administration</source>
+        <target>Administración</target>
+      </trans-unit>
+      <trans-unit id="_0Yqjxp" resname="Administration Technical">
+        <source>Administration Technical</source>
+        <target>Administración técnica</target>
+      </trans-unit>
+      <trans-unit id="59PnafP" resname="Administrator">
+        <source>Administrator</source>
+        <target>Administrador</target>
+      </trans-unit>
+      <trans-unit id="iidISKI" resname="Advanced search">
+        <source>Advanced search</source>
+        <target>Búsqueda avanzada</target>
+      </trans-unit>
+      <trans-unit id="pSrOQg8" resname="All">
+        <source>All</source>
+        <target>Todos</target>
+      </trans-unit>
+      <trans-unit id="cMrLuQ3" resname="An Error Occurred">
+        <source>An Error Occurred</source>
+        <target>Ocurrió un error</target>
+      </trans-unit>
+      <trans-unit id="r151oZQ" resname="Annulled">
+        <source>Annulled</source>
+        <target>Anulado</target>
+      </trans-unit>
+      <trans-unit id="4MczmPZ" resname="Api Key">
+        <source>Api Key</source>
+        <target>Clave de la api</target>
+      </trans-unit>
+      <trans-unit id="4WsaFor" resname="Approval pending">
+        <source>Approval pending</source>
+        <target>Aprobación pendiente</target>
+      </trans-unit>
+      <trans-unit id="28GTUlC" resname="Asignar Usuario">
+        <source>Asignar Usuario</source>
+        <target>Asignar usuario</target>
+      </trans-unit>
+      <trans-unit id="Jv6tm0k" resname="BUTTON_BACK_TO_LIST">
+        <source>BUTTON_BACK_TO_LIST</source>
+        <target>Volver a la lista</target>
+      </trans-unit>
+      <trans-unit id="ngPOofm" resname="BUTTON_CREATE">
+        <source>BUTTON_CREATE</source>
+        <target>Crear</target>
+      </trans-unit>
+      <trans-unit id="WXzoaGl" resname="Birthdate">
+        <source>Birthdate</source>
+        <target>Fecha de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="kJy4ESf" resname="Book">
+        <source>Book</source>
+        <target>Libro</target>
+      </trans-unit>
+      <trans-unit id="01OpnrR" resname="Cancelled">
+        <source>Cancelled</source>
+        <target>Cancelados</target>
+      </trans-unit>
+      <trans-unit id="b4980R6" resname="Catalog Creation">
+        <source>Catalog Creation</source>
+        <target>Creación de catálogo</target>
+      </trans-unit>
+      <trans-unit id="0kMlLot" resname="Catalog Edit">
+        <source>Catalog Edit</source>
+        <target>Edición de catálogo</target>
+      </trans-unit>
+      <trans-unit id="DEE1e15" resname="Catalog List">
+        <source>Catalog List</source>
+        <target>Lista de catálogos</target>
+      </trans-unit>
+      <trans-unit id="G.90jlu" resname="Catalog Union">
+        <source>Catalog Union</source>
+        <target>Unión de catálogos</target>
+      </trans-unit>
+      <trans-unit id="0d_xfar" resname="Catalogs">
+        <source>Catalogs</source>
+        <target>Catálogos</target>
+      </trans-unit>
+      <trans-unit id="LN0AWCk" resname="Celsius Instance">
+        <source>Celsius Instance</source>
+        <target>Instancia Celsius</target>
+      </trans-unit>
+      <trans-unit id="6yQFYuh" resname="Celsius instance">
+        <source>Celsius instance</source>
+        <target>Instancia de Celsius</target>
+      </trans-unit>
+      <trans-unit id="EDJITRV" resname="Celsius3 Instances">
+        <source>Celsius3 Instances</source>
+        <target>Instancias de Celsius3</target>
+      </trans-unit>
+      <trans-unit id="wL91vXi" resname="Change">
+        <source>Change</source>
+        <target>Modificar</target>
+      </trans-unit>
+      <trans-unit id="qUn0YjB" resname="Change Password">
+        <source>Change Password</source>
+        <target>Modificar contraseña</target>
+      </trans-unit>
+      <trans-unit id="P5yZH2O" resname="Change password">
+        <source>Change password</source>
+        <target>Modificar contraseña</target>
+      </trans-unit>
+      <trans-unit id="VIwx9zH" resname="Chapter">
+        <source>Chapter</source>
+        <target>Capítulo</target>
+      </trans-unit>
+      <trans-unit id="uegXCaE" resname="Check all">
+        <source>Check all</source>
+        <target>Marcar todos</target>
+      </trans-unit>
+      <trans-unit id="dzIoeUT" resname="Check your email">
+        <source>Check your email</source>
+        <target>Revise su correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="lWl9FEl" resname="Cities">
+        <source>Cities</source>
+        <target>Ciudades</target>
+      </trans-unit>
+      <trans-unit id=".DP3Mkb" resname="City">
+        <source>City</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="NKcaxfC" resname="City Creation">
+        <source>City Creation</source>
+        <target>Creación de ciudad</target>
+      </trans-unit>
+      <trans-unit id=".atGrWp" resname="City Edit">
+        <source>City Edit</source>
+        <target>Edición de ciudad</target>
+      </trans-unit>
+      <trans-unit id="n5OBLrL" resname="City List">
+        <source>City List</source>
+        <target>Lista de ciudades</target>
+      </trans-unit>
+      <trans-unit id="_r2Fom2" resname="City Union">
+        <source>City Union</source>
+        <target>Unión de ciudades</target>
+      </trans-unit>
+      <trans-unit id="JwQXdQU" resname="CloneOrder">
+        <source>CloneOrder</source>
+        <target>Clonar pedido</target>
+      </trans-unit>
+      <trans-unit id="fZ63rLE" resname="Close">
+        <source>Close</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="NA9GMDP" resname="Code">
+        <source>Code</source>
+        <target>Código</target>
+      </trans-unit>
+      <trans-unit id="NV958p1" resname="Comments">
+        <source>Comments</source>
+        <target>Comentarios</target>
+      </trans-unit>
+      <trans-unit id="OYGiucH" resname="Communication">
+        <source>Communication</source>
+        <target>Comunicación</target>
+      </trans-unit>
+      <trans-unit id="Ws58bI4" resname="Comunicación">
+        <source>Comunicación</source>
+        <target>Comunicación</target>
+      </trans-unit>
+      <trans-unit id="szLDSS1" resname="Configuration">
+        <source>Configuration</source>
+        <target>Configuración</target>
+      </trans-unit>
+      <trans-unit id="zsyed7r" resname="Configure Directory">
+        <source>Configure Directory</source>
+        <target>Configurar directorio</target>
+      </trans-unit>
+      <trans-unit id="WFSmJip" resname="Confirmation type">
+        <source>Confirmation type</source>
+        <target>Tipo de confirmación</target>
+      </trans-unit>
+      <trans-unit id="euCHZh2" resname="Congress">
+        <source>Congress</source>
+        <target>Congreso</target>
+      </trans-unit>
+      <trans-unit id="K1w9JnI" resname="Contact">
+        <source>Contact</source>
+        <target>Contacto</target>
+      </trans-unit>
+      <trans-unit id="zqluIiZ" resname="Contact Creation">
+        <source>Contact Creation</source>
+        <target>Creación de contacto</target>
+      </trans-unit>
+      <trans-unit id="r.qHGAf" resname="Contact Edit">
+        <source>Contact Edit</source>
+        <target>Edición de contacto</target>
+      </trans-unit>
+      <trans-unit id="RvlI4vV" resname="Contact List">
+        <source>Contact List</source>
+        <target>Lista de contactos</target>
+      </trans-unit>
+      <trans-unit id="T9iFWgC" resname="Contact Type Creation">
+        <source>Contact Type Creation</source>
+        <target>Creación de tipo de contacto</target>
+      </trans-unit>
+      <trans-unit id="4utsQwr" resname="Contact Type Edit">
+        <source>Contact Type Edit</source>
+        <target>Edición de tipo de contacto</target>
+      </trans-unit>
+      <trans-unit id="NG6WXjR" resname="Contact Type List">
+        <source>Contact Type List</source>
+        <target>Lista de tipo de contacto</target>
+      </trans-unit>
+      <trans-unit id="10.Sx8e" resname="Contact types">
+        <source>Contact types</source>
+        <target>Tipos de contacto</target>
+      </trans-unit>
+      <trans-unit id="tFBkXev" resname="Contacts">
+        <source>Contacts</source>
+        <target>Contactos</target>
+      </trans-unit>
+      <trans-unit id="MErSDfy" resname="Contacts List">
+        <source>Contacts List</source>
+        <target>Lista de contactos</target>
+      </trans-unit>
+      <trans-unit id="R70pB1_" resname="Content">
+        <source>Content</source>
+        <target>Contenido</target>
+      </trans-unit>
+      <trans-unit id="N3N5m5l" resname="Content or participant">
+        <source>Content or participant</source>
+        <target state="new">Contenido o participante</target>
+      </trans-unit>
+      <trans-unit id="j69_x6s" resname="Countries">
+        <source>Countries</source>
+        <target>Países</target>
+      </trans-unit>
+      <trans-unit id="cB0CHQj" resname="Country">
+        <source>Country</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="Nz73tPk" resname="Country Creation">
+        <source>Country Creation</source>
+        <target>Creación de país</target>
+      </trans-unit>
+      <trans-unit id="DcEXeXW" resname="Country Edit">
+        <source>Country Edit</source>
+        <target>Edición de país</target>
+      </trans-unit>
+      <trans-unit id="4bNINA0" resname="Country List">
+        <source>Country List</source>
+        <target>Lista de países</target>
+      </trans-unit>
+      <trans-unit id="w_SjHzo" resname="Country Union">
+        <source>Country Union</source>
+        <target>Unión de países</target>
+      </trans-unit>
+      <trans-unit id="IWSpmYB" resname="Create a new catalog">
+        <source>Create a new catalog</source>
+        <target>Crear un nuevo catálogo</target>
+      </trans-unit>
+      <trans-unit id="QC9ZrTM" resname="Create a new city">
+        <source>Create a new city</source>
+        <target>Crear una nueva ciudad</target>
+      </trans-unit>
+      <trans-unit id="535FfVk" resname="Create a new contact">
+        <source>Create a new contact</source>
+        <target>Crear un nuevo contacto</target>
+      </trans-unit>
+      <trans-unit id="2_08vYd" resname="Create a new contact type">
+        <source>Create a new contact type</source>
+        <target>Crear un nuevo tipo de contacto</target>
+      </trans-unit>
+      <trans-unit id="IIqLMfW" resname="Create a new country">
+        <source>Create a new country</source>
+        <target>Crear un nuevo país</target>
+      </trans-unit>
+      <trans-unit id="EqTjzCP" resname="Create a new custom field">
+        <source>Create a new custom field</source>
+        <target>Crear un nuevo campo personalizado</target>
+      </trans-unit>
+      <trans-unit id="3mLYdwm" resname="Create a new hive">
+        <source>Create a new hive</source>
+        <target>Crear una nueva colmena</target>
+      </trans-unit>
+      <trans-unit id="A99N4jV" resname="Create a new instance">
+        <source>Create a new instance</source>
+        <target>Crear una nueva instancia</target>
+      </trans-unit>
+      <trans-unit id="6G8egf7" resname="Create a new institution">
+        <source>Create a new institution</source>
+        <target>Crear una nueva institución</target>
+      </trans-unit>
+      <trans-unit id="n2RQB_P" resname="Create a new journal">
+        <source>Create a new journal</source>
+        <target>Crear una nueva revista</target>
+      </trans-unit>
+      <trans-unit id="R89PH9d" resname="Create a new legacy instance">
+        <source>Create a new legacy instance</source>
+        <target>Crear una nueva instancia antigua</target>
+      </trans-unit>
+      <trans-unit id="gJzw9Mn" resname="Create a new mail">
+        <source>Create a new mail</source>
+        <target>Crear un nuevo correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="3wU9LZN" resname="Create a new news">
+        <source>Create a new news</source>
+        <target>Crear una nueva noticia</target>
+      </trans-unit>
+      <trans-unit id="5XQkkkE" resname="Create a new order">
+        <source>Create a new order</source>
+        <target>Crear un nuevo pedido</target>
+      </trans-unit>
+      <trans-unit id="byfdjOL" resname="Create a new user">
+        <source>Create a new user</source>
+        <target>Crear un nuevo usuario</target>
+      </trans-unit>
+      <trans-unit id="1wueJLy" resname="Created">
+        <source>Created</source>
+        <target>Creados</target>
+      </trans-unit>
+      <trans-unit id="bk0LHGc" resname="Creation date">
+        <source>Creation date</source>
+        <target>Fecha de creación</target>
+      </trans-unit>
+      <trans-unit id="dgcy2Co" resname="Current state">
+        <source>Current state</source>
+        <target>Estado actual</target>
+      </trans-unit>
+      <trans-unit id="KcfXeQc" resname="Custom Field Creation">
+        <source>Custom Field Creation</source>
+        <target>Creación de campo personalizado</target>
+      </trans-unit>
+      <trans-unit id="lAB1AL3" resname="Custom Field Edit">
+        <source>Custom Field Edit</source>
+        <target>Editar campo personalizado</target>
+      </trans-unit>
+      <trans-unit id="ziPGui6" resname="Custom Field List">
+        <source>Custom Field List</source>
+        <target>Lista de campos personalizados</target>
+      </trans-unit>
+      <trans-unit id="1ElTI0s" resname="Custom User Field Creation">
+        <source>Custom User Field Creation</source>
+        <target>Creación de campo personalizado</target>
+      </trans-unit>
+      <trans-unit id="Xsv2L5u" resname="Custom User Field Edit">
+        <source>Custom User Field Edit</source>
+        <target>Edición de campo personalizado</target>
+      </trans-unit>
+      <trans-unit id="TM1kwLh" resname="Custom User Field List">
+        <source>Custom User Field List</source>
+        <target>Lista de campos personalizados</target>
+      </trans-unit>
+      <trans-unit id="YWOkHA5" resname="Custom field">
+        <source>Custom field</source>
+        <target>Campo personalizado</target>
+      </trans-unit>
+      <trans-unit id="VWbbSfr" resname="Custom fields">
+        <source>Custom fields</source>
+        <target>Campos personalizados</target>
+      </trans-unit>
+      <trans-unit id="9NF4C03" resname="DELETED">
+        <source>DELETED</source>
+        <target>Eliminado</target>
+      </trans-unit>
+      <trans-unit id="Z7aWRoY" resname="Dashboard">
+        <source>Dashboard</source>
+        <target>Tablero</target>
+      </trans-unit>
+      <trans-unit id="hboj0Ij" resname="Dashboard Statistic">
+        <source>Dashboard Statistic</source>
+        <target>Tablero de estadísticas</target>
+      </trans-unit>
+      <trans-unit id="SK2tsQo" resname="Dashboard Technical">
+        <source>Dashboard Technical</source>
+        <target>Tablero Técnico</target>
+      </trans-unit>
+      <trans-unit id="mcQKtAW" resname="Date">
+        <source>Date</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="cw_GF1T" resname="Default language">
+        <source>Default language</source>
+        <target>Lenguaje por defecto</target>
+      </trans-unit>
+      <trans-unit id="cZc4qFK" resname="Degree">
+        <source>Degree</source>
+        <target>Grado</target>
+      </trans-unit>
+      <trans-unit id="4tClSWj" resname="Delete">
+        <source>Delete</source>
+        <target>Borrar</target>
+      </trans-unit>
+      <trans-unit id="kGEVZXO" resname="Delivered">
+        <source>Delivered</source>
+        <target>Entregados</target>
+      </trans-unit>
+      <trans-unit id="BwcA0US" resname="Descarga">
+        <source>Descarga</source>
+        <target>Descarga</target>
+      </trans-unit>
+      <trans-unit id="H59etwC" resname="Detalle del Ticket">
+        <source>Detalle del Ticket</source>
+        <target>Detalle del ticket</target>
+      </trans-unit>
+      <trans-unit id="8CN6M1U" resname="DevelopedBy">
+        <source>DevelopedBy</source>
+        <target>Desarrollado por</target>
+      </trans-unit>
+      <trans-unit id="wUm8FOR" resname="Director">
+        <source>Director</source>
+        <target>Director</target>
+      </trans-unit>
+      <trans-unit id="oZq20Xn" resname="Directories">
+        <source>Directories</source>
+        <target state="new">Directories</target>
+      </trans-unit>
+      <trans-unit id="yPhMPFN" resname="Directory">
+        <source>Directory</source>
+        <target>Directorio</target>
+      </trans-unit>
+      <trans-unit id="eCSFoxf" resname="Directory News">
+        <source>Directory News</source>
+        <target>Noticias del directorio</target>
+      </trans-unit>
+      <trans-unit id="t_PkqkJ" resname="Disable">
+        <source>Disable</source>
+        <target>Deshabilitar</target>
+      </trans-unit>
+      <trans-unit id="UVwpfMD" resname="Disable catalog">
+        <source>Disable catalog</source>
+        <target>Deshabilitar catálogo</target>
+      </trans-unit>
+      <trans-unit id="Ek.vpzi" resname="Disabled catalogs">
+        <source>Disabled catalogs</source>
+        <target>Catalogos deshabilitados</target>
+      </trans-unit>
+      <trans-unit id="1ur_gjW" resname="Download">
+        <source>Download</source>
+        <target>Descargar</target>
+      </trans-unit>
+      <trans-unit id="gh._yHG" resname="Download time in hours">
+        <source>Download time in hours</source>
+        <target>Tiempo de descarga en horas</target>
+      </trans-unit>
+      <trans-unit id="RkxP.QG" resname="Edit">
+        <source>Edit</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id=".sKsD0z" resname="Edit Profile">
+        <source>Edit Profile</source>
+        <target>Editar perfil</target>
+      </trans-unit>
+      <trans-unit id="XnGX99o" resname="Edit catalog">
+        <source>Edit catalog</source>
+        <target>Editar catálogo</target>
+      </trans-unit>
+      <trans-unit id="5Pou4M_" resname="EditOrder">
+        <source>EditOrder</source>
+        <target>Editar pedido</target>
+      </trans-unit>
+      <trans-unit id="k2oWHDk" resname="Editor">
+        <source>Editor</source>
+        <target>Editor</target>
+      </trans-unit>
+      <trans-unit id="4f96kGE" resname="Elements">
+        <source>Elements</source>
+        <target state="new">Elements</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>Correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="pHRSYdM" resname="Email content">
+        <source>Email content</source>
+        <target>Contenido del correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="U0Lgnyc" resname="Enable">
+        <source>Enable</source>
+        <target>Habilitar</target>
+      </trans-unit>
+      <trans-unit id="W.rJuRL" resname="Enable catalog">
+        <source>Enable catalog</source>
+        <target>Habilitar catálogo</target>
+      </trans-unit>
+      <trans-unit id="ksHN.fT" resname="Enabled">
+        <source>Enabled</source>
+        <target>Habilitado</target>
+      </trans-unit>
+      <trans-unit id="VNvjRum" resname="End page">
+        <source>End page</source>
+        <target>Página de fin</target>
+      </trans-unit>
+      <trans-unit id="8vWor_5" resname="Enter at least three characters">
+        <source>Enter at least three characters</source>
+        <target>Ingrese al menos tres caracteres</target>
+      </trans-unit>
+      <trans-unit id="k7Kp73g" resname="Fecha">
+        <source>Fecha</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="UACc4dp" resname="File">
+        <source>File</source>
+        <target>Archivo</target>
+      </trans-unit>
+      <trans-unit id="_zQ5dI7" resname="File Download List">
+        <source>File Download List</source>
+        <target>Lista de descargas de archivos</target>
+      </trans-unit>
+      <trans-unit id="l__7CK9" resname="File Downloads">
+        <source>File Downloads</source>
+        <target>Descargas de archivos</target>
+      </trans-unit>
+      <trans-unit id="1gf4v6D" resname="File Edit">
+        <source>File Edit</source>
+        <target>Editar archivo</target>
+      </trans-unit>
+      <trans-unit id="nNMvnmL" resname="File List">
+        <source>File List</source>
+        <target>Lista de archivos</target>
+      </trans-unit>
+      <trans-unit id="L5fGTs." resname="File Upload">
+        <source>File Upload</source>
+        <target>Subir archivo</target>
+      </trans-unit>
+      <trans-unit id="q8fpiSg" resname="Files">
+        <source>Files</source>
+        <target>Archivos</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target>Filtrar</target>
+      </trans-unit>
+      <trans-unit id="VG67jrm" resname="Filters">
+        <source>Filters</source>
+        <target>Filtros</target>
+      </trans-unit>
+      <trans-unit id="oVHOsXE" resname="First">
+        <source>First</source>
+        <target>Primero</target>
+      </trans-unit>
+      <trans-unit id="T62chdf" resname="Found on the Web">
+        <source>Found on the Web</source>
+        <target>Encontrado en la web</target>
+      </trans-unit>
+      <trans-unit id="Zmmv9cb" resname="Frecuency">
+        <source>Frecuency</source>
+        <target>Frecuencia</target>
+      </trans-unit>
+      <trans-unit id="k.nd5HG" resname="Full view">
+        <source>Full view</source>
+        <target>Vista completa</target>
+      </trans-unit>
+      <trans-unit id="MRzXlee" resname="Global Catalogs">
+        <source>Global Catalogs</source>
+        <target>Catálogos globales</target>
+      </trans-unit>
+      <trans-unit id="lXduJRe" resname="Global Elements">
+        <source>Global Elements</source>
+        <target>Elementos globales</target>
+      </trans-unit>
+      <trans-unit id="aq2sLyt" resname="Go back">
+        <source>Go back</source>
+        <target>Volver</target>
+      </trans-unit>
+      <trans-unit id="pvWswnZ" resname="Go to Administration">
+        <source>Go to Administration</source>
+        <target>Ir a la administración</target>
+      </trans-unit>
+      <trans-unit id="85vib_u" resname="Go to Configuration">
+        <source>Go to Configuration</source>
+        <target>Ir a la configuración</target>
+      </trans-unit>
+      <trans-unit id="A_wMs44" resname="Go to the list">
+        <source>Go to the list</source>
+        <target>Ir al listado</target>
+      </trans-unit>
+      <trans-unit id="JbsrOE3" resname="HEADING_NEW_TICKET">
+        <source>HEADING_NEW_TICKET</source>
+        <target>Nuevo ticket</target>
+      </trans-unit>
+      <trans-unit id="t5yskm4" resname="Help">
+        <source>Help</source>
+        <target>Ayuda</target>
+      </trans-unit>
+      <trans-unit id="fm.v.w8" resname="Hidden">
+        <source>Hidden</source>
+        <target>Oculto</target>
+      </trans-unit>
+      <trans-unit id="rCCle.3" resname="Hide">
+        <source>Hide</source>
+        <target>Ocultar</target>
+      </trans-unit>
+      <trans-unit id="wYCy_h6" resname="Hive Creation">
+        <source>Hive Creation</source>
+        <target>Creación de colmena</target>
+      </trans-unit>
+      <trans-unit id="ejPlIzi" resname="Hive Edit">
+        <source>Hive Edit</source>
+        <target>Edición de colmena</target>
+      </trans-unit>
+      <trans-unit id="HN0ydoI" resname="Hive List">
+        <source>Hive List</source>
+        <target>Lista de colmenas</target>
+      </trans-unit>
+      <trans-unit id="YUIR2_k" resname="Hives">
+        <source>Hives</source>
+        <target>Colmenas</target>
+      </trans-unit>
+      <trans-unit id="OnhpU4i" resname="Home">
+        <source>Home</source>
+        <target>Inicio</target>
+      </trans-unit>
+      <trans-unit id="Lg9UQw5" resname="Home button text">
+        <source>Home button text</source>
+        <target>Texto del botón de la página principal</target>
+      </trans-unit>
+      <trans-unit id="8QdbQvn" resname="Home help btn text">
+        <source>Home help btn text</source>
+        <target>Texto del botón de ayuda de la página principal</target>
+      </trans-unit>
+      <trans-unit id="gr97ymG" resname="Home help visible">
+        <source>Home help visible</source>
+        <target>Mostrar ayuda en la página principal?</target>
+      </trans-unit>
+      <trans-unit id="K5l4rzs" resname="Home information btn text">
+        <source>Home information btn text</source>
+        <target>Texto del botón de información en la página principal</target>
+      </trans-unit>
+      <trans-unit id="0iO64WK" resname="Home information visible">
+        <source>Home information visible</source>
+        <target>Mostrar información en la página principal?</target>
+      </trans-unit>
+      <trans-unit id="_VWsKHP" resname="Home news visible">
+        <source>Home news visible</source>
+        <target>Mostrar noticias en la página principal?</target>
+      </trans-unit>
+      <trans-unit id="035mSvd" resname="Home statistics btn text">
+        <source>Home statistics btn text</source>
+        <target>Texto del botón de estadísticas en la página principal</target>
+      </trans-unit>
+      <trans-unit id="nh4X718" resname="Home statistics visible">
+        <source>Home statistics visible</source>
+        <target>Mostrar estadísticas en la página principal?</target>
+      </trans-unit>
+      <trans-unit id="v1UFF0p" resname="IP">
+        <source>IP</source>
+        <target>IP</target>
+      </trans-unit>
+      <trans-unit id="YjwYaQl" resname="ISBN">
+        <source>ISBN</source>
+        <target>ISBN</target>
+      </trans-unit>
+      <trans-unit id="qfLybli" resname="ISSN">
+        <source>ISSN</source>
+        <target>ISSN</target>
+      </trans-unit>
+      <trans-unit id="hFFmiFv" resname="ISSNE">
+        <source>ISSNE</source>
+        <target>ISSNE</target>
+      </trans-unit>
+      <trans-unit id="lINeovz" resname="Inbox">
+        <source>Inbox</source>
+        <target state="new">Bandeja de Entrada</target>
+      </trans-unit>
+      <trans-unit id="xDNN0eh" resname="Información y navegación">
+        <source>Información y navegación</source>
+        <target>Información y navegación</target>
+      </trans-unit>
+      <trans-unit id="HLC6El_" resname="Information">
+        <source>Information</source>
+        <target>Información</target>
+      </trans-unit>
+      <trans-unit id="Ql8jNia" resname="Instance">
+        <source>Instance</source>
+        <target>Instancia</target>
+      </trans-unit>
+      <trans-unit id="qPawJH." resname="Instance CSS">
+        <source>Instance CSS</source>
+        <target>CSS de la instancia</target>
+      </trans-unit>
+      <trans-unit id="UYqr2gv" resname="Instance Configuration">
+        <source>Instance Configuration</source>
+        <target>Configuración de instancia</target>
+      </trans-unit>
+      <trans-unit id="vl68De2" resname="Instance Creation">
+        <source>Instance Creation</source>
+        <target>Creación de instancia</target>
+      </trans-unit>
+      <trans-unit id="bQnFgu5" resname="Instance Edit">
+        <source>Instance Edit</source>
+        <target>Edición de instancia</target>
+      </trans-unit>
+      <trans-unit id="OVyCyua" resname="Instance List">
+        <source>Instance List</source>
+        <target>Lista de instancias</target>
+      </trans-unit>
+      <trans-unit id="uUwiSiq" resname="Instance Logo">
+        <source>Instance Logo</source>
+        <target>Logotipo de la instancia</target>
+      </trans-unit>
+      <trans-unit id="NrMjqTu" resname="Instance Register">
+        <source>Instance Register</source>
+        <target>Registro de instancia</target>
+      </trans-unit>
+      <trans-unit id="Iyg7TBy" resname="Instance description">
+        <source>Instance description</source>
+        <target>Descripción de la instancia</target>
+      </trans-unit>
+      <trans-unit id="3XzT4Gs" resname="Instance information">
+        <source>Instance information</source>
+        <target>Información de la instancia</target>
+      </trans-unit>
+      <trans-unit id="qowYGsM" resname="Instances">
+        <source>Instances</source>
+        <target>Instancias</target>
+      </trans-unit>
+      <trans-unit id="ZaFVNyn" resname="Institution">
+        <source>Institution</source>
+        <target>Instituciones</target>
+      </trans-unit>
+      <trans-unit id="d3.TQrJ" resname="Institution Creation">
+        <source>Institution Creation</source>
+        <target>Creación de institución</target>
+      </trans-unit>
+      <trans-unit id="ZlmNcPq" resname="Institution Edit">
+        <source>Institution Edit</source>
+        <target>Edición de institución</target>
+      </trans-unit>
+      <trans-unit id="Nho6xeU" resname="Institution List">
+        <source>Institution List</source>
+        <target>Lista de instituciones</target>
+      </trans-unit>
+      <trans-unit id="xuCsXYL" resname="Institution Show">
+        <source>Institution Show</source>
+        <target>Mostrar institución</target>
+      </trans-unit>
+      <trans-unit id="4ZFKKq5" resname="Institution Union">
+        <source>Institution Union</source>
+        <target>Unión de instituciones</target>
+      </trans-unit>
+      <trans-unit id="QIVV1xn" resname="Institution from received requests">
+        <source>Institution from received requests</source>
+        <target>Institución de solicitudes recibidas</target>
+      </trans-unit>
+      <trans-unit id="FS.Ogdq" resname="Institution tree">
+        <source>Institution tree</source>
+        <target>Árbol de instituciones</target>
+      </trans-unit>
+      <trans-unit id="uacYcSM" resname="Institution users">
+        <source>Institution users</source>
+        <target>Usuarios de la institución</target>
+      </trans-unit>
+      <trans-unit id="dtgQRED" resname="Institutional data">
+        <source>Institutional data</source>
+        <target>Información institucional</target>
+      </trans-unit>
+      <trans-unit id="Uq.Myb0" resname="Institutions">
+        <source>Institutions</source>
+        <target>Instituciones</target>
+      </trans-unit>
+      <trans-unit id="_NDnIFk" resname="Internal server error.">
+        <source>Internal server error.</source>
+        <target>Error interno del servidor</target>
+      </trans-unit>
+      <trans-unit id="C8ggYME" resname="Ip">
+        <source>Ip</source>
+        <target>IP</target>
+      </trans-unit>
+      <trans-unit id="Q7fHXVb" resname="Journal">
+        <source>Journal</source>
+        <target>Revista</target>
+      </trans-unit>
+      <trans-unit id="8ks6RNC" resname="Journal Creation">
+        <source>Journal Creation</source>
+        <target>Creación de revista</target>
+      </trans-unit>
+      <trans-unit id="OapB.aj" resname="Journal Edit">
+        <source>Journal Edit</source>
+        <target>Edición de revista</target>
+      </trans-unit>
+      <trans-unit id="VMWI8OG" resname="Journal List">
+        <source>Journal List</source>
+        <target>Lista de revistas</target>
+      </trans-unit>
+      <trans-unit id="b3WjTlv" resname="Journal Union">
+        <source>Journal Union</source>
+        <target>Unión de revistas</target>
+      </trans-unit>
+      <trans-unit id="JQdGEru" resname="Journal View">
+        <source>Journal View</source>
+        <target>Vista de una revista</target>
+      </trans-unit>
+      <trans-unit id="wgw3Vk4" resname="Journals">
+        <source>Journals</source>
+        <target>Revistas</target>
+      </trans-unit>
+      <trans-unit id="65cOsJU" resname="Last">
+        <source>Last</source>
+        <target>Último</target>
+      </trans-unit>
+      <trans-unit id="CW5CFUB" resname="Latest News">
+        <source>Latest News</source>
+        <target>Últimas noticias</target>
+      </trans-unit>
+      <trans-unit id="DW_jwwJ" resname="Legacy Instance Creation">
+        <source>Legacy Instance Creation</source>
+        <target>Creación de instancia antigua</target>
+      </trans-unit>
+      <trans-unit id="TiubuKX" resname="Legacy Instance Edit">
+        <source>Legacy Instance Edit</source>
+        <target>Edición de instancia antigua</target>
+      </trans-unit>
+      <trans-unit id="5Qt_VPE" resname="Legacy Instance List">
+        <source>Legacy Instance List</source>
+        <target>Lista de instancias antiguas</target>
+      </trans-unit>
+      <trans-unit id="pqrelt." resname="Legacy Instances">
+        <source>Legacy Instances</source>
+        <target>Instancias antiguas</target>
+      </trans-unit>
+      <trans-unit id="JPV1gUC" resname="Librarian">
+        <source>Librarian</source>
+        <target>Gestor de unidad</target>
+      </trans-unit>
+      <trans-unit id="nWMiwfT" resname="Login">
+        <source>Login</source>
+        <target>Ingreso</target>
+      </trans-unit>
+      <trans-unit id="4xQsn5U" resname="Login as">
+        <source>Login as</source>
+        <target>Iniciar sesión como</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Salir</target>
+      </trans-unit>
+      <trans-unit id="OIYyJBy" resname="MESSAGE_PRIORITY_CHANGED">
+        <source>MESSAGE_PRIORITY_CHANGED</source>
+        <target>Prioridad modificada</target>
+      </trans-unit>
+      <trans-unit id="R6Hr6dD" resname="MESSAGE_STATUS_CHANGED">
+        <source>MESSAGE_STATUS_CHANGED</source>
+        <target>Estado modificado</target>
+      </trans-unit>
+      <trans-unit id="z30O0.q" resname="Mail Template Creation">
+        <source>Mail Template Creation</source>
+        <target>Creación de plantilla de correo</target>
+      </trans-unit>
+      <trans-unit id="0xSZcHE" resname="Mail Template Edit">
+        <source>Mail Template Edit</source>
+        <target>Edición de plantilla de correo</target>
+      </trans-unit>
+      <trans-unit id="_ogPGmX" resname="Mail Template List">
+        <source>Mail Template List</source>
+        <target>Lista de plantillas de correo</target>
+      </trans-unit>
+      <trans-unit id="aq7w0XN" resname="Mail Templates">
+        <source>Mail Templates</source>
+        <target>Plantillas de correo</target>
+      </trans-unit>
+      <trans-unit id="I0x1vFi" resname="Mail signature">
+        <source>Mail signature</source>
+        <target>Firma del correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="_ZRJeYh" resname="Mail templates">
+        <source>Mail templates</source>
+        <target>Plantillas de correo</target>
+      </trans-unit>
+      <trans-unit id="WEZDLCc" resname="MailTemplate">
+        <source>MailTemplate</source>
+        <target state="new">MailTemplate</target>
+      </trans-unit>
+      <trans-unit id="86iW33X" resname="Material Type">
+        <source>Material Type</source>
+        <target>Tipo de material</target>
+      </trans-unit>
+      <trans-unit id="iZ1d6uP" resname="Maximun days for send emails">
+        <source>Maximun days for send emails</source>
+        <target>Días máximos para el envío de correos</target>
+      </trans-unit>
+      <trans-unit id="0wrwdrD" resname="Me">
+        <source>Me</source>
+        <target>Yo</target>
+      </trans-unit>
+      <trans-unit id="BNe0gzk" resname="Messages">
+        <source>Messages</source>
+        <target>Mensajes</target>
+      </trans-unit>
+      <trans-unit id="qhAdkA6" resname="Migrar_otra_version">
+        <source>Migrar_otra_version</source>
+        <target>Migrar otra versión</target>
+      </trans-unit>
+      <trans-unit id="VuL6E8p" resname="Minimun days for send emails">
+        <source>Minimun days for send emails</source>
+        <target>Días mínimos para el envío de correos</target>
+      </trans-unit>
+      <trans-unit id="v2Nh4ii" resname="Modificar Estado">
+        <source>Modificar Estado</source>
+        <target>Modificar estado</target>
+      </trans-unit>
+      <trans-unit id="1H18sOT" resname="More">
+        <source>More</source>
+        <target>Más</target>
+      </trans-unit>
+      <trans-unit id="_8BzHPn" resname="My Instance">
+        <source>My Instance</source>
+        <target>Mi instancia</target>
+      </trans-unit>
+      <trans-unit id="au9cQzG" resname="My Site">
+        <source>My Site</source>
+        <target>Mi Sitio</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="WDEXDsz" resname="Network Admin">
+        <source>Network Admin</source>
+        <target>Administrador de la red</target>
+      </trans-unit>
+      <trans-unit id="SBogTUA" resname="Network Administration">
+        <source>Network Administration</source>
+        <target>Administración de la red</target>
+      </trans-unit>
+      <trans-unit id="GP3VSbL" resname="New">
+        <source>New</source>
+        <target state="new">Nuevo</target>
+      </trans-unit>
+      <trans-unit id="0_5IsPK" resname="New Users">
+        <source>New Users</source>
+        <target>Nuevos usuarios</target>
+      </trans-unit>
+      <trans-unit id="aXUvIxO" resname="News">
+        <source>News</source>
+        <target>Noticias</target>
+      </trans-unit>
+      <trans-unit id="WT_1nYr" resname="News Creation">
+        <source>News Creation</source>
+        <target>Creación de noticia</target>
+      </trans-unit>
+      <trans-unit id="STxhjyT" resname="News Edit">
+        <source>News Edit</source>
+        <target>Edición de noticia</target>
+      </trans-unit>
+      <trans-unit id="ac_uhth" resname="News List">
+        <source>News List</source>
+        <target>Lista de noticias</target>
+      </trans-unit>
+      <trans-unit id="2lCRplp" resname="News button text">
+        <source>News button text</source>
+        <target>Texto del botón de noticias</target>
+      </trans-unit>
+      <trans-unit id="H.V6Kdf" resname="Next">
+        <source>Next</source>
+        <target>Siguiente</target>
+      </trans-unit>
+      <trans-unit id="HqRCoTS" resname="No">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="14pp6iy" resname="No elements to display.">
+        <source>No elements to display.</source>
+        <target>No hay elementos para mostrar.</target>
+      </trans-unit>
+      <trans-unit id="3JN7WYk" resname="None">
+        <source>None</source>
+        <target>Ninguna</target>
+      </trans-unit>
+      <trans-unit id="VfC5T.B" resname="Not found institution">
+        <source>Not found institution</source>
+        <target>Not found institution</target>
+      </trans-unit>
+      <trans-unit id="vYLPFmm" resname="Number">
+        <source>Number</source>
+        <target>Número</target>
+      </trans-unit>
+      <trans-unit id="EePEyy." resname="Order Creation">
+        <source>Order Creation</source>
+        <target>Creación de pedido</target>
+      </trans-unit>
+      <trans-unit id="pZnyGvx" resname="Order Edit">
+        <source>Order Edit</source>
+        <target>Edición de pedido</target>
+      </trans-unit>
+      <trans-unit id="QEGoILw" resname="Order List">
+        <source>Order List</source>
+        <target>Lista de pedidos</target>
+      </trans-unit>
+      <trans-unit id="AvjiX8p" resname="Order View">
+        <source>Order View</source>
+        <target>Vista de pedido</target>
+      </trans-unit>
+      <trans-unit id="t_is3VI" resname="Orders">
+        <source>Orders</source>
+        <target>Pedidos</target>
+      </trans-unit>
+      <trans-unit id="Nzs4TCd" resname="Orders List">
+        <source>Orders List</source>
+        <target>Lista de pedidos</target>
+      </trans-unit>
+      <trans-unit id="F.OWUjX" resname="Orders and Users data">
+        <source>Orders and Users data</source>
+        <target>Información de pedidos y usuarios</target>
+      </trans-unit>
+      <trans-unit id="_X6doOO" resname="Other">
+        <source>Other</source>
+        <target>Otros</target>
+      </trans-unit>
+      <trans-unit id="AQjxru7" resname="Otros">
+        <source>Otros</source>
+        <target>Otros</target>
+      </trans-unit>
+      <trans-unit id="SxuKo2C" resname="Owner">
+        <source>Owner</source>
+        <target>Propietario</target>
+      </trans-unit>
+      <trans-unit id="Amlf1y8" resname="Owning Instance">
+        <source>Owning Instance</source>
+        <target>Propietario de la instancia</target>
+      </trans-unit>
+      <trans-unit id="wrv43.j" resname="Owning instance">
+        <source>Owning instance</source>
+        <target>Instancia propietaria</target>
+      </trans-unit>
+      <trans-unit id="XGLgkbj" resname="P">
+        <source>P</source>
+        <target>P</target>
+      </trans-unit>
+      <trans-unit id="DsFtBJK" resname="Parent institution">
+        <source>Parent institution</source>
+        <target>Institución padre</target>
+      </trans-unit>
+      <trans-unit id="ibixsLs" resname="Password Reset">
+        <source>Password Reset</source>
+        <target>Restablecer contraseña</target>
+      </trans-unit>
+      <trans-unit id="wEZLf76" resname="Password already requested">
+        <source>Password already requested</source>
+        <target>La contraseña ya ha sido solicitada</target>
+      </trans-unit>
+      <trans-unit id="0iz89ID" resname="Password already requested text">
+        <source>Password already requested text</source>
+        <target>Texto para contraseña ya solicitada</target>
+      </trans-unit>
+      <trans-unit id="erBstBS" resname="Password already requested title">
+        <source>Password already requested title</source>
+        <target>Titulo para contraseña ya solicitada</target>
+      </trans-unit>
+      <trans-unit id="XT5kOJL" resname="Patent">
+        <source>Patent</source>
+        <target>Patente</target>
+      </trans-unit>
+      <trans-unit id="MxVRsN5" resname="Pending">
+        <source>Pending</source>
+        <target>Pendiente</target>
+      </trans-unit>
+      <trans-unit id="wlR4WvZ" resname="Pending searchs">
+        <source>Pending searchs</source>
+        <target>Búsquedas pendientes</target>
+      </trans-unit>
+      <trans-unit id="Q0iG5rZ" resname="Personal data">
+        <source>Personal data</source>
+        <target>Información personal</target>
+      </trans-unit>
+      <trans-unit id="6UY9zPB" resname="Place">
+        <source>Place</source>
+        <target>Lugar</target>
+      </trans-unit>
+      <trans-unit id="w7Q4vzj" resname="Please select the element you want to overwrite the others.">
+        <source>Please select the element you want to overwrite the others.</source>
+        <target>Por favor seleccione el elemento con el que desea sobreescribir los otros.</target>
+      </trans-unit>
+      <trans-unit id="cuWi2PF" resname="Please wait ...">
+        <source>Please wait ...</source>
+        <target>Espere por favor ...</target>
+      </trans-unit>
+      <trans-unit id="VGqffDU" resname="Please wait until some administrator confirms your account.">
+        <source>Please wait until some administrator confirms your account.</source>
+        <target>Por favor espere hasta que un administrador confirme su cuenta de usuario.</target>
+      </trans-unit>
+      <trans-unit id="rlPOqCK" resname="Postal code">
+        <source>Postal code</source>
+        <target>Código postal</target>
+      </trans-unit>
+      <trans-unit id="pXsIpIC" resname="Previous">
+        <source>Previous</source>
+        <target>Anterior</target>
+      </trans-unit>
+      <trans-unit id="jG9.I15" resname="Private?">
+        <source>Private?</source>
+        <target>Privado?</target>
+      </trans-unit>
+      <trans-unit id="1pajW90" resname="Profile">
+        <source>Profile</source>
+        <target>Perfil</target>
+      </trans-unit>
+      <trans-unit id="UNfMnZw" resname="Provided by the author">
+        <source>Provided by the author</source>
+        <target>Provisto por el autor</target>
+      </trans-unit>
+      <trans-unit id="QREq3NI" resname="Provision">
+        <source>Provision</source>
+        <target>Provisión</target>
+      </trans-unit>
+      <trans-unit id="YsA11SK" resname="Provision Orders">
+        <source>Provision Orders</source>
+        <target>Pedidos de provisión</target>
+      </trans-unit>
+      <trans-unit id="Wv_tmLQ" resname="Publication year">
+        <source>Publication year</source>
+        <target>Año de publicación</target>
+      </trans-unit>
+      <trans-unit id="SfGb7uz" resname="Received">
+        <source>Received</source>
+        <target>Recibido</target>
+      </trans-unit>
+      <trans-unit id="u3I07BJ" resname="Register">
+        <source>Register</source>
+        <target>Registro</target>
+      </trans-unit>
+      <trans-unit id="rqSgSoB" resname="Rejected">
+        <source>Rejected</source>
+        <target>Rechazado</target>
+      </trans-unit>
+      <trans-unit id="blhCp8q" resname="Reply to">
+        <source>Reply to</source>
+        <target>Responder a</target>
+      </trans-unit>
+      <trans-unit id="4sI5Hyb" resname="Request Instance">
+        <source>Request Instance</source>
+        <target>Solicitud de instancia</target>
+      </trans-unit>
+      <trans-unit id="LZ4oKJ_" resname="Requested">
+        <source>Requested</source>
+        <target>Solicitado</target>
+      </trans-unit>
+      <trans-unit id="raJ1ksl" resname="Requests">
+        <source>Requests</source>
+        <target>Pedidos</target>
+      </trans-unit>
+      <trans-unit id="mXIM1eB" resname="Required?">
+        <source>Required?</source>
+        <target>Obligatorio?</target>
+      </trans-unit>
+      <trans-unit id="spflEGq" resname="Resend test email">
+        <source>Resend test email</source>
+        <target>Reenviar correo electrónico de prueba</target>
+      </trans-unit>
+      <trans-unit id="2u52BrM" resname="Reset">
+        <source>Reset</source>
+        <target>Restablecer</target>
+      </trans-unit>
+      <trans-unit id="4O3_s6c" resname="Reset password">
+        <source>Reset password</source>
+        <target>Restablecer contraseña</target>
+      </trans-unit>
+      <trans-unit id="JL4zHdt" resname="Resetting text">
+        <source>Resetting text</source>
+        <target>Texto para restablecer contraseña</target>
+      </trans-unit>
+      <trans-unit id="A.LK_rb" resname="Resetting title">
+        <source>Resetting title</source>
+        <target>Título para restablecer contraseña</target>
+      </trans-unit>
+      <trans-unit id="vBEKbQc" resname="Responsible">
+        <source>Responsible</source>
+        <target>Responsable</target>
+      </trans-unit>
+      <trans-unit id="IZxKbIa" resname="Results">
+        <source>Results</source>
+        <target>Resultados</target>
+      </trans-unit>
+      <trans-unit id="COEcWFy" resname="Results per page">
+        <source>Results per page</source>
+        <target>Resultados por página</target>
+      </trans-unit>
+      <trans-unit id="wlM3BVR" resname="Roles">
+        <source>Roles</source>
+        <target>Rol</target>
+      </trans-unit>
+      <trans-unit id="jeCzxH8" resname="S">
+        <source>S</source>
+        <target>B</target>
+      </trans-unit>
+      <trans-unit id="Tmb6jO4" resname="SMTP Host">
+        <source>SMTP Host</source>
+        <target>Servidor SMTP</target>
+      </trans-unit>
+      <trans-unit id="_B1NLco" resname="SMTP Password">
+        <source>SMTP Password</source>
+        <target>Contraseña SMTP</target>
+      </trans-unit>
+      <trans-unit id="DR22.sp" resname="SMTP Port">
+        <source>SMTP Port</source>
+        <target>Puerto SMTP</target>
+      </trans-unit>
+      <trans-unit id="qECMG4W" resname="SMTP Protocol">
+        <source>SMTP Protocol</source>
+        <target>Protocolo SMTP</target>
+      </trans-unit>
+      <trans-unit id="OfICate" resname="SMTP Username">
+        <source>SMTP Username</source>
+        <target>Usuario SMTP</target>
+      </trans-unit>
+      <trans-unit id="vjusLGf" resname="Satisfied">
+        <source>Satisfied</source>
+        <target>Satisfechos</target>
+      </trans-unit>
+      <trans-unit id="FQn1YfJ" resname="Save">
+        <source>Save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="3Qrnpcv" resname="Save changes">
+        <source>Save changes</source>
+        <target>Guardar cambios</target>
+      </trans-unit>
+      <trans-unit id="ScJmuqq" resname="Search">
+        <source>Search</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="M_14HsH" resname="Search Orders">
+        <source>Search Orders</source>
+        <target>Pedidos de búsqueda</target>
+      </trans-unit>
+      <trans-unit id="6XiwDeR" resname="Search results">
+        <source>Search results</source>
+        <target>Resultados de búsqueda</target>
+      </trans-unit>
+      <trans-unit id="ONJooQm" resname="Search text">
+        <source>Search text</source>
+        <target>Texto a buscar</target>
+      </trans-unit>
+      <trans-unit id="n8fxFmh" resname="Searched">
+        <source>Searched</source>
+        <target>Buscado</target>
+      </trans-unit>
+      <trans-unit id="DV4_cs." resname="Seleccion">
+        <source>Seleccion</source>
+        <target>Selección</target>
+      </trans-unit>
+      <trans-unit id="9vRoj.I" resname="Send">
+        <source>Send</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="TxVEfwg" resname="Send Reminder Email">
+        <source>Send Reminder Email</source>
+        <target>Enviar correo electrónico de recordatorio</target>
+      </trans-unit>
+      <trans-unit id="RuvX2z_" resname="Send test email">
+        <source>Send test email</source>
+        <target>Enviar correo electrónico de prueba</target>
+      </trans-unit>
+      <trans-unit id="fhpzRKP" resname="Shared Elements">
+        <source>Shared Elements</source>
+        <target>Elementos compartidos</target>
+      </trans-unit>
+      <trans-unit id="DfbxytN" resname="Show">
+        <source>Show</source>
+        <target>Mostrar</target>
+      </trans-unit>
+      <trans-unit id="8_R3zId" resname="Show news">
+        <source>Show news</source>
+        <target>Mostrar noticias</target>
+      </trans-unit>
+      <trans-unit id="x_BFwIL" resname="ShowOrder">
+        <source>ShowOrder</source>
+        <target>Mostrar pedido</target>
+      </trans-unit>
+      <trans-unit id="dEeMfzW" resname="Sistema Ticket">
+        <source>Sistema Ticket</source>
+        <target>Sistema de Tickets</target>
+      </trans-unit>
+      <trans-unit id=".hJ4qeQ" resname="Sistema de Ticket">
+        <source>Sistema de Ticket</source>
+        <target>Sistema de Tickets</target>
+      </trans-unit>
+      <trans-unit id="eVeYfI." resname="Software update message">
+        <source>Software update message</source>
+        <target>Mensaje de actualización de software</target>
+      </trans-unit>
+      <trans-unit id="yRKQJb0" resname="Sort by">
+        <source>Sort by</source>
+        <target>Ordenar por</target>
+      </trans-unit>
+      <trans-unit id="aBkn40t" resname="Staff">
+        <source>Staff</source>
+        <target>Personal</target>
+      </trans-unit>
+      <trans-unit id="0LO57dJ" resname="Start page">
+        <source>Start page</source>
+        <target>Página de inicio</target>
+      </trans-unit>
+      <trans-unit id="o7UMR2c" resname="State">
+        <source>State</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="hVwSbpb" resname="Statistic">
+        <source>Statistic</source>
+        <target>Estadística</target>
+      </trans-unit>
+      <trans-unit id="plYQfpn" resname="Statistics">
+        <source>Statistics</source>
+        <target>Estadísticas</target>
+      </trans-unit>
+      <trans-unit id="0aXbkaC" resname="Statistics Administration">
+        <source>Statistics Administration</source>
+        <target>Administración de estadísticas</target>
+      </trans-unit>
+      <trans-unit id="aJcSg4Q" resname="Subject">
+        <source>Subject</source>
+        <target>Asunto</target>
+      </trans-unit>
+      <trans-unit id="HmJTDDz" resname="Sucefull connection">
+        <source>Sucefull connection</source>
+        <target>Conexión exitosa</target>
+      </trans-unit>
+      <trans-unit id="92LaBfT" resname="Surname">
+        <source>Surname</source>
+        <target>Apellido</target>
+      </trans-unit>
+      <trans-unit id="9achX74" resname="System maintenance">
+        <source>System maintenance</source>
+        <target>Mantenimiento del sistema</target>
+      </trans-unit>
+      <trans-unit id=".assLyv" resname="Tagline">
+        <source>Tagline</source>
+        <target>Lema</target>
+      </trans-unit>
+      <trans-unit id="BXXynfi" resname="Template">
+        <source>Template</source>
+        <target>Plantilla</target>
+      </trans-unit>
+      <trans-unit id="yQelb4m" resname="Template Mail Creation">
+        <source>Template Mail Creation</source>
+        <target>Creación de plantilla de correo</target>
+      </trans-unit>
+      <trans-unit id="Uy6qvZV" resname="Test">
+        <source>Test</source>
+        <target>Prueba</target>
+      </trans-unit>
+      <trans-unit id="W88xGxn" resname="Test connection">
+        <source>Test connection</source>
+        <target>Probar conexión</target>
+      </trans-unit>
+      <trans-unit id="rMe9GRr" resname="Test email from">
+        <source>Test email from</source>
+        <target>Correo electronico de prueba desde</target>
+      </trans-unit>
+      <trans-unit id="nro4u6D" resname="Test mail could not be sent.">
+        <source>Test mail could not be sent.</source>
+        <target>El correo electronico de prueba no pudo ser enviado.</target>
+      </trans-unit>
+      <trans-unit id="cZiMTY4" resname="Text">
+        <source>Text</source>
+        <target>Texto</target>
+      </trans-unit>
+      <trans-unit id="bfPWZhw" resname="Texto">
+        <source>Texto</source>
+        <target>Texto</target>
+      </trans-unit>
+      <trans-unit id="Tf_2QgV" resname="The %entities% were successfully joined.">
+        <source>The %entities% were successfully joined.</source>
+        <target state="new">The %entities% were successfully joined.</target>
+      </trans-unit>
+      <trans-unit id="YIT6xP." resname="The resource was not found.">
+        <source>The resource was not found.</source>
+        <target>El recurso no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="jskWAmp" resname="The user with confirmation token does not exist">
+        <source>The user with confirmation token does not exist</source>
+        <target>El usuario con el token de confirmación no existe</target>
+      </trans-unit>
+      <trans-unit id="VTOcYSd" resname="There are no instances.">
+        <source>There are no instances.</source>
+        <target>No hay instancias.</target>
+      </trans-unit>
+      <trans-unit id="S0rRRwe" resname="There are no orders">
+        <source>There are no orders</source>
+        <target>No existen pedidos</target>
+      </trans-unit>
+      <trans-unit id="8Rw.NDH" resname="Thesis">
+        <source>Thesis</source>
+        <target>Tesis</target>
+      </trans-unit>
+      <trans-unit id="fozSBW2" resname="Title">
+        <source>Title</source>
+        <target>Título</target>
+      </trans-unit>
+      <trans-unit id="9LBu9tP" resname="To">
+        <source>To</source>
+        <target>a</target>
+      </trans-unit>
+      <trans-unit id="ybPDgkf" resname="Total">
+        <source>Total</source>
+        <target>Total</target>
+      </trans-unit>
+      <trans-unit id="gHWzWih" resname="Total Orders">
+        <source>Total Orders</source>
+        <target>Pedidos totales</target>
+      </trans-unit>
+      <trans-unit id="DKOqRKj" resname="Total Users">
+        <source>Total Users</source>
+        <target>Usuarios totales</target>
+      </trans-unit>
+      <trans-unit id="0taAQbU" resname="Transform">
+        <source>Transform</source>
+        <target>Transformar</target>
+      </trans-unit>
+      <trans-unit id="uq3fcPt" resname="Type">
+        <source>Type</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="U4PIw6Y" resname="Uncheck all">
+        <source>Uncheck all</source>
+        <target>Desmarcar todos</target>
+      </trans-unit>
+      <trans-unit id="IrmdsV4" resname="Union">
+        <source>Union</source>
+        <target>Unión</target>
+      </trans-unit>
+      <trans-unit id="PMN2fnA" resname="Uploaded">
+        <source>Uploaded</source>
+        <target>Subido</target>
+      </trans-unit>
+      <trans-unit id="FXzpi5o" resname="Url">
+        <source>Url</source>
+        <target>Url</target>
+      </trans-unit>
+      <trans-unit id="tRLZfny" resname="User">
+        <source>User</source>
+        <target>Usuario</target>
+      </trans-unit>
+      <trans-unit id="YuATRY." resname="User Agent">
+        <source>User Agent</source>
+        <target>Navegador</target>
+      </trans-unit>
+      <trans-unit id="uyPGPeG" resname="User Confirmed">
+        <source>User Confirmed</source>
+        <target>Usuario confirmado</target>
+      </trans-unit>
+      <trans-unit id="COatVdZ" resname="User Creation">
+        <source>User Creation</source>
+        <target>Creación de usuario</target>
+      </trans-unit>
+      <trans-unit id="IHIxEwl" resname="User Edit">
+        <source>User Edit</source>
+        <target>Edición de usuario</target>
+      </trans-unit>
+      <trans-unit id="sIwK89t" resname="User List">
+        <source>User List</source>
+        <target>Lista de usuarios</target>
+      </trans-unit>
+      <trans-unit id="q.6a_pn" resname="User Transform">
+        <source>User Transform</source>
+        <target>Transformación de usuario</target>
+      </trans-unit>
+      <trans-unit id="Y644xPH" resname="User Union">
+        <source>User Union</source>
+        <target>Unión de usuarios</target>
+      </trans-unit>
+      <trans-unit id="Ym4_DMP" resname="User View">
+        <source>User View</source>
+        <target>Vista de usuario</target>
+      </trans-unit>
+      <trans-unit id="glr3jz5" resname="User agent">
+        <source>User agent</source>
+        <target>Navegador</target>
+      </trans-unit>
+      <trans-unit id="47ienTP" resname="Username">
+        <source>Username</source>
+        <target>Nombre de usuario</target>
+      </trans-unit>
+      <trans-unit id="awzJBNC" resname="Users">
+        <source>Users</source>
+        <target>Usuarios</target>
+      </trans-unit>
+      <trans-unit id="6Q3ypTV" resname="Users List">
+        <source>Users List</source>
+        <target>Lista de usuarios</target>
+      </trans-unit>
+      <trans-unit id="_z6oxDn" resname="Users with pending requests">
+        <source>Users with pending requests</source>
+        <target>Usuarios con pedidos pendientes</target>
+      </trans-unit>
+      <trans-unit id="NnVLmR3" resname="Valor - Ej: Campo1,Campo2,Campos3">
+        <source>Valor - Ej: Campo1,Campo2,Campos3</source>
+        <target>Valor - Ej: Campo1,Campo2,Campo3</target>
+      </trans-unit>
+      <trans-unit id="jjeVPSP" resname="Value">
+        <source>Value</source>
+        <target>Valor</target>
+      </trans-unit>
+      <trans-unit id="oVAF.QT" resname="Variables available">
+        <source>Variables available</source>
+        <target>Variables disponibles</target>
+      </trans-unit>
+      <trans-unit id="xwKvjB6" resname="Visualización">
+        <source>Visualización</source>
+        <target>Visualización</target>
+      </trans-unit>
+      <trans-unit id="sQ_5Ztc" resname="Volume">
+        <source>Volume</source>
+        <target>Volumen</target>
+      </trans-unit>
+      <trans-unit id="hv.UoD1" resname="Wait Confirmation">
+        <source>Wait Confirmation</source>
+        <target>Esperar confirmación</target>
+      </trans-unit>
+      <trans-unit id="kkr03iI" resname="Wait confirmation text">
+        <source>Wait confirmation text</source>
+        <target>Texto para esperar confirmación</target>
+      </trans-unit>
+      <trans-unit id="o5WV.ec" resname="Wait confirmation title">
+        <source>Wait confirmation title</source>
+        <target>Título para esperar confirmación</target>
+      </trans-unit>
+      <trans-unit id="SdkoKRQ" resname="We are performing system maintenance">
+        <source>We are performing system maintenance</source>
+        <target>Estamos realizando tareas de mantenimiento</target>
+      </trans-unit>
+      <trans-unit id="taIprIv" resname="Website">
+        <source>Website</source>
+        <target>Sitio web</target>
+      </trans-unit>
+      <trans-unit id="YzmuZXC" resname="With index">
+        <source>With index</source>
+        <target>Índice</target>
+      </trans-unit>
+      <trans-unit id="ifaDJWD" resname="Year">
+        <source>Year</source>
+        <target>Año</target>
+      </trans-unit>
+      <trans-unit id="haOas0X" resname="Yes">
+        <source>Yes</source>
+        <target>Si</target>
+      </trans-unit>
+      <trans-unit id="Kw3N1AA" resname="actions">
+        <source>actions</source>
+        <target>Acciones</target>
+      </trans-unit>
+      <trans-unit id="fp5aww8" resname="add">
+        <source>add</source>
+        <target>Agregar</target>
+      </trans-unit>
+      <trans-unit id="gDBLULU" resname="addFiles">
+        <source>addFiles</source>
+        <target>Agregar archivos</target>
+      </trans-unit>
+      <trans-unit id="vm9G5P9" resname="addInstitution">
+        <source>addInstitution</source>
+        <target>Agregar institución</target>
+      </trans-unit>
+      <trans-unit id=".RJF938" resname="addOrder">
+        <source>addOrder</source>
+        <target>Agregar pedido</target>
+      </trans-unit>
+      <trans-unit id="NLyg2FJ" resname="addRequest">
+        <source>addRequest</source>
+        <target>Agregar solicitud</target>
+      </trans-unit>
+      <trans-unit id="2Ayb_RD" resname="address">
+        <source>address</source>
+        <target>Dirección</target>
+      </trans-unit>
+      <trans-unit id="jGl25bV" resname="admin">
+        <source>admin</source>
+        <target>administrador</target>
+      </trans-unit>
+      <trans-unit id="0h_F6jg" resname="advanced">
+        <source>advanced</source>
+        <target>Avanzado</target>
+      </trans-unit>
+      <trans-unit id="yb0WmIa" resname="alert.delete.order">
+        <source>alert.delete.order</source>
+        <target>¡Advertencia! Esta acción eliminará todas las solicitudes, eventos y estados asociados al
+                    pedido, pudiendo afectar las estadisticas de otras instancias al eliminarse solicitudes y eventos
+                    multiinstancia.
+                </target>
+      </trans-unit>
+      <trans-unit id="z93wM3O" resname="alert.undelete.order">
+        <source>alert.undelete.order</source>
+        <target>¡Advertencia! Esta acción deshace la eliminación del pedido junto a todas sus solicitudes,
+                    eventos y estados asociados, pudiendo afectar las estadisticas de otras instancias al deshacer la
+                    eliminación de solicitudes y eventos multiinstancia.
+                </target>
+      </trans-unit>
+      <trans-unit id="XvXvA2S" resname="all">
+        <source>all</source>
+        <target>Todos</target>
+      </trans-unit>
+      <trans-unit id="KET53L7" resname="allTypes">
+        <source>allTypes</source>
+        <target>Todos los tipos</target>
+      </trans-unit>
+      <trans-unit id="9yPZ01q" resname="annul">
+        <source>annul</source>
+        <target>Anular</target>
+      </trans-unit>
+      <trans-unit id="UAjvjLN" resname="annulled">
+        <source>annulled</source>
+        <target>anulado</target>
+      </trans-unit>
+      <trans-unit id="qyzjhBl" resname="approvalPending">
+        <source>approvalPending</source>
+        <target>Aprobación pendiente</target>
+      </trans-unit>
+      <trans-unit id="QvFtLhJ" resname="approveTooltipTitle">
+        <source>approveTooltipTitle</source>
+        <target>Aprobar</target>
+      </trans-unit>
+      <trans-unit id="Y2SFhol" resname="author">
+        <source>author</source>
+        <target>Autor</target>
+      </trans-unit>
+      <trans-unit id="hAlCGHI" resname="authors">
+        <source>authors</source>
+        <target>Autores</target>
+      </trans-unit>
+      <trans-unit id="zGKhm4a" resname="backToPreviousState">
+        <source>backToPreviousState</source>
+        <target>Volver al estado anterior</target>
+      </trans-unit>
+      <trans-unit id="_7e1v0y" resname="basic">
+        <source>basic</source>
+        <target>Básico</target>
+      </trans-unit>
+      <trans-unit id="LDRr_9U" resname="beingSearched">
+        <source>beingSearched</source>
+        <target>En búsqueda</target>
+      </trans-unit>
+      <trans-unit id="r5gtrdu" resname="bibliograficMaterial">
+        <source>bibliograficMaterial</source>
+        <target>Material bibliográfico</target>
+      </trans-unit>
+      <trans-unit id="yYJxfTz" resname="birthdate">
+        <source>birthdate</source>
+        <target>Fecha de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="knGf4M_" resname="book">
+        <source>book</source>
+        <target>Libro</target>
+      </trans-unit>
+      <trans-unit id="ydZE21V" resname="button.cancel">
+        <source>button.cancel</source>
+        <target>cancelar</target>
+      </trans-unit>
+      <trans-unit id="09KP.Wh" resname="button.delete">
+        <source>button.delete</source>
+        <target>eliminar</target>
+      </trans-unit>
+      <trans-unit id="MppmV1z" resname="button.mark_read">
+        <source>button.mark_read</source>
+        <target>marcar como leído</target>
+      </trans-unit>
+      <trans-unit id="f9wjhbZ" resname="button.undelete">
+        <source>button.undelete</source>
+        <target>deshacer eliminar</target>
+      </trans-unit>
+      <trans-unit id="p_LSbo0" resname="by">
+        <source>by</source>
+        <target>por</target>
+      </trans-unit>
+      <trans-unit id="Lk3678v" resname="byUserRequest">
+        <source>byUserRequest</source>
+        <target>a pedido del usuario</target>
+      </trans-unit>
+      <trans-unit id="I3TZF5S" resname="cancel">
+        <source>cancel</source>
+        <target>Cancelación</target>
+      </trans-unit>
+      <trans-unit id="ID.d4Bf" resname="cancelTooltipTitle">
+        <source>cancelTooltipTitle</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="i0cEXre" resname="cancelled">
+        <source>cancelled</source>
+        <target>cancelado</target>
+      </trans-unit>
+      <trans-unit id="ngpDyF_" resname="cancelledByUser">
+        <source>cancelledByUser</source>
+        <target>Cancelado por el usuario</target>
+      </trans-unit>
+      <trans-unit id="ZS9VAWJ" resname="catalog">
+        <source>catalog</source>
+        <target>Catálogo</target>
+      </trans-unit>
+      <trans-unit id="jAC8aK1" resname="celsius3">
+        <source>celsius3</source>
+        <target>Celsius3</target>
+      </trans-unit>
+      <trans-unit id="J9cA21H" resname="centralized institution">
+        <source>centralized institution</source>
+        <target>Institución centralizada</target>
+      </trans-unit>
+      <trans-unit id="TD24hsZ" resname="changeState">
+        <source>changeState</source>
+        <target>Cambiar estado</target>
+      </trans-unit>
+      <trans-unit id="u30iZIF" resname="change_operator">
+        <source>change_operator</source>
+        <target>Cambiar operador</target>
+      </trans-unit>
+      <trans-unit id="ZnuTJ8w" resname="chapter">
+        <source>chapter</source>
+        <target>Capítulo</target>
+      </trans-unit>
+      <trans-unit id="EaYsI0E" resname="city">
+        <source>city</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="MQ.yABS" resname="close">
+        <source>close</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="VpTQii5" resname="code">
+        <source>code</source>
+        <target>Código</target>
+      </trans-unit>
+      <trans-unit id="K0JE_yZ" resname="comments">
+        <source>comments</source>
+        <target>Comentarios</target>
+      </trans-unit>
+      <trans-unit id="1OFplN_" resname="communication">
+        <source>communication</source>
+        <target>Comunicación</target>
+      </trans-unit>
+      <trans-unit id="PbIOHfi" resname="congress">
+        <source>congress</source>
+        <target>Congreso</target>
+      </trans-unit>
+      <trans-unit id="CT59X9u" resname="contact">
+        <source>contact</source>
+        <target>Contacto</target>
+      </trans-unit>
+      <trans-unit id="oMoxLcX" resname="continueSearch">
+        <source>continueSearch</source>
+        <target>Continuar la búsqueda</target>
+      </trans-unit>
+      <trans-unit id="b1pgNOd" resname="copy">
+        <source>copy</source>
+        <target>Copiar</target>
+      </trans-unit>
+      <trans-unit id="r.ZOT9U" resname="country">
+        <source>country</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="QG7.sen" resname="created">
+        <source>created</source>
+        <target>Pendiente</target>
+      </trans-unit>
+      <trans-unit id="DodjLNR" resname="date">
+        <source>date</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="swin9Du" resname="degree">
+        <source>degree</source>
+        <target>Grado</target>
+      </trans-unit>
+      <trans-unit id="_i3MI4F" resname="deliver">
+        <source>deliver</source>
+        <target>Entregar</target>
+      </trans-unit>
+      <trans-unit id="Nz4HEsg" resname="delivered">
+        <source>delivered</source>
+        <target>Entregado</target>
+      </trans-unit>
+      <trans-unit id="cK9ImR3" resname="deliveryType">
+        <source>deliveryType</source>
+        <target>Tipo de entrega</target>
+      </trans-unit>
+      <trans-unit id="7310iYw" resname="director">
+        <source>director</source>
+        <target>Director</target>
+      </trans-unit>
+      <trans-unit id="F_s8AWj" resname="disabled">
+        <source>disabled</source>
+        <target>Deshabilitado</target>
+      </trans-unit>
+      <trans-unit id="aP9j_4L" resname="download">
+        <source>download</source>
+        <target>Descargar</target>
+      </trans-unit>
+      <trans-unit id="JiEhxTc" resname="edit">
+        <source>edit</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit id="2hhW_Vn" resname="editProfile">
+        <source>editProfile</source>
+        <target>Editar perfil</target>
+      </trans-unit>
+      <trans-unit id="FVPMYv8" resname="editor">
+        <source>editor</source>
+        <target>Editor</target>
+      </trans-unit>
+      <trans-unit id="29OknQ2" resname="en">
+        <source>en</source>
+        <target>en</target>
+      </trans-unit>
+      <trans-unit id="6XFmtUU" resname="enable">
+        <source>enable</source>
+        <target>Habilitar</target>
+      </trans-unit>
+      <trans-unit id="_5z3Vga" resname="enabled">
+        <source>enabled</source>
+        <target>Habilitado</target>
+      </trans-unit>
+      <trans-unit id="wJHlyg3" resname="endPage">
+        <source>endPage</source>
+        <target>Página de fin</target>
+      </trans-unit>
+      <trans-unit id="wLweCPl" resname="es">
+        <source>es</source>
+        <target>es</target>
+      </trans-unit>
+      <trans-unit id="3b3r5qe" resname="event type">
+        <source>event type</source>
+        <target>Tipo de evento</target>
+      </trans-unit>
+      <trans-unit id="gWI3P2t" resname="exception.entity_not_found.catalog">
+        <source>exception.entity_not_found.catalog</source>
+        <target>El catálogo no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="d5VZzjD" resname="exception.entity_not_found.contact">
+        <source>exception.entity_not_found.contact</source>
+        <target>El contacto no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="Iswxg4T" resname="exception.entity_not_found.country">
+        <source>exception.entity_not_found.country</source>
+        <target>El país no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="2scggL6" resname="exception.entity_not_found.event">
+        <source>exception.entity_not_found.event</source>
+        <target>El evento no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="rmRk07a" resname="exception.entity_not_found.file">
+        <source>exception.entity_not_found.file</source>
+        <target>El archivo no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="Q_8YnSv" resname="exception.entity_not_found.instance">
+        <source>exception.entity_not_found.instance</source>
+        <target>La instancia no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="ML87iNK" resname="exception.entity_not_found.institution">
+        <source>exception.entity_not_found.institution</source>
+        <target>La institución no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="LG35X4w" resname="exception.entity_not_found.journal">
+        <source>exception.entity_not_found.journal</source>
+        <target>La revista no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="U9.I27o" resname="exception.entity_not_found.mail_template">
+        <source>exception.entity_not_found.mail_template</source>
+        <target>La plantilla de correo no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="cUtMi3W" resname="exception.entity_not_found.notification">
+        <source>exception.entity_not_found.notification</source>
+        <target>La notificación no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="My7j_gR" resname="exception.entity_not_found.order">
+        <source>exception.entity_not_found.order</source>
+        <target>El pedido no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="lKfptYb" resname="exception.entity_not_found.request">
+        <source>exception.entity_not_found.request</source>
+        <target>La solicitud no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="QYRec86" resname="exception.entity_not_found.state">
+        <source>exception.entity_not_found.state</source>
+        <target>El estado no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="mV.2PtL" resname="exception.entity_not_found.user">
+        <source>exception.entity_not_found.user</source>
+        <target>El usuario no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="EUgaygo" resname="exception.invalid.search">
+        <source>exception.invalid.search</source>
+        <target>Búsqueda inválida</target>
+      </trans-unit>
+      <trans-unit id="WZ4OvME" resname="exception.template.mail_template">
+        <source>exception.template.mail_template</source>
+        <target>Error al procesar la plantilla de correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="RUk1A.i" resname="exploreCatalogs">
+        <source>exploreCatalogs</source>
+        <target>Explorar catálogos</target>
+      </trans-unit>
+      <trans-unit id="PX2zfQj" resname="files">
+        <source>files</source>
+        <target>Archivos</target>
+      </trans-unit>
+      <trans-unit id="7JXKS_W" resname="filesSuccessUpload">
+        <source>filesSuccessUpload</source>
+        <target>Los archivos fueron subidos con éxito.</target>
+      </trans-unit>
+      <trans-unit id="38M3a4J" resname="filter">
+        <source>filter</source>
+        <target>Filtrar</target>
+      </trans-unit>
+      <trans-unit id="tR_4EZw" resname="finalYear">
+        <source>finalYear</source>
+        <target>Año final</target>
+      </trans-unit>
+      <trans-unit id="BTQ_mEU" resname="finished">
+        <source>finished</source>
+        <target>Finalizado</target>
+      </trans-unit>
+      <trans-unit id="vMZJz9u" resname="found">
+        <source>found</source>
+        <target>Encontrado</target>
+      </trans-unit>
+      <trans-unit id="7OxNScV" resname="foundOnTheWeb">
+        <source>foundOnTheWeb</source>
+        <target>Encontrado en la web</target>
+      </trans-unit>
+      <trans-unit id="p4xY9GA" resname="goToList">
+        <source>goToList</source>
+        <target>Ir a la lista</target>
+      </trans-unit>
+      <trans-unit id="JZqo75i" resname="history">
+        <source>history</source>
+        <target>Historial</target>
+      </trans-unit>
+      <trans-unit id="dkDaQCm" resname="hive">
+        <source>hive</source>
+        <target>Colmena</target>
+      </trans-unit>
+      <trans-unit id="jI2slao" resname="http://">
+        <source>http://</source>
+        <target>http://</target>
+      </trans-unit>
+      <trans-unit id="WClnU00" resname="in">
+        <source>in</source>
+        <target>en</target>
+      </trans-unit>
+      <trans-unit id="Qt3KoTA" resname="initialYear">
+        <source>initialYear</source>
+        <target>Año inicial</target>
+      </trans-unit>
+      <trans-unit id="gi.jZ5y" resname="institution">
+        <source>institution</source>
+        <target>Institución</target>
+      </trans-unit>
+      <trans-unit id="qYQ7X2J" resname="institutionUsers">
+        <source>institutionUsers</source>
+        <target>Usuarios de la institución</target>
+      </trans-unit>
+      <trans-unit id="D6BMK9T" resname="interactionSummary">
+        <source>interactionSummary</source>
+        <target>Resumen de interacción</target>
+      </trans-unit>
+      <trans-unit id="KO8LgPM" resname="isbn">
+        <source>isbn</source>
+        <target>ISBN</target>
+      </trans-unit>
+      <trans-unit id="Ks9Pfse" resname="itemInformation">
+        <source>itemInformation</source>
+        <target>Información general del item</target>
+      </trans-unit>
+      <trans-unit id="gd1rd1r" resname="journal">
+        <source>journal</source>
+        <target>Revista</target>
+      </trans-unit>
+      <trans-unit id="BLqHrrv" resname="lastMessages">
+        <source>lastMessages</source>
+        <target>Últimos mensajes</target>
+      </trans-unit>
+      <trans-unit id="J7tRjeo" resname="liblink">
+        <source>liblink</source>
+        <target>LibLink</target>
+      </trans-unit>
+      <trans-unit id="Sqgm5s6" resname="localcancel">
+        <source>localcancel</source>
+        <target>Cancelación local</target>
+      </trans-unit>
+      <trans-unit id="jpeuHOp" resname="locationDelay">
+        <source>locationDelay</source>
+        <target>Demora de localización</target>
+      </trans-unit>
+      <trans-unit id="QoghNQ6" resname="login">
+        <source>login</source>
+        <target>ingreso</target>
+      </trans-unit>
+      <trans-unit id="EyVBlBR" resname="message.modal.button.save">
+        <source>message.modal.button.save</source>
+        <target>Enviar mensaje</target>
+      </trans-unit>
+      <trans-unit id=".t5t4FY" resname="message.modal.header">
+        <source>message.modal.header</source>
+        <target>Mensaje para administradores</target>
+      </trans-unit>
+      <trans-unit id="OdUcN9s" resname="mirequest">
+        <source>mirequest</source>
+        <target>Solicitud</target>
+      </trans-unit>
+      <trans-unit id="SZ4Jara" resname="modal.button.close">
+        <source>modal.button.close</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="F_o.Tm." resname="myOrders">
+        <source>myOrders</source>
+        <target>Mis pedidos</target>
+      </trans-unit>
+      <trans-unit id="gqNTf.D" resname="name">
+        <source>name</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="EVB6Di9" resname="new">
+        <source>new</source>
+        <target>Nuevo</target>
+      </trans-unit>
+      <trans-unit id="k5Apjz_" resname="no">
+        <source>no</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="MO5m.go" resname="noContinueSearch">
+        <source>noContinueSearch</source>
+        <target>No continuar la búsqueda</target>
+      </trans-unit>
+      <trans-unit id="mG_KlvT" resname="noEvents">
+        <source>noEvents</source>
+        <target>No hay eventos en el historial.</target>
+      </trans-unit>
+      <trans-unit id="FBRwQjC" resname="noMatchingOrders">
+        <source>noMatchingOrders</source>
+        <target>No hay pedidos que coincidan.</target>
+      </trans-unit>
+      <trans-unit id="li8zH_1" resname="noPendingUsers">
+        <source>noPendingUsers</source>
+        <target>No hay usuarios pendientes.</target>
+      </trans-unit>
+      <trans-unit id="FOCGr7h" resname="noRequests">
+        <source>noRequests</source>
+        <target>No hay solicitudes.</target>
+      </trans-unit>
+      <trans-unit id="UceVweE" resname="noSearches">
+        <source>noSearches</source>
+        <target>No hay búsquedas.</target>
+      </trans-unit>
+      <trans-unit id="nnC1nFV" resname="nonSearched">
+        <source>nonSearched</source>
+        <target>No buscado</target>
+      </trans-unit>
+      <trans-unit id="u0BRMCy" resname="non_searched">
+        <source>non_searched</source>
+        <target>No buscado</target>
+      </trans-unit>
+      <trans-unit id="sNhqdlN" resname="notFound">
+        <source>notFound</source>
+        <target>No encontrado</target>
+      </trans-unit>
+      <trans-unit id="i.EXLfW" resname="not_found">
+        <source>not_found</source>
+        <target>No encontrado</target>
+      </trans-unit>
+      <trans-unit id="WiYt.AN" resname="not_previous_searches_info">
+        <source>not_previous_searches_info</source>
+        <target>No se encontraron búsquedas anteriores</target>
+      </trans-unit>
+      <trans-unit id="ulEbf4B" resname="not_request_received_info">
+        <source>not_request_received_info</source>
+        <target>No hay información de solicitudes recibidas</target>
+      </trans-unit>
+      <trans-unit id="EohvnQA" resname="number">
+        <source>number</source>
+        <target>Número</target>
+      </trans-unit>
+      <trans-unit id="v8WmtFt" resname="observations">
+        <source>observations</source>
+        <target>Observaciones</target>
+      </trans-unit>
+      <trans-unit id="KDkdO8Z" resname="of">
+        <source>of</source>
+        <target>de</target>
+      </trans-unit>
+      <trans-unit id="BuVbYzS" resname="operator">
+        <source>operator</source>
+        <target>Operador</target>
+      </trans-unit>
+      <trans-unit id="kAxN56Z" resname="orderData">
+        <source>orderData</source>
+        <target>Datos del pedido</target>
+      </trans-unit>
+      <trans-unit id="rG1dfzU" resname="orderHistory">
+        <source>orderHistory</source>
+        <target>Historial de Pedidos</target>
+      </trans-unit>
+      <trans-unit id="HBaK2wD" resname="orders">
+        <source>orders</source>
+        <target>Pedidos</target>
+      </trans-unit>
+      <trans-unit id="0KCp2eY" resname="ordersAmounts">
+        <source>ordersAmounts</source>
+        <target>Pedidos en cantidades</target>
+      </trans-unit>
+      <trans-unit id="v6Bi3gQ" resname="pages">
+        <source>pages</source>
+        <target>Páginas</target>
+      </trans-unit>
+      <trans-unit id="I0zeBaa" resname="partiallyFound">
+        <source>partiallyFound</source>
+        <target>Parcialmente encontrado</target>
+      </trans-unit>
+      <trans-unit id="Oo7d3O9" resname="partially_found">
+        <source>partially_found</source>
+        <target>Parcialmente encontrado</target>
+      </trans-unit>
+      <trans-unit id="TNazkdt" resname="patent">
+        <source>patent</source>
+        <target>Patente</target>
+      </trans-unit>
+      <trans-unit id="w1sh1so" resname="pdf">
+        <source>pdf</source>
+        <target>PDF</target>
+      </trans-unit>
+      <trans-unit id="IhHjrbI" resname="pdfUserTooltipTitle">
+        <source>pdfUserTooltipTitle</source>
+        <target>Este usuario descarga los pedidos en formato PDF</target>
+      </trans-unit>
+      <trans-unit id="YqL_09b" resname="pending">
+        <source>pending</source>
+        <target>pendiente</target>
+      </trans-unit>
+      <trans-unit id="UxvJo.Q" resname="pendingUsersTitle">
+        <source>pendingUsersTitle</source>
+        <target>Usuarios Pendientes</target>
+      </trans-unit>
+      <trans-unit id="gd9jWAz" resname="place">
+        <source>place</source>
+        <target>Lugar</target>
+      </trans-unit>
+      <trans-unit id="eRWPSi6" resname="previous searches">
+        <source>previous searches</source>
+        <target>búsquedas anteriores</target>
+      </trans-unit>
+      <trans-unit id="5rumKWg" resname="previousRelatedSearches">
+        <source>previousRelatedSearches</source>
+        <target>búsquedas anteriores</target>
+      </trans-unit>
+      <trans-unit id="cNYQnrt" resname="previousSearches">
+        <source>previousSearches</source>
+        <target>Búsquedas anteriores</target>
+      </trans-unit>
+      <trans-unit id="3aOvbmm" resname="printed">
+        <source>printed</source>
+        <target>Impreso</target>
+      </trans-unit>
+      <trans-unit id="cn7dfSi" resname="printedUserTooltipTitle">
+        <source>printedUserTooltipTitle</source>
+        <target>Este usuario retira los pedidos impresos en papel</target>
+      </trans-unit>
+      <trans-unit id="u4zvw.M" resname="providedByTheAuthor">
+        <source>providedByTheAuthor</source>
+        <target>Provisto por el autor</target>
+      </trans-unit>
+      <trans-unit id="Jn0pStL" resname="provision">
+        <source>provision</source>
+        <target>Provisión</target>
+      </trans-unit>
+      <trans-unit id="GI5RHEK" resname="provisionModeText">
+        <source>provisionModeText</source>
+        <target>Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione
+                    Básico, de lo contrario elija avanzado
+                </target>
+      </trans-unit>
+      <trans-unit id="51sR2mk" resname="pt">
+        <source>pt</source>
+        <target>pt</target>
+      </trans-unit>
+      <trans-unit id="lRAFGb4" resname="receive">
+        <source>receive</source>
+        <target>Recibir</target>
+      </trans-unit>
+      <trans-unit id="MYxa1R6" resname="received">
+        <source>received</source>
+        <target>Recibido</target>
+      </trans-unit>
+      <trans-unit id="fTEUCK2" resname="reclaim">
+        <source>reclaim</source>
+        <target>Reclamar</target>
+      </trans-unit>
+      <trans-unit id="LRA.tvf" resname="reclaimTooltipTitle">
+        <source>reclaimTooltipTitle</source>
+        <target>Reclamar</target>
+      </trans-unit>
+      <trans-unit id="gyipmL0" resname="reclaimed">
+        <source>reclaimed</source>
+        <target>Reclamado</target>
+      </trans-unit>
+      <trans-unit id="lJiFVeH" resname="reenableDownload">
+        <source>reenableDownload</source>
+        <target>Volver a habilitar descarga</target>
+      </trans-unit>
+      <trans-unit id="yJ2RxlV" resname="registar_instance.abrev_institucion">
+        <source>registar_instance.abrev_institucion</source>
+        <target>Abreviatura de la institución</target>
+      </trans-unit>
+      <trans-unit id="xPJkJ3w" resname="registar_instance.apellido_nombre">
+        <source>registar_instance.apellido_nombre</source>
+        <target>Apellido y nombre</target>
+      </trans-unit>
+      <trans-unit id="HkhBJdn" resname="registar_instance.city">
+        <source>registar_instance.city</source>
+        <target>Ciudad</target>
+      </trans-unit>
+      <trans-unit id="NOWyPgr" resname="registar_instance.country">
+        <source>registar_instance.country</source>
+        <target>País</target>
+      </trans-unit>
+      <trans-unit id="f51urIu" resname="registar_instance.email">
+        <source>registar_instance.email</source>
+        <target>Correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="NhpEe0b" resname="registar_instance.institution">
+        <source>registar_instance.institution</source>
+        <target>Institución</target>
+      </trans-unit>
+      <trans-unit id="zaizmqQ" resname="registar_instance.migrar_otra_version">
+        <source>registar_instance.migrar_otra_version</source>
+        <target>Migrar otra versión</target>
+      </trans-unit>
+      <trans-unit id="QqnnD69" resname="registar_instance.observaciones">
+        <source>registar_instance.observaciones</source>
+        <target>Observaciones</target>
+      </trans-unit>
+      <trans-unit id="Vw0boOE" resname="registar_instance.url_biblioteca">
+        <source>registar_instance.url_biblioteca</source>
+        <target>Url de la biblioteca</target>
+      </trans-unit>
+      <trans-unit id="RUqYSj." resname="registar_instance.url_catalogo">
+        <source>registar_instance.url_catalogo</source>
+        <target>Url del catálogo</target>
+      </trans-unit>
+      <trans-unit id="goJjfQ8" resname="registar_instance.url_institucion">
+        <source>registar_instance.url_institucion</source>
+        <target>Url de la institución</target>
+      </trans-unit>
+      <trans-unit id="CE6ZCkm" resname="reject">
+        <source>reject</source>
+        <target>Rechazar</target>
+      </trans-unit>
+      <trans-unit id="8F8djsc" resname="rejectUser">
+        <source>rejectUser</source>
+        <target>Rechazar usuario</target>
+      </trans-unit>
+      <trans-unit id="jwH1cRK" resname="rejectUserQuestion">
+        <source>rejectUserQuestion</source>
+        <target>¿Está seguro de que desea rechazar este usuario?</target>
+      </trans-unit>
+      <trans-unit id="PS3858D" resname="remotecancel">
+        <source>remotecancel</source>
+        <target>Cancelación remota</target>
+      </trans-unit>
+      <trans-unit id="H1i5FFs" resname="request">
+        <source>request</source>
+        <target>Solicitar</target>
+      </trans-unit>
+      <trans-unit id="5b9E.Yu" resname="requestReclaimed">
+        <source>requestReclaimed</source>
+        <target>El pedido ha sido reclamado con los siguientes comentarios:</target>
+      </trans-unit>
+      <trans-unit id="rq3D9kp" resname="requestSatisfied">
+        <source>requestSatisfied</source>
+        <target>El pedido ha sido satisfecho.</target>
+      </trans-unit>
+      <trans-unit id="OcTIQw2" resname="requestTooltipTitle">
+        <source>requestTooltipTitle</source>
+        <target>Se debe realizar una búsqueda antes de hacer una solicitud</target>
+      </trans-unit>
+      <trans-unit id="xqke5.k" resname="requested">
+        <source>requested</source>
+        <target>Solicitado</target>
+      </trans-unit>
+      <trans-unit id="zc1YILs" resname="requested to">
+        <source>requested to</source>
+        <target>Solicitado a</target>
+      </trans-unit>
+      <trans-unit id="7HJCDfX" resname="requests">
+        <source>requests</source>
+        <target>Solicitudes</target>
+      </trans-unit>
+      <trans-unit id="IMapXV0" resname="requestsCount">
+        <source>requestsCount</source>
+        <target>Número de pedidos</target>
+      </trans-unit>
+      <trans-unit id="v04OHfm" resname="requestsCountDescription">
+        <source>requestsCountDescription</source>
+        <target>Esta estadística nos muestra el número de pedidos iniciados, satisfechos y cancelados por año durante el período temporal elegido, el cual será por defecto el año actual. Se muestra ademas el número de páginas impresas durante dicho periodo.
+                    En caso de que el periodo de tiempo elegido sea sólo un año, se mostrara la distribución de pedidos detallada mes a mes.</target>
+      </trans-unit>
+      <trans-unit id="aoz2N3N" resname="requestsDelay">
+        <source>requestsDelay</source>
+        <target>Tiempo de atención de los pedidos</target>
+      </trans-unit>
+      <trans-unit id="IrgRU.M" resname="requestsDestinyDistribution">
+        <source>requestsDestinyDistribution</source>
+        <target>Distribución del destino de las Solicitudes</target>
+      </trans-unit>
+      <trans-unit id="WRTcuJu" resname="requestsDestinyDistributionDescription">
+        <source>requestsDestinyDistributionDescription</source>
+        <target>Esta estadística nos brinda la posibilidad de observar la cantidad de pedidos iniciados, satisfechos y cancelados por país durante un período determinado. Al seleccionar un país, accederemos a datos de sus instituciones. Similarmente, al
+                    seleccionar una institución, podremos ver estadisticas de sus dependencias.</target>
+      </trans-unit>
+      <trans-unit id="CrlEFRr" resname="requestsOrigin">
+        <source>requestsOrigin</source>
+        <target>Origen de los pedidos</target>
+      </trans-unit>
+      <trans-unit id="BhymDP." resname="requestsOriginDescription">
+        <source>requestsOriginDescription</source>
+        <target>Esta estadística presenta la cantidad de pedidos cargados por el país elegido. Al seleccionar
+                    una institucion en particular, accederemos a datos de sus dependencias.
+                </target>
+      </trans-unit>
+      <trans-unit id="Et9a9jT" resname="requestsPublicationYear">
+        <source>requestsPublicationYear</source>
+        <target>Número de pedidos por año de publicación.</target>
+      </trans-unit>
+      <trans-unit id="cbox0FG" resname="requestsPublicationYearDescription">
+        <source>requestsPublicationYearDescription</source>
+        <target>Esta estadística clasifica y totaliza los pedidos dependiendo el año de publicación del material
+                    involucrado en los mismos (revista, libro, acta).
+                </target>
+      </trans-unit>
+      <trans-unit id="pOPssq9" resname="responseDelay">
+        <source>responseDelay</source>
+        <target>Demora de Respuesta</target>
+      </trans-unit>
+      <trans-unit id="9qIU96X" resname="result">
+        <source>result</source>
+        <target>Resultado</target>
+      </trans-unit>
+      <trans-unit id="cYfwZ16" resname="return">
+        <source>return</source>
+        <target>retornar</target>
+      </trans-unit>
+      <trans-unit id="tthc5fX" resname="reuploadTooltipTitle">
+        <source>reuploadTooltipTitle</source>
+        <target>Subir más</target>
+      </trans-unit>
+      <trans-unit id="FX3KkuQ" resname="save">
+        <source>save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="JBkykGe" resname="search">
+        <source>search</source>
+        <target>Búsqueda</target>
+      </trans-unit>
+      <trans-unit id="20GLsBi" resname="search filter">
+        <source>search filter</source>
+        <target>filtrar busqueda</target>
+      </trans-unit>
+      <trans-unit id="RoXDiXF" resname="searchCatalogs">
+        <source>searchCatalogs</source>
+        <target>Buscar en catálogos</target>
+      </trans-unit>
+      <trans-unit id="csWrjmz" resname="searched">
+        <source>searched</source>
+        <target>Buscado</target>
+      </trans-unit>
+      <trans-unit id="x2FZoe2" resname="searches">
+        <source>searches</source>
+        <target>Búsquedas</target>
+      </trans-unit>
+      <trans-unit id="V5etA1D" resname="selectCity">
+        <source>selectCity</source>
+        <target>Seleccione una ciudad</target>
+      </trans-unit>
+      <trans-unit id="7pz7qmY" resname="selectContact">
+        <source>selectContact</source>
+        <target>Seleccione un contacto</target>
+      </trans-unit>
+      <trans-unit id="X2F7At2" resname="selectCountry">
+        <source>selectCountry</source>
+        <target>Seleccione un país</target>
+      </trans-unit>
+      <trans-unit id="065yfBw" resname="selectInstitution">
+        <source>selectInstitution</source>
+        <target>Seleccione una institución</target>
+      </trans-unit>
+      <trans-unit id="54F0uXD" resname="selectTemplate">
+        <source>selectTemplate</source>
+        <target>Selecciona una plantilla de correo</target>
+      </trans-unit>
+      <trans-unit id="J84dG.Q" resname="send">
+        <source>send</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="dUk2HBa" resname="sendMail">
+        <source>sendMail</source>
+        <target>Enviar correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="z4rX3MY" resname="sendMessage">
+        <source>sendMessage</source>
+        <target>Enviar mensaje</target>
+      </trans-unit>
+      <trans-unit id="6GNLTuE" resname="serviceEfficiency">
+        <source>serviceEfficiency</source>
+        <target>Eficiencia del servicio</target>
+      </trans-unit>
+      <trans-unit id="OzAUFMQ" resname="serviceEfficiencyDescription">
+        <source>serviceEfficiencyDescription</source>
+        <target>Esta estadística muestra la demora de los pedidos, la cual se clasifica en tres categorias:\n -La demora total, que es el tiempo transcurrido desde que el usuario carga su pedido hasta que lo descarga o imprime.\n -La demora en localización,
+                    que es el tiempo transcurrido desde que el usuario carga el pedido hasta que un administrador del sistema lo atiende, lo busca en los catálogos, lo localiza y lo solicita a la institución correspondiente.\n -La demora en respuesta, que es el tiempo
+                    desde que los pedidos son solicitados por un operador a una institución externa, hasta que el pedido está listo para ser descargado, una vez que dicha institución lo ha enviado.</target>
+      </trans-unit>
+      <trans-unit id="__JaoEv" resname="sinTitulo">
+        <source>sinTitulo</source>
+        <target>Sin título</target>
+      </trans-unit>
+      <trans-unit id="a1o97QF" resname="since">
+        <source>since</source>
+        <target>desde</target>
+      </trans-unit>
+      <trans-unit id="WI0QpI_" resname="sirequest">
+        <source>sirequest</source>
+        <target>Solicitud</target>
+      </trans-unit>
+      <trans-unit id="3FouRun" resname="ssl">
+        <source>ssl</source>
+        <target>ssl</target>
+      </trans-unit>
+      <trans-unit id="T_5SShE" resname="startPage">
+        <source>startPage</source>
+        <target>Página de inicio</target>
+      </trans-unit>
+      <trans-unit id="S6aXNcp" resname="state">
+        <source>state</source>
+        <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="qUkfTBv" resname="subject">
+        <source>subject</source>
+        <target>Asunto</target>
+      </trans-unit>
+      <trans-unit id="XN4PEpj" resname="template">
+        <source>template</source>
+        <target>Plantilla</target>
+      </trans-unit>
+      <trans-unit id="mC2ePrm" resname="text">
+        <source>text</source>
+        <target>Texto</target>
+      </trans-unit>
+      <trans-unit id="KGMik3m" resname="thesis">
+        <source>thesis</source>
+        <target>Tesis</target>
+      </trans-unit>
+      <trans-unit id="90YoT8R" resname="ticket.asignar_usuario.modal.button.save">
+        <source>ticket.asignar_usuario.modal.button.save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="qvIyBkY" resname="title">
+        <source>title</source>
+        <target>Título</target>
+      </trans-unit>
+      <trans-unit id="t_ZRy7Q" resname="tls">
+        <source>tls</source>
+        <target>tls</target>
+      </trans-unit>
+      <trans-unit id="Zj6hv.." resname="to">
+        <source>to</source>
+        <target>a</target>
+      </trans-unit>
+      <trans-unit id="q2ezCpr" resname="totalDelay">
+        <source>totalDelay</source>
+        <target>Demora total</target>
+      </trans-unit>
+      <trans-unit id="EwPAaws" resname="type">
+        <source>type</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="KTcBPyG" resname="update">
+        <source>update</source>
+        <target>Actualizar</target>
+      </trans-unit>
+      <trans-unit id=".0CFrRV" resname="upload">
+        <source>upload</source>
+        <target>Subir</target>
+      </trans-unit>
+      <trans-unit id="y9M5qCj" resname="uploadAgain">
+        <source>uploadAgain</source>
+        <target>Subir de nuevo</target>
+      </trans-unit>
+      <trans-unit id="AR_F621" resname="uploadedFiles">
+        <source>uploadedFiles</source>
+        <target>Subir archivos</target>
+      </trans-unit>
+      <trans-unit id="0aewGzN" resname="userAgent">
+        <source>userAgent</source>
+        <target>Navegador</target>
+      </trans-unit>
+      <trans-unit id="wV91UFu" resname="userRequestsIndex">
+        <source>userRequestsIndex</source>
+        <target>El usuario solicita índice</target>
+      </trans-unit>
+      <trans-unit id="FveKfWM" resname="username">
+        <source>username</source>
+        <target>Nombre de usuario</target>
+      </trans-unit>
+      <trans-unit id="X0HNt7n" resname="usersCount">
+        <source>usersCount</source>
+        <target>Cantidad de usuarios.</target>
+      </trans-unit>
+      <trans-unit id="FxFArxL" resname="usersCountDescription">
+        <source>usersCountDescription</source>
+        <target>Esta estadística presenta la cantidad de usuarios nuevos incorporados al sistema mes a mes. El gráfico nos muestra dos barras: la barra azul muestra el número de usuarios dados de alta , mientras que la barra verde muestra el número de
+                    usuarios activos, es decir, quienes efectivamente utilizan el servicio. Por otro lado, la línea roja muestra la cantidad de usuarios nuevos en forma acumulativa, desde el año 2000 hasta el año seleccionado (por defecto, será el año actual).
+                </target>
+      </trans-unit>
+      <trans-unit id="4Cg.DMZ" resname="usersStatistics">
+        <source>usersStatistics</source>
+        <target>Estadísticas de usuarios</target>
+      </trans-unit>
+      <trans-unit id="K8tDy8j" resname="view">
+        <source>view</source>
+        <target>Ver</target>
+      </trans-unit>
+      <trans-unit id="G6yNrV1" resname="view more">
+        <source>view more</source>
+        <target>ver mas</target>
+      </trans-unit>
+      <trans-unit id="tMPzMC4" resname="viewAll">
+        <source>viewAll</source>
+        <target>Ver todos</target>
+      </trans-unit>
+      <trans-unit id="s9.Ifha" resname="viewFiles">
+        <source>viewFiles</source>
+        <target>Ver archivos</target>
+      </trans-unit>
+      <trans-unit id="YtemsSE" resname="volume">
+        <source>volume</source>
+        <target>Volumen</target>
+      </trans-unit>
+      <trans-unit id="S15X9us" resname="web">
+        <source>web</source>
+        <target>Web</target>
+      </trans-unit>
+      <trans-unit id="3SvAKV0" resname="withIndex">
+        <source>withIndex</source>
+        <target>Índice</target>
+      </trans-unit>
+      <trans-unit id="TLTqJVg" resname="year">
+        <source>year</source>
+        <target>Año</target>
+      </trans-unit>
+      <trans-unit id="inmIkP6" resname="yes">
+        <source>yes</source>
+        <target>Si</target>
+      </trans-unit>
+      <trans-unit id="OBPlMv4" resname="save_and_show">
+        <source>save_and_show</source>
+        <target>Guardar y mostrar</target>
+      </trans-unit>
+      <trans-unit id="6ATfB8o" resname="downloadPending">
+        <source>downloadPending</source>
+        <target>Descarga pendiente</target>
+      </trans-unit>
+      <trans-unit id="FnVVUSR" resname="congress_title_example">
+        <source>congress_title_example</source>
+        <target>Titulo del congreso</target>
+      </trans-unit>
+      <trans-unit id="cybr5s5" resname="congress_ponency_example">
+        <source>congress_ponency_example</source>
+        <target>Ingrese el titulo de la ponencia</target>
+      </trans-unit>
+      <trans-unit id="wKef9c1" resname="Mail List">
+        <source>Mail List</source>
+        <target>Listado de correos</target>
+      </trans-unit>
+      <trans-unit id="wpn5uFy" resname="Sender">
+        <source>Sender</source>
+        <target>Remitente</target>
+      </trans-unit>
+      <trans-unit id="gaRf9DG" resname="Send reminder email">
+        <source>Send reminder email</source>
+        <target>Enviar correo electrónico de recordatorio</target>
+      </trans-unit>
+      <trans-unit id="nokabhj" resname="Instance data request">
+        <source>Instance data request</source>
+        <target>Solicitud de datos de la instancia</target>
+      </trans-unit>
+      <trans-unit id="IpezuuY" resname="Send reminder email to users with pending deliver orders">
+        <source>Send reminder email to users with pending deliver orders</source>
+        <target>Enviar correo electrónico de recordatorio a usuarios que tengan pedidos con entrega pendiente
+                </target>
+      </trans-unit>
+      <trans-unit id="fK3D5NP" resname="Select a name for the request">
+        <source>Select a name for the request</source>
+        <target>Seleccione un nombre para la solicitud</target>
+      </trans-unit>
+      <trans-unit id="6r0.ppe" resname="Select dates range on which you wish to consult">
+        <source>Select dates range on which you wish to consult</source>
+        <target>Seleccione el rango de fechas sobre el cual desea consultar</target>
+      </trans-unit>
+      <trans-unit id="4K_wiy2" resname="Select the data set that you want to export">
+        <source>Select the data set that you want to export</source>
+        <target>Seleccione el conjunto de datos que desea exportar</target>
+      </trans-unit>
+      <trans-unit id="GQBtO2n" resname="Material type">
+        <source>Material type</source>
+        <target>Tipo de material</target>
+      </trans-unit>
+      <trans-unit id="LADJqqc" resname="Authors">
+        <source>Authors</source>
+        <target>Autores</target>
+      </trans-unit>
+      <trans-unit id="zlr_gVA" resname="Order states dates">
+        <source>Order states dates</source>
+        <target>Fechas de los estados de un pedido</target>
+      </trans-unit>
+      <trans-unit id="zzTVoqv" resname="Request data">
+        <source>Request data</source>
+        <target>Solicitar datos</target>
+      </trans-unit>
+      <trans-unit id="pdUKJwD" resname="Initial date">
+        <source>Initial date</source>
+        <target>Fecha inicial</target>
+      </trans-unit>
+      <trans-unit id="qja_NeJ" resname="Final date">
+        <source>Final date</source>
+        <target>Fecha final</target>
+      </trans-unit>
+      <trans-unit id="e8VL26Z" resname="Created_s">
+        <source>Created_s</source>
+        <target>Creado</target>
+      </trans-unit>
+      <trans-unit id="kSZbgDe" resname="Cancelled_s">
+        <source>Cancelled_s</source>
+        <target>Cancelado</target>
+      </trans-unit>
+      <trans-unit id="lx0wUFv" resname="Delivered_s">
+        <source>Delivered_s</source>
+        <target>Entregado</target>
+      </trans-unit>
+      <trans-unit id="4ZKABn0" resname="Other tasks">
+        <source>Other tasks</source>
+        <target>Otras tareas</target>
+      </trans-unit>
+      <trans-unit id="7EmzOgG" resname="I s s n">
+        <source>I s s n</source>
+        <target>ISSN</target>
+      </trans-unit>
+      <trans-unit id="ParXWey" resname="I s s n e">
+        <source>I s s n e</source>
+        <target>ISSNE</target>
+      </trans-unit>
+      <trans-unit id="pCTjPZC" resname="Locked">
+        <source>Locked</source>
+        <target>Bloqueado</target>
+      </trans-unit>
+      <trans-unit id="kLKl8xE" resname="Pdf">
+        <source>Pdf</source>
+        <target>PDF</target>
+      </trans-unit>
+      <trans-unit id="Xzyajgl" resname="Download auth">
+        <source>Download auth</source>
+        <target>Autorizado a descargar</target>
+      </trans-unit>
+      <trans-unit id="jvYLbZT" resname="Observaciones">
+        <source>Observaciones</source>
+        <target>Observaciones</target>
+      </trans-unit>
+      <trans-unit id="xj62cgx" resname="Private">
+        <source>Private</source>
+        <target>Privado</target>
+      </trans-unit>
+      <trans-unit id="SFCxdLc" resname="Required">
+        <source>Required</source>
+        <target>Requerido</target>
+      </trans-unit>
+      <trans-unit id="mX38FPu" resname="Orden">
+        <source>Orden</source>
+        <target>Orden</target>
+      </trans-unit>
+      <trans-unit id="myheRTp" resname="Ej: Campo1,Campo2,Campos3">
+        <source>Ej: Campo1,Campo2,Campos3</source>
+        <target>Ej: Campo1,Campo2,Campos3</target>
+      </trans-unit>
+      <trans-unit id="t9kcrNP" resname="There are not users with recent pending orders">
+        <source>There are not users with recent pending orders</source>
+        <target>No hay usuarios con pedidos pendientes recientes</target>
+      </trans-unit>
+      <trans-unit id="7sXHOh1" resname="Add user">
+        <source>Add user</source>
+        <target>Agregar usuario</target>
+      </trans-unit>
+      <trans-unit id="cK8UZfQ" resname="Add requests">
+        <source>Add requests</source>
+        <target>Agregar solicitudes</target>
+      </trans-unit>
+      <trans-unit id="4GIstok" resname="Send email">
+        <source>Send email</source>
+        <target>Enviar correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="NBEFnLj" resname="Spanish">
+        <source>Spanish</source>
+        <target>Español</target>
+      </trans-unit>
+      <trans-unit id="uhGL9.y" resname="English">
+        <source>English</source>
+        <target>Inglés</target>
+      </trans-unit>
+      <trans-unit id="mLAbiQa" resname="Portuguese">
+        <source>Portuguese</source>
+        <target>Portugués</target>
+      </trans-unit>
+      <trans-unit id="B.lzbnr" resname="SSL">
+        <source>SSL</source>
+        <target>SSL</target>
+      </trans-unit>
+      <trans-unit id="0cGOwLE" resname="TLS">
+        <source>TLS</source>
+        <target>TLS</target>
+      </trans-unit>
+      <trans-unit id="gdgi5Vb" resname="Administrator confirmation">
+        <source>Administrator confirmation</source>
+        <target>Confirmación por administrador</target>
+      </trans-unit>
+      <trans-unit id="T3EPINb" resname="Email confirmation">
+        <source>Email confirmation</source>
+        <target>Confirmación por correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="RFuiWbL" resname="Material data">
+        <source>Material data</source>
+        <target>Datos del material</target>
+      </trans-unit>
+      <trans-unit id="l4NU2ww" resname="Target">
+        <source>Target</source>
+        <target>Objetivo</target>
+      </trans-unit>
+      <trans-unit id="PdJ3RvC" resname="Data requests list">
+        <source>Data requests list</source>
+        <target>Listado de solicitudes de datos</target>
+      </trans-unit>
+      <trans-unit id="zsOpuJs" resname="Data">
+        <source>Data</source>
+        <target>Datos</target>
+      </trans-unit>
+      <trans-unit id="kjtLkOp" resname="states">
+        <source>states</source>
+        <target>Estados</target>
+      </trans-unit>
+      <trans-unit id="ZAOi7JC" resname="materialType">
+        <source>materialType</source>
+        <target>Typo de material</target>
+      </trans-unit>
+      <trans-unit id="EZEmnRc" resname="frecuency">
+        <source>frecuency</source>
+        <target>Frecuencia</target>
+      </trans-unit>
+      <trans-unit id="TxSB42B" resname="abbreviation">
+        <source>abbreviation</source>
+        <target>Abreviatura</target>
+      </trans-unit>
+      <trans-unit id="_KwdLBz" resname="Data requests">
+        <source>Data requests</source>
+        <target>Solicitudes de datos</target>
+      </trans-unit>
+      <trans-unit id="NmSJVXn" resname="Export">
+        <source>Export</source>
+        <target>Exportar</target>
+      </trans-unit>
+      <trans-unit id="RC3iIk3" resname="No data selected">
+        <source>No data selected</source>
+        <target>No se seleccionaron datos</target>
+      </trans-unit>
+      <trans-unit id="o2.HYSY" resname="select all">
+        <source>select all</source>
+        <target>Seleccionar todos</target>
+      </trans-unit>
+      <trans-unit id="SanOdve" resname="Annul_inf">
+        <source>Annul_inf</source>
+        <target>Anular</target>
+      </trans-unit>
+      <trans-unit id="8LBzj3W" resname="Downloaded">
+        <source>Downloaded</source>
+        <target>Descargado</target>
+      </trans-unit>
+      <trans-unit id="neYlItd" resname="issn">
+        <source>issn</source>
+        <target>ISSN</target>
+      </trans-unit>
+      <trans-unit id=".VsEkya" resname="issne">
+        <source>issne</source>
+        <target>ISSNE</target>
+      </trans-unit>
+      <trans-unit id="yRlfCUa" resname="responsible">
+        <source>responsible</source>
+        <target>Responsable</target>
+      </trans-unit>
+      <trans-unit id="1HAQLhy" resname="Email domain for registration">
+        <source>Email domain for registration</source>
+        <target>Dominio de correo electrónico para el registro</target>
+      </trans-unit>
+      <trans-unit id="sTt0.Q3" resname="constraint.message.parent_institution">
+        <source>constraint.message.parent_institution</source>
+        <target>La institución padre seleccionada corresponde a la misma institución o una de sus
+                    dependencias.
+                </target>
+      </trans-unit>
+      <trans-unit id="0nocAds" resname="Para acceder al pedido ingrese al siguiente enlace">
+        <source>Para acceder al pedido ingrese al siguiente enlace</source>
+        <target>Para acceder al pedido ingrese al siguiente enlace</target>
+      </trans-unit>
+      <trans-unit id="hCqSrms" resname="disabled_instance_message">
+        <source>disabled_instance_message</source>
+        <target>La instancia no se encuentra habilitada</target>
+      </trans-unit>
+      <trans-unit id="LgOVW0T" resname="intercambio">
+        <source>intercambio</source>
+        <target>Intercambio</target>
+      </trans-unit>
+      <trans-unit id="1D55N7M" resname="Searched_s">
+        <source>Searched_s</source>
+        <target>Buscados</target>
+      </trans-unit>
+      <trans-unit id="NfGgo2P" resname="Total Pages">
+        <source>Total Pages</source>
+        <target>Páginas totales</target>
+      </trans-unit>
+      <trans-unit id="MQylA_8" resname="Month">
+        <source>Month</source>
+        <target>Mes</target>
+      </trans-unit>
+      <trans-unit id="AT_5C5E" resname="Received_s">
+        <source>Received_s</source>
+        <target>Recibidos</target>
+      </trans-unit>
+      <trans-unit id="ALuvunO" resname="Requested_s">
+        <source>Requested_s</source>
+        <target>Solicitados</target>
+      </trans-unit>
+      <trans-unit id="A.eXdVg" resname="Anio">
+        <source>Anio</source>
+        <target>Año</target>
+      </trans-unit>
+      <trans-unit id="FtHJBQo" resname="Table">
+        <source>Table</source>
+        <target>Tabla</target>
+      </trans-unit>
+      <trans-unit id="kTxelsz" resname="Diagram">
+        <source>Diagram</source>
+        <target>Diagrama</target>
+      </trans-unit>
+      <trans-unit id="Vmbhu1k" resname="Not found interation data">
+        <source>Not found interation data</source>
+        <target>No se encontraron datos de interacción</target>
+      </trans-unit>
+      <trans-unit id="2t1JXEa" resname="Procesando, espere por favor...">
+        <source>Procesando, espere por favor...</source>
+        <target>Procesando, espere por favor...</target>
+      </trans-unit>
+      <trans-unit id="anwqznX" resname="Solicitudes de la institución seleccionada atendidas por su instancia">
+        <source>Solicitudes de la institución seleccionada atendidas por su instancia</source>
+        <target>Solicitudes de la institución seleccionada atendidas por su instancia</target>
+      </trans-unit>
+      <trans-unit id=".bqxXgg" resname="Solicitudes de su instancia atendidas por la institución seleccionada">
+        <source>Solicitudes de su instancia atendidas por la institución seleccionada</source>
+        <target>Solicitudes de su instancia atendidas por la institución seleccionada</target>
+      </trans-unit>
+      <trans-unit id="1goxjdi" resname="Exchange">
+        <source>Exchange</source>
+        <target>Intercambio</target>
+      </trans-unit>
+      <trans-unit id="dUloYgY" resname="View exchange">
+        <source>View exchange</source>
+        <target>Ver intercambio</target>
+      </trans-unit>
+      <trans-unit id="NwguaN_" resname="January">
+        <source>January</source>
+        <target>Enero</target>
+      </trans-unit>
+      <trans-unit id="yHfG.0B" resname="February">
+        <source>February</source>
+        <target>Febrero</target>
+      </trans-unit>
+      <trans-unit id="nZWizw1" resname="March">
+        <source>March</source>
+        <target>Marzo</target>
+      </trans-unit>
+      <trans-unit id="Sv5uoVD" resname="April">
+        <source>April</source>
+        <target>Abril</target>
+      </trans-unit>
+      <trans-unit id="jHj_W5k" resname="May">
+        <source>May</source>
+        <target>Mayo</target>
+      </trans-unit>
+      <trans-unit id="1YCMDgp" resname="June">
+        <source>June</source>
+        <target>Junio</target>
+      </trans-unit>
+      <trans-unit id="6c96HKS" resname="July">
+        <source>July</source>
+        <target>Julio</target>
+      </trans-unit>
+      <trans-unit id="pm2JcOV" resname="August">
+        <source>August</source>
+        <target>Agosto</target>
+      </trans-unit>
+      <trans-unit id="zVWeoKv" resname="September">
+        <source>September</source>
+        <target>Septiembre</target>
+      </trans-unit>
+      <trans-unit id=".deReHt" resname="October">
+        <source>October</source>
+        <target>Octubre</target>
+      </trans-unit>
+      <trans-unit id="neb_HXJ" resname="November">
+        <source>November</source>
+        <target>Noviembre</target>
+      </trans-unit>
+      <trans-unit id="j7IEykY" resname="December">
+        <source>December</source>
+        <target>Diciembre</target>
+      </trans-unit>
+      <trans-unit id="OfJ6axX" resname="Annulled_s">
+        <source>Annulled_s</source>
+        <target>Anulados</target>
+      </trans-unit>
+      <trans-unit id="I1rqSru" resname="delay0">
+        <source>delay0</source>
+        <target>En el día</target>
+      </trans-unit>
+      <trans-unit id="jW0U7MF" resname="delay1">
+        <source>delay1</source>
+        <target>1 día</target>
+      </trans-unit>
+      <trans-unit id="68XXFg4" resname="delay2">
+        <source>delay2</source>
+        <target>2 días</target>
+      </trans-unit>
+      <trans-unit id="RksV7C0" resname="delay3">
+        <source>delay3</source>
+        <target>3 días</target>
+      </trans-unit>
+      <trans-unit id="JpsXDom" resname="delay4">
+        <source>delay4</source>
+        <target>4 días</target>
+      </trans-unit>
+      <trans-unit id="ozcdg8X" resname="delay5">
+        <source>delay5</source>
+        <target>5 días</target>
+      </trans-unit>
+      <trans-unit id="CfTH92z" resname="delay6">
+        <source>delay6</source>
+        <target>6 días</target>
+      </trans-unit>
+      <trans-unit id="SjnNPGw" resname="delay7">
+        <source>delay7</source>
+        <target>7 días</target>
+      </trans-unit>
+      <trans-unit id="YZUpA4V" resname="delay8">
+        <source>delay8</source>
+        <target>8 días</target>
+      </trans-unit>
+      <trans-unit id="vhx0haU" resname="delay9">
+        <source>delay9</source>
+        <target>9 días o más</target>
+      </trans-unit>
+      <trans-unit id="6KdY.mL" resname="Order Manager">
+        <source>Order Manager</source>
+        <target>Gestor de institucion</target>
+      </trans-unit>
+      <trans-unit id="5j9B9uj" resname="event information">
+        <source>event information</source>
+        <target>Información del evento</target>
+      </trans-unit>
+      <trans-unit id="k10zAKn" resname="Add observations">
+        <source>Add observations</source>
+        <target>Agregar observaciónes</target>
+      </trans-unit>
+      <trans-unit id="8BU0auN" resname="undo">
+        <source>undo</source>
+        <target>Deshacer</target>
+      </trans-unit>
+      <trans-unit id="XUOR9io" resname="undone">
+        <source>undone</source>
+        <target>Deshecho</target>
+      </trans-unit>
+      <trans-unit id="Uiv5LP0" resname="reclaimed to">
+        <source>reclaimed to</source>
+        <target>Reclamado a</target>
+      </trans-unit>
+      <trans-unit id="Q17BoMx" resname="cancelled to">
+        <source>cancelled to</source>
+        <target>Cancelado a</target>
+      </trans-unit>
+      <trans-unit id="t2XQ48r" resname="cancelled locally">
+        <source>cancelled locally</source>
+        <target>Cancelado localmente</target>
+      </trans-unit>
+      <trans-unit id="ie4v23R" resname="cancelled remotely">
+        <source>cancelled remotely</source>
+        <target>Cancelado remotamente</target>
+      </trans-unit>
+      <trans-unit id="ANjT8Rc" resname="mail">
+        <source>mail</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="kEHMxBc" resname="Technician">
+        <source>Technician</source>
+        <target>Técnico</target>
+      </trans-unit>
+      <trans-unit id="56tvJ5P" resname="Join users">
+        <source>Join users</source>
+        <target>Unir usuarios</target>
+      </trans-unit>
+      <trans-unit id="OVm7Cy." resname="Logo alert">
+        <source>Logo alert</source>
+        <target>Tamaño de imagen inválido. La imagen debe tener un máximo de 200 px de ancho x 100 px de alto.
+                </target>
+      </trans-unit>
+      <trans-unit id="82d1j.H" resname="Associated to">
+        <source>Associated to</source>
+        <target>Asociado a</target>
+      </trans-unit>
+      <trans-unit id="BUFvv5j" resname="first_name">
+        <source>first_name</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="ZVwy_4R" resname="surname">
+        <source>surname</source>
+        <target>Apellido</target>
+      </trans-unit>
+      <trans-unit id="yyFq4I." resname="downloadAuth">
+        <source>downloadAuth</source>
+        <target>Autorizado a descargar</target>
+      </trans-unit>
+      <trans-unit id="FEk.X1R" resname="locked">
+        <source>locked</source>
+        <target>Bloqueado</target>
+      </trans-unit>
+      <trans-unit id="wcNVO0A" resname="observaciones">
+        <source>observaciones</source>
+        <target>observaciones</target>
+      </trans-unit>
+      <trans-unit id="KdlJIlE" resname="Article">
+        <source>Article</source>
+        <target>Artículo</target>
+      </trans-unit>
+      <trans-unit id="jyNk4Ru" resname="Day">
+        <source>Day</source>
+        <target>Día</target>
+      </trans-unit>
+      <trans-unit id="Fd0kHX7" resname="Newspaper">
+        <source>Newspaper</source>
+        <target>Periódico</target>
+      </trans-unit>
+      <trans-unit id="8pxFEWc" resname="newspaper">
+        <source>newspaper</source>
+        <target>Periódico</target>
+      </trans-unit>
+      <trans-unit id="tOgqmjo" resname="BaseUser">
+        <source>BaseUser</source>
+        <target>__BaseUser</target>
+      </trans-unit>
+      <trans-unit id="dQgbWT0" resname="Disabled">
+        <source>Disabled</source>
+        <target>__Disabled</target>
+      </trans-unit>
+      <trans-unit id="69qfqZP" resname="Reclaimed">
+        <source>Reclaimed</source>
+        <target>__Reclaimed</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

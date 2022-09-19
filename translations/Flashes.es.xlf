@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="MDtcgjT" resname="Error to persist %entity%.">
+        <source>Error to persist %entity%.</source>
+        <target>Error al persistir el/la %entity%.</target>
+      </trans-unit>
+      <trans-unit id="KYjBHxe" resname="The %entity% already exists.">
+        <source>The %entity% already exists.</source>
+        <target>El/la %entity% ya existe.</target>
+      </trans-unit>
+      <trans-unit id="wifnHQ." resname="The %entity% was successfully configured.">
+        <source>The %entity% was successfully configured.</source>
+        <target>El/la %entity% fue configurado/a satisfactoriamente.</target>
+      </trans-unit>
+      <trans-unit id="DPq8j.V" resname="The %entity% was successfully created.">
+        <source>The %entity% was successfully created.</source>
+        <target>El/la %entity% fue creado/a satisfactoriamente.</target>
+      </trans-unit>
+      <trans-unit id="QmiXxXe" resname="The %entity% was successfully deleted.">
+        <source>The %entity% was successfully deleted.</source>
+        <target>El/la %entity% fue eliminado/a satisfactoriamente.</target>
+      </trans-unit>
+      <trans-unit id="DBk42mI" resname="The %entity% was successfully edited.">
+        <source>The %entity% was successfully edited.</source>
+        <target>El/la %entity% fue editado/a satisfactoriamente.</target>
+      </trans-unit>
+      <trans-unit id="AQjbmbO" resname="The %name% was successfully created.">
+        <source>The %name% was successfully created.</source>
+        <target>El/la %name% fue creado/a satisfactoriamente.</target>
+      </trans-unit>
+      <trans-unit id="7F_s2g_" resname="The message was sent">
+        <source>The message was sent</source>
+        <target>El mensaje fue enviado</target>
+      </trans-unit>
+      <trans-unit id="PZlLZAH" resname="There were errors creating the %entity%.">
+        <source>There were errors creating the %entity%.</source>
+        <target>Hubo errores creando el/la %entity%.</target>
+      </trans-unit>
+      <trans-unit id="N04we5N" resname="There were errors editing the %entity%.">
+        <source>There were errors editing the %entity%.</source>
+        <target>Hubo errores editando el/la %entity%.</target>
+      </trans-unit>
+      <trans-unit id="gWI3P2t" resname="exception.entity_not_found.catalog">
+        <source>exception.entity_not_found.catalog</source>
+        <target>El catálogo no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="d5VZzjD" resname="exception.entity_not_found.contact">
+        <source>exception.entity_not_found.contact</source>
+        <target>El contacto no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="Iswxg4T" resname="exception.entity_not_found.country">
+        <source>exception.entity_not_found.country</source>
+        <target>El país no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="2scggL6" resname="exception.entity_not_found.event">
+        <source>exception.entity_not_found.event</source>
+        <target>El evento no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="rmRk07a" resname="exception.entity_not_found.file">
+        <source>exception.entity_not_found.file</source>
+        <target>El archivo no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="Q_8YnSv" resname="exception.entity_not_found.instance">
+        <source>exception.entity_not_found.instance</source>
+        <target>La instancia no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="ML87iNK" resname="exception.entity_not_found.institution">
+        <source>exception.entity_not_found.institution</source>
+        <target>La institución no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="LG35X4w" resname="exception.entity_not_found.journal">
+        <source>exception.entity_not_found.journal</source>
+        <target>La revista no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="U9.I27o" resname="exception.entity_not_found.mail_template">
+        <source>exception.entity_not_found.mail_template</source>
+        <target>La plantilla de correo no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="cUtMi3W" resname="exception.entity_not_found.notification">
+        <source>exception.entity_not_found.notification</source>
+        <target>La notificación no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="My7j_gR" resname="exception.entity_not_found.order">
+        <source>exception.entity_not_found.order</source>
+        <target>El pedido no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="lKfptYb" resname="exception.entity_not_found.request">
+        <source>exception.entity_not_found.request</source>
+        <target>La solicitud no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="QYRec86" resname="exception.entity_not_found.state">
+        <source>exception.entity_not_found.state</source>
+        <target>El estado no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="mV.2PtL" resname="exception.entity_not_found.user">
+        <source>exception.entity_not_found.user</source>
+        <target>El usuario no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="EUgaygo" resname="exception.invalid.search">
+        <source>exception.invalid.search</source>
+        <target>Búsqueda inválida</target>
+      </trans-unit>
+      <trans-unit id="WZ4OvME" resname="exception.template.mail_template">
+        <source>exception.template.mail_template</source>
+        <target>Error al procesar la plantilla de correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="kmdhsMb" resname="alert.warning.smtp_conection_error">
+        <source>alert.warning.smtp_conection_error</source>
+        <target>Error en la configuración SMTP</target>
+      </trans-unit>
+      <trans-unit id="J460JKR" resname="alert.error.default_message">
+        <source>alert.error.default_message</source>
+        <target>Se ha producido un error</target>
+      </trans-unit>
+      <trans-unit id="jVTNc9e" resname="The data request was successfully registered">
+        <source>The data request was successfully registered</source>
+        <target>La solicitud de datos se registró correctamente</target>
+      </trans-unit>
+      <trans-unit id="YC.r6MX" resname="exception.file_not_found">
+        <source>exception.file_not_found</source>
+        <target>Archivo no encontrado</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

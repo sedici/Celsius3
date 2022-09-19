@@ -1,0 +1,150 @@
+{% macro index(
+    name,
+    pagination,
+    folder,
+    filter_form,
+    instance,
+    has_batch = false,
+    custom_element_template = false,
+    context = null
+    ) %}
+    <div class="row">
+        <div class="col-md-9">
+            {% include 'Layout/_flashes.html.twig' %}
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+
+            <div class="sorting-group pull-right">
+                <span>
+                    {{ 'Sort by'|trans }}:
+                </span>
+                {% include folder ~ '_index_sort.html.twig' %}
+            </div>
+            <div class="clearfix"></div>
+
+            {% if has_batch %}
+                {% include 'Layout/_batch.html.twig' %}
+            {% endif %}
+
+            {% if has_batch %}
+            <form class="batch_form" action="{{ path(name ~ '_batch') }}" method="post">
+                <input type="hidden" id="batch-action" name="action" value="">
+                {% endif %}
+
+                {% if custom_element_template %}
+                    {% for element in pagination %}
+                        {% include folder ~ '_index_element.html.twig' %}
+                    {% endfor %}
+                {% else %}
+                    <div id="main-accordion" class="panel-group main-list">
+                        {% for element in pagination %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    {% if has_batch %}
+                                        <input type="checkbox" name="element[]" id="element{{ element.id }}"
+                                               value="{{ element.id }}" class="pull-left batch-checkbox"/>
+                                    {% endif %}
+
+                                    <h4 class="panel-title">
+                                        <a href="#collapse{{ element.id }}" data-parent="#main-accordion"
+                                           data-toggle="collapse" class="accordion-toggle">
+                                            {% include folder ~ '_index_element_header.html.twig' %}
+                                        </a>
+                                        {% include folder ~ '_index_list_actions.html.twig' ignore missing %}
+                                    </h4>
+                                </div>
+                                <div class="panel-collapse collapse" id="collapse{{ element.id }}">
+                                    <div class="panel-body">
+                                        {% include folder ~ '_show_fields.html.twig' %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>{{ 'No elements to display.'|trans }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if has_batch %}
+            </form>
+            {% endif %}
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id="accordion" class="panel-group">
+                {% if filter_form %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse"
+                                   class="accordion-toggle">
+                                    <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseOne">
+                            <div class="panel-body">
+                                {% from "Macro/Crud/filter.html.twig" import filter as filter %}
+
+                                {{ filter(name, filter_form) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
+                                <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse in collapse" id="collapseTwo">
+                        <div class="panel-body">
+                            {% include folder~'_index_actions.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderDeleteAlert" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>{{ 'alert.delete.order' | trans }}</p>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
+                        <button id="orderDeleteAlertConfirmButton" type="button" class="btn btn-danger"
+                                data-order-id="-1"
+                                title="{{ 'button.delete' | trans }}">{{ 'button.delete' | trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderUndeleteAlert" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>{{ 'alert.undelete.order' | trans }}</p>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
+                        <button id="orderUndeleteAlertConfirmButton" type="button" class="btn btn-success"
+                                data-order-id="-1"
+                                title="{{ 'button.undelete' | trans }}">{{ 'button.undelete' | trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

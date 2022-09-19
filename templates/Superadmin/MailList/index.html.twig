@@ -1,0 +1,13 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+{% set ajax_path = 'admin_ajax' %}
+{% block title %}
+    {{ 'Mail List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Mail List'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ index('superadmin_maillist', pagination, 'Superadmin/MailList/', filter_form, instance) }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'File'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/show.html.twig" import show as show %}
+
+{% block content %}
+    {{ show('file', entity, 'File/') }}
+{% endblock %}

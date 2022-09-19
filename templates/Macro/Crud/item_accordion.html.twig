@@ -1,0 +1,27 @@
+{% macro item_accordion(name, folder) %}
+    <div id="accordion" class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse in collapse" id="collapseOne">
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ path(name) }}">
+                                <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
+                            </a>
+                        </li>
+                        {% if folder %}
+                            {% include folder~'_item_actions.html.twig' ignore missing %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

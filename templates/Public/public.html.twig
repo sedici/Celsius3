@@ -1,0 +1,19 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block navigation_content %}
+    <div class="pull-left">
+        {{ knp_menu_render('public', { 'currentClass': 'active' }) }}
+    </div>
+    {% if not app.user %}
+    <ul class="list-unstyled list-horizontal pull-right">
+        <li>
+            <a href="{{ path('registration_register') }}" class="btn btn-lg btn-success">{{ 'Register'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('security_login') }}" class="btn btn-lg btn-primary">{{ 'Login'|trans }}</a>
+        </li>
+    </ul>
+    {% endif %}
+            
+    <div class="clearfix"></div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Notification List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Notification List'|trans }}</h2>
+    <hr class="separator_hr">
+
+    {{ index('user_notification', pagination, 'Notification/', filter_form) }}
+{% endblock %}

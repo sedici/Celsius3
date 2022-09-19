@@ -1,0 +1,25 @@
+{% macro transform(name, entity, transform_form) %}
+    <div class="row">
+        <div class="col-md-9">
+            {% include 'Layout/_flashes.html.twig' %}
+
+            {{ form_start(transform_form, {
+                'attr': {
+                    'action': path(name~'_transform', { 'id': entity.id }),
+                    'class': 'form-horizontal',
+                    'role': 'form'
+                }
+            }) }}
+            {{ form_widget(transform_form) }}
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-ok"></span>
+                {{ 'Transform'|trans }}
+            </button>
+            {{ form_end(transform_form) }}
+        </div>
+        <div class="col-md-3">
+            {% from "Macro/Crud/item_accordion.html.twig" import item_accordion as item_accordion %}
+            {{ item_accordion(name) }}
+        </div>
+    </div>
+{% endmacro %}

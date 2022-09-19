@@ -1,0 +1,97 @@
+{% set local = app.request.getHost() == app.session.get('instance_host') %}
+{% import _self as local_macro %}
+
+{% macro admin_menu(instance) %}
+    <li class="dropdown">
+        <a href="{{ url('administration') }}">
+            {{ 'Administration' | trans }}
+            {% if count_users(instance)['pending'] > 0 %}
+                <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+            {% endif %}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu admin-dropdown-menu">
+            <li class="dropdown-header">{{ 'Elements' | trans }}</li>
+            <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs' | trans }}</a></li>
+            <li><a href="{{ path('admin_journal') }}">{{ 'Journals' | trans }}</a></li>
+            <li>
+                <a href="{% if count_users(instance)['pending'] > 0 %}{{ path('admin_user', { 'state[]': 'pending' }) }}{% else %}{{ path('admin_user') }}{% endif %}">
+                    {{ 'Users' | trans }}
+                    {% if count_users(instance)['pending'] > 0 %}
+                        <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+                    {% endif %}
+                </a>
+            </li>
+            <li><a href="{{ path('admin_contact') }}">{{ 'Contacts' | trans }}</a></li>
+            <li><a href="{{ path('admin_country') }}">{{ 'Countries' | trans }}</a></li>
+            <li><a href="{{ path('admin_city') }}">{{ 'Cities' | trans }}</a></li>
+            <li><a href="{{ path('admin_institution') }}">{{ 'Institutions' | trans }}</a></li>
+            <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads' | trans }}</a></li>
+            <li><a href="{{ path('admin_maillist') }}">{{ 'Mail List' | trans }}</a></li>
+
+            {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_ADMIN')) or is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
+
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">{{ 'Instance' | trans }}</li>
+            <li>
+                <a href="{{ path('admin_news') }}">
+                    <span class="glyphicon glyphicon-bullhorn"></span>
+                    {{ 'News' | trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('admin_instance_configure') }}">
+                    <span class="glyphicon glyphicon-wrench"></span>
+                    {{ 'Configuration' | trans }}
+                </a>
+            </li>
+                <li>
+                    <a href="{{ path('admin_instance_intercambio') }}">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                        {{ 'intercambio' | trans }}
+                    </a>
+                </li>
+
+            {% endif %}
+        </ul>
+    </li>
+{% endmacro %}
+
+<ul class="nav navbar-nav main-navbar">
+    <li><a href="{{ path('public_index') }}">{{ 'Home' | trans }}</a></li>
+
+    {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_ORDER_MANAGER')) or is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_SUPER_ADMIN')) %}
+        {{ local_macro.admin_menu(instance) }}
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_SUPER_ADMIN')) %}
+        <li>
+            <a href="{{ path('superadministration') }}">{{ 'Network Administration' | trans }}
+                {% set pending_dr = pending_data_requests(app.user) %}
+                {% if pending_dr > 0 %}
+                    <span class="label label-danger">{{ pending_dr }}</span>
+                {% endif %}
+            </a>
+        </li>
+    {% endif %}
+
+    {% if (is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_USER'))) or (is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local) %}
+        <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
+    {% endif %}
+
+{#    {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_USER')) and not local %}#}
+{#        <li><a href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance' | trans }}</a></li>#}
+{#    {% endif %}#}
+
+    {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_STATISTICS')) %}
+        <li><a href="{{ path('superadmin_statistics') }}">{{ 'Statistics Administration' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_TECHNICAL')) %}
+        <li><a href="{{ path('tichnical_index') }}">{{ 'Administration Technical' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_TICKET')) %}
+        <li><a href="{{ path('ticket_index') }}">{{ 'Sistema de Ticket' | trans }}</a></li>
+    {% endif %}
+</ul>

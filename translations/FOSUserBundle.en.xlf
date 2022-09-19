@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="aHbxLqZ" resname="This field is required">
+        <source>This field is required</source>
+        <target state="new">This field is required</target>
+      </trans-unit>
+      <trans-unit id="agwdlwc" resname="change_password.submit">
+        <source>change_password.submit</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="ci5Tbzf" resname="profile.edit.submit">
+        <source>profile.edit.submit</source>
+        <target>Update</target>
+      </trans-unit>
+      <trans-unit id="_wd.d62" resname="registration.back">
+        <source>registration.back</source>
+        <target>Back to the originating page.</target>
+      </trans-unit>
+      <trans-unit id=".ndupSK" resname="registration.check_email">
+        <source>registration.check_email</source>
+        <target>An email has been sent to %email%. It contains an activation link you must click to activate
+                    your account.
+                </target>
+      </trans-unit>
+      <trans-unit id="B.ZozIs" resname="registration.confirmed">
+        <source>registration.confirmed</source>
+        <target>Congrats %username%, your account is now activated.</target>
+      </trans-unit>
+      <trans-unit id="_cY.wHP" resname="resetting.check_email">
+        <source>resetting.check_email</source>
+        <target>An email has been sent to %email%. It contains a link you must click to reset your password.
+                </target>
+      </trans-unit>
+      <trans-unit id="Lm8o8Qg" resname="resetting.email.message">
+        <source>resetting.email.message</source>
+        <target>Hello %username%!
+
+To reset your password - please visit %confirmationUrl%
+
+Regards,
+the Team.
+</target>
+      </trans-unit>
+      <trans-unit id="Redv4tu" resname="resetting.email.subject">
+        <source>resetting.email.subject</source>
+        <target>Reset password</target>
+      </trans-unit>
+      <trans-unit id="gORugrW" resname="resetting.password_already_requested">
+        <source>resetting.password_already_requested</source>
+        <target>The password for this user has already been requested within the last 24 hours.</target>
+      </trans-unit>
+      <trans-unit id="o83gKqa" resname="resetting.request.invalid_username">
+        <source>resetting.request.invalid_username</source>
+        <target>The username or email address "%username%" does not exist.</target>
+      </trans-unit>
+      <trans-unit id="55aST1i" resname="resetting.request.submit">
+        <source>resetting.request.submit</source>
+        <target>Reset password</target>
+      </trans-unit>
+      <trans-unit id="f5J.GZt" resname="resetting.request.username">
+        <source>resetting.request.username</source>
+        <target>Email or username:</target>
+      </trans-unit>
+      <trans-unit id="KsNOzZz" resname="resetting.reset.submit">
+        <source>resetting.reset.submit</source>
+        <target>Change password</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

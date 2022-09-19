@@ -1,3 +1,13 @@
-celsius3_admin_data_request:
-    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/DataRequest.yaml"
-    prefix: /admin/data_request
+admin_instance_data_request:
+    path: /admin/data_request/orders
+    defaults: { _controller: Celsius3\Controller\Admin\DataRequest\NewOrdersDataRequestViewController }
+    methods: [ GET, POST ]
+    options:
+        expose: true
+
+admin_instance_users_data_request:
+    path: /admin/data_request/users
+    defaults: { _controller: Celsius3\Controller\Admin\DataRequest\NewUsersDataRequestViewController }
+    methods: [ GET, POST ]
+    options:
+        expose: true

@@ -3,7 +3,7 @@ fos_elastica:
     clients:
         default: { url: '%env(ELASTICSEARCH_URL)%' }
     indexes:
-        app:
+        request:
             settings:
                 index:
                     analysis:
@@ -12,66 +12,68 @@ fos_elastica:
                                 type: custom
                                 tokenizer: standard
                                 filter: [lowercase, stop, stemmer]
-            types:
-                request:
+            properties:
+                type: { type: keyword }
+                instance:
+                    type: "nested"
+                    properties:
+                        id: ~
+                owner:
+                    type: "nested"
+                    properties:
+                        name: { type: text, analyzer: text_analyzer }
+                        surname: { type: text, analyzer: text_analyzer }
+                        username: { type: keyword }
+                operator:
+                    type: "nested"
+                    properties:
+                        name: { type: text, analyzer: text_analyzer }
+                        surname: { type: text, analyzer: text_analyzer }
+                        username: { type: keyword }
+                order:
+                    type: "nested"
+                    properties:
+                        code: { type: text }
+                        materialData:
+                            type: "nested"
+                            properties:
+                                materialType: { type: keyword }
+                                title: { type: text, analyzer: text_analyzer, boost: 2 }
+                                authors: { type: text, analyzer: text_analyzer }
+                currentState:
+                    type: "nested"
                     properties:
                         type: { type: keyword }
-                        instance:
-                            type: "nested"
-                            properties:
-                                id: ~
-                        owner:
-                            type: "nested"
-                            properties:
-                                name: { type: text, analyzer: text_analyzer }
-                                surname: { type: text, analyzer: text_analyzer }
-                                username: { type: keyword }
-                        operator:
-                            type: "nested"
-                            properties:
-                                name: { type: text, analyzer: text_analyzer }
-                                surname: { type: text, analyzer: text_analyzer }
-                                username: { type: keyword }
-                        order:
-                            type: "nested"
-                            properties:
-                                code: { type: text }
-                                materialData:
-                                    type: "nested"
-                                    properties:
-                                        materialType: { type: keyword }
-                                        title: { type: text, analyzer: text_analyzer, boost: 2 }
-                                        authors: { type: text, analyzer: text_analyzer }
-                        currentState:
-                            type: "nested"
-                            properties:
-                                type: { type: keyword }
-                    dynamic_templates:
-                        isbn:
-                            match: "isbn"
-                            mapping:
-                                type: text
-                                analyzer: text_analyzer
-                        editor:
-                            match: "editor"
-                            mapping:
-                                type: text
-                                analyzer: text_analyzer
-                        chapter:
-                            match: "chapter"
-                            mapping:
-                                type: text
-                                analyzer: text_analyzer
-                                boost: 2
-                        journal:
-                            match: "journal"
-                            mapping:
-                                type: text
-                                analyzer: text_analyzer
-                                boost: 2
-                    persistence:
-                        driver: orm
-                        model: Celsius3\CoreBundle\Entity\Request
-                        provider: ~
-                        listener: ~
-                        finder: ~
+            dynamic_templates:
+                isbn:
+                    match:
+                        match: "isbn"
+                        mapping:
+                            type: text
+                            analyzer: text_analyzer
+                editor:
+                    match:
+                        match: "editor"
+                        mapping:
+                            type: text
+                            analyzer: text_analyzer
+                chapter:
+                    match:
+                        match: "chapter"
+                        mapping:
+                            type: text
+                            analyzer: text_analyzer
+                            boost: 2
+                journal:
+                    match:
+                        match: "journal"
+                        mapping:
+                            type: text
+                            analyzer: text_analyzer
+                            boost: 2
+            persistence:
+                driver: orm
+                model: Celsius3\Entity\Request
+                provider: ~
+                listener: ~
+                finder: ~

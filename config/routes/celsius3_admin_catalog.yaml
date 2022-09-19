@@ -1,0 +1,45 @@
+admin_catalog:
+    path: /admin/catalog/
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\ListAllCatalogsGetController }
+    methods: [ GET ]
+
+admin_catalog_new:
+    path: /admin/catalog/new
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\NewCatalogGetController }
+    methods: [ GET ]
+
+admin_catalog_create:
+    path: /admin/catalog/create
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\CreateCatalogPostController }
+    methods: [ POST ]
+
+admin_catalog_persist:
+    path: /admin/catalog/persist
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\UpdateCatalogsPositionsPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_catalog_edit:
+    path: /admin/catalog/{id}/edit
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\EditCatalogGetController }
+    methods: [ GET ]
+
+admin_catalog_update:
+    path: /admin/catalog/{id}/update
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\UpdateCatalogPostController }
+    methods: [ POST ]
+
+admin_catalog_enable:
+    path: /admin/catalog/{id}/enable
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\EnableCatalogGetController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_catalog_disable:
+    path: /admin/catalog/{id}/disable
+    defaults: { _controller: Celsius3\Controller\Admin\Catalog\DisableCatalogGetController }
+    methods: [ GET ]
+    options:
+        expose: true

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="ruHzoRu" resname="boolean.no">
+        <source>boolean.no</source>
+        <target>no</target>
+      </trans-unit>
+      <trans-unit id="LSfbySB" resname="boolean.yes">
+        <source>boolean.yes</source>
+        <target>si</target>
+      </trans-unit>
+      <trans-unit id="zMNEEyi" resname="boolean.yes_or_no">
+        <source>boolean.yes_or_no</source>
+        <target>si o no</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

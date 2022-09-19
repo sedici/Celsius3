@@ -1,0 +1,4 @@
+admin_file_download:
+    path: /admin/file_download/
+    defaults: { _controller: \Celsius3\Controller\Admin\FileDownload\ListAllFileDownloadViewController }
+    methods: [ GET ]

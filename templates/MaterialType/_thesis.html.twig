@@ -1,0 +1,16 @@
+{% extends 'MaterialType/_materialType.html.twig' %}
+
+{% block dataType %}
+    <li>
+        <strong>{{ 'Type'|trans }}</strong> {{ 'Thesis'|trans }}
+    </li>
+{% endblock %}
+
+{% block extraData %}
+    <li>
+        <strong>{{ 'Director'|trans }}</strong> {{ materialData.director?materialData.director:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Degree'|trans }}</strong> {{ materialData.degree?materialData.degree:'-' }}
+    </li>
+{% endblock %}

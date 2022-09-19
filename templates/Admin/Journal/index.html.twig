@@ -1,0 +1,13 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Journal List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Journal List'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ index('admin_journal', pagination, 'Admin/Journal/', filter_form, instance) }}
+{% endblock %}

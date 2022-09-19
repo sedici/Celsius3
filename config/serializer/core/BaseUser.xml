@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Celsius3\Entity\BaseUser">
+        <attribute name="id">
+            <group>api</group>
+            <group>administration</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+            <group>admins-select</group>
+        </attribute>
+        <attribute name="name">
+            <group>api</group>
+            <group>administration</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+            <group>admins-select</group>
+            <group>email_template</group>
+        </attribute>
+        <attribute name="surname">
+            <group>api</group>
+            <group>administration</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+            <group>admins-select</group>
+            <group>email_template</group>
+        </attribute>
+        <attribute name="birthdate">
+            <group>administration</group>
+        </attribute>
+        <attribute name="address">
+            <group>administration</group>
+        </attribute>
+        <attribute name="enabled">
+            <group>api</group>
+            <group>administration</group>
+        </attribute>
+        <attribute name="downloadAuth">
+            <group>api</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="pdf">
+            <group>api</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="institution">
+            <group>administration</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+        </attribute>
+        <attribute name="customValues">
+            <group>administration</group>
+        </attribute>
+        <attribute name="country">
+            <group>administration</group>
+        </attribute>
+        <attribute name="city">
+            <group>administration</group>
+        </attribute>
+        <attribute name="isLibrarian">
+            <group>api</group>
+            <group>user_list</group>
+        </attribute>
+        <attribute name="fullName">
+            <group>email_template</group>
+        </attribute>
+    </class>
+</serializer>

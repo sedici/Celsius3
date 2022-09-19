@@ -8,8 +8,9 @@
 /web/maintenance/index.html
 
 # Docker folder
-!/.docker/.gitignore
-!/.docker/mysql/.gitignore
+/docker/mysql/data/*
+!/docker/mysql/data/.gitignore
+docker-compose.override.yaml
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -24,15 +25,13 @@
 /node_modules/
 /public/build/
 npm-debug.log
-yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-
-###> symfony/phpunit-bridge ###
-.phpunit
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
 
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

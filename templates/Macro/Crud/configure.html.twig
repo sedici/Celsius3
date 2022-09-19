@@ -1,0 +1,41 @@
+{% macro configure(name, configure_form, folder, entity) %}
+    <div class="row">
+        <div class="col-md-9">
+            {% include 'Layout/_flashes.html.twig' %}
+            {{ form_start(configure_form, {
+                'attr': {
+                    'action': path(name ~ '_update_configuration', { 'code': app.request.get('code'), 'id': entity.id }),
+                    'class': 'form', 'role': 'form'
+                }
+            }) }}
+            {{ form_errors(configure_form) }}
+            {% include folder~'configure_form.html.twig' %}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit-button"><span
+                            class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+            </div>
+            {{ form_end(configure_form) }}
+        </div>
+        <div class="col-md-3">
+            <div id="accordion" class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
+                                <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse in collapse" id="collapseTwo">
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                {% include folder~'_configure_actions.html.twig' ignore missing %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

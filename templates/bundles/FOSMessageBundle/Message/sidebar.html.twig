@@ -37,7 +37,7 @@
         <div class="panel-collapse in collapse" id="collapseOne2">
             <div class="panel-body">
                 <ul class="list-unstyled">
-                    {{ knp_menu_render('Celsius3MessageBundle:Builder:messageMenu', { 'currentClass': 'active', 'template': 'bundles/FOSMessageBundle/Message/knp_menu.html.twig' }) }}
+                    {{ knp_menu_render('Menu/Message/Builder:messageMenu', { 'currentClass': 'active', 'template': 'bundles/FOSMessageBundle/Message/knp_menu.html.twig' }) }}
                 </ul>
             </div>
         </div>
@@ -57,7 +57,7 @@
             </div>
             <div class="panel-collapse collapse" id="collapseOne">
                 <div class="panel-body">
-                    {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %}
+                    {% from "Macro/Crud/filter.html.twig" import filter as filter %}
                     {{ filter('fos_message_search', filter_form) }}
                 </div>
             </div>

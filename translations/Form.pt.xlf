@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="pt" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="kohqA_C" resname="form.submit">
+        <source>form.submit</source>
+        <target>enviar</target>
+      </trans-unit>
+      <trans-unit id="5Xz0YEb" resname="form.warning.required_fields">
+        <source>form.warning.required_fields</source>
+        <target>Os campos marcados com un * são obrigatórios</target>
+      </trans-unit>
+      <trans-unit id="c9W5AO4" resname="label.address">
+        <source>label.address</source>
+        <target>endereço</target>
+      </trans-unit>
+      <trans-unit id="uJ.Lmy7" resname="label.birthdate">
+        <source>label.birthdate</source>
+        <target>data de nascimento</target>
+      </trans-unit>
+      <trans-unit id="uTL.blu" resname="label.city">
+        <source>label.city</source>
+        <target>cidade</target>
+      </trans-unit>
+      <trans-unit id="k7MJQ82" resname="label.country">
+        <source>label.country</source>
+        <target>país</target>
+      </trans-unit>
+      <trans-unit id="D2N6_cP" resname="label.email">
+        <source>label.email</source>
+        <target>email</target>
+      </trans-unit>
+      <trans-unit id="bqOPndO" resname="label.institution">
+        <source>label.institution</source>
+        <target>instituição</target>
+      </trans-unit>
+      <trans-unit id="ZAtrhtu" resname="label.login">
+        <source>label.login</source>
+        <target>login</target>
+      </trans-unit>
+      <trans-unit id="ysOvPSq" resname="label.name">
+        <source>label.name</source>
+        <target>nome</target>
+      </trans-unit>
+      <trans-unit id="9pvowqn" resname="label.password">
+        <source>label.password</source>
+        <target>senha</target>
+      </trans-unit>
+      <trans-unit id="MfB67CL" resname="label.password.confirm">
+        <source>label.password.confirm</source>
+        <target>conferir</target>
+      </trans-unit>
+      <trans-unit id="B0loISu" resname="label.remember_me">
+        <source>label.remember_me</source>
+        <target>me lembrar</target>
+      </trans-unit>
+      <trans-unit id="ES47ArC" resname="label.surname">
+        <source>label.surname</source>
+        <target>sobrenome</target>
+      </trans-unit>
+      <trans-unit id="LDhDPrF" resname="label.username">
+        <source>label.username</source>
+        <target>nome de usuário</target>
+      </trans-unit>
+      <trans-unit id="YNT_PSJ" resname="link.resseting_question">
+        <source>link.resseting_question</source>
+        <target>esqueceu a sua senha?</target>
+      </trans-unit>
+      <trans-unit id="A1SLsdJ" resname="invalid.email.domain">
+        <source>invalid.email.domain</source>
+        <target>O domínio de email não é válido. Use um email do domínio %domain%</target>
+      </trans-unit>
+      <trans-unit id="kpDwmO2" resname="The domain is not valid">
+        <source>The domain is not valid</source>
+        <target>O domínio não é válido</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

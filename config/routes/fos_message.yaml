@@ -1,3 +1,0 @@
-fos_message:
-    resource: "@Celsius3MessageBundle/Resources/config/routing.xml"
-    prefix: /user/message

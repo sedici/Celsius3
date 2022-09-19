@@ -1,3 +1,22 @@
-celsius3_superadmin_dashboard:
-    resource: "@Celsius3CoreBundle/Resources/config/routes/Superadmin/Dashboard.yaml"
-    prefix: /superadmin
+superadministration:
+    path: /superadmin/
+    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\ShowSuperadminDashboardViewController }
+    methods: [ GET ]
+
+superadmin_ajax:
+    path: /superadmin/ajax
+    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\AjaxController }
+    methods: [ GET ]
+
+superadmin_admins_message:
+    path: /superadmin/admins_message
+    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\SendMessageToAdminsController }
+    methods: [ GET, POST ]
+    options:
+        expose: true
+
+superadmin_orderusertable:
+    path: /superadmin/orderusertable
+    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\OrderUserTableController }
+    options:
+        expose: true

@@ -1,0 +1,20 @@
+admin_rest_catalog:
+    path: /admin/rest/catalogs
+    defaults: { _controller: \Celsius3\Controller\Admin\Catalog\GetCatalogsRestController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_catalog_results_order:
+    path: /admin/rest/catalogs/results/{order_id}
+    defaults: { _controller: \Celsius3\Controller\Admin\Catalog\GetOrderCatalogResultsRestController }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_catalog_get:
+    path: /admin/rest/catalogs/{id}
+    defaults: { _controller: \Celsius3\Controller\Admin\Catalog\GetCatalogRestController }
+    methods: [ GET ]
+    options:
+        expose: true

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="SFl_7vK" resname="threads_found&#10;">
+        <source>threads_found
+</source>
+        <target>Hilos encontrados</target>
+      </trans-unit>
+      <trans-unit id="EYXzfTO" resname="deleted">
+        <source>deleted</source>
+        <target state="new">Papelera</target>
+      </trans-unit>
+      <trans-unit id="yq28._y" resname="inbox">
+        <source>inbox</source>
+        <target state="new">Bandeja de entrada</target>
+      </trans-unit>
+      <trans-unit id="BQ_ZPqI" resname="messenger">
+        <source>messenger</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="Xcwby5M" resname="no_thread">
+        <source>no_thread</source>
+        <target>Sin hilo</target>
+      </trans-unit>
+      <trans-unit id="V4Kxhof" resname="reply">
+        <source>reply</source>
+        <target>responder</target>
+      </trans-unit>
+      <trans-unit id="JBkykGe" resname="search">
+        <source>search</source>
+        <target>buscar</target>
+      </trans-unit>
+      <trans-unit id="X1l_16I" resname="send_new">
+        <source>send_new</source>
+        <target>Enviar nuevo</target>
+      </trans-unit>
+      <trans-unit id="evuzNH_" resname="sent">
+        <source>sent</source>
+        <target state="new">Enviado</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

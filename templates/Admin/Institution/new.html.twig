@@ -1,0 +1,13 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Institution Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <h2>{{ 'Institution Creation'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_institution', form, 'Admin/Institution/', true) }}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Country Edit'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/edit.html.twig" import edit as edit %}
+
+{% block content %}
+<div class="panel panel-default">
+    <div class="panel-heading">   <h2>{{ 'Country Edit'|trans }} - {{ entity.name }}</h2></div>
+    <div class="panel-body">
+      {{ edit('superadmin_country', entity, edit_form, 'Superadmin/Country/') }}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Country List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Country List'|trans }}</h2>
+
+    {{ index('superadmin_country', pagination, 'Superadmin/Country/', filter_form, null, true) }}
+{% endblock %}

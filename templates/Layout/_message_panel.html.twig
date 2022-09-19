@@ -1,0 +1,18 @@
+<ul class="pull-right nav navbar-nav">
+    {% if app.user %}
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="glyphicon glyphicon-envelope"></span>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <a href="{{ path('fos_message_thread_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'New'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('fos_message_inbox') }}"><span class="glyphicon glyphicon-inbox"></span> {{ 'Inbox'|trans }}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+</ul>

@@ -1,0 +1,33 @@
+<ul class="pull-right nav navbar-nav">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="glyphicon glyphicon-user"></span> {{ app.user?app.user.username:'' }}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                {% if app.user %}
+                    <li>
+                        <a href=""><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile' | trans }}</a>
+                    </li>
+                    
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <li>
+                            <a href="{{ path('switch_user', {_switch_user: '_exit'}) }}"> <span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('security_logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
+                        </li>
+                    {% endif %}
+
+                {% else %}
+                    <li>
+                        <a href="{{ path('security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+</ul>

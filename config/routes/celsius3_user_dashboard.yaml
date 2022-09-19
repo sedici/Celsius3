@@ -1,3 +1,14 @@
-celsius3_user_dashboard:
-    resource: "@Celsius3CoreBundle/Resources/config/routes/User/Dashboard.yaml"
-    prefix: /user
+user_index:
+    path: /user
+    defaults: { _controller: Celsius3\Controller\User\Dashboard\ShowUserDashboardViewController }
+    methods: [ GET ]
+
+user_change_context:
+    path: /user/instance/{id}/change
+    defaults: { _controller: Celsius3\Controller\User\Dashboard\ChangeInstanceController }
+    methods: [ GET ]
+
+user_ajax:
+    path: /user/ajax
+    defaults: { _controller: Celsius3\Controller\User\Dashboard\AjaxController }
+    methods: [ GET ]

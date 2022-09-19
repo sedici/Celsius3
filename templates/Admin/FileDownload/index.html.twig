@@ -1,0 +1,14 @@
+{% set ajax_path = 'admin_ajax' %}
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'File Download List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'File Download List'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ index('admin_file_download', pagination, 'Admin/FileDownload/', filter_form) }}
+{% endblock %}

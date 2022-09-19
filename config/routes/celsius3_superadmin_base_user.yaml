@@ -1,0 +1,34 @@
+superadmin_user:
+    path: /superadmin/user
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\ListAllUsersViewController }
+    methods: [ GET ]
+
+superadmin_user_new:
+    path: /superadmin/user/new
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\NewUserViewController }
+    methods: [ GET ]
+
+superadmin_user_create:
+    path: /superadmin/user/create
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\CreateUserViewController }
+    methods: [ POST ]
+    
+superadmin_user_edit:
+    path: /superadmin/user/{id}/edit
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\EditUserViewController }
+    methods: [ GET ]
+    
+superadmin_user_update:
+    path: /superadmin/user/{id}/update
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\UpdateUserPostController }
+    methods: [ POST ]
+    
+superadmin_user_transform:
+    path: /superadmin/user/{id}/transform
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\TransformUserViewController }
+    methods: [ GET, POST ]
+
+superadmin_user_enable:
+    path: /superadmin/user/{id}/enable
+    defaults: { _controller: Celsius3\Controller\Superadmin\BaseUser\EnableUserGetController }
+    methods: [ GET ]

@@ -5,24 +5,10 @@
 #    path: /
 #    defaults: { _controller: 'App\Controller\DefaultController::index' }
 
-
-directory_homepage:
-    path:   /
-    host:   celsius3.prebi.unlp.edu.ar
-    defaults: { _controller: Celsius3\CoreBundle\Controller\DirectoryController::indexAction }
-
-directory_instances:
-    path:   /instances
-    host:   celsius3.prebi.unlp.edu.ar
-    defaults: { _controller: Celsius3\CoreBundle\Controller\DirectoryController::instancesAction }
-
-directory_statistics:
-    path:   /statistics
-    host:   celsius3.prebi.unlp.edu.ar
-    defaults: { _controller: Celsius3\CoreBundle\Controller\DirectoryController::statisticsAction }
-    options:
-        expose: true
+security_logout:
+    path: /logout
+    methods: GET
 
 blog_show:
     path:      /
-    defaults:  { _controller: Celsius3\CoreBundle\Controller\PublicController::indexAction }
+    defaults:  { _controller: Celsius3\Controller\PublicController::index }

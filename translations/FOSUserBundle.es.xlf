@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="aHbxLqZ" resname="This field is required">
+        <source>This field is required</source>
+        <target state="new">This field is required</target>
+      </trans-unit>
+      <trans-unit id="agwdlwc" resname="change_password.submit">
+        <source>change_password.submit</source>
+        <target>Cambiar contraseña</target>
+      </trans-unit>
+      <trans-unit id="ci5Tbzf" resname="profile.edit.submit">
+        <source>profile.edit.submit</source>
+        <target>Actualizar</target>
+      </trans-unit>
+      <trans-unit id="_wd.d62" resname="registration.back">
+        <source>registration.back</source>
+        <target>Volver a la página anterior</target>
+      </trans-unit>
+      <trans-unit id=".ndupSK" resname="registration.check_email">
+        <source>registration.check_email</source>
+        <target>Un correo electrónico fue enviado a %email%. Contiene un enlace de activación que debe presionar
+                    para activar su cuenta.
+                </target>
+      </trans-unit>
+      <trans-unit id="B.ZozIs" resname="registration.confirmed">
+        <source>registration.confirmed</source>
+        <target>Felicitaciones %username%, su cuenta está activada.</target>
+      </trans-unit>
+      <trans-unit id="_cY.wHP" resname="resetting.check_email">
+        <source>resetting.check_email</source>
+        <target>Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para
+                    restablecer tu contraseña.
+                </target>
+      </trans-unit>
+      <trans-unit id="Lm8o8Qg" resname="resetting.email.message">
+        <source>resetting.email.message</source>
+        <target>Hola %username%!
+
+Para restablecer su contraseña por favor visite %confirmationUrl%
+
+Gracias.
+El equipo.</target>
+      </trans-unit>
+      <trans-unit id="Redv4tu" resname="resetting.email.subject">
+        <source>resetting.email.subject</source>
+        <target>Restablecer contraseña</target>
+      </trans-unit>
+      <trans-unit id="gORugrW" resname="resetting.password_already_requested">
+        <source>resetting.password_already_requested</source>
+        <target>La contraseña para este usuario ya ha sido solicitada dentro de las últimas 24 horas.</target>
+      </trans-unit>
+      <trans-unit id="o83gKqa" resname="resetting.request.invalid_username">
+        <source>resetting.request.invalid_username</source>
+        <target>El nombre de usuario o la dirección de correo electrónico "%username%" no existe.</target>
+      </trans-unit>
+      <trans-unit id="55aST1i" resname="resetting.request.submit">
+        <source>resetting.request.submit</source>
+        <target>Restablecer contraseña</target>
+      </trans-unit>
+      <trans-unit id="f5J.GZt" resname="resetting.request.username">
+        <source>resetting.request.username</source>
+        <target>Correo electrónico o nombre de usuario</target>
+      </trans-unit>
+      <trans-unit id="KsNOzZz" resname="resetting.reset.submit">
+        <source>resetting.reset.submit</source>
+        <target>Cambiar contraseña</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

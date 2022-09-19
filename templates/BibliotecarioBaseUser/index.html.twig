@@ -1,0 +1,13 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Users List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'User List'|trans }}</h2>
+
+    {{ index('admin_user', pagination, 'Admin/BaseUser/', filter_form, null, true) }}
+{% endblock %}

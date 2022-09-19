@@ -1,0 +1,17 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% trans_default_domain 'Registration' %}
+
+{% block title %}
+    {{ 'title.register_user' | trans | first_upper }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 panel panel-default">
+            <h3>{{ 'title.register_user' | trans | first_upper }}</h3>
+            <hr class="separator_hr">
+            {% include 'Registration/register_content.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

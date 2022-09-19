@@ -1,0 +1,235 @@
+{% form_theme configure_form 'Form/fields.html.twig' %}
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a id="navegacion-tab" href="#navegacion" data-toggle="tab">{{ 'Información y navegación' | trans }}</a>
+    </li>
+    <li>
+        <a id="visualización-tab" href="#visualizacion" data-toggle="tab">{{ 'Visualización' | trans }}</a>
+    </li>
+    <li>
+        <a id="comunicación-tab" href="#comunicacion" data-toggle="tab">{{ 'Comunicación' | trans }}</a>
+    </li>
+    <li>
+        <a id="otros-tab" href="#otros" data-toggle="tab">{{ 'Otros' | trans }}</a>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="navegacion">
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_title) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_description) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_information) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_staff) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.default_language) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_tagline) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.results_per_page) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_label(configure_form.show_news) }}
+                {{ form_widget(configure_form.show_news, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_home_btn_text) }}
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_news_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_news_visible) }}
+                {{ form_widget(configure_form.home_news_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_information_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_information_visible) }}
+                {{ form_widget(configure_form.home_information_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_statistics_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_statistics_visible) }}
+                {{ form_widget(configure_form.home_statistics_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_help_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_help_visible) }}
+                {{ form_widget(configure_form.home_help_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="visualizacion">
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                {% do configure_form.instance_logo.setRendered %}
+
+                {{ form_label(configure_form.instance_logo) }}
+                {{ form_errors(configure_form.instance_logo) }}
+                <input type="file" id="{{ configure_form.instance_logo.vars.id }}"
+                       name="{{ configure_form.instance_logo.vars.full_name }}"
+                       value="{{ configure_form.instance_logo.vars.attr.value }}"
+                >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_css) }}
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="comunicacion">
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.email_reply_address) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                {{ form_row(configure_form.smtp_host) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(configure_form.smtp_port) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(configure_form.smtp_protocol) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.smtp_username) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(configure_form.smtp_password) }}
+            </div>
+        </div>
+        <br/>
+        <div>
+            <button type="button" id="form_test_connection" name="form[test_connection]" value="test_connection"
+                    class="btn btn-default">
+                {{ 'Test connection' | trans }}
+            </button>
+            <span id="form_test_smtp_alert" class="hidden">
+                <span class="glyphicon"></span>
+                <span class="message"></span>
+                <a class="form_send_test_email" href>
+                    <span class="send_test_email hidden">{{ 'Send test email' | trans }}</span>
+                    <span class="resend_test_email hidden">{{ 'Resend test email' | trans }}</span>
+                </a>
+            </span>
+            <span id="form_test_smtp_send_email" class="hidden">
+                <label>{{ 'Email' | trans }}:</label>
+                <input type="email" id="form_email_to">
+                <button type="button" id="submit_send_test_email" class="btn btn-default">{{ 'Send' | trans }}</button>
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.confirmation_type) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.email_domain_for_registration) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.min_days_for_send_mail) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(configure_form.max_days_for_send_mail) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.mail_signature) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_check_email_title) }}
+                {{ form_row(configure_form.resetting_check_email_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_password_already_requested_title) }}
+                {{ form_row(configure_form.resetting_password_already_requested_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.registration_wait_confirmation_title) }}
+                {{ form_row(configure_form.registration_wait_confirmation_text) }}
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="otros">
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.download_time) }}
+            </div>
+            <div class="col-md-12 hidden">
+                {{ form_row(configure_form.api_key) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ form_rest(configure_form) }}

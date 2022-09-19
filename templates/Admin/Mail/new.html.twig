@@ -1,0 +1,16 @@
+{% extends 'Admin/Dashboard/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Template Mail Creation'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    <h2>{{ 'Mail Template Creation'|trans }}</h2>
+
+    {{ new('admin_mails', form) }}
+
+    {% include 'Admin/Mail/'_help.html.twig' %}
+{% endblock %}
+

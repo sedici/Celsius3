@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Legacy Instance List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Legacy Instance List'|trans }}</h2>
+
+    {{ index('superadmin_instance_legacy', pagination, 'Superadmin/LegacyInstance/', filter_form) }}
+{% endblock %}

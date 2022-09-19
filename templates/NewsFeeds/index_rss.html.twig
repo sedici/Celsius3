@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="{{url('rss_news')}}" rel="self" type="application/rss+xml" />
+        <title>{{instance}}</title>
+        <description>Aqui podra encontrar las noticias recientes.</description>
+        <link>{{url}}</link>
+        {% for news in lastNews %}
+            {% include 'News/Feeds/_new_rss.html.twig' %}
+        {% endfor %}
+    </channel>
+</rss>

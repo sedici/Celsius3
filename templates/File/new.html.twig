@@ -1,0 +1,11 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'File Upload'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/new.html.twig" import new as new %}
+
+{% block content %}
+    {{ new('file', form) }}
+{% endblock %}
