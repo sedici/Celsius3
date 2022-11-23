@@ -44,7 +44,7 @@ class CertificateCommand extends ContainerAwareCommand
     {
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $public_path = $this->getContainer()->get('kernel')->getRootDir().'/../web';
+        $public_path = $this->getContainer()->get('kernel')->getProjectDir().'/public';
 
         # Se toma la ip actual del servidor
         $server_ip = gethostbyname('servicio.prebi.unlp.edu.ar');
@@ -66,8 +66,12 @@ class CertificateCommand extends ContainerAwareCommand
             '--expand certonly '.
             '--webroot -w '.$public_path.' '.
             '-d '.implode(' -d ', $valid_domains).' -d '.$directory->getHost();
+        $output->writeln($command);
 
         # Solicitud de certificado
         $output->writeln(shell_exec($command));
+
+        return 0;
     }
+
 }
