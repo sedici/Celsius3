@@ -62,6 +62,7 @@ class CertificateCommand extends ContainerAwareCommand
 
         $command = 'certbot --non-interactive '.
             '--agree-tos -m soporte.celsius@prebi.unlp.edu.ar '.
+            '-q '.
             '--expand certonly '.
             '--webroot -w '.$public_path.' '.
             '-d '.implode(' -d ', $valid_domains).' -d '.$directory->getHost();
