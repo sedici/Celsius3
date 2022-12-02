@@ -228,13 +228,13 @@
             <div class="row">
                 {% for thread in messages %}
                     <div id="id{{ thread.id }}">
-                        <div class="message-heading {{ fos_message_is_read(thread)?'message-read':'' }}">
+                        <div class="message-heading  }}">
                             <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
                                 <span class="label label-default message-creator col-md-4">
                                     {{ thread.lastMessage.sender.fullName }}
                                 </span>
                                 <span class="message-subject col-md-7 autoellipsis">
-                                    ({{ get_unread_messages(thread) }}) {{ thread.subject }}
+                                   {#  ({{ get_unread_messages(thread) }})#} {{ thread.subject }}
                                 </span>
                                 <span class="pull-right">
                                     {{ thread.lastMessage.createdAt|localizeddate }}
@@ -276,9 +276,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('fos_user_resetting_admin', { 'username': element.username }) }}">
+                                   {#  <a href="{{ path('fos_user_resetting_admin', { 'username': element.username }) }}">
                                         <span class="fa fa-key"></span> {{ 'Reset password'|trans }}
-                                    </a>
+                                    </a>#}
                                 </li>
                             </ul>
                         </div>
