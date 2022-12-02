@@ -40,6 +40,8 @@ class Thread
     protected $id;
 
     /**
+     *
+     *  @ORM\Column(name="createdBy_id", type="integer")
      * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      */
     protected $createdBy;
@@ -64,7 +66,7 @@ class Thread
     protected $metadata;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="createdAt",  type="datetime")
      */
     protected $createdAt;
     /**
