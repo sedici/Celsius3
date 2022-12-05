@@ -68,13 +68,16 @@ abstract class BaseController extends AbstractController
 
     protected function getBundle()
     {
-        return 'Celsius3';
+        return '';
     }
 
     protected function listQuery($name)
-    {
+    {  // dump($name);die;
+        $valor="Celsius3\\Entity\\".$name;
+        $class = new \ReflectionClass($valor);
+       // dump($valor);die;
         return $this->entityManager
-                    ->getRepository($this->getBundle().':'.$name)
+                    ->getRepository($class)
                     ->createQueryBuilder('e');
     }
 
