@@ -437,9 +437,9 @@ services:
 #    celsius3_core.custom_field_helper:
 #        class: Celsius3\CoreBundle\Helper\CustomFieldHelper
 #        arguments: ['@request_stack', '@doctrine.orm.entity_manager']
-#    celsius3_core.instance_helper:
-#        class: Celsius3\CoreBundle\Helper\InstanceHelper
-#        arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
+    celsius3_core.instance_helper:
+        class: Helper\InstanceHelper
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
 #    celsius3_core.database_helper:
 #        class: Celsius3\CoreBundle\Helper\DatabaseHelper
 #        arguments: ['@doctrine.orm.entity_manager']
@@ -457,9 +457,9 @@ services:
 #        arguments: { $uploadRootDir: '%upload_root_dir%', $logosUploadDir: '%logos_upload_dir%' }
 #        calls:
 #            - [setContainer, ['@service_container']]
-#    celsius3_core.filter_manager:
-#        class: Celsius3\CoreBundle\Manager\FilterManager
-#        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.field.guesser']
+    celsius3_core.filter_manager:
+        class: Manager\FilterManager
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.field.guesser']
 #    celsius3_core.user_manager:
 #        class: Celsius3\CoreBundle\Manager\UserManager
 #    celsius3_core.union_manager:
