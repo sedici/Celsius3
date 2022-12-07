@@ -176,7 +176,7 @@ services:
 #    Celsius3\Manager\StateManager:
 #        alias: celsius3_core.state_manager
         
-    Twig\AssetsExtension:
+    Celsius3\Twig\AssetsExtension:
         tags:
             - { name: twig.extension }
         arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']
@@ -197,13 +197,13 @@ services:
 #        alias: fos_user.util.token_generator.default
 
     celsius3_menu_builder:
-        class: Menu\Builder
+        class: Celsius3\Menu\Builder
         arguments: [ "@knp_menu.factory" ]
         tags:
             - { name: knp_menu.menu_builder, method: publicMenu, alias: public }
             - { name: knp_menu.menu_builder, method: directoryMenu, alias: directory }
 
-    EventListener\SecurityListener:
+    Celsius3\EventListener\SecurityListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 #        arguments: [ '@doctrine.orm.entity_manager', '@fos_oauth_server.access_token_manager.default', '@security.untracked_token_storage' ]
@@ -214,11 +214,11 @@ services:
 #    FOS\UserBundle\Util\CanonicalFieldsUpdater:
 #        alias: fos_user.util.canonical_fields_updater
 
-    Listener\NotificationListener:
+    Celsius3\Listener\NotificationListener:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
-        arguments: [ 'Manager\NotificationManager' ]
+     #   arguments: [ 'Manager\NotificationManager' ]
 
 #    Celsius3\Manager\NotificationManager:
 #        arguments: [ '@service_container', '%celsius3_notification.web_socket_server.zmq_host%', '%celsius3_notification.web_socket_server.zmq_port%' ]
