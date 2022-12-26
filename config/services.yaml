@@ -458,7 +458,7 @@ services:
 #        calls:
 #            - [setContainer, ['@service_container']]
     celsius3_core.filter_manager:
-        class: Manager\FilterManager
+        class: Celsius3\Manager\FilterManager
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.field.guesser']
 #    celsius3_core.user_manager:
 #        class: Celsius3\CoreBundle\Manager\UserManager
