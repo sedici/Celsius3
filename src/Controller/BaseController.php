@@ -104,7 +104,7 @@ abstract class BaseController extends AbstractController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius\\Entity\\'.$name);
+       // return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius\\Entity\\'.$name);
     }
 
     protected function baseIndex($name, FormInterface $filter_form = null)
