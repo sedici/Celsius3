@@ -24,7 +24,6 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -76,12 +75,12 @@ abstract class MaterialType
     protected $year;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="startPage", type="integer", nullable=true)
      */
     protected $startPage;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="endPage",type="integer", nullable=true)
      */
     protected $endPage;
 
