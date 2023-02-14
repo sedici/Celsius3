@@ -27,6 +27,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Celsius3\Entity\TimestampableEntity;
+
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\CustomFieldRepository")
  * @ORM\Table(name="custom_field", uniqueConstraints={

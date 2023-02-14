@@ -25,6 +25,8 @@ namespace Celsius3\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Celsius3\Entity\TimestampableEntity;
+
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\CatalogResultRepository")
  * @ORM\Table(name="catalog_result", indexes={
