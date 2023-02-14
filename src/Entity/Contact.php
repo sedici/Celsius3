@@ -25,7 +25,8 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Celsius3\Entity\SoftDeleteableEntity;
+use Celsius3\Entity\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
