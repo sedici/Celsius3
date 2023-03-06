@@ -81,7 +81,8 @@
     "twig/twig": "^2.12|^3.0",
     "umpirsky/composer-permissions-handler": "~1.4",
     "willdurand/geocoder": "^4.5",
-    "willdurand/js-translation-bundle": "^5.0"
+    "willdurand/js-translation-bundle": "^5.0",
+    "php-http/client-common": "2.6.0"
   },
   "require-dev": {
     "symfony/debug-bundle": "5.4.*",
