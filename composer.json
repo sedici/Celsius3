@@ -23,7 +23,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.11",
     "egulias/email-validator": "^2.1",
-    "enqueue/elastica-bundle": "^0.11.0",
+    "enqueue/elastica-bundle": "^0.13.0",
     "enqueue/fs": "^0.10",
     "excelwebzone/recaptcha-bundle": "^1.4",
     "friendsofsymfony/elastica-bundle": "^6.0",
@@ -73,6 +73,7 @@
     "symfony/validator": "5.4.*",
     "symfony/web-link": "5.4.*",
     "symfony/webapp-meta": "^1.0",
+    symfony/webpack-encore-bundle
 
     "symfony/yaml": "5.4.*",
     "symfonycasts/reset-password-bundle": "^1.13",
