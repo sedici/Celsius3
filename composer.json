@@ -73,8 +73,6 @@
     "symfony/validator": "5.4.*",
     "symfony/web-link": "5.4.*",
     "symfony/webapp-meta": "^1.0",
-    symfony/webpack-encore-bundle
-
     "symfony/yaml": "5.4.*",
     "symfonycasts/reset-password-bundle": "^1.13",
     "symfonycasts/verify-email-bundle": "^1.8",
