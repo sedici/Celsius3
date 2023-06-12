@@ -79,7 +79,7 @@ final class ListUsersViewController extends AbstractController
 
         $pagination = $this->paginator->paginate(
             $query,
-            $request->query->get('page', 1),
+            intval($request->query->get('page', 1)),
             $this->configurationHelper
                 ->getCastedValue($this->instanceHelper->getSessionInstance()->get('results_per_page')),
             [
