@@ -29,6 +29,7 @@ use Celsius3\Entity\City;
 use Celsius3\Form\Type\CityType;
 use Celsius3\Form\Type\Filter\CityFilterType;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Location controller.
@@ -57,7 +58,7 @@ class AdminCityController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_city")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Admin/City/index.html.twig',
@@ -65,7 +66,8 @@ class AdminCityController extends BaseInstanceDependentController
                 'City',
                 $this->createForm(CityFilterType::class, null, [
                     'instance' => $this->getInstance(),
-                ])
+                ]),
+                $paginator
             )
         );
     }
