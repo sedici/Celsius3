@@ -23,19 +23,17 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.11",
     "egulias/email-validator": "^2.1",
-    "enqueue/elastica-bundle": "^0.13.0",
     "enqueue/fs": "^0.10",
     "excelwebzone/recaptcha-bundle": "^1.4",
     "friendsofsymfony/elastica-bundle": "^6.0",
-    "friendsofsymfony/http-cache-bundle": "~2.1",
     "friendsofsymfony/jsrouting-bundle": "^2.8",
     "friendsofsymfony/oauth-server-bundle": "dev-master",
     "friendsofsymfony/rest-bundle": "^3.3",
     "knplabs/knp-components": "^3.5",
     "knplabs/knp-menu-bundle": "^3.2",
     "knplabs/knp-paginator-bundle": "^5.8",
-    "php-http/guzzle6-adapter": "^1.1",
-    "php-http/httplug-bundle": "2.3.0",
+    "php-http/guzzle6-adapter": "^1.1.1",
+
     "phpdocumentor/reflection-docblock": "^5.3",
     "phpstan/phpdoc-parser": "^1.2",
     "predis/predis": "^1.0",
@@ -82,7 +80,7 @@
     "umpirsky/composer-permissions-handler": "~1.4",
     "willdurand/geocoder": "^4.5",
     "willdurand/js-translation-bundle": "^5.0",
-    "php-http/client-common": "2.6.0",
+
     "symfony/webpack-encore-bundle": "^1.8"
   },
   "require-dev": {
