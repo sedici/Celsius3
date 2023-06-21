@@ -27,6 +27,7 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Form\Type\UserTransformType;
 use Celsius3\Form\Type\BaseUserType;
+use Celsius3\Helper\ConfigurationHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
