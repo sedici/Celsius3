@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Form\Type\JournalTypeType;
+use Celsius3\Helper\ConfigurationHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

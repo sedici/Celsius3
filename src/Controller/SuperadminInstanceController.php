@@ -35,7 +35,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Translator;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * Instance controller.
  *
@@ -56,11 +56,11 @@ class SuperadminInstanceController extends InstanceController
      *
      * @Route("/", name="superadmin_instance")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Superadmin/Instance/index.html.twig',
-            $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class))
+            $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class),$paginator)
         );
     }
 

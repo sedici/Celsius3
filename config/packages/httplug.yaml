@@ -1,18 +1,18 @@
-httplug:
-    plugins:
-        retry:
-            retry: 1
+#httplug:
+  #  plugins:
+  #      retry:
+  #          retry: 1
 
-    discovery:
-        client: 'auto'
+   # discovery:
+    #    client: 'auto'
 
-    clients:
-        app:
-            http_methods_client: true
-            plugins:
-                - 'httplug.plugin.content_length'
-                - 'httplug.plugin.redirect'
+   # clients:
+   #     app:
+   #         http_methods_client: true
+  #          plugins:
+  #              - 'httplug.plugin.content_length'
+  #              - 'httplug.plugin.redirect'
 
-    classes:
-        client: Http\Adapter\Guzzle6\Client
-        message_factory: Http\Message\MessageFactory\GuzzleMessageFactory
+ #   classes:
+ #       client: Http\Adapter\Guzzle6\Client
+#        message_factory: Http\Message\MessageFactory\GuzzleMessageFactory

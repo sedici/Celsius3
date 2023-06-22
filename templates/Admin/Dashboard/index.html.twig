@@ -326,8 +326,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('angular') }}
-    {{ encore_entry_script_tags('administration') }}
+    {#  {{ encore_entry_script_tags('angular') }}#}
+      {{ encore_entry_script_tags('administration') }}
 {#    <script src="{{ enc asset('build/angular.js') }}"></script>#}
 {#    <script src="{{ asset('build/administration.js') }}"></script>#}
 {% endblock %}

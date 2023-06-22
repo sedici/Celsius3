@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../buzz/afa/angular-fti" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../magnetico/formacion/web-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../magnetico/gam/gam-admin-full" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../magnetico/tres-febrero/signup" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../magnetico/tres-febrero/sso" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../magnetico/tres-febrero/web-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../personal/ayres/ayres_backend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../personal/ayres/ayres_backend_apirest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../personal/ayres/ayres_frontend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../personal/ayres/frontend_8000" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../personal/ovalle/cecpba" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../personal/ovalle/durlock" vcs="Git" />
+  </component>
+</project>

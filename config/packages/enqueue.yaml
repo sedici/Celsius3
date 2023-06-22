@@ -1,5 +1,5 @@
-enqueue:
-    default:
-        transport: '%env(resolve:ENQUEUE_DSN)%'
-        client:
-            traceable_producer: true
+#enqueue:
+    #default:
+     #   transport: '%env(resolve:ENQUEUE_DSN)%'
+     #   client:
+     #       traceable_producer: true

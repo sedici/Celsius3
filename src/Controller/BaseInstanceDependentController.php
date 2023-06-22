@@ -41,7 +41,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getInstance(): Instance
     {
-        return $this->get('celsius3_core.instance_helper')->getSessionInstance();
+        return $this->getConfigurationHelper()->getSessionInstance();
     }
 
     protected function findQuery($name, $id)
@@ -53,8 +53,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getResultsPerPage()
     {
-        return $this->get('celsius3_core.configuration_helper')
-            ->getCastedValue($this->getInstance()->get('results_per_page'));
+        return $this->getConfigurationHelper()->getCastedValue($this->getInstance()->get('results_per_page'));
     }
 
     protected function filter($name, $filter_form, $query)

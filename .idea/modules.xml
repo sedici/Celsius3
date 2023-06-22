@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/adcetris/.idea/adcetris.iml" filepath="$PROJECT_DIR$/../../magnetico/adcetris/.idea/adcetris.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../buzz/afa/angular-fti/.idea/angular-fti.iml" filepath="$PROJECT_DIR$/../../buzz/afa/angular-fti/.idea/angular-fti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../personal/ayres/ayres_backend_apirest/.idea/api-rest-ayres.iml" filepath="$PROJECT_DIR$/../../personal/ayres/ayres_backend_apirest/.idea/api-rest-ayres.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../personal/ayres/ayres_backend/.idea/ayres_backend.iml" filepath="$PROJECT_DIR$/../../personal/ayres/ayres_backend/.idea/ayres_backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../personal/ayres/frontend_8000/.idea/ayres_frontend.iml" filepath="$PROJECT_DIR$/../../personal/ayres/frontend_8000/.idea/ayres_frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/booklook/.idea/booklook.iml" filepath="$PROJECT_DIR$/../../magnetico/booklook/.idea/booklook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../personal/ovalle/cecpba/.idea/cecpba.iml" filepath="$PROJECT_DIR$/../../personal/ovalle/cecpba/.idea/cecpba.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/celsius_ultimo.iml" filepath="$PROJECT_DIR$/.idea/celsius_ultimo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/clinica/.idea/clinica.iml" filepath="$PROJECT_DIR$/../../magnetico/clinica/.idea/clinica.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../personal/ovalle/durlock/.idea/durlock.iml" filepath="$PROJECT_DIR$/../../personal/ovalle/durlock/.idea/durlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/gam/.idea/gam.iml" filepath="$PROJECT_DIR$/../../magnetico/gam/.idea/gam.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/gam/gam-admin-full/.idea/gam-admin-full.iml" filepath="$PROJECT_DIR$/../../magnetico/gam/gam-admin-full/.idea/gam-admin-full.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/hope/.idea/hope.iml" filepath="$PROJECT_DIR$/../../magnetico/hope/.idea/hope.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../seba/modulo/.idea/modulo.iml" filepath="$PROJECT_DIR$/../../seba/modulo/.idea/modulo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/reserva-turno/.idea/reserva-turno.iml" filepath="$PROJECT_DIR$/../../magnetico/reserva-turno/.idea/reserva-turno.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/tres-febrero/signup/.idea/signup.iml" filepath="$PROJECT_DIR$/../../magnetico/tres-febrero/signup/.idea/signup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/tres-febrero/sso/.idea/sso.iml" filepath="$PROJECT_DIR$/../../magnetico/tres-febrero/sso/.idea/sso.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../magnetico/formacion/web-api/.idea/web-api.iml" filepath="$PROJECT_DIR$/../../magnetico/formacion/web-api/.idea/web-api.iml" />
+    </modules>
+  </component>
+</project>

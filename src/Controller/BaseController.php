@@ -27,6 +27,7 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,15 +52,27 @@ abstract class BaseController extends AbstractController
      */
     private $configurationHelper;
 
+    /**
+     * @var Paginator
+     */
+    private $paginator;
+
+
     public function __construct(InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
-    ConfigurationHelper $configurationHelper
+                                ConfigurationHelper $configurationHelper,
+                                PaginatorInterface $paginator
+
     )
     {
         $this->instanceManager = $instanceManager;
         $this->entityManager = $entityManager;
         $this->configurationHelper = $configurationHelper;
+        $this->paginator=$paginator;
     }
+   public function getConfigurationHelper(){
+        return $this->configurationHelper;
+   }
 
     protected function getDirectory()
     {
@@ -116,8 +129,8 @@ abstract class BaseController extends AbstractController
             $query = $this->filter($name, $filter_form, $query);
         }
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+    //    $paginator = $this->get('knp_paginator');
+        $pagination = $this->paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
 
         return array(
             'pagination' => $pagination,
