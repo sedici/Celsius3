@@ -91,7 +91,9 @@ abstract class BaseController extends AbstractController
     {  // dump($name);die;
         $valor="Celsius3\\Entity\\".$name;
         $class = new \ReflectionClass($valor);
-       // dump($valor);die;
+       dump($class);
+       die();
+        // dump($valor);die;
         return $this->getDoctrine()->getManager()
                     ->getRepository($class)
                     ->createQueryBuilder('e');
@@ -101,10 +103,11 @@ abstract class BaseController extends AbstractController
     {
         //dump($name.':class');
        // die();
-            dump($name.'::class');
-            die;
+       //     dump($name.'::class');
+
+           // die;
         return $this->getDoctrine()->getManager()
-                    ->getRepository($name.'::class')
+                    ->getRepository(Instance::class)
                     ->find($id);
     }
 
@@ -131,7 +134,6 @@ abstract class BaseController extends AbstractController
     protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
     {
 
-        $query=array();
         $query = $this->listQuery($name);
         $request = $this->get('request_stack')->getCurrentRequest();
       //  dump($query);

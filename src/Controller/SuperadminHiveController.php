@@ -22,6 +22,9 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -36,6 +39,35 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminHiveController extends BaseController
 {
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    public function __construct(
+        PaginatorInterface $paginator,
+        EntityManagerInterface $entityManager,
+        ConfigurationHelper $configurationHelper
+
+    ) {
+        $this->paginator = $paginator;
+        $this->entityManager = $entityManager;
+        $this->setConfigurationHelper($configurationHelper);
+
+    }
+
+
+
+
     protected function getSortDefaults()
     {
         return array(
@@ -51,7 +83,7 @@ class SuperadminHiveController extends BaseController
      */
     public function index(): Response
     {
-        return $this->render('Superadmin/Hive/index.html.twig', $this->baseIndex('Hive'));
+        return $this->render('Superadmin/Hive/index.html.twig', $this->baseIndex('Hive',null, $this->paginator));
     }
 
     /**
