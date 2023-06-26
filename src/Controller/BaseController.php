@@ -73,6 +73,9 @@ abstract class BaseController extends AbstractController
    public function getConfigurationHelper(){
         return $this->configurationHelper;
    }
+    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
+        return $this->configurationHelper=$configurationHelper;
+    }
 
     protected function getDirectory()
     {
@@ -89,21 +92,26 @@ abstract class BaseController extends AbstractController
         $valor="Celsius3\\Entity\\".$name;
         $class = new \ReflectionClass($valor);
        // dump($valor);die;
-        return $this->entityManager
+        return $this->getDoctrine()->getManager()
                     ->getRepository($class)
                     ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->entityManager
-                    ->getRepository($this->getBundle().':'.$name)
+        //dump($name.':class');
+       // die();
+            dump($name.'::class');
+            die;
+        return $this->getDoctrine()->getManager()
+                    ->getRepository($name.'::class')
                     ->find($id);
     }
 
     protected function getResultsPerPage()
     {
-        return $this->configurationHelper
+
+        return $this->getConfigurationHelper()
             ->getCastedValue($this->getDirectory()->get('results_per_page'));
     }
 
@@ -120,17 +128,22 @@ abstract class BaseController extends AbstractController
        // return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius\\Entity\\'.$name);
     }
 
-    protected function baseIndex($name, FormInterface $filter_form = null)
+    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
     {
+
+        $query=array();
         $query = $this->listQuery($name);
         $request = $this->get('request_stack')->getCurrentRequest();
+      //  dump($query);
         if (!is_null($filter_form)) {
             $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filter($name, $filter_form, $query);
+          //  $query = $this->filter($name, $filter_form, $query);
         }
-
+      //  dump($query);
+       // die();
     //    $paginator = $this->get('knp_paginator');
-        $pagination = $this->paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+
+        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
 
         return array(
             'pagination' => $pagination,

@@ -27,8 +27,10 @@ use Celsius3\Entity\Institution;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Form\Type\InstanceType;
+use Celsius3\Helper\ConfigurationHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -36,6 +38,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Translator;
 use Knp\Component\Pager\PaginatorInterface;
+
 /**
  * Instance controller.
  *
@@ -43,6 +46,32 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class SuperadminInstanceController extends InstanceController
 {
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    public function __construct(
+        PaginatorInterface $paginator,
+        EntityManagerInterface $entityManager,
+        ConfigurationHelper $configurationHelper
+
+    ) {
+        $this->paginator = $paginator;
+        $this->entityManager = $entityManager;
+        $this->setConfigurationHelper($configurationHelper);
+
+    }
+
     protected function getSortDefaults()
     {
         return array(
@@ -56,11 +85,11 @@ class SuperadminInstanceController extends InstanceController
      *
      * @Route("/", name="superadmin_instance")
      */
-    public function index(PaginatorInterface $paginator): Response
+    public function index(): Response
     {
         return $this->render(
             'Superadmin/Instance/index.html.twig',
-            $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class),$paginator)
+            $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class), $this->paginator)
         );
     }
 

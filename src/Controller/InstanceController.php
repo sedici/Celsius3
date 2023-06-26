@@ -60,12 +60,14 @@ abstract class InstanceController extends BaseController
 
     protected function getDirectory()
     {
-        return $this->instanceManager->getDirectory();
+        return  $this->getDoctrine()->getManager()->getRepository(Instance::class)
+            ->findOneBy(array('url' => 'directory'));
+     //   return $this->instanceManager->getDirectory();
     }
 
     protected function listQuery($name)
     {
-        $qb = $this->entityManager
+        $qb = $this->getDoctrine()->getManager()
                  ->getRepository(Instance::class)
                  ->createQueryBuilder('e')
                 ->where('e.id != :id')
