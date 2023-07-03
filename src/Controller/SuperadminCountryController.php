@@ -22,6 +22,8 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -37,6 +39,22 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminCountryController extends BaseController
 {
+
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    public function __construct(
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper
+
+    ) {
+        $this->paginator = $paginator;
+
+        $this->setConfigurationHelper($configurationHelper);
+
+    }
     protected function getSortDefaults()
     {
         return array(
@@ -54,7 +72,7 @@ class SuperadminCountryController extends BaseController
     {
         return $this->render(
             'Superadmin/Country/index.html.twig',
-            $this->baseIndex('Country', $this->createForm(CountryFilterType::class))
+            $this->baseIndex('Country', $this->createForm(CountryFilterType::class),$this->paginator)
         );
     }
 

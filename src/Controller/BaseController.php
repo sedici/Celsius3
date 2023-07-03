@@ -91,8 +91,6 @@ abstract class BaseController extends AbstractController
     {  // dump($name);die;
         $valor="Celsius3\\Entity\\".$name;
         $class = new \ReflectionClass($valor);
-       dump($class);
-       die();
         // dump($valor);die;
         return $this->getDoctrine()->getManager()
                     ->getRepository($class)
