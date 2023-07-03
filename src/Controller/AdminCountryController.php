@@ -22,6 +22,9 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -37,6 +40,27 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminCountryController extends BaseInstanceDependentController
 {
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    public function __construct(
+        PaginatorInterface $paginator,
+        InstanceHelper $configurationHelper
+
+    ) {
+        $this->paginator = $paginator;
+        $this->configurationHelper=$configurationHelper;
+      //  dump($configurationHelper);
+      //  die();
+      //  $this->setConfigurationHelper($configurationHelper);
+
+    }
+
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()

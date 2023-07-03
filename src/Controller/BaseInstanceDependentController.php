@@ -26,12 +26,42 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
+
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+
+    /**
+     * @var Paginator
+     */
+    private $paginator;
+
+
+    public function __construct(InstanceHelper $configurationHelper,
+                                PaginatorInterface $paginator
+
+    )
+    {
+        $this->configurationHelper = $configurationHelper;
+        $this->paginator=$paginator;
+    }
+
+    public function setConfigurationHelper(InstanceHelper $configurationHelper){
+        return $this->configurationHelper=$configurationHelper;
+    }
+    public function getConfigurationHelper(){
+        return $this->configurationHelper;
+    }
+
     protected function listQuery($name)
     {
         return parent::listQuery($name)
@@ -41,6 +71,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getInstance(): Instance
     {
+       // dump($this->getConfigurationHelper());die();
         return $this->getConfigurationHelper()->getSessionInstance();
     }
 
