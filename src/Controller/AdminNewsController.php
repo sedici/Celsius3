@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -41,11 +42,11 @@ class AdminNewsController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_news")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator)
     {
         return $this->render(
             'Admin/News/index.html.twig',
-            $this->baseIndex('News', $this->createForm(NewsFilterType::class))
+            $this->baseIndex('News', $this->createForm(NewsFilterType::class),$paginator)
         );
     }
 

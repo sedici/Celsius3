@@ -91,8 +91,9 @@ abstract class BaseController extends AbstractController
     protected function listQuery($name)
     {  // dump($name);die;
         $valor="Celsius3\\Entity\\".$name;
+        //dump($valor); die;
         $class = new \ReflectionClass($valor);
-        // dump($valor);die;
+     //   dump($class);die;
         return $this->getDoctrine()->getManager()
                     ->getRepository($class)
                     ->createQueryBuilder('e');
