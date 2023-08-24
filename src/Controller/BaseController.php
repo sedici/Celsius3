@@ -24,6 +24,7 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,8 +61,9 @@ abstract class BaseController extends AbstractController
 
     public function __construct(InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
-                                ConfigurationHelper $configurationHelper,
+                                InstanceHelper $configurationHelper,
                                 PaginatorInterface $paginator
+
 
     )
     {
@@ -73,7 +75,7 @@ abstract class BaseController extends AbstractController
    public function getConfigurationHelper(){
         return $this->configurationHelper;
    }
-    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
+    public function setConfigurationHelper(InstanceHelper $configurationHelper){
         return $this->configurationHelper=$configurationHelper;
     }
 
