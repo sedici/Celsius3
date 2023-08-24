@@ -80,9 +80,9 @@ class AdminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function intercambioUI()
+    public function intercambioUI(InstanceHelper   $instanceHelper)
     {
-        $instance = $this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+        $instance = $instanceHelper->getSessionOrUrlInstance();
         $paisRepository = $this->getDoctrine()->getManager()->getRepository(Country::class);
         $country = $paisRepository->findForInstanceAndGlobal($instance, $this->getDirectory())->getQuery()->execute();
 
