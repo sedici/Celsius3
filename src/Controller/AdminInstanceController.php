@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Country;
+use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -46,11 +47,11 @@ class AdminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configure()
+    public function configure(ConfigurationHelper  $configurationHelper)
     {
         return $this->render(
             'Admin/Instance/configure.html.twig',
-            $this->baseConfigure($this->get('session')->get('instance_id'))
+            $this->baseConfigure($this->get('session')->get('instance_id'),$configurationHelper)
         );
     }
 

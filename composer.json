@@ -25,7 +25,7 @@
     "egulias/email-validator": "^2.1",
     "enqueue/fs": "^0.10",
     "excelwebzone/recaptcha-bundle": "^1.4",
-    "friendsofsymfony/elastica-bundle": "^6.0",
+    "friendsofsymfony/elastica-bundle": "^6.3",
     "friendsofsymfony/jsrouting-bundle": "^2.8",
     "friendsofsymfony/oauth-server-bundle": "dev-master",
     "friendsofsymfony/rest-bundle": "^3.3",

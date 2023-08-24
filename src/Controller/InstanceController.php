@@ -89,12 +89,12 @@ abstract class InstanceController extends BaseController
      *
      * @return array con la estructura esperada por el metodo add de FormBuilder
      */
-    private function buildConfigurationArray($configuration, $configurationType)
+    private function buildConfigurationArray($configuration, $configurationType,ConfigurationHelper  $configurationHelper)
     {
-        $configs = $this->get('celsius3_core.configuration_helper')->configurations;
+        $configs = $configurationHelper->configurations;
         $config_array = array(
-            'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
-            'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
+            'constraints' => $configurationHelper->getConstraints($configuration),
+            'data' => $configurationHelper->getCastedValue($configuration),
             /** @Ignore */
             'label' => $configuration->getName(),
             'required' => array_key_exists($configuration->getKey(), $configs) && isset($configs[$configuration->getKey()]['required']) ? $configs[$configuration->getKey()]['required'] : false,
@@ -116,19 +116,19 @@ abstract class InstanceController extends BaseController
         return $config_array;
     }
 
-    private function getConfigurationForm($id, $entity)
+    private function getConfigurationForm($id, $entity,ConfigurationHelper  $configurationHelper)
     {
         $builder = $this->createFormBuilder();
 
         foreach ($entity->getConfigurations() as $configuration) {
-            $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
-            $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType));
+            $configurationType = $configurationHelper->guessConfigurationType($configuration);
+            $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType,$configurationHelper));
         }
 
         return $builder->getForm();
     }
 
-    protected function baseConfigure($id)
+    protected function baseConfigure($id,ConfigurationHelper  $configurationHelper)
     {
         $entity = $this->findQuery('Instance', $id);
 
@@ -136,7 +136,7 @@ abstract class InstanceController extends BaseController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
         }
 
-        $configureForm = $this->getConfigurationForm($id, $entity);
+        $configureForm = $this->getConfigurationForm($id, $entity,$configurationHelper);
 
         return array(
             'entity' => $entity,
