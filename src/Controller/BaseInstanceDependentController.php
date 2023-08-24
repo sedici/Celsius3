@@ -55,7 +55,7 @@ abstract class BaseInstanceDependentController extends BaseController
         $this->paginator=$paginator;
     }
 
-    public function setConfigurationHelper(InstanceHelper $configurationHelper){
+    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
         return $this->configurationHelper=$configurationHelper;
     }
     public function getConfigurationHelper(){

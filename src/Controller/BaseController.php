@@ -75,7 +75,7 @@ abstract class BaseController extends AbstractController
    public function getConfigurationHelper(){
         return $this->configurationHelper;
    }
-    public function setConfigurationHelper(InstanceHelper $configurationHelper){
+    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
         return $this->configurationHelper=$configurationHelper;
     }
 
