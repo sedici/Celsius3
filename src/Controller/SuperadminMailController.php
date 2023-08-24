@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -40,8 +41,9 @@ class SuperadminMailController extends BaseController
 {
     protected function listQuery($name)
     {
+
         return $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3:'.$name)
+            ->getRepository(MailTemplate::class)
             ->createQueryBuilder('e')
             ->where('e.instance = :instance')
             ->setParameter('instance', $this->getDirectory()->getId());
@@ -52,11 +54,11 @@ class SuperadminMailController extends BaseController
      *
      * @Route("/", name="superadmin_mails")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Superadmin/Mail/index.html.twig',
-            $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class))
+            $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class), $paginator)
         );
     }
 

@@ -61,10 +61,9 @@ abstract class BaseController extends AbstractController
 
     public function __construct(InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
-                                InstanceHelper $configurationHelper,
-                                PaginatorInterface $paginator
-
-
+                                InstanceHelper $instanceHelper,
+                                PaginatorInterface $paginator,
+                                ConfigurationHelper  $configurationHelper
     )
     {
         $this->instanceManager = $instanceManager;
