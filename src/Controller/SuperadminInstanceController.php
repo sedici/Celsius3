@@ -28,6 +28,7 @@ use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Form\Type\InstanceType;
 use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,12 +61,20 @@ class SuperadminInstanceController extends InstanceController
      * @var ConfigurationHelper
      */
     private $configurationHelper;
+    /**
+     * @var InstanceHelper
+     */
+    private $instanceHelper;
+
+
     public function __construct(
         PaginatorInterface $paginator,
         EntityManagerInterface $entityManager,
-        ConfigurationHelper $configurationHelper
+        ConfigurationHelper $configurationHelper,
+        InstanceHelper $instanceHelper
 
     ) {
+        $this->instanceHelper= $instanceHelper;
         $this->paginator = $paginator;
         $this->entityManager = $entityManager;
         $this->setConfigurationHelper($configurationHelper);
@@ -331,7 +340,7 @@ class SuperadminInstanceController extends InstanceController
         $this->get('session')->set('instance_url', $entity->getUrl());
         $this->get('session')->set('instance_host', $entity->getHost());
 
-        $this->get('session')->set('admin_instance', $this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance());
+        $this->get('session')->set('admin_instance', $this->instanceHelper->getSessionOrUrlInstance());
 
         return $this->redirect($this->generateUrl('administration'));
     }
