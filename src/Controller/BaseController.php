@@ -37,6 +37,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Symfony\Component\Translation\Translator;
+use Celsius3\Entity\Country;
 
 abstract class BaseController extends AbstractController
 {
@@ -89,11 +90,10 @@ abstract class BaseController extends AbstractController
     }
 
     protected function listQuery($name)
-    {  // dump($name);die;
-        $valor="Celsius3\\Entity\\".$name;
-        //dump($valor); die;
+    {
+        $valor=$name;
+        die($valor);
         $class = new \ReflectionClass($valor);
-     //   dump($class);die;
         return $this->getDoctrine()->getManager()
                     ->getRepository($class)
                     ->createQueryBuilder('e');

@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -50,11 +51,11 @@ class SuperadminCityController extends BaseController
      *
      * @Route("/", name="superadmin_city")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Superadmin/City/index.html.twig',
-            $this->baseIndex('City', $this->createForm(CityFilterType::class))
+            $this->baseIndex('City', $this->createForm(CityFilterType::class),$paginator)
         );
     }
 
