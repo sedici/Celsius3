@@ -31,7 +31,7 @@ use Celsius3\Form\Type\InstitutionType;
 use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Form\FormInterface;
 /**
  * Location controller.
  *
@@ -59,7 +59,34 @@ class SuperadminInstitutionController extends BaseController
             $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class),$paginator)
         );
     }
+    protected function listQuery($name)
+    {
+        $valor=$name;
+    //    $class = new \ReflectionClass($valor);
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Institution::class)
+            ->createQueryBuilder('e');
+    }
 
+
+    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
+    {
+
+        $query = $this->listQuery($name);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        if (!is_null($filter_form)) {
+            $filter_form = $filter_form->handleRequest($request);
+            //  $query = $this->filter($name, $filter_form, $query);
+        }
+        //    $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+
+        return array(
+            'pagination' => $pagination,
+            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
+        );
+    }
     /**
      * Displays a form to create a new Institution entity.
      *
