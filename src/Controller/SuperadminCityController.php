@@ -30,7 +30,7 @@ use Celsius3\Entity\City;
 use Celsius3\Form\Type\CityType;
 use Celsius3\Form\Type\Filter\CityFilterType;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Form\FormInterface;
 /**
  * Location controller.
  *
@@ -59,6 +59,34 @@ class SuperadminCityController extends BaseController
         );
     }
 
+    protected function listQuery($name)
+    {
+        $valor=$name;
+        //$class = new \ReflectionClass($valor);
+        return $this->getDoctrine()->getManager()
+            ->getRepository(City::class)
+            ->createQueryBuilder('e');
+    }
+
+
+    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
+    {
+
+        $query = $this->listQuery($name);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        if (!is_null($filter_form)) {
+            $filter_form = $filter_form->handleRequest($request);
+            //  $query = $this->filter($name, $filter_form, $query);
+        }
+        //    $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+
+        return array(
+            'pagination' => $pagination,
+            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
+        );
+    }
     /**
      * Displays a form to create a new City entity.
      *
