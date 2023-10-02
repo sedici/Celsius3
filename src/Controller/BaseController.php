@@ -92,7 +92,6 @@ abstract class BaseController extends AbstractController
     protected function listQuery($name)
     {
         $valor=$name;
-        die($valor);
         $class = new \ReflectionClass($valor);
         return $this->getDoctrine()->getManager()
                     ->getRepository($class)
@@ -136,14 +135,11 @@ abstract class BaseController extends AbstractController
 
         $query = $this->listQuery($name);
         $request = $this->get('request_stack')->getCurrentRequest();
-      //  dump($query);
         if (!is_null($filter_form)) {
             $filter_form = $filter_form->handleRequest($request);
           //  $query = $this->filter($name, $filter_form, $query);
         }
-      //  dump($query);
-       // die();
-    //    $paginator = $this->get('knp_paginator');
+       //    $paginator = $this->get('knp_paginator');
 
         $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
 

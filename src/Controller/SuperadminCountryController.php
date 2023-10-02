@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,6 +32,7 @@ use Celsius3\Entity\Country;
 use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * Order controller.
@@ -45,13 +47,17 @@ class SuperadminCountryController extends BaseController
      */
     private $paginator;
 
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
     public function __construct(
         PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper
-
+        ConfigurationHelper $configurationHelper,
+        InstanceManager $instanceManager
     ) {
         $this->paginator = $paginator;
-
+        $this->instanceManager=$instanceManager;
         $this->setConfigurationHelper($configurationHelper);
 
     }
@@ -62,6 +68,36 @@ class SuperadminCountryController extends BaseController
             'defaultSortDirection' => 'asc',
         );
     }
+
+    protected function listQuery($name)
+    {
+        $valor=$name;
+//        $class = new \ReflectionClass($valor);
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Country::class)
+            ->createQueryBuilder('e');
+    }
+
+
+    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
+    {
+
+        $query = $this->listQuery($name);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        if (!is_null($filter_form)) {
+            $filter_form = $filter_form->handleRequest($request);
+            //  $query = $this->filter($name, $filter_form, $query);
+        }
+        //    $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+
+        return array(
+            'pagination' => $pagination,
+            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
+        );
+    }
+
 
     /**
      * Lists all Country entities.
@@ -75,7 +111,10 @@ class SuperadminCountryController extends BaseController
             $this->baseIndex('Country', $this->createForm(CountryFilterType::class),$this->paginator)
         );
     }
-
+    protected function getDirectory()
+    {
+        return $this->instanceManager->getDirectory();
+    }
     /**
      * Displays a form to create a new Country entity.
      *
