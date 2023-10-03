@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -45,16 +46,25 @@ class SuperadminJournalController extends BaseController
         );
     }
 
+    protected function listQuery($name)
+    {
+        $valor=$name;
+       // $class = new \ReflectionClass($valor);
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Journal::class)
+            ->createQueryBuilder('e');
+    }
+
     /**
      * Lists all Journal entities.
      *
      * @Route("/", name="superadmin_journal")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Superadmin/Journal/index.html.twig',
-            $this->baseIndex('Journal', $this->createForm(JournalFilterType::class))
+            $this->baseIndex('Journal', $this->createForm(JournalFilterType::class),$paginator)
         );
     }
 
