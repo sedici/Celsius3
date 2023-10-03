@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Instance;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -76,6 +77,18 @@ class SuperadminMailController extends BaseController
             ])
         );
     }
+    protected function findQuery($name, $id)
+    {
+        //dump($name.':class');
+        // die();
+        //     dump($name.'::class');
+
+        // die;
+        return $this->getDoctrine()->getManager()
+            ->getRepository(MailTemplate::class)
+            ->find($id);
+    }
+
 
     /**
      * Displays a form to edit an existing mail template.
