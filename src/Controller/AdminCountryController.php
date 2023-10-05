@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Exception\Exception;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Knp\Component\Pager\PaginatorInterface;
@@ -125,6 +126,31 @@ class AdminCountryController extends BaseInstanceDependentController
             'instance' => $this->getInstance(),
         ), 'admin_country'));
     }
+
+    protected function findQuery($name, $id)
+    {
+
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Country::class)
+            ->find($id);
+    }
+    protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
+    {
+        $entity = $this->findQuery($name, $id);
+
+        if (!$entity) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
+        }
+
+        $editForm = $this->createForm($type, $entity, $options);
+
+        return array(
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
+            'route' => $route,
+        );
+    }
+
 
     /**
      * Displays a form to edit an existing Country entity.
