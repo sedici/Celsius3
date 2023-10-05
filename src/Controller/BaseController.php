@@ -36,8 +36,8 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
-use Symfony\Component\Translation\Translator;
-
+use Symfony\Contracts\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Celsius3\Entity\Country;
 
 abstract class BaseController extends AbstractController
@@ -66,10 +66,11 @@ abstract class BaseController extends AbstractController
     private $translator;
 
     public function __construct(InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
+                                EntityManagerInterface $entityManager,
                                 InstanceHelper $instanceHelper,
                                 PaginatorInterface $paginator,
-                                ConfigurationHelper  $configurationHelper
+                                ConfigurationHelper  $configurationHelper,
+                                TranslatorInterface $translator
 
     )
     {
@@ -77,6 +78,8 @@ abstract class BaseController extends AbstractController
         $this->entityManager = $entityManager;
         $this->configurationHelper = $configurationHelper;
         $this->paginator=$paginator;
+        $this->translator=$translator;
+        dump($this->translator);die;
 
     }
    public function getConfigurationHelper(){
@@ -84,6 +87,10 @@ abstract class BaseController extends AbstractController
    }
     public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
         return $this->configurationHelper=$configurationHelper;
+    }
+
+    public function setTranslator(TranslatorInterface $translator){
+        $this->translator=$translator;
     }
 
     protected function getDirectory()
@@ -107,11 +114,6 @@ abstract class BaseController extends AbstractController
 
     protected function findQuery($name, $id)
     {
-        //dump($name.':class');
-       // die();
-       //     dump($name.'::class');
-
-           // die;
         return $this->getDoctrine()->getManager()
                     ->getRepository(Instance::class)
                     ->find($id);
@@ -233,7 +235,8 @@ abstract class BaseController extends AbstractController
     protected function baseUpdate($name, $id, $type, array $options, $route)
     {
         /** @var $translator Translator */
-        $translator = $this->get('translator');
+
+        $translator = $this->translator;
 
         $entity = $this->findQuery($name, $id);
 

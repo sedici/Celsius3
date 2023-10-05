@@ -27,7 +27,8 @@ use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
 use Celsius3\Controller\Mixin\FileControllerTrait;
 use Celsius3\Exception\NotFoundException;
-
+use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * File controller.
  *
@@ -35,6 +36,26 @@ use Celsius3\Exception\NotFoundException;
  */
 class AdminFileController extends BaseController
 {
+
+
+
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(
+        TranslatorInterface $translator
+
+    )
+    {
+        $this->translator=$translator;
+        $this->setTranslator($translator);
+
+    }
+
+
+
 
     use FileControllerTrait;
 

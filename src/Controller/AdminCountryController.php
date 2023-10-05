@@ -34,6 +34,7 @@ use Celsius3\Entity\Country;
 use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 /**
@@ -51,16 +52,23 @@ class AdminCountryController extends BaseInstanceDependentController
      * @var ConfigurationHelper
      */
     private $configurationHelper;
+    /**
+     * @var Translator
+     */
+    private $translator;
     public function __construct(
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        TranslatorInterface $translator
 
     ) {
         $this->paginator = $paginator;
         $this->configurationHelper=$configurationHelper;
         $this->setIntanceHelper($instanceHelper);
         $this->setConfigurationHelper($configurationHelper);
+        $this->translator=$translator;
+        $this->setTranslator($translator);
 
     }
     protected function getDirectory()
