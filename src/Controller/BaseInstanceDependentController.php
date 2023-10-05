@@ -68,8 +68,7 @@ abstract class BaseInstanceDependentController extends BaseController
     }
 
     public function setIntanceHelper(InstanceHelper $intanceHelper){
-
-        return $this->intanceHelper=$intanceHelper;
+        return $this->instanceHelper=$intanceHelper;
     }
 
 
@@ -91,6 +90,8 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getInstance(): Instance
     {
+     //   dump($this->getInstanceHelper());
+      //  die();
         return $this->getInstanceHelper()->getSessionInstance();
     }
 

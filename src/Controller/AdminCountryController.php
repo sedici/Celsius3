@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Knp\Component\Pager\PaginatorInterface;
@@ -61,11 +62,14 @@ class AdminCountryController extends BaseInstanceDependentController
         $this->setConfigurationHelper($configurationHelper);
 
     }
-
+    protected function getDirectory()
+    {
+        return $this->getDoctrine()->getManager()->getRepository(Instance::class)->findOneBy(array('url' => 'directory'));;
+    }
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
+                        ->getRepository(Country::class)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
@@ -90,8 +94,8 @@ class AdminCountryController extends BaseInstanceDependentController
                 'Country',
                 $this->createForm(CountryFilterType::class, null, [
                     'instance' => $this->getInstance(),
-                ])
-            ),$paginator
+                ]),$paginator
+            )
         );
     }
 
