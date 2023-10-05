@@ -41,26 +41,46 @@ abstract class BaseInstanceDependentController extends BaseController
     private $configurationHelper;
 
     /**
+     * @var ConfigurationHelper
+     */
+    private $instanceHelper;
+
+    /**
      * @var Paginator
      */
     private $paginator;
 
 
-    public function __construct(InstanceHelper $configurationHelper,
-                                PaginatorInterface $paginator
+    public function __construct(InstanceHelper $instanceHelper,
+                                PaginatorInterface $paginator,
+    ConfigurationHelper $configurationHelper
 
     )
     {
         $this->configurationHelper = $configurationHelper;
         $this->paginator=$paginator;
+        $this->instanceHelper=$instanceHelper;
     }
 
     public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
+
         return $this->configurationHelper=$configurationHelper;
     }
+
+    public function setIntanceHelper(InstanceHelper $intanceHelper){
+
+        return $this->intanceHelper=$intanceHelper;
+    }
+
+
     public function getConfigurationHelper(){
         return $this->configurationHelper;
     }
+
+    public function getInstanceHelper(){
+        return $this->instanceHelper;
+    }
+
 
     protected function listQuery($name)
     {
@@ -71,8 +91,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getInstance(): Instance
     {
-       // dump($this->getConfigurationHelper());die();
-        return $this->getConfigurationHelper()->getSessionInstance();
+        return $this->getInstanceHelper()->getSessionInstance();
     }
 
     protected function findQuery($name, $id)
@@ -89,7 +108,8 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get(FilterManager::class)
+        return $this->getDoctrine()->getManager()
+            ->getRepository(FilterManager::class)
             ->filter($query, $filter_form, 'Celsius3\\Entity\\'.$name, $this->getInstance());
     }
 }

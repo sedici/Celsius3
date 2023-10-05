@@ -125,7 +125,7 @@ class SuperadminCountryController extends BaseController
     public function new(): Response
     {
         return $this->render(
-            'Admin/Institution/new.html.twig',
+            'Superadmin/Country/new.html.twig',
             $this->baseNew('Country', new Country(), CountryType::class, [
                 'instance' => $this->getDirectory(),
             ])

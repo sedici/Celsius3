@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Helper\ConfigurationHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -30,7 +31,7 @@ use Celsius3\Form\Type\CityType;
 use Celsius3\Form\Type\Filter\CityFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
-
+use Celsius3\Manager\InstanceManager;
 /**
  * Location controller.
  *
@@ -38,13 +39,33 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class AdminCityController extends BaseInstanceDependentController
 {
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
+    public function __construct(
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        InstanceManager $instanceManager
+    ) {
+      $this->instanceManager=$instanceManager;
+        $this->setConfigurationHelper($configurationHelper);
+
+    }
+
+
+
+
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
+                        ->getRepository(City::class)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
-
+    protected function getDirectory()
+    {
+        return $this->instanceManager->getDirectory();
+    }
     protected function getSortDefaults()
     {
         return array(

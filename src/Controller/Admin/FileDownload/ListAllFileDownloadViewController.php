@@ -26,9 +26,20 @@ namespace Celsius3\Controller\Admin\FileDownload;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
 use Symfony\Component\HttpFoundation\Response;
+use Celsius3\Entity\FileDownload;
+
 
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
+
+    protected function listQuery($name)
+    {
+        $valor=$name;
+        return $this->getDoctrine()->getManager()
+            ->getRepository(FileDownload::class)
+            ->createQueryBuilder('e');
+    }
+
     public function __invoke(): ?Response
     {
         $filter_form = $this->createForm(

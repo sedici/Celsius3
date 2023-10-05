@@ -37,6 +37,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Symfony\Component\Translation\Translator;
+
 use Celsius3\Entity\Country;
 
 abstract class BaseController extends AbstractController
@@ -59,18 +60,24 @@ abstract class BaseController extends AbstractController
      */
     private $paginator;
 
+    /**
+     * @var Translator
+     */
+    private $translator;
 
     public function __construct(InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
                                 InstanceHelper $instanceHelper,
                                 PaginatorInterface $paginator,
                                 ConfigurationHelper  $configurationHelper
+
     )
     {
         $this->instanceManager = $instanceManager;
         $this->entityManager = $entityManager;
         $this->configurationHelper = $configurationHelper;
         $this->paginator=$paginator;
+
     }
    public function getConfigurationHelper(){
         return $this->configurationHelper;

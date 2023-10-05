@@ -33,6 +33,7 @@ use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\Response;
 
+
 /**
  * Order controller.
  *
@@ -50,14 +51,14 @@ class AdminCountryController extends BaseInstanceDependentController
     private $configurationHelper;
     public function __construct(
         PaginatorInterface $paginator,
-        InstanceHelper $configurationHelper
+        ConfigurationHelper $configurationHelper,
+        InstanceHelper $instanceHelper
 
     ) {
         $this->paginator = $paginator;
         $this->configurationHelper=$configurationHelper;
-      //  dump($configurationHelper);
-      //  die();
-      //  $this->setConfigurationHelper($configurationHelper);
+        $this->setIntanceHelper($instanceHelper);
+        $this->setConfigurationHelper($configurationHelper);
 
     }
 
@@ -81,7 +82,7 @@ class AdminCountryController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_country")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Admin/Country/index.html.twig',
@@ -90,7 +91,7 @@ class AdminCountryController extends BaseInstanceDependentController
                 $this->createForm(CountryFilterType::class, null, [
                     'instance' => $this->getInstance(),
                 ])
-            )
+            ),$paginator
         );
     }
 

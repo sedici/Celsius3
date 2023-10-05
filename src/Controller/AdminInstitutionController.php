@@ -22,6 +22,8 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Instance;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -38,10 +40,17 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminInstitutionController extends BaseInstanceDependentController
 {
+
+
+    protected function getDirectory()
+    {
+        return $this->getDoctrine()->getManager()->getRepository(Instance::class)->findOneBy(array('url' => 'directory'));;
+    }
+
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
+                        ->getRepository(Institution::class)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
@@ -58,7 +67,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_institution")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator)
     {
         return $this->render(
             'Admin/Institution/index.html.twig',
@@ -66,7 +75,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
                 'Institution',
                 $this->createForm(InstitutionFilterType::class, null, array(
                     'instance' => $this->getInstance(),
-                ))
+                )),$paginator
             )
         );
     }
