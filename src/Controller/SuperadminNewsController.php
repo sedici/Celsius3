@@ -29,6 +29,7 @@ use Celsius3\Entity\News;
 use Celsius3\Form\Type\NewsType;
 use Celsius3\Form\Type\Filter\NewsFilterType;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * News controller.
@@ -40,7 +41,7 @@ class SuperadminNewsController extends BaseController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
+                        ->getRepository(News::class)
                         ->createQueryBuilder('e')
                         ->where('e.instance = :instance')->setParameter('instance', $this->getDirectory()->getId());
     }
@@ -50,11 +51,11 @@ class SuperadminNewsController extends BaseController
      *
      * @Route("/", name="superadmin_news")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator)
     {
         return $this->render(
             'Superadmin/News/index.html.twig',
-            $this->baseIndex('News', $this->createForm(NewsFilterType::class))
+            $this->baseIndex('News', $this->createForm(NewsFilterType::class),$paginator)
         );
     }
 
