@@ -39,6 +39,15 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminCatalogController extends BaseController
 {
+
+    protected function listQuery($name)
+    {
+        $valor=$name;
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Catalog::class)
+            ->createQueryBuilder('e');
+    }
+
     /**
      * Lists all Catalog entities.
      *
