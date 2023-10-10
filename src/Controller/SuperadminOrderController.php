@@ -24,6 +24,7 @@ namespace Celsius3\Controller;
 
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Helper\ConfigurationHelper;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -47,7 +48,7 @@ class SuperadminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
+                        ->getRepository(Order::class)
                         ->createQueryBuilder('e')
                         ->select('e, r, m')
                         ->join('e.requests', 'r')
@@ -84,12 +85,12 @@ class SuperadminOrderController extends OrderController
      *
      * @Route("/", name="superadmin_order")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         $this->getDoctrine()->getManager()->getFilters()->disable('softdeleteable');
         return $this->render(
             'Superadmin/Order/index.html.twig',
-            $this->baseIndex('Order', $this->createForm(OrderFilterType::class))
+            $this->baseIndex('Order', $this->createForm(OrderFilterType::class),$paginator)
         );
     }
 

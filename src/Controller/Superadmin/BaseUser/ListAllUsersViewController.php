@@ -44,7 +44,7 @@ final class ListAllUsersViewController extends AbstractController
         FilterManager $filterManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
-        string $maxPerPage
+        int $maxPerPage
     ) {
         $this->filterManager = $filterManager;
         $this->entityManager = $entityManager;
