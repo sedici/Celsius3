@@ -23,9 +23,10 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Form\Type\Filter\MailFilterType;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-
+use Celsius3\Entity\Email;
 /**
  * MailList controller.
  *
@@ -33,16 +34,26 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminMailListController extends BaseController
 {
+
+
+    protected function listQuery($name)
+    {
+        $valor=$name;
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Email::class)
+            ->createQueryBuilder('e');
+    }
+
     /**
      * Lists all Mail entities.
      *
      * @Route("/", name="superadmin_maillist")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
         return $this->render(
             'Superadmin/MailList/index.html.twig',
-            $this->baseIndex('Email', $this->createForm(MailFilterType::class))
+            $this->baseIndex('Email', $this->createForm(MailFilterType::class),$paginator)
         );
     }
 }
