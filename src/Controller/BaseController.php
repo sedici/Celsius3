@@ -79,7 +79,7 @@ abstract class BaseController extends AbstractController
         $this->configurationHelper = $configurationHelper;
         $this->paginator=$paginator;
         $this->translator=$translator;
-        dump($this->translator);die;
+
 
     }
    public function getConfigurationHelper(){
