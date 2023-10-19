@@ -2,7 +2,8 @@ var userApp = angular.module('userApp', [
     'pascalprecht.translate',
     'ngResource',
     'ui.bootstrap',
-    'boxuk.translation'
+    'boxuk.translation',
+    'ngRoute'
 ]);
 
 userApp.config(['$translateProvider',

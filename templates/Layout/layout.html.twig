@@ -34,6 +34,7 @@
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/html5shiv.js') }}"></script>
+
         <script type="text/javascript"
                 src="{{ asset('bundles/celsius3core/js/respond.min.js') }}"></script> <![endif]-->
         <style>
@@ -187,6 +188,10 @@
     {% include 'Layout/table.html.twig' %}
     {% include 'Layout/mail.html.twig' %}
     {% include 'Notification/notification.html.twig' %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script type="text/javascript" src="//code.angularjs.org/1.8.2/angular-route.js"></script>
+
 
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>
