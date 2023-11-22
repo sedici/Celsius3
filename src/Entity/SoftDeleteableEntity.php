@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait SoftDeleteableEntity
 {
     /**
-     * @ORM\Column(name="deletedAt",type="datetime", nullable=true)
+     * @ORM\Column(name="deleted_at",type="datetime", nullable=true)
      *
      * @var DateTime|null
      */
