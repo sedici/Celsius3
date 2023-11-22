@@ -57,7 +57,7 @@ class City
     private $name;
 
     /**
-     * @ORM\Column(name="postalCode", type="string", length=255, nullable=true)
+     * @ORM\Column(name="postal_code", type="string", length=255, nullable=true)
      */
     private $postalCode;
 
