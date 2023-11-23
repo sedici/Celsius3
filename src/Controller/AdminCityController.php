@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -32,6 +33,7 @@ use Celsius3\Form\Type\Filter\CityFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Manager\InstanceManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Location controller.
  *
@@ -43,14 +45,33 @@ class AdminCityController extends BaseInstanceDependentController
      * @var InstanceManager
      */
     private $instanceManager;
+
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    /**
+     * @var Translator
+     */
+    private $translator;
     public function __construct(
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
+        InstanceHelper $instanceHelper,
+        TranslatorInterface $translator,
         InstanceManager $instanceManager
     ) {
-      $this->instanceManager=$instanceManager;
+        $this->paginator = $paginator;
+        $this->configurationHelper=$configurationHelper;
+        $this->setIntanceHelper($instanceHelper);
         $this->setConfigurationHelper($configurationHelper);
-
+        $this->translator=$translator;
+        $this->setTranslator($translator);
+        $this->instanceManager=$instanceManager;
     }
 
 
