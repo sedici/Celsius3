@@ -66,7 +66,7 @@ class Thread
     protected $metadata;
 
     /**
-     * @ORM\Column(name="createdAt",  type="datetime")
+     * @ORM\Column(name="created_at",  type="datetime")
      */
     protected $createdAt;
     /**
