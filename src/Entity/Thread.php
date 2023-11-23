@@ -41,7 +41,7 @@ class Thread
 
     /**
      *
-     *  @ORM\Column(name="createdBy_id", type="integer")
+     *  @ORM\Column(name="created_by_id", type="integer")
      * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      */
     protected $createdBy;
