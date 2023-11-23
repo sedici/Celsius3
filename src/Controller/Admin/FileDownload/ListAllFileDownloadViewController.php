@@ -25,12 +25,51 @@ namespace Celsius3\Controller\Admin\FileDownload;
 
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\InstanceManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
-
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
+
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
+
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    /**
+     * @var Translator
+     */
+    private $translator;
+    public function __construct(
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        InstanceHelper $instanceHelper,
+        TranslatorInterface $translator,
+        InstanceManager $instanceManager
+    ) {
+        $this->paginator = $paginator;
+        $this->configurationHelper=$configurationHelper;
+        $this->setIntanceHelper($instanceHelper);
+        $this->setConfigurationHelper($configurationHelper);
+        $this->translator=$translator;
+        $this->setTranslator($translator);
+        $this->instanceManager=$instanceManager;
+    }
+
 
     protected function listQuery($name)
     {
@@ -39,7 +78,12 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
             ->getRepository(FileDownload::class)
             ->createQueryBuilder('e');
     }
-
+    protected function filter($name, $filter_form, $query)
+    {
+        return $this->getDoctrine()->getManager()
+            ->getRepository(FilterManager::class)
+            ->filter($query, $filter_form, 'FileDownload', $this->getInstance());
+    }
     public function __invoke(): ?Response
     {
         $filter_form = $this->createForm(
@@ -54,7 +98,8 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
         $request = $this->get('request_stack')->getCurrentRequest();
         if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filter('FileDownload', $filter_form, $query);
+         //   $query = $this->filter('FileDownload', $filter_form, $query);
+
         }
 
         $paginator = $this->get('knp_paginator');
