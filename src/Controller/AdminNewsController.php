@@ -78,6 +78,15 @@ class AdminNewsController extends BaseInstanceDependentController
         );
     }
 
+    protected function listQuery($name)
+    {
+        $valor=$name;
+      //  $class = new \ReflectionClass($valor);
+        return $this->getDoctrine()->getManager()
+            ->getRepository(News::class)
+            ->createQueryBuilder('e');
+    }
+
     /**
      * Creates a new News entity.
      *
