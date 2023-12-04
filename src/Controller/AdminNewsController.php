@@ -78,6 +78,14 @@ class AdminNewsController extends BaseInstanceDependentController
         );
     }
 
+
+    protected function findQuery($name, $id)
+    {
+        return $this->getDoctrine()->getManager()
+            ->getRepository(News::class)
+            ->find($id);
+    }
+
     protected function listQuery($name)
     {
         $valor=$name;
