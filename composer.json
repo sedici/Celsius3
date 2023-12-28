@@ -33,7 +33,6 @@
     "knplabs/knp-menu-bundle": "^3.2",
     "knplabs/knp-paginator-bundle": "^5.8",
     "php-http/guzzle6-adapter": "^1.1.1",
-
     "phpdocumentor/reflection-docblock": "^5.3",
     "phpstan/phpdoc-parser": "^1.2",
     "predis/predis": "^1.0",
@@ -71,6 +70,7 @@
     "symfony/validator": "5.4.*",
     "symfony/web-link": "5.4.*",
     "symfony/webapp-meta": "^1.0",
+    "symfony/webpack-encore-bundle": "^2.1",
     "symfony/yaml": "5.4.*",
     "symfonycasts/reset-password-bundle": "^1.13",
     "symfonycasts/verify-email-bundle": "^1.8",
@@ -79,9 +79,7 @@
     "twig/twig": "^2.12|^3.0",
     "umpirsky/composer-permissions-handler": "~1.4",
     "willdurand/geocoder": "^4.5",
-    "willdurand/js-translation-bundle": "^5.0",
-
-    "symfony/webpack-encore-bundle": "^1.8"
+    "willdurand/js-translation-bundle": "^5.0"
   },
   "require-dev": {
     "symfony/debug-bundle": "5.4.*",

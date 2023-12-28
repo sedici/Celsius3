@@ -83,7 +83,11 @@ Encore
         './assets/js/search.js'
     ])
     .addStyleEntry('global', './assets/scss/celsius3.scss')
-    .enableSassLoader()
+     .enableSassLoader(options => {
+        //options.resolveUrlLoader = {
+        //  keepQuery: false
+        //};
+      })
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]'

@@ -1,6 +1,6 @@
-var administrationControllers = angular.module('administrationControllers', []);
+var administrationControllers = angular.module('administrationControllers', [require('angular-route')]);
 
-administrationControllers.controller('AdministrationCtrl', ['$scope', '$routeParams', '$http', 'Order', 'User', '$location', '$filter',
+administrationControllers.controller('AdministrationCtrl', ['$scope', '$routeParams', '$http','Order', 'User', '$location', '$filter',
     function ($scope, $routeParams, $http, Order, User, $location, $filter) {
         'use strict';
 

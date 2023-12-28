@@ -6,7 +6,7 @@
 <!--[if IE 8]>
 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="{{ app.request.locale|split('_')[0] }}">
+<html class="no-js" lang="{{ app.request.locale|split('_')[0] }}"  ng-app>
 <!--<![endif]-->
 
 {% if instance is not defined %}
@@ -48,6 +48,12 @@
             }
         </style>
     {% endblock %}
+    <script>
+    if (typeof globalThis === 'undefined') {
+    globalThis = window;
+    }
+    </script>
+
     {% if app.environment == 'prod' %}
         <script>
             (function (i, s, o, g, r, a, m) {
@@ -66,7 +72,10 @@
             ga('create', 'UA-15165518-47', 'auto');
             ga('send', 'pageview');
         </script>
+
     {% endif %}
+
+
 </head>
 <body>
 <!--[if lt IE 7]> <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a
@@ -172,11 +181,11 @@
 
 {% include 'Layout/_mail_modal.html.twig' %}
 {% block javascripts %}
+
     {% include 'Layout/var.html.twig' %}
     {% include 'Notification/var.html.twig' %}
     <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-
     <script type="text/javascript" src="{{ asset('build/celsius3core.js') }}"></script>
     <script type="text/javascript" src="{{ asset('build/celsius3notification.js') }}"></script>
 
@@ -188,8 +197,6 @@
     {% include 'Layout/table.html.twig' %}
     {% include 'Layout/mail.html.twig' %}
     {% include 'Notification/notification.html.twig' %}
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
 
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>

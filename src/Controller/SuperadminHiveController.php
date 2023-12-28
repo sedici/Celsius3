@@ -86,6 +86,15 @@ class SuperadminHiveController extends BaseController
         return $this->render('Superadmin/Hive/index.html.twig', $this->baseIndex('Hive',null, $this->paginator));
     }
 
+    protected function listQuery($name)
+    {
+        $valor=$name;
+       // $class = new \ReflectionClass($valor);
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Hive::class)
+            ->createQueryBuilder('e');
+    }
+
     /**
      * Displays a form to create a new Hive entity.
      *
