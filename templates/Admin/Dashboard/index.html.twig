@@ -6,7 +6,7 @@
 
 {% block content %}
     {{ parent() }}
-    <div ng-app="administrationApp" ng-controller="AdministrationCtrl" ng-strict-di>
+    <div ng-app="administrationApp"  ng-strict-di>
         <div ng-view>
 
         </div>
@@ -326,8 +326,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {#  {{ encore_entry_script_tags('angular') }}#}
+      {{ encore_entry_script_tags('angular') }}
       {{ encore_entry_script_tags('administration') }}
-{#    <script src="{{ enc asset('build/angular.js') }}"></script>#}
-{#    <script src="{{ asset('build/administration.js') }}"></script>#}
+    <script src="{{ enc asset('build/angular.js') }}"></script>
+   <script src="{{ asset('build/administration.js') }}"></script>
 {% endblock %}
