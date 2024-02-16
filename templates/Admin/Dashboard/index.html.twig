@@ -8,9 +8,7 @@
     {{ parent() }}
     <div ng-app="administrationApp"  ng-strict-di>
         <div ng-view>
-
         </div>
-
         <!-- index.html -->
         <script type="text/ng-template" id="index.html">
             {% verbatim %}
@@ -326,8 +324,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-      {{ encore_entry_script_tags('angular') }}
-      {{ encore_entry_script_tags('administration') }}
-    <script src="{{ asset('build/angular.js') }}"></script>
-   <script src="{{ asset('build/administration.js') }}"></script>
+    {{ encore_entry_script_tags('angular') }}
+    {{ encore_entry_script_tags('administration') }}
+
 {% endblock %}
