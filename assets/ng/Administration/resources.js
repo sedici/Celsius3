@@ -1,4 +1,4 @@
-var administrationApp = angular.module('administrationApp', [require('angular-route')]);
+var administrationApp = angular.module('administrationApp');
 administrationApp.factory('Order', ['$resource', function ($resource) {
     return $resource(Routing.generate('admin_rest_order') + ':id',
         {id: '@id'}, {
