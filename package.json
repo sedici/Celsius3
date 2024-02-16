@@ -12,6 +12,7 @@
     "angular-i18n": "^1.6.6",
     "angular-loading-bar": "^0.9.0",
     "angular-resource": "^1.6.6",
+    "angular-route": "^1.6.6",
     "angular-sanitize": "^1.6.6",
     "angular-strap": "^2.3.12",
     "angular-summernote": "^0.8.1",
