@@ -1,4 +1,4 @@
-var administrationFilters = angular.module('administrationFilters', [require('angular-route')]);
+var administrationFilters = angular.module('administrationFilters', []);
 administrationFilters.filter('get_url', function () {
     return function (input) {
         return Routing.generate(input.path, input.params);
