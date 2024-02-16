@@ -1,11 +1,9 @@
-var administrationControllers = angular.module('administrationControllers', [require('angular-route')]);
+var administrationControllers = angular.module('administrationControllers', []);
 
 administrationControllers.controller('AdministrationCtrl', ['$scope', '$routeParams', '$http','Order', 'User', '$location', '$filter',
     function ($scope, $routeParams, $http, Order, User, $location, $filter) {
         'use strict';
-
         $scope.assets_version = assets_version_administration;
-
         $scope.type = $routeParams.type;
         $scope.sortData = {
             sort: 'o.createdAt',
