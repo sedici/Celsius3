@@ -75,12 +75,12 @@ abstract class MaterialType
     protected $year;
 
     /**
-     * @ORM\Column(name="startPage", type="integer", nullable=true)
+     * @ORM\Column(name="start_page", type="integer", nullable=true)
      */
     protected $startPage;
 
     /**
-     * @ORM\Column(name="endPage",type="integer", nullable=true)
+     * @ORM\Column(name="end_page",type="integer", nullable=true)
      */
     protected $endPage;
 
