@@ -191,6 +191,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('build/user.js') }}"></script>
+    {{ encore_entry_script_tags('angular') }}
+    {{ encore_entry_script_tags('user') }}
 {% endblock %}
