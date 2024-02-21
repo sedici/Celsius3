@@ -23,17 +23,65 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 
 class BaseInstanceDependentRestController extends BaseRestController
 {
+
+
+
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+
+    /**
+     * @var ConfigurationHelper
+     */
+    private $instanceHelper;
+
+
+
+    public function __construct(InstanceHelper $instanceHelper,
+                                ConfigurationHelper $configurationHelper
+
+    )
+    {
+        $this->configurationHelper = $configurationHelper;
+        $this->instanceHelper=$instanceHelper;
+    }
+
+    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
+
+        return $this->configurationHelper=$configurationHelper;
+    }
+
+    public function setIntanceHelper(InstanceHelper $intanceHelper){
+        return $this->instanceHelper=$intanceHelper;
+    }
+
+
+    public function getConfigurationHelper(){
+        return $this->configurationHelper;
+    }
+
+    public function getInstanceHelper(){
+        return $this->instanceHelper;
+    }
+
+
+
+
+
     protected function getInstance(): Instance
     {
-        return $this->get('celsius3_core.instance_helper')->getSessionInstance();
+        return $this->getInstanceHelper()->getSessionInstance();
     }
 
     protected function getResultsPerPage()
     {
-        return $this->get('celsius3_core.configuration_helper')
+        return $this-getConfigurationHelper()
                         ->getCastedValue($this->getInstance()->get('results_per_page'));
     }
 }

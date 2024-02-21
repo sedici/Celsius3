@@ -90,8 +90,6 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getInstance(): Instance
     {
-     //   dump($this->getInstanceHelper());
-      //  die();
         return $this->getInstanceHelper()->getSessionInstance();
     }
 
