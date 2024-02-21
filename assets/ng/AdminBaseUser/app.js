@@ -3,7 +3,6 @@ var userApp = angular.module('userApp', [
     'ngResource',
     'ui.bootstrap',
     'boxuk.translation',
-    'ngRoute'
 ]);
 
 userApp.config(['$translateProvider',
