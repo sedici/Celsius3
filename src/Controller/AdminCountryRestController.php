@@ -23,6 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Country;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\InstanceManager;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -35,6 +38,30 @@ use Celsius3\Exception\Exception;
  */
 class AdminCountryRestController extends BaseInstanceDependentRestController
 {
+
+
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
+
+
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+
+    public function __construct(
+        ConfigurationHelper $configurationHelper,
+        InstanceHelper $instanceHelper,
+        InstanceManager $instanceManager
+    ) {
+        $this->configurationHelper=$configurationHelper;
+        $this->setIntanceHelper($instanceHelper);
+        $this->setConfigurationHelper($configurationHelper);
+        $this->instanceManager=$instanceManager;
+    }
+
 
     /**
      * GET Route annotation.
@@ -57,7 +84,10 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
+    protected function getDirectory()
+    {
+        return $this->instanceManager->getDirectory();
+    }
     /**
      * GET Route annotation.
      * @Get("/{id}", name="admin_rest_country_get", options={"expose"=true})
