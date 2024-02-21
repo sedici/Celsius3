@@ -27,6 +27,7 @@ use Celsius3\Entity\Journal;
 use Celsius3\Entity\JournalType;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
+use Celsius3\Form\Type\Filter\CityFilterType;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Form\Type\OrderType;
 use Celsius3\Helper\InstanceHelper;
@@ -37,7 +38,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\ConfigurationHelper;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Celsius3\Manager\InstanceManager;
+use Symfony\Component\HttpFoundation\Response;
 use function get_class;
 
 /**
@@ -45,7 +50,7 @@ use function get_class;
  *
  * @Route("/admin/order")
  */
-class AdminOrderController extends AbstractController //OrderController
+class AdminOrderController extends OrderController
 {
     /**
      * @var InstanceHelper
@@ -56,15 +61,44 @@ class AdminOrderController extends AbstractController //OrderController
      */
     private $entityManager;
 
-    public function __construct(InstanceHelper $instanceHelper, EntityManagerInterface $entityManager)
-    {
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
+
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+    /**
+     * @var Translator
+     */
+    private $translator;
+    public function __construct(
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        InstanceHelper $instanceHelper,
+        TranslatorInterface $translator,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->paginator = $paginator;
+        $this->configurationHelper=$configurationHelper;
+        $this->setIntanceHelper($instanceHelper);
+        $this->setConfigurationHelper($configurationHelper);
+        $this->translator=$translator;
+        $this->setTranslator($translator);
+        $this->instanceManager=$instanceManager;
         $this->instanceHelper = $instanceHelper;
         $this->entityManager = $entityManager;
     }
 
-    protected function getInstance() {
-        return $this->instanceHelper->getSessionOrUrlInstance();
-    }
+
+
 
     protected function baseNew($name, $entity, $type, array $options = array())
     {
@@ -94,7 +128,7 @@ class AdminOrderController extends AbstractController //OrderController
     protected function findQuery($name, $id)
     {
         return $this->entityManager
-            ->getRepository('Celsius3:'.$name)
+            ->getRepository(Order::class)
             ->findOneForInstance($this->getInstance(), $id);
     }
 
@@ -119,7 +153,13 @@ class AdminOrderController extends AbstractController //OrderController
      */
     public function show($id)
     {
-        return $this->baseShow('Order', $id);
+
+     //   return $this->baseShow('Order', $id);
+return $this->render(
+'Admin/Order/show.html.twig',
+$this->baseShow('Order', $id)
+);
+
     }
 
     /**
