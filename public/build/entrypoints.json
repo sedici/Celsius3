@@ -1,0 +1,111 @@
+{
+  "entrypoints": {
+    "celsius3core": {
+      "js": [
+        "/build/runtime.js",
+        "/build/celsius3core.js"
+      ]
+    },
+    "celsius3notification": {
+      "js": [
+        "/build/runtime.js",
+        "/build/celsius3notification.js"
+      ]
+    },
+    "angular": {
+      "js": [
+        "/build/runtime.js",
+        "/build/angular.js"
+      ]
+    },
+    "administration": {
+      "js": [
+        "/build/runtime.js",
+        "/build/administration.js"
+      ]
+    },
+    "admin_order": {
+      "js": [
+        "/build/runtime.js",
+        "/build/admin_order.js"
+      ]
+    },
+    "cci": {
+      "js": [
+        "/build/runtime.js",
+        "/build/cci.js"
+      ]
+    },
+    "state_bar": {
+      "js": [
+        "/build/runtime.js",
+        "/build/state_bar.js"
+      ]
+    },
+    "admin_base_user": {
+      "js": [
+        "/build/runtime.js",
+        "/build/admin_base_user.js"
+      ]
+    },
+    "user": {
+      "js": [
+        "/build/runtime.js",
+        "/build/user.js"
+      ]
+    },
+    "admin_institution": {
+      "js": [
+        "/build/runtime.js",
+        "/build/admin_institution.js"
+      ]
+    },
+    "superadministration": {
+      "js": [
+        "/build/runtime.js",
+        "/build/superadministration.js"
+      ]
+    },
+    "statistics": {
+      "js": [
+        "/build/runtime.js",
+        "/build/statistics.js"
+      ]
+    },
+    "locales_es": {
+      "js": [
+        "/build/runtime.js",
+        "/build/locales_es.js"
+      ]
+    },
+    "locales_pt": {
+      "js": [
+        "/build/runtime.js",
+        "/build/locales_pt.js"
+      ]
+    },
+    "login": {
+      "js": [
+        "/build/runtime.js",
+        "/build/login.js"
+      ],
+      "css": [
+        "/build/login.css"
+      ]
+    },
+    "search": {
+      "js": [
+        "/build/runtime.js",
+        "/build/search.js"
+      ]
+    },
+    "global": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/global.css"
+      ]
+    }
+  }
+}
