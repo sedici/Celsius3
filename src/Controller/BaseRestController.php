@@ -22,14 +22,57 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\InstanceManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 
 class BaseRestController extends AbstractFOSRestController
 {
 
+    /**
+     * @var InstanceManager
+     */
+    private $instanceManager;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $configurationHelper;
+
+
+
+
+
+    public function __construct(InstanceManager $instanceManager,
+                                InstanceHelper $instanceHelper,
+                                ConfigurationHelper  $configurationHelper
+
+    )
+    {
+        $this->instanceManager = $instanceManager;
+        $this->configurationHelper = $configurationHelper;
+
+    }
+    public function getConfigurationHelper(){
+        return $this->configurationHelper;
+    }
+    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
+        return $this->configurationHelper=$configurationHelper;
+    }
+
+    public function setTranslator(TranslatorInterface $translator){
+        $this->translator=$translator;
+    }
+
     protected function getDirectory()
     {
-        return $this->container->get(InstanceManager::class)->getDirectory();
+        return $this->instanceManager->getDirectory();
     }
+
+
+
 }

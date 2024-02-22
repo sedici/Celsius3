@@ -1430,10 +1430,12 @@
     <script type="text/javascript">
         var request_id = {{ entity.code }};
     </script>
-    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('build/cci.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('build/state_bar.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('build/admin_order.js') }}"></script>
+
+
+    {{ encore_entry_script_tags('angular') }}
+    {{ encore_entry_script_tags('cci') }}
+    {{ encore_entry_script_tags('state_bar') }}
+    {{ encore_entry_script_tags('admin_order') }}
 {% endblock %}
 
 {% block stylesheets %}
