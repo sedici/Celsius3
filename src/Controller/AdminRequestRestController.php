@@ -74,9 +74,10 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
         $view = $this->view($request, 200)->setFormat('json');
 
-        $context = new Context();
-        $context->addGroup('administration_order_show');
-        $view->setContext($context);
+   //     $context = new Context();
+
+      //  $context->addGroup('administration_order_show');
+  //      $view->setContext($context);
 
         return $this->handleView($view);
     }
