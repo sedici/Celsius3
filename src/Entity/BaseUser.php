@@ -224,6 +224,9 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     protected $librarianInstitution;
 
     /**
+
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $observaciones;
@@ -577,29 +580,6 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
-    /**
-     * Set librarian.
-     *
-     * @param BaseUser $librarian
-     *
-     * @return self
-     */
-    public function setLibrarian(BaseUser $librarian)
-    {
-        $this->librarian = $librarian;
-
-        return $this;
-    }
-
-    /**
-     * Get librarian.
-     *
-     * @return BaseUser $librarian
-     */
-    public function getLibrarian()
-    {
-        return $this->librarian;
-    }
 
     /**
      * Add customValues.
