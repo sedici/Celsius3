@@ -31,6 +31,7 @@ use Celsius3\Form\Type\Filter\CityFilterType;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Form\Type\OrderType;
 use Celsius3\Helper\InstanceHelper;
+use Celsius3\Helper\LifecycleHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -78,13 +79,17 @@ class AdminOrderController extends OrderController
      * @var Translator
      */
     private $translator;
+
+    private $lifecycleHelper;
     public function __construct(
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         InstanceHelper $instanceHelper,
         TranslatorInterface $translator,
         InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        LifecycleHelper $lifecycleHelper
+
     ) {
         $this->paginator = $paginator;
         $this->configurationHelper=$configurationHelper;
@@ -95,6 +100,7 @@ class AdminOrderController extends OrderController
         $this->instanceManager=$instanceManager;
         $this->instanceHelper = $instanceHelper;
         $this->entityManager = $entityManager;
+        $this->lifecycleHelper = $lifecycleHelper;
     }
 
 
@@ -340,7 +346,7 @@ $this->baseShow('Order', $id)
         //Clonar Orden original
         $duplicatedOrder = clone $order;
 
-        $request = $this->get('celsius3_core.lifecycle_helper')->createRequest(
+        $request =  $this->lifecycleHelper->createRequest(
             $duplicatedOrder,
             $order->getOriginalRequest()->getOwner(),
             $order->getOriginalRequest()->getType(),
