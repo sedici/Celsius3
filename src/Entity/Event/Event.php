@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Request;
 use Celsius3\Entity\State;
@@ -162,12 +163,12 @@ abstract class Event implements EventInterface
         return $this;
     }
 
-    public function getOperator(): ?UserInterface
+    public function getOperator():BaseUser
     {
         return $this->operator;
     }
 
-    public function setOperator(UserInterface $operator = null): Event
+    public function setOperator(BaseUser $operator = null): Event
     {
         $this->operator = $operator;
 
