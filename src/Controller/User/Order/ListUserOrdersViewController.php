@@ -32,6 +32,7 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Repository\OrderRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 final class ListUserOrdersViewController extends AbstractController
 {
@@ -39,17 +40,19 @@ final class ListUserOrdersViewController extends AbstractController
     private $instanceHelper;
     private $filterManager;
     private $configurationHelper;
-
+    private $paginator;
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         InstanceHelper $instanceHelper,
         FilterManager $filterManager,
-        ConfigurationHelper $configurationHelper
+        ConfigurationHelper $configurationHelper,
+        PaginatorInterface $paginator
     ) {
         $this->orderRepository = $orderRepository;
         $this->instanceHelper = $instanceHelper;
         $this->filterManager = $filterManager;
         $this->configurationHelper = $configurationHelper;
+        $this->paginator = $paginator;
     }
 
     public function __invoke(Request $request)
@@ -73,7 +76,7 @@ final class ListUserOrdersViewController extends AbstractController
             $query = $this->filterManager->filter($query, $filter_form, Order::class);
         }
 
-        $paginator = $this->get('knp_paginator');
+        $paginator = $this->paginator;
         $pagination = $paginator->paginate(
             $query,
             $request->query->get('page', 1),
