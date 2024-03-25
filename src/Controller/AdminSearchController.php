@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Manager\SearchManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,13 +37,24 @@ class AdminSearchController extends BaseInstanceDependentController
 {
 
     /**
+     * @var ConfigurationHelper
+     */
+    private $searchManager;
+
+    public function __construct(SearchManager $searchManager)
+    {
+        $this->searchManager=$searchManager;
+    }
+
+
+    /**
      * @Route("/", name="admin_search")
      */
     public function search(Request $request)
     {
         $keyword = $request->query->get('keyword');
         $filters = $request->query->get('filters', []);
-        $searchManager = $this->container->get('celsius3_core.search_manager');
+        $searchManager = $this->searchManage;
 
         $delFilter = $request->query->get('del-filter', []);
         if (!empty($delFilter) && array_key_exists($delFilter['name'], $filters)) {
