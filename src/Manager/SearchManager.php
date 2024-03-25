@@ -33,7 +33,7 @@ use Elastica\Query\BoolQuery;
 
 class SearchManager
 {
-    private $container;
+    public $container;
 
     public function __construct(Container $container)
     {
