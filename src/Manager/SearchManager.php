@@ -35,10 +35,10 @@ class SearchManager
 {
     public $container;
 
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
+   // public function __construct(Container $container)
+   // {
+    //    $this->container = $container;
+    //}
 
     private function prepareKeyword($keyword)
     {
@@ -191,9 +191,9 @@ class SearchManager
 
     private function getTitleQuery($keyword): Query\AbstractQuery
     {
-        $matchQuery = new Query\Match();
+        $matchQuery = new Query\MatchQuery();
         $matchQuery->setFieldQuery('order.materialData.title', $keyword);
-        $matchQuery->setFieldOperator('order.materialData.title', Query\Match::OPERATOR_AND);
+        $matchQuery->setFieldOperator('order.materialData.title', Query\MatchQuery::OPERATOR_AND);
 
         $nestedMaterialDataQuery = new Query\Nested();
         $nestedMaterialDataQuery->setQuery($matchQuery);
@@ -223,9 +223,9 @@ class SearchManager
 
     private function getJournalQuery($keyword): Query\AbstractQuery
     {
-        $matchQuery = new Query\Match();
+        $matchQuery = new Query\MatchQuery();
         $matchQuery->setFieldQuery('order.materialData.journal', $keyword);
-        $matchQuery->setFieldOperator('order.materialData.journal', Query\Match::OPERATOR_AND);
+        $matchQuery->setFieldOperator('order.materialData.journal', Query\MatchQuery::OPERATOR_AND);
 
         $nestedMaterialDataQuery = new Query\Nested();
         $nestedMaterialDataQuery->setQuery($matchQuery);
@@ -240,9 +240,9 @@ class SearchManager
 
     private function getEditorQuery($keyword): Query\AbstractQuery
     {
-        $matchQuery = new Query\Match();
+        $matchQuery = new Query\MatchQuery();
         $matchQuery->setFieldQuery('order.materialData.editor', $keyword);
-        $matchQuery->setFieldOperator('order.materialData.editor', Query\Match::OPERATOR_AND);
+        $matchQuery->setFieldOperator('order.materialData.editor', Query\MatchQuery::OPERATOR_AND);
 
         $nestedMaterialDataQuery = new Query\Nested();
         $nestedMaterialDataQuery->setQuery($matchQuery);
