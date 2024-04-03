@@ -22,6 +22,8 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\SearchManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -40,10 +42,19 @@ class AdminSearchController extends BaseInstanceDependentController
      * @var ConfigurationHelper
      */
     private $searchManager;
+    /**
+     * @var ConfigurationHelper
+     */
+    private $instanceHelper;
 
-    public function __construct(SearchManager $searchManager)
+    public function __construct(SearchManager $searchManager,InstanceHelper $instanceHelper)
     {
+
         $this->searchManager=$searchManager;
+        $this->instanceHelper=$instanceHelper;
+        $this->setIntanceHelper($this->instanceHelper);
+
+
     }
 
 
@@ -54,7 +65,7 @@ class AdminSearchController extends BaseInstanceDependentController
     {
         $keyword = $request->query->get('keyword');
         $filters = $request->query->get('filters', []);
-        $searchManager = $this->searchManage;
+        $searchManager = $this->searchManager;
 
         $delFilter = $request->query->get('del-filter', []);
         if (!empty($delFilter) && array_key_exists($delFilter['name'], $filters)) {
