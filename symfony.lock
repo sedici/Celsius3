@@ -110,9 +110,6 @@
     "egulias/email-validator": {
         "version": "2.1.25"
     },
-    "elasticsearch/elasticsearch": {
-        "version": "v7.17.0"
-    },
     "enqueue/dsn": {
         "version": "0.10.8"
     },
@@ -163,12 +160,6 @@
             "config/packages/ewz_recaptcha.yaml"
         ]
     },
-    "ezimuel/guzzlestreams": {
-        "version": "3.0.1"
-    },
-    "ezimuel/ringphp": {
-        "version": "1.2.0"
-    },
     "fakerphp/faker": {
         "version": "v1.19.0"
     },
@@ -176,10 +167,10 @@
         "version": "v1.0.7"
     },
     "friendsofsymfony/elastica-bundle": {
-        "version": "6.1",
+        "version": "6.4",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "5.0",
             "ref": "46c9cd2c1e07f0fcfd97e96f12b03b2e0845c4cd"
         },
@@ -293,12 +284,6 @@
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
-    },
-    "nyholm/dsn": {
-        "version": "2.0.1"
-    },
-    "pagerfanta/pagerfanta": {
-        "version": "v3.5.2"
     },
     "phar-io/manifest": {
         "version": "2.0.3"

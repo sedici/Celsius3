@@ -283,6 +283,7 @@ services:
 #            - { name: doctrine.event_listener, event: postPersist }
 #        arguments: ['@celsius3_core.configuration_helper']
     Celsius3\Listener\OrderListener:
+
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
@@ -446,9 +447,9 @@ services:
 #    celsius3_core.event_manager:
 #        class: Celsius3\CoreBundle\Manager\EventManager
 #        arguments: ['@service_container']
-#    celsius3_core.search_manager:
-#        class: Celsius3\CoreBundle\Manager\SearchManager
-#        arguments: ['@service_container']
+    celsius3_core.search_manager:
+        class: Celsius3\CoreBundle\Manager\SearchManager
+        arguments: ['@service_container']
 #    celsius3_core.state_manager:
 #        class: Celsius3\CoreBundle\Manager\StateManager
 #        arguments: ['@celsius3_core.event_manager', '@request_stack']
@@ -522,7 +523,7 @@ services:
 #            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     FOS\ElasticaBundle\Persister\ObjectPersisterInterface:
-        alias: fos_elastica.object_persister.request
+        alias: fos_elastica.object_persister
 
 #    celsius3_message.custom_recipients_data_transformer:
 #        class: Celsius3\DataTransformer\CustomRecipientsDataTransformer

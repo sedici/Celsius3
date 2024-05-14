@@ -25,20 +25,22 @@ namespace Celsius3\Manager;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Elastica\Query\Term;
-use Symfony\Component\DependencyInjection\Container;
+
 use Elastica\Query;
 use Elastica\Aggregation\Terms;
 use Elastica\Aggregation\Nested;
 use Elastica\Query\BoolQuery;
+use Elastica;
 
 class SearchManager
 {
     public $container;
 
-   // public function __construct(Container $container)
-   // {
-    //    $this->container = $container;
-    //}
+    public function __construct()
+    {
+     //   $this->$container = $container;
+
+    }
 
     private function prepareKeyword($keyword)
     {
@@ -160,7 +162,10 @@ class SearchManager
 
         return $finder->createPaginatorAdapter($query);
     }
-
+    public function setContainer($container): void
+    {
+        $this->container = $container;
+    }
     public function getAggsUsersData($aggs)
     {
         $usernames = array();

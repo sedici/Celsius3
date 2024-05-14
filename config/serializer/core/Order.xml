@@ -28,7 +28,7 @@
         </attribute>
         <attribute name="originalRequest">
             <group>api</group>
-            <group>administration_user_show</group>
+
             <group>user_list</group>
         </attribute>
         <attribute name="pages">
