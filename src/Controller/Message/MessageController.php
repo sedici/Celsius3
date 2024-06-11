@@ -27,8 +27,8 @@ use Celsius3\Form\Type\Filter\MessageFilterType;
 //use FOS\MessageBundle\Controller\MessageController as BaseController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-
-class MessageController //extends BaseController
+use Celsius3\Controller\BaseController;
+class MessageController// extends BaseController
 {
     /**
      * Displays the authenticated participant inbox.

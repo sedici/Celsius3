@@ -255,7 +255,6 @@
     <orderEntry type="module" module-name="gam-admin-full" />
     <orderEntry type="module" module-name="adcetris" />
     <orderEntry type="module" module-name="booklook" />
-    <orderEntry type="module" module-name="angular-fti" />
     <orderEntry type="module" module-name="ayres_backend" />
     <orderEntry type="module" module-name="hope" />
     <orderEntry type="module" module-name="web-api" />

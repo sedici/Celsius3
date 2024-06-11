@@ -28,7 +28,8 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
+//use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
+//use  FOS\ElasticaBundle\Persister;
 
 class OrderListener
 {
@@ -48,12 +49,12 @@ class OrderListener
     public function __construct
     (
         LifecycleHelper $lifecycleHelper,
-        InstanceHelper $instanceHelper,
-        ObjectPersisterInterface $objectPersister
+        InstanceHelper $instanceHelper
+       // ObjectPersisterInterface $objectPersister
     ) {
         $this->lifecycleHelper = $lifecycleHelper;
         $this->instanceHelper = $instanceHelper;
-        $this->objectPersister = $objectPersister;
+      //  $this->objectPersister = $objectPersister;
     }
 
     public function prePersist(LifecycleEventArgs $args): void
@@ -90,7 +91,7 @@ class OrderListener
             $request = $entity->getRequest($instance);
             if ($request !== null) {
                 // Update elasticsearch index
-                $this->objectPersister->replaceOne($request);
+              //  $this->objectPersister->replaceOne($request);
             }
         }
     }
