@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\Controller\Superadmin\Dashboard;
+namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
 use Celsius3\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;

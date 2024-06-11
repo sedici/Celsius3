@@ -22,7 +22,7 @@ declare(strict_types=1);
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Superadmin\BaseUser;
+namespace Celsius3\Controller\SuperAdmin\BaseUser;
 
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;

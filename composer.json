@@ -113,7 +113,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Celsius3\\Tests\\": "tests/"
+      "Celsius3\\Tests\\": "tests/",
+      "Celsius3\\": "src/"
     }
   },
   "replace": {
