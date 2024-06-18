@@ -4,7 +4,7 @@ services:
 
     apache:
         build: docker/apache/
-        ports: [ "80" ]
+        ports: [ "80:80" ]
         volumes:
             - .:/var/www/html
         networks:
@@ -24,19 +24,19 @@ services:
         networks:
             - backend
         depends_on:
-            - mysql
-        command: bash -c "composer install && php-fpm"
-    mysql:
+            - bd
+#        command: bash -c "composer install && php-fpm"
+    bd:
         image: mysql:8.0
         command:
             - --default-authentication-plugin=mysql_native_password
-        ports: [ "3306" ]
+#        ports: [ "3308:3306" ]
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: celsius3
         volumes:
-            - mysql:/var/lib/mysql
-            - ./docker/mysql:/docker-entrypoint-initdb.d
+            - bd:/var/lib/mysql
+            - ./docker/bd:/docker-entrypoint-initdb.d
         networks:
             - backend
 
@@ -64,14 +64,16 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        ports: [ "80" ]
+        ports: [ "81:80" ]
         environment:
-            PMA_HOST: "mysql"
+            PMA_HOST: "bd"
             PMA_PORT: "3306"
             PMA_USER: "root"
             PMA_PASSWORD: "root"
         depends_on:
-            - mysql
+            - bd
+        networks:
+            - backend
 
     mailer:
         image: schickling/mailcatcher
@@ -82,5 +84,5 @@ networks:
     frontend: ~
 
 volumes:
-    mysql: ~
+    bd: ~
     elasticsearch: ~
