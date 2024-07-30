@@ -29,7 +29,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\Exception\Exception;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * Search controller
  *
@@ -47,11 +47,19 @@ class AdminSearchController extends BaseInstanceDependentController
      */
     private $instanceHelper;
 
-    public function __construct(SearchManager $searchManager,InstanceHelper $instanceHelper)
-    {
+     /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
+    public function __construct(SearchManager $searchManager,InstanceHelper $instanceHelper,
+    PaginatorInterface $paginator,
+    ConfigurationHelper $configurationHelper)
+    {
+        $this->paginator = $paginator;
         $this->searchManager=$searchManager;
         $this->instanceHelper=$instanceHelper;
+        $this->configurationHelper = $configurationHelper;
         $this->setIntanceHelper($this->instanceHelper);
 
 
@@ -80,11 +88,12 @@ class AdminSearchController extends BaseInstanceDependentController
         $results = $searchManager->search($keyword, $filters, $this->getInstance());
 
         $aggregations = $results->getAggregations();
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+       // $paginator = $this->get('knp_paginator');
+        $pagination = $this->paginator->paginate(
             $results,
             $this->get('request_stack')->getCurrentRequest()->query->get('page', 1),
-            $this->container->getParameter('max_per_page')
+            $this->configurationHelper
+                ->getCastedValue($this->getInstance()->get('results_per_page'))
         );
 
         $users = $searchManager->getAggsUsersData($aggregations);

@@ -25,23 +25,30 @@ namespace Celsius3\Manager;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Elastica\Query\Term;
-
+use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
+use Celsius3\Repository\InstanceRepositoryInterface;
 use Elastica\Query;
 use Elastica\Aggregation\Terms;
 use Elastica\Aggregation\Nested;
 use Elastica\Query\BoolQuery;
 use Elastica;
+use Doctrine\ORM\EntityManagerInterface;
 
 class SearchManager
 {
-    public $container;
+    private $finder;
 
-    public function __construct()
+     /**
+     * @var InstanceRepositoryInterface
+     */
+    private $instanceRepository;
+
+    public function __construct(PaginatedFinderInterface $finder,  EntityManagerInterface $entityManager)
     {
-     //   $this->$container = $container;
-
+        $this->finder = $finder;
+       
+        $this->entityManager = $entityManager;
     }
-
     private function prepareKeyword($keyword)
     {
         $search = '';
@@ -95,6 +102,8 @@ class SearchManager
         $boolQuery->addMust($nested);
     }
 
+  
+
     private function addMaterialsFilter(BoolQuery $boolQuery, $value)
     {
         $nested = new \Elastica\Query\Nested();
@@ -138,6 +147,7 @@ class SearchManager
         }
     }
 
+  
     public function search($keyword, $filters, Instance $instance)
     {
         $query = new Query();
@@ -157,14 +167,19 @@ class SearchManager
         $boolQuery->setMinimumShouldMatch(1);
 
         $query->setQuery($boolQuery);
-
-        $finder = $this->container->get('fos_elastica.finder.app.request');
-
-        return $finder->createPaginatorAdapter($query);
+       // $finder = $this->container->get('fos_elastica.finder.app.request');
+       
+         // Verifica que $this->finder no sea null
+         if ($this->finder === null) {
+            throw new \RuntimeException('Finder service is not available.');
+        }
+       return $this->finder->createPaginatorAdapter($query);
+       
     }
     public function setContainer($container): void
     {
         $this->container = $container;
+        $this->finder = $container->get('fos_elastica.finder.app');
     }
     public function getAggsUsersData($aggs)
     {
@@ -178,8 +193,8 @@ class SearchManager
         }
 
         $usernames = array_unique($usernames);
-
-        $baseusers = $this->container->get('doctrine.orm.entity_manager')
+      //  $entity_manager = $this->get('doctrine.orm.entity_manager');
+        $baseusers = $this->entityManager
             ->getRepository(BaseUser::class)
             ->findBy(['username' => $usernames]);
 
