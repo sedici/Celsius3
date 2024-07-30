@@ -25,6 +25,7 @@ services:
             - backend
         depends_on:
             - bd
+            - elasticsearch
 #        command: bash -c "composer install && php-fpm"
     bd:
         image: mysql:8.0
@@ -51,7 +52,12 @@ services:
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2-arm64
         environment:
-            discovery.type: single-node
+            - discovery.type=single-node
+            - network.host=0.0.0.0
+            - http.port=9200
+        ports: [ "9200:9200" ]
+        networks:
+            - backend
         volumes:
             - elasticsearch:/usr/share/elasticsearch/data
 
