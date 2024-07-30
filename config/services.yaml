@@ -36,6 +36,12 @@ parameters:
 
 services:
     # default configuration for services in *this* file
+    FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@fos_elastica.finder.app'
+    FOS\ElasticaBundle\Transformer\ElasticaToModelTransformer:
+        alias: 'fos_elastica.transformer.app'
+    FOS\ElasticaBundle\Finder\FinderInterface:
+        alias: 'fos_elastica.finder.app'
+    
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
@@ -447,9 +453,14 @@ services:
 #    celsius3_core.event_manager:
 #        class: Celsius3\CoreBundle\Manager\EventManager
 #        arguments: ['@service_container']
+           
+    
+
     celsius3_core.search_manager:
-        class: Celsius3\CoreBundle\Manager\SearchManager
-        arguments: ['@service_container']
+        class: Celsius3\Manager\SearchManager
+        arguments: ['@fos_elastica.finder.app','@doctrine.orm.entity_manager']
+       
+        
 #    celsius3_core.state_manager:
 #        class: Celsius3\CoreBundle\Manager\StateManager
 #        arguments: ['@celsius3_core.event_manager', '@request_stack']
