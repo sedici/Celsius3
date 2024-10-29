@@ -1,9 +1,11 @@
 dockname := $(shell grep 'name:' docker-compose.yaml | awk '{print $$2}')
+args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
-.PHONY: all build install deps start stop clean compose/install npm/install database encore tests ps imgs rmi
+.PHONY: all build install deps start stop clean compose/install npm/install database encore tests ps imgs rmi dexec
 all: build install
 install: start deps
-deps: composer/install npm/install
+# deps: composer/install npm/install
+deps: npm/install
 
 build:
 	@docker compose build
@@ -15,7 +17,7 @@ stop:
 	@docker compose stop
 
 clean:
-	@sudo rm -rf ./node_modules ./package-lock.json ./vendor
+	@sudo rm -rf ./node_modules ./public/build ./package-lock.json ./vendor
 
 composer/install:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 composer install
@@ -42,4 +44,17 @@ imgs:
 	@docker images --filter reference=$(dockname)*
 
 rmi:
-	@docker rmi -f "$(shell docker images --filter reference=$(dockname)* -q |  tr '\n' ' ')"
+	@docker compose down
+	@{ \
+		if [ -z "$(args)" ]; then \
+			docker rmi -f $(shell docker images --filter reference=$(dockname)* -q | tr '\n' ' '); \
+		else \
+			docker rmi -f $(dockname)-$(args):latest; \
+		fi \
+	}
+
+dexec:
+	@docker exec -it --user $(id -u):$(id -g) $(dockname)-$(args)-1 sh
+
+%:
+	@:

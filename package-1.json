@@ -66,7 +66,6 @@
     "fibers": "^5.0.3",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "husky": "^9.1.6",
     "postcss": "^8.4.32",
     "postcss-loader": "^7.3.3",
     "resolve-url-loader": "^5.0.0",
