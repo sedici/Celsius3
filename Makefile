@@ -5,7 +5,7 @@ args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 all: build install
 install: start deps
 # deps: composer/install npm/install
-deps: npm/install
+deps: npm/install encore
 
 build:
 	@docker compose build
@@ -38,7 +38,7 @@ tests:
 	@docker exec $(dockname)-php-1 php vendor/phpunit/phpunit/phpunit --bootstrap ./tests/bootstrap.php --configuration ./phpunit.xml.dist ./tests
 
 ps:
-	@docker ps --filter name=$(dockname)*
+	@docker ps --filter name=$(dockname)* --format "table {{.Image}}\\t{{.Ports}}\\t{{.Names}}"
 
 imgs:
 	@docker images --filter reference=$(dockname)*
@@ -53,7 +53,7 @@ rmi:
 		fi \
 	}
 
-dexec:
+dx:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-$(args)-1 sh
 
 %:

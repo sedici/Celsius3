@@ -1,0 +1,1 @@
+make exec php php bin/console fos:elastica:populate

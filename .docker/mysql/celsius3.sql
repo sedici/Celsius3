@@ -21,23 +21,6 @@ SET time_zone = "+00:00";
 -- Base de datos: `celsius3`
 --
 
----
---- Verificar si la base de datos existe y vaciarla o crearla
----
-
--- DROP DATABASE IF EXISTS celsius3;
--- CREATE DATABASE celsius3;
-
--- USE celsius3;
-
-
----
---- Crear usuario y dar permisos
----
-
--- CREATE USER 'celsius3_usr'@'%' IDENTIFIED BY 'celsius3_pass';
--- GRANT ALL PRIVILEGES ON celsius3.* TO 'celsius3_usr'@'%';
--- FLUSH PRIVILEGES;
 
 -- --------------------------------------------------------
 

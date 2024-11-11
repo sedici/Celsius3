@@ -1,5 +1,7 @@
 {% if app.request.get('_locale') == 'es' %}
-    <script type="text/javascript" src="{{ asset('build/locales_es.js') }}"></script>
+    {# <script type="text/javascript" src="{{ asset('build/locales_es.js') }}"></script> #}
+    {{ encore_entry_script_tags('locales_es') }}
 {% elseif app.request.get('_locale') == 'pt' %}
-    <script type="text/javascript" src="{{ asset('build/locales_pt.js') }}"></script>
+    {# <script type="text/javascript" src="{{ asset('build/locales_pt.js') }}"></script> #}
+    {{ encore_entry_script_tags('locales_pt') }}
 {% endif %}

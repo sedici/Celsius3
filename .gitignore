@@ -1,3 +1,6 @@
+# Agregado
+public/build/
+
 # Assets and user uploads
 /public/uploads/
 /public/uploads/temp/*

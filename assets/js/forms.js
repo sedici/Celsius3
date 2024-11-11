@@ -154,7 +154,7 @@ var loadMaterialData = function () {
     }
 
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: urlChange,
         data: {
             material: $('#order_materialDataType').val()

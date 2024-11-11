@@ -39,6 +39,7 @@ Se deben crear en el archivo de hosts (/etc/hosts) los dominios locales de las i
 127.0.0.1     instancia-a.localhost
 127.0.0.1     instancia-b.localhost
 127.0.0.1     instancia-c.localhost
+127.0.0.1     www.celsius.intec.org (direccion del directorio)
 ```
 
 ### Acceso

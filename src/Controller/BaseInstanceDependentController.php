@@ -95,8 +95,11 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function findQuery($name, $id)
     {
+        // Construir el nombre completo de la clase de la entidad.
+    $entityClass = 'App\\Entity\\' . $this->getBundle() . '\\' . $name;
+
         return $this->getDoctrine()->getManager()
-            ->getRepository($this->getBundle().':'.$name)
+            ->getRepository($entityClass)
             ->findOneForInstance($this->getInstance(), $id);
     }
 

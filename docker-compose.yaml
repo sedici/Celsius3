@@ -29,9 +29,11 @@ services:
 
     bd:
         build: docker/bd/
+        ports: [ "3306:3306" ]
         volumes:
             - bd:/var/lib/mysql
             - ./docker/bd:/docker-entrypoint-initdb.d
+            - ./:/home/node/app
         networks:
             - backend
 

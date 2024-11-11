@@ -20,7 +20,7 @@ Encore
         './assets/js/notification.js'
     ])
     .addEntry('angular', [
-        './assets/js/angular.js',
+        './assets/js/angular.js'
     ])
     .addEntry('administration', [
         './assets/ng/Administration/controllers.js',
