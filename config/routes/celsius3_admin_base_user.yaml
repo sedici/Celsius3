@@ -46,6 +46,8 @@ admin_user_enable:
 
 admin_user_batch:
     path: /admin/user/batch
+    # defaults: { _controller: Celsius3\Controller\Admin\BaseUser\BatchController }
+    # methods: [ POST ]
 
 admin_user_doUnion:
     path: /admin/user/batch/doUnion

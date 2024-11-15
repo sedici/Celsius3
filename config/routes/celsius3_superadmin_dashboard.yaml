@@ -1,22 +1,22 @@
 superadministration:
     path: /superadmin/
-    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\ShowSuperadminDashboardViewController }
+    defaults: { _controller: Celsius3\Controller\SuperAdmin\Dashboard\ShowSuperadminDashboardViewController }
     methods: [ GET ]
 
 superadmin_ajax:
     path: /superadmin/ajax
-    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\AjaxController }
+    defaults: { _controller: Celsius3\Controller\SuperAdmin\Dashboard\AjaxController }
     methods: [ GET ]
 
 superadmin_admins_message:
     path: /superadmin/admins_message
-    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\SendMessageToAdminsController }
+    defaults: { _controller: Celsius3\Controller\SuperAdmin\Dashboard\SendMessageToAdminsController }
     methods: [ GET, POST ]
     options:
         expose: true
 
 superadmin_orderusertable:
     path: /superadmin/orderusertable
-    defaults: { _controller: Celsius3\Controller\Superadmin\Dashboard\OrderUserTableController }
+    defaults: { _controller: Celsius3\Controller\SuperAdmin\Dashboard\OrderUserTableController }
     options:
         expose: true

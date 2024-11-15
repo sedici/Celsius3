@@ -5,7 +5,11 @@ $('.user-enable').on('click', function(e) {
     $.ajax({
         url: Routing.generate('admin_user_enable', {
             id: userId
-        })
+        }),
+        // method: 'PUT', // Especifica el método HTTP como PUT
+        // headers: {
+        //     'X-Requested-With': 'XMLHttpRequest'
+        // }
     }).done(function(data) {
         $(item).remove();
     });

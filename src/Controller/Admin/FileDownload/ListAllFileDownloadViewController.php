@@ -98,12 +98,11 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
         $request = $this->get('request_stack')->getCurrentRequest();
         if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
-         //   $query = $this->filter('FileDownload', $filter_form, $query);
-
         }
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
+        // $paginator = $this->get('knp_paginator');
+        $pagination = $this->paginator->paginate(
+        // $pagination = $paginator->paginate(
             $query,
             $request->query->get('page', 1),
             $this->getResultsPerPage(),

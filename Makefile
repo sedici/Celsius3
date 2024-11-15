@@ -11,7 +11,7 @@ build:
 	@docker compose build
 
 start:
-	@docker compose up -d
+	@[ "$(args)" = "log" ] && docker compose up || docker compose up -d;
 
 stop:
 	@docker compose stop
@@ -55,6 +55,9 @@ rmi:
 
 dx:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-$(args)-1 sh
+
+elastica/populate:
+	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console fos:elastica:populate
 
 %:
 	@:

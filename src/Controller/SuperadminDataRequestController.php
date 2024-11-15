@@ -27,6 +27,7 @@ use Celsius3\Entity\UsersDataRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Data requests list controller.
@@ -35,6 +36,10 @@ use Symfony\Component\Process\Process;
  */
 class SuperadminDataRequestController extends BaseController
 {
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * Lists all data requests.
@@ -50,8 +55,14 @@ class SuperadminDataRequestController extends BaseController
         $query = $qb->where('e.visible = :visible')
             ->setParameter('visible', true);
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+        // $paginator = $this->get('knp_paginator');
+        $pagination = $this->paginator->paginate(
+        // $pagination = $paginator->paginate(
+            $query,
+            $request->query->get('page', 1)/* page number */,
+            $this->getResultsPerPage()/* limit per page */,
+            $this->getSortDefaults()
+        );
 
         return $this->render('Superadmin/DataRequests/index.html.twig', array('pagination' => $pagination));
     }

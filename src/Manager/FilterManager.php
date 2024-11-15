@@ -32,6 +32,7 @@ use Celsius3\Filter\OrderFilter;
 use Celsius3\Guesser\FieldGuesser;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormInterface;
+use Celsius3\Exception\Exception;
 
 class FilterManager
 {
