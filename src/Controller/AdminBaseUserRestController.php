@@ -40,6 +40,8 @@ use Celsius3\Exception\Exception;
 use Celsius3\Entity\BaseUser;
 use Symfony\Component\Security\Core\Security;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * User controller.
  *
@@ -127,7 +129,10 @@ class AdminBaseUserRestController extends AbstractFOSRestController//BaseInstanc
      */
     public function enableUser(Request $request)
     {
-        $user_id = $request->request->get("id", null);
+        $content = $request->getContent();
+        $json_content = json_decode($content, true);
+        $user_id = $json_content["id"];
+        // $user_id = $request->request->get("id", null);
 
         $user = $this->entityManager
             ->getRepository(BaseUser::class)

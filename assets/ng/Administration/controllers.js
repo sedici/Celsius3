@@ -77,7 +77,6 @@ administrationControllers.controller('AdministrationCtrl', ['$scope', '$routePar
         };
 
         $scope.enableUser = function (user_id) {
-            console.log("Endpoint  :::  " + Routing.generate('admin_rest_user_enable') + "  :::  " + user_id);
             var data = {
                 id: user_id
             };
@@ -90,6 +89,7 @@ administrationControllers.controller('AdministrationCtrl', ['$scope', '$routePar
                         $('#user-modal').modal('hide');
                     };
                 }, function (response) {
+                    console.log(response);
                     generateCelsiusAlert(response);
                 });
         };

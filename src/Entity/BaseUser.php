@@ -34,6 +34,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 //use FOS\MessageBundle\Model\ParticipantInterface;
 //use FOS\UserBundle\Model\User;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -629,7 +630,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      *
      * @return self
      */
-    public function setDownloadAuth($downloadAuth)
+    public function setDownloadAuth(bool $downloadAuth)
     {
         $this->downloadAuth = $downloadAuth;
 
@@ -796,7 +797,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      *
      * @return self
      */
-    public function setPdf($pdf)
+    public function setPdf(bool $pdf)
     {
         $this->pdf = $pdf;
 
@@ -1011,6 +1012,18 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @return mixed
      */
     public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $isEnabled)
+    {
+        $this->enabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function isEnabled()
     {
         return $this->enabled;
     }

@@ -19,6 +19,7 @@ services:
             args:
                 - USERID=1000
                 - USERNAME=root
+        ports: [ "9000:9000" ]
         volumes:
             - .:/var/www/html
         networks:
