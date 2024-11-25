@@ -34,6 +34,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Manager\InstanceManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Location controller.
  *
@@ -89,10 +91,10 @@ class AdminCityController extends BaseInstanceDependentController
     }
     protected function getSortDefaults()
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
     /**
@@ -171,8 +173,20 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function update($id)
     {
-        return $this->render('Admin/City/edit.html.twig', $this->baseUpdate('City', $id, CityType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_city'));
+        $response = $this->baseUpdate(
+            'City', $id, CityType::class, [
+                'instance' => $this->getInstance(),
+            ],
+            'admin_city'
+        );
+
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
+
+        return $this->render(
+            'Admin/City/edit.html.twig', 
+            $response
+        );
     }
 }

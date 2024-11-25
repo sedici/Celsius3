@@ -96,10 +96,10 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
 
     protected function getSortDefaults()
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'o.updatedAt',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
     /**
@@ -211,10 +211,10 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
             'requests' => array_column(
                 array_map(
                     function (\Celsius3\Entity\Request $request) {
-                        return array(
+                        return [
                             'id' => $request->getOrder()->getId(),
                             'request' => $request,
-                        );
+                        ];
                     },
                     $requests
                 ),

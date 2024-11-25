@@ -4,8 +4,8 @@ args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 .PHONY: all build install deps start stop clean compose/install npm/install database encore tests ps imgs rmi dexec
 all: build install
 install: start deps
-# deps: composer/install npm/install
-deps: npm/install encore
+deps: composer/install npm/install encore
+# deps: npm/install encore
 
 build:
 	@docker compose build

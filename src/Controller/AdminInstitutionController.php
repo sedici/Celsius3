@@ -25,13 +25,12 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\Instance;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Institution;
 use Celsius3\Form\Type\InstitutionType;
 use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Location controller.
@@ -44,22 +43,27 @@ class AdminInstitutionController extends BaseInstanceDependentController
 
     protected function getDirectory()
     {
-        return $this->getDoctrine()->getManager()->getRepository(Instance::class)->findOneBy(array('url' => 'directory'));;
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Instance::class)
+            ->findOneBy(['url' => 'directory']);
     }
 
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository(Institution::class)
-                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+            ->getRepository(Institution::class)
+            ->findForInstanceAndGlobal(
+                $this->getInstance(),
+                $this->getDirectory()
+            );
     }
 
     protected function getSortDefaults()
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
     /**
@@ -73,9 +77,14 @@ class AdminInstitutionController extends BaseInstanceDependentController
             'Admin/Institution/index.html.twig',
             $this->baseIndex(
                 'Institution',
-                $this->createForm(InstitutionFilterType::class, null, array(
-                    'instance' => $this->getInstance(),
-                )),$paginator
+                $this->createForm(
+                    InstitutionFilterType::class,
+                    null,
+                    [
+                        'instance' => $this->getInstance(),
+                    ]
+                ),
+                $paginator
             )
         );
     }
@@ -104,9 +113,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
     public function create()
     {
         return $this->render('Admin/Institution/new.html.twig', $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
-                    'instance' => $this->getInstance(),
-                    'show_city' => true
-                        ), 'admin_institution'));
+            'instance' => $this->getInstance(),
+            'show_city' => true
+        ), 'admin_institution'));
     }
 
     /**
@@ -140,9 +149,24 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function update($id)
     {
-        return $this->render('Admin/Institution/edit.html.twig', $this->baseUpdate('Institution', $id, InstitutionType::class, array(
-                    'instance' => $this->getInstance(),
-                        ), 'admin_institution'));
+        $response = $this->baseUpdate(
+            'Institution',
+            $id,
+            InstitutionType::class,
+            [
+                'instance' => $this->getInstance(),
+            ],
+            'admin_institution'
+        );
+
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
+
+        return $this->render(
+            'Admin/Institution/edit.html.twig',
+            $response
+        );
     }
 
     /**

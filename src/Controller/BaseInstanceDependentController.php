@@ -28,12 +28,75 @@ use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
+    // /**
+    //  * @var InstanceHelper
+    //  */
+    // protected $instanceHelper;
+
+
+    // public function __construct(
+    //     InstanceManager $instanceManager,
+    //     EntityManagerInterface $entityManager,
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper,
+    //     TranslatorInterface $translator,
+    //     InstanceHelper $instanceHelper
+    // ) {
+    //     parent::__construct(
+    //         $instanceManager,
+    //         $entityManager,
+    //         $paginator,
+    //         $configurationHelper,
+    //         $translator
+    //     );
+    //     $this->instanceHelper = $instanceHelper;
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @var ConfigurationHelper
@@ -41,7 +104,7 @@ abstract class BaseInstanceDependentController extends BaseController
     private $configurationHelper;
 
     /**
-     * @var ConfigurationHelper
+     * @var InstanceHelper
      */
     private $instanceHelper;
 
@@ -51,12 +114,11 @@ abstract class BaseInstanceDependentController extends BaseController
     private $paginator;
 
 
-    public function __construct(InstanceHelper $instanceHelper,
-                                PaginatorInterface $paginator,
-    ConfigurationHelper $configurationHelper
-
-    )
-    {
+    public function __construct(
+        InstanceHelper $instanceHelper,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper
+    ) {
         $this->configurationHelper = $configurationHelper;
         $this->paginator=$paginator;
         $this->instanceHelper=$instanceHelper;

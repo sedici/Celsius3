@@ -110,10 +110,10 @@ class AdminOrderController extends OrderController
     {
         $form = $this->createForm($type, $entity, $options);
 
-        return array(
+        return [
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ];
     }
     
     protected function getSortDefaults()

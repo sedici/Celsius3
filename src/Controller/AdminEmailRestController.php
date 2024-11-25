@@ -43,10 +43,13 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
      */
     public function sendEmail(Request $request)
     {
-        if (!$request->request->has('email')) {
+        $content = $request->getContent();
+        $json_content = json_decode($content, true);
+
+        if (!key_exists("email", $json_content)) {
             throw new NotFoundHttpException('Error sending email');
         }
-        $email = $request->request->get('email');
+        $email = $json_content["email"];
 
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
@@ -57,28 +60,28 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
             throw new NotFoundHttpException('Error sending email');
         }
 
-        if (!$request->request->has('subject')) {
+        if (!key_exists("subject", $json_content)) {
             throw new NotFoundHttpException('Error sending email');
         }
-        $subject = $request->request->get('subject');
+        $subject = $json_content["subject"];
 
-        if (!$request->request->has('text')) {
+        if (!key_exists("text", $json_content)) {
             throw new NotFoundHttpException('Error sending email');
         }
-        $text = $request->request->get('text');
+        $text = $json_content["text"];
 
-        $order_id = $request->request->get('order_id');
+        $order_id = $json_content["order_id"];
         $order = ($order_id) ? $this->getDoctrine()->getManager()->getRepository(Order::class)->find($order_id) : null;
 
         $user = $this->getDoctrine()->getManager()->getRepository(BaseUser::class)->findOneBy(array('email' => $email));
 
         $mailManager = $this->get('celsius3_core.mail_manager');
 
-        $text = $mailManager->renderRawTemplate($text, array(
+        $text = $mailManager->renderRawTemplate($text, [
             'user' => $user,
             'instance' => $this->getInstance(),
             'order' => $order
-        ));
+        ]);
 
         $result = $this->get('celsius3_core.mailer')->sendEmail($email, $subject, $text, $this->getInstance());
 

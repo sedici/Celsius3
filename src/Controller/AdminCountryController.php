@@ -28,11 +28,10 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Country;
 use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -56,12 +55,12 @@ class AdminCountryController extends BaseInstanceDependentController
      * @var Translator
      */
     private $translator;
+
     public function __construct(
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         InstanceHelper $instanceHelper,
         TranslatorInterface $translator
-
     ) {
         $this->paginator = $paginator;
         $this->configurationHelper=$configurationHelper;
@@ -69,25 +68,30 @@ class AdminCountryController extends BaseInstanceDependentController
         $this->setConfigurationHelper($configurationHelper);
         $this->translator=$translator;
         $this->setTranslator($translator);
-
     }
+
     protected function getDirectory()
     {
-        return $this->getDoctrine()->getManager()->getRepository(Instance::class)->findOneBy(array('url' => 'directory'));;
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Instance::class)
+            ->findOneBy(['url' => 'directory']);
     }
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository(Country::class)
-                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+            ->getRepository(Country::class)
+            ->findForInstanceAndGlobal(
+                $this->getInstance(),
+                $this->getDirectory()
+            );
     }
 
     protected function getSortDefaults()
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
     /**
@@ -101,9 +105,14 @@ class AdminCountryController extends BaseInstanceDependentController
             'Admin/Country/index.html.twig',
             $this->baseIndex(
                 'Country',
-                $this->createForm(CountryFilterType::class, null, [
-                    'instance' => $this->getInstance(),
-                ]),$paginator
+                $this->createForm(
+                    CountryFilterType::class,
+                    null,
+                    [
+                        'instance' => $this->getInstance(),
+                    ]
+                ),
+                $paginator
             )
         );
     }
@@ -152,11 +161,11 @@ class AdminCountryController extends BaseInstanceDependentController
 
         $editForm = $this->createForm($type, $entity, $options);
 
-        return array(
+        return [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'route' => $route,
-        );
+        ];
     }
 
 
@@ -190,8 +199,20 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function update($id)
     {
-        return $this->render('Admin/Country/edit.html.twig', $this->baseUpdate('Country', $id, CountryType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_country'));
+        $response = $this->baseUpdate(
+            'Country', $id, CountryType::class, [
+                'instance' => $this->getInstance(),
+            ],
+            'admin_country'
+        );
+
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
+
+        return $this->render(
+            'Admin/Country/edit.html.twig', 
+            $response
+        );
     }
 }
