@@ -35,43 +35,47 @@ abstract class CountryController extends BaseController
 {
 
 
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
+    // /**
+    //  * @var InstanceManager
+    //  */
+    // private $instanceManager;
+    // /**
+    //  * @var EntityManagerInterface
+    //  */
+    // private $entityManager;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
 
-    public function __construct(InstanceManager $instanceManager,
-                                EntityManagerInterface $entityManager,
-                                ConfigurationHelper $configurationHelper
-    )
-    {
-        $this->instanceManager = $instanceManager;
-        $this->entityManager = $entityManager;
-        $this->configurationHelper = $configurationHelper;
-    }
+    // public function __construct(InstanceManager $instanceManager,
+    //                             EntityManagerInterface $entityManager,
+    //                             ConfigurationHelper $configurationHelper
+    // )
+    // {
+    //     $this->instanceManager = $instanceManager;
+    //     $this->entityManager = $entityManager;
+    //     $this->configurationHelper = $configurationHelper;
+    // }
 
     protected function getDirectory()
     {
-        return  $this->getDoctrine()->getManager()->getRepository(Instance::class)
-            ->findOneBy(array('url' => 'directory'));
-        //   return $this->instanceManager->getDirectory();
+        return  $this->getDoctrine()->getManager()
+            ->getRepository(Instance::class)
+            ->findOneBy([
+                'url' => 'directory'
+            ]);
     }
 
     protected function listQuery($name)
     {
-      $qb = $this->getDoctrine()->getManager()
+        $qb = $this->getDoctrine()->getManager()
             ->getRepository(Country::class)
-            ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
-      return $qb;
-
+            ->findForInstanceAndGlobal(
+                $this->getInstance(),
+                $this->getDirectory()
+            );
+        return $qb;
     }
 
 

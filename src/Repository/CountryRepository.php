@@ -32,16 +32,16 @@ class CountryRepository extends BaseRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')
-                        ->where('e.instance = :instance_id')
-                        ->orWhere('e.instance = :directory_id')
-                        ->orderBy('e.name', 'asc')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('directory_id', $directory->getId());
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->orderBy('e.name', 'asc')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('directory_id', $directory->getId());
     }
 
     public function getAllOrderedByNameQB()
     {
         return $this->createQueryBuilder('c')
-                    ->orderBy('c.name', 'asc');
+            ->orderBy('c.name', 'asc');
     }
 }

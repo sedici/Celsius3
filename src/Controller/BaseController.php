@@ -40,32 +40,104 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class BaseController extends AbstractController
 {
+    /**
+     * @var InstanceManager
+     */
+    protected $instanceManager;
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+    /**
+     * @var ConfigurationHelper
+     */
+    protected $configurationHelper;
+
+    /**
+     * @var Paginator
+     */
+    protected $paginator;
+
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
+    public function __construct(
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator
+    ) {
+        $this->instanceManager = $instanceManager;
+        $this->entityManager = $entityManager;
+        $this->configurationHelper = $configurationHelper;
+        $this->paginator = $paginator;
+        $this->translator = $translator;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // /**
     //  * @var InstanceManager
     //  */
-    // protected $instanceManager;
+    // private $instanceManager;
     // /**
     //  * @var EntityManagerInterface
     //  */
-    // protected $entityManager;
+    // private $entityManager;
     // /**
     //  * @var ConfigurationHelper
     //  */
-    // protected $configurationHelper;
+    // private $configurationHelper;
 
     // /**
     //  * @var Paginator
     //  */
-    // protected $paginator;
+    // private $paginator;
 
     // /**
     //  * @var Translator
     //  */
-    // protected $translator;
+    // private $translator;
 
     // public function __construct(
     //     InstanceManager $instanceManager,
     //     EntityManagerInterface $entityManager,
+    //     InstanceHelper $instanceHelper,
     //     PaginatorInterface $paginator,
     //     ConfigurationHelper $configurationHelper,
     //     TranslatorInterface $translator
@@ -77,79 +149,6 @@ abstract class BaseController extends AbstractController
     //     $this->paginator = $paginator;
     //     $this->translator = $translator;
     // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-
-    /**
-     * @var Paginator
-     */
-    private $paginator;
-
-    /**
-     * @var Translator
-     */
-    private $translator;
-
-    public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator
-
-    ) {
-        $this->instanceManager = $instanceManager;
-        $this->entityManager = $entityManager;
-        $this->configurationHelper = $configurationHelper;
-        $this->paginator = $paginator;
-        $this->translator = $translator;
-    }
 
     public function getConfigurationHelper()
     {

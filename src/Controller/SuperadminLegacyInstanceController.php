@@ -25,12 +25,14 @@ namespace Celsius3\Controller;
 use Celsius3\Helper\ConfigurationHelper;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\LegacyInstance;
 use Celsius3\Form\Type\LegacyInstanceType;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 /**
  * Instance controller.
@@ -39,29 +41,50 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminLegacyInstanceController extends InstanceController
 {
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    // public function __construct(
+    //     InstanceManager $instanceManager,
+    //     EntityManagerInterface $entityManager,
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper,
+    //     TranslatorInterface $translator
+    // ) {
+    //     parent::__construct(
+    //         $instanceManager,
+    //         $entityManager,
+    //         $paginator,
+    //         $configurationHelper,
+    //         $translator
+    //     );
+    // }
 
-    public function __construct(
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper
 
-    ) {
-        $this->paginator = $paginator;
 
-        $this->setConfigurationHelper($configurationHelper);
 
-    }
 
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        );
-    }
+    
+
+
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
+
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper
+
+    // ) {
+    //     $this->paginator = $paginator;
+    //     $this->setConfigurationHelper($configurationHelper);
+    // }
+
+    // protected function getSortDefaults()
+    // {
+    //     return array(
+    //         'defaultSortFieldName' => 'e.name',
+    //         'defaultSortDirection' => 'asc',
+    //     );
+    // }
 
     /**
      * Lists all Instance entities.

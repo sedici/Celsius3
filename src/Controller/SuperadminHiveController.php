@@ -39,31 +39,31 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminHiveController extends BaseController
 {
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    // /**
+    //  * @var EntityManagerInterface
+    //  */
+    // private $entityManager;
 
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    public function __construct(
-        PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager,
-        ConfigurationHelper $configurationHelper
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     EntityManagerInterface $entityManager,
+    //     ConfigurationHelper $configurationHelper
 
-    ) {
-        $this->paginator = $paginator;
-        $this->entityManager = $entityManager;
-        $this->setConfigurationHelper($configurationHelper);
+    // ) {
+    //     $this->paginator = $paginator;
+    //     $this->entityManager = $entityManager;
+    //     $this->setConfigurationHelper($configurationHelper);
 
-    }
+    // }
 
 
 

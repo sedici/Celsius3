@@ -38,32 +38,32 @@ use Knp\Component\Pager\PaginatorInterface;
 class AdminSearchController extends BaseInstanceDependentController
 {
 
-    /**
-     * @var ConfigurationHelper
-     */
-    private $searchManager;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $instanceHelper;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $searchManager;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $instanceHelper;
 
-     /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    //  /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
 
-    public function __construct(SearchManager $searchManager,InstanceHelper $instanceHelper,
-    PaginatorInterface $paginator,
-    ConfigurationHelper $configurationHelper)
-    {
-        $this->paginator = $paginator;
-        $this->searchManager=$searchManager;
-        $this->instanceHelper=$instanceHelper;
-        $this->configurationHelper = $configurationHelper;
-        $this->setIntanceHelper($this->instanceHelper);
+    // public function __construct(SearchManager $searchManager,InstanceHelper $instanceHelper,
+    // PaginatorInterface $paginator,
+    // ConfigurationHelper $configurationHelper)
+    // {
+    //     $this->paginator = $paginator;
+    //     $this->searchManager=$searchManager;
+    //     $this->instanceHelper=$instanceHelper;
+    //     $this->configurationHelper = $configurationHelper;
+    //     $this->setIntanceHelper($this->instanceHelper);
 
 
-    }
+    // }
 
 
     /**
@@ -73,7 +73,7 @@ class AdminSearchController extends BaseInstanceDependentController
     {
         $keyword = $request->query->get('keyword');
         $filters = $request->query->get('filters', []);
-        $searchManager = $this->searchManager;
+        $searchManager = $this->instanceHelper;
 
         $delFilter = $request->query->get('del-filter', []);
         if (!empty($delFilter) && array_key_exists($delFilter['name'], $filters)) {

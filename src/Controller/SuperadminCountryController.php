@@ -44,25 +44,26 @@ use Symfony\Component\Form\FormInterface;
 class SuperadminCountryController extends BaseController
 {
 
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
 
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
-    public function __construct(
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        InstanceManager $instanceManager
-    ) {
-        $this->paginator = $paginator;
-        $this->instanceManager=$instanceManager;
-        $this->setConfigurationHelper($configurationHelper);
+    // /**
+    //  * @var InstanceManager
+    //  */
+    // private $instanceManager;
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper,
+    //     InstanceManager $instanceManager
+    // ) {
+    //     $this->paginator = $paginator;
+    //     $this->instanceManager=$instanceManager;
+    //     $this->setConfigurationHelper($configurationHelper);
 
-    }
+    // }
+
     protected function getSortDefaults()
     {
         return array(

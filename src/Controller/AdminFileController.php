@@ -39,20 +39,20 @@ class AdminFileController extends BaseController
 
 
 
-    /**
-     * @var Translator
-     */
-    private $translator;
+    // /**
+    //  * @var Translator
+    //  */
+    // private $translator;
 
-    public function __construct(
-        TranslatorInterface $translator
+    // public function __construct(
+    //     TranslatorInterface $translator
 
-    )
-    {
-        $this->translator=$translator;
-        $this->setTranslator($translator);
+    // )
+    // {
+    //     $this->translator=$translator;
+    //     $this->setTranslator($translator);
 
-    }
+    // }
 
 
 

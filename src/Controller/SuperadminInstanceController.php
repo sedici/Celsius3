@@ -47,39 +47,39 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class SuperadminInstanceController extends InstanceController
 {
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    // /**
+    //  * @var EntityManagerInterface
+    //  */
+    // private $entityManager;
 
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
+    // /**
+    //  * @var InstanceHelper
+    //  */
+    // private $instanceHelper;
 
 
-    public function __construct(
-        PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager,
-        ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     EntityManagerInterface $entityManager,
+    //     ConfigurationHelper $configurationHelper,
+    //     InstanceHelper $instanceHelper
 
-    ) {
-        $this->instanceHelper= $instanceHelper;
-        $this->paginator = $paginator;
-        $this->entityManager = $entityManager;
-        $this->setConfigurationHelper($configurationHelper);
+    // ) {
+    //     $this->instanceHelper= $instanceHelper;
+    //     $this->paginator = $paginator;
+    //     $this->entityManager = $entityManager;
+    //     $this->setConfigurationHelper($configurationHelper);
 
-    }
+    // }
 
     protected function getSortDefaults()
     {
@@ -98,7 +98,13 @@ class SuperadminInstanceController extends InstanceController
     {
         return $this->render(
             'Superadmin/Instance/index.html.twig',
-            $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class), $this->paginator)
+            $this->baseIndex(
+                'Instance',
+                $this->createForm(
+                    InstanceFilterType::class
+                ),
+                $this->paginator
+            )
         );
     }
 

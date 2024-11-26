@@ -53,55 +53,83 @@ use function get_class;
  */
 class AdminOrderController extends OrderController
 {
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
-
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var Translator
-     */
-    private $translator;
-
     private $lifecycleHelper;
+
     public function __construct(
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper,
-        TranslatorInterface $translator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        InstanceHelper $instanceHelper,
         LifecycleHelper $lifecycleHelper
-
     ) {
-        $this->paginator = $paginator;
-        $this->configurationHelper=$configurationHelper;
-        $this->setIntanceHelper($instanceHelper);
-        $this->setConfigurationHelper($configurationHelper);
-        $this->translator=$translator;
-        $this->setTranslator($translator);
-        $this->instanceManager=$instanceManager;
-        $this->instanceHelper = $instanceHelper;
-        $this->entityManager = $entityManager;
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $instanceHelper
+        );
         $this->lifecycleHelper = $lifecycleHelper;
     }
+
+
+
+
+
+
+
+    // /**
+    //  * @var InstanceHelper
+    //  */
+    // private $instanceHelper;
+    // /**
+    //  * @var EntityManagerInterface
+    //  */
+    // private $entityManager;
+
+    // /**
+    //  * @var InstanceManager
+    //  */
+    // private $instanceManager;
+
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
+    // /**
+    //  * @var Translator
+    //  */
+    // private $translator;
+
+    // private $lifecycleHelper;
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper,
+    //     InstanceHelper $instanceHelper,
+    //     TranslatorInterface $translator,
+    //     InstanceManager $instanceManager,
+    //     EntityManagerInterface $entityManager,
+    //     LifecycleHelper $lifecycleHelper
+
+    // ) {
+    //     $this->paginator = $paginator;
+    //     $this->configurationHelper=$configurationHelper;
+    //     $this->setIntanceHelper($instanceHelper);
+    //     $this->setConfigurationHelper($configurationHelper);
+    //     $this->translator=$translator;
+    //     $this->setTranslator($translator);
+    //     $this->instanceManager=$instanceManager;
+    //     $this->instanceHelper = $instanceHelper;
+    //     $this->entityManager = $entityManager;
+    //     $this->lifecycleHelper = $lifecycleHelper;
+    // }
 
 
 

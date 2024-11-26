@@ -36,10 +36,10 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class SuperadminDataRequestController extends BaseController
 {
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
 
     /**
      * Lists all data requests.

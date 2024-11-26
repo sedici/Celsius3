@@ -30,23 +30,50 @@ use Celsius3\Exception\Exception;
 use Celsius3\Manager\UnionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Celsius3\Helper\ConfigurationHelper;
+use Knp\Component\Pager\PaginatorInterface;
 
 final class DoUnionPostController extends BaseUserController
 {
-    private $entityManager;
-    private $unionManager;
-    private $translator;
+    protected $unionManager;
 
     public function __construct(
+        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
-        UnionManager $unionManager,
-        TranslatorInterface $translator
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        InstanceHelper $instanceHelper,
+        UnionManager $unionManager
     ) {
-        $this->entityManager = $entityManager;
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $instanceHelper
+        );
         $this->unionManager = $unionManager;
-        $this->translator = $translator;
     }
+
+
+    // private $entityManager;
+    // private $unionManager;
+    // private $translator;
+
+    // public function __construct(
+    //     EntityManagerInterface $entityManager,
+    //     UnionManager $unionManager,
+    //     TranslatorInterface $translator
+    // ) {
+    //     $this->entityManager = $entityManager;
+    //     $this->unionManager = $unionManager;
+    //     $this->translator = $translator;
+    // }
 
     public function __invoke(Request $request)
     {

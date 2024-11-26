@@ -29,100 +29,103 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
-    // /**
-    //  * @var InstanceHelper
-    //  */
-    // protected $instanceHelper;
-
-
-    // public function __construct(
-    //     InstanceManager $instanceManager,
-    //     EntityManagerInterface $entityManager,
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     TranslatorInterface $translator,
-    //     InstanceHelper $instanceHelper
-    // ) {
-    //     parent::__construct(
-    //         $instanceManager,
-    //         $entityManager,
-    //         $paginator,
-    //         $configurationHelper,
-    //         $translator
-    //     );
-    //     $this->instanceHelper = $instanceHelper;
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-
     /**
      * @var InstanceHelper
      */
-    private $instanceHelper;
-
-    /**
-     * @var Paginator
-     */
-    private $paginator;
+    protected $instanceHelper;
 
 
     public function __construct(
-        InstanceHelper $instanceHelper,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        InstanceHelper $instanceHelper
     ) {
-        $this->configurationHelper = $configurationHelper;
-        $this->paginator=$paginator;
-        $this->instanceHelper=$instanceHelper;
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator
+        );
+        $this->instanceHelper = $instanceHelper;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
+
+    // /**
+    //  * @var InstanceHelper
+    //  */
+    // private $instanceHelper;
+
+    // /**
+    //  * @var Paginator
+    //  */
+    // private $paginator;
+
+
+    // public function __construct(
+    //     InstanceHelper $instanceHelper,
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper
+    // ) {
+    //     $this->configurationHelper = $configurationHelper;
+    //     $this->paginator=$paginator;
+    //     $this->instanceHelper=$instanceHelper;
+    // }
 
     public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
 

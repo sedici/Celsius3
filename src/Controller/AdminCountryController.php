@@ -43,38 +43,40 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AdminCountryController extends BaseInstanceDependentController
 {
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var Translator
-     */
-    private $translator;
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
+    // /**
+    //  * @var Translator
+    //  */
+    // private $translator;
 
-    public function __construct(
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper,
-        TranslatorInterface $translator
-    ) {
-        $this->paginator = $paginator;
-        $this->configurationHelper=$configurationHelper;
-        $this->setIntanceHelper($instanceHelper);
-        $this->setConfigurationHelper($configurationHelper);
-        $this->translator=$translator;
-        $this->setTranslator($translator);
-    }
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper,
+    //     InstanceHelper $instanceHelper,
+    //     TranslatorInterface $translator
+    // ) {
+    //     $this->paginator = $paginator;
+    //     $this->configurationHelper=$configurationHelper;
+    //     $this->setIntanceHelper($instanceHelper);
+    //     $this->setConfigurationHelper($configurationHelper);
+    //     $this->translator=$translator;
+    //     $this->setTranslator($translator);
+    // }
 
     protected function getDirectory()
     {
         return $this->getDoctrine()->getManager()
             ->getRepository(Instance::class)
-            ->findOneBy(['url' => 'directory']);
+            ->findOneBy([
+                'url' => 'directory'
+            ]);
     }
     protected function listQuery($name)
     {

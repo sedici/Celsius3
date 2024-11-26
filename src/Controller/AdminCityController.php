@@ -43,38 +43,38 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class AdminCityController extends BaseInstanceDependentController
 {
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
+    // /**
+    //  * @var InstanceManager
+    //  */
+    // private $instanceManager;
 
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var Translator
-     */
-    private $translator;
-    public function __construct(
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper,
-        TranslatorInterface $translator,
-        InstanceManager $instanceManager
-    ) {
-        $this->paginator = $paginator;
-        $this->configurationHelper=$configurationHelper;
-        $this->setIntanceHelper($instanceHelper);
-        $this->setConfigurationHelper($configurationHelper);
-        $this->translator=$translator;
-        $this->setTranslator($translator);
-        $this->instanceManager=$instanceManager;
-    }
+    // /**
+    //  * @var PaginatorInterface
+    //  */
+    // private $paginator;
+    // /**
+    //  * @var ConfigurationHelper
+    //  */
+    // private $configurationHelper;
+    // /**
+    //  * @var Translator
+    //  */
+    // private $translator;
+    // public function __construct(
+    //     PaginatorInterface $paginator,
+    //     ConfigurationHelper $configurationHelper,
+    //     InstanceHelper $instanceHelper,
+    //     TranslatorInterface $translator,
+    //     InstanceManager $instanceManager
+    // ) {
+    //     $this->paginator = $paginator;
+    //     $this->configurationHelper=$configurationHelper;
+    //     $this->setIntanceHelper($instanceHelper);
+    //     $this->setConfigurationHelper($configurationHelper);
+    //     $this->translator=$translator;
+    //     $this->setTranslator($translator);
+    //     $this->instanceManager=$instanceManager;
+    // }
 
 
 
