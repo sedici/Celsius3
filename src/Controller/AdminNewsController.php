@@ -46,7 +46,13 @@ class AdminNewsController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/News/index.html.twig',
-            $this->baseIndex('News', $this->createForm(NewsFilterType::class),$paginator)
+            $this->baseIndex(
+                'News',
+                $this->createForm(
+                    NewsFilterType::class
+                ),
+                $paginator
+            )
         );
     }
 
@@ -60,7 +66,13 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function show($id)
     {
-        return $this->render('Admin/News/show.html.twig', $this->baseShow('News', $id));
+        return $this->render(
+            'Admin/News/show.html.twig',
+            $this->baseShow(
+                'News',
+                $id
+            )
+        );
     }
 
     /**
@@ -72,9 +84,14 @@ class AdminNewsController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/News/new.html.twig',
-            $this->baseNew('News', new News(), NewsType::class, [
-                'instance' => $this->getInstance(),
-            ])
+            $this->baseNew(
+                'News',
+                new News(),
+                NewsType::class,
+                [
+                    'instance' => $this->getInstance()
+                ]
+            )
         );
     }
 
@@ -102,9 +119,18 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function create()
     {
-        return $this->render('Admin/News/new.html.twig', $this->baseCreate('News', new News(), NewsType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_news'));
+        return $this->render(
+            'Admin/News/new.html.twig',
+            $this->baseCreate(
+                'News', 
+                new News(), 
+                NewsType::class, 
+                [
+                'instance' => $this->getInstance(),
+                ], 
+                'admin_news'
+            )
+        );
     }
 
     /**
@@ -119,10 +145,14 @@ class AdminNewsController extends BaseInstanceDependentController
     public function edit($id)
     {
         return $this->render(
-            'Admin/Mail/edit.html.twig',
-            $this->baseEdit('News', $id, NewsType::class, array(
-                'instance' => $this->getInstance(),
-            ))
+            'Admin/News/edit.html.twig',
+            $this->baseEdit(
+                'News',
+                $id,
+                NewsType::class, [
+                    'instance' => $this->getInstance(),
+                ]
+            )
         );
     }
 
@@ -137,8 +167,17 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function update($id)
     {
-        return $this->render('Admin/News/edit.html.twig', $this->baseUpdate('News', $id, NewsType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_news'));
+        return $this->render(
+            'Admin/News/edit.html.twig',
+            $this->baseUpdate(
+                'News',
+                $id,
+                NewsType::class,
+                [
+                    'instance' => $this->getInstance(),
+                ],
+                'admin_news'
+            )
+        );
     }
 }

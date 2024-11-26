@@ -44,18 +44,17 @@ class InstitutionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('name')
-                ->add('abbreviation')
-                ->add('website', null, array(
-                    'required' => false,
-                    'attr' => array(
-                        'placeholder' => 'http://'
-                    ),
-                ))
-                ->add('address', null, array(
-                    'required' => false
-                ))
-        ;
+            ->add('name')
+            ->add('abbreviation')
+            ->add('website', null, [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'http://'
+                ],
+            ])
+            ->add('address', null, [
+                'required' => false
+            ]);
 
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'parent', false, true, true, false, $options['show_city']);
         $builder->addEventSubscriber($subscriber);
@@ -63,33 +62,32 @@ class InstitutionType extends AbstractType
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
-                        ->add('instance', EntityType::class, array(
-                            'class' => Instance::class,
-                            'label' => 'Owning Instance',
-                        ))
-                        ->add('celsiusInstance', EntityType::class, array(
-                            'class' => Instance::class,
-                            'required' => false,
-                            'label' => 'Celsius Instance',
-                        ))
-                ;
+                    ->add('instance', EntityType::class, [
+                        'class' => Instance::class,
+                        'label' => 'Owning Instance',
+                    ])
+                    ->add('celsiusInstance', EntityType::class, [
+                        'class' => Instance::class,
+                        'required' => false,
+                        'label' => 'Celsius Instance',
+                    ]);
             } else {
-                $builder->add('instance', InstanceSelectorType::class, array(
+                $builder->add('instance', InstanceSelectorType::class, [
                     'data' => $options['instance'],
-                    'attr' => array(
+                    'attr' => [
                         'value' => $options['instance']->getId(),
                         'readonly' => 'readonly',
-                    ),
-                ));
+                    ],
+                ]);
             }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
             'show_city' => false
-        ));
+        ]);
     }
 }

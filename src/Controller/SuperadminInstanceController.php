@@ -27,18 +27,13 @@ use Celsius3\Entity\Institution;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Form\Type\InstanceType;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Translator;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Instance controller.
@@ -221,7 +216,22 @@ class SuperadminInstanceController extends InstanceController
      */
     public function update($id)
     {
-        return $this->render('Superadmin/Instance/edit.html.twig', $this->baseUpdate('Instance', $id, InstanceType::class, array(), 'superadmin_instance'));
+        $response = $this->baseUpdate(
+            'Instance',
+            $id,
+            InstanceType::class,
+            [],
+            'superadmin_instance'
+        );
+
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
+
+        return $this->render(
+            'Superadmin/Instance/edit.html.twig',
+            $response
+        );
     }
 
     /**

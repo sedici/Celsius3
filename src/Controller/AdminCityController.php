@@ -125,9 +125,14 @@ class AdminCityController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/City/new.html.twig',
-            $this->baseNew('City', new City(), CityType::class, [
-                'instance' => $this->getInstance(),
-            ])
+            $this->baseNew(
+                'City',
+                new City(),
+                CityType::class,
+                [
+                    'instance' => $this->getInstance(),
+                ]
+            )
         );
     }
 
@@ -156,9 +161,14 @@ class AdminCityController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/City/edit.html.twig',
-            $this->baseEdit('City', $id, CityType::class, [
-                'instance' => $this->getInstance(),
-            ])
+            $this->baseEdit(
+                'City',
+                $id,
+                CityType::class,
+                [
+                    'instance' => $this->getInstance(),
+                ]
+            )
         );
     }
 
@@ -174,7 +184,10 @@ class AdminCityController extends BaseInstanceDependentController
     public function update($id)
     {
         $response = $this->baseUpdate(
-            'City', $id, CityType::class, [
+            'City',
+            $id,
+            CityType::class,
+            [
                 'instance' => $this->getInstance(),
             ],
             'admin_city'

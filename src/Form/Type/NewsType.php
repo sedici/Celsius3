@@ -33,45 +33,45 @@ class NewsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('title', TextareaType::class, array(
-                    'attr' => array(
-                        'class' => 'summernote',
-                    ),
+            ->add('title', TextareaType::class, [
+                'attr' => array(
+                    'class' => 'summernote',
+                ),
 
-                ))
-                ->add('text', TextareaType::class, array(
-                    'attr' => array(
-                        'class' => 'summernote',
-                    ),
-                    'required' => false,
-                ))
-                ->add('date', DateTimeType::class, array(
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy HH:mm',
-                    'attr' => array(
-                        'class' => 'news-date',
-                    ),
-                ))
-            ->add('active', null, array(
+            ])
+            ->add('text', TextareaType::class, [
+                'attr' => [
+                    'class' => 'summernote',
+                ],
                 'required' => false,
-            ))
-        ;
+            ])
+            ->add('date', DateTimeType::class, [
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'dd/MM/yyyy HH:mm',
+                'attr' => [
+                    'class' => 'news-date',
+                ],
+            ])
+            ->add('active', null, [
+                'required' => false,
+            ]);
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            $builder->add('instance', InstanceSelectorType::class, array(
+            $builder->add('instance', InstanceSelectorType::class, [
                 'data' => $options['instance'],
-                'attr' => array(
+                'attr' => [
                     'value' => $options['instance']->getId(),
                     'readonly' => 'readonly',
-                ),
-            ));
+                ]
+            ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
-        ));
+        ]);
     }
 }
