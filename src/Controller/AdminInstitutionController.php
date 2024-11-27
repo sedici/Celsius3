@@ -37,9 +37,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @Route("/admin/institution")
  */
-class AdminInstitutionController extends BaseInstanceDependentController
-{
-
+class AdminInstitutionController extends BaseInstanceDependentController {
 
     protected function getDirectory()
     {
@@ -98,10 +96,15 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/Institution/new.html.twig',
-            $this->baseNew('Institution', new Institution(), InstitutionType::class, [
-                'instance' => $this->getInstance(),
-                'show_city' => true
-            ])
+            $this->baseNew(
+                'Institution',
+                new Institution(),
+                InstitutionType::class,
+                [
+                    'instance' => $this->getInstance(),
+                    'show_city' => true
+                ]
+            )
         );
     }
 
@@ -112,10 +115,19 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function create()
     {
-        return $this->render('Admin/Institution/new.html.twig', $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
-            'instance' => $this->getInstance(),
-            'show_city' => true
-        ), 'admin_institution'));
+        return $this->render(
+            'Admin/Institution/new.html.twig',
+            $this->baseCreate(
+                'Institution',
+                new Institution(),
+                InstitutionType::class,
+                [
+                    'instance' => $this->getInstance(),
+                    'show_city' => true
+                ],
+                'admin_institution'
+            )
+        );
     }
 
     /**
@@ -131,10 +143,15 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/Institution/edit.html.twig',
-            $this->baseEdit('Institution', $id, InstitutionType::class, [
-                'instance' => $this->getInstance(),
-                'show_city' => true
-            ])
+            $this->baseEdit(
+                'Institution',
+                $id,
+                InstitutionType::class,
+                [
+                    'instance' => $this->getInstance(),
+                    'show_city' => true
+                ]
+            )
         );
     }
 
@@ -155,6 +172,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
             InstitutionType::class,
             [
                 'instance' => $this->getInstance(),
+                'show_city' => true
             ],
             'admin_institution'
         );

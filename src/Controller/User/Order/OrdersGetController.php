@@ -80,8 +80,8 @@ final class OrdersGetController extends AbstractFOSRestController
 
         $pagination = $this->paginator->paginate(
             $orders,
-            (int) $request->query->get('page', 1),
-            (int) $this->configurationHelper->getCastedValue($instance->get('results_per_page'))
+            intval($request->query->get('page', 1)),
+            intval($this->configurationHelper->getCastedValue($instance->get('results_per_page')))
         )->getItems();
 
         if ($with_request) {

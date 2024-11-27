@@ -24,8 +24,6 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\Country;
@@ -33,7 +31,6 @@ use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 /**
@@ -184,9 +181,14 @@ class AdminCountryController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/Country/edit.html.twig',
-            $this->baseEdit('Country', $id, CountryType::class, [
-                'instance' => $this->getInstance(),
-            ])
+            $this->baseEdit(
+                'Country',
+                $id,
+                CountryType::class,
+                [
+                    'instance' => $this->getInstance(),
+                ]
+            )
         );
     }
 
@@ -202,7 +204,10 @@ class AdminCountryController extends BaseInstanceDependentController
     public function update($id)
     {
         $response = $this->baseUpdate(
-            'Country', $id, CountryType::class, [
+            'Country',
+            $id,
+            CountryType::class,
+            [
                 'instance' => $this->getInstance(),
             ],
             'admin_country'

@@ -104,7 +104,7 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
         $pagination = $this->paginator->paginate(
         // $pagination = $paginator->paginate(
             $query,
-            $request->query->get('page', 1),
+            intval($request->query->get('page', 1)),
             $this->getResultsPerPage(),
             $this->getSortDefaults()
         );

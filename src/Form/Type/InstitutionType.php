@@ -56,7 +56,16 @@ class InstitutionType extends AbstractType
                 'required' => false
             ]);
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'parent', false, true, true, false, $options['show_city']);
+        $subscriber = new AddInstitutionFieldsSubscriber(
+            $builder->getFormFactory(),
+            $this->em,
+            'parent',
+            false,
+            true,
+            true,
+            false,
+            $options['show_city']
+        );
         $builder->addEventSubscriber($subscriber);
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {

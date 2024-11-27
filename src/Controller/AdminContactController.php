@@ -39,91 +39,66 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Celsius3\Manager\InstanceManager;
+use Celsius3\Form\Type\Filter\ContactFilterType;
+use Celsius3\Form\Type\ContactType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 
 /**
  * AdminContact controller.
  *
  * @Route("/admin/contact")
  */
-class AdminContactController extends AbstractController //BaseInstanceDependentController
+class AdminContactController extends BaseInstanceDependentController
 {
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var ContactRepository
-     */
-    private $contactRepository;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    /**
-     * @var CustomFieldHelper
-     */
-    private $customFieldHelper;
 
-
-    public function __construct(
-        PaginatorInterface $paginator,
-        InstanceHelper $instanceHelper,
-        ConfigurationHelper $configurationHelper,
-        ContactRepository $contactRepository,
-        TranslatorInterface $translator,
-        CustomFieldHelper $customFieldHelper
-    ) {
-        $this->paginator = $paginator;
-        $this->instanceHelper = $instanceHelper;
-        $this->configurationHelper = $configurationHelper;
-        $this->contactRepository = $contactRepository;
-        $this->translator = $translator;
-        $this->customFieldHelper = $customFieldHelper;
+    protected function listQuery($name)
+    {
+        return $this->getDoctrine()->getManager()
+            ->getRepository(Contact::class)
+            ->createQueryBuilder('e')
+            ->select('e')
+            ->where('e.owningInstance = :instance')
+            ->setParameter(
+                'instance',
+                $this->instanceHelper
+                    ->getSessionOrUrlInstance()
+                    ->getId()
+            );
     }
 
+
+    protected function getSortDefaults()
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc',
+        ];
+    }
+
+
     /**
-     * Lists all Contact documents.
+     * Lists all Contact entities.
      *
      * @Route("/", name="admin_contact")
      */
-    public function index(Request $request): Response
+    public function index(PaginatorInterface $paginator): Response
     {
-        $query = $this->listQuery();
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1),
-            $this->configurationHelper->getCastedValue(
-                $this->instanceHelper->getSessionOrUrlInstance()->get('results_per_page')
-            ),
-            [
-                'defaultSortFieldName' => 'e.updatedAt',
-                'defaultSortDirection' => 'desc',
-            ]
+        return $this->render(
+            'Admin/Contact/index.html.twig',
+            $this->baseIndex(
+                Contact::class,
+                // $this->createForm(ContactFilterType::class, null, [
+                //     'instance' => $this->getInstance(),
+                // ]),
+                null,
+                $paginator
+            )
         );
-
-        $deleteForms = [];
-        foreach ($pagination as $entity) {
-            $contactId = $entity->getId();
-            $deleteForms[$contactId] = $this->createFormBuilder(['id' => $contactId])
-                ->add('id', HiddenType::class)
-                ->getForm()->createView();
-        }
-
-        return $this->render('Admin/Contact/index.html.twig', [
-            'pagination' => $pagination,
-//            'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,
-            'deleteForms' => $deleteForms
-        ]);
     }
+
 
     /**
      * Finds and displays a Contact document.
@@ -136,10 +111,13 @@ class AdminContactController extends AbstractController //BaseInstanceDependentC
      */
     public function show($id): Response
     {
-        $entity = $this->findQuery($id);
+        $entity = $this->findQuery(Contact::class, $id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                'exception.entity_not_found.contact'
+            );
         }
 
         return $this->render(
@@ -150,122 +128,140 @@ class AdminContactController extends AbstractController //BaseInstanceDependentC
         );
     }
 
+
     /**
-     * Displays a form to create a new Contact document.
+     * Displays a form to create a new Contact entity.
      *
      * @Route("/new", name="admin_contact_new")
      */
     public function new(): Response
     {
-        $entity = new Contact();
-
-        $form = $this->createForm(AdminContactType::class, $entity, [
-            'owning_instance' => $this->getInstance(),
-        ]);
-
         return $this->render(
             'Admin/Contact/new.html.twig',
-            [
-                'entity' => $entity,
-                'form' => $form->createView(),
-            ]
+            $this->baseNew(
+                Contact::class,
+                new Contact(),
+                AdminContactType::class,
+                [
+                    'owning_instance' => $this->getInstance()
+                ]
+            )
         );
     }
 
+
     /**
-     * Creates a new Contact document.
+     * Creates a new Contact entity.
      *
      * @Route("/create", name="admin_contact_create", methods={"POST"})
      */
-    public function create(Request $request)
+    public function create()
     {
-        $entity = new Contact();
-
-        $form = $this->createForm(AdminContactType::class, $entity, [
-            'owning_instance' => $this->getInstance(),
-        ]);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            try {
-                $this->contactRepository->save($entity);
-                $this->customFieldHelper->processCustomContactFields(
-                    $this->getInstance(),
-                    $form,
-                    $entity
-                );
-
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'The %entity% was successfully created.',
-                        ['%entity%' => $this->translator->trans('Contact')],
-                        'Flashes'
-                    )
-                );
-
-                return $this->redirect($this->generateUrl('admin_contact'));
-            } catch (UniqueConstraintViolationException $exception) {
-                $this->addFlash(
-                    'error',
-                    $this->translator->trans(
-                        'The %entity% already exists.',
-                        ['%entity%' => $this->translator->trans('Contact')],
-                        'Flashes'
-                    )
-                );
-            }
+        $response_params = $this->baseCreate(
+            Contact::class,
+            new Contact(),
+            AdminContactType::class,
+            [
+                'owning_instance' => $this->getInstance(),
+            ],
+            'admin_contact'
+        );
+        
+        if ($response_params instanceof RedirectResponse) {
+            return $response_params;
         }
 
-        $this->addFlash(
-            'error',
-            $this->translator->trans(
-                'There were errors creating the %entity%.',
-                ['%entity%' => $this->translator->trans('Contact')],
-                'Flashes'
-            )
+        return $this->render(
+            'Admin/Contact/new.html.twig',
+            $response_params
         );
-
-        return $this->render('Admin/Contact/new.html.twig', [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ]);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
-     * Displays a form to edit an existing Contact document.
+     * Displays a form to edit an existing Contact entity.
      *
      * @Route("/{id}/edit", name="admin_contact_edit")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
-     * @throws NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function edit($id): Response
     {
-        $entity = $this->findQuery($id);
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
-        }
-
-        $editForm = $this->createForm(AdminContactType::class, $entity, [
-            'owning_instance' => $this->getInstance(),
-            'user' => $entity->getUser(),
-        ]);
-
         return $this->render(
             'Admin/Contact/edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView(),
-            ]
+            $this->baseEdit(
+                Contact::class,
+                $id,
+                AdminContactType::class,
+                [
+                    'owning_instance' => $this->getInstance(),
+                ]
+            )
         );
     }
 
-    protected function findQuery($id)
-    {
-        return $this->contactRepository
-            ->findByInstance($this->getInstance(), $id);
-    }
+
+
+
+
+    // /**
+    //  * Displays a form to edit an existing Contact document.
+    //  *
+    //  * @Route("/{id}/edit", name="admin_contact_edit")
+    //  *
+    //  * @param string $id The document ID
+    //  *
+    //  * @throws NotFoundHttpException If document doesn't exists
+    //  */
+    // public function edit($id): Response
+    // {
+    //     $entity = $this->findQuery($id);
+    //     if (!$entity) {
+    //         throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
+    //     }
+
+    //     $editForm = $this->createForm(AdminContactType::class, $entity, [
+    //         'owning_instance' => $this->getInstance(),
+    //         'user' => $entity->getUser(),
+    //     ]);
+
+    //     return $this->render(
+    //         'Admin/Contact/edit.html.twig',
+    //         [
+    //             'entity' => $entity,
+    //             'edit_form' => $editForm->createView(),
+    //         ]
+    //     );
+    // }
+
+    // protected function findQuery($id)
+    // {
+    //     return $this->contactRepository
+    //         ->findByInstance($this->getInstance(), $id);
+    // }
 
     /**
      * Edits an existing Contact document.
@@ -376,18 +372,18 @@ class AdminContactController extends AbstractController //BaseInstanceDependentC
         return $this->redirect($this->generateUrl('admin_contact'));
     }
 
-    protected function listQuery()
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Contact::class)
-            ->createQueryBuilder('e')
-            ->select('e')
-            ->where('e.owningInstance = :instance')
-            ->setParameter('instance', $this->instanceHelper->getSessionOrUrlInstance()->getId());
-    }
+    // protected function listQuery()
+    // {
+    //     return $this->getDoctrine()->getManager()
+    //         ->getRepository(Contact::class)
+    //         ->createQueryBuilder('e')
+    //         ->select('e')
+    //         ->where('e.owningInstance = :instance')
+    //         ->setParameter('instance', $this->instanceHelper->getSessionOrUrlInstance()->getId());
+    // }
 
-    private function getInstance(): Instance
-    {
-        return $this->instanceHelper->getSessionOrUrlInstance();
-    }
+    // private function getInstance(): Instance
+    // {
+    //     return $this->instanceHelper->getSessionOrUrlInstance();
+    // }
 }

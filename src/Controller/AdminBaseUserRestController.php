@@ -115,7 +115,10 @@ class AdminBaseUserRestController extends AbstractFOSRestController//BaseInstanc
             ->getRepository(BaseUser::class)
             ->findPendingUsers($this->getInstance());
 
-        $view = $this->view(array_values($users), 200)->setFormat('json');
+        $view = $this->view(
+            array_values($users),
+            200
+        )->setFormat('json');
 
         $context = new Context();
         $context->addGroup('administration');

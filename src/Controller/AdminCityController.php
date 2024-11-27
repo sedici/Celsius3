@@ -22,18 +22,12 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\City;
 use Celsius3\Form\Type\CityType;
 use Celsius3\Form\Type\Filter\CityFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Manager\InstanceManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -43,52 +37,24 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class AdminCityController extends BaseInstanceDependentController
 {
-    // /**
-    //  * @var InstanceManager
-    //  */
-    // private $instanceManager;
-
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-    // /**
-    //  * @var Translator
-    //  */
-    // private $translator;
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     InstanceHelper $instanceHelper,
-    //     TranslatorInterface $translator,
-    //     InstanceManager $instanceManager
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->configurationHelper=$configurationHelper;
-    //     $this->setIntanceHelper($instanceHelper);
-    //     $this->setConfigurationHelper($configurationHelper);
-    //     $this->translator=$translator;
-    //     $this->setTranslator($translator);
-    //     $this->instanceManager=$instanceManager;
-    // }
-
-
-
 
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository(City::class)
-                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+            ->getRepository(City::class)
+            ->findForInstanceAndGlobal(
+                $this->getInstance(),
+                $this->getDirectory()
+            );
     }
+
+
     protected function getDirectory()
     {
         return $this->instanceManager->getDirectory();
     }
+
+
     protected function getSortDefaults()
     {
         return [
@@ -96,6 +62,7 @@ class AdminCityController extends BaseInstanceDependentController
             'defaultSortDirection' => 'asc',
         ];
     }
+
 
     /**
      * Lists all City entities.
@@ -108,13 +75,18 @@ class AdminCityController extends BaseInstanceDependentController
             'Admin/City/index.html.twig',
             $this->baseIndex(
                 'City',
-                $this->createForm(CityFilterType::class, null, [
-                    'instance' => $this->getInstance(),
-                ]),
+                $this->createForm(
+                    CityFilterType::class,
+                    null,
+                    [
+                        'instance' => $this->getInstance(),
+                    ]
+                ),
                 $paginator
             )
         );
     }
+
 
     /**
      * Displays a form to create a new City entity.
@@ -136,6 +108,7 @@ class AdminCityController extends BaseInstanceDependentController
         );
     }
 
+
     /**
      * Creates a new City entity.
      *
@@ -143,10 +116,20 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function create()
     {
-        return $this->render('Admin/City/new.html.twig', $this->baseCreate('City', new City(), CityType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_city'));
+        return $this->render(
+            'Admin/City/new.html.twig',
+            $this->baseCreate(
+                'City',
+                new City(),
+                CityType::class,
+                [
+                    'instance' => $this->getInstance(),
+                ],
+                'admin_city'
+            )
+        );
     }
+
 
     /**
      * Displays a form to edit an existing City entity.
@@ -172,6 +155,7 @@ class AdminCityController extends BaseInstanceDependentController
         );
     }
 
+    
     /**
      * Edits an existing City entity.
      *

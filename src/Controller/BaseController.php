@@ -54,12 +54,12 @@ abstract class BaseController extends AbstractController
     protected $configurationHelper;
 
     /**
-     * @var Paginator
+     * @var PaginatorInterface
      */
     protected $paginator;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     protected $translator;
 
@@ -176,10 +176,8 @@ abstract class BaseController extends AbstractController
 
     protected function listQuery($name)
     {
-        $valor = $name;
-        $class = new \ReflectionClass($valor);
         return $this->getDoctrine()->getManager()
-            ->getRepository($class)
+            ->getRepository($name)
             ->createQueryBuilder('e');
     }
 
@@ -262,7 +260,8 @@ abstract class BaseController extends AbstractController
     protected function baseCreate($name, $entity, $type, array $options, $route)
     {
         /** @var $translator Translator */
-        $translator = $this->get('translator');
+        // $translator = $this->get('translator');
+        $translator = $this->translator;
 
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
@@ -306,7 +305,6 @@ abstract class BaseController extends AbstractController
     protected function baseUpdate($name, $id, $type, array $options, $route)
     {
         /** @var $translator Translator */
-
         $translator = $this->translator;
 
         $entity = $this->findQuery($name, $id);

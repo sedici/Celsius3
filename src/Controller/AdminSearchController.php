@@ -91,9 +91,11 @@ class AdminSearchController extends BaseInstanceDependentController
        // $paginator = $this->get('knp_paginator');
         $pagination = $this->paginator->paginate(
             $results,
-            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1),
+            intval($this->get('request_stack')->getCurrentRequest()->query->get('page', 1)),
             $this->configurationHelper
-                ->getCastedValue($this->getInstance()->get('results_per_page'))
+                ->getCastedValue(
+                    $this->getInstance()->get('results_per_page')
+                )
         );
 
         $users = $searchManager->getAggsUsersData($aggregations);

@@ -59,7 +59,7 @@ class SuperadminDataRequestController extends BaseController
         $pagination = $this->paginator->paginate(
         // $pagination = $paginator->paginate(
             $query,
-            $request->query->get('page', 1)/* page number */,
+            intval($request->query->get('page', 1))/* page number */,
             $this->getResultsPerPage()/* limit per page */,
             $this->getSortDefaults()
         );

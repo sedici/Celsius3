@@ -47,8 +47,16 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     private $with_filter;
     private $showCity;
 
-    public function __construct(FormFactoryInterface $factory, EntityManager $em, $property_path = 'institution', $required = true, $country_mapped = false, $city_mapped = false, $with_filter = false, $showCity = false)
-    {
+    public function __construct(
+        FormFactoryInterface $factory,
+        EntityManager $em,
+        $property_path = 'institution',
+        $required = true,
+        $country_mapped = false,
+        $city_mapped = false,
+        $with_filter = false,
+        $showCity = false
+    ) {
         $this->factory = $factory;
         $this->em = $em;
         $this->property_path = $property_path;
