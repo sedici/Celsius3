@@ -33,57 +33,29 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use \Doctrine\ORM\Mapping\Entity;
 
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
 
-    // /**
-    //  * @var InstanceManager
-    //  */
-    // private $instanceManager;
-
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-    // /**
-    //  * @var Translator
-    //  */
-    // private $translator;
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     InstanceHelper $instanceHelper,
-    //     TranslatorInterface $translator,
-    //     InstanceManager $instanceManager
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->configurationHelper=$configurationHelper;
-    //     $this->setIntanceHelper($instanceHelper);
-    //     $this->setConfigurationHelper($configurationHelper);
-    //     $this->translator=$translator;
-    //     $this->setTranslator($translator);
-    //     $this->instanceManager=$instanceManager;
-    // }
-
-
-    protected function listQuery($name)
+    protected function getEntity(): string
     {
-        $valor=$name;
-        return $this->getDoctrine()->getManager()
-            ->getRepository(FileDownload::class)
-            ->createQueryBuilder('e');
+        return FileDownload::class;
     }
+
     protected function filter($name, $filter_form, $query)
     {
         return $this->getDoctrine()->getManager()
             ->getRepository(FilterManager::class)
-            ->filter($query, $filter_form, 'FileDownload', $this->getInstance());
+            ->filter(
+                $query,
+                $filter_form,
+                'FileDownload',
+                $this->getInstance()
+            );
     }
+
+
     public function __invoke(): ?Response
     {
         $filter_form = $this->createForm(
@@ -94,15 +66,13 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
             ]
         );
 
-        $query = $this->listQuery('FileDownload');
+        $query = $this->listQuery();
         $request = $this->get('request_stack')->getCurrentRequest();
         if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
         }
 
-        // $paginator = $this->get('knp_paginator');
         $pagination = $this->paginator->paginate(
-        // $pagination = $paginator->paginate(
             $query,
             intval($request->query->get('page', 1)),
             $this->getResultsPerPage(),
@@ -113,7 +83,9 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
             'Admin/FileDownload/index.html.twig',
             [
                 'pagination' => $pagination,
-                'filter_form' => ($filter_form !== null) ? $filter_form->createView() : $filter_form,
+                'filter_form' => ($filter_form !== null)
+                    ? $filter_form->createView()
+                    : $filter_form
             ]
         );
     }

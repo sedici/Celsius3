@@ -25,13 +25,8 @@ declare(strict_types=1);
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
@@ -40,143 +35,74 @@ abstract class BaseInstanceDependentController extends BaseController
      */
     protected $instanceHelper;
 
+    protected Instance $instance;
 
     public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        ...$parentArgs
     ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator
-        );
+        parent::__construct(...$parentArgs);
         $this->instanceHelper = $instanceHelper;
+        $this->instance = $this->getInstance();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-
-    // /**
-    //  * @var InstanceHelper
-    //  */
-    // private $instanceHelper;
-
-    // /**
-    //  * @var Paginator
-    //  */
-    // private $paginator;
-
-
-    // public function __construct(
-    //     InstanceHelper $instanceHelper,
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper
-    // ) {
-    //     $this->configurationHelper = $configurationHelper;
-    //     $this->paginator=$paginator;
-    //     $this->instanceHelper=$instanceHelper;
-    // }
-
-    public function setConfigurationHelper(ConfigurationHelper $configurationHelper){
-
-        return $this->configurationHelper=$configurationHelper;
-    }
-
-    public function setIntanceHelper(InstanceHelper $intanceHelper){
-        return $this->instanceHelper=$intanceHelper;
-    }
-
-
-    public function getConfigurationHelper(){
-        return $this->configurationHelper;
-    }
-
-    public function getInstanceHelper(){
-        return $this->instanceHelper;
-    }
-
-
-    protected function listQuery($name)
-    {
-        return parent::listQuery($name)
-            ->andWhere('e.instance = :instance_id')
-            ->setParameter('instance_id', $this->getInstance()->getId());
-    }
 
     protected function getInstance(): Instance
     {
-        return $this->getInstanceHelper()->getSessionInstance();
+        return $this->instanceHelper->getSessionInstance();
     }
 
-    protected function findQuery($name, $id)
+
+    protected function listQuery()
     {
-
-        $entityClass = sprintf('Celsius3\\Entity\\%s', $name);
-
-        return $this->getDoctrine()->getManager()
-            ->getRepository($entityClass)
-            ->findOneForInstance($this->getInstance(), $id);
+        return $this->managerRegistry->getManager()
+            ->getRepository(className: $this->entityClassName)
+            ->findForInstanceAndGlobal(
+                $this->instance,
+                $this->getDirectory()
+            );
     }
+
+
+    protected function findQuery(int $id)
+    {
+        return $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
+            ->findOneForInstance(
+                $this->instance,
+                $id
+            );
+    }
+
 
     protected function getResultsPerPage()
     {
-        return $this->getConfigurationHelper()->getCastedValue($this->getInstance()->get('results_per_page'));
+        return $this->configurationHelper
+            ->getCastedValue(
+                $this->instance
+                    ->get('results_per_page')
+            );
     }
 
-    protected function filter($name, $filter_form, $query)
+
+    protected function baseInstanceFilter($entityClassName, $filter_form, $query)
     {
-        return $this->getDoctrine()->getManager()
+        return $this->objectManager
             ->getRepository(FilterManager::class)
-            ->filter($query, $filter_form, 'Celsius3\\Entity\\'.$name, $this->getInstance());
+            ->filter(
+                $query,
+                $filter_form,
+                $entityClassName,
+                $this->instance
+            );
+    }
+
+    protected function filter($query)
+    {
+        return $this->baseInstanceFilter(
+            $this->entityClassName,
+            $this->getFilterForm(),
+            $query
+        );
     }
 }

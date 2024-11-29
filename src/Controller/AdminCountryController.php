@@ -40,32 +40,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminCountryController extends BaseInstanceDependentController
 {
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-    // /**
-    //  * @var Translator
-    //  */
-    // private $translator;
-
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     InstanceHelper $instanceHelper,
-    //     TranslatorInterface $translator
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->configurationHelper=$configurationHelper;
-    //     $this->setIntanceHelper($instanceHelper);
-    //     $this->setConfigurationHelper($configurationHelper);
-    //     $this->translator=$translator;
-    //     $this->setTranslator($translator);
-    // }
 
     protected function getDirectory()
     {
@@ -75,17 +49,8 @@ class AdminCountryController extends BaseInstanceDependentController
                 'url' => 'directory'
             ]);
     }
-    protected function listQuery($name)
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Country::class)
-            ->findForInstanceAndGlobal(
-                $this->getInstance(),
-                $this->getDirectory()
-            );
-    }
 
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
         return [
             'defaultSortFieldName' => 'e.name',
@@ -102,6 +67,7 @@ class AdminCountryController extends BaseInstanceDependentController
     {
         return $this->render(
             'Admin/Country/index.html.twig',
+            // $this->baseIndex()
             $this->baseIndex(
                 'Country',
                 $this->createForm(
@@ -145,12 +111,12 @@ class AdminCountryController extends BaseInstanceDependentController
 
     protected function findQuery($name, $id)
     {
-
         return $this->getDoctrine()->getManager()
             ->getRepository(Country::class)
             ->find($id);
     }
-    protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
+
+    protected function baseEdit($name, $id, $type, array $options = [], $route = null)
     {
         $entity = $this->findQuery($name, $id);
 

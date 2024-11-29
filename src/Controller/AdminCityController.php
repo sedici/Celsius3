@@ -38,24 +38,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class AdminCityController extends BaseInstanceDependentController
 {
 
-    protected function listQuery($name)
+    function getEntity(): string
     {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(City::class)
-            ->findForInstanceAndGlobal(
-                $this->getInstance(),
-                $this->getDirectory()
-            );
+        return City::class;
     }
 
-
-    protected function getDirectory()
-    {
-        return $this->instanceManager->getDirectory();
-    }
-
-
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
         return [
             'defaultSortFieldName' => 'e.name',

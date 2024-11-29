@@ -3,15 +3,15 @@ args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
 .PHONY: all build install deps start stop clean compose/install npm/install database encore tests ps imgs rmi dexec
 all: build install
-install: start deps
+install: start deps postbuild
 deps: composer/install npm/install encore
-# deps: npm/install encore
+postbuild: elastica/populate
 
 build:
 	@docker compose build
 
 start:
-	@[ "$(args)" = "log" ] && docker compose up || docker compose up -d;
+	@[ "$(args)" = "d" ] && docker compose up -d || docker compose up;
 
 stop:
 	@docker compose stop
@@ -58,6 +58,12 @@ dx:
 
 elastica/populate:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console fos:elastica:populate
+
+env:
+	@./env-handler.sh $(args)
+
+rename:
+	@sed -i "s/^name: .*/name: $(args)/" docker-compose.yaml
 
 %:
 	@:

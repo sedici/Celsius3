@@ -37,7 +37,28 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @Route("/admin/institution")
  */
-class AdminInstitutionController extends BaseInstanceDependentController {
+class AdminInstitutionController extends BaseInstanceDependentController
+{
+
+    protected final function getEntity(): string
+    { return Institution::class; }
+
+    protected final function getType(): string
+    { return InstitutionType::class; }
+
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Institution/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
 
     protected function getDirectory()
     {
@@ -46,23 +67,6 @@ class AdminInstitutionController extends BaseInstanceDependentController {
             ->findOneBy(['url' => 'directory']);
     }
 
-    protected function listQuery($name)
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Institution::class)
-            ->findForInstanceAndGlobal(
-                $this->getInstance(),
-                $this->getDirectory()
-            );
-    }
-
-    protected function getSortDefaults()
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
 
     /**
      * Lists all Institution entities.
@@ -72,14 +76,14 @@ class AdminInstitutionController extends BaseInstanceDependentController {
     public function index(PaginatorInterface $paginator)
     {
         return $this->render(
-            'Admin/Institution/index.html.twig',
+            $this->templatePrefix . 'index.html.twig',
             $this->baseIndex(
-                'Institution',
+                $this->entityClassName,
                 $this->createForm(
                     InstitutionFilterType::class,
                     null,
                     [
-                        'instance' => $this->getInstance(),
+                        'instance' => $this->instance,
                     ]
                 ),
                 $paginator
@@ -94,14 +98,16 @@ class AdminInstitutionController extends BaseInstanceDependentController {
      */
     public function new(): Response
     {
+        $entityClassName = $this->entityClassName;
+
         return $this->render(
-            'Admin/Institution/new.html.twig',
+            $this->templatePrefix . 'new.html.twig',
             $this->baseNew(
-                'Institution',
-                new Institution(),
-                InstitutionType::class,
+                $entityClassName,
+                new $entityClassName(),
+                $this->typeClassName,
                 [
-                    'instance' => $this->getInstance(),
+                    'instance' => $this->instance,
                     'show_city' => true
                 ]
             )
@@ -115,14 +121,16 @@ class AdminInstitutionController extends BaseInstanceDependentController {
      */
     public function create()
     {
+        $entityClassName = $this->entityClassName;
+
         return $this->render(
-            'Admin/Institution/new.html.twig',
+            $this->templatePrefix . 'new.html.twig',
             $this->baseCreate(
-                'Institution',
-                new Institution(),
-                InstitutionType::class,
+                $entityClassName,
+                new $entityClassName(),
+                $this->typeClassName,
                 [
-                    'instance' => $this->getInstance(),
+                    'instance' => $this->instance,
                     'show_city' => true
                 ],
                 'admin_institution'
@@ -142,13 +150,13 @@ class AdminInstitutionController extends BaseInstanceDependentController {
     public function edit($id): Response
     {
         return $this->render(
-            'Admin/Institution/edit.html.twig',
+            $this->templatePrefix . 'edit.html.twig',
             $this->baseEdit(
-                'Institution',
+                $this->entityClassName,
                 $id,
-                InstitutionType::class,
+                $this->typeClassName,
                 [
-                    'instance' => $this->getInstance(),
+                    'instance' => $this->instance,
                     'show_city' => true
                 ]
             )
@@ -167,11 +175,11 @@ class AdminInstitutionController extends BaseInstanceDependentController {
     public function update($id)
     {
         $response = $this->baseUpdate(
-            'Institution',
+            $this->entityClassName,
             $id,
-            InstitutionType::class,
+            $this->typeClassName,
             [
-                'instance' => $this->getInstance(),
+                'instance' => $this->instance,
                 'show_city' => true
             ],
             'admin_institution'
@@ -182,7 +190,7 @@ class AdminInstitutionController extends BaseInstanceDependentController {
         }
 
         return $this->render(
-            'Admin/Institution/edit.html.twig',
+            $this->templatePrefix . 'edit.html.twig',
             $response
         );
     }
@@ -196,20 +204,32 @@ class AdminInstitutionController extends BaseInstanceDependentController {
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id): Response
+    public function show(string $id): Response
     {
-        $entity = $this->getDoctrine()->getRepository(Institution::class)->find($id);
+        $entity = $this
+            ->getDoctrine()
+            ->getRepository($this->entityClassName)
+            ->find($id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                'exception.entity_not_found.institution'
+            );
         }
 
-        if ($entity->getInstance() !== $this->getDirectory() && $entity->getInstance() !== $this->getInstance()) {
+        if (
+            $entity->instance !== $this->getDirectory()
+            && $entity->instance !== $this->instance
+        ) {
             throw Exception::create(Exception::ACCESS_DENIED);
         }
 
-        return $this->render('Admin/Institution/show.html.twig', [
-            'entity' => $entity,
-        ]);
+        return $this->render(
+            $this->templatePrefix . '/show.html.twig',
+            [
+                'entity' => $entity,
+            ]
+        );
     }
 }

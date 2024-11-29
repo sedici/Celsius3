@@ -33,6 +33,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,43 +42,27 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/maillist")
  */
-class AdminMailListController extends AbstractController
+class AdminMailListController extends BaseInstanceDependentController
 {
 
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var FilterManager
-     */
-    private $filterManager;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
+    protected final function getEntity(): string
+    { return Email::class; }
 
-    public function __construct(
-        InstanceHelper $instanceHelper,
-        EntityManagerInterface $entityManager,
-        FilterManager $filterManager,
-        ConfigurationHelper $configurationHelper,
-        PaginatorInterface $paginator
-    ) {
-        $this->instanceHelper = $instanceHelper;
-        $this->entityManager = $entityManager;
-        $this->filterManager = $filterManager;
-        $this->configurationHelper = $configurationHelper;
-        $this->paginator = $paginator;
+    protected final function getType(): string
+    { return EmailType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/MailList/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc'
+        ];
     }
+
 
     protected function listQuery()
     {
@@ -88,6 +73,7 @@ class AdminMailListController extends AbstractController
             ->setParameter('instance_id', $this->instanceHelper->getSessionOrUrlInstance()->getId());
     }
 
+
     /**
      * Lists all Mail entities.
      *
@@ -95,9 +81,13 @@ class AdminMailListController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $filterForm = $this->createForm(MailFilterType::class, null, [
-            'instance' => $this->instanceHelper->getSessionOrUrlInstance(),
-        ]);
+        $filterForm = $this->createForm(
+            MailFilterType::class,
+            null,
+            [
+                'instance' => $this->instanceHelper->getSessionOrUrlInstance(),
+            ]
+        );
 
         $query = $this->listQuery();
 
@@ -117,10 +107,12 @@ class AdminMailListController extends AbstractController
         );
 
         return $this->render(
-            'Admin/MailList/index.html.twig',
+            $this->templatePrefix . 'index.html.twig',
             [
                 'pagination' => $pagination,
-                'filter_form' => ($filterForm !== null) ? $filterForm->createView() : $filterForm,
+                'filter_form' => ($filterForm !== null)
+                    ? $filterForm->createView()
+                    : $filterForm
             ]
         );
     }
@@ -128,6 +120,10 @@ class AdminMailListController extends AbstractController
     protected function getResultsPerPage()
     {
         return $this->configurationHelper
-            ->getCastedValue($this->instanceHelper->getSessionOrUrlInstance()->get('results_per_page'));
+            ->getCastedValue(
+                $this->instanceHelper
+                    ->getSessionOrUrlInstance()
+                    ->get('results_per_page')
+                );
     }
 }

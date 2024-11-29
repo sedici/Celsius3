@@ -34,6 +34,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,7 @@ use Celsius3\Manager\InstanceManager;
 use Celsius3\Form\Type\Filter\ContactFilterType;
 use Celsius3\Form\Type\ContactType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Celsius3\Controller\BaseInstanceDependentController;
 
 
 /**
@@ -54,7 +56,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class AdminContactController extends BaseInstanceDependentController
 {
 
-    protected function listQuery($name)
+    protected final function getEntity(): string
+    { return Contact::class; }
+
+    
+    protected final function getType(): string
+    { return AdminContactType::class; }
+
+
+    protected function listQuery()
     {
         return $this->getDoctrine()->getManager()
             ->getRepository(Contact::class)
@@ -70,7 +80,7 @@ class AdminContactController extends BaseInstanceDependentController
     }
 
 
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
         return [
             'defaultSortFieldName' => 'e.updatedAt',
@@ -86,16 +96,23 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function index(PaginatorInterface $paginator): Response
     {
+        $data = $this->baseIndex(
+            Contact::class,
+            null,
+            $paginator
+        );
+
+        $deleteForms = [];
+        foreach ($data['pagination'] as $entity) {
+            $deleteForms[$entity->getId()] = $this->createDeleteForm(
+                $entity->getId()
+            )->createView();
+        }
+        $data['deleteForms'] = $deleteForms;
+
         return $this->render(
             'Admin/Contact/index.html.twig',
-            $this->baseIndex(
-                Contact::class,
-                // $this->createForm(ContactFilterType::class, null, [
-                //     'instance' => $this->getInstance(),
-                // ]),
-                null,
-                $paginator
-            )
+            $data
         );
     }
 
@@ -136,15 +153,17 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function new(): Response
     {
+        $contact = new Contact();
+        $contact
+            ->setOwningInstance($this->getInstance())
+            ->setInstance($this->getInstance());
+
         return $this->render(
             'Admin/Contact/new.html.twig',
             $this->baseNew(
                 Contact::class,
-                new Contact(),
+                $contact,
                 AdminContactType::class,
-                [
-                    'owning_instance' => $this->getInstance()
-                ]
             )
         );
     }
@@ -157,13 +176,16 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function create()
     {
+        $contact = new Contact();
+        $contact
+            ->setOwningInstance($this->getInstance())
+            ->setInstance($this->getInstance());
+
         $response_params = $this->baseCreate(
             Contact::class,
-            new Contact(),
+            $contact,
             AdminContactType::class,
-            [
-                'owning_instance' => $this->getInstance(),
-            ],
+            [],
             'admin_contact'
         );
         
@@ -197,8 +219,6 @@ class AdminContactController extends BaseInstanceDependentController
 
 
 
-
-
     /**
      * Displays a form to edit an existing Contact entity.
      *
@@ -210,6 +230,8 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function edit($id): Response
     {
+        $contact = $this->findQuery($id);
+
         return $this->render(
             'Admin/Contact/edit.html.twig',
             $this->baseEdit(
@@ -217,7 +239,7 @@ class AdminContactController extends BaseInstanceDependentController
                 $id,
                 AdminContactType::class,
                 [
-                    'owning_instance' => $this->getInstance(),
+                    'user' => $contact->getUser(),
                 ]
             )
         );
