@@ -46,10 +46,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
     protected final function getType(): string
     { return InstitutionType::class; }
 
-
     protected final function getTemplatePrefix(): string
     { return 'Admin/Institution/'; }
-
 
     protected function getSortDefaults(): array
     {
@@ -62,7 +60,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
 
     protected function getDirectory()
     {
-        return $this->getDoctrine()->getManager()
+        return $this->managerRegistry
             ->getRepository(Instance::class)
             ->findOneBy(['url' => 'directory']);
     }
@@ -76,9 +74,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
     public function index(PaginatorInterface $paginator)
     {
         return $this->render(
-            $this->templatePrefix . 'index.html.twig',
+            (string) $this->templatePrefix . 'index.html.twig',
             $this->baseIndex(
-                $this->entityClassName,
                 $this->createForm(
                     InstitutionFilterType::class,
                     null,
@@ -101,7 +98,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
         $entityClassName = $this->entityClassName;
 
         return $this->render(
-            $this->templatePrefix . 'new.html.twig',
+            (string) $this->templatePrefix . 'new.html.twig',
             $this->baseNew(
                 $entityClassName,
                 new $entityClassName(),
@@ -124,7 +121,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
         $entityClassName = $this->entityClassName;
 
         return $this->render(
-            $this->templatePrefix . 'new.html.twig',
+            (string) $this->templatePrefix . 'new.html.twig',
             $this->baseCreate(
                 $entityClassName,
                 new $entityClassName(),
@@ -150,7 +147,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     public function edit($id): Response
     {
         return $this->render(
-            $this->templatePrefix . 'edit.html.twig',
+            (string) $this->templatePrefix . 'edit.html.twig',
             $this->baseEdit(
                 $this->entityClassName,
                 $id,
@@ -175,7 +172,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     public function update($id)
     {
         $response = $this->baseUpdate(
-            $this->entityClassName,
+            (string) $this->entityClassName,
             $id,
             $this->typeClassName,
             [
@@ -206,10 +203,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function show(string $id): Response
     {
-        $entity = $this
-            ->getDoctrine()
-            ->getRepository($this->entityClassName)
-            ->find($id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(

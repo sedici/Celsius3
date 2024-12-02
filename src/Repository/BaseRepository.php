@@ -33,40 +33,40 @@ class BaseRepository extends EntityRepository
     public function findBaseDoUnionEntities($main, $ids)
     {
         return $this->createQueryBuilder('e')
-                    ->where('e.id IN (:ids)')
-                    ->andWhere('e.id <> :id')
-                    ->setParameter('ids', $ids)
-                    ->setParameter('id', $main->getId())
-                    ->getQuery()->getResult();
+            ->where('e.id IN (:ids)')
+            ->andWhere('e.id <> :id')
+            ->setParameter('ids', $ids)
+            ->setParameter('id', $main->getId())
+            ->getQuery()->getResult();
     }
 
     public function findOneForInstance(Instance $instance, $id)
     {
         return $this->createQueryBuilder('e')
-                    ->andWhere('e.instance = :instance_id')
-                    ->andWhere('e.id = :id')
-                    ->setParameter('instance_id', $instance->getId())
-                    ->setParameter('id', $id)
-                    ->getQuery()->getOneOrNullResult();
+            ->andWhere('e.instance = :instance_id')
+            ->andWhere('e.id = :id')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('id', $id)
+            ->getQuery()->getOneOrNullResult();
     }
 
     public function union($field, $main_id, $elements)
     {
         return $this->createQueryBuilder('e')
-                    ->update()
-                    ->set('e.'.$field, ':main_id')
-                    ->where('e.'.$field.' IN (:ids)')
-                    ->setParameter('ids', $elements)
-                    ->setParameter('main_id', $main_id)
-                    ->getQuery()->getResult();
+            ->update()
+            ->set('e.'.$field, ':main_id')
+            ->where('e.'.$field.' IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->setParameter('main_id', $main_id)
+            ->getQuery()->getResult();
     }
 
     public function deleteUnitedEntities(array $elements)
     {
         return $this->createQueryBuilder('e')
-                    ->delete()
-                    ->where('e.id IN (:ids)')
-                    ->setParameter('ids', $elements)
-                    ->getQuery()->getResult();
+            ->delete()
+            ->where('e.id IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->getQuery()->getResult();
     }
 }

@@ -66,8 +66,8 @@ class AdminContactController extends BaseInstanceDependentController
 
     protected function listQuery()
     {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Contact::class)
+        return $this->managerRegistry
+            ->getRepository($this->entityClassName)
             ->createQueryBuilder('e')
             ->select('e')
             ->where('e.owningInstance = :instance')
@@ -97,7 +97,6 @@ class AdminContactController extends BaseInstanceDependentController
     public function index(PaginatorInterface $paginator): Response
     {
         $data = $this->baseIndex(
-            Contact::class,
             null,
             $paginator
         );
@@ -128,7 +127,7 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function show($id): Response
     {
-        $entity = $this->findQuery(Contact::class, $id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(
@@ -155,15 +154,15 @@ class AdminContactController extends BaseInstanceDependentController
     {
         $contact = new Contact();
         $contact
-            ->setOwningInstance($this->getInstance())
-            ->setInstance($this->getInstance());
+            ->setOwningInstance($this->instance)
+            ->setInstance($this->instance);
 
         return $this->render(
             'Admin/Contact/new.html.twig',
             $this->baseNew(
-                Contact::class,
+                $this->entityClassName,
                 $contact,
-                AdminContactType::class,
+                $this->typeClassName,
             )
         );
     }

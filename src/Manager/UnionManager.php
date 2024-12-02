@@ -49,121 +49,88 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UnionManager
 {
-    private $em;
-    private $instance_manager;
-    private $references = array(
-        Country::class => array(
-            City::class => array(
-                'country',
-            ),
-            Institution::class => array(
-                'country',
-            ),
-        ),
-        City::class => array(
-            Institution::class => array(
-                'city',
-            ),
-        ),
-        Institution::class => array(
-            BaseUser::class => array(
-                'institution',
-            ),
-            Institution::class => array(
-                'parent',
-            ),
-            Catalog::class => array(
-                'institution',
-            ),
-            Contact::class => array(
-                'institution',
-            ),
-            SingleInstanceRequestEvent::class => array(
-                'provider',
-            ),
-            MultiInstanceRequestEvent::class => array(
-                'provider',
-            ),
-        ),
-        Catalog::class => array(
-            SearchEvent::class => array(
-                'catalog',
-            ),
-            CatalogPosition::class => array(
-                'catalog',
-            ),
-            CatalogResult::class => array(
-                'catalog'
-            )
-        ),
-        Journal::class => array(
-            JournalType::class => array(
-                'journal',
-            ),
-        ),
-        BaseUser::class => array(
-            Request::class => array(
-                'owner',
-                'operator',
-                'creator',
-                'librarian',
-            ),
-            FileDownload::class => array(
-                'user',
-            ),
-            Contact::class => array(
-                'user',
-            ),
-            CustomUserValue::class => array(
-                'user',
-            ),
-            Email::class => array(
-                'sender',
-            ),
-            Event::class => array(
-                'operator',
-            ),
-            State::class => array(
-                'operator',
-            ),
-            Message::class => array(
-                'sender',
-            ),
-            ThreadMetadata::class => array(
-                'participant',
-            ),
-            BaseUserNotification::class => array(
-                'object',
-            ),
-        ),
-    );
+    private EntityManagerInterface $em;
+    private InstanceManager $instance_manager;
+    private $references = [
+        Country::class => [
+            City::class => ['country'],
+            Institution::class => ['country'],
+        ],
+        City::class => [
+            Institution::class => ['city'],
+        ],
+        Institution::class => [
+            BaseUser::class => ['institution'],
+            Institution::class => ['parent'],
+            Catalog::class => ['institution'],
+            Contact::class => ['institution'],
+            SingleInstanceRequestEvent::class => ['provider'],
+            MultiInstanceRequestEvent::class => ['provider'],
+        ],
+        Catalog::class => [
+            SearchEvent::class => ['catalog'],
+            CatalogPosition::class => ['catalog'],
+            CatalogResult::class => ['catalog'],
+        ],
+        Journal::class => [
+            JournalType::class => ['journal'],
+        ],
+        BaseUser::class => [
+            Request::class => ['owner', 'operator', 'creator', 'librarian'],
+            FileDownload::class => ['user'],
+            Contact::class => ['user'],
+            CustomUserValue::class => ['user'],
+            Email::class => ['sender'],
+            Event::class => ['operator'],
+            State::class => ['operator'],
+            Message::class => ['sender'],
+            ThreadMetadata::class => ['participant'],
+            BaseUserNotification::class => ['object'],
+        ],
+    ];    
 
-    public function __construct(EntityManagerInterface $em, InstanceManager $instance_manager)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        InstanceManager $instance_manager
+    ) {
         $this->em = $em;
         $this->instance_manager = $instance_manager;
     }
 
     public function union($name, $main, array $elements, $updateInstance)
     {
-        $this->em->getFilters()->disable('softdeleteable');
+        $this->em
+            ->getFilters()
+            ->disable('softdeleteable');
 
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
-                    $this->em->getRepository($key)->union($field, $main->getId(), $elements);
+                    $this->em
+                        ->getRepository($key)
+                        ->union(
+                            $field,
+                            $main->getId(),
+                            $elements
+                        );
                 }
             }
         }
 
-        $this->em->getFilters()->enable('softdeleteable');
+        $this->em
+            ->getFilters()
+            ->enable('softdeleteable');
 
-        $this->em->getRepository($name)->deleteUnitedEntities($elements);
+        $this->em
+            ->getRepository($name)
+            ->deleteUnitedEntities($elements);
 
         if ($updateInstance) {
-            $main->setInstance($this->instance_manager->getDirectory());
+            $main->setInstance(
+                $this->instance_manager->getDirectory()
+            );
             $this->em->persist($main);
-            $this->em->flush($main);
+            $this->em->flush();
         }
     }
 }

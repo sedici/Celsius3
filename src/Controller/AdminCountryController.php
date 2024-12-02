@@ -41,9 +41,19 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminCountryController extends BaseInstanceDependentController
 {
 
+    protected final function getEntity(): string
+    { return Country::class; }
+
+    protected final function getType(): string
+    { return CountryType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Country/'; }
+
+
     protected function getDirectory()
     {
-        return $this->getDoctrine()->getManager()
+        return $this->managerRegistry
             ->getRepository(Instance::class)
             ->findOneBy([
                 'url' => 'directory'
@@ -63,23 +73,9 @@ class AdminCountryController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_country")
      */
-    public function index(PaginatorInterface $paginator): Response
+    public function index(): Response
     {
-        return $this->render(
-            'Admin/Country/index.html.twig',
-            // $this->baseIndex()
-            $this->baseIndex(
-                'Country',
-                $this->createForm(
-                    CountryFilterType::class,
-                    null,
-                    [
-                        'instance' => $this->getInstance(),
-                    ]
-                ),
-                $paginator
-            )
-        );
+        return $this->baseInstanceIndex();
     }
 
     /**
@@ -89,12 +85,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Admin/Country/new.html.twig',
-            $this->baseNew('Country', new Country(), CountryType::class, [
-                'instance' => $this->getInstance(),
-            ])
-        );
+        return $this->baseInstanceNew();
     }
 
     /**
@@ -102,35 +93,9 @@ class AdminCountryController extends BaseInstanceDependentController
      *
      * @Route("/create", name="admin_country_create", methods={"POST"})
      */
-    public function create()
+    public function create(): RedirectResponse|Response
     {
-        return $this->render('Admin/Country/new.html.twig', $this->baseCreate('Country', new Country(), CountryType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_country'));
-    }
-
-    protected function findQuery($name, $id)
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Country::class)
-            ->find($id);
-    }
-
-    protected function baseEdit($name, $id, $type, array $options = [], $route = null)
-    {
-        $entity = $this->findQuery($name, $id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
-        }
-
-        $editForm = $this->createForm($type, $entity, $options);
-
-        return [
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'route' => $route,
-        ];
+        return $this->baseInstanceCreate(route: 'admin_country');
     }
 
 
@@ -145,17 +110,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function edit($id): Response
     {
-        return $this->render(
-            'Admin/Country/edit.html.twig',
-            $this->baseEdit(
-                'Country',
-                $id,
-                CountryType::class,
-                [
-                    'instance' => $this->getInstance(),
-                ]
-            )
-        );
+        return $this->baseInstanceEdit($id);
     }
 
     /**
@@ -167,25 +122,8 @@ class AdminCountryController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update($id): RedirectResponse|Response
     {
-        $response = $this->baseUpdate(
-            'Country',
-            $id,
-            CountryType::class,
-            [
-                'instance' => $this->getInstance(),
-            ],
-            'admin_country'
-        );
-
-        if ($response instanceof RedirectResponse) {
-            return $response;
-        }
-
-        return $this->render(
-            'Admin/Country/edit.html.twig', 
-            $response
-        );
+        return $this->baseInstanceUpdate($id, 'admin_country');
     }
 }

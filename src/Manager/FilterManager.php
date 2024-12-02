@@ -62,7 +62,7 @@ class FilterManager
         $this->catalogFilter = $catalogFilter;
     }
 
-    public function filter(QueryBuilder $query, FormInterface $form, $class, Instance $instance = null)
+    public function filter(QueryBuilder $query, FormInterface $form, string $class, Instance $instance = null)
     {
         $customFilter = $this->getCustomFilterClass($class);
 

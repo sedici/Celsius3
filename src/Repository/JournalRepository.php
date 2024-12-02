@@ -32,10 +32,10 @@ class JournalRepository extends BaseRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')
-                        ->where('e.instance = :instance_id')
-                        ->orWhere('e.instance = :directory_id')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('directory_id', $directory->getId());
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('directory_id', $directory->getId());
     }
 
     public function findByTerm($term, Instance $instance = null)
@@ -43,20 +43,23 @@ class JournalRepository extends BaseRepository
         $qb = $this->createQueryBuilder('j');
 
         $qb = $qb->orWhere($qb->expr()->like('j.name', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('j.abbreviation', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('j.responsible', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('j.ISSN', $qb->expr()->literal('%'.$term.'%')))
-                ->orWhere($qb->expr()->like('j.ISSNE', $qb->expr()->literal('%'.$term.'%')));
+            ->orWhere($qb->expr()->like('j.abbreviation', $qb->expr()->literal('%'.$term.'%')))
+            ->orWhere($qb->expr()->like('j.responsible', $qb->expr()->literal('%'.$term.'%')))
+            ->orWhere($qb->expr()->like('j.ISSN', $qb->expr()->literal('%'.$term.'%')))
+            ->orWhere($qb->expr()->like('j.ISSNE', $qb->expr()->literal('%'.$term.'%')));
 
-        $directory = $this->getEntityManager()->getRepository(Instance::class)
-                ->findOneBy(array(
-            'url' => \Celsius3\Manager\InstanceManager::INSTANCE__DIRECTORY,
-        ));
+        $directory = $this
+            ->getEntityManager()
+            ->getRepository(Instance::class)
+            ->findOneBy([
+                'url' => \Celsius3\Manager\InstanceManager::INSTANCE__DIRECTORY,
+            ]
+        );
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('j.instance = :instance_id OR j.instance = :directory_id')
-                    ->setParameter('instance_id', $instance->getId())
-                    ->setParameter('directory_id', $directory->getId());
+                ->setParameter('instance_id', $instance->getId())
+                ->setParameter('directory_id', $directory->getId());
         }
 
         return $qb->getQuery();
@@ -65,13 +68,13 @@ class JournalRepository extends BaseRepository
     public function findOneForInstanceOrGlobal(Instance $instance, Instance $directory, $id)
     {
         return $this->createQueryBuilder('e')
-                    ->where('e.instance = :instance_id')
-                    ->orWhere('e.instance = :directory_id')
-                    ->andWhere('e.id = :id')
-                    ->setParameter('instance_id', $instance)
-                    ->setParameter('directory_id', $directory)
-                    ->setParameter('id', $id)
-                    ->getQuery()->getOneOrNullResult();
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->andWhere('e.id = :id')
+            ->setParameter('instance_id', $instance)
+            ->setParameter('directory_id', $directory)
+            ->setParameter('id', $id)
+            ->getQuery()->getOneOrNullResult();
     }
 
     public function findQuery(Instance $instance, $id, $isAdmin = false)
@@ -84,7 +87,7 @@ class JournalRepository extends BaseRepository
         }
 
         return $qb->andWhere('e.id = :id')
-                ->setParameter('id', $id)
-                ->getQuery()->getOneOrNullResult();
+            ->setParameter('id', $id)
+            ->getQuery()->getOneOrNullResult();
     }
 }

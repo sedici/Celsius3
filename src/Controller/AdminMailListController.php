@@ -44,6 +44,18 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminMailListController extends BaseInstanceDependentController
 {
+    /**
+     * @var FilterManager
+     */
+    private $filterManager;
+
+    public function __construct(
+        FilterManager $filterManager,
+        ...$args
+    ) {
+        parent::__construct(...$args);
+        $this->filterManager = $filterManager;
+    }
 
     protected final function getEntity(): string
     { return Email::class; }
@@ -53,6 +65,9 @@ class AdminMailListController extends BaseInstanceDependentController
 
     protected final function getTemplatePrefix(): string
     { return 'Admin/MailList/'; }
+
+    protected final function getFilterType(): string
+    { return MailFilterType::class; }
 
 
     protected function getSortDefaults(): array
@@ -93,7 +108,11 @@ class AdminMailListController extends BaseInstanceDependentController
 
         if ($filterForm !== null) {
             $filterForm = $filterForm->handleRequest($request);
-            $query = $this->filterManager->filter($query, $filterForm, Email::class);
+            $query = $this->filterManager->filter(
+                $query,
+                $filterForm,
+                $this->entityClassName
+            );
         }
 
         $pagination = $this->paginator->paginate(

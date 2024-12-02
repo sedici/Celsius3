@@ -34,10 +34,16 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\Translator;
 
 abstract class BaseController extends AbstractController
 {
@@ -62,7 +68,7 @@ abstract class BaseController extends AbstractController
     protected $paginator;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     protected $translator;
 
@@ -70,6 +76,21 @@ abstract class BaseController extends AbstractController
      * @var ManagerRegistry
      */
     protected $managerRegistry;
+
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var UnionManager
+     */
+    protected $unionManager;
+
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
 
     protected string $entityClassName;
     protected string $typeClassName;
@@ -84,6 +105,10 @@ abstract class BaseController extends AbstractController
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
         ManagerRegistry $managerRegistry,
+        ObjectManager $objectManager,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
         ...$args
     ) {
         $this->instanceManager = $instanceManager;
@@ -92,12 +117,15 @@ abstract class BaseController extends AbstractController
         $this->paginator = $paginator;
         $this->translator = $translator;
         $this->managerRegistry = $managerRegistry;
+        $this->objectManager = $objectManager;
+        $this->requestStack = $requestStack;
+        $this->unionManager = $unionManager;
+        $this->$userManager = $userManager;
 
         $this->entityClassName = $this->getEntity();
         $this->typeClassName = $this->getType();
         $this->templatePrefix = $this->getTemplatePrefix();
         $this->directory = $this->getDirectory();
-        $this->objectManager = $this->objectManager;
     }
 
 
@@ -106,10 +134,20 @@ abstract class BaseController extends AbstractController
     protected abstract function getType(): string;
     protected abstract function getTemplatePrefix(): string;
     protected abstract function getSortDefaults(): array;
-    protected abstract function baseFilter($entity, $filter_form, $query);
+    // protected abstract function baseFilter($entity, $filter_form, $query);
 
 
     protected function filter($query) {}
+    
+    
+    protected function getDirectory()
+    {
+        return $this->instanceManager->getDirectory();
+    }
+
+
+    protected function getBundle()
+    { return ''; }
 
     
     protected function listQuery()
@@ -130,16 +168,6 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function getDirectory()
-    {
-        return $this->instanceManager->getDirectory();
-    }
-
-
-    protected function getBundle()
-    { return ''; }
-
-
     protected function getResultsPerPage()
     {
         return $this
@@ -151,26 +179,57 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function baseIndex(FormInterface $filter_form = null, $paginator)
-    {
+    protected function baseIndex(
+        FormInterface $filter_form = null,
+        array $options = [],
+        string $type = null,
+        string $template = null,
+        $data = null
+    ) {
+        if ($type === null) $type = $this->typeClassName;
+        
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'index.html.twig';
+
+        // ---
+
         $query = $this->listQuery();
-        $request = $this->get('request_stack')->getCurrentRequest();
-        if (!is_null($filter_form)) {
+        $request = $this->requestStack->getCurrentRequest();
+        if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
         }
 
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */ , $this->getResultsPerPage()/* limit per page */ , $this->getSortDefaults());
+        $pagination = $this->paginator->paginate(
+            $query,
+            $request->query->get(
+                'page',
+                1
+            )/* page number */ ,
+            $this->getResultsPerPage()/* limit per page */ ,
+            $this->getSortDefaults()
+        );
 
-        return [
-            'pagination' => $pagination,
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
-        ];
+        $form = $this->createForm(
+            $type,
+            $data,
+            $options
+        );
+
+        return $this->render(
+            $template,
+            [
+                'paginator' => $this->paginator,
+                'filter_form' => ($filter_form !== null)
+                    ? $filter_form->createView()
+                    : $filter_form,
+            ]
+        );
     }
 
 
     protected function baseShow($name, $id)
     {
-        $entity = $this->findQuery($name, $id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(
@@ -185,14 +244,37 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function baseNew($name, $entity, $type, array $options = [])
-    {
-        $form = $this->createForm($type, $entity, $options);
+    protected function baseNew(
+        Entity $entity = null,
+        string $type = null,
+        array $options = [],
+        string $template = null
+    ) {
+        if ($entity === null) {
+            $entityClassName = $this->entityClassName;
+            $entity = new $entityClassName();
+        }
 
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
+        if ($type === null) $type = $this->typeClassName;
+        
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'new.html.twig';
+
+        // ---
+
+        $form = $this->createForm(
+            $type,
+            $entity,
+            $options
+        );
+
+        return $this->render(
+            $template,
+            [
+                'entity' => $entity,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
 
@@ -203,11 +285,37 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function baseCreate($name, $entity, $type, array $options, $route)
-    {
-        $request = $this->get('request_stack')->getCurrentRequest();
+    protected function baseCreate(
+        Entity $entity = null,
+        string $type = null,
+        array $options = [],
+        string $route = null,
+        string $template = null
+    ) {
+        if ($entity === null) {
+            $entityClassName = $this->entityClassName;
+            $entity = new $entityClassName();
+        }
+
+        if ($type === null) $type = $this->typeClassName;
+        
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'new.html.twig';
+
+        // ---
+
         $form = $this->createForm($type, $entity, $options);
+
+        $request = $this->requestStack->getCurrentRequest();
+
+        $form = $this->createForm(
+            $type,
+            $entity,
+            $options
+        );
+
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
@@ -216,20 +324,26 @@ abstract class BaseController extends AbstractController
                     $this->translator->trans(
                         'The %entity% was successfully created.',
                         [
-                            '%entity%' => $this->translator->trans($name)
+                            '%entity%' => $this->translator
+                                ->trans($this->entityClassName)
                         ],
                         'Flashes'
                     )
                 );
 
-                return $this->redirect($this->generateUrl($route));
+                return $this->redirect(
+                    $this->generateUrl(
+                        $route
+                    )
+                );
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
                 $this->addFlash(
                     'error',
                     $this->translator->trans(
                         'The %entity% already exists.',
                         [
-                            '%entity%' => $this->translator->trans($name)
+                            '%entity%' => $this->translator
+                                ->trans($this->entityClassName)
                         ],
                         'Flashes'
                     )
@@ -242,27 +356,43 @@ abstract class BaseController extends AbstractController
             $this->translator->trans(
                 'There were errors creating the %entity%.',
                 [
-                    '%entity%' => $this->translator->trans($name)
+                    '%entity%' => $this->translator
+                        ->trans($this->entityClassName)
                 ],
                 'Flashes'
             )
         );
 
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
+        return $this->render(
+            $template,
+            [
+                'entity' => $entity,
+                'form' => $form->createView(),
+            ],
+        );
     }
 
 
-    protected function baseEdit($name, $id, $type, array $options = [], $route = null)
-    {
+    protected function baseEdit(
+        int $id,
+        string $type = null,
+        array $options = [],
+        string $route = null,
+        string $template = null
+    ): Response {
+        if ($type === null) $type = $this->typeClassName;
+        
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'edit.html.twig';
+
+        // ---
+
         $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(
                 Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.' . $name
+                'exception.entity_not_found.' . $this->entityClassName
             );
         }
 
@@ -272,28 +402,47 @@ abstract class BaseController extends AbstractController
             $options
         );
 
-        return [
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'route' => $route,
-        ];
+        return $this->render(
+            $template,
+            [
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+                'route' => $route,
+            ]
+        );
     }
 
 
-    protected function baseUpdate($name, $id, $type, array $options, $route)
-    {
+    protected function baseUpdate(
+        int $id,
+        string $route,
+        string $type = null,
+        array $options = [],
+        string $template = null
+    ): RedirectResponse|Response {
+        if ($type === null) $type = $this->typeClassName;
+        
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'edit.html.twig';
+
+        // ---
+
         $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(
                 Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.' . $name
+                'exception.entity_not_found.' . $this->entityClassName
             );
         }
 
-        $editForm = $this->createForm($type, $entity, $options);
+        $editForm = $this->createForm(
+            $type,
+            $entity,
+            $options
+        );
 
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
         $editForm->handleRequest($request);
 
@@ -301,63 +450,92 @@ abstract class BaseController extends AbstractController
             try {
                 $this->persistEntity($entity);
 
-                $this->addFlash('success', $this->translator->trans(
-                    'The %entity% was successfully edited.',
-                    [
-                        '%entity%' => $this->translator->trans($name)
-                    ],
-                    'Flashes'
-                ));
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans(
+                        'The %entity% was successfully edited.',
+                        [
+                            '%entity%' => $this->translator
+                                ->trans($this->entityClassName)
+                        ],
+                        'Flashes'
+                    )
+                );
 
-                return $this->redirect($this->generateUrl((string) $route . '_edit', ['id' => $id]));
+                return $this->redirect(
+                    $this->generateUrl(
+                        (string) $route . '_edit',
+                        ['id' => $id]
+                    )
+                );
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', $this->translator->trans(
-                    'The %entity% already exists.',
-                    [
-                        '%entity%' => $this->translator->trans($name)
-                    ],
-                    'Flashes'
-                ));
+                $this->addFlash(
+                    'error',
+                    $this->translator
+                        ->trans(
+                            'The %entity% already exists.',
+                            [
+                                '%entity%' => $this->translator
+                                    ->trans($this->entityClassName)
+                            ],
+                            'Flashes'
+                        )
+                );
             }
         }
 
-        $this->addFlash('error', $this->translator->trans(
-            'There were errors editing the %entity%.',
-            [
-                '%entity%' => $this->translator->trans($name)
-            ],
-            'Flashes'
-        ));
+        $this->addFlash(
+            'error',
+            $this->translator->trans(
+                'There were errors editing the %entity%.',
+                [
+                    '%entity%' => $this->translator
+                        ->trans($this->entityClassName)
+                ],
+                'Flashes'
+            )
+        );
 
-        return [
-            'entity' => $entity,
-            'edit_form' => $editForm->createView()
-        ];
+        return $this->render(
+            $template,
+            [
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+                ... $options
+            ]
+        );
     }
 
 
     protected function baseDelete($name, $id, $route)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $entity = $this->findQuery($name, $id);
+            $entity = $this->findQuery($id);
 
             if (!$entity) {
-                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+                throw Exception::create(
+                    Exception::ENTITY_NOT_FOUND,
+                    'exception.entity_not_found.' . $this->entityClassName
+                );
             }
 
             $em = $this->objectManager;
             $em->remove($entity);
             $em->flush();
 
-            /** @var $translator Translator */
-            $translator = $this->get('translator');
-
-            $this->addFlash('success', $this->translator->trans('The %entity% was successfully deleted.', ['%entity%' => $name], 'Flashes'));
+            $this->addFlash(
+                'success',
+                $this->translator->trans(
+                    'The %entity% was successfully deleted.',
+                    ['%entity%' => $this->entityClassName],
+                    'Flashes'
+                )
+            );
         }
 
         return $this->redirect($this->generateUrl($route));
@@ -366,10 +544,10 @@ abstract class BaseController extends AbstractController
 
     protected function baseBatch()
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
         $action = $request->request->get('action');
         $function = 'batch' . ucfirst($action);
-        $element_ids = $request->request->get('element', array());
+        $element_ids = $request->request->get('element', []);
 
         return $this->$function($element_ids);
     }
@@ -378,7 +556,7 @@ abstract class BaseController extends AbstractController
     {
         $em = $this->objectManager;
         $entities = $em
-            ->getRepository('Celsius3:' . $name)
+            ->getRepository((string) 'Celsius3:' . $name)
             ->findBy(['id' => $ids]);
 
         return [
@@ -407,13 +585,26 @@ abstract class BaseController extends AbstractController
             $this->mergeSecondaryInstances($main, $entities);
         }
 
-        $this->get('celsius3_core.union_manager')
-            ->union($name, $main, $entities, $updateInstance);
+        $this->unionManager
+            ->union(
+                $name,
+                $main,
+                $entities,
+                $updateInstance
+            );
 
-        /** @var $translator Translator */
-        $translator = $this->get('translator');
 
-        $this->addFlash('success', $this->translator->trans('The %entities% were successfully joined.', ['%entities%' => $this->translator->transChoice($name, count($entities), [], 'Flashes')]));
+        $this->addFlash(
+            'success',
+            $this->translator->trans(
+                'The %entities% were successfully joined.',
+                [
+                    '%entities%' => $this->translator->transChoice(
+                        $name, count($entities), [], 'Flashes'
+                    )
+                ]
+            )
+        );
 
         return $this->redirect($this->generateUrl($route));
     }
@@ -421,9 +612,10 @@ abstract class BaseController extends AbstractController
 
     protected function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array(
-            'id' => $id,
-        ))
+        return $this
+            ->createFormBuilder([
+                'id' => $id,
+            ])
             ->add('id', HiddenType::class)
             ->getForm();
     }
@@ -442,29 +634,27 @@ abstract class BaseController extends AbstractController
 
         $term = $request->query->get('term');
 
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $insts = array();
-        } else {
-            $insts = $this->get('celsius3_core.user_manager')->getLibrarianInstitutions($librarian);
-        }
+        $insts = ($this->isGranted('ROLE_ADMIN'))
+            ? [] : $this->userManager
+                ->getLibrarianInstitutions($librarian);
 
         $result = $this->objectManager
-            ->getRepository('Celsius3' . $target)
-            ->findByTerm($term, $instance, null, $insts)
+            ->getRepository((string) 'Celsius3' . $target)
+            ->findByTerm($term, $instance, null)
             ->getResult();
 
         $json = [];
-
 
         foreach ($result as $element) {
             if (method_exists($element, 'asJson')) {
                 $json[] = $element->asJSon();
             } else {
-                $json[] = array(
+                $json[] = [
                     'id' => $element->getId(),
-                    'value' => ($target === 'BaseUser') ? $element->__toString() . ' (' . $element->getUsername() . ')' : $element->__toString(),
-
-                );
+                    'value' => ($target === 'BaseUser')
+                        ? $element->__toString() . ' (' . $element->getUsername() . ')'
+                        : $element->__toString(),
+                ];
             }
         }
 

@@ -27,6 +27,10 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
+use Doctrine\ORM\Mapping\Entity;
+use Symfony\Component\Form\Test\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
@@ -37,15 +41,29 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected Instance $instance;
 
+    protected string $filterType;
+
     public function __construct(
         InstanceHelper $instanceHelper,
-        ...$parentArgs
+        ...$args
     ) {
-        parent::__construct(...$parentArgs);
+        parent::__construct(...$args);
         $this->instanceHelper = $instanceHelper;
         $this->instance = $this->getInstance();
+        $this->filterType = $this->getFilterType();
     }
 
+    protected function getFilterType(): string {return '';}
+
+    protected function createFilterForm():\Symfony\Component\Form\FormInterface {
+        return $this->createForm(
+            $this->filterType,
+            null,
+            [
+                'instance' => $this->instance,
+            ]
+        );
+    }
 
     protected function getInstance(): Instance
     {
@@ -97,12 +115,110 @@ abstract class BaseInstanceDependentController extends BaseController
             );
     }
 
-    protected function filter($query)
+    protected function filterForm($query)
     {
         return $this->baseInstanceFilter(
             $this->entityClassName,
-            $this->getFilterForm(),
+            $this->createFilterForm(),
             $query
+        );
+    }
+
+
+    protected function baseInstanceUpdate(
+        int $id,
+        string $route,
+        string $type = null,
+        array $options = [],
+        string $template = null
+    ): RedirectResponse|Response {
+        return $this->baseUpdate(
+            $id,
+            $route,
+            $type,
+            [
+                'instance' => $this->instance,
+                ... $options
+            ],
+            $template
+        );
+    }
+
+
+    protected function baseInstanceEdit(
+        int $id,
+        string $type = null,
+        string $route = null,
+        array $options = [],
+        string $template = null
+    ): Response {
+        return $this->baseEdit(
+            $id,
+            $type,
+            [
+                'instance' => $this->instance,
+                ... $options
+            ],
+            $route,
+            $template
+        );
+    }
+
+
+    protected function baseInstanceCreate(
+        Entity $entity = null,
+        string $type = null,
+        array $options = [],
+        string $route = null,
+        string $template = null
+    ): RedirectResponse|Response {
+        return $this->baseCreate(
+            $entity,
+            $type,
+            [
+                'instance' => $this->instance,
+                ... $options
+            ],
+            $route,
+            $template
+        );
+    }
+
+
+    protected function baseInstanceNew(
+        Entity $entity = null,
+        string $type = null,
+        array $options = [],
+        string $template = null
+    ): Response {
+        return $this->baseNew(
+            $entity,
+            $type,
+            [
+                'instance' => $this->instance,
+                ... $options
+            ],
+            $template
+        );
+    }
+
+
+    protected function baseInstanceIndex(
+        FormInterface $filter_form = null,
+        array $options = [],
+        string $type = null,
+        string $template = null,
+        $data = null
+    ) {
+        return $this->baseIndex(
+            $filter_form,
+            [
+                'instance' => $this->getInstance(),
+                ... $options
+            ],
+            $type,
+            $template,
+            $data
         );
     }
 }
