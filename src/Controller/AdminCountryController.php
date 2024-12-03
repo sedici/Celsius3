@@ -23,12 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Exception\Exception;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\Country;
 use Celsius3\Form\Type\CountryType;
-use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -51,7 +48,16 @@ class AdminCountryController extends BaseInstanceDependentController
     { return 'Admin/Country/'; }
 
 
-    protected function getDirectory()
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    protected function getDirectory(): Instance|null
     {
         return $this->managerRegistry
             ->getRepository(Instance::class)
@@ -60,13 +66,6 @@ class AdminCountryController extends BaseInstanceDependentController
             ]);
     }
 
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
 
     /**
      * Lists all Country entities.

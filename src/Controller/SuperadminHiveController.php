@@ -22,12 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Helper\ConfigurationHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Hive;
 use Celsius3\Form\Type\HiveType;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,42 +34,25 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SuperadminHiveController extends BaseController
 {
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
 
-    // /**
-    //  * @var EntityManagerInterface
-    //  */
-    // private $entityManager;
+    protected final function getEntity(): string
+    { return Hive::class; }
 
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     EntityManagerInterface $entityManager,
-    //     ConfigurationHelper $configurationHelper
+    protected final function getType(): string
+    { return HiveType::class; }
 
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->entityManager = $entityManager;
-    //     $this->setConfigurationHelper($configurationHelper);
-
-    // }
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/Hive'; }
 
 
-
-
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
+
 
     /**
      * Lists all Hive entities.
@@ -83,17 +61,9 @@ class SuperadminHiveController extends BaseController
      */
     public function index(): Response
     {
-        return $this->render('Superadmin/Hive/index.html.twig', $this->baseIndex('Hive',null, $this->paginator));
+        return $this->baseIndex();
     }
 
-    protected function listQuery($name)
-    {
-        $valor=$name;
-       // $class = new \ReflectionClass($valor);
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Hive::class)
-            ->createQueryBuilder('e');
-    }
 
     /**
      * Displays a form to create a new Hive entity.
@@ -102,11 +72,9 @@ class SuperadminHiveController extends BaseController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Superadmin/Hive/new.html.twig',
-            $this->baseNew('Hive', new Hive(), HiveType::class)
-        );
+        return $this->baseNew();
     }
+
 
     /**
      * Creates a new Hive entity.
@@ -115,8 +83,9 @@ class SuperadminHiveController extends BaseController
      */
     public function create()
     {
-        return $this->render('Superadmin/Hive/new.html.twig', $this->baseCreate('Hive', new Hive(), HiveType::class, array(), 'superadmin_hive'));
+        return $this->baseCreate(route: 'superadmin_hive');
     }
+
 
     /**
      * Displays a form to edit an existing Hive entity.
@@ -129,8 +98,9 @@ class SuperadminHiveController extends BaseController
      */
     public function edit($id): Response
     {
-        return $this->render('Superadmin/Hive/edit.html.twig', $this->baseEdit('Hive', $id, HiveType::class));
+        return $this->baseEdit($id);
     }
+
 
     /**
      * Edits an existing Hive entity.
@@ -141,8 +111,8 @@ class SuperadminHiveController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update($id): Response
     {
-        return $this->render('Superadmin/Hive/edit.html.twig', $this->baseUpdate('Hive', $id, HiveType::class, array(), 'superadmin_hive'));
+        return $this->baseUpdate($id, 'superadmin_hive');
     }
 }

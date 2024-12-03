@@ -24,10 +24,13 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\DataRequest;
 use Celsius3\Entity\UsersDataRequest;
+use Celsius3\Form\Type\DataRequestType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Data requests list controller.
@@ -36,65 +39,86 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class SuperadminDataRequestController extends BaseController
 {
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
+
+    protected final function getEntity(): string
+    { return DataRequest::class; }
+
+    protected final function getType(): string
+    { return DataRequestType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/DataRequests/'; }
+
+
+    protected final function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc',
+        ];
+    }
+
 
     /**
      * Lists all data requests.
      *
      * @Route("/", name="superadmin_data_request_index")
      */
-    public function index(Request $request)
+    public function index(): Response
     {
-        $qb = $this->getDoctrine()->getManager()
-            ->getRepository(DataRequest::class)
+        $qb = $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
             ->createQueryBuilder('e');
 
-        $query = $qb->where('e.visible = :visible')
+        $query = $qb
+            ->where('e.visible = :visible')
             ->setParameter('visible', true);
 
-        // $paginator = $this->get('knp_paginator');
+        $request = $this->requestStack->getCurrentRequest();
+
         $pagination = $this->paginator->paginate(
-        // $pagination = $paginator->paginate(
             $query,
-            intval($request->query->get('page', 1))/* page number */,
-            $this->getResultsPerPage()/* limit per page */,
-            $this->getSortDefaults()
+            intval($request->query->get('page', 1)),
+            $this->getResultsPerPage(),
+            $this->sortDefaults
         );
 
-        return $this->render('Superadmin/DataRequests/index.html.twig', array('pagination' => $pagination));
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig',
+            [ 'pagination' => $pagination ]
+        );
     }
+
 
     /**
      * @Route("/{id}/export_orders", name="superadmin_orders_data_request_export")
      */
-    public function exportOrders(Request $request, DataRequest $dataRequest)
+    public function exportOrders(DataRequest $dataRequest): RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $process = new Process('php ../bin/console --env=prod celsius3:export:orders-data-requests ' . $dataRequest->getId());
+        $process = new Process([
+            'php ../bin/console --env=prod celsius3:export:orders-data-requests ' . $dataRequest->getId()
+        ]);
         $process->run();
 
-        $em->persist($dataRequest->setExported(true));
-        $em->flush();
+        $this->persistEntity(
+            $dataRequest->setExported(true)
+        );
 
         return $this->redirectToRoute('superadmin_data_request_index');
     }
 
+
     /**
      * @Route("/{id}/export_users", name="superadmin_users_data_request_export")
      */
-    public function exportUsers(Request $request, DataRequest $dataRequest)
+    public function exportUsers(DataRequest $dataRequest): RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $process = new Process('php ../bin/console --env=prod celsius3:export:users-data-requests ' . $dataRequest->getId());
+        $process = new Process([
+            'php ../bin/console --env=prod celsius3:export:users-data-requests ' . $dataRequest->getId()
+        ]);
         $process->run();
 
-        $em->persist($dataRequest->setExported(true));
-        $em->flush();
+        $this->persistEntity($dataRequest->setExported(true));
 
         return $this->redirectToRoute('superadmin_data_request_index');
     }
@@ -102,13 +126,10 @@ class SuperadminDataRequestController extends BaseController
     /**
      * @Route("/{id}/annul", name="superadmin_data_request_annul")
      */
-    public function annul(Request $request, DataRequest $dataRequest) {
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($dataRequest->setVisible(false));
-        $em->flush();
+    public function annul(DataRequest $dataRequest): RedirectResponse
+    {
+        $this->persistEntity($dataRequest->setVisible(false));
 
         return $this->redirectToRoute('superadmin_data_request_index');
     }
-
 }

@@ -23,83 +23,57 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
 use Celsius3\Validator\Constraints\ContainsCSS;
 use Celsius3\Exception\Exception;
-use Doctrine\ORM\EntityManagerInterface;
 use Celsius3\Entity\Instance;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Knp\Component\Pager\PaginatorInterface;
-
+use Celsius3\Entity\LegacyInstance;
+use Celsius3\Form\Type\InstanceType;
+use Celsius3\Helper\MailerHelper;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Form\Test\FormInterface;
 
 abstract class InstanceController extends BaseController
 {
-    // public function __construct(
-    //     InstanceManager $instanceManager,
-    //     EntityManagerInterface $entityManager,
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     TranslatorInterface $translator
-    // ) {
-    //     parent::__construct(
-    //         $instanceManager,
-    //         $entityManager,
-    //         $paginator,
-    //         $configurationHelper,
-    //         $translator
-    //     );
-    // }
 
+    /**
+     * @var MailerHelper
+     */
+    private $mailerHelper;
 
-    
-
-
-
-
-    // /**
-    //  * @var InstanceManager
-    //  */
-    // private $instanceManager;
-    // /**
-    //  * @var EntityManagerInterface
-    //  */
-    // private $entityManager;
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-
-    // public function __construct(
-    //     InstanceManager $instanceManager,
-    //     EntityManagerInterface $entityManager,
-    //     ConfigurationHelper $configurationHelper
-    // )
-    // {
-    //     $this->instanceManager = $instanceManager;
-    //     $this->entityManager = $entityManager;
-    //     $this->configurationHelper = $configurationHelper;
-    // }
-
-    protected function getDirectory()
-    {
-        return  $this->getDoctrine()->getManager()->getRepository(Instance::class)
-            ->findOneBy(array('url' => 'directory'));
-     //   return $this->instanceManager->getDirectory();
+    public function __construct(
+        MailerHelper $mailerHelper,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->mailerHelper = $mailerHelper;
     }
 
-    protected function listQuery($name)
+
+    protected final function getEntity(): string
+    { return Instance::class; }
+
+
+    protected function getDirectory(): Instance|null
     {
-        $qb = $this->getDoctrine()->getManager()
+        return  $this->managerRegistry->getManager()
+            ->getRepository(Instance::class)
+            ->findOneBy(['url' => 'directory']);
+    }
+
+
+    protected function listQuery(): QueryBuilder
+    {
+        $qb = $this->managerRegistry->getManager()
             ->getRepository(Instance::class)
             ->createQueryBuilder('e')
             ->where('e.id != :id')
             ->setParameter('id', $this->getDirectory()->getId());
-        if ($name == 'LegacyInstance') {
-            return $qb->andWhere('e INSTANCE OF Celsius3:LegacyInstance');
-        } else {
-            return $qb;
-        }
+
+        return ($this->entityClassName == LegacyInstance::class)
+            ? $qb->andWhere('e INSTANCE OF Celsius3:LegacyInstance')
+            : $qb;
     }
+
 
     /**
      * Construye un array con la configuracion para cada widget .Permite manejar casos especiales como textareas o files.
@@ -111,21 +85,24 @@ abstract class InstanceController extends BaseController
      *
      * @return array con la estructura esperada por el metodo add de FormBuilder
      */
-    private function buildConfigurationArray($configuration, $configurationType,ConfigurationHelper  $configurationHelper)
-    {
+    private function buildConfigurationArray(
+        $configuration,
+        $configurationType,
+        ConfigurationHelper $configurationHelper
+    ): array {
         $configs = $configurationHelper->configurations;
-        $config_array = array(
+        $config_array = [
             'constraints' => $configurationHelper->getConstraints($configuration),
             'data' => $configurationHelper->getCastedValue($configuration),
             /** @Ignore */
             'label' => $configuration->getName(),
             'required' => array_key_exists($configuration->getKey(), $configs) && isset($configs[$configuration->getKey()]['required']) ? $configs[$configuration->getKey()]['required'] : false,
-            'attr' => array(
+            'attr' => [
                 'value' => $configuration->getValue(),
                 'class' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
                 'required' => array_key_exists($configuration->getKey(), $configs) && isset($configs[$configuration->getKey()]['required']) ? $configs[$configuration->getKey()]['required'] : false,
-            ),
-        );
+            ],
+        ];
 
         if ($configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS) {
             $config_array['constraints'] = new ContainsCSS();
@@ -138,46 +115,53 @@ abstract class InstanceController extends BaseController
         return $config_array;
     }
 
-    private function getConfigurationForm($id, $entity,ConfigurationHelper  $configurationHelper)
+
+    private function getConfigurationForm(Instance $entity): FormInterface
     {
         $builder = $this->createFormBuilder();
 
         foreach ($entity->getConfigurations() as $configuration) {
-            $configurationType = $configurationHelper->guessConfigurationType($configuration);
+            $configurationType = $this->configurationHelper->guessConfigurationType($configuration);
             $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType,$configurationHelper));
         }
 
         return $builder->getForm();
     }
 
-    protected function baseConfigure($id,ConfigurationHelper  $configurationHelper)
+
+    protected function baseConfigure(string $id): array
     {
-        $entity = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                (string) 'exception.entity_not_found.' . $this->entityClassName
+            );
         }
 
-        $configureForm = $this->getConfigurationForm($id, $entity,$configurationHelper);
+        $configureForm = $this->getConfigurationForm($entity);
 
-        return array(
+        return [
             'entity' => $entity,
             'configure_form' => $configureForm->createView(),
-        );
+        ];
     }
+
 
     protected function baseConfigureUpdate($id, $route)
     {
-        $entity = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                (string) 'exception.entity_not_found.' . $this->entityClassName
+            );
         }
 
-        $configureForm = $this->getConfigurationForm($id, $entity);
-
-        $request = $this->get('request_stack')->getCurrentRequest();
-
+        $configureForm = $this->getConfigurationForm($entity);
+        $request = $this->requestStack->getCurrentRequest();
         $configureForm->handleRequest($request);
 
         if ($configureForm->isValid()) {
@@ -186,13 +170,13 @@ abstract class InstanceController extends BaseController
             $basedir = dirname($class->getFileName()).'/../../../..';
 
             $uploadedFile = $configureForm['instance_logo']->getData();
-            if (!is_null($uploadedFile)) {
+            if ($uploadedFile !== null) {
                 $randomName = md5(uniqid(mt_rand(), true));
                 $uploadedFile->move($basedir.'/web/uploads/logos/', $randomName.'.'.$uploadedFile->guessClientExtension());
                 $values['instance_logo'] = $randomName.'.'.$uploadedFile->guessClientExtension();
             }
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->managerRegistry->getManager();
             foreach ($entity->getConfigurations() as $configuration) {
                 if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
                    if (file_exists($basedir.'/web/uploads/logos/'.$configuration->getValue())){
@@ -207,23 +191,18 @@ abstract class InstanceController extends BaseController
             }
 
             $entity->get('smtp_status')
-                ->setValue($this->get('celsius3_core.mailer_helper')->validateSmtpServerData($entity));
+                ->setValue($this->mailerHelper->validateSmtpServerData($entity));
 
-            $em->persist($entity);
+            $this->persistEntity($entity);
 
-            $em->flush();
-
-            /** @var $translator Translator */
-            $translator = $this->get('translator');
-
-            $this->addFlash('success', $translator->trans('The %entity% was successfully configured.', ['%entity%' =>  $translator->trans('Instance')], 'Flashes'));
+            $this->addFlash('success', $this->translator->trans('The %entity% was successfully configured.', ['%entity%' =>  $translator->trans('Instance')], 'Flashes'));
 
             return $this->redirect($this->generateUrl($route.'_configure', array('id' => $id)));
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'configure_form' => $configureForm->createView(),
-        );
+        ];
     }
 }

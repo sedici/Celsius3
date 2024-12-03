@@ -36,10 +36,13 @@ use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -97,6 +100,7 @@ abstract class BaseController extends AbstractController
     protected string $templatePrefix;
     protected Instance $directory;
     protected ObjectManager $objectManager;
+    protected array $sortDefaults;
 
     public function __construct(
         InstanceManager $instanceManager,
@@ -126,6 +130,7 @@ abstract class BaseController extends AbstractController
         $this->typeClassName = $this->getType();
         $this->templatePrefix = $this->getTemplatePrefix();
         $this->directory = $this->getDirectory();
+        $this->sortDefaults = $this->getSortDefaults();
     }
 
 
@@ -137,20 +142,20 @@ abstract class BaseController extends AbstractController
     // protected abstract function baseFilter($entity, $filter_form, $query);
 
 
-    protected function filter($query) {}
+    protected function filter($query): void {}
     
     
-    protected function getDirectory()
+    protected function getDirectory(): Instance|null
     {
         return $this->instanceManager->getDirectory();
     }
 
 
-    protected function getBundle()
+    protected function getBundle(): string
     { return ''; }
 
     
-    protected function listQuery()
+    protected function listQuery(): QueryBuilder
     {
         return $this->managerRegistry
             ->getManager()
@@ -159,7 +164,7 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function findQuery(int $id)
+    protected function findQuery(string $id)
     {
         return $this->managerRegistry
             ->getManager()
@@ -180,12 +185,13 @@ abstract class BaseController extends AbstractController
 
 
     protected function baseIndex(
-        FormInterface $filter_form = null,
-        array $options = [],
         string $type = null,
+        array $options = [],
         string $template = null,
-        $data = null
-    ) {
+        $data = null,
+        FormInterface $filter_form = null,
+        bool $hasFilterForm = true
+    ): Response {
         if ($type === null) $type = $this->typeClassName;
         
         if ($template === null) 
@@ -195,30 +201,24 @@ abstract class BaseController extends AbstractController
 
         $query = $this->listQuery();
         $request = $this->requestStack->getCurrentRequest();
+
         if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
-        }
+        } else if ($hasFilterForm) $filter_form = $this->createForm(
+            $type, $data, $options
+        );
 
         $pagination = $this->paginator->paginate(
             $query,
-            $request->query->get(
-                'page',
-                1
-            )/* page number */ ,
-            $this->getResultsPerPage()/* limit per page */ ,
-            $this->getSortDefaults()
-        );
-
-        $form = $this->createForm(
-            $type,
-            $data,
-            $options
+            intval($request->query->get('page', 1)),
+            $this->getResultsPerPage(),
+            $this->sortDefaults
         );
 
         return $this->render(
             $template,
             [
-                'paginator' => $this->paginator,
+                'pagination' => $pagination,
                 'filter_form' => ($filter_form !== null)
                     ? $filter_form->createView()
                     : $filter_form,
@@ -227,20 +227,30 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function baseShow($name, $id)
-    {
+    protected function baseShow(
+        string $id,
+        string $template = null,
+    ): Response {
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'index.html.twig';
+
+        // ---
+
         $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(
                 Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.' . $name
+                (string) 'exception.entity_not_found.' . $this->entityClassName
             );
         }
 
-        return [
-            'entity' => $entity,
-        ];
+        return $this->render(
+            $template,
+            [
+                'entity' => $entity,
+            ]
+        );
     }
 
 
@@ -336,7 +346,7 @@ abstract class BaseController extends AbstractController
                         $route
                     )
                 );
-            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+            } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash(
                     'error',
                     $this->translator->trans(
@@ -374,7 +384,7 @@ abstract class BaseController extends AbstractController
 
 
     protected function baseEdit(
-        int $id,
+        string $id,
         string $type = null,
         array $options = [],
         string $route = null,
@@ -397,9 +407,7 @@ abstract class BaseController extends AbstractController
         }
 
         $editForm = $this->createForm(
-            $type,
-            $entity,
-            $options
+            $type, $entity, $options
         );
 
         return $this->render(
@@ -414,7 +422,7 @@ abstract class BaseController extends AbstractController
 
 
     protected function baseUpdate(
-        int $id,
+        string $id,
         string $route,
         string $type = null,
         array $options = [],
@@ -437,9 +445,7 @@ abstract class BaseController extends AbstractController
         }
 
         $editForm = $this->createForm(
-            $type,
-            $entity,
-            $options
+            $type, $entity, $options
         );
 
         $request = $this->requestStack->getCurrentRequest();
@@ -468,7 +474,7 @@ abstract class BaseController extends AbstractController
                         ['id' => $id]
                     )
                 );
-            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+            } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash(
                     'error',
                     $this->translator
@@ -507,8 +513,10 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function baseDelete($name, $id, $route)
-    {
+    protected function baseDelete(
+        string $id,
+        string $route
+    ): RedirectResponse {
         $form = $this->createDeleteForm($id);
         $request = $this->requestStack->getCurrentRequest();
 
@@ -552,45 +560,48 @@ abstract class BaseController extends AbstractController
         return $this->$function($element_ids);
     }
 
-    protected function baseUnion($name, $ids)
+    protected function baseUnion($ids): array
     {
-        $em = $this->objectManager;
-        $entities = $em
-            ->getRepository((string) 'Celsius3:' . $name)
+        $entities = $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
             ->findBy(['id' => $ids]);
 
-        return [
-            'entities' => $entities,
-        ];
+        return [ 'entities' => $entities ];
     }
 
 
-    protected function baseDoUnion($name, $ids, $main_id, $route, $updateInstance = true)
+    protected function baseDoUnion($ids, $main_id, $route, $updateInstance = true)
     {
-        $em = $this->objectManager;
-
-        $main = $em->getRepository($name)->find($main_id);
+        $main = $this->findQuery($main_id);
 
         if (!$main) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                'exception.entity_not_found'
+            );
         }
 
-        $entities = $em->getRepository($name)->findBaseDoUnionEntities($main, $ids);
+        $entities = $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
+            ->findBaseDoUnionEntities($main, $ids);
 
         if (count($entities) !== count($ids) - 1) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                'exception.entity_not_found'
+            );
         }
 
-        if ($name === BaseUser::class) {
-            $this->mergeSecondaryInstances($main, $entities);
+        if ($this->entityClassName === BaseUser::class) {
+            $this->mergeSecondaryInstances(
+                $main, $entities
+            );
         }
 
         $this->unionManager
             ->union(
-                $name,
-                $main,
-                $entities,
-                $updateInstance
+                $this->entityClassName, $main,
+                $entities, $updateInstance
             );
 
 
@@ -600,7 +611,7 @@ abstract class BaseController extends AbstractController
                 'The %entities% were successfully joined.',
                 [
                     '%entities%' => $this->translator->transChoice(
-                        $name, count($entities), [], 'Flashes'
+                        $this->entityClassName, count($entities), [], 'Flashes'
                     )
                 ]
             )

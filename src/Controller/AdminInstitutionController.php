@@ -23,17 +23,15 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\Institution;
 use Celsius3\Form\Type\InstitutionType;
-use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * Location controller.
+ * Institution controller.
  *
  * @Route("/admin/institution")
  */
@@ -49,6 +47,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     protected final function getTemplatePrefix(): string
     { return 'Admin/Institution/'; }
 
+
     protected function getSortDefaults(): array
     {
         return [
@@ -58,7 +57,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     }
 
 
-    protected function getDirectory()
+    protected function getDirectory(): Instance|null
     {
         return $this->managerRegistry
             ->getRepository(Instance::class)
@@ -71,21 +70,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_institution")
      */
-    public function index(PaginatorInterface $paginator)
+    public function index(): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
-            $this->baseIndex(
-                $this->createForm(
-                    InstitutionFilterType::class,
-                    null,
-                    [
-                        'instance' => $this->instance,
-                    ]
-                ),
-                $paginator
-            )
-        );
+        return $this->baseInstanceIndex();
     }
 
     /**
@@ -95,20 +82,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function new(): Response
     {
-        $entityClassName = $this->entityClassName;
-
-        return $this->render(
-            (string) $this->templatePrefix . 'new.html.twig',
-            $this->baseNew(
-                $entityClassName,
-                new $entityClassName(),
-                $this->typeClassName,
-                [
-                    'instance' => $this->instance,
-                    'show_city' => true
-                ]
-            )
-        );
+        return $this->baseInstanceNew(options: [ 'show_city' => true ]);
     }
 
     /**
@@ -116,22 +90,11 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @Route("/create", name="admin_institution_create", methods={"POST"})
      */
-    public function create()
+    public function create(): Response
     {
-        $entityClassName = $this->entityClassName;
-
-        return $this->render(
-            (string) $this->templatePrefix . 'new.html.twig',
-            $this->baseCreate(
-                $entityClassName,
-                new $entityClassName(),
-                $this->typeClassName,
-                [
-                    'instance' => $this->instance,
-                    'show_city' => true
-                ],
-                'admin_institution'
-            )
+        return $this->baseInstanceCreate(
+            options: [ 'show_city' => true ],
+            route: 'admin_institution'
         );
     }
 
@@ -146,17 +109,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function edit($id): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            $this->baseEdit(
-                $this->entityClassName,
-                $id,
-                $this->typeClassName,
-                [
-                    'instance' => $this->instance,
-                    'show_city' => true
-                ]
-            )
+        return $this->baseInstanceEdit(
+            $id, options: [ 'show_city' => true ]
         );
     }
 
@@ -169,26 +123,11 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update($id): RedirectResponse|Response
     {
-        $response = $this->baseUpdate(
-            (string) $this->entityClassName,
-            $id,
-            $this->typeClassName,
-            [
-                'instance' => $this->instance,
-                'show_city' => true
-            ],
-            'admin_institution'
-        );
-
-        if ($response instanceof RedirectResponse) {
-            return $response;
-        }
-
-        return $this->render(
-            $this->templatePrefix . 'edit.html.twig',
-            $response
+        return $this->baseInstanceUpdate(
+            $id, 'admin_institution',
+            options: [ 'show_city' => true ]
         );
     }
 
@@ -201,29 +140,18 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show(string $id): Response
+    public function show(int $id): Response
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.institution'
-            );
-        }
-
+        // Primero verifica que el usuario tenga acceso (ademas de que exista la entidad)
+        // pero si no existe la entidad o no tiene acceso manda que no tiene acceso para brindar menos información
         if (
-            $entity->instance !== $this->getDirectory()
+            $entity !== null
+            && $entity->instance !== $this->getDirectory()
             && $entity->instance !== $this->instance
-        ) {
-            throw Exception::create(Exception::ACCESS_DENIED);
-        }
+        )  throw Exception::create(Exception::ACCESS_DENIED);
 
-        return $this->render(
-            $this->templatePrefix . '/show.html.twig',
-            [
-                'entity' => $entity,
-            ]
-        );
+        return $this->baseShow($id);
     }
 }

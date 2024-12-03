@@ -25,10 +25,8 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\City;
 use Celsius3\Form\Type\CityType;
-use Celsius3\Form\Type\Filter\CityFilterType;
-use Symfony\Component\HttpFoundation\Response;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -38,10 +36,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class AdminCityController extends BaseInstanceDependentController
 {
 
-    function getEntity(): string
-    {
-        return City::class;
-    }
+    protected final function getEntity(): string
+    { return City::class; }
+
+    protected final function getType(): string
+    { return CityType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/City/'; }
+
 
     protected function getSortDefaults(): array
     {
@@ -57,22 +60,9 @@ class AdminCityController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_city")
      */
-    public function index(PaginatorInterface $paginator): Response
+    public function index(): Response
     {
-        return $this->render(
-            'Admin/City/index.html.twig',
-            $this->baseIndex(
-                'City',
-                $this->createForm(
-                    CityFilterType::class,
-                    null,
-                    [
-                        'instance' => $this->getInstance(),
-                    ]
-                ),
-                $paginator
-            )
-        );
+        return $this->baseInstanceIndex();
     }
 
 
@@ -83,17 +73,7 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Admin/City/new.html.twig',
-            $this->baseNew(
-                'City',
-                new City(),
-                CityType::class,
-                [
-                    'instance' => $this->getInstance(),
-                ]
-            )
-        );
+        return $this->baseInstanceNew();
     }
 
 
@@ -102,20 +82,9 @@ class AdminCityController extends BaseInstanceDependentController
      *
      * @Route("/create", name="admin_city_create", methods={"POST"})
      */
-    public function create()
+    public function create(): RedirectResponse|Response
     {
-        return $this->render(
-            'Admin/City/new.html.twig',
-            $this->baseCreate(
-                'City',
-                new City(),
-                CityType::class,
-                [
-                    'instance' => $this->getInstance(),
-                ],
-                'admin_city'
-            )
-        );
+        return $this->baseInstanceCreate(route: 'admin_city');
     }
 
 
@@ -130,17 +99,7 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function edit($id): Response
     {
-        return $this->render(
-            'Admin/City/edit.html.twig',
-            $this->baseEdit(
-                'City',
-                $id,
-                CityType::class,
-                [
-                    'instance' => $this->getInstance(),
-                ]
-            )
-        );
+        return $this->baseInstanceEdit($id);
     }
 
     
@@ -153,25 +112,8 @@ class AdminCityController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update($id): RedirectResponse|Response
     {
-        $response = $this->baseUpdate(
-            'City',
-            $id,
-            CityType::class,
-            [
-                'instance' => $this->getInstance(),
-            ],
-            'admin_city'
-        );
-
-        if ($response instanceof RedirectResponse) {
-            return $response;
-        }
-
-        return $this->render(
-            'Admin/City/edit.html.twig', 
-            $response
-        );
+        return $this->baseInstanceUpdate($id, 'admin_city');
     }
 }

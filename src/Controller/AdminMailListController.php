@@ -26,15 +26,10 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Email;
 use Celsius3\Form\Type\Filter\MailFilterType;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -66,9 +61,6 @@ class AdminMailListController extends BaseInstanceDependentController
     protected final function getTemplatePrefix(): string
     { return 'Admin/MailList/'; }
 
-    protected final function getFilterType(): string
-    { return MailFilterType::class; }
-
 
     protected function getSortDefaults(): array
     {
@@ -79,62 +71,19 @@ class AdminMailListController extends BaseInstanceDependentController
     }
 
 
-    protected function listQuery()
+    protected function listQuery(): QueryBuilder
     {
         return $this->entityManager
-            ->getRepository(Email::class)
+            ->getRepository($this->entityClassName)
             ->createQueryBuilder('e')
             ->andWhere('e.instance = :instance_id')
-            ->setParameter('instance_id', $this->instanceHelper->getSessionOrUrlInstance()->getId());
-    }
-
-
-    /**
-     * Lists all Mail entities.
-     *
-     * @Route("/", name="admin_maillist")
-     */
-    public function index(Request $request): Response
-    {
-        $filterForm = $this->createForm(
-            MailFilterType::class,
-            null,
-            [
-                'instance' => $this->instanceHelper->getSessionOrUrlInstance(),
-            ]
-        );
-
-        $query = $this->listQuery();
-
-        if ($filterForm !== null) {
-            $filterForm = $filterForm->handleRequest($request);
-            $query = $this->filterManager->filter(
-                $query,
-                $filterForm,
-                $this->entityClassName
+            ->setParameter(
+                'instance_id',
+                $this->instanceHelper
+                    ->getSessionOrUrlInstance()->getId()
             );
-        }
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->getResultsPerPage(),
-            [
-                'defaultSortFieldName' => 'e.updatedAt',
-                'defaultSortDirection' => 'desc',
-            ]
-        );
-
-        return $this->render(
-            $this->templatePrefix . 'index.html.twig',
-            [
-                'pagination' => $pagination,
-                'filter_form' => ($filterForm !== null)
-                    ? $filterForm->createView()
-                    : $filterForm
-            ]
-        );
     }
+
 
     protected function getResultsPerPage()
     {
@@ -144,5 +93,21 @@ class AdminMailListController extends BaseInstanceDependentController
                     ->getSessionOrUrlInstance()
                     ->get('results_per_page')
                 );
+    }
+
+
+    /**
+     * Lists all Mail entities.
+     *
+     * @Route("/", name="admin_maillist")
+     */
+    public function index(): Response
+    {
+        return $this->baseIndex(
+            type: MailFilterType::class,
+            options: [ 
+                'instance' => $this->instanceHelper->getSessionOrUrlInstance()
+            ]
+        );
     }
 }

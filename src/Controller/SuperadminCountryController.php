@@ -35,70 +35,44 @@ use Celsius3\Form\Type\CountryType;
 use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Order controller.
  *
  * @Route("/superadmin/country")
  */
-class SuperadminCountryController extends BaseController
+class SuperadminCountryController extends BaseInstanceDependentController
 {
 
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
+    protected final function getEntity(): string
+    { return Country::class; }
 
-    // /**
-    //  * @var InstanceManager
-    //  */
-    // private $instanceManager;
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     InstanceManager $instanceManager
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->instanceManager=$instanceManager;
-    //     $this->setConfigurationHelper($configurationHelper);
+    protected final function getType(): string
+    { return CountryType::class; }
 
-    // }
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/Country/'; }
 
-    protected function getSortDefaults()
+
+    protected function getSortDefaults(): array
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
-    }
-
-    protected function listQuery($name)
-    {
-        $valor=$name;
-//        $class = new \ReflectionClass($valor);
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Country::class)
-            ->createQueryBuilder('e');
+        ];
     }
 
 
-    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
+
+    protected function findQuery(string $id)
     {
-
-        $query = $this->listQuery($name);
-        $request = $this->get('request_stack')->getCurrentRequest();
-        if (!is_null($filter_form)) {
-            $filter_form = $filter_form->handleRequest($request);
-            //  $query = $this->filter($name, $filter_form, $query);
-        }
-        //    $paginator = $this->get('knp_paginator');
-
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
-
-        return array(
-            'pagination' => $pagination,
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
-        );
+        return $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
+            ->find($id);
     }
 
 
@@ -107,17 +81,12 @@ class SuperadminCountryController extends BaseController
      *
      * @Route("/", name="superadmin_country")
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->render(
-            'Superadmin/Country/index.html.twig',
-            $this->baseIndex('Country', $this->createForm(CountryFilterType::class),$this->paginator)
-        );
+        return $this->baseIndex();
     }
-    protected function getDirectory()
-    {
-        return $this->instanceManager->getDirectory();
-    }
+
+
     /**
      * Displays a form to create a new Country entity.
      *
@@ -125,13 +94,9 @@ class SuperadminCountryController extends BaseController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Superadmin/Country/new.html.twig',
-            $this->baseNew('Country', new Country(), CountryType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
+        return $this->baseNew();
     }
+
 
     /**
      * Creates a new Country entity.
@@ -140,32 +105,9 @@ class SuperadminCountryController extends BaseController
      */
     public function create()
     {
-        return $this->render('Superadmin/Country/new.html.twig', $this->baseCreate('Country', new Country(), CountryType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_country'));
+        return $this->baseCreate(route: 'superadmin_country');
     }
-    protected function findQuery($name, $id)
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Country::class)
-            ->find($id);
-    }
-    protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
-    {
-        $entity = $this->findQuery($name, $id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
-        }
-
-        $editForm = $this->createForm($type, $entity, $options);
-
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-            'route' => $route,
-        );
-    }
 
     /**
      * Displays a form to edit an existing Country entity.
@@ -176,15 +118,11 @@ class SuperadminCountryController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
-        return $this->render(
-            'Superadmin/Country/edit.html.twig',
-            $this->baseEdit('Country', $id, CountryType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
+        return $this->baseInstanceEdit($id);
     }
+
 
     /**
      * Edits an existing Country entity.
@@ -196,12 +134,11 @@ class SuperadminCountryController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): RedirectResponse|Response
     {
-        return $this->render('Superadmin/Country/edit.html.twig', $this->baseUpdate('Country', $id, CountryType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_country'));
+        return $this->baseInstanceUpdate($id, 'superadmin_country');
     }
+
 
     /**
      * Batch actions.
@@ -217,7 +154,10 @@ class SuperadminCountryController extends BaseController
 
     protected function batchUnion($element_ids)
     {
-        return $this->render('Superadmin/Country/batchUnion.html.twig', $this->baseUnion('Country', $element_ids));
+        return $this->render(
+            (string) $this->templatePrefix . 'batchUnion.html.twig',
+            $this->baseUnion($element_ids)
+        );
     }
 
     /**
@@ -225,12 +165,16 @@ class SuperadminCountryController extends BaseController
      *
      * @Route("/doUnion", name="superadmin_country_doUnion", methods={"POST"})
      */
-    public function doUnion()
+    public function doUnion(): RedirectResponse
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
         $element_ids = $request->request->get('element');
         $main_id = $request->request->get('main');
 
-        return $this->baseDoUnion(Country::class, $element_ids, $main_id, 'superadmin_country');
+        return $this->baseDoUnion(
+            $element_ids,
+            $main_id,
+            'superadmin_country'
+        );
     }
 }

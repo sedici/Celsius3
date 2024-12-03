@@ -22,61 +22,17 @@
 
 namespace Celsius3\Controller;
 
-use App\Events\IncidentStatusChangedEvent;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Celsius3\Validator\Constraints\ContainsCSS;
-use Celsius3\Exception\Exception;
-use Doctrine\ORM\EntityManagerInterface;
-use JMS\TranslationBundle\Annotation\Ignore;
-use Symfony\Component\Translation\Translator;
 use Celsius3\Entity\Instance;
+
 abstract class CountryController extends BaseController
 {
 
-
-    // /**
-    //  * @var InstanceManager
-    //  */
-    // private $instanceManager;
-    // /**
-    //  * @var EntityManagerInterface
-    //  */
-    // private $entityManager;
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-
-    // public function __construct(InstanceManager $instanceManager,
-    //                             EntityManagerInterface $entityManager,
-    //                             ConfigurationHelper $configurationHelper
-    // )
-    // {
-    //     $this->instanceManager = $instanceManager;
-    //     $this->entityManager = $entityManager;
-    //     $this->configurationHelper = $configurationHelper;
-    // }
-
-    protected function getDirectory()
+    protected function getDirectory(): Instance|null
     {
-        return  $this->getDoctrine()->getManager()
+        return  $this->managerRegistry
             ->getRepository(Instance::class)
             ->findOneBy([
                 'url' => 'directory'
             ]);
     }
-
-    protected function listQuery($name)
-    {
-        $qb = $this->getDoctrine()->getManager()
-            ->getRepository(Country::class)
-            ->findForInstanceAndGlobal(
-                $this->getInstance(),
-                $this->getDirectory()
-            );
-        return $qb;
-    }
-
-
 }

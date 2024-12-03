@@ -26,8 +26,8 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,28 +50,14 @@ abstract class BaseInstanceDependentController extends BaseController
         parent::__construct(...$args);
         $this->instanceHelper = $instanceHelper;
         $this->instance = $this->getInstance();
-        $this->filterType = $this->getFilterType();
     }
 
-    protected function getFilterType(): string {return '';}
-
-    protected function createFilterForm():\Symfony\Component\Form\FormInterface {
-        return $this->createForm(
-            $this->filterType,
-            null,
-            [
-                'instance' => $this->instance,
-            ]
-        );
-    }
 
     protected function getInstance(): Instance
-    {
-        return $this->instanceHelper->getSessionInstance();
-    }
+    { return $this->instanceHelper->getSessionInstance(); }
 
 
-    protected function listQuery()
+    protected function listQuery(): QueryBuilder
     {
         return $this->managerRegistry->getManager()
             ->getRepository(className: $this->entityClassName)
@@ -82,7 +68,7 @@ abstract class BaseInstanceDependentController extends BaseController
     }
 
 
-    protected function findQuery(int $id)
+    protected function findQuery(string $id)
     {
         return $this->managerRegistry->getManager()
             ->getRepository($this->entityClassName)
@@ -103,64 +89,34 @@ abstract class BaseInstanceDependentController extends BaseController
     }
 
 
-    protected function baseInstanceFilter($entityClassName, $filter_form, $query)
-    {
-        return $this->objectManager
-            ->getRepository(FilterManager::class)
-            ->filter(
-                $query,
-                $filter_form,
-                $entityClassName,
-                $this->instance
-            );
-    }
-
-    protected function filterForm($query)
-    {
-        return $this->baseInstanceFilter(
-            $this->entityClassName,
-            $this->createFilterForm(),
-            $query
-        );
-    }
-
-
     protected function baseInstanceUpdate(
-        int $id,
+        string $id,
         string $route,
         string $type = null,
         array $options = [],
         string $template = null
     ): RedirectResponse|Response {
         return $this->baseUpdate(
-            $id,
-            $route,
-            $type,
+            $id, $route, $type,
             [
-                'instance' => $this->instance,
-                ... $options
-            ],
-            $template
+                'instance' => $this->instance, ... $options
+            ], $template
         );
     }
 
 
     protected function baseInstanceEdit(
-        int $id,
+        string $id,
         string $type = null,
         string $route = null,
         array $options = [],
         string $template = null
     ): Response {
         return $this->baseEdit(
-            $id,
-            $type,
+            $id, $type,
             [
-                'instance' => $this->instance,
-                ... $options
-            ],
-            $route,
-            $template
+                'instance' => $this->instance, ... $options
+            ], $route, $template
         );
     }
 
@@ -173,14 +129,10 @@ abstract class BaseInstanceDependentController extends BaseController
         string $template = null
     ): RedirectResponse|Response {
         return $this->baseCreate(
-            $entity,
-            $type,
+            $entity, $type,
             [
-                'instance' => $this->instance,
-                ... $options
-            ],
-            $route,
-            $template
+                'instance' => $this->instance, ... $options
+            ], $route, $template
         );
     }
 
@@ -192,33 +144,28 @@ abstract class BaseInstanceDependentController extends BaseController
         string $template = null
     ): Response {
         return $this->baseNew(
-            $entity,
-            $type,
+            $entity, $type,
             [
-                'instance' => $this->instance,
-                ... $options
-            ],
-            $template
+                'instance' => $this->instance, ... $options
+            ], $template
         );
     }
 
 
     protected function baseInstanceIndex(
-        FormInterface $filter_form = null,
-        array $options = [],
         string $type = null,
+        array $options = [],
         string $template = null,
-        $data = null
-    ) {
+        $data = null,
+        FormInterface $filter_form = null,
+        bool $hasFilterForm = true
+    ): Response {
         return $this->baseIndex(
-            $filter_form,
-            [
-                'instance' => $this->getInstance(),
-                ... $options
-            ],
             $type,
-            $template,
-            $data
+            [
+                'instance' => $this->getInstance(), ... $options
+            ], $template, $data,
+            $filter_form, $hasFilterForm
         );
     }
 }

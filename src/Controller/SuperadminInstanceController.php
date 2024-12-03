@@ -42,47 +42,22 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class SuperadminInstanceController extends InstanceController
 {
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
 
-    // /**
-    //  * @var EntityManagerInterface
-    //  */
-    // private $entityManager;
+    protected final function getType(): string
+    { return InstanceType::class; }
 
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-    // /**
-    //  * @var InstanceHelper
-    //  */
-    // private $instanceHelper;
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/Instance'; }
 
 
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     EntityManagerInterface $entityManager,
-    //     ConfigurationHelper $configurationHelper,
-    //     InstanceHelper $instanceHelper
-
-    // ) {
-    //     $this->instanceHelper= $instanceHelper;
-    //     $this->paginator = $paginator;
-    //     $this->entityManager = $entityManager;
-    //     $this->setConfigurationHelper($configurationHelper);
-
-    // }
-
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
+
 
     /**
      * Lists all Instance entities.
@@ -91,17 +66,9 @@ class SuperadminInstanceController extends InstanceController
      */
     public function index(): Response
     {
-        return $this->render(
-            'Superadmin/Instance/index.html.twig',
-            $this->baseIndex(
-                'Instance',
-                $this->createForm(
-                    InstanceFilterType::class
-                ),
-                $this->paginator
-            )
-        );
+        return $this->baseIndex(type: InstanceFilterType::class);
     }
+
 
     /**
      * Displays a form to create a new Instance entity.
@@ -110,14 +77,9 @@ class SuperadminInstanceController extends InstanceController
      */
     public function new(): Response
     {
-        $entity = new Instance();
-        $form = $this->createForm(InstanceType::class, $entity, ['institution_select' => true]);
-
-        return $this->render('Superadmin/Instance/new.html.twig', [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ]);
+        return $this->baseNew(options: ['institution_select' => true]);
     }
+
 
     /**
      * Creates a new Instance entity.
@@ -126,11 +88,9 @@ class SuperadminInstanceController extends InstanceController
      */
     public function create()
     {
-        /** @var Translator $translator */
-        $translator = $this->get('translator');
         /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $em = $this->managerRegistry->getManager();
+        $request = $this->requestStack->getCurrentRequest();
 
         $instance = new Instance();
         $form = $this->createForm(InstanceType::class, $instance, ['institution_select' => true]);
@@ -138,14 +98,19 @@ class SuperadminInstanceController extends InstanceController
         $form->handleRequest($request);
         if ($form->isValid()) {
             try {
-                $institution = $em->getRepository(Institution::class)
+                $institution = $this->managerRegistry->getManager()
+                    ->getRepository($this->entityClassName)
                     ->find($request->request->get('instance')['institution']);
-                if (is_null($institution)) {
-                    throw Exception::create(Exception::ENTITY_NOT_FOUND, 'Not found institution');
+                
+                if ($institution === null) {
+                    throw Exception::create(
+                        Exception::ENTITY_NOT_FOUND,
+                        'Not found institution'
+                    );
                 }
-                $em->transactional(function (EntityManager $em) use ($instance, $institution) {
-                    $em->persist($instance);
-                    $em->flush($instance);
+
+                $this->managerRegistry->getManager()->transactional(function (EntityManager $em) use ($instance, $institution) {
+                    $this->persistEntity($instance);
 
                     $institution->setCelsiusInstance($instance);
                     $em->persist($institution);
@@ -154,23 +119,24 @@ class SuperadminInstanceController extends InstanceController
 
                 $this->get('celsius3_core.file_manager')->createFilesDirectory($instance->getUrl());
 
-                $this->addFlash('success', $translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+                $this->addFlash('success', $this->translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
 
                 return $this->redirect($this->generateUrl('superadmin_instance'));
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+                $this->addFlash('error', $this->translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
             } catch (\Exception $e) {
-                $this->addFlash('error', $translator->trans('Error to persist %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+                $this->addFlash('error', $this->translator->trans('Error to persist %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
             }
         }
 
-        $this->addFlash('error', $translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+        $this->addFlash('error', $this->translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
 
-        return $this->render('Superadmin/Instance/new.html.twig', array(
+        return $this->render('Superadmin/Instance/new.html.twig', [
             'entity' => $instance,
             'form' => $form->createView(),
-        ));
+        ]);
     }
+
 
     private function getErrorMessages(Form $form)
     {

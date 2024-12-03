@@ -39,8 +39,10 @@ class CustomFieldHelper
     private $requestStack;
     private $entityManager;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        EntityManagerInterface $entityManager
+    ) {
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
     }
@@ -49,9 +51,9 @@ class CustomFieldHelper
     {
         $fields = $this->entityManager->getRepository(CustomField::class)
             ->findBy([
-                         'instance' => $instance->getId(),
-                         'entity' => 'BaseUser'
-                     ]);
+                'instance' => $instance->getId(),
+                'entity' => 'BaseUser'
+            ]);
 
         $data = $this->requestStack->getCurrentRequest()->get($form->getName());
 
@@ -60,9 +62,9 @@ class CustomFieldHelper
                 $value = $this->entityManager
                     ->getRepository(CustomUserValue::class)
                     ->findOneBy([
-                                    'field' => $field->getId(),
-                                    'user' => $user->getId()
-                                ]);
+                        'field' => $field->getId(),
+                        'user' => $user->getId()
+                    ]);
 
                 if (!$value) {
                     $value = new CustomUserValue();
@@ -80,9 +82,9 @@ class CustomFieldHelper
     {
         $fields = $this->entityManager->getRepository(CustomField::class)
             ->findBy([
-                         'instance' => $instance->getId(),
-                         'entity' => 'Contact'
-                     ]);
+                'instance' => $instance->getId(),
+                'entity' => 'Contact'
+            ]);
 
         $data = $this->requestStack->getCurrentRequest()->get($form->getName());
 
@@ -91,9 +93,9 @@ class CustomFieldHelper
                 $value = $this->entityManager
                     ->getRepository(CustomContactValue::class)
                     ->findOneBy([
-                                    'field' => $field->getId(),
-                                    'contact' => $contact->getId()
-                                ]);
+                        'field' => $field->getId(),
+                        'contact' => $contact->getId()
+                    ]);
 
                 if (!$value) {
                     $value = new CustomContactValue();
