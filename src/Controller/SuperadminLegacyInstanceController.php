@@ -22,69 +22,34 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Helper\ConfigurationHelper;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\LegacyInstance;
 use Celsius3\Form\Type\LegacyInstanceType;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-
 
 /**
- * Instance controller.
+ * LegacyInstance controller.
  *
  * @Route("/superadmin/instance/legacy")
  */
 class SuperadminLegacyInstanceController extends InstanceController
 {
-    // public function __construct(
-    //     InstanceManager $instanceManager,
-    //     EntityManagerInterface $entityManager,
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     TranslatorInterface $translator
-    // ) {
-    //     parent::__construct(
-    //         $instanceManager,
-    //         $entityManager,
-    //         $paginator,
-    //         $configurationHelper,
-    //         $translator
-    //     );
-    // }
+
+    protected final function getType(): string
+    { return LegacyInstanceType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/LegacyInstance/'; }
 
 
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
 
-
-
-    
-
-
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
-
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper
-
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->setConfigurationHelper($configurationHelper);
-    // }
-
-    // protected function getSortDefaults()
-    // {
-    //     return array(
-    //         'defaultSortFieldName' => 'e.name',
-    //         'defaultSortDirection' => 'asc',
-    //     );
-    // }
 
     /**
      * Lists all Instance entities.
@@ -93,11 +58,9 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function index(): Response
     {
-        return $this->render(
-            'Superadmin/LegacyInstance/index.html.twig',
-            $this->baseIndex('LegacyInstance', $this->createForm(InstanceFilterType::class),$this->paginator)
-        );
+        return $this->baseIndex(type: InstanceFilterType::class);
     }
+
 
     /**
      * Displays a form to create a new LegacyInstance entity.
@@ -106,23 +69,20 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Superadmin/LegacyInstance/new.html.twig',
-            $this->baseNew('LegacyInstance', new LegacyInstance(), LegacyInstanceType::class)
-        );
+        return $this->baseNew();
     }
+
 
     /**
      * Creates a new LegacyInstance entity.
      *
      * @Route("/create", name="superadmin_instance_legacy_create", methods={"POST"})
      */
-    public function create()
+    public function create(): Response
     {
-        return $this->render(
-            'Superadmin/LegacyInstance/new.html.twig',
-            $this->baseCreate('LegacyInstance', new LegacyInstance(), LegacyInstanceType::class, array(), 'superadmin_instance_legacy'));
+        return $this->baseCreate(route: 'superadmin_instance_legacy');
     }
+
 
     /**
      * Displays a form to edit an existing LegacyInstance entity.
@@ -133,13 +93,11 @@ class SuperadminLegacyInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
-        return $this->render(
-            'Superadmin/LegacyInstance/edit.html.twig',
-            $this->baseEdit('LegacyInstance', $id, LegacyInstanceType::class)
-        );
+        return $this->baseEdit($id);
     }
+
 
     /**
      * Edits an existing Instance entity.
@@ -152,6 +110,6 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function update($id)
     {
-        return $this->render('Superadmin/LegacyInstance/edit.html.twig', $this->baseUpdate('LegacyInstance', $id, LegacyInstanceType::class, array(), 'superadmin_instance_legacy'));
+        return $this->baseUpdate($id, 'superadmin_instance_legacy');
     }
 }

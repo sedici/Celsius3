@@ -128,7 +128,7 @@ abstract class MaterialType
     /**
      * Get id.
      *
-     * @return id $id
+     * @return int id $id
      */
     public function getId()
     {

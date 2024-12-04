@@ -23,18 +23,10 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Exception\Exception;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Country;
 use Celsius3\Form\Type\CountryType;
-use Celsius3\Form\Type\Filter\CountryFilterType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**

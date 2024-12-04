@@ -73,7 +73,10 @@ class Exception
     private static function getClass($type)
     {
         if (!array_key_exists($type, self::$classes)) {
-            throw self::create(self::EXCEPTION_NOT_FOUND, 'exception.not_found.exception');
+            throw self::create(
+                self::EXCEPTION_NOT_FOUND,
+                'exception.not_found.exception'
+            );
         }
 
         $class = self::$class_prefix . self::$classes[$type];

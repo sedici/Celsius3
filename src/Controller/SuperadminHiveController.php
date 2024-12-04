@@ -42,7 +42,7 @@ class SuperadminHiveController extends BaseController
     { return HiveType::class; }
 
     protected final function getTemplatePrefix(): string
-    { return 'Superadmin/Hive'; }
+    { return 'Superadmin/Hive/'; }
 
 
     protected function getSortDefaults(): array

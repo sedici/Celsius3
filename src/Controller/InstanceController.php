@@ -24,13 +24,12 @@ namespace Celsius3\Controller;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Validator\Constraints\ContainsCSS;
-use Celsius3\Exception\Exception;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\LegacyInstance;
-use Celsius3\Form\Type\InstanceType;
 use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Test\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class InstanceController extends BaseController
 {
@@ -133,12 +132,7 @@ abstract class InstanceController extends BaseController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                (string) 'exception.entity_not_found.' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $configureForm = $this->getConfigurationForm($entity);
 
@@ -149,16 +143,12 @@ abstract class InstanceController extends BaseController
     }
 
 
-    protected function baseConfigureUpdate($id, $route)
-    {
+    protected function baseConfigureUpdate(
+        string $id, string $route
+    ): array|RedirectResponse {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                (string) 'exception.entity_not_found.' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $configureForm = $this->getConfigurationForm($entity);
         $request = $this->requestStack->getCurrentRequest();
@@ -184,7 +174,10 @@ abstract class InstanceController extends BaseController
                     }
 
                 }
-                if (!is_null($values[$configuration->getKey()]) || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS) {
+                if (
+                    $values[$configuration->getKey()] === null
+                    || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS
+                ) {
                     $configuration->setValue($values[$configuration->getKey()]);
                     $em->persist($entity);
                 }
@@ -195,9 +188,12 @@ abstract class InstanceController extends BaseController
 
             $this->persistEntity($entity);
 
-            $this->addFlash('success', $this->translator->trans('The %entity% was successfully configured.', ['%entity%' =>  $translator->trans('Instance')], 'Flashes'));
+            $this->addEntityFlash('success', 'The %entity% was successfully configured.');
 
-            return $this->redirect($this->generateUrl($route.'_configure', array('id' => $id)));
+            return $this->redirect($this->generateUrl(
+                (string) $route.'_configure',
+                [ 'id' => $id ]
+            ));
         }
 
         return [

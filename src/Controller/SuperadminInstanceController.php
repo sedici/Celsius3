@@ -23,17 +23,15 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Entity\Institution;
-use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Form\Type\InstanceType;
+use Celsius3\Manager\FileManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Translation\Translator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Celsius3\Helper\InstanceHelper;
 
 /**
  * Instance controller.
@@ -43,11 +41,38 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class SuperadminInstanceController extends InstanceController
 {
 
+    /**
+     * @var Session
+     */
+    private $session;
+
+    /**
+     * @var FileManager
+     */
+    private $fileManager;
+
+    /**
+     * @var InstanceHelper
+     */
+    protected $instanceHelper;
+
+    public function __construct(
+        Session $session,
+        FileManager $fileManager,
+        InstanceHelper $instanceHelper,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->session = $session;
+        $this->fileManager = $fileManager;
+        $this->instanceHelper = $instanceHelper;
+    }
+
     protected final function getType(): string
     { return InstanceType::class; }
 
     protected final function getTemplatePrefix(): string
-    { return 'Superadmin/Instance'; }
+    { return 'Superadmin/Instance/'; }
 
 
     protected function getSortDefaults(): array
@@ -86,14 +111,18 @@ class SuperadminInstanceController extends InstanceController
      *
      * @Route("/create", name="superadmin_instance_create", methods={"POST"})
      */
-    public function create()
+    public function create(): RedirectResponse|Response
     {
-        /** @var EntityManager $em */
-        $em = $this->managerRegistry->getManager();
         $request = $this->requestStack->getCurrentRequest();
 
         $instance = new Instance();
-        $form = $this->createForm(InstanceType::class, $instance, ['institution_select' => true]);
+        $form = $this->createForm(
+            $this->entityClassName,
+            $instance,
+            [
+                'institution_select' => true
+            ]
+        );
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -102,58 +131,46 @@ class SuperadminInstanceController extends InstanceController
                     ->getRepository($this->entityClassName)
                     ->find($request->request->get('instance')['institution']);
                 
-                if ($institution === null) {
-                    throw Exception::create(
-                        Exception::ENTITY_NOT_FOUND,
-                        'Not found institution'
-                    );
-                }
+                if ($institution === null) $this->error(
+                    'entity_not_found',
+                    msg: 'Not found institution'
+                );
 
-                $this->managerRegistry->getManager()->transactional(function (EntityManager $em) use ($instance, $institution) {
-                    $this->persistEntity($instance);
+                $this->entityManager->wrapInTransaction(
+                    function () use ($instance, $institution) {
+                        $this->persistEntity($instance);
+                        
+                        $institution->setCelsiusInstance($instance);
+                        $this->persistEntity($institution);
+                    }
+                );
 
-                    $institution->setCelsiusInstance($instance);
-                    $em->persist($institution);
-                    $em->flush($institution);
-                });
+                $this->fileManager
+                    ->createFilesDirectory($instance->getUrl());
 
-                $this->get('celsius3_core.file_manager')->createFilesDirectory($instance->getUrl());
+                $this->addEntityFlash('success', 'The %entity% was successfully created.');
 
-                $this->addFlash('success', $this->translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
-
-                return $this->redirect($this->generateUrl('superadmin_instance'));
+                return $this->redirect(
+                    $this->generateUrl('superadmin_instance')
+                );
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('error', $this->translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+                $this->addEntityFlash('error', 'The %entity% already exists.');
             } catch (\Exception $e) {
-                $this->addFlash('error', $this->translator->trans('Error to persist %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+                $this->addEntityFlash('error', 'Error to persist %entity%.');
             }
         }
 
-        $this->addFlash('error', $this->translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
+        $this->addEntityFlash('error', 'There were errors creating the %entity%.');
 
-        return $this->render('Superadmin/Instance/new.html.twig', [
-            'entity' => $instance,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            $this->templatePrefix . 'new.html.twig',
+            [
+                'entity' => $instance,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
-
-    private function getErrorMessages(Form $form)
-    {
-        $errors = array();
-
-        foreach ($form->getErrors() as $key => $error) {
-            $errors[] = $error->getMessage();
-        }
-
-        foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
-                $errors[$child->getName()] = $this->getErrorMessages($child);
-            }
-        }
-
-        return $errors;
-    }
 
     /**
      * Displays a form to edit an existing Instance entity.
@@ -164,13 +181,11 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
-        return $this->render(
-            'Superadmin/Instance/edit.html.twig',
-            $this->baseEdit('Instance', $id, InstanceType::class)
-        );
+        return $this->baseEdit($id);
     }
+
 
     /**
      * Edits an existing Instance entity.
@@ -180,25 +195,11 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): RedirectResponse|Response
     {
-        $response = $this->baseUpdate(
-            'Instance',
-            $id,
-            InstanceType::class,
-            [],
-            'superadmin_instance'
-        );
-
-        if ($response instanceof RedirectResponse) {
-            return $response;
-        }
-
-        return $this->render(
-            'Superadmin/Instance/edit.html.twig',
-            $response
-        );
+        return $this->baseUpdate($id, 'superadmin_instance');
     }
+
 
     /**
      * Switches the enabled flag of a Instance entity.
@@ -209,24 +210,37 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function switch($id)
+    public function switch($id): RedirectResponse
     {
-        $entity = $this->findQuery('LegacyInstance', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $entity->setEnabled(!$entity->getEnabled());
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($entity);
-        $em->flush();
+        $this->persistEntity($entity);
 
-        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully '.(($entity->getEnabled()) ? 'enabled' : 'disabled'));
+        $this->session
+            ->getFlashBag()
+            ->add(
+                'success',
+                'The Instance was successfully '.(
+                    ($entity->getEnabled())
+                        ? 'enabled'
+                        : 'disabled'
+                )
+            );
 
-        return $this->redirect($this->generateUrl($entity->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
+        return $this
+            ->redirect(
+                $this->generateUrl(
+                    $entity->isCurrent()
+                        ? 'superadmin_instance'
+                        : 'superadmin_instance_legacy'
+                )
+            );
     }
+
 
     /**
      * Switches the enabled flag of a Instance entity.
@@ -237,24 +251,37 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function invisible($id)
+    public function invisible($id): RedirectResponse
     {
-        $entity = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $entity->setInvisible(!$entity->getInvisible());
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($entity);
-        $em->flush();
+        $this->persistEntity($entity);
 
-        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully '.(($entity->getInvisible()) ? 'hidden' : 'show'));
+        $this->session
+            ->getFlashBag()
+            ->add(
+                'success',
+                'The Instance was successfully '.(
+                    ($entity->getInvisible())
+                        ? 'hidden'
+                        : 'show'
+                    )
+            );
 
-        return $this->redirect($this->generateUrl($entity->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
+        return $this
+            ->redirect(
+                $this->generateUrl(
+                    $entity->isCurrent()
+                        ? 'superadmin_instance'
+                        : 'superadmin_instance_legacy'
+                )
+            );
     }
+
 
     /**
      * Displays a form to configure the Directory.
@@ -265,10 +292,16 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configureDirectory()
+    public function configureDirectory(): Response
     {
-        return $this->render('Superadmin/Instance/configure.html.twig', $this->baseConfigure($this->get('celsius3_core.instance_manager')->getDirectory()->getId()));
+        return $this->render(
+            $this->templatePrefix . 'configure.html.twig',
+            $this->baseConfigure(
+                '' . $this->instanceManager->getDirectory()->getId()
+            )
+        );
     }
+
 
     /**
      * Displays a form to configure an existing Instance.
@@ -279,13 +312,14 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configure($id)
+    public function configure($id): Response
     {
         return $this->render(
-            'Superadmin/Instance/configure.html.twig',
+            (string) $this->templatePrefix . 'configure.html.twig',
             $this->baseConfigure($id)
         );
     }
+
 
     /**
      * Edits the existing Instance configuration.
@@ -296,10 +330,17 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configureUpdate($id)
+    public function configureUpdate($id): Response
     {
-        return $this->render('Superadmin/Instance/configure.html.twig', $this->baseConfigureUpdate($id, 'superadmin_instance'));
+        return $this->render(
+            (string) $this->templatePrefix . 'configure.html.twig',
+            $this->baseConfigureUpdate(
+                $id,
+                'superadmin_instance'
+            )
+        );
     }
+
 
     /**
      * Redirects to the administration of an Instance entity.
@@ -310,19 +351,17 @@ class SuperadminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function admin($id)
+    public function admin($id): RedirectResponse
     {
-        $entity = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
-        $this->get('session')->set('instance_id', $entity->getId());
-        $this->get('session')->set('instance_url', $entity->getUrl());
-        $this->get('session')->set('instance_host', $entity->getHost());
+        $this->session->set('instance_id', $entity->getId());
+        $this->session->set('instance_url', $entity->getUrl());
+        $this->session->set('instance_host', $entity->getHost());
 
-        $this->get('session')->set('admin_instance', $this->instanceHelper->getSessionOrUrlInstance());
+        $this->session->set('admin_instance', $this->instanceHelper->getSessionOrUrlInstance());
 
         return $this->redirect($this->generateUrl('administration'));
     }

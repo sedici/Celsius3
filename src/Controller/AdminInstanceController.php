@@ -23,9 +23,11 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Country;
-use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Form\Type\InstanceType;
 use Celsius3\Helper\InstanceHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Instance controller.
@@ -34,6 +36,41 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class AdminInstanceController extends InstanceController
 {
+
+    /**
+     * @var Session
+     */
+    private $session;
+
+    /**
+     * @var InstanceHelper
+     */
+    protected $instanceHelper;
+
+    public function __construct(
+        Session $session,
+        InstanceHelper $instanceHelper,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->session = $session;
+        $this->instanceHelper = $instanceHelper;
+    }
+
+    protected final function getType(): string
+    { return InstanceType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Instance/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
 
     /**
      * Displays a form to configure an existing Instance
@@ -45,13 +82,16 @@ class AdminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configure(ConfigurationHelper  $configurationHelper)
+    public function configure(): Response
     {
         return $this->render(
-            'Admin/Instance/configure.html.twig',
-            $this->baseConfigure($this->get('session')->get('instance_id'),$configurationHelper)
+            (string) $this->templatePrefix . 'configure.html.twig',
+            $this->baseConfigure(
+                $this->session->get('instance_id')
+            )
         );
     }
+
 
     /**
      * Edits the existing Instance configuration.
@@ -63,10 +103,14 @@ class AdminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configureUpdate($id)
+    public function configureUpdate($id): Response
     {
-        return $this->render('Admin/Instance/configure.html.twig',$this->baseConfigureUpdate($id, 'admin_instance'));
+        return $this->render(
+            (string) $this->templatePrefix . 'configure.html.twig',
+            $this->baseConfigureUpdate($id, 'admin_instance')
+        );
     }
+
 
     /**
      * Edits the existing Instance configuration.
@@ -78,18 +122,24 @@ class AdminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function intercambioUI(InstanceHelper   $instanceHelper)
+    public function intercambioUI(): Response
     {
-        $instance = $instanceHelper->getSessionOrUrlInstance();
-        $paisRepository = $this->getDoctrine()->getManager()->getRepository(Country::class);
-        $country = $paisRepository->findForInstanceAndGlobal($instance, $this->getDirectory())->getQuery()->execute();
+        $instance = $this->instanceHelper->getSessionOrUrlInstance();
+        
+        $paisRepository = $this->managerRegistry
+            ->getManager()
+            ->getRepository(Country::class);
+        
+        $country = $paisRepository->findForInstanceAndGlobal(
+            $instance,
+            $this->getDirectory()
+        )->getQuery()->execute();
 
-        return $this->render('Admin/Instance/intercambio.html.twig', array(
-            'countries' => $country
-        ));
+        return $this->render(
+            (string) $this->templatePrefix . 'intercambio.html.twig',
+            [
+                'countries' => $country
+            ]
+        );
     }
-
-
-
-
 }

@@ -26,74 +26,47 @@ namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;
-use Celsius3\Exception\Exception;
 use Celsius3\Manager\UnionManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\Manager\InstanceManager;
-use Celsius3\Helper\InstanceHelper;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Celsius3\Helper\ConfigurationHelper;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class DoUnionPostController extends BaseUserController
 {
+
+    /**
+     * @var UnionManager
+     */
     protected $unionManager;
 
     public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        InstanceHelper $instanceHelper,
-        UnionManager $unionManager
+        UnionManager $unionManager,
+        ... $args
     ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $instanceHelper
-        );
+        parent::__construct(... $args);
         $this->unionManager = $unionManager;
     }
 
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/BaseUser/'; }
 
-    // private $entityManager;
-    // private $unionManager;
-    // private $translator;
 
-    // public function __construct(
-    //     EntityManagerInterface $entityManager,
-    //     UnionManager $unionManager,
-    //     TranslatorInterface $translator
-    // ) {
-    //     $this->entityManager = $entityManager;
-    //     $this->unionManager = $unionManager;
-    //     $this->translator = $translator;
-    // }
-
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
-        $element_ids = $request->request->get('element');
+        $element_ids = (array) $request->request->get('element');
         $main_id = $request->request->get('main');
 
         $users = $this->doUnion($main_id, $element_ids);
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans(
-                'The %entities% were successfully joined.',
-                ['%entities%' => $this->translator->transChoice('BaseUser', count($users), [], 'Flashes')]
-            )
+        $this->addEntityFlash(
+            'success', 'The %entities% were successfully joined.', $users
         );
 
         return $this->redirect($this->generateUrl('admin_user'));
     }
 
-    private function doUnion($main_id, $element_ids)
+
+    private function doUnion(string $main_id, array $element_ids)
     {
         $main_user = $this->findUser($main_id);
         $users = $this->findUsers($main_user, $element_ids);
@@ -101,38 +74,49 @@ final class DoUnionPostController extends BaseUserController
         $this->mergeSecondaryInstances($main_user, $users);
 
         $this->unionManager
-            ->union(BaseUser::class, $main_user, $users, false);
+            ->union(
+                BaseUser::class,
+                $main_user,
+                $users,
+                false
+            );
         return $users;
     }
 
-    private function findUser($main_id)
-    {
-        $main_user = $this->entityManager->getRepository(BaseUser::class)->find($main_id);
 
-        if (!$main_user) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found');
-        }
+    private function findUser(string $main_id): BaseUser
+    {
+        $main_user = $this->entityManager->getRepository(
+            BaseUser::class
+        )->find($main_id);
+
+        if (!$main_user) $this->error('entity_not_found');
+
         return $main_user;
     }
 
-    private function findUsers(BaseUser $main_user, $element_ids)
+
+    private function findUsers(BaseUser $main_user, array $element_ids): mixed
     {
-        $users = $this->entityManager->getRepository(BaseUser::class)->findBaseDoUnionEntities(
+        $users = $this->entityManager->getRepository(
+            BaseUser::class
+        )->findBaseDoUnionEntities(
             $main_user,
             $element_ids
         );
 
-        if (count($users) !== count($element_ids) - 1) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found');
-        }
+        if (count($users) !== count($element_ids) - 1)
+            $this->error('entity_not_found');
+
         return $users;
     }
 
-    protected function batchUnion($element_ids)
+
+    protected function batchUnion(array $element_ids): Response
     {
         return $this->render(
-            'Admin/BaseUser/batchUnion.html.twig',
-            $this->baseUnion('BaseUser', $element_ids)
+            (string) $this->templatePrefix . 'batchUnion.html.twig',
+            $this->baseUnion($element_ids)
         );
     }
 }

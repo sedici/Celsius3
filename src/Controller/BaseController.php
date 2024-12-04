@@ -34,6 +34,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
+use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -43,6 +44,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use phpDocumentor\Reflection\Types\Boolean;
+use ReflectionClass;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -95,12 +97,18 @@ abstract class BaseController extends AbstractController
      */
     protected $userManager;
 
+    /**
+     * @var FilterManager
+     */
+    protected $filterManager;
+
     protected string $entityClassName;
     protected string $typeClassName;
     protected string $templatePrefix;
     protected Instance $directory;
     protected ObjectManager $objectManager;
     protected array $sortDefaults;
+    protected ReflectionClass $entityClass;
 
     public function __construct(
         InstanceManager $instanceManager,
@@ -113,6 +121,7 @@ abstract class BaseController extends AbstractController
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
+        FilterManager $filterManager,
         ...$args
     ) {
         $this->instanceManager = $instanceManager;
@@ -125,12 +134,20 @@ abstract class BaseController extends AbstractController
         $this->requestStack = $requestStack;
         $this->unionManager = $unionManager;
         $this->$userManager = $userManager;
+        $this->filterManager = $filterManager;
 
         $this->entityClassName = $this->getEntity();
         $this->typeClassName = $this->getType();
         $this->templatePrefix = $this->getTemplatePrefix();
         $this->directory = $this->getDirectory();
         $this->sortDefaults = $this->getSortDefaults();
+        $this->entityClass = $this->getEntityClass();
+    }
+
+
+    protected final function getEntityClass(): ReflectionClass
+    {
+        return new ReflectionClass($this->entityClassName);
     }
 
 
@@ -184,6 +201,43 @@ abstract class BaseController extends AbstractController
     }
 
 
+    protected function error(
+        string $type,
+        string $entity = null,
+        string $msg = null
+    ): never {
+        if ($msg === null) {
+            if ($entity === null)
+                $entity = $this->entityClass->getShortName();
+            $msg = (string) 'exception.' . $type . $entity;
+        }
+
+        throw Exception::create($type, $msg);
+    }
+
+
+    protected function addEntityFlash(
+        string $type, string $id, array $entities = null
+    ): void {
+        $this->addFlash(
+            $type,
+            $this->translator->trans(
+                $id,
+                ($entities === null)
+                    ? [ '%entity%' => $this->translator->trans(
+                        $this->entityClass->getShortName()
+                    ) ]
+                    : [ '%entities%' => $this->translator->trans(
+                        $this->entityClass->getShortName(),
+                        [ '%count%' => count($entities) ],
+                        'Flashes'
+                    ) ],
+                'Flashes'
+            )
+        );
+    }
+
+
     protected function baseIndex(
         string $type = null,
         array $options = [],
@@ -203,7 +257,10 @@ abstract class BaseController extends AbstractController
         $request = $this->requestStack->getCurrentRequest();
 
         if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest($request);
+            $filter_form = $filter_form->handleRequest(request: $request);
+            $query = $this->filterManager->filter(
+                $query, $filter_form, $this->entityClassName
+            );
         } else if ($hasFilterForm) $filter_form = $this->createForm(
             $type, $data, $options
         );
@@ -238,12 +295,7 @@ abstract class BaseController extends AbstractController
 
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                (string) 'exception.entity_not_found.' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         return $this->render(
             $template,
@@ -329,16 +381,8 @@ abstract class BaseController extends AbstractController
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'The %entity% was successfully created.',
-                        [
-                            '%entity%' => $this->translator
-                                ->trans($this->entityClassName)
-                        ],
-                        'Flashes'
-                    )
+                $this->addEntityFlash(
+                    'success', 'The %entity% was successfully created.',
                 );
 
                 return $this->redirect(
@@ -347,30 +391,14 @@ abstract class BaseController extends AbstractController
                     )
                 );
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash(
-                    'error',
-                    $this->translator->trans(
-                        'The %entity% already exists.',
-                        [
-                            '%entity%' => $this->translator
-                                ->trans($this->entityClassName)
-                        ],
-                        'Flashes'
-                    )
+                $this->addEntityFlash(
+                    'error', 'The %entity% already exists.'
                 );
             }
         }
 
-        $this->addFlash(
-            'error',
-            $this->translator->trans(
-                'There were errors creating the %entity%.',
-                [
-                    '%entity%' => $this->translator
-                        ->trans($this->entityClassName)
-                ],
-                'Flashes'
-            )
+        $this->addEntityFlash(
+            'error', 'There were errors creating the %entity%.'
         );
 
         return $this->render(
@@ -399,12 +427,7 @@ abstract class BaseController extends AbstractController
 
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
             $type, $entity, $options
@@ -437,12 +460,7 @@ abstract class BaseController extends AbstractController
 
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
             $type, $entity, $options
@@ -456,16 +474,8 @@ abstract class BaseController extends AbstractController
             try {
                 $this->persistEntity($entity);
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'The %entity% was successfully edited.',
-                        [
-                            '%entity%' => $this->translator
-                                ->trans($this->entityClassName)
-                        ],
-                        'Flashes'
-                    )
+                $this->addEntityFlash(
+                    'success', 'The %entity% was successfully edited.'
                 );
 
                 return $this->redirect(
@@ -475,31 +485,14 @@ abstract class BaseController extends AbstractController
                     )
                 );
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash(
-                    'error',
-                    $this->translator
-                        ->trans(
-                            'The %entity% already exists.',
-                            [
-                                '%entity%' => $this->translator
-                                    ->trans($this->entityClassName)
-                            ],
-                            'Flashes'
-                        )
+                $this->addEntityFlash(
+                    'error', 'The %entity% already exists.'
                 );
             }
         }
 
-        $this->addFlash(
-            'error',
-            $this->translator->trans(
-                'There were errors editing the %entity%.',
-                [
-                    '%entity%' => $this->translator
-                        ->trans($this->entityClassName)
-                ],
-                'Flashes'
-            )
+        $this->addEntityFlash(
+            'error', 'There were errors editing the %entity%.'
         );
 
         return $this->render(
@@ -525,24 +518,12 @@ abstract class BaseController extends AbstractController
         if ($form->isValid()) {
             $entity = $this->findQuery($id);
 
-            if (!$entity) {
-                throw Exception::create(
-                    Exception::ENTITY_NOT_FOUND,
-                    'exception.entity_not_found.' . $this->entityClassName
-                );
-            }
+            if (!$entity) $this->error('entity_not_found');
 
-            $em = $this->objectManager;
-            $em->remove($entity);
-            $em->flush();
+            $this->persistEntity($entity);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans(
-                    'The %entity% was successfully deleted.',
-                    ['%entity%' => $this->entityClassName],
-                    'Flashes'
-                )
+            $this->addEntityFlash(
+                'success', 'The %entity% was successfully deleted.'
             );
         }
 
@@ -560,7 +541,7 @@ abstract class BaseController extends AbstractController
         return $this->$function($element_ids);
     }
 
-    protected function baseUnion($ids): array
+    protected function baseUnion(array $ids): array
     {
         $entities = $this->managerRegistry->getManager()
             ->getRepository($this->entityClassName)
@@ -574,23 +555,14 @@ abstract class BaseController extends AbstractController
     {
         $main = $this->findQuery($main_id);
 
-        if (!$main) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found'
-            );
-        }
+        if (!$main) $this->error('entity_not_found');
 
         $entities = $this->managerRegistry->getManager()
             ->getRepository($this->entityClassName)
             ->findBaseDoUnionEntities($main, $ids);
 
-        if (count($entities) !== count($ids) - 1) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found'
-            );
-        }
+        if (count($entities) !== count($ids) - 1)
+            $this->error('entity_not_found');
 
         if ($this->entityClassName === BaseUser::class) {
             $this->mergeSecondaryInstances(
@@ -605,16 +577,8 @@ abstract class BaseController extends AbstractController
             );
 
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans(
-                'The %entities% were successfully joined.',
-                [
-                    '%entities%' => $this->translator->transChoice(
-                        $this->entityClassName, count($entities), [], 'Flashes'
-                    )
-                ]
-            )
+        $this->addEntityFlash(
+            'success', 'The %entities% were successfully joined.', $entities
         );
 
         return $this->redirect($this->generateUrl($route));
@@ -645,10 +609,6 @@ abstract class BaseController extends AbstractController
 
         $term = $request->query->get('term');
 
-        $insts = ($this->isGranted('ROLE_ADMIN'))
-            ? [] : $this->userManager
-                ->getLibrarianInstitutions($librarian);
-
         $result = $this->objectManager
             ->getRepository((string) 'Celsius3' . $target)
             ->findByTerm($term, $instance, null)
@@ -678,7 +638,5 @@ abstract class BaseController extends AbstractController
 
 
     protected function validateAjax($target)
-    {
-        return false;
-    }
+    { return false; }
 }

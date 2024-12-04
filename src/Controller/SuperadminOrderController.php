@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Helper\ConfigurationHelper;
 use Knp\Component\Pager\PaginatorInterface;
@@ -32,7 +33,9 @@ use Celsius3\Entity\Order;
 use Celsius3\Form\Type\OrderType;
 use Celsius3\Form\Type\Filter\OrderFilterType;
 use Celsius3\Exception\Exception;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,54 +48,60 @@ use function get_class;
  */
 class SuperadminOrderController extends OrderController
 {
-    protected function listQuery($name)
+
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
+    protected function getTemplatePrefix(): string
+    { return 'Superadmin/Order/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return $this->getDoctrine()->getManager()
-                        ->getRepository(Order::class)
-                        ->createQueryBuilder('e')
-                        ->select('e, r, m')
-                        ->join('e.requests', 'r')
-                        ->join('e.materialData', 'm');
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
     }
 
-    protected function findQuery($name, $id)
+
+    protected function listQuery(): QueryBuilder
     {
-        return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
-                        ->find($id);
+        return $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
+            ->createQueryBuilder('e')
+            ->select('e, r, m')
+            ->join('e.requests', 'r')
+            ->join('e.materialData', 'm');
     }
+
+
+    protected function findQuery(string $id)
+    {
+        return $this->managerRegistry->getManager()
+            ->getRepository($this->entityClassName)
+            ->find($id);
+    }
+
 
     protected function getResultsPerPage()
     {
         return $this->container->getParameter('max_per_page');
     }
 
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'asc',
-        );
-    }
-
-    protected function filter($name, $filter_form, $query)
-    {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\Entity\\'.$name);
-    }
 
     /**
      * Lists all Order entities.
      *
      * @Route("/", name="superadmin_order")
      */
-    public function index(PaginatorInterface $paginator): Response
+    public function index(): Response
     {
-        $this->getDoctrine()->getManager()->getFilters()->disable('softdeleteable');
-        return $this->render(
-            'Superadmin/Order/index.html.twig',
-            $this->baseIndex('Order', $this->createForm(OrderFilterType::class),$paginator)
-        );
+        $this->entityManager->getFilters()->disable('softdeleteable');
+
+        return $this->baseIndex();
     }
+
 
     /**
      * Finds and displays a Order entity.
@@ -103,13 +112,11 @@ class SuperadminOrderController extends OrderController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id): Response
+    public function show(string $id): Response
     {
-        return $this->render(
-            'Superadmin/Order/show.html.twig',
-            $this->baseShow('Order', $id)
-        );
+        return $this->baseShow($id);
     }
+
 
     /**
      * Displays a form to create a new Order entity.
@@ -118,39 +125,49 @@ class SuperadminOrderController extends OrderController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Superadmin/Order/new.html.twig',
-            $this->baseNew('Order', new Order(), OrderType::class, [
-                'instance' => $this->getDirectory(),
+        return $this->baseInstanceNew(
+            type: OrderType::class,
+            options: [
                 'user' => $this->getUser(),
                 'librarian' => false,
-                'actual_user' => $this->getUser(),
-            ])
+                'actual_user' => $this->getUser()
+            ]
         );
     }
+
 
     /**
      * Creates a new Order entity.
      *
      * @Route("/create", name="superadmin_order_create", methods={"POST"})
      */
-    public function create(Request $request)
+    public function create(Request $request): Response
     {
-        $entity = new Order();
+        $entityClassName = $this->entityClassName;
 
-        $options = array(
-            'instance' => $this->getDirectory(),
+        $options = [
+            'instance' => $this->instance,
             'material' => $this->getMaterialType(),
             'user' => $this->getUser(),
             'librarian' => false,
             'actual_user' => $this->getUser(),
-        );
+        ];
 
         if ($this->getMaterialType() === JournalTypeType::class)
-            $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
+            $options['other'] = $request->request
+                ->get('order')['materialData']['journal_autocomplete'];
 
-        return $this->render('Superadmin/Order/new.html.twig', $this->baseCreate('Order', $entity, OrderType::class, $options, 'superadmin_order'));
+        return $this->render(
+            (string) $this->templatePrefix . 'new.html.twig',
+            $this->baseCreateOrderLogic(
+                new $entityClassName(),
+                $this->typeClassName,
+                $options,
+                'superadmin_order'
+            )
+        );
     }
+
 
     /**
      * Displays a form to edit an existing Order entity.
@@ -161,32 +178,33 @@ class SuperadminOrderController extends OrderController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
-        $entity = $this->findQuery('Order', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
-        }
-
-        $materialClass = get_class($entity->getMaterialData());
-
-        $editForm = $this->createForm(OrderType::class, $entity, [
-            'instance' => $entity->getOriginalRequest()->getInstance(),
-            'material' => $this->getMaterialType($materialClass),
-            'user' => $this->getUser(),
-            'librarian' => false,
-            'actual_user' => $this->getUser(),
-        ]);
+        if (!$entity) $this->error('entity_not_found');
 
         return $this->render(
-            'Superadmin/Order/edit.html.twig',
+            (string) $this->templatePrefix . 'edit.html.twig',
             [
                 'entity' => $entity,
-                'edit_form' => $editForm->createView(),
+                'edit_form' => $this->createForm(
+                    $this->typeClassName,
+                    $entity,
+                    [
+                        'instance' => $this->instance,
+                        'material' => $this->getMaterialType(
+                            get_class($entity->getMaterialData())
+                        ),
+                        'user' => $this->getUser(),
+                        'librarian' => false,
+                        'actual_user' => $this->getUser(),
+                    ]
+                )->createView(),
             ]
         );
     }
+
 
     /**
      * Edits an existing Order entity.
@@ -197,40 +215,19 @@ class SuperadminOrderController extends OrderController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): RedirectResponse|Response
     {
-        $entity = $this->findQuery('Order', $id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
-        }
-
-        $entity->setMaterialData(null);
-
-        $editForm = $this->createForm(OrderType::class, array(
-            'instance' => $entity->getOriginalRequest()->getInstance(),
-            'material' => $this->getMaterialType(),
-            'user' => $this->getUser(),
-            'librarian' => false,
-            'actual_user' => $this->getUser(),
-                ), $entity);
-
-        $request = $this->get('request_stack')->getCurrentRequest();
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('superadmin_order_edit', array('id' => $id)));
-        }
-
-        return $this->render('Superadmin/Order/edit.html.twig', array('entity' => $entity,
-            'edit_form' => $editForm->createView(),
-        ));
+        return $this->baseInstanceUpdate(
+            $id, 'superadmin_order',
+            options: [
+                'material' => $this->getMaterialType(),
+                'user' => $this->getUser(),
+                'librarian' => false,
+                'actual_user' => $this->getUser(),
+            ]
+        );
     }
+
 
     /**
      * Updates de form materialData field.

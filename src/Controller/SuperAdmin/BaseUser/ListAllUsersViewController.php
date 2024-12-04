@@ -24,62 +24,25 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\BaseUser;
 
+use Celsius3\Controller\BaseController;
 use Celsius3\Entity\BaseUser;
+use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
-use Celsius3\Manager\FilterManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ListAllUsersViewController extends AbstractController
+final class ListAllUsersViewController extends BaseController
 {
-    private $filterManager;
-    private $entityManager;
-    private $paginator;
-    private $maxPerPage;
 
-    public function __construct(
-        FilterManager $filterManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        int $maxPerPage
-    ) {
-        $this->filterManager = $filterManager;
-        $this->entityManager = $entityManager;
-        $this->paginator = $paginator;
-        $this->maxPerPage = $maxPerPage;
-    }
+    protected final function getEntity(): string
+    { return BaseUser::class; }
 
-    public function __invoke(Request $request): Response
-    {
-        $query = $this->listQuery();
-        $filterForm = $this->createForm(BaseUserFilterType::class);
+    protected final function getType(): string
+    { return BaseUserType::class; }
 
-        $filterForm->handleRequest($request);
-        $query = $this->filterManager
-            ->filter($query, $filterForm, BaseUser::class);
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/BaseUser/'; }
 
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->maxPerPage,
-            $this->getSortDefaults()
-        );
-
-        return $this->render('Superadmin/BaseUser/index.html.twig', [
-            'pagination' => $pagination,
-            'filter_form' => $filterForm->createView()
-        ]);
-    }
-
-    protected function listQuery()
-    {
-        return $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->createQueryBuilder('e');
-    }
 
     protected function getSortDefaults(): array
     {
@@ -87,5 +50,12 @@ final class ListAllUsersViewController extends AbstractController
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
         ];
+    }
+
+    public function __invoke(Request $request): Response
+    {
+        return $this->baseIndex(
+            filter_form: $this->createForm(BaseUserFilterType::class)
+        );
     }
 }

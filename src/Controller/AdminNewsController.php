@@ -22,13 +22,10 @@
 
 namespace Celsius3\Controller;
 
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\News;
 use Celsius3\Form\Type\NewsType;
-use Celsius3\Form\Type\Filter\NewsFilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * News controller.
@@ -37,24 +34,36 @@ use Celsius3\Form\Type\Filter\NewsFilterType;
  */
 class AdminNewsController extends BaseInstanceDependentController
 {
+
+    protected final function getEntity(): string
+    { return News::class; }
+
+    protected final function getType(): string
+    { return NewsType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/News/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc'
+        ];
+    }
+
+
     /**
      * Lists all News entities.
      *
      * @Route("/", name="admin_news")
      */
-    public function index(PaginatorInterface $paginator)
+    public function index(): Response
     {
-        return $this->render(
-            'Admin/News/index.html.twig',
-            $this->baseIndex(
-                'News',
-                $this->createForm(
-                    NewsFilterType::class
-                ),
-                $paginator
-            )
-        );
+        return $this->baseIndex();
     }
+
 
     /**
      * Finds and displays a News entity.
@@ -64,73 +73,31 @@ class AdminNewsController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
-        return $this->render(
-            'Admin/News/show.html.twig',
-            $this->baseShow(
-                'News',
-                $id
-            )
-        );
+        return $this->baseShow($id);
     }
+
 
     /**
      * Displays a form to create a new News entity.
      *
      * @Route("/new", name="admin_news_new")
      */
-    public function new()
+    public function new(): Response
     {
-        return $this->render(
-            'Admin/News/new.html.twig',
-            $this->baseNew(
-                'News',
-                new News(),
-                NewsType::class,
-                [
-                    'instance' => $this->getInstance()
-                ]
-            )
-        );
+        return $this->baseInstanceNew();
     }
 
-
-    protected function findQuery($name, $id)
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(News::class)
-            ->find($id);
-    }
-
-    protected function listQuery($name)
-    {
-        $valor=$name;
-      //  $class = new \ReflectionClass($valor);
-        return $this->getDoctrine()->getManager()
-            ->getRepository(News::class)
-            ->createQueryBuilder('e');
-    }
 
     /**
      * Creates a new News entity.
      *
      * @Route("/create", name="admin_news_create", methods={"POST"})
      */
-    public function create()
+    public function create(): Response
     {
-        return $this->render(
-            'Admin/News/new.html.twig',
-            $this->baseCreate(
-                'News', 
-                new News(), 
-                NewsType::class, 
-                [
-                'instance' => $this->getInstance(),
-                ], 
-                'admin_news'
-            )
-        );
+        return $this->baseInstanceCreate(route: 'admin_news');
     }
 
     /**
@@ -142,19 +109,11 @@ class AdminNewsController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit(string $id): Response
     {
-        return $this->render(
-            'Admin/News/edit.html.twig',
-            $this->baseEdit(
-                'News',
-                $id,
-                NewsType::class, [
-                    'instance' => $this->getInstance(),
-                ]
-            )
-        );
+        return $this->baseInstanceEdit($id);
     }
+
 
     /**
      * Edits an existing News entity.
@@ -165,19 +124,8 @@ class AdminNewsController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): Response
     {
-        return $this->render(
-            'Admin/News/edit.html.twig',
-            $this->baseUpdate(
-                'News',
-                $id,
-                NewsType::class,
-                [
-                    'instance' => $this->getInstance(),
-                ],
-                'admin_news'
-            )
-        );
+        return $this->baseInstanceUpdate($id, 'admin_news');
     }
 }

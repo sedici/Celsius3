@@ -26,7 +26,6 @@ use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\Institution;
 use Celsius3\Form\Type\InstitutionType;
-use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -150,7 +149,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
             $entity !== null
             && $entity->instance !== $this->getDirectory()
             && $entity->instance !== $this->instance
-        )  throw Exception::create(Exception::ACCESS_DENIED);
+        ) $this->error('access_denied', msg: '');
 
         return $this->baseShow($id);
     }

@@ -24,82 +24,149 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
+use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\OrderType;
+use Symfony\Component\Form\SubmitButton;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class OrderController extends BaseInstanceDependentController
 {
-    protected function baseCreate($name, $entity, $type, array $options, $route)
+
+    protected final function getEntity(): string
+    { return Order::class; }
+
+    protected final function getType(): string
+    { return OrderType::class; }
+
+    protected function getTemplatePrefix(): string
+    { return 'Order/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc'
+        ];
+    }
+
+
+    protected function getMaterialTypeClassName(string $short_name): string {
+        return 'Celsius3\\Form\\Type\\' . ucfirst($short_name) . 'TypeType';
+    }
+
+
+    protected function getMaterialClassName(string $short_name): string {
+        return 'Celsius3\\Form\\Type\\' . ucfirst($short_name) . 'Type';
+    }
+
+
+    protected function baseCreateOrderLogic(
+        $entity /* Order con material de tipo Journal */, string $type, array $options, string $route
+    ): array|RedirectResponse {
+        $request = $this->requestStack->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($this->getMaterialType() === 'Celsius3\Form\Type\JournalTypeType') {
-                $journal = $this->getDoctrine()->getManager()->getRepository(Journal::class)->find(
-                    $request->request->get('order', null, true)['materialData']['journal']
-                );
-                if (is_null($journal) ) {
-                    $entity->getMaterialData()->setOther($request->request->get('order', null, true)['materialData']['journal_autocomplete']);
+            if ($this->getMaterialType() === JournalType::class) {
+                $journal = $this->managerRegistry->getManager()
+                    ->getRepository(Journal::class)->find(
+                        $request->request
+                            ->get('order', null)['materialData']['journal']
+                    );
+
+                if ($journal === null) {
+                    $entity->getMaterialData()->setOther(
+                        $request->request->get(
+                            'order', null
+                        )['materialData']['journal_autocomplete']
+                    );
+                    
                     $entity->getMaterialData()->setJournal(null);
                 }
             }
 
             $this->persistEntity($entity);
-            $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The ' . $name . ' was successfully created.');
+            $this->addEntityFlash(
+                'success', 'The %entity% was successfully created.'
+            );
 
             if ($form->has('save_and_show')) {
-                if ($form->get('save_and_show')->isClicked()) {
-                    return $this->redirect($this->generateUrl('admin_order_show', array('id' => $entity->getId())));
+                $saveNShow = $form->get('save_and_show');
+                if (
+                    $saveNShow instanceof SubmitButton
+                    && $saveNShow->isClicked()
+                ) {
+                    return $this->redirect($this->generateUrl(
+                        'admin_order_show',
+                        [ 'id' => $entity->getId()]
+                    ));
                 }
             }
 
             return $this->redirect($this->generateUrl($route));
         }
 
-        $this->get('session')
-            ->getFlashBag()
-            ->add('error', 'There were errors creating the ' . $name . '.');
+        $this->addEntityFlash(
+            'error', 'There were errors creating the %entity%.'
+        );
 
-        return array(
+        return [
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ];
     }
 
-    protected function change()
+
+    protected function change(): Response
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
-        $material = 'Celsius3\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
+        $materialClassName= $this->getMaterialTypeClassName(
+            $request->get('material')
+        );
 
-        if (!class_exists($material)) {
+        if (!class_exists($materialClassName)) {
             $this->createNotFoundException('Inexistent Material Type');
         }
 
-        $form = $this->createForm(OrderType::class, new Order(), array(
-            'instance' => $this->getInstance(),
-            'material' => $material,
-            'actual_user' => $this->getUser(),
-        ));
+        $entityClassName = $this->entityClassName;
+        $form = $this->createForm(
+            $entityClassName,
+            new $entityClassName(),
+            [
+                'instance' => $this->instance,
+                'material' => $materialClassName,
+                'actual_user' => $this->getUser(),
+            ]
+        );
 
-        return $this->render('Order/_materialData.html.twig', array(
+        return $this->render(
+            (string) $this->templatePrefix . '_materialData.html.twig',
+            [
                 'form' => $form->createView(),
-                'material' => $request->get('material'),)
+                'material' => $request->get('material')
+            ]
         );
     }
 
-    protected function getMaterialType($materialData = null)
-    {
-        $request = $this->get('request_stack')->getCurrentRequest();
 
-        if (is_null($materialData)) {
-            $materialTypeName = 'Celsius3\\Form\\Type\\' . ucfirst($request->request->get('order', null, true)['materialDataType']) . 'TypeType';
+    protected function getMaterialType($materialData = null): string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        if ($materialData === null) {
+            $materialTypeName = $this->getMaterialTypeClassName(
+                $request->request->get(
+                    'order', null
+                )['materialDataType']
+            );
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = 'Celsius3\\Form\\Type\\' . end($class) . 'Type';
+            $materialTypeName = $this
+                ->getMaterialClassName(end($class));
         }
 
         return $materialTypeName;

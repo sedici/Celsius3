@@ -23,7 +23,6 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Contact;
-use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\AdminContactType;
 use Celsius3\Helper\CustomFieldHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -200,12 +199,7 @@ class AdminContactController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         return $this->baseInstanceEdit(
             $id, options: [ 'user' => $entity->getUser() ]
@@ -231,12 +225,7 @@ class AdminContactController extends BaseInstanceDependentController
 
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                (string) 'exception.entity_not_found.contact' . $this->entityClassName
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
             $this->entityClassName,
@@ -261,16 +250,8 @@ class AdminContactController extends BaseInstanceDependentController
                     $entity
                 );
 
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'The %entity% was successfully edited.',
-                        [
-                            '%entity%' => $this->translator
-                                ->trans($this->entityClassName)
-                        ],
-                        'Flashes'
-                    )
+                $this->addEntityFlash(
+                    'success', 'The %entity% was successfully edited.'
                 );
 
                 return $this->redirect(
@@ -280,31 +261,14 @@ class AdminContactController extends BaseInstanceDependentController
                     )
                 );
             } catch (UniqueConstraintViolationException $exception) {
-                $this->addFlash(
-                    'error',
-                    $this->translator
-                        ->trans(
-                            'The %entity% already exists.',
-                            [
-                                '%entity%' => $this->translator
-                                    ->trans($this->entityClassName)
-                            ],
-                            'Flashes'
-                        )
+                $this->addEntityFlash(
+                    'error', 'The %entity% already exists.'
                 );
             }
         }
 
-        $this->addFlash(
-            'error',
-            $this->translator->trans(
-                'There were errors editing the %entity%.',
-                [
-                    '%entity%' => $this->translator
-                        ->trans($this->entityClassName)
-                ],
-                'Flashes'
-            )
+        $this->addEntityFlash(
+            'error', 'There were errors editing the %entity%.'
         );
 
         return $this->render(

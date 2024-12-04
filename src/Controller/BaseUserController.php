@@ -26,22 +26,48 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
-    protected function baseTransform($id, $transformType, array $options = [])
+
+    protected final function getEntity(): string
+    { return BaseUser::class; }
+
+    protected final function getType(): string
+    { return BaseUserType::class; }
+
+
+    protected function getSortDefaults(): array
     {
-        $entity = $this->findQuery('BaseUser', $id);
+        return [
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    protected function baseTransform(
+        string $id,
+        string $transformType,
+        array $options = []
+    ): array|RedirectResponse {
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
+            throw Exception::create(
+                Exception::ENTITY_NOT_FOUND,
+                (string) 'exception.entity_not_found.' . $this->entityClass->getShortName()
+            );
         }
 
         if (!$this->getUser()->hasHigherRolesThan($entity)) {
             return $this->redirectToRoute($this->getUserListRoute());
         }
 
-        $transformForm = $this->createForm($transformType, null, $options);
+        $transformForm = $this->createForm(
+            $transformType, null, $options
+        );
 
         return [
             'entity' => $entity,
@@ -52,7 +78,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
     protected function baseDoTransform($id, $transformType, array $options, $route)
     {
-        $entity = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
@@ -154,13 +180,6 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $this->getDoctrine()->getManager()->flush($main);
     }
 
-    protected function getSortDefaults()
-    {
-        return [
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
 
     protected function baseUserCreate($request, $template, array $options = [])
     {

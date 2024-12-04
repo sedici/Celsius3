@@ -94,22 +94,22 @@ final class OrdersGetController extends AbstractFOSRestController
                     )
                 );
 
-            $response = array(
+            $response = [
                 'orders' => array_values($pagination),
                 'requests' => array_column(
                     array_map(
                         function (\Celsius3\Entity\Request $request) {
-                            return array(
+                            return [
                                 'id' => $request->getOrder()->getId(),
                                 'request' => $request,
-                            );
+                            ];
                         },
                         $requests
                     ),
                     'request',
                     'id'
                 ),
-            );
+            ];
 
             $view = $this->view($response, 200)->setFormat('json');
         } else {

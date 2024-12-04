@@ -25,68 +25,34 @@ namespace Celsius3\Controller\Admin\FileDownload;
 
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\InstanceManager;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use \Doctrine\ORM\Mapping\Entity;
+use Celsius3\Form\Type\FileDownloadType;
 
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
 
     protected function getEntity(): string
+    { return FileDownload::class; }
+
+    protected final function getType(): string
+    { return FileDownloadType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/FileDownload/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return FileDownload::class;
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc',
+        ];
     }
 
-    protected function filter($name, $filter_form, $query)
+
+    public function __invoke(): Response
     {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(FilterManager::class)
-            ->filter(
-                $query,
-                $filter_form,
-                'FileDownload',
-                $this->getInstance()
-            );
-    }
-
-
-    public function __invoke(): ?Response
-    {
-        $filter_form = $this->createForm(
-            FileDownloadFilterType::class,
-            null,
-            [
-                'instance' => $this->getInstance(),
-            ]
-        );
-
-        $query = $this->listQuery();
-        $request = $this->get('request_stack')->getCurrentRequest();
-        if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest($request);
-        }
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->getResultsPerPage(),
-            $this->getSortDefaults()
-        );
-
-        return $this->render(
-            'Admin/FileDownload/index.html.twig',
-            [
-                'pagination' => $pagination,
-                'filter_form' => ($filter_form !== null)
-                    ? $filter_form->createView()
-                    : $filter_form
-            ]
-        );
+        return $this->baseInstanceIndex(type: FileDownloadFilterType::class);
     }
 }
