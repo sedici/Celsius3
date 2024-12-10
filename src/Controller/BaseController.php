@@ -240,14 +240,12 @@ abstract class BaseController extends AbstractController
 
     protected function baseIndex(
         string $type = null,
-        array $options = [],
+        array $formOptions = [],
         string $template = null,
         $data = null,
         FormInterface $filter_form = null,
         bool $hasFilterForm = true
     ): Response {
-        if ($type === null) $type = $this->typeClassName;
-        
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'index.html.twig';
 
@@ -262,7 +260,7 @@ abstract class BaseController extends AbstractController
                 $query, $filter_form, $this->entityClassName
             );
         } else if ($hasFilterForm) $filter_form = $this->createForm(
-            $type, $data, $options
+            $type, $data, $formOptions
         );
 
         $pagination = $this->paginator->paginate(
@@ -309,26 +307,20 @@ abstract class BaseController extends AbstractController
     protected function baseNew(
         Entity $entity = null,
         string $type = null,
-        array $options = [],
+        array $formOptions = [],
         string $template = null
-    ) {
+    ): Response {
         if ($entity === null) {
             $entityClassName = $this->entityClassName;
             $entity = new $entityClassName();
         }
-
-        if ($type === null) $type = $this->typeClassName;
         
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'new.html.twig';
 
         // ---
 
-        $form = $this->createForm(
-            $type,
-            $entity,
-            $options
-        );
+        $form = $this->createForm($type, $entity, $formOptions);
 
         return $this->render(
             $template,
@@ -350,31 +342,23 @@ abstract class BaseController extends AbstractController
     protected function baseCreate(
         Entity $entity = null,
         string $type = null,
-        array $options = [],
+        array $formOptions = [],
         string $route = null,
         string $template = null
-    ) {
+    ): RedirectResponse|Response {
         if ($entity === null) {
             $entityClassName = $this->entityClassName;
             $entity = new $entityClassName();
         }
-
-        if ($type === null) $type = $this->typeClassName;
         
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'new.html.twig';
 
         // ---
 
-        $form = $this->createForm($type, $entity, $options);
+        $form = $this->createForm($type, $entity, $formOptions);
 
         $request = $this->requestStack->getCurrentRequest();
-
-        $form = $this->createForm(
-            $type,
-            $entity,
-            $options
-        );
 
         $form->handleRequest($request);
 
@@ -414,12 +398,10 @@ abstract class BaseController extends AbstractController
     protected function baseEdit(
         string $id,
         string $type = null,
-        array $options = [],
+        array $formOptions = [],
         string $route = null,
         string $template = null
     ): Response {
-        if ($type === null) $type = $this->typeClassName;
-        
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'edit.html.twig';
 
@@ -430,7 +412,7 @@ abstract class BaseController extends AbstractController
         if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
-            $type, $entity, $options
+            $type, $entity, $formOptions
         );
 
         return $this->render(
@@ -448,11 +430,9 @@ abstract class BaseController extends AbstractController
         string $id,
         string $route,
         string $type = null,
-        array $options = [],
+        array $formOptions = [],
         string $template = null
     ): RedirectResponse|Response {
-        if ($type === null) $type = $this->typeClassName;
-        
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'edit.html.twig';
 
@@ -463,7 +443,7 @@ abstract class BaseController extends AbstractController
         if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
-            $type, $entity, $options
+            $type, $entity, $formOptions
         );
 
         $request = $this->requestStack->getCurrentRequest();
@@ -500,7 +480,7 @@ abstract class BaseController extends AbstractController
             [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
-                ... $options
+                ... $formOptions
             ]
         );
     }
@@ -585,7 +565,7 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function createDeleteForm($id)
+    protected function createDeleteForm($id): FormInterface
     {
         return $this
             ->createFormBuilder([
@@ -596,8 +576,10 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function ajax(Request $request, Instance $instance = null, $librarian = null)
-    {
+    protected function ajax(
+        Request $request,
+        Instance $instance = null,
+    ): Response {
         if (!$request->isXmlHttpRequest()) {
             throw $this->createNotFoundException();
         }
@@ -639,4 +621,22 @@ abstract class BaseController extends AbstractController
 
     protected function validateAjax($target)
     { return false; }
+
+
+    protected function createForm(
+        string $type = null,
+        $data = null,
+        array $options = []
+    ): FormInterface {
+        if ($type === null) $type = $this->typeClassName;
+
+        if ($data === null) {
+            $entityClassName = $this->entityClassName;
+            $data = new $entityClassName();
+        }
+
+        return $this->createForm(
+            $type, $data, $options
+        );
+    }
 }

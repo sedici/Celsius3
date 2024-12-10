@@ -43,7 +43,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\ConfigurationHelper;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Form\SubmitButton;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 use function get_class;
 
 /**
@@ -53,98 +58,22 @@ use function get_class;
  */
 class AdminOrderController extends OrderController
 {
+
     private $lifecycleHelper;
 
     public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        InstanceHelper $instanceHelper,
-        LifecycleHelper $lifecycleHelper
+        LifecycleHelper $lifecycleHelper,
+        ... $args
     ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $instanceHelper
-        );
+        parent::__construct(... $args);
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Order/'; }
 
 
-
-
-
-
-    // /**
-    //  * @var InstanceHelper
-    //  */
-    // private $instanceHelper;
-    // /**
-    //  * @var EntityManagerInterface
-    //  */
-    // private $entityManager;
-
-    // /**
-    //  * @var InstanceManager
-    //  */
-    // private $instanceManager;
-
-    // /**
-    //  * @var PaginatorInterface
-    //  */
-    // private $paginator;
-    // /**
-    //  * @var ConfigurationHelper
-    //  */
-    // private $configurationHelper;
-    // /**
-    //  * @var Translator
-    //  */
-    // private $translator;
-
-    // private $lifecycleHelper;
-    // public function __construct(
-    //     PaginatorInterface $paginator,
-    //     ConfigurationHelper $configurationHelper,
-    //     InstanceHelper $instanceHelper,
-    //     TranslatorInterface $translator,
-    //     InstanceManager $instanceManager,
-    //     EntityManagerInterface $entityManager,
-    //     LifecycleHelper $lifecycleHelper
-
-    // ) {
-    //     $this->paginator = $paginator;
-    //     $this->configurationHelper=$configurationHelper;
-    //     $this->setIntanceHelper($instanceHelper);
-    //     $this->setConfigurationHelper($configurationHelper);
-    //     $this->translator=$translator;
-    //     $this->setTranslator($translator);
-    //     $this->instanceManager=$instanceManager;
-    //     $this->instanceHelper = $instanceHelper;
-    //     $this->entityManager = $entityManager;
-    //     $this->lifecycleHelper = $lifecycleHelper;
-    // }
-
-
-
-
-    protected function baseNew($name, $entity, $type, array $options = array())
-    {
-        $form = $this->createForm($type, $entity, $options);
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
-    }
-    
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
         return [
             'defaultSortFieldName' => 'o.updatedAt',
@@ -152,29 +81,25 @@ class AdminOrderController extends OrderController
         ];
     }
 
-    protected function listQuery($name)
+
+    protected function listQuery(): QueryBuilder
     {
         return $this->entityManager
-            ->getRepository('Celsius3:'.$name)
-            ->findForInstance($this->getInstance());
+            ->getRepository($this->entityClassName)
+            ->findForInstance($this->instance);
     }
 
-    protected function findQuery($name, $id)
-    {
-        return $this->entityManager
-            ->getRepository(Order::class)
-            ->findOneForInstance($this->getInstance(), $id);
-    }
 
     /**
      * Lists all Order entities.
      *
      * @Route("/", name="admin_order", options={"expose"=true})
      */
-    public function index()
+    public function index(): RedirectResponse
     {
         return $this->redirect($this->generateUrl('administration'));
     }
+
 
     /**
      * Finds and displays a Order entity.
@@ -185,16 +110,11 @@ class AdminOrderController extends OrderController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
+    public function show($id): Response
     {
-
-     //   return $this->baseShow('Order', $id);
-return $this->render(
-'Admin/Order/show.html.twig',
-$this->baseShow('Order', $id)
-);
-
+        return $this->baseShow($id);
     }
+
 
     /**
      * Displays a form to create a new Order entity.
@@ -202,40 +122,41 @@ $this->baseShow('Order', $id)
      * @Route("/new", name="admin_order_new", options={"expose"=true})
      *
      */
-    public function new(Request $request)
+    public function new(): Response
     {
-        if ($request->query->has('user_id')) {
-            $user = $this->entityManager
-                ->getRepository(BaseUser::class)
-                ->find($request->query->get('user_id'));
-        } else {
-            $user = null;
-        }
+        $request = $this->requestStack->getCurrentRequest();
 
-        return $this->render('Admin/Order/new.html.twig', $this->baseNew(
-            'Order',
-            new Order(),
-            OrderType::class,
-            [
-                'instance' => $this->getInstance(),
+        $user = ($request->query->has('user_id'))
+            ? $this->entityManager
+                ->getRepository(BaseUser::class)
+                ->find($request->query->get('user_id'))
+            : null;
+
+        return $this->baseInstanceNew(
+            options: [
                 'user' => $user,
                 'operator' => $this->getUser(),
                 'actual_user' => $this->getUser(),
                 'create' => true,
             ]
-        ));
+        );
     }
+
 
     /**
      * Creates a new Order entity.
      *
      * @Route("/create", name="admin_order_create", methods={"POST"})
      */
-    public function create(Request $request)
+    public function create(): RedirectResponse|Response
     {
-        $materialType = 'Celsius3\\Form\\Type\\' . ucfirst($request->request->get('order', null, true)['materialDataType']) . 'TypeType';
+        $request = $this->requestStack->getCurrentRequest();
+
+        $materialType = $this->getMaterialTypeClassName(
+            $request->request->get('order', null)
+        );
+
         $options = [
-            'instance' => $this->getInstance(),
             'material' => $materialType,
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
@@ -251,10 +172,9 @@ $this->baseShow('Order', $id)
         }
 
         $order = new Order();
-        $type = OrderType::class;
         $route = 'administration';
 
-        $form = $this->createForm($type, $order, $options);
+        $form = $this->createForm(data: $order, formOptions: $options);
         $form->handleRequest($request);
 
         if (!$order->getOriginalRequest()->getOwner()) {
@@ -276,32 +196,36 @@ $this->baseShow('Order', $id)
                 }
             }
 
-            $this->entityManager->persist($order);
-            $this->entityManager->flush();
+            $this->persistEntity($order);
 
-            $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The Order was successfully created.');
+            $this->addFlash('success', 'The Order was successfully created.');
 
-            if ($form->has('save_and_show') && $form->get('save_and_show')->isClicked()) {
-                return $this->redirect($this->generateUrl('admin_order_show', ['id' => $order->getId()]));
+            if ($form->has('save_and_show')) {
+                $saveNShow = $form->get('save_and_show');
+                if (
+                    $saveNShow instanceof SubmitButton
+                    && $saveNShow->isClicked()
+                ) {
+                    return $this->redirect($this->generateUrl(
+                        'admin_order_show', ['id' => $order->getId()])
+                    );
+                }
             }
 
             return $this->redirect($this->generateUrl($route));
         }
 
-        $this->get('session')
-            ->getFlashBag()
-            ->add('error', 'There were errors creating the Order.');
+        $this->addFlash('error', 'There were errors creating the Order.');
 
         return $this->render(
-            'Admin/Order/new.html.twig',
+            (string) $this->templatePrefix . 'new.html.twig',
             [
                 'entity' => $order,
                 'form' => $form->createView(),
             ]
         );
     }
+
 
     /**
      * Displays a form to edit an existing Order entity.
@@ -312,30 +236,24 @@ $this->baseShow('Order', $id)
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit($id): Response
     {
-        $entity = $this->findQuery('Order', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $materialClass = get_class($entity->getMaterialData());
 
-        if ($entity->getMaterialData() instanceof JournalType) {
-            $journal = $entity->getMaterialData()->getJournal();
-        } else {
-            $journal = null;
-        }
+        $journal = ($entity->getMaterialData() instanceof JournalType)
+            ? $entity->getMaterialData()->getJournal()
+            : null;
 
-        $other = ($entity->getMaterialData(
-            ) instanceof JournalType) ? $entity->getMaterialData()->getOther() : '';
+        $other = ($entity->getMaterialData() instanceof JournalType)
+            ? $entity->getMaterialData()->getOther() : '';
 
         $editForm = $this->createForm(
-            OrderType::class,
-            $entity,
-            [
-                'instance' => $this->getInstance(),
+            data: $entity,
+            formOptions: [
                 'material' => $this->getMaterialType($materialClass),
                 'user' => $entity->getOriginalRequest()->getOwner(),
                 'operator' => $this->getUser(),
@@ -347,12 +265,15 @@ $this->baseShow('Order', $id)
             ]
         );
 
-
-        return $this->render('Admin/Order/edit.html.twig', [
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'edit.html.twig',
+            [
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+            ]
+        );
     }
+
 
     /**
      * Displays a form to edit an duplicated Order entity.
@@ -361,15 +282,11 @@ $this->baseShow('Order', $id)
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function duplicate($id)
+    public function duplicate($id): Response
     {
-        $order = $this->findQuery('Order', $id);
+        $order = $this->findQuery($id);
 
-        if (!$order) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
-        }
-
-        $entity_manager = $this->entityManager;
+        if (!$order) $this->error('entity_not_found');
 
         //Clonar Orden original
         $duplicatedOrder = clone $order;
@@ -385,27 +302,22 @@ $this->baseShow('Order', $id)
         $duplicatedMaterialData = clone $order->getMaterialData();
         $duplicatedOrder->setMaterialData($duplicatedMaterialData);
 
-        if ($duplicatedMaterialData instanceof JournalType) {
-            $journal = $duplicatedMaterialData->getJournal();
-        } else {
-            $journal = null;
-        }
+        $journal = ($duplicatedMaterialData instanceof JournalType)
+            ? $duplicatedMaterialData->getJournal()
+            : null;
 
-        $other = ($duplicatedMaterialData instanceof JournalType) ? $duplicatedMaterialData->getOther(
-        ) : '';
+        $other = ($duplicatedMaterialData instanceof JournalType)
+            ? $duplicatedMaterialData->getOther() : '';
 
-        //Se registra duplicado en la base de datos
-        $entity_manager->persist($duplicatedOrder);
-        $entity_manager->persist($request);
-        $entity_manager->flush();
+            //Se registra duplicado en la base de datos
+        $this->persistEntity($duplicatedOrder);
+        $this->persistEntity($request);
 
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
         $editForm = $this->createForm(
-            OrderType::class,
-            $duplicatedOrder,
-            [
-                'instance' => $this->getInstance(),
+            data: $duplicatedOrder,
+            formOptions: [
                 'material' => $this->getMaterialType($materialClass),
                 'user' => $duplicatedOrder->getOriginalRequest()->getOwner(),
                 'operator' => $this->getUser(),
@@ -415,11 +327,15 @@ $this->baseShow('Order', $id)
             ]
         );
 
-        return $this->render('Admin/Order/edit.html.twig', [
-            'entity' => $duplicatedOrder,
-            'edit_form' => $editForm->createView(),
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'edit.html.twig',
+            [
+                'entity' => $duplicatedOrder,
+                'edit_form' => $editForm->createView(),
+            ]
+        );
     }
+
 
     /**
      * Edits an existing Order entity.
@@ -431,25 +347,26 @@ $this->baseShow('Order', $id)
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id, Request $request)
+    public function update($id): RedirectResponse|Response
     {
-        $entity = $this->findQuery('Order', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $entity->setMaterialData(null);
 
+        $request = $this->requestStack->getCurrentRequest();
+
         // Se extrae el usuario del request y se setea en la construccion del form
-        $user = $this->entityManager->getRepository(BaseUser::class)
-            ->find($request->request->get('order', null)['originalRequest']['owner']);
+        $user = $this->entityManager
+            ->getRepository(BaseUser::class)
+            ->find($request->request->get(
+                'order', null
+            )['originalRequest']['owner']);
 
         $editForm = $this->createForm(
-            OrderType::class,
-            $entity,
-            [
-                'instance' => $this->getInstance(),
+            data: $entity,
+            formOptions: [
                 'material' => $this->getMaterialType(),
                 'user' => $user,
                 'operator' => $this->getUser(),
@@ -464,38 +381,49 @@ $this->baseShow('Order', $id)
                 $journal = $this->entityManager->getRepository(Journal::class)->find(
                     $request->request->get('order', null)['materialData']['journal']
                 );
-                if (is_null($journal)) {
+                if ($journal === null) {
                     $entity->getMaterialData()->setOther(
                         $request->request->get('order', null)['materialData']['journal_autocomplete']
                     );
                     $entity->getMaterialData()->setJournal(null);
                 }
             }
-            $em = $this->entityManager;
-            $em->persist($entity);
-            $em->flush();
+
+            $this->persistEntity($entity);
 
             if ($editForm->has('save_and_show')) {
-                if ($editForm->get('save_and_show')->isClicked()) {
-                    return $this->redirect($this->generateUrl('admin_order_show', ['id' => $id]));
+                $saveNShow = $editForm->get('save_and_show');
+                if (
+                    $saveNShow instanceof SubmitButton
+                    && $saveNShow->isClicked()
+                ) {
+                    return $this->redirect($this->generateUrl(
+                        'admin_order_show', ['id' => $id]
+                    ));
                 }
             }
 
-            return $this->redirect($this->generateUrl('admin_order_edit', ['id' => $id]));
+            return $this->redirect($this->generateUrl(
+                'admin_order_edit', ['id' => $id]
+            ));
         }
 
-        return $this->render('Admin/Order/edit.html.twig', [
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'edit.html.twig',
+            [
+                'entity' => $entity,
+                'edit_form' => $editForm->createView(),
+            ]
+        );
     }
+
 
     /**
      * Updates de form materialData field.
      *
      * @Route("/change", name="admin_order_change", options={"expose"=true})
      */
-    public function changeA()
+    public function changeA(): Response
     {
         return $this->change();
     }

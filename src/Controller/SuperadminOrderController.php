@@ -189,10 +189,8 @@ class SuperadminOrderController extends OrderController
             [
                 'entity' => $entity,
                 'edit_form' => $this->createForm(
-                    $this->typeClassName,
-                    $entity,
-                    [
-                        'instance' => $this->instance,
+                    data: $entity,
+                    formOptions: [
                         'material' => $this->getMaterialType(
                             get_class($entity->getMaterialData())
                         ),
@@ -239,89 +237,86 @@ class SuperadminOrderController extends OrderController
         return $this->change();
     }
 
-      /**
-       * SoftDelete an existing Order entity.
-       *
-       * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true}, methods={"POST"})
-       *
-       * @param string $id The order ID
-       *
-       * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-       */
-      public function softDelete($id)
-      {
-          /** @var $order Order */
-          $order = $this->findQuery('Order', $id);
 
-          if (!$order) {
-              return new JsonResponse(['success' => false]);
-          }
+    /**
+     * SoftDelete an existing Order entity.
+     *
+     * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true}, methods={"POST"})
+     *
+     * @param string $id The order ID
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function softDelete(string $id): JsonResponse
+    {
+        $order = $this->findQuery($id);
 
-          $em = $this->getDoctrine()->getManager();
+        if (!$order) return new JsonResponse(['success' => false]);
 
-          $requests = $order->getRequests();
+        $em = $this->managerRegistry->getManager();
 
-          foreach ($requests as $request) {
-              $states = $request->getStates();
-              foreach ($states as $state) {
-                  $em->remove($state);
-              }
+        $requests = $order->getRequests();
 
-              $events = $request->getEvents();
-              foreach ($events as $event) {
-                  $em->remove($event);
-              }
+        foreach ($requests as $request) {
+            $states = $request->getStates();
+            foreach ($states as $state) {
+                $em->remove($state);
+            }
 
-              $em->remove($request);
-          }
+            $events = $request->getEvents();
+            foreach ($events as $event) {
+                $em->remove($event);
+            }
 
-          $em->remove($order->getMaterialData());
-          $em->remove($order);
-          $em->flush();
+            $em->remove($request);
+        }
 
-          return new JsonResponse(['success' => true, 'id' => $order->getId()]);
-      }
+        $em->remove($order->getMaterialData());
+        $em->remove($order);
+        $em->flush();
 
-      /**
-       * SoftDelete an existing Order entity.
-       *
-       * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true}, methods={"POST"})
-       *
-       * @param string $id The order ID
-       *
-       * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-       */
-      public function softUndelete($id)
-      {
-          $this->getDoctrine()->getManager()->getFilters()->disable('softdeleteable');
+        return new JsonResponse(['success' => true, 'id' => $order->getId()]);
+    }
 
-          $order = $this->findQuery('Order', $id);
 
-          if (!$order) {
-              return new JsonResponse(['success' => false]);
-          }
+    /**
+     * SoftDelete an existing Order entity.
+     *
+     * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true}, methods={"POST"})
+     *
+     * @param string $id The order ID
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function softUndelete($id)
+    {
+        $em = $this->managerRegistry->getManager();
 
-          $em = $this->getDoctrine()->getManager();
+        $em->getFilters()->disable('softdeleteable');
 
-          $requests = $order->getRequests();
-          foreach($requests as $request) {
-              $states = $request->getStates();
-              foreach ($states as $state) {
-                  $em->persist($state->setDeletedAt(null));
-              }
+        $order = $this->findQuery($id);
 
-              $events = $request->getEvents();
-              foreach ($events as $event) {
-                  $em->persist($event->setDeletedAt(null));
-              }
+        if (!$order) return new JsonResponse(['success' => false]);
 
-              $em->persist($request->setDeletedAt(null));
-          }
+        $requests = $order->getRequests();
+        foreach($requests as $request) {
+            $states = $request->getStates();
+            foreach ($states as $state) {
+                $em->persist($state->setDeletedAt(null));
+            }
 
-          $em->persist($order->getMaterialData()->setDeletedAt(null));
-          $em->persist($order->setDeletedAt(null));
-          $em->flush();
+            $events = $request->getEvents();
+            foreach ($events as $event) {
+                $em->persist($event->setDeletedAt(null));
+            }
 
-          return new JsonResponse(['success' => true, 'id' => $order->getId()]);
+            $em->persist($request->setDeletedAt(null));
+        }
+
+        $em->persist($order->getMaterialData()->setDeletedAt(null));
+        $em->persist($order->setDeletedAt(null));
+        $em->flush();
+
+        return new JsonResponse(['success' => true, 'id' => $order->getId()]);
       }
 }

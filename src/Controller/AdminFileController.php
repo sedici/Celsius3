@@ -27,6 +27,9 @@ use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
 use Celsius3\Controller\Mixin\FileControllerTrait;
 use Celsius3\Exception\NotFoundException;
+use Celsius3\Form\Type\FileType;
+use Celsius3\Manager\FileManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 /**
@@ -36,45 +39,59 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AdminFileController extends BaseController
 {
-
-
-
-    // /**
-    //  * @var Translator
-    //  */
-    // private $translator;
-
-    // public function __construct(
-    //     TranslatorInterface $translator
-
-    // )
-    // {
-    //     $this->translator=$translator;
-    //     $this->setTranslator($translator);
-
-    // }
-
-
-
-
+    
     use FileControllerTrait;
 
-    protected function validate(Request $request, File $file)
-    {
-        if (!$request) {
-            throw new NotFoundException('exception.not_found.request');
-        }
+    protected $tokenStorage;
 
-        if (!$file) {
-            throw new NotFoundException('exception.not_found.file');
-        }
+    protected $fileManager;
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
-        $httpRequest = $this->get('request_stack')->getCurrentRequest();
-
-        $this->get('celsius3_core.file_manager')->registerDownload($request, $file, $httpRequest, $user);
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        FileManager $fileManager,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->tokenStorage = $tokenStorage;
+        $this->fileManager = $fileManager;
     }
+
+    protected function getEntity(): string
+    { return File::class; }
+
+    protected final function getType(): string
+    { return FileType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/File/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc',
+        ];
+    }
+
+
+    protected function validate(
+        Request $request, File $file
+    ): void {
+        if (!$request) $this->error('exception_not_found');
+
+        if (!$file) $this->error('exception_not_found');
+
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        $httpRequest = $this->requestStack->getCurrentRequest();
+
+        $this->fileManager->registerDownload(
+            $request, $file,
+            $httpRequest, $user
+        );
+    }
+
 
     /**
      * Downloads the file associated to a File entity.
@@ -83,8 +100,9 @@ class AdminFileController extends BaseController
      *
      * @param string $id The entity ID
      */
-    public function download($request, $file)
+    public function download($request, $file): mixed
     {
+        # No es recursivo, usa el Trait
         return $this->download($request, $file);
     }
 

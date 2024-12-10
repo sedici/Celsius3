@@ -24,51 +24,34 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\BaseUser;
 
+use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\BaseUser;
-use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
-use Celsius3\Helper\InstanceHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class EditUserViewController extends AbstractController
+final class EditUserViewController extends BaseInstanceDependentController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper
-    ) {
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
+    protected final function getEntity(): string
+    { return BaseUser::class; }
+
+    protected final function getType(): string
+    { return BaseUserType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/BaseUser/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
     }
 
-    public function __invoke($id): Response
+    public function __invoke(string $id): Response
     {
-        $entity = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findOneForInstance($this->instanceHelper->getSessionOrUrlInstance(), $id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND);
-        }
-
-        $editForm = $this->createForm(BaseUserType::class, $entity, ['editing' => true]);
-
-        return $this->render(
-            'Admin/BaseUser/edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView()
-            ]
-        );
+        return $this->baseInstanceEdit($id, options: [ 'editing' => true ]);
     }
 }

@@ -132,16 +132,10 @@ abstract class OrderController extends BaseInstanceDependentController
             $this->createNotFoundException('Inexistent Material Type');
         }
 
-        $entityClassName = $this->entityClassName;
-        $form = $this->createForm(
-            $entityClassName,
-            new $entityClassName(),
-            [
-                'instance' => $this->instance,
-                'material' => $materialClassName,
-                'actual_user' => $this->getUser(),
-            ]
-        );
+        $form = $this->createForm(options: [
+            'material' => $materialClassName,
+            'actual_user' => $this->getUser(),
+        ]);
 
         return $this->render(
             (string) $this->templatePrefix . '_materialData.html.twig',

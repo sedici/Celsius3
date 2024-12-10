@@ -25,24 +25,30 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\Controller\BaseUserController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class BatchController extends BaseUserController
 {
-    public function __invoke()
+    public function getTemplatePrefix(): string
+    { return '/Admin/BaseUser/'; }
+
+
+    public function __invoke(): mixed
     {
         return $this->baseBatch();
     }
 
-    protected function batchEnable($element_ids)
+    protected function batchEnable($element_ids): RedirectResponse
     {
         return $this->baseBatchEnable($element_ids);
     }
 
-    protected function batchUnion($element_ids)
+    protected function batchUnion($element_ids): Response
     {
         return $this->render(
-            'Admin/BaseUser/batchUnion.html.twig',
-            $this->baseUnion('BaseUser', $element_ids)
+            (string) $this->templatePrefix . 'batchUnion.html.twig',
+            $this->baseUnion($element_ids)
         );
     }
 }

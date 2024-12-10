@@ -29,11 +29,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class CreateUserPostController extends BaseUserController
 {
+    public function getTemplatePrefix(): string
+    { return '/Admin/BaseUser/'; }
+
+
     public function __invoke(Request $request)
     {
         return $this->baseUserCreate(
             $request,
-            'Admin/BaseUser/new.html.twig',
+            $this->templatePrefix . 'new.html.twig',
             ['validation_groups' => ['Registration', 'Default']]
         );
     }

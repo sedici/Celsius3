@@ -28,9 +28,10 @@ use Celsius3\Entity\Instance;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Form\Test\FormInterface;
+// use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormInterface;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
@@ -59,7 +60,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function listQuery(): QueryBuilder
     {
-        return $this->managerRegistry->getManager()
+        return $this->entityManager
             ->getRepository(className: $this->entityClassName)
             ->findForInstanceAndGlobal(
                 $this->instance,
@@ -70,7 +71,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function findQuery(string $id)
     {
-        return $this->managerRegistry->getManager()
+        return $this->entityManager
             ->getRepository($this->entityClassName)
             ->findOneForInstance(
                 $this->instance,
@@ -166,6 +167,21 @@ abstract class BaseInstanceDependentController extends BaseController
                 'instance' => $this->getInstance(), ... $options
             ], $template, $data,
             $filter_form, $hasFilterForm
+        );
+    }
+
+
+    protected function createForm(
+        string $type = null,
+        $data = null,
+        array $formOptions = []
+    ): FormInterface {
+        if (empty($formOptions)) $formOptions = [ 'instance' => $this->instance ];
+        else if (! array_key_exists('instance', $formOptions))
+            $formOptions = [ 'instance' => $this->instance, ...$formOptions ];
+
+        return parent::createForm(
+            $type, $data, $formOptions
         );
     }
 }
