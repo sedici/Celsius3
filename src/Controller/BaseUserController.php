@@ -119,9 +119,9 @@ abstract class BaseUserController extends BaseInstanceDependentController
         ];
     }
 
-    protected function baseEnable($id)
+    protected function baseEnable(string $id): RedirectResponse
     {
-        $entity = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery($id);
 
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');

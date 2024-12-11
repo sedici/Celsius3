@@ -33,10 +33,10 @@ trait FileControllerTrait
     {
         $fileManager = $this->get('celsius3_core.file_manager');
         $request = $this->getDoctrine()->getManager()
-                        ->getRepository(Request::class)->find($request);
+            ->getRepository(Request::class)->find($request);
 
         $file = $this->getDoctrine()->getManager()
-                        ->getRepository(File::class)->find($file);
+            ->getRepository(File::class)->find($file);
 
         $filename = $fileManager->getUploadRootDir($file).'/'.$file->getPath();
         if (!file_exists($filename)) {

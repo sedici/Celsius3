@@ -38,11 +38,13 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use phpDocumentor\Reflection\Types\Boolean;
 use ReflectionClass;
 use Symfony\Component\Form\AbstractType;
@@ -109,6 +111,7 @@ abstract class BaseController extends AbstractController
     protected ObjectManager $objectManager;
     protected array $sortDefaults;
     protected ReflectionClass $entityClass;
+    protected EntityRepository $repository;
 
     public function __construct(
         InstanceManager $instanceManager,
@@ -142,6 +145,7 @@ abstract class BaseController extends AbstractController
         $this->directory = $this->getDirectory();
         $this->sortDefaults = $this->getSortDefaults();
         $this->entityClass = $this->getEntityClass();
+        $this->repository = $this->getRepository();
     }
 
 
@@ -168,25 +172,26 @@ abstract class BaseController extends AbstractController
     }
 
 
+    protected function getRepository(): EntityRepository
+    {
+        return $this->managerRegistry
+            ->getRepository($this->entityClassName);
+    }
+
+
     protected function getBundle(): string
     { return ''; }
 
     
     protected function listQuery(): QueryBuilder
     {
-        return $this->managerRegistry
-            ->getManager()
-            ->getRepository($this->entityClassName)
-            ->createQueryBuilder('e');
+        return $this->repository->createQueryBuilder('e');
     }
 
 
     protected function findQuery(string $id)
     {
-        return $this->managerRegistry
-            ->getManager()
-            ->getRepository($this->entityClassName)
-            ->find($id);
+        return $this->repository->find($id);
     }
 
 
@@ -523,8 +528,7 @@ abstract class BaseController extends AbstractController
 
     protected function baseUnion(array $ids): array
     {
-        $entities = $this->managerRegistry->getManager()
-            ->getRepository($this->entityClassName)
+        $entities = $this->repository
             ->findBy(['id' => $ids]);
 
         return [ 'entities' => $entities ];
@@ -537,8 +541,7 @@ abstract class BaseController extends AbstractController
 
         if (!$main) $this->error('entity_not_found');
 
-        $entities = $this->managerRegistry->getManager()
-            ->getRepository($this->entityClassName)
+        $entities = $this->repository
             ->findBaseDoUnionEntities($main, $ids);
 
         if (count($entities) !== count($ids) - 1)

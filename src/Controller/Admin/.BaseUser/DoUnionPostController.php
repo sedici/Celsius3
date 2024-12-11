@@ -86,9 +86,7 @@ final class DoUnionPostController extends BaseUserController
 
     private function findUser(string $main_id): BaseUser
     {
-        $main_user = $this->entityManager->getRepository(
-            BaseUser::class
-        )->find($main_id);
+        $main_user = $this->findQuery($main_id);
 
         if (!$main_user) $this->error('entity_not_found');
 
@@ -98,12 +96,12 @@ final class DoUnionPostController extends BaseUserController
 
     private function findUsers(BaseUser $main_user, array $element_ids): mixed
     {
-        $users = $this->entityManager->getRepository(
-            BaseUser::class
-        )->findBaseDoUnionEntities(
-            $main_user,
-            $element_ids
-        );
+        $users = $this->entityManager
+            ->getRepository(BaseUser::class)
+            ->findBaseDoUnionEntities(
+                $main_user,
+                $element_ids
+            );
 
         if (count($users) !== count($element_ids) - 1)
             $this->error('entity_not_found');

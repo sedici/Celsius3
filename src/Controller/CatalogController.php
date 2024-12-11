@@ -20,16 +20,27 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
+namespace Celsius3\Controller;
 
-namespace Celsius3\Controller\Admin\BaseUser;
+use Celsius3\Entity\Catalog;
+use Celsius3\Form\Type\CatalogType;
 
-use Celsius3\Controller\BaseUserController;
 
-final class EnableUserPutController extends BaseUserController
+abstract class CatalogController extends BaseInstanceDependentController
 {
-    public function __invoke($id)
+
+    protected final function getEntity(): string
+    { return Catalog::class; }
+
+    protected final function getType(): string
+    { return CatalogType::class; }
+
+
+    protected function getSortDefaults(): array
     {
-        return $this->baseEnable($id);
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
     }
 }

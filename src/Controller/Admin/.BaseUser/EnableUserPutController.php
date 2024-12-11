@@ -22,49 +22,29 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\Controller\SuperAdmin\Dashboard;
+namespace Celsius3\Controller\Admin\BaseUser;
 
-use Celsius3\Controller\BaseController;
-use Celsius3\Entity\BaseUser;
-use Celsius3\Form\Type\BaseUserType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use function in_array;
+use Celsius3\Controller\BaseUserController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-final class AjaxController extends BaseController
+final class EnableUserPutController extends BaseUserController
 {
-    
-    protected final function getEntity(): string
-    { return BaseUser::class; }
-
-    protected final function getType(): string
-    { return BaseUserType::class; }
 
     protected final function getTemplatePrefix(): string
-    { return 'AJAX/'; }
+    { return 'Admin/BaseUser/'; }
 
 
     protected function getSortDefaults(): array
     {
         return [
-            'defaultSortFieldName' => 'e.name',
+            'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
         ];
     }
 
-
-    public function __invoke(Request $request): Response
+    
+    public function __invoke($id): RedirectResponse
     {
-        return $this->ajax($request);
-    }
-
-    protected function validateAjax($target): bool
-    {
-        $allowed_targets = [
-            'Journal',
-            'BaseUser',
-        ];
-
-        return in_array($target, $allowed_targets, true);
+        return $this->baseEnable($id);
     }
 }

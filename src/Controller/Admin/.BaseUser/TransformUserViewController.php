@@ -27,20 +27,35 @@ namespace Celsius3\Controller\Admin\BaseUser;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Form\Type\UserTransformType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class TransformUserViewController extends BaseUserController
 {
-    public function __invoke($id, Request $request)
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/BaseUser/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        $entity = $this->findQuery('BaseUser', $id);
+        return [
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    public function __invoke($id): array|RedirectResponse|Response
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $entity = $this->findQuery($id);
 
         if ($request->getMethod() === 'POST') {
             return $this->baseDoTransform(
                 $id,
                 UserTransformType::class,
                 [
-                    'instance' => $this->getInstance(),
+                    'instance' => $this->instance,
                     'user' => $entity,
                     'user_actual' => $this->getUser()
                 ],
@@ -52,7 +67,7 @@ final class TransformUserViewController extends BaseUserController
             $id,
             UserTransformType::class,
             [
-                'instance' => $this->getInstance(),
+                'instance' => $this->instance,
                 'user' => $entity,
                 'user_actual' => $this->getUser()
             ]
@@ -62,10 +77,13 @@ final class TransformUserViewController extends BaseUserController
             return $response;
         }
 
-        return $this->render('Admin/BaseUser/transform.html.twig', $response);
+        return $this->render(
+            (string) $this->templatePrefix . 'transform.html.twig',
+            $response
+        );
     }
 
-    protected function getUserListRoute()
+    protected function getUserListRoute(): string
     {
         return 'admin_user';
     }

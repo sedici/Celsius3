@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\BaseUser;
 
 use Celsius3\Controller\BaseUserController;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Form\Type\UserTransformType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -62,7 +64,7 @@ final class AdminBaseUserController extends BaseUserController
      *
      * @param string $id The document ID
      *
-     * @throws NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function show(string $id)
     {
@@ -122,15 +124,29 @@ final class AdminBaseUserController extends BaseUserController
     }
 
 
-    // COMPLETAR --
-    // REVISAR MEJOR LOS PROCESAMIENTOS BATCH Y UNION
-    // COMPLETAR --
+    /**
+     * Enables an existing BaseUser entity.
+     *
+     * @Route("/{id}/enable", name="admin_baseuser_enable", methods={"POST"})
+     *
+     * @param string $id The entity ID
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function enable(string $id): RedirectResponse
+    {
+        return $this->baseEnable($id);
+    }
 
 
+    // BATCH
+
+
+    // * @Route("/batch", name="admin_user_batch")
     /**
      * Apply a batch function to a group of BaseUser entities.
      *
-     * @Route("/batch", name="admin_baseuser_batch")
+     * @Route("/batch", name="admin_baseuser_batch", methods={"POST"})
      *
      * @param string $id The entity ID
      *
@@ -148,11 +164,129 @@ final class AdminBaseUserController extends BaseUserController
     }
 
 
-    protected function batchUnion($element_ids): Response
+    // UNION
+
+
+    //  * @Route("/union", name="admin_user_union")
+    /**
+     * Batch union on a group of BaseUser entities.
+     *
+     * @Route("/union", name="admin_baseuser_union", methods={"POST"})
+     */
+    public function union(): RedirectResponse
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $element_ids = (array) $request->get('element');
+        $main_id = $request->get('main');
+
+        $users = $this->doUnion($main_id, $element_ids);
+
+        $this->addEntityFlash(
+            'success', 'The %entities% were successfully joined.', $users
+        );
+
+        return $this->redirect($this->generateUrl('admin_user'));
+    }
+
+
+    private function doUnion(string $main_id, array $element_ids)
+    {
+        $main_user = $this->findUser($main_id);
+        $users = $this->findUsers($main_user, $element_ids);
+
+        $this->mergeSecondaryInstances($main_user, $users);
+
+        $this->unionManager
+            ->union(
+                $this->entityClassName,
+                $main_user,
+                $users,
+                false
+            );
+        return $users;
+    }
+
+
+    private function findUser(string $main_id): BaseUser
+    {
+        $main_user = $this->findQuery($main_id);
+
+        if (!$main_user) $this->error('entity_not_found');
+
+        return $main_user;
+    }
+
+
+    private function findUsers(BaseUser $main_user, array $element_ids): mixed
+    {
+        $users = $this->entityManager
+            ->getRepository($this->entityClassName)
+            ->findBaseDoUnionEntities(
+                $main_user,
+                $element_ids
+            );
+
+        if (count($users) !== count($element_ids) - 1)
+            $this->error('entity_not_found');
+
+        return $users;
+    }
+
+
+    protected function batchUnion(array $element_ids): Response
     {
         return $this->render(
             (string) $this->templatePrefix . 'batchUnion.html.twig',
             $this->baseUnion($element_ids)
+        );
+    }
+
+
+    // TRANSFORM
+
+
+    //  * @Route("/transform", name="admin_user_transform")
+    /**
+     * Transform an instance of BaseUser entity.
+     *
+     * @Route("/transform", name="admin_baseuser_transform", methods={"GET", "POST"})
+     */
+    public function transform(string $id): array|RedirectResponse|Response
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $entity = $this->findQuery($id);
+
+        if ($request->getMethod() === 'POST') {
+            return $this->baseDoTransform(
+                $id,
+                UserTransformType::class,
+                [
+                    'instance' => $this->instance,
+                    'user' => $entity,
+                    'user_actual' => $this->getUser()
+                ],
+                'admin_user'
+            );
+        }
+
+        $response = $this->baseTransform(
+            $id,
+            UserTransformType::class,
+            [
+                'instance' => $this->instance,
+                'user' => $entity,
+                'user_actual' => $this->getUser()
+            ]
+        );
+
+        if ($response instanceof RedirectResponse) {
+            return $response;
+        }
+
+        return $this->render(
+            (string) $this->templatePrefix . 'transform.html.twig',
+            $response
         );
     }
 }
