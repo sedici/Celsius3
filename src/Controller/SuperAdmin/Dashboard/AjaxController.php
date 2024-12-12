@@ -31,6 +31,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use function in_array;
 
+
+/**
+ * Order controller.
+ *
+ * @Route("/superadmin/ajax")
+ */
 final class AjaxController extends BaseController
 {
     
@@ -53,8 +59,14 @@ final class AjaxController extends BaseController
     }
 
 
-    public function __invoke(Request $request): Response
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/", name="superadmin_ajax")
+     */
+    public function index(): Response
     {
+        $request = $this->requestStack->getMainRequest();
         return $this->ajax($request);
     }
 

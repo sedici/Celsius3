@@ -26,12 +26,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
 use Celsius3\Controller\Mixin\FileControllerTrait;
-use Celsius3\Exception\NotFoundException;
 use Celsius3\Form\Type\FileType;
 use Celsius3\Manager\FileManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Translation\Translator;
-use Symfony\Contracts\Translation\TranslatorInterface;
+
 /**
  * File controller.
  *

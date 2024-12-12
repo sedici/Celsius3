@@ -105,7 +105,7 @@ class AdminMailListController extends BaseInstanceDependentController
     {
         return $this->baseIndex(
             type: MailFilterType::class,
-            options: [ 
+            formOptions: [ 
                 'instance' => $this->instanceHelper->getSessionOrUrlInstance()
             ]
         );

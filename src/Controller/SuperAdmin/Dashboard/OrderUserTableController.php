@@ -25,17 +25,59 @@ declare(strict_types=1);
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
 use Celsius3\Controller\BaseController;
+use Celsius3\Controller\OrderController;
+use Celsius3\Manager\StatisticManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class OrderUserTableController extends BaseController
+/**
+ * Order controller.
+ *
+ * @Route("/superadmin/orderusertable")
+ */
+final class OrderUserTableController extends OrderController
 {
-    public function __invoke(Request $request)
+
+    private StatisticManager $statsManager;
+
+    public function __construct(
+        StatisticManager $statsManager,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->statsManager = $statsManager;
+    }
+
+    protected final function getTemplatePrefix(): string
+    { return 'SuperAdmin/Dashboard/'; }
+
+
+    protected function getSortDefaults(): array
     {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/", name="superadmin_orderusertable")
+     */
+    public function index()
+    {
+        $request = $this->requestStack->getMainRequest();
+
         if (!$request->isXmlHttpRequest()) {
             return $this->createNotFoundException();
         }
 
-        return new Response(json_encode($this->get('celsius3_core.statistic_manager')->getOrderUserTableData()));
+        return new Response(
+            json_encode(
+                $this->statsManager->getOrderUserTableData()
+            )
+        );
     }
 }

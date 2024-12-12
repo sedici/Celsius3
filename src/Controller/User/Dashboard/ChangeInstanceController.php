@@ -25,29 +25,66 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Dashboard;
 
 use Celsius3\Controller\BaseInstanceDependentController;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
+use Celsius3\Form\Type\InstanceType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 use function array_key_exists;
 
+/**
+ * Change instance controller.
+ *
+ * @Route("/user/instance/")
+ */
 final class ChangeInstanceController extends BaseInstanceDependentController
 {
-    private $instanceRepository;
+    private Session $session;
     private $tokenStorage;
 
-    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage)
-    {
-        $this->instanceRepository = $entityManager->getRepository(Instance::class);
+    public function __construct(
+        Session $session,
+        TokenStorageInterface $tokenStorage,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->session = $session;
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function __invoke($id): RedirectResponse
+
+    protected final function getEntity(): string
+    { return Instance::class; }
+
+    protected final function getType(): string
+    { return InstanceType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Instance/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        $instance = $this->instanceRepository->find($id);
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    /**
+     * Change between intances.
+     *
+     * @Route("/{id}/change", name="user_change_context")
+     */
+    public function change(string $id): RedirectResponse
+    {
+        $instance = $this->findQuery($id);
         $user = $this->getUser();
 
         if (array_key_exists($id, $user->getSecondaryInstances()) || ($user->getInstance()->getId() === (int)$id)) {
@@ -55,16 +92,17 @@ final class ChangeInstanceController extends BaseInstanceDependentController
                 $user->addSecondaryInstance($user->getInstance(), $user->getRoles());
             }
 
-            if (!$instance || !array_key_exists($id, $user->getSecondaryInstances())) {
-                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
-            }
+            if (
+                !$instance
+                || !array_key_exists($id, $user->getSecondaryInstances())
+            ) $this->error('entity_not_found');
 
-            $this->get('session')->set('instance_id', $instance->getId());
-            $this->get('session')->set('instance_url', $instance->getUrl());
-            $this->get('session')->set('instance_host', $instance->getHost());
+            $this->session->set('instance_id', $instance->getId());
+            $this->session->set('instance_url', $instance->getUrl());
+            $this->session->set('instance_host', $instance->getHost());
 
-            if ($this->get('session')->get('admin_instance')) {
-                $this->get('session')->remove('admin_instance');
+            if ($this->session->get('admin_instance')) {
+                $this->session->remove('admin_instance');
             }
 
             if ($user->getSecondaryInstances()) {
@@ -73,9 +111,8 @@ final class ChangeInstanceController extends BaseInstanceDependentController
 
             $token = new UsernamePasswordToken(
                 $user,
-                null,
                 'main',
-                $user->getRoles()
+                $user->getRoles(),
             );
             $this->tokenStorage->setToken($token);
         }

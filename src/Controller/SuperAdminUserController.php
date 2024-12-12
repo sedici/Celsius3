@@ -30,7 +30,13 @@ use Celsius3\Form\Type\UserTransformType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class SuperAdminBaseUserController extends BaseUserController
+
+/**
+ * Order controller.
+ *
+ * @Route("/superadmin/user")
+ */
+final class SuperAdminUserController extends BaseUserController
 {
 
     protected final function getTemplatePrefix(): string
@@ -49,7 +55,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Lists all BaseUser entities.
      *
-     * @Route("/", name="superadmin_baseuser")
+     * @Route("/", name="superadmin_user")
      */
     public function index(): Response
     {
@@ -60,7 +66,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Finds and displays a BaseUser document.
      *
-     * @Route("/{id}/show", name="superadmin_baseuser_show")
+     * @Route("/{id}/show", name="superadmin_user_show")
      *
      * @param string $id The document ID
      *
@@ -75,7 +81,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Displays a form to create a new BaseUser entity.
      *
-     * @Route("/new", name="superadmin_baseuser_new")
+     * @Route("/new", name="superadmin_user_new")
      */
     public function new(): Response
     {
@@ -86,7 +92,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Creates a new BaseUser entity.
      *
-     * @Route("/create", name="superadmin_baseuser_create", methods={"POST"})
+     * @Route("/create", name="superadmin_user_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
     {
@@ -97,7 +103,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Displays a form to edit an existing Country entity.
      *
-     * @Route("/{id}/edit", name="superadmin_baseuser_edit")
+     * @Route("/{id}/edit", name="superadmin_user_edit")
      *
      * @param string $id The entity ID
      *
@@ -112,7 +118,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Edits an existing BaseUser entity.
      *
-     * @Route("/{id}/update", name="superadmin_baseuser_update", methods={"POST"})
+     * @Route("/{id}/update", name="superadmin_user_update", methods={"POST"})
      *
      * @param string $id The entity ID
      *
@@ -127,7 +133,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Enables an existing BaseUser entity.
      *
-     * @Route("/{id}/enable", name="superadmin_baseuser_enable", methods={"POST"})
+     * @Route("/{id}/enable", name="superadmin_user_enable", methods={"POST"})
      *
      * @param string $id The entity ID
      *
@@ -250,7 +256,7 @@ final class SuperAdminBaseUserController extends BaseUserController
     /**
      * Transform an instance of BaseUser entity.
      *
-     * @Route("/transform", name="superadmin_baseuser_transform", methods={"GET", "POST"})
+     * @Route("/transform", name="superadmin_user_transform", methods={"GET", "POST"})
      */
     public function transform(string $id): array|RedirectResponse|Response
     {

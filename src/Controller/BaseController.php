@@ -44,66 +44,25 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
-use phpDocumentor\Reflection\Types\Boolean;
 use ReflectionClass;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\Translator;
 
 abstract class BaseController extends AbstractController
 {
-    /**
-     * @var InstanceManager
-     */
-    protected $instanceManager;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var ConfigurationHelper
-     */
-    protected $configurationHelper;
-
-    /**
-     * @var PaginatorInterface
-     */
-    protected $paginator;
-
-    /**
-     * @var Translator
-     */
-    protected $translator;
-
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @var UnionManager
-     */
-    protected $unionManager;
-
-    /**
-     * @var UserManager
-     */
-    protected $userManager;
-
-    /**
-     * @var FilterManager
-     */
-    protected $filterManager;
-
+    protected InstanceManager $instanceManager;
+    protected EntityManagerInterface $entityManager;
+    protected ConfigurationHelper $configurationHelper;
+    protected PaginatorInterface $paginator;
+    protected Translator $translator;
+    protected ManagerRegistry $managerRegistry;
+    protected RequestStack $requestStack;
+    protected UnionManager $unionManager;
+    protected UserManager $userManager;
+    protected FilterManager $filterManager;
+    // ----
     protected string $entityClassName;
     protected string $typeClassName;
     protected string $templatePrefix;
@@ -256,10 +215,10 @@ abstract class BaseController extends AbstractController
 
         // ---
 
-        $query = $this->listQuery();
         $request = $this->requestStack->getCurrentRequest();
 
         if ($filter_form !== null) {
+            $query = $this->listQuery(); // Pensarlo mejor para poder parametrizar query
             $filter_form = $filter_form->handleRequest(request: $request);
             $query = $this->filterManager->filter(
                 $query, $filter_form, $this->entityClassName
@@ -361,7 +320,9 @@ abstract class BaseController extends AbstractController
 
         // ---
 
-        $form = $this->createForm($type, $entity, $formOptions);
+        $form = $this->createForm(
+            $type, $entity, $formOptions
+        );
 
         $request = $this->requestStack->getCurrentRequest();
 

@@ -24,14 +24,43 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
+use Celsius3\Controller\Api\UserController;
 use Celsius3\Controller\BaseController;
+use Celsius3\Controller\BaseInstanceDependentController;
+use Celsius3\Controller\BaseUserController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ShowSuperadminDashboardViewController extends AbstractController
+
+/**
+ * SuperAdminDashboard controller.
+ *
+ * @Route("/superadmin")
+ */
+final class ShowSuperadminDashboardViewController extends BaseUserController
 {
-    public function __invoke(): Response
+
+    protected final function getTemplatePrefix(): string
+    { return 'SuperAdmin/Dashboard/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return $this->render('Superadmin/Dashboard/index.html.twig');
+        return [
+            'defaultSortFieldName' => 'e.createdAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/", name="superadministration")
+     */
+    public function index(): Response
+    {
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig'
+        );
     }
 }

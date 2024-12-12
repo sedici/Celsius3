@@ -228,9 +228,8 @@ class AdminContactController extends BaseInstanceDependentController
         if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
-            $this->entityClassName,
-            $entity,
-            [
+            data: $entity,
+            formOptions: [
                 'owning_instance' => $this->getInstance(),
                 'user' => $entity->getUser(),
             ]
@@ -245,7 +244,7 @@ class AdminContactController extends BaseInstanceDependentController
                 $this->persistEntity($entity);
 
                 $this->customFieldHelper->processCustomContactFields(
-                    $this->getInstance(),
+                    $this->instance,
                     $editForm,
                     $entity
                 );

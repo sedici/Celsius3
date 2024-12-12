@@ -102,7 +102,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function new(): Response
     {
-        return $this->baseNew(options: ['institution_select' => true]);
+        return $this->baseNew(formOptions: ['institution_select' => true]);
     }
 
 

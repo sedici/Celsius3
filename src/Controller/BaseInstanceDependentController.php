@@ -61,10 +61,10 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function listQuery(): QueryBuilder
     {
         return $this->entityManager
-            ->getRepository(className: $this->entityClassName)
+            ->getRepository($this->entityClassName)
             ->findForInstanceAndGlobal(
                 $this->instance,
-                $this->getDirectory()
+                $this->directory
             );
     }
 

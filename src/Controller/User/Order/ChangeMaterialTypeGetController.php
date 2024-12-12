@@ -29,32 +29,54 @@ use Celsius3\Form\Type\OrderType;
 use Celsius3\Helper\InstanceHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Celsius3\Controller\BaseInstanceDependentController;
 
-final class ChangeMaterialTypeGetController extends AbstractController
+
+/**
+ * User order controller.
+ *
+ * @Route("/user/order")
+ */
+final class ChangeMaterialTypeGetController extends BaseInstanceDependentController
 {
-    private $instanceHelper;
 
-    public function __construct(InstanceHelper $instanceHelper)
+    protected final function getEntity(): string
+    { return Order::class; }
+
+    protected final function getType(): string
+    { return OrderType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Order/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        $this->instanceHelper = $instanceHelper;
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
     }
+
 
     public function __invoke(Request $request)
     {
         $material = $this->materialTypeClass($request);
 
+        $entityClassName = $this->entityClassName;
+
         $form = $this->createForm(
-            OrderType::class,
-            new Order(),
+            $this->typeClassName,
+            new $entityClassName(),
             [
-                'instance' => $this->instanceHelper->getSessionInstance(),
+                'instance' => $this->instance,
                 'material' => $material,
                 'actual_user' => $this->getUser(),
             ]
         );
 
         return $this->render(
-            'Order/_materialData.html.twig',
+            (string) $this->templatePrefix . '_materialData.html.twig',
             [
                 'form' => $form->createView(),
                 'material' => $request->get('material'),

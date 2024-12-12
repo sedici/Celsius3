@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\File;
 
+use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
 use Celsius3\Exception\Exception;
@@ -31,34 +32,53 @@ use Celsius3\Exception\NotFoundException;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Celsius3\Manager\FileManager;
+use Celsius3\Repository\FileRepository;
+use Celsius3\Repository\RequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class DownloadController extends AbstractController
+/**
+ * User file download controller.
+ *
+ * @Route("/user/file")
+ */
+final class DownloadController extends BaseUserController
 {
-    private $fileManager;
+    private FileManager $fileManager;
     private $requestRepository;
     private $fileRepository;
-    private $tokenStorage;
-    private $lifecycleHelper;
+    private TokenStorageInterface $tokenStorage;
+    private LifecycleHelper $lifecycleHelper;
 
     public function __construct(
         FileManager $fileManager,
-        EntityManagerInterface $entityManager,
         TokenStorageInterface $tokenStorage,
-        LifecycleHelper $lifecycleHelper
+        LifecycleHelper $lifecycleHelper,
+        ... $args
     ) {
+        parent::__construct(... $args);
         $this->fileManager = $fileManager;
-        $this->requestRepository = $entityManager->getRepository(Request::class);
-        $this->fileRepository = $entityManager->getRepository(File::class);
+        $this->requestRepository = $this->entityManager->getRepository(Request::class);
+        $this->fileRepository = $this->entityManager->getRepository(File::class);
         $this->tokenStorage = $tokenStorage;
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
-    public function __invoke(HttpRequest $httpRequest, $request, $file): Response
+    protected final function getTemplatePrefix(): string
+    { return ''; }
+
+
+    /**
+     * User download file.
+     *
+     * @Route("/{request}/{file}/download", name="user_file_download")
+     */
+    public function fileDownload(HttpRequest $httpRequest, $request, $file)
     {
         $request = $this->requestRepository->find($request);
         $file = $this->fileRepository->find($file);
@@ -70,12 +90,11 @@ final class DownloadController extends AbstractController
 
         $this->validate($request, $file, $httpRequest);
 
-        $response = new Response();
-        $response->headers->set('Content-type', mime_content_type($filename));
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $file->getName() . '"');
-        $response->headers->set('Content-length', filesize($filename));
-        $response->sendHeaders();
-        $response->setContent(readfile($filename));
+        $response = new BinaryFileResponse($filename);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $file->getName()
+        );
 
         return $response;
     }

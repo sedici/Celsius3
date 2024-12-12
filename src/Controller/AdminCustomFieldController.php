@@ -24,10 +24,8 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\CustomField;
 use Celsius3\Form\Type\CustomFieldType;
-use Celsius3\Form\Type\Filter\CustomFieldFilterType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -37,6 +35,17 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminCustomFieldController extends BaseInstanceDependentController
 {
+    
+    protected final function getEntity(): string
+    { return CustomField::class; }
+
+    protected final function getType(): string
+    { return CustomFieldType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/CustomField/'; }
+
+
     protected function getSortDefaults(): array
     {
         return [
@@ -50,18 +59,11 @@ class AdminCustomFieldController extends BaseInstanceDependentController
      *
      * @Route("/", name="admin_customuserfield")
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->render(
-            'Admin/CustomField/index.html.twig',
-            $this->baseIndex(
-                'CustomField',
-                $this->createForm(CustomFieldFilterType::class, null, [
-                    'instance' => $this->getInstance(),
-                ])
-            )
-        );
+        return $this->baseInstanceIndex();
     }
+
 
     /**
      * Displays a form to create a new CustomField entity.
@@ -70,23 +72,18 @@ class AdminCustomFieldController extends BaseInstanceDependentController
      */
     public function new(): Response
     {
-        return $this->render('Admin/CustomField/new.html.twig',
-            $this->baseNew('CustomField', new CustomField(), CustomFieldType::class, [
-            'instance' => $this->getInstance(),
-        ]));
+        return $this->baseInstanceNew();
     }
+
 
     /**
      * Creates a new CustomField entity.
      *
      * @Route("/create", name="admin_customuserfield_create", methods={"POST"})
      */
-    public function create()
+    public function create(): RedirectResponse|Response
     {
-        return $this->render('Admin/CustomField/new.html.twig', $this->baseCreate('CustomField', new CustomField(), CustomFieldType::class, [
-            'instance' => $this->getInstance(),
-        ], 'admin_customuserfield'));
-
+        return $this->baseInstanceCreate();
     }
 
     /**
@@ -98,12 +95,11 @@ class AdminCustomFieldController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit(string $id): Response
     {
-        return $this->render('Admin/CustomField/edit.html.twig', $this->baseEdit('CustomField', $id, CustomFieldType::class, [
-            'instance' => $this->getInstance(),
-        ]));
+        return $this->baseInstanceEdit($id);
     }
+
 
     /**
      * Edits an existing CustomField entity.
@@ -114,10 +110,10 @@ class AdminCustomFieldController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): RedirectResponse|Response
     {
-        return $this->render('Admin/CustomField/edit.html.twig', $this->baseUpdate('CustomField', $id, CustomFieldType::class, [
-            'instance' => $this->getInstance(),
-        ], 'admin_customuserfield'));
+        return $this->baseInstanceUpdate(
+            $id, 'admin_customuserfield'
+        );
     }
 }

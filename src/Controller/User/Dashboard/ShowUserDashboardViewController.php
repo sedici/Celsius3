@@ -24,41 +24,75 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Dashboard;
 
+use Celsius3\Controller\BaseInstanceDependentController;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Configuration;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Entity\Thread;
+use Celsius3\Form\Type\BaseUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ShowUserDashboardViewController extends AbstractController
+/**
+ * Show dashboard controller.
+ *
+ * @Route("/user")
+ */
+final class ShowUserDashboardViewController extends BaseInstanceDependentController
 {
     private $threadRepository;
     private $configurationRepository;
-    private $instanceHelper;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper
+        ... $args
     ) {
-        $this->threadRepository = $entityManager->getRepository(Thread::class);
-        $this->configurationRepository = $entityManager->getRepository(Configuration::class);
-        $this->instanceHelper = $instanceHelper;
+        parent::__construct(... $args);
+        $this->threadRepository = $entityManager
+            ->getRepository(Thread::class);
+        $this->configurationRepository = $entityManager
+            ->getRepository(Configuration::class);
     }
 
-    public function __invoke(): Response
+
+    protected final function getEntity(): string
+    { return BaseUser::class; }
+
+    protected final function getType(): string
+    { return BaseUserType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'User/Dashboard/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    /**
+     * Dashboard index.
+     *
+     * @Route("/", name="user_index")
+     */
+    public function index(): Response
     {
         $last_messages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
         $results_per_page_config = $this->configurationRepository->findOneBy(
             [
-                'instance' => $this->instanceHelper->getSessionInstance(),
+                'instance' => $this->instance,
                 'key' => ConfigurationHelper::CONF__RESULTS_PER_PAGE,
             ]
         );
 
         return $this->render(
-            'User/Dashboard/index.html.twig',
+            (string) $this->templatePrefix . 'index.html.twig',
             [
                 'lastMessages' => $last_messages,
                 'resultsPerPage' => $results_per_page_config->getValue(),

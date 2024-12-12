@@ -56,7 +56,7 @@ class JournalRepository extends BaseRepository
             ]
         );
 
-        if (!is_null($instance)) {
+        if ($instance !== null) {
             $qb = $qb->andWhere('j.instance = :instance_id OR j.instance = :directory_id')
                 ->setParameter('instance_id', $instance->getId())
                 ->setParameter('directory_id', $directory->getId());

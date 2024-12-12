@@ -30,6 +30,11 @@ use Celsius3\Form\Type\UserTransformType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Admin BaseUser controller.
+ *
+ * @Route("/admin/user")
+ */
 final class AdminBaseUserController extends BaseUserController
 {
 

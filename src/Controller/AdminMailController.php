@@ -32,10 +32,14 @@ use Celsius3\Form\Type\MailTemplateType;
 use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\Exception\Exception;
 use Celsius3\Validator\Constraints as CelsiusAssert;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 /**
  * Order controller.
@@ -44,18 +48,39 @@ use Symfony\Component\Translation\Translator;
  */
 class AdminMailController extends BaseInstanceDependentController
 {
-    protected function listQuery($name)
-    {
-        return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)
-                        ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
+
+    private AuthorizationChecker $authorizationChecker;
+
+    private ValidatorInterface $validator;
+
+    public function __construct(
+        AuthorizationChecker $authorizationChecker,
+        ValidatorInterface $validator,
+        ...$args
+    ) {
+        parent::__construct(... $args);
+        $this->authorizationChecker = $authorizationChecker;
+        $this->validator = $validator;
     }
 
-    protected function findQuery($name, $id)
+    protected final function getEntity(): string
+    { return MailTemplate::class; }
+
+    protected final function getType(): string
+    { return MailTemplateType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Mail/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3:'.$name)->find($id);
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
     }
+
 
     /**
      * Lists all Templates Mail.
@@ -64,14 +89,11 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function index(): Response
     {
-        return $this->render(
-            'Admin/Mail/index.html.twig',
-            $this->baseIndex(
-                'MailTemplate',
-                $this->createForm(MailTemplateFilterType::class)
-            )
+        return $this->baseInstanceIndex(filter_form: 
+            $this->createForm(MailTemplateFilterType::class)
         );
     }
+
 
     /**
      * Displays a form to create a new mail template.
@@ -80,19 +102,14 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function new(): Response
     {
-        return $this->render(
-            'Admin/Mail/new.html.twig',
-            $this->baseNew(
-                'MailTemplate',
-                new MailTemplate(),
-                MailTemplateType::class,
-                [
-                    'instance' => $this->getInstance(),
-                    'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
-                ]
-            )
+        return $this->baseInstanceNew(
+            options: [
+                'super_admin' => $this->authorizationChecker
+                    ->isGranted('ROLE_SUPER_ADMIN')
+            ]
         );
     }
+
 
     /**
      * Displays a form to edit an existing mail template.
@@ -103,18 +120,20 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
+    public function edit(string $id): RedirectResponse|Response
     {
         //Se debe determinar si se utilizara admin_mails_edit o admin_mails_create, dependiendo
         //si la plantilla le pertenece al directorio o a la instancia.
-        $template = $this->findQuery('MailTemplate', $id);
+        $entity = $this->findQuery($id);
 
-        if ($template->getInstance() !== $this->getDirectory()) {
+        if ($entity->instance !== $this->directory) {
             $route = $this->generateUrl('admin_mails_update', ['id' => $id]);
         } else {
-            $result = $this->getDoctrine()->getManager()
-                ->getRepository(MailTemplate::class)
-                ->findBy(['code' => $template->getCode(), 'instance' => $this->getInstance()]);
+            $result = $this->repository
+                ->findBy([
+                    'code' => $entity->getCode(),
+                    'instance' => $this->instance
+                ]);
 
             if (count($result) > 0) {
                 return $this->redirectToRoute('admin_mails');
@@ -123,16 +142,26 @@ class AdminMailController extends BaseInstanceDependentController
             $route = $this->generateUrl('admin_mails_create');
         }
 
-        return $this->render(
-            'Admin/Mail/edit.html.twig',
-            $this->baseEdit('MailTemplate', $id, MailTemplateType::class, [
+        $form = $this->createForm(
+            formOptions: [
                 'instance' => $this->getInstance(),
-                'code' => $template->getCode(),
+                'code' => $entity->getCode(),
                 'action' => $route,
-                'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
-            ])
+                'super_admin' => $this->authorizationChecker
+                    ->isGranted('ROLE_SUPER_ADMIN')
+            ]
+        );
+
+        return $this->render(
+            (string) $this->templatePrefix . 'edit.html.twig',
+            [
+                'entity' => $entity,
+                'edit_form' => $form->createView(),
+                'route' => $route,
+            ]
         );
     }
+
 
     /**
      * Creates a new Mail Entity.
@@ -140,36 +169,11 @@ class AdminMailController extends BaseInstanceDependentController
      * @Route("/create", name="admin_mails_create", methods={"POST"})
      *
      */
-    public function create()
+    public function create(): RedirectResponse|Response
     {
-        /** @var $translator Translator */
-        $translator = $this->get('translator');
-
-        $entity = new MailTemplate();
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $form = $this->createForm(MailTemplateType::class, $entity, ['instance' => $this->getInstance()]);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $errorList = $this->get('validator')->validate($entity->getText(), new CelsiusAssert\MailTemplate());
-            if (0 === count($errorList)) {
-                try {
-                    $this->persistEntity($entity);
-                    $this->addFlash('success', $translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
-
-                    return $this->redirect($this->generateUrl('admin_mails'));
-                } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                    $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
-                }
-            }
-        }
-
-        $this->addFlash('error', $translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
-
-        return $this->render('Admin/Mail/new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ));
+        return $this->baseInstanceCreate();
     }
+
 
     /**
      * Edits an existing Mail TEmplate.
@@ -180,47 +184,58 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): RedirectResponse|Response
     {
-        /** @var $translator Translator */
-        $translator = $this->get('translator');
+        $entity = $this->findQuery($id);
 
-        $entity = $this->findQuery('MailTemplate', $id);
+        if (!$entity) $this->error('entity_not_found');
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
-        }
+        $editForm = $this->createForm(data: $entity);
 
-        $editForm = $this->createForm(MailTemplateType::class, $entity, ['instance' => $this->getInstance()]);
-
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $errorList = $this->get('validator')->validate($entity->getText(), new CelsiusAssert\MailTemplate());
+            $errorList = $this->validator->validate(
+                $entity->getText(),
+                new CelsiusAssert\MailTemplate()
+            );
+
             if (0 === count($errorList)) {
                 try {
                     $this->persistEntity($entity);
 
-                    $this->addFlash('success', $translator->trans('The %entity% was successfully edited.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
+                    $this->addEntityFlash(
+                        'success', 'The %entity% was successfully edited.'
+                    );
 
-                    return $this->redirect($this->generateUrl('admin_mails_edit', array('id' => $id)));
-                } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                    $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
+                    return $this->redirect(
+                        $this->generateUrl(
+                            'admin_mails_edit',
+                            [ 'id' => $id ]
+                        )
+                    );
+                } catch (UniqueConstraintViolationException $e) {
+                    $this->addEntityFlash(
+                        'error', 'The %entity% already exists.'
+                    );
                 }
             } else {
                 $editForm->get('text')->addError(new FormError('error.invalid.mail_template'));
             }
         }
 
-        $this->addFlash('error', $translator->trans('There were errors editing the %entity%.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
-
-        return $this->render('Admin/Mail/edit.html.twig', array(
+        $this->addEntityFlash(
+            'error', 'There were errors editing the %entity%.'
+        );
+    
+        return $this->render('Admin/Mail/edit.html.twig', [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-        ));
+        ]);
     }
+
 
     /**
      * Change state an existing Mail TEmplate.
@@ -231,22 +246,22 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function changeState($id): Response
+    public function changeState(string $id): Response
     {
-        $template = $this->findQuery('MailTemplate', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$template || $template->getInstance()->getId() === $this->getDirectory()->getId()) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
-        }
+        if (!$entity || $entity->getInstance()->getId() === $this->directory->getId())
+            $this->error('entity_not_found');
 
-        $template->setEnabled(!$template->getEnabled());
+        $entity->setEnabled(!$entity->getEnabled());
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($template);
-        $em->flush();
+        $this->persistEntity($entity);
 
-        $this->get('session')->getFlashBag()
-                ->add('success', 'The Template was successfully '.(($template->getEnabled()) ? 'enabled' : 'disabled'));
+        $this->addFlash(
+            'success', 'The Template was successfully '.(
+                ($entity->getEnabled()) ? 'enabled' : 'disabled'
+            )
+        );
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }

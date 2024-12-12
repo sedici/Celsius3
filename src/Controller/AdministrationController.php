@@ -27,106 +27,129 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Configuration;
 use Celsius3\Entity\DataRequest;
+use Celsius3\Entity\File;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\MailTemplate;
 use Celsius3\Entity\State;
-use Celsius3\Form\Type\DataRequestType;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
+use Celsius3\Mailer\Mailer;
 use Celsius3\Manager\Alert;
 use Celsius3\Manager\UserManager;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig\Environment;
 
 use function count;
-use function filesize;
 use function in_array;
-use function is_array;
 use function json_encode;
-use function mime_content_type;
-use function readfile;
 
 /**
  * Administration controller.
  *
  * @Route("/admin")
  */
-class AdministrationController extends AbstractController //BaseInstanceDependentController
+class AdministrationController extends BaseInstanceDependentController
 {
-    private $configurationHelper;
-    private $entityManager;
-    private $instanceHelper;
-    /**
-     * @var UserManager
-     */
-    private $userManager;
+
+    private UserManager $userManager;
+    private Session $session;
+    private Environment $twig;
+    private Mailer $mailer;
+    private $fileRepository;
+
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        ConfigurationHelper $configurationHelper,
-        InstanceHelper $instanceHelper,
-        UserManager $userManager
-    )
-    {
-        $this->configurationHelper = $configurationHelper;
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
+        UserManager $userManager,
+        Session $session,
+        Environment $twig,
+        Mailer $mailer,
+        ... $args
+    ){
+        parent::__construct(... $args);
         $this->userManager = $userManager;
+        $this->session = $session;
+        $this->mailer = $mailer;
+        $this->twig = $twig;
+        $this->fileRepository = $this->entityManager
+            ->getRepository(File::class);
     }
-    
-    protected function getInstance(): Instance
+
+
+    protected final function getEntity(): string
+    { return Configuration::class; }
+
+    protected final function getType(): string
+    { return Configuration::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Dashboard/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return $this->instanceHelper->getSessionInstance();
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
     }
+
 
     /**
      * @Route("/", name="administration", options={"expose"=true})
      */
-    public function index()
+    public function index(): Response
     {
         $config_helper = $this->configurationHelper;
-        $results_per_page_config = $this->entityManager
-            ->getRepository(Configuration::class)
+        $results_per_page_config = $this->repository
             ->findOneBy(
                 [
-                    'instance' => $this->getInstance(),
+                    'instance' => $this->instance,
                     'key' => $config_helper::CONF__RESULTS_PER_PAGE,
                 ]
             );
 
-        return $this->render('Admin/Dashboard/index.html.twig', [
-            'resultsPerPage' => $results_per_page_config->getValue(),
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig',
+            [
+                'resultsPerPage' => $results_per_page_config->getValue(),
+            ]
+        );
     }
+
 
     /**
      * @Route("/ajax", name="admin_ajax")
      */
-    public function ajax(Request $request)
-    {
-        return $this->parentAjax($request, $this->getInstance());
+    public function ajax(
+        Request $request = null,
+        Instance $instance = null
+    ): Response {
+        return parent::ajax(
+            $this->requestStack->getCurrentRequest(),
+            $this->instance
+        );
     }
+
 
     /**
      * @Route("/ajax_username", name="admin_ajax_usernames")
      */
-    public function usernamesAjax(Request $request)
+    public function usernamesAjax(Request $request): NotFoundHttpException|Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->createNotFoundException();
         }
 
-        $instance = $this->getInstance();
+        $instance = $this->instance;
         $term = $request->query->get('term');
 
         $result = $this->entityManager
@@ -134,8 +157,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
             ->findByTerm(
                 $term,
                 $instance,
-                null,
-                $this->get('celsius3_core.user_manager')->getLibrarianInstitutions()
+                null
             )
             ->getResult();
 
@@ -148,10 +170,12 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
         }
 
         $response = new Response(json_encode($json));
-        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set(
+            'Content-Type', 'application/json');
 
         return $response;
     }
+
 
     /**
      * GET Route annotation.
@@ -170,7 +194,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
 
         $templates = $entity_manager->getRepository(MailTemplate::class)->findAllEnabled();
 
-        $errors = $this->get('session')->getFlashBag()->get('errors');
+        $errors = $this->session->getFlashBag()->get('errors');
 
         $error = false;
         $error_message = '';
@@ -196,6 +220,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
             'errorMessage' => $error_message,
         ]);
     }
+
 
     /**
      * @Route("/send_reminder_emails_batch", name="admin_send_reminder_emails_batch", methods={"POST"})
@@ -230,8 +255,8 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
             }
         }
 
-        $mailer = $this->get('celsius3_core.mailer');
-        $twig = $this->get('twig');
+        $mailer = $this->mailer;
+        $twig = $this->twig;
 
         foreach ($users as $user) {
             try {
@@ -239,7 +264,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
                 $body = $template->render(['user' => $user]);
                 $mailer->sendEmail($user['email'], $subject, $body, $this->getInstance());
             } catch (Exception $e) {
-                $this->get('session')->getFlashBag()->set('errors', 'Invalid Template');
+                $this->addFlash('error', 'Invalid Template');
 
                 return $this->redirectToRoute('admin_send_reminder_emails');
             }
@@ -255,29 +280,29 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
      */
     public function dataRequestDownload(DataRequest $dataRequest)
     {
-        $entity_manager = $this->get('doctrine.orm.entity_manager');
-
         $filename = $dataRequest->getFile();
         $directory = $this->getParameter('data_requests_directory');
-        $filepath = $directory.$filename;
+        $filepath = (string) $directory.$filename;
+        $file = $this->fileRepository->find($filepath);
 
         if (!file_exists($filepath)) {
             Alert::add(Alert::ERROR, 'The requested file does not exists.');
             return $this->redirectToRoute('administration');
         }
 
-        $entity_manager->persist($dataRequest->setDownloaded(true));
-        $entity_manager->flush($dataRequest);
+        $this->persistEntity(
+            $dataRequest->setDownloaded(true)
+        );
 
-        $response = new Response();
-        $response->headers->set('Content-type', mime_content_type($filepath));
-        $response->headers->set('Content-Disposition', 'attachment;filename="'.$filename.'"');
-        $response->headers->set('Content-length', filesize($filepath));
-        $response->sendHeaders();
-        $response->setContent(readfile($filepath));
+        $response = new BinaryFileResponse($filename);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $file->getName()
+        );
 
         return $response;
     }
+
 
     /**
      * @Route("/data_request_get", name="admin_instance_data_requests_get", options={"expose"=true})
@@ -289,6 +314,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
 
         return new Response(json_encode($result));
     }
+
 
     /**
      * @Route("/interaction_get", name="admin_instance_interaction_get", options={"expose"=true}, methods={"POST"})
@@ -376,7 +402,7 @@ class AdministrationController extends AbstractController //BaseInstanceDependen
 
         $result = $this->entityManager
             ->getRepository('Celsius3\\Entity\\'.$target)
-            ->findByTerm($term, $instance, null, $insts)
+            ->findByTerm($term, $instance, null)
             ->getResult();
 
         $json = [];

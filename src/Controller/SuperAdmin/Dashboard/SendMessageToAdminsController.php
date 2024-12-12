@@ -24,20 +24,43 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
-use Celsius3\Controller\BaseController;
-use Celsius3\Entity\BaseUser;
+use Celsius3\Controller\BaseUserController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Translation\Translator;
 
-final class SendMessageToAdminsController extends BaseController
+/**
+ * Order controller.
+ *
+ * @Route("/superadmin/admins_message")
+ */
+final class SendMessageToAdminsController extends BaseUserController
 {
-    public function __invoke(Request $request): RedirectResponse
+
+    protected final function getTemplatePrefix(): string
+    { return 'BaseUser/Order/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        $subject = $request->request->get('subject');
-        $content = $request->request->get('message');
+        return [
+            'defaultSortFieldName' => 'e.createdAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/", name="superadmin_admins_message", methods={"POST", "GET"})
+     */
+    public function index(): RedirectResponse
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $subject = $request->get('subject');
+        $content = $request->get('message');
 
         if (!$content || empty($content)) {
             throw new NotFoundHttpException();
@@ -46,9 +69,11 @@ final class SendMessageToAdminsController extends BaseController
         $composer = $this->get('fos_message.composer');
 
         $user = $this->getUser();
-        $admins = new ArrayCollection($this->getDoctrine()
-            ->getRepository(BaseUser::class)
-            ->findAllAdmins());
+        $admins = new ArrayCollection(
+            $this->repository
+                ->getRepository($this->entityClassName)
+                ->findAllAdmins()
+        );
 
         $message = $composer->newThread()
             ->setSender($user)
@@ -61,10 +86,14 @@ final class SendMessageToAdminsController extends BaseController
 
         $sender->send($message);
 
-        /** @var $translator Translator */
-        $translator = $this->get('translator');
-
-        $this->addFlash('success', $translator->trans('The message was sent', [], 'Flashes'));
+        $this->addFlash(
+            'success',
+            $this->translator->trans(
+                'The message was sent',
+                [],
+                'Flashes'
+            )
+        );
 
         return $this->redirectToRoute('superadministration');
     }

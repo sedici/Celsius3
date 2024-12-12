@@ -22,123 +22,48 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Journal;
 use Celsius3\Exception\Exception;
-use Celsius3\Form\Type\Filter\JournalFilterType;
 use Celsius3\Form\Type\JournalType;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\CatalogManager;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\InstanceManager;
-use Celsius3\Manager\UserManager;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Repository\EventRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Location controller.
  *
  * @Route("/admin/journal")
  */
-class AdminJournalController extends AbstractController
+class AdminJournalController extends BaseInstanceDependentController
 {
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-    /**
-     * @var FilterManager
-     */
-    private $filterManager;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
-    /**
-     * @var UserManager
-     */
-    private $userManager;
-    /**
-     * @var Security
-     */
-    private $security;
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
+
+    private EventRepository $eventRepository;
+    private Security $security;
 
     public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        ConfigurationHelper $configurationHelper,
-        FilterManager $filterManager,
-        PaginatorInterface $paginator,
-        InstanceHelper $instanceHelper,
-        UserManager $userManager,
+        EventRepository $eventRepository,
         Security $security,
-        TranslatorInterface $translator
+        ... $args
     ) {
-        $this->instanceManager = $instanceManager;
-        $this->entityManager = $entityManager;
-        $this->configurationHelper = $configurationHelper;
-        $this->filterManager = $filterManager;
-        $this->paginator = $paginator;
-        $this->instanceHelper = $instanceHelper;
-        $this->userManager = $userManager;
+        parent::__construct(... $args);
+        $this->eventRepository = $eventRepository;
         $this->security = $security;
-        $this->translator = $translator;
     }
 
-    protected function listQuery()
-    {
-        return $this->entityManager
-            ->getRepository(Journal::class)
-            ->findForInstanceAndGlobal(
-                $this->instanceHelper->getSessionOrUrlInstance(),
-                $this->instanceManager->getDirectory()
-            );
-    }
+    protected final function getEntity(): string
+    { return Journal::class; }
 
-    protected function findShowQuery($id)
-    {
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Journal::class)
-            ->findOneForInstanceOrGlobal(
-                $this->instanceHelper->getSessionOrUrlInstance(),
-                $this->instanceManager->getDirectory(),
-                $id
-            );
-    }
+    protected final function getType(): string
+    { return JournalType::class; }
 
-    protected function getResultsPerPage()
-    {
-        return $this->configurationHelper
-            ->getCastedValue(
-                $this->instanceHelper->getSessionOrUrlInstance()->get('results_per_page')
-            );
-    }
+    protected final function getTemplatePrefix(): string
+    { return 'Admin/Journal/'; }
 
-    protected function getSortDefaults()
+
+    protected function getSortDefaults(): array
     {
         return [
             'defaultSortFieldName' => 'e.name',
@@ -146,39 +71,39 @@ class AdminJournalController extends AbstractController
         ];
     }
 
+
+    protected function findQuery($id)
+    {
+        $isAdmin = $this->userManager
+            ->getCurrentRole($this->security->getUser()) === 'ROLE_SUPER_ADMIN';
+
+        return $this->entityManager
+            ->getRepository($this->entityClassName)
+            ->findQuery($this->instance, $id, $isAdmin);
+    }
+
+
+    protected function findShowQuery(string $id)
+    {
+        return $this->repository
+            ->findOneForInstanceOrGlobal(
+                $this->instance,
+                $this->directory,
+                $id
+            );
+    }
+
+
     /**
      * Lists all Journal entities.
      *
      * @Route("/", name="admin_journal")
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        $query = $this->listQuery();
-
-        $filterForm = $this->createForm(JournalFilterType::class, null, [
-            'instance' => $this->instanceHelper->getSessionOrUrlInstance(),
-        ]);
-
-        if ($filterForm !== null) {
-            $filterForm = $filterForm->handleRequest($request);
-            $query = $this->filterManager->filter($query, $filterForm, Journal::class);
-        }
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->getResultsPerPage(),
-            $this->getSortDefaults()
-        );
-
-        return $this->render(
-            'Admin/Journal/index.html.twig',
-            [
-                'pagination' => $pagination,
-                'filter_form' => ($filterForm !== null) ? $filterForm->createView() : $filterForm,
-            ]
-        );
+        return $this->baseInstanceIndex();
     }
+
 
     /**
      * Displays data for a Journal.
@@ -192,25 +117,35 @@ class AdminJournalController extends AbstractController
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
         }
-        $receptions = $this->getDoctrine()->getRepository(Event::class)
-            ->getPreviousJournalReceivedRequests($this->instanceHelper->getSessionOrUrlInstance(), $entity);
-        $results = $this->getDoctrine()->getRepository(Event::class)
-            ->getPreviousJournalSearches($this->instanceHelper->getSessionOrUrlInstance(), $entity);
+        $receptions = $this->eventRepository
+            ->getPreviousJournalReceivedRequests(
+                $this->instance, $entity
+            );
+
+        $results = $this->eventRepository
+            ->getPreviousJournalSearches(
+                $this->instance, $entity
+            );
 
         $searches = [
             CatalogManager::CATALOG__FOUND => [],
             CatalogManager::CATALOG__PARTIALLY_FOUND => [],
         ];
+
         foreach ($results as $search) {
             $searches[$search->getResult()][] = $search;
         }
 
-        return $this->render('Admin/Journal/show.html.twig', [
-            'entity' => $entity,
-            'searches' => $searches,
-            'receptions' => $receptions,
-        ]);
+        return $this->render(
+            $this->templatePrefix . 'show.html.twig',
+            [
+                'entity' => $entity,
+                'searches' => $searches,
+                'receptions' => $receptions,
+            ]
+        );
     }
+
 
     /**
      * Displays a form to create a new Journal entity.
@@ -219,22 +154,9 @@ class AdminJournalController extends AbstractController
      */
     public function new(): Response
     {
-        $entity = new Journal();
-
-        $form = $this->createForm(
-            JournalType::class,
-            $entity,
-            ['instance' => $this->instanceHelper->getSessionOrUrlInstance()]
-        );
-
-        return $this->render(
-            'Admin/Journal/new.html.twig',
-            [
-                'entity' => $entity,
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->baseInstanceNew();
     }
+
 
     /**
      * Creates a new Journal entity.
@@ -242,60 +164,11 @@ class AdminJournalController extends AbstractController
      * @Route("/create", name="admin_journal_create", methods={"POST"})
      *
      */
-    public function create(Request $request)
+    public function create(): RedirectResponse|Response
     {
-        $entity = new Journal();
-
-        $form = $this->createForm(
-            JournalType::class,
-            $entity,
-            ['instance' => $this->instanceHelper->getSessionOrUrlInstance()]
-        );
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            try {
-                $this->persistEntity($entity);
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'The %entity% was successfully created.',
-                        ['%entity%' => $this->translator->trans('Journal')],
-                        'Flashes'
-                    )
-                );
-
-                return $this->redirect($this->generateUrl('admin_journal'));
-            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash(
-                    'error',
-                    $this->translator->trans(
-                        'The %entity% already exists.',
-                        ['%entity%' => $this->translator->trans('Journal')],
-                        'Flashes'
-                    )
-                );
-            }
-        }
-
-        $this->addFlash(
-            'error',
-            $this->translator->trans(
-                'There were errors creating the %entity%.',
-                ['%entity%' => $this->translator->trans('Journal')],
-                'Flashes'
-            )
-        );
-
-        return $this->render(
-            'Admin/Journal/new.html.twig',
-            [
-                'entity' => $entity,
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->baseInstanceCreate();
     }
+
 
     /**
      * Displays a form to edit an existing Journal entity.
@@ -306,26 +179,11 @@ class AdminJournalController extends AbstractController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
-        $entity = $this->findQuery($id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND);
-        }
-
-        $editForm = $this->createForm(JournalType::class, $entity, [
-            'instance' => $this->instanceHelper->getSessionOrUrlInstance(),
-        ]);
-
-        return $this->render(
-            'Admin/Journal/edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView()
-            ]
-        );
+        return $this->baseInstanceEdit($id);
     }
+
 
     /**
      * Edits an existing Journal entity.
@@ -337,80 +195,8 @@ class AdminJournalController extends AbstractController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update(Request $request, $id)
+    public function update(string $id): RedirectResponse|Response
     {
-        $entity = $this->findQuery($id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND);
-        }
-
-        $editForm = $this->createForm(
-            JournalType::class,
-            $entity,
-            [
-                'instance' => $this->instanceHelper->getSessionOrUrlInstance()
-            ]
-        );
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            try {
-                $this->persistEntity($entity);
-
-                $this->addFlash(
-                    'success',
-                    $this->translator->trans(
-                        'The %entity% was successfully edited.',
-                        ['%entity%' => $this->translator->trans('Journal')],
-                        'Flashes'
-                    )
-                );
-
-                return $this->redirect($this->generateUrl('admin_journal_edit', ['id' => $id]));
-            } catch (UniqueConstraintViolationException $exception) {
-                $this->addFlash(
-                    'error',
-                    $this->translator->trans(
-                        'The %entity% already exists.',
-                        ['%entity%' => $this->translator->trans('Journal')],
-                        'Flashes'
-                    )
-                );
-            }
-        }
-
-        $this->addFlash(
-            'error',
-            $this->translator->trans(
-                'There were errors editing the %entity%.',
-                ['%entity%' => $this->translator->trans('Journal')],
-                'Flashes'
-            )
-        );
-
-        return $this->render(
-            'Admin/Journal/edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView(),
-            ]
-        );
-    }
-
-    protected function findQuery($id)
-    {
-        $isAdmin = $this->userManager->getCurrentRole($this->security->getUser()) === 'ROLE_SUPER_ADMIN';
-
-        return $this->entityManager
-            ->getRepository(Journal::class)
-            ->findQuery($this->instanceHelper->getSessionOrUrlInstance(), $id, $isAdmin);
-    }
-
-    protected function persistEntity($entity): void
-    {
-        $this->entityManager->persist($entity);
-        $this->entityManager->flush();
+        return $this->baseInstanceUpdate($id, 'admin_journal');
     }
 }
