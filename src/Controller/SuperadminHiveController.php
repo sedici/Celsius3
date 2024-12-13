@@ -41,9 +41,6 @@ class SuperadminHiveController extends BaseController
     protected final function getType(): string
     { return HiveType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Superadmin/Hive/'; }
-
 
     protected function getSortDefaults(): array
     {
@@ -60,9 +57,7 @@ class SuperadminHiveController extends BaseController
      * @Route("/", name="superadmin_hive")
      */
     public function index(): Response
-    {
-        return $this->baseIndex();
-    }
+    { return $this->baseIndex(); }
 
 
     /**
@@ -71,9 +66,7 @@ class SuperadminHiveController extends BaseController
      * @Route("/new", name="superadmin_hive_new")
      */
     public function new(): Response
-    {
-        return $this->baseNew();
-    }
+    { return $this->baseNew(); }
 
 
     /**
@@ -82,9 +75,7 @@ class SuperadminHiveController extends BaseController
      * @Route("/create", name="superadmin_hive_create", methods={"POST"})
      */
     public function create()
-    {
-        return $this->baseCreate(route: 'superadmin_hive');
-    }
+    { return $this->baseCreate(route: 'superadmin_hive'); }
 
 
     /**
@@ -97,9 +88,7 @@ class SuperadminHiveController extends BaseController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function edit($id): Response
-    {
-        return $this->baseEdit($id);
-    }
+    { return $this->baseEdit($id); }
 
 
     /**
@@ -112,7 +101,5 @@ class SuperadminHiveController extends BaseController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function update($id): Response
-    {
-        return $this->baseUpdate($id, 'superadmin_hive');
-    }
+    { return $this->baseUpdate($id, 'superadmin_hive'); }
 }

@@ -22,7 +22,6 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Contact;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\ContactType;
 use Celsius3\Form\Type\ContactTypeType;
