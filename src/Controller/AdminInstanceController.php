@@ -60,9 +60,6 @@ class AdminInstanceController extends InstanceController
     protected final function getType(): string
     { return InstanceType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Instance/'; }
-
 
     protected function getSortDefaults(): array
     {

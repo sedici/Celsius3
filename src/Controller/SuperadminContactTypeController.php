@@ -23,10 +23,6 @@
 namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\ContactType;
-use Celsius3\Form\Type\ContactTypeType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -34,15 +30,12 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/contacttype")
  */
-class SuperadminContactTypeController extends BaseController
+class SuperadminContactTypeController extends ContactTypeController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        );
-    }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Superadmin/ContactType/'; }
+
 
     /**
      * Lists all ContactType entities.
@@ -50,12 +43,8 @@ class SuperadminContactTypeController extends BaseController
      * @Route("/", name="superadmin_contacttype")
      */
     public function index(): Response
-    {
-        return $this->render(
-            'Superadmin/ContactType/index.html.twig',
-            $this->baseIndex('ContactType')
-        );
-    }
+    { return $this->baseInstanceIndex(); }
+
 
     /**
      * Displays a form to create a new ContactType entity.
@@ -63,22 +52,17 @@ class SuperadminContactTypeController extends BaseController
      * @Route("/new", name="superadmin_contacttype_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/ContactType/new.html.twig',
-            $this->baseNew('ContactType', new ContactType(), ContactTypeType::class)
-        );
-    }
+    { return $this->baseInstanceNew(); }
+
 
     /**
      * Creates a new ContactType entity.
      *
      * @Route("/create", name="superadmin_contacttype_create", methods={"POST"})
      */
-    public function create()
-    {
-        return $this->render('Superadmin/Contact/new.html.twig', $this->baseCreate('ContactType', new ContactType(), ContactTypeType::class, array(), 'superadmin_contacttype'));
-    }
+    public function create(): Response
+    { return $this->baseInstanceCreate(template: 'Superadmin/Contact/new.html.twig'); }
+
 
     /**
      * Displays a form to edit an existing ContactType entity.
@@ -89,13 +73,9 @@ class SuperadminContactTypeController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    {
-        return $this->render(
-            'Superadmin/ContactType/edit.html.twig',
-            $this->baseEdit('ContactType', $id, ContactTypeType::class)
-        );
-    }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Edits an existing ContactType entity.
@@ -106,8 +86,6 @@ class SuperadminContactTypeController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->render('Superadmin/ContactType/edit.html.twig', $this->baseUpdate('ContactType', $id, ContactTypeType::class, array(), 'superadmin_contacttype'));
-    }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'superadmin_contacttype'); }
 }

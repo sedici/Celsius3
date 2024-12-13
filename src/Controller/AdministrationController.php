@@ -90,9 +90,6 @@ class AdministrationController extends BaseInstanceDependentController
     protected final function getType(): string
     { return Configuration::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Dashboard/'; }
-
 
     protected function getSortDefaults(): array
     {

@@ -43,9 +43,6 @@ class AdminInstitutionController extends BaseInstanceDependentController
     protected final function getType(): string
     { return InstitutionType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Institution/'; }
-
 
     protected function getSortDefaults(): array
     {

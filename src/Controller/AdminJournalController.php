@@ -59,9 +59,6 @@ class AdminJournalController extends BaseInstanceDependentController
     protected final function getType(): string
     { return JournalType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Journal/'; }
-
 
     protected function getSortDefaults(): array
     {

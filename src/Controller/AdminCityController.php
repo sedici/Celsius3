@@ -23,8 +23,6 @@
 namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\City;
-use Celsius3\Form\Type\CityType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,27 +31,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/city")
  */
-class AdminCityController extends BaseInstanceDependentController
+class AdminCityController extends CityController
 {
-
-    protected final function getEntity(): string
-    { return City::class; }
-
-    protected final function getType(): string
-    { return CityType::class; }
-
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/City/'; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
 
     /**
      * Lists all City entities.

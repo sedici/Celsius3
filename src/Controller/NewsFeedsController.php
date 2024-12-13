@@ -23,10 +23,11 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Entity\News;
+use Celsius3\Form\Type\InstanceType;
+use Celsius3\Repository\NewsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * NewsRss controller.
@@ -36,18 +37,47 @@ use Symfony\Component\HttpFoundation\Request;
 class NewsFeedsController extends BaseInstanceDependentController
 {
 
+    protected NewsRepository $newsRepository;
+
+    public function __construct(
+        NewsRepository $newsRepository,
+        ...$args
+    ) {
+        parent::__construct(... $args);
+        $this->newsRepository = $newsRepository;
+    }
+
+    protected final function getEntity(): string
+    { return Instance::class; }
+
+    protected final function getType(): string
+    { return InstanceType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'NewsFeeds/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    protected function getInstance(): Instance
+    { return $this->instanceHelper->getUrlInstance(); }
+
+
     protected function getUrl(Request $request)
     {
         $domain = $request->server->get('HTTP_HOST');
         $name_file = $request->server->get('PHP_SELF');
         $language = $request->get('_locale');
-        return 'http://' . $domain . $name_file . '/' . $language;
+        return (string) 'http://' . $domain . $name_file . '/' . $language;
     }
 
-    protected function getInstance(): Instance
-    {
-        return $this->get('celsius3_core.instance_helper')->getUrlInstance();
-    }
 
     /**
      * Generate Rss News.
@@ -55,16 +85,20 @@ class NewsFeedsController extends BaseInstanceDependentController
      * @Route("/rss", defaults={"_format"="xml"} ,name="rss_news")
      *
      */
-    public function rss(Request $request)
+    public function rss(): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         $fullUrl = $this->getUrl($request);
 
-        return $this->render('NewsFeeds/index_rss.html.twig', [
-            'instance' => $this->getInstance(),
-            'lastNews' => $this->getDoctrine()->getManager()
-                    ->getRepository(News::class)
-                    ->findLastNews($this->getInstance()),
-            'url' => $fullUrl . '/newsFeeds/rss',
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'index_rss.html.twig',
+            [
+                'instance' => $this->instance,
+                'lastNews' => $this->newsRepository
+                    ->findLastNews($this->instance),
+                'url' => (string) $fullUrl . '/newsFeeds/rss',
+            ]
+        );
     }
 }

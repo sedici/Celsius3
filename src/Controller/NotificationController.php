@@ -24,31 +24,64 @@ namespace Celsius3\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Celsius3\Controller\BaseController;
+use Celsius3\Entity\Notification;
 use Celsius3\Form\Type\SubscriptionType;
 use Celsius3\Entity\NotificationSettings;
 use Celsius3\Exception\Exception;
+use Celsius3\Manager\NotificationManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Notification controller.
  *
  * @Route("/user/notification")
  */
-class NotificationController extends BaseController
+class NotificationController extends BaseInstanceDependentController
 {
-    protected function getBundle()
-    {
-        return 'Celsius3NotificationBundle';
+
+    protected NotificationManager $notificationManager;
+    protected $nsrepository;
+
+    public function __construct(
+        NotificationManager $notificationManager,
+        ...$args
+    ) {
+        parent::__construct(... $args);
+        $this->notificationManager = $notificationManager;
+        $this->nsrepository = $this->managerRegistry
+            ->getRepository(NotificationSettings::class);
     }
 
-    protected function listQuery($name)
+    protected final function getEntity(): string
+    { return Notification::class; }
+
+    protected final function getType(): string
+    { return Notification::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'NewsFeeds/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return parent::listQuery($name)
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    protected function listQuery(): QueryBuilder
+    {
+        return parent::listQuery()
             ->join('e.receivers', 'r')
             ->where('r.id = :user_id')
             ->setParameter('user_id', $this->getUser()->getId());
     }
+
 
     /**
      * Lists all Notification documents.
@@ -58,10 +91,11 @@ class NotificationController extends BaseController
      *
      * @return array
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
-        return $this->baseIndex('Notification');
+        return $this->baseIndex();
     }
+
 
     /**
      * Lists all Notification documents.
@@ -71,24 +105,25 @@ class NotificationController extends BaseController
      *
      * @return array
      */
-    public function subscriptionsAction(Request $request)
+    public function subscriptionsAction(): array
     {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('Celsius3NotificationBundle:NotificationSettings');
+        $request = $this->requestStack->getCurrentRequest();
 
-        $settings = $repository->findBy(
-            array(
+        $settings = $this->nsrepository->findBy(
+            [
                 'user' => $this->getUser(),
-                'instance' => $this->get('celsius3_core.instance_helper')->getSessionInstance(),
-            )
+                'instance' => $this->instance,
+            ]
         );
 
-        $form = $this->createForm(SubscriptionType::class, null, array(
-            'user' => $this->getUser(),
-        ));
+        $form = $this->createForm(
+            SubscriptionType::class, null, [
+                'user' => $this->getUser(),
+            ]
+        );
 
         foreach ($settings as $value) {
-            $data = array();
+            $data = [];
             if ($value->getSubscribedToInterfaceNotifications()) {
                 $data[] = 'notification';
             }
@@ -96,11 +131,20 @@ class NotificationController extends BaseController
                 $data[] = 'email';
             }
 
-            if (!(strpos($value->getType(), 'user') === false) || !(strpos($value->getType(), 'message') === false)) {
+            if (
+                !(strpos($value->getType(), 'user') === false)
+                || !(strpos($value->getType(), 'message') === false)
+            ) {
                 $form->get($value->getType())->setData($data);
             } else {
-                if ($form->get('event_notification')->has($value->getType())) {
-                    $form->get('event_notification')->get($value->getType())->setData($data);
+                if ($form
+                    ->get('event_notification')
+                    ->has($value->getType())
+                ) {
+                    $form
+                        ->get('event_notification')
+                        ->get($value->getType())
+                        ->setData($data);
                 }
             }
         }
@@ -108,50 +152,62 @@ class NotificationController extends BaseController
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
             $data = $form->getData();
-            if ($this->getUser()->hasRole('ROLE_ADMIN') || $this->getUser()->hasRole('ROLE_SUPERADMIN')) {
-                $this->setNotificationTypes('user_notification', $data['user_notification']);
+            if (
+                $this->getUser()->hasRole('ROLE_ADMIN')
+                || $this->getUser()->hasRole('ROLE_SUPERADMIN')
+            ) {
+                $this->setNotificationTypes(
+                    'user_notification',
+                    $data['user_notification']
+                );
             }
-            $this->setNotificationTypes('message_notification', $data['message_notification']);
+            $this->setNotificationTypes(
+                'message_notification',
+                $data['message_notification']
+            );
 
             foreach ($data['event_notification'] as $notification => $types) {
-                $this->setNotificationTypes($notification, $types);
+                $this->setNotificationTypes(
+                    $notification, $types
+                );
             }
 
-            $em->flush();
+            $this->objectManager->flush();
         }
 
-        return array(
+        return [
             'form' => $form->createView(),
-        );
+        ];
     }
+
 
     private function setNotificationTypes($notification, $types)
     {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('Celsius3NotificationBundle:NotificationSettings');
-        $instance = $this->get('celsius3_core.instance_helper')->getSessionInstance();
 
-        $notificationSettings = $repository->findOneBy(
-            array(
-                'user' => $this->getUser(),
-                'instance' => $instance,
-                'type' => $notification,
-            )
-        );
+        $notificationSettings = $this->nsrepository->findOneBy([
+            'user' => $this->getUser(),
+            'instance' => $this->instance,
+            'type' => $notification,
+        ]);
 
         if (!$notificationSettings) {
             $notificationSettings = new NotificationSettings();
             $notificationSettings
                 ->setUser($this->getUser())
-                ->setInstance($instance)
+                ->setInstance($this->instance)
                 ->setType($notification);
         }
 
-        $notificationSettings->setSubscribedToEmailNotifications(in_array('email', $types));
-        $notificationSettings->setSubscribedToInterfaceNotifications(in_array('notification', $types));
+        $notificationSettings->setSubscribedToEmailNotifications(
+            in_array('email', $types)
+        );
+        $notificationSettings->setSubscribedToInterfaceNotifications(
+            in_array('notification', $types)
+        );
 
-        $em->persist($notificationSettings);
+        $this->persistEntity($notificationSettings);
     }
+
 
     /**
      * Lists all Notification documents.
@@ -161,20 +217,19 @@ class NotificationController extends BaseController
      *
      * @return array
      */
-    public function viewAction($id)
+    public function viewAction($id): RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
-        $notification = $em->getRepository('Celsius3NotificationBundle:Notification')
-            ->find($id);
+        $notification = $this->findQuery($id);
 
-        if (!$notification) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.notification');
-        }
+        if (!$notification) $this->error('entity_not_found');
 
         $notification->setViewed(true);
-        $em->persist($notification);
-        $em->flush($notification);
+        $this->persistEntity($notification);
 
-        return $this->redirect($this->get('celsius3_notification.notification_manager')->generateUrl($notification));
+        return $this->redirect(
+            $this->notificationManager->generateUrl(
+                $notification
+            )
+        );
     }
 }

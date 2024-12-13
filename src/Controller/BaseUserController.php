@@ -26,10 +26,25 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
+use Celsius3\Helper\CustomFieldHelper;
+use Celsius3\Manager\UserManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
+
+    protected UserManager $userManager;
+    protected CustomFieldHelper $customFieldHelper;
+
+    public function __construct(
+        UserManager $userManager,
+        CustomFieldHelper $custom_field_helper,
+        ...$args
+    ) {
+        parent::__construct(... $args);
+        $this->userManager = $userManager;
+        $this->customFieldHelper = $custom_field_helper;
+    }
 
     protected final function getEntity(): string
     { return BaseUser::class; }
@@ -54,12 +69,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
     ): array|RedirectResponse {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                (string) 'exception.entity_not_found.' . $this->entityClass->getShortName()
-            );
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         if (!$this->getUser()->hasHigherRolesThan($entity)) {
             return $this->redirectToRoute($this->getUserListRoute());
@@ -80,38 +90,49 @@ abstract class BaseUserController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
-        $transformForm = $this->createForm($transformType, null, $options);
+        $transformForm = $this->createForm(
+            $transformType, null, $options
+        );
 
-        $request = $this->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
         $transformForm->handleRequest($request);
 
         if ($transformForm->isValid()) {
             $data = $transformForm->getData();
-            $this->get('celsius3_core.user_manager')->transform($data[$entity->getInstance()->getUrl()], $entity);
+            $this->userManager->transform(
+                $data[ $entity->getInstance()->getUrl() ],
+                $entity
+            );
 
             foreach ($entity->getSecondaryInstances() as $key => $value) {
-                $instance = $this->getDoctrine()->getManager()->getRepository(Instance::class)->find($key);
+                $instance = $this->objectManager
+                    ->getRepository(Instance::class)->find($key);
+
                 if (array_key_exists($instance->getUrl(), $data)) {
                     $entity->addSecondaryInstance($instance, $data[$instance->getUrl()]);
                 }
             }
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->persistEntity($entity);
 
-            $this->get('session')->getFlashBag()->add('success', 'The User was successfully transformed.');
+            $this->addFlash(
+                'success', 'The User was successfully transformed.'
+            );
 
-            return $this->redirect($this->generateUrl($route . '_transform', ['id' => $id]));
+            return $this->redirect(
+                $this->generateUrl(
+                    (string) $route . '_transform',
+                    [ 'id' => $id ]
+                )
+            );
         }
 
-        $this->get('session')->getFlashBag()
-            ->add('error', 'There were errors transforming the User.');
+        $this->addEntityFlash(
+            'error', 'There were errors editing the %entity%.'
+        );
 
         return [
             'entity' => $entity,
@@ -119,65 +140,99 @@ abstract class BaseUserController extends BaseInstanceDependentController
         ];
     }
 
+
     protected function baseEnable(string $id): RedirectResponse
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
         $this->enableUser($entity);
 
-        return $this->redirect($this->get('request_stack')->getCurrentRequest()->headers->get('referer'));
+        return $this->redirect(
+            $this->requestStack
+                ->getCurrentRequest()->headers
+                ->get('referer')
+        );
     }
+
 
     protected function enableUser(BaseUser $user)
     {
         $user->setEnabled(true);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
+        $this->persistEntity($user);
     }
 
-    protected function baseBatchEnable($element_ids)
+
+    protected function baseBatchEnable(array $element_ids)
     {
-        $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository(BaseUser::class)->findUsers($element_ids);
+        $users = $this->repository->findUsers($element_ids);
 
         foreach ($users as $user) {
             $this->enableUser($user);
         }
 
-        return $this->redirect($this->get('request_stack')->getCurrentRequest()->headers->get('referer'));
+        return $this->redirect(
+            $this->requestStack
+                ->getCurrentRequest()->headers
+                ->get('referer')
+        );
     }
+
 
     protected function mergeSecondaryInstances(BaseUser $main, array $entities)
     {
         foreach ($entities as $entity) {
             if ($main->getInstance() === $entity->getInstance()) {
-                $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
+                $main->setRoles(array_unique(
+                    array_merge($main->getRoles(), $entity->getRoles())
+                ));
             } else if ($main->hasSecondaryInstance($entity->getInstance())) {
-                $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
+                $main->addSecondaryInstance(
+                    $entity->getInstance(),
+                    array_unique(
+                        array_merge(
+                            $main->getSecondaryInstances()[$entity->getId()]['roles'],
+                            $entity->getRoles()
+                        )
+                    )
+                );
             } else {
-                $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
+                $main->addSecondaryInstance(
+                    $entity->getInstance(),
+                    $entity->getRoles()
+                );
             }
 
             foreach ($entity->getSecondaryInstances() as $id => $secondaryInstance) {
-                $instance = $this->getDoctrine()->getManager()->getRepository(Instance::class)->find($id);
+                $instance = $this->objectManager
+                    ->getRepository(Instance::class)->find($id);
 
                 if ($main->getInstance() === $instance) {
-                    $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
+                    $main->setRoles(array_unique(
+                        array_merge(
+                            $main->getRoles(),
+                            $secondaryInstance['roles']
+                        )
+                    ));
                 } else if ($main->hasSecondaryInstance($instance)) {
-                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[(int)$instance->getId()]['roles'], $secondaryInstance['roles'])));
+                    $main->addSecondaryInstance(
+                        $instance,
+                        array_unique(array_merge(
+                            $main->getSecondaryInstances()[(int)$instance->getId()]['roles'],
+                            $secondaryInstance['roles']
+                        ))
+                    );
                 } else {
-                    $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
+                    $main->addSecondaryInstance(
+                        $instance,
+                        $secondaryInstance['roles']
+                    );
                 }
             }
         }
 
-        $this->getDoctrine()->getManager()->persist($main);
-        $this->getDoctrine()->getManager()->flush($main);
+        $this->persistEntity($main);
     }
 
 
@@ -189,22 +244,24 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->persistEntity($entity);
 
-            $this->get('celsius3_core.custom_field_helper')->processCustomUserFields($this->getInstance(), $form, $entity);
+            $this->customFieldHelper->processCustomUserFields(
+                $this->getInstance(),
+                $form,
+                $entity
+            );
 
-            $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The BaseUser was successfully created.');
+            $this->addEntityFlash(
+                'success', 'The %entity% was successfully created.'
+            );
 
             return $this->redirect($this->generateUrl('admin_user'));
         }
 
-        $this->get('session')
-            ->getFlashBag()
-            ->add('error', 'There were errors creating the BaseUser.');
+        $this->addEntityFlash(
+            'error', 'There were errors creating the %entity%.'
+        );
 
         $parameters = [
             'entity' => $entity,

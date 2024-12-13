@@ -99,12 +99,12 @@ abstract class BaseController extends AbstractController
         $this->filterManager = $filterManager;
 
         $this->entityClassName = $this->getEntity();
-        $this->typeClassName = $this->getType();
-        $this->templatePrefix = $this->getTemplatePrefix();
-        $this->directory = $this->getDirectory();
-        $this->sortDefaults = $this->getSortDefaults();
         $this->entityClass = $this->getEntityClass();
+        $this->typeClassName = $this->getType();
+        $this->directory = $this->getDirectory();
         $this->repository = $this->getRepository();
+        $this->sortDefaults = $this->getSortDefaults();
+        $this->templatePrefix = $this->getTemplatePrefix();
     }
 
 
@@ -117,7 +117,18 @@ abstract class BaseController extends AbstractController
     // En realidad debe retornar una clase que herede de Entity pero no se como definirlo
     protected abstract function getEntity(): string;
     protected abstract function getType(): string;
-    protected abstract function getTemplatePrefix(): string;
+    protected function getTemplatePrefix(): string
+    {
+        $str = $this->entityClass->getShortName();
+
+	    $str = preg_replace(
+            '/Controller$/', '', $str
+        );
+	
+	    return preg_replace(
+            '/([a-z])([A-Z])/', '$1/$2', $str
+        ) . '/';
+    }
     protected abstract function getSortDefaults(): array;
     // protected abstract function baseFilter($entity, $filter_form, $query);
 

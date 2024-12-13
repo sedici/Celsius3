@@ -22,13 +22,10 @@
 
 namespace Celsius3\Controller;
 
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\Catalog;
-use Celsius3\Form\Type\CatalogType;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\Filter\CatalogFilterType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,29 +34,21 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/catalog")
  */
-class SuperadminCatalogController extends BaseController
+class SuperadminCatalogController extends CatalogController
 {
 
-    protected function listQuery($name)
-    {
-        $valor=$name;
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Catalog::class)
-            ->createQueryBuilder('e');
-    }
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
 
     /**
      * Lists all Catalog entities.
      *
      * @Route("/", name="superadmin_catalog")
      */
-    public function index(PaginatorInterface $paginator): Response
-    {
-        return $this->render(
-            'Superadmin/Catalog/index.html.twig',
-            $this->baseIndex('Catalog', $this->createForm(CatalogFilterType::class),$paginator)
-        );
-    }
+    public function index(): Response
+    { return $this->baseInstanceIndex(CatalogFilterType::class); }
+
 
     /**
      * Displays a form to create a new Catalog entity.
@@ -67,14 +56,8 @@ class SuperadminCatalogController extends BaseController
      * @Route("/new", name="superadmin_catalog_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/Catalog/new.html.twig',
-            $this->baseNew('Catalog', new Catalog(), CatalogType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    { return $this->baseInstanceNew(); }
+
 
     /**
      * Creates a new Catalog entity.
@@ -82,12 +65,9 @@ class SuperadminCatalogController extends BaseController
      * @Route("/create", name="superadmin_catalog_create", methods={"POST"})
      *
      */
-    public function create()
-    {
-        return $this->render('Superadmin/Catalog/new.html.twig', $this->baseCreate('Catalog', new Catalog(), CatalogType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_catalog'));
-    }
+    public function create(): Response
+    { return $this->baseInstanceCreate(route: 'superadmin_catalog'); }
+
 
     /**
      * Displays a form to edit an existing Catalog entity.
@@ -98,12 +78,9 @@ class SuperadminCatalogController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
-    {
-        return $this->render('Superadmin/Catalog/edit.html.twig', $this->baseEdit('Catalog', $id, CatalogType::class, array(
-            'instance' => $this->getDirectory(),
-        )));
-    }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Edits an existing Catalog entity.
@@ -114,12 +91,9 @@ class SuperadminCatalogController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->render('Superadmin/Catalog/edit.html.twig', $this->baseUpdate('Catalog', $id, CatalogType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_catalog'));
-    }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'superadmin_catalog'); }
+
 
     /**
      * Batch actions.
@@ -131,25 +105,30 @@ class SuperadminCatalogController extends BaseController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function batch()
+    { return $this->baseBatch(); }
+
+
+    protected function batchUnion($element_ids): Response
     {
-        return $this->baseBatch();
+        return $this->render(
+            (string) $this->templatePrefix . 'batchUnion.html.twig',
+            $this->baseUnion($element_ids)
+        );
     }
 
-    protected function batchUnion($element_ids)
-    {
-        return $this->render('Superadmin/Catalog/batchUnion.html.twig', $this->baseUnion('Catalog', $element_ids));
-    }
 
     /**
      * Unifies a group of Catalog entities.
      *
      * @Route("/doUnion", name="superadmin_catalog_doUnion", methods={"POST"})
      */
-    public function doUnion(Request $request)
+    public function doUnion(Request $request): RedirectResponse
     {
         $elementIds = $request->request->get('element');
         $mainId = $request->request->get('main');
 
-        return $this->baseDoUnion(Catalog::class, $elementIds, $mainId, 'superadmin_catalog');
+        return $this->baseDoUnion(
+            $elementIds, $mainId, 'superadmin_catalog'
+        );
     }
 }

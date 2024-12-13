@@ -24,27 +24,22 @@ namespace Celsius3\Controller;
 
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\City;
-use Celsius3\Form\Type\CityType;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\Filter\CityFilterType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 /**
  * Location controller.
  *
  * @Route("/superadmin/city")
  */
-class SuperadminCityController extends BaseController
+class SuperadminCityController extends CityController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        );
-    }
+
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
 
     /**
      * Lists all City entities.
@@ -52,67 +47,26 @@ class SuperadminCityController extends BaseController
      * @Route("/", name="superadmin_city")
      */
     public function index(PaginatorInterface $paginator): Response
-    {
-        return $this->render(
-            'Superadmin/City/index.html.twig',
-            $this->baseIndex('City', $this->createForm(CityFilterType::class),$paginator)
-        );
-    }
-
-    protected function listQuery($name)
-    {
-        $valor=$name;
-        //$class = new \ReflectionClass($valor);
-        return $this->getDoctrine()->getManager()
-            ->getRepository(City::class)
-            ->createQueryBuilder('e');
-    }
+    { return $this->baseInstanceIndex(CityFilterType::class); }
 
 
-    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
-    {
-
-        $query = $this->listQuery($name);
-        $request = $this->get('request_stack')->getCurrentRequest();
-        if (!is_null($filter_form)) {
-            $filter_form = $filter_form->handleRequest($request);
-            //  $query = $this->filter($name, $filter_form, $query);
-        }
-        //    $paginator = $this->get('knp_paginator');
-
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
-
-        return array(
-            'pagination' => $pagination,
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
-        );
-    }
     /**
      * Displays a form to create a new City entity.
      *
      * @Route("/new", name="superadmin_city_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/City/new.html.twig',
-            $this->baseNew('City', new City(), CityType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    { return $this->baseInstanceNew(); }
+
 
     /**
      * Creates a new City entity.
      *
      * @Route("/create", name="superadmin_city_create", methods={"POST"})
      */
-    public function create()
-    {
-        return $this->render("Superadmin/City/new.html.twig", $this->baseCreate('City', new City(), CityType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_city'));
-    }
+    public function create(): Response
+    { return $this->baseInstanceCreate(); }
+
 
     /**
      * Displays a form to edit an existing City entity.
@@ -123,15 +77,9 @@ class SuperadminCityController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    {
-        return $this->render(
-            'Superadmin/City/new.html.twig',
-            $this->baseEdit('City', $id, CityType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Edits an existing City entity.
@@ -142,12 +90,9 @@ class SuperadminCityController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->render('Superadmin/City/edit.html.twig', $this->baseUpdate('City', $id, CityType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_city'));
-    }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'superadmin_city'); }
+
 
     /**
      * Batch actions.
@@ -155,26 +100,26 @@ class SuperadminCityController extends BaseController
      * @Route("/batch", name="superadmin_city_batch")
      */
     public function batch()
-    {
-        return $this->baseBatch();
-    }
+    { return $this->baseBatch(); }
 
-    protected function batchUnion($element_ids)
-    {
-        return $this->render('Superadmin/City/batchUnion.html.twig', $this->baseUnion('City', $element_ids));
-    }
+
+    protected function batchUnion($element_ids): array
+    { return $this->baseUnion($element_ids); }
+
 
     /**
      * Unifies a group of City entities.
      *
      * @Route("/doUnion", name="superadmin_city_doUnion", methods={"POST"})
      */
-    public function doUnion()
+    public function doUnion(): RedirectResponse
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $element_ids = $request->request->get('element');
-        $main_id = $request->request->get('main');
+        $request = $this->requestStack->getCurrentRequest();
+        $element_ids = $request->get('element');
+        $main_id = $request->get('main');
 
-        return $this->baseDoUnion(City::class, $element_ids, $main_id, 'superadmin_city');
+        return $this->baseDoUnion(
+            $element_ids, $main_id, 'superadmin_city'
+        );
     }
 }

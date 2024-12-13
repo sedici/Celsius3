@@ -41,9 +41,6 @@ class AdminNewsController extends BaseInstanceDependentController
     protected final function getType(): string
     { return NewsType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Superadmin/News/'; }
-
 
     protected function getSortDefaults(): array
     {

@@ -60,9 +60,6 @@ class AdminFileController extends BaseController
     protected final function getType(): string
     { return FileType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/File/'; }
-
 
     protected function getSortDefaults(): array
     {

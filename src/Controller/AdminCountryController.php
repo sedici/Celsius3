@@ -44,9 +44,6 @@ class AdminCountryController extends BaseInstanceDependentController
     protected final function getType(): string
     { return CountryType::class; }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Country/'; }
-
 
     protected function getSortDefaults(): array
     {

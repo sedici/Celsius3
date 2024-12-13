@@ -22,7 +22,6 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Contact;
 use Celsius3\Form\Type\AdminContactType;
 use Celsius3\Helper\CustomFieldHelper;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -30,7 +29,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Celsius3\Controller\BaseInstanceDependentController;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -38,7 +36,7 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @Route("/admin/contact")
  */
-class AdminContactController extends BaseInstanceDependentController
+class AdminContactController extends ContactController
 {
 
     /**
@@ -53,24 +51,9 @@ class AdminContactController extends BaseInstanceDependentController
         parent::__construct(... $args);
         $this->customFieldHelper = $customFieldHelper;
     }
-
-    protected final function getEntity(): string
-    { return Contact::class; }
     
     protected final function getType(): string
     { return AdminContactType::class; }
-
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Contact/'; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc',
-        ];
-    }
 
 
     protected function listQuery(): QueryBuilder

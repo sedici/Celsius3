@@ -24,118 +24,141 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
-use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\News;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Celsius3\Exception\Exception;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Public controller.
  *
  * @Route("/public")
  */
-class PublicController extends AbstractController // BaseInstanceDependentController
+class PublicController extends BaseInstanceDependentController
 {
-    private $entityManager;
-    private $instanceHelper;
-    private $paginator;
-    private $maxPerPage;
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
+    protected string $maxPerPage;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper,
-        PaginatorInterface $paginator,
         string $maxPerPage,
-        InstanceManager $instanceManager
-    )
-    {
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
-        $this->paginator = $paginator;
+        ...$args
+    ) {
+        parent::__construct(... $args);
         $this->maxPerPage = $maxPerPage;
-        $this->instanceManager = $instanceManager;
     }
 
-    protected function getInstance(): ?Instance
+
+    protected final function getEntity(): string
+    { return ''; }
+
+    protected final function getType(): string
+    { return ''; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Public/'; }
+
+
+    protected function getSortDefaults(): array
     {
-        return $this->instanceHelper->getSessionOrUrlInstance();
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
     }
+
 
     /**
      * @Route("/", name="public_index")
      */
-    public function index()
+    public function index(): Response
     {
-        return $this->render('Public/index.html.twig', [
-            'instance' => $this->getInstance(),
-            'lastNews' => ($this->getInstance()) ? $this->entityManager
-                    ->getRepository(News::class)
-                    ->findLastNews($this->getInstance()) : [],
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig',
+            [
+                'instance' => $this->instance,
+                'lastNews' => $this->instance
+                    ? $this->entityManager
+                        ->getRepository(News::class)
+                        ->findLastNews($this->getInstance())
+                    : [],
+            ]
+        );
     }
+
 
     /**
      * @Route("/information", name="public_information")
      */
-    public function information()
+    public function information(): RedirectResponse|Response
     {
-        $instance = $this->getInstance();
-        if ($instance && !boolval($instance->get('home_information_visible')->getValue())) {
+        if ($this->instance && !boolval(
+            $this->instance
+                ->get('home_information_visible')->getValue()
+            )
+        ) {
             return $this->redirectToRoute('public_index');
         }
 
-        return $this->render('Public/information.html.twig', [
-            'instance' => $this->getInstance(),
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'Public/information.html.twig',
+            [
+                'instance' => $this->instance,
+            ]
+        );
     }
+
 
     /**
      * @Route("/news", name="public_news")
      */
-    public function news(Request $request)
+    public function news(): RedirectResponse|Response
     {
-        $instance = $this->getInstance();
-        if ($instance && !boolval($instance->get('home_news_visible')->getValue())) {
+        if ($this->instance && !boolval(
+            $this->instance->get('home_news_visible')->getValue()
+            )
+        ) {
             return $this->redirectToRoute('public_index');
         }
 
         $news = $this->entityManager
-                ->getRepository(News::class)
-                ->findByInstanceQB($this->getInstance());
+            ->getRepository(News::class)
+            ->findByInstanceQB($this->instance);
 
-        $paginator = $this->paginator;
-        $pagination = $paginator->paginate($news, $request->query->get('page', 1), $this->maxPerPage);
+        $request = $this->requestStack->getCurrentRequest();
+    
+        $pagination = $this->paginator->paginate(
+            $news,
+            intval($request->query->get('page', 1)),
+            $this->maxPerPage
+        );
 
-        return $this->render('Public/news.html.twig', [
-            'pagination' => $pagination,
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'news.html.twig',
+            [
+                'pagination' => $pagination,
+            ]
+        );
     }
+
 
     /**
      * @Route("/statistics", name="public_statistics", options={"expose"=true})
      */
-    public function statistics()
+    public function statistics(): RedirectResponse|Response
     {
-        $instance = $this->getInstance();
-        if ($instance && !boolval($instance->get('home_statistics_visible')->getValue())) {
+        if ($this->instance && !boolval(
+            $this->instance->get('home_statistics_visible')->getValue()
+            )
+        ) {
             return $this->redirectToRoute('public_index');
         }
 
-        return $this->render('Public/statistics.html.twig', []);
+        return $this->render(
+            (string) $this->templatePrefix . 'statistics.html.twig',
+            []
+        );
     }
+
 
     /**
      * @Route("/countries", name="public_countries", options={"expose"=true})
@@ -144,57 +167,71 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
      */
     public function countries(): Response
     {
-        $countries = $this->getDoctrine()->getManager()
+        $countries = $this->objectManager
             ->getRepository(Country::class)
             ->getAllOrderedByNameQB()
             ->getQuery()->execute();
 
         $response = [];
         foreach ($countries as $country) {
-            $response[] = ['value' => $country->getId(), 'name' => ucfirst(strtolower($country->getName()))];
+            $response[] = [
+                'value' => $country->getId(),
+                'name' => ucfirst(
+                    strtolower($country->getName())
+                )
+            ];
         }
 
         return new Response(json_encode($response));
     }
+
 
     /**
      * @Route("/cities", name="public_cities", options={"expose"=true})
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function cities(Request $request): Response
+    public function cities(): Response
     {
-        if (!$request->query->has('country_id')) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
-        }
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request->query->has('country_id'))
+            $this->error('entity_not_found');
 
-        $cities = $this->getDoctrine()->getManager()
+        $cities = $this->objectManager
             ->getRepository(City::class)
             ->findForCountry($request->query->get('country_id'));
 
         $response = [];
 
         foreach ($cities as $city) {
-            $response[] = ['value' => $city->getId(), 'name' => $city->getName()];
+            $response[] = [
+                'value' => $city->getId(),
+                'name' => $city->getName()
+            ];
         }
 
         return new Response(json_encode($response));
     }
+
 
     /**
      * @Route("/institutions", name="public_institutions", options={"expose"=true})
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function institutions(Request $request)
+    public function institutions(): Response
     {
-        if (!$request->query->has('country_id')) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
-        }
+        $request = $this->requestStack->getCurrentRequest();
 
-        $institutions = $this->getDoctrine()->getManager()
+        if (!$request->query->has('country_id')) 
+            $this->error('entity_not_found');
+
+        $institutions = $this->objectManager
             ->getRepository(Institution::class)
-            ->findByCountry($request->query->get('country_id'), $this->getInstance(), $this->getDirectory());
+            ->findByCountry(
+                $request->query->get('country_id'),
+                $this->getInstance(), $this->directory
+            );
 
         $response = [];
         foreach ($institutions as $institution) {
@@ -207,46 +244,80 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
         return new Response(json_encode($response));
     }
 
+
     /**
      * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function institutionsFull(Request $request): Response
+    public function institutionsFull(): Response
     {
-        if (!$request->query->has('country_id') && !$request->query->has('city_id') && !$request->query->has('institution_id')) {
-            throw $this->createNotFoundException();
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (
+            !$request->query->has('country_id')
+            && !$request->query->has('city_id')
+            && !$request->query->has('institution_id')
+        ) {
+            $this->error('not_found');
         }
 
-        $institutions = $this->entityManager->getRepository(Institution::class)
-                ->findForCountryOrCity(
-                    $request->query->get('country_id'),
-                    $request->query->get('city_id'),
-                    $this->instanceManager->getDirectory(),
-                    $this->instanceHelper->getSessionOrUrlInstance());
+        $institutions = $this->entityManager
+            ->getRepository(Institution::class)
+            ->findForCountryOrCity(
+                $request->query->get('country_id'),
+                $request->query->get('city_id'),
+                $this->directory,
+                $this->instanceHelper->getSessionOrUrlInstance()
+            );
 
-        $actual = array_filter($institutions, function ($i) {
-            return is_null($i['parent_id']);
-        });
-        $institutions = array_diff_key($institutions, $actual);
-        $response = array();
+        $actual = array_filter(
+            $institutions,
+            function ($i) {
+                return $i['parent_id'] === null;
+            }
+        );
+
+        $institutions = array_diff_key(
+            $institutions, $actual
+        );
+
+        $response = [];
         foreach ($actual as $institution) {
             $level = 0;
-            if (($request->query->get('filter') === 'liblink' && $institution['hive_id'] === $this->getInstance()->getHive()->getId()) ||
-                    ($request->query->get('filter') === 'celsius3' && $institution['celsiusInstance']) ||
-                    ($request->query->get('filter') === '')) {
-                $children = array_filter($institutions, function ($i) use ($institution) {
-                    return $i['parent_id'] === $institution['id'];
-                });
+            if (
+                (
+                    $request->query->get('filter') === 'liblink'
+                    && $institution['hive_id'] === $this->instance->getHive()->getId()
+                ) || (
+                    $request->query->get('filter') === 'celsius3'
+                    && $institution['celsiusInstance']
+                ) || ($request->query->get('filter') === '')
+            ) {
+                $children = array_filter(
+                    $institutions,
+                    function ($i) use ($institution) {
+                        return $i['parent_id'] === $institution['id'];
+                    }
+                );
 
                 $instAbbr = ' | '.(($institution['abbreviation']) ?: $institution['name']);
 
                 $response[] = [
                     'value' => $institution['id'],
                     'hasChildren' => count($children) > 0,
-                    'name' => $institution['name'].(($institution['abbreviation']) ? ' ('.$institution['abbreviation'].')' : ''),
+                    'name' => $institution['name'].(
+                        ($institution['abbreviation'])
+                            ? ' ('.$institution['abbreviation'].')'
+                            : ''
+                    ),
                     'level' => $level,
-                    'children' => $this->getChildrenInstitution($institutions, $children, $level + 1, $instAbbr),
+                    'children' => $this->getChildrenInstitution(
+                        $institutions,
+                        $children,
+                        $level + 1,
+                        $instAbbr
+                    )
                 ];
             }
         }
@@ -254,39 +325,61 @@ class PublicController extends AbstractController // BaseInstanceDependentContro
         return new Response(json_encode($response));
     }
 
-    protected function getChildrenInstitution(array &$all, array $institutions, $level, $parent)
-    {
-        $response = array();
+
+    protected function getChildrenInstitution(
+        array &$all, array $institutions, $level, $parent
+    ): array {
+        $response = [];
         $all = array_diff_key($all, $institutions);
         if (count($institutions) > 0) {
             foreach ($institutions as $institution) {
-                $children = array_filter($all, function ($i) use ($institution) {
-                    return $i['parent_id'] === $institution['id'];
-                });
+                $children = array_filter(
+                    $all,
+                    function ($i) use ($institution) {
+                        return $i['parent_id'] === $institution['id'];
+                    }
+                );
 
-                $response[] = array(
+                $response[] = [
                     'value' => $institution['id'],
                     'hasChildren' => count($children) > 0,
-                    'name' => $institution['name'].(($institution['abbreviation']) ? ' ('.$institution['abbreviation'].')' : '').$parent,
+                    'name' => $institution['name'].(
+                        ($institution['abbreviation'])
+                            ? ' ('.$institution['abbreviation'].')'
+                            : ''
+                    ).$parent,
                     'level' => $level,
-                    'children' => $this->getChildrenInstitution($all, $children, $level + 1, $parent),
-                );
+                    'children' => $this->getChildrenInstitution(
+                        $all,
+                        $children,
+                        $level + 1,
+                        $parent
+                    )
+                ];
             }
         }
 
         return $response;
     }
 
+
     /**
      * @Route("/help", name="public_help")
      */
-    public function help()
+    public function help(): RedirectResponse|Response
     {
-        $instance = $this->getInstance();
-        if ($instance && !boolval($instance->get('home_help_visible')->getValue())) {
+        if ($this->instance && !boolval(
+            $this->instance->get('home_help_visible')->getValue()
+            )
+        ) {
             return $this->redirectToRoute('public_index');
         }
 
-        return $this->render('Public/help.html.twig', ['staff' => $this->getInstance()->get('instance_staff')->getValue()]);
+        return $this->render(
+            (string) $this->templatePrefix . 'help.html.twig',
+            [
+                'staff' => $this->instance->get('instance_staff')->getValue()
+            ]
+        );
     }
 }

@@ -35,11 +35,8 @@ use Symfony\Component\Form\FormInterface;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
-    /**
-     * @var InstanceHelper
-     */
-    protected $instanceHelper;
 
+    protected InstanceHelper $instanceHelper;
     protected Instance $instance;
 
     protected string $filterType;

@@ -22,22 +22,16 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\InstanceManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\MailTemplate;
 use Celsius3\Form\Type\MailTemplateType;
 use Celsius3\Form\Type\Filter\MailTemplateFilterType;
-use Celsius3\Exception\Exception;
 use Celsius3\Validator\Constraints as CelsiusAssert;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
-use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -68,9 +62,6 @@ class AdminMailController extends BaseInstanceDependentController
 
     protected final function getType(): string
     { return MailTemplateType::class; }
-
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Mail/'; }
 
 
     protected function getSortDefaults(): array

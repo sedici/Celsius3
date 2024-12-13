@@ -30,12 +30,16 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\News;
 use Celsius3\Form\Type\InstanceRegisterType;
+use Celsius3\Form\Type\InstanceType;
+use Celsius3\Repository\NewsRepository;
 use Celsius3\TicketBundle\Entity\Category;
 use Celsius3\TicketBundle\Entity\Priority;
 use Celsius3\TicketBundle\Entity\TypeState;
+use Celsius3\TicketBundle\Helper\TicketHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use function array_key_exists;
 
@@ -44,42 +48,80 @@ use function array_key_exists;
  */
 class DirectoryController extends BaseController
 {
-    public function index()
-    {
-        return $this->render(
-            'Directory/index.html.twig',
-            [
-                'directory' => $this->getDirectory(),
-                'lastNews' => $this->getDoctrine()->getManager()
-                    ->getRepository(News::class)
-                    ->findLastNews($this->getDirectory()),
-            ]
-        );
+
+    protected TicketHelper $ticketHelper;
+    protected NewsRepository $newsRepository;
+
+    public function __construct(
+        TicketHelper $ticketHelper,
+        NewsRepository $newsRepository,
+        ...$args
+    ) {
+        parent::__construct(... $args);
+        $this->ticketHelper = $ticketHelper;
+        $this->newsRepository = $newsRepository;
     }
+
+
+    protected final function getEntity(): string
+    { return Instance::class; }
+
+    protected final function getType(): string
+    { return InstanceType::class; }
+
+    protected final function getTemplatePrefix(): string
+    { return 'Directory/'; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+
+    public function index(): Response
+    {
+        return $this->baseIndex(formOptions: [
+            'directory' => $this->getDirectory(),
+            'lastNews' => $this->newsRepository
+                ->findLastNews($this->getDirectory()),
+        ]);
+    }
+
 
     public function instances()
     {
-        $instances = $this->getDoctrine()->getManager()
-            ->getRepository(Instance::class)
-            ->findAllEnabledAndVisible();
+        $instances = $this->repository->findAllEnabledAndVisible();
 
         $current_instances = [];
         $instances_markers = [];
+        
+
         foreach ($instances as $instance) {
+            $instOwnerCountryName =
+                $instance->getOwnerInstitutions()->first()->getCountry()->getName();
+
             if (!array_key_exists(
-                $instance->getOwnerInstitutions()->first()->getCountry()->getName(),
+                $instOwnerCountryName,
                 $current_instances
             )) {
-                $current_instances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()] = [];
+                $current_instances[$instOwnerCountryName] = [];
             }
-            $current_instances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
+            $current_instances[$instOwnerCountryName][] = $instance;
 
             $instance_latitude = $instance->getLatitud();
             $instance_longitude = $instance->getLongitud();
             if ($instance_latitude && $instance_longitude) {
                 $instances_markers[] = [
-                    'latitude' => addcslashes($instance_latitude, ','),
-                    'longitude' => addcslashes($instance_longitude, ','),
+                    'latitude' => addcslashes(
+                        $instance_latitude, ','
+                    ),
+                    'longitude' => addcslashes(
+                        $instance_longitude, ','
+                    ),
                     'title' => $instance->getName()
                 ];
             }
@@ -89,7 +131,7 @@ class DirectoryController extends BaseController
         $longitude = '-57.9523734';
 
         return $this->render(
-            'Directory/instances.html.twig',
+            (string) $this->templatePrefix . 'instances.html.twig',
             [
                 'directory' => $this->getDirectory(),
                 'instances' => $current_instances,
@@ -100,26 +142,30 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function statistics()
+
+    public function statistics(): Response
     {
         return $this->render(
-            'Directory/statistics.html.twig',
+            (string) $this->templatePrefix . 'statistics.html.twig',
             [
                 'directory' => $this->getDirectory(),
             ]
         );
     }
 
+
     /**
      * @Route("/instance-register", name="instance_register", options={"expose"=true})
      */
-    public function registerInstance()
+    public function registerInstance(): Response
     {
         $entity = new Instance();
-        $form = $this->createForm(InstanceRegisterType::class, $entity);
+        $form = $this->createForm(
+            InstanceRegisterType::class, $entity
+        );
 
         return $this->render(
-            'Directory/registerInstance.html.twig',
+            (string) $this->templatePrefix . 'registerInstance.html.twig',
             [
                 'entity' => $entity,
                 'form' => $form->createView(),
@@ -128,12 +174,13 @@ class DirectoryController extends BaseController
         );
     }
 
+
     /**
      * @Route("/create-register", name="directory_instance_create", methods={"POST"})
      */
-    public function create(Request $request)
+    public function create(Request $request): Response
     {
-        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
+        $entity_manager = $this->entityManager;
 
         $parameters = $request->get('instance_register');
 
@@ -178,7 +225,7 @@ class DirectoryController extends BaseController
         $parametros['category'] = Category::CATEGORY_NEW_INSTANCE;
         $parametros['typeState'] = TypeState::TYPE_STATE_NEW;
 
-        $ticket_helper = $this->get('celsius3_ticket.ticket_helper');
+        $ticket_helper = $this->ticketHelper;
         $ticket_helper->setParametros($parametros);
         $ticket_helper->createTicket();
 

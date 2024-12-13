@@ -69,9 +69,6 @@ class AdminOrderController extends OrderController
         $this->lifecycleHelper = $lifecycleHelper;
     }
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Order/'; }
-
 
     protected function getSortDefaults(): array
     {
