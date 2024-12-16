@@ -24,16 +24,25 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Dashboard;
 
+use Celsius3\Controller\BaseController;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Symfony\Component\HttpFoundation\Request;
 
 use function in_array;
 
-final class AjaxController extends BaseInstanceDependentController
+final class AjaxController extends BaseController
 {
-    public function __invoke(Request $request)
+    protected function getTemplatePrefix(): string
+    { return ''; }
+
+
+    public function __invoke()
     {
-        return $this->ajax($request, $this->getInstance(), $this->getUser());
+        $request = $this->requestStack->getCurrentRequest();
+
+        return $this->ajax(
+            $request, $this->instance
+        );
     }
 
     protected function validateAjax($target): bool

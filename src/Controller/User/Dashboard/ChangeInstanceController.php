@@ -25,13 +25,10 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Dashboard;
 
 use Celsius3\Controller\BaseInstanceDependentController;
-use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
-use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\InstanceType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -44,11 +41,11 @@ use function array_key_exists;
  */
 final class ChangeInstanceController extends BaseInstanceDependentController
 {
-    private Session $session;
+    private SessionInterface $session;
     private $tokenStorage;
 
     public function __construct(
-        Session $session,
+        SessionInterface $session,
         TokenStorageInterface $tokenStorage,
         ... $args
     ) {

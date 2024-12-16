@@ -24,14 +24,14 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\BaseUser;
 
-use Celsius3\Controller\BaseController;
+use Celsius3\Controller\BaseEntityController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ListAllUsersViewController extends BaseController
+final class ListAllUsersViewController extends BaseEntityController
 {
 
     protected final function getEntity(): string

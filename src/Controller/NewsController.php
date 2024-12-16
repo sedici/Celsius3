@@ -22,27 +22,24 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Instance;
-use Celsius3\Form\Type\Filter\MailFilterType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Celsius3\Entity\News;
+use Celsius3\Form\Type\NewsType;
 
-/**
- * MailList controller.
- *
- * @Route("/superadmin/maillist")
- */
-class SuperadminMailListController extends MailListController
+class NewsController extends BaseInstanceDependentController
 {
-    protected function getInstance(): Instance
-    { return $this->directory; }
+
+    protected final function getEntity(): string
+    { return News::class; }
+
+    protected function getType(): string
+    { return NewsType::class; }
 
 
-    /**
-     * Lists all Mail entities.
-     *
-     * @Route("/", name="superadmin_maillist")
-     */
-    public function index(): Response
-    { return $this->baseInstanceIndex(type: MailFilterType::class); }
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc'
+        ];
+    }
 }

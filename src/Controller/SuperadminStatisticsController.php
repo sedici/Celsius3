@@ -25,13 +25,9 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\State;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
-
-
-use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Location controller.
@@ -40,68 +36,94 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class SuperadminStatisticsController extends BaseController
 {
+
+    protected function getTemplatePrefix(): string
+    { return 'Superadmin/Statistics/'; }
+
+
     /**
      * Lists all Catalog entities.
      *
      * @Route("/", name="superadmin_statistics")
      */
-    public function index(Request $request)
+    public function index(): Response
     {
 
-        $instance=$this->get('celsius3_core.instance_helper')->getSessionInstance();
         $orderType = null;
         $user=null;
-        $orderCount = $this->getDoctrine()->getManager()
+        $orderCount = $this->objectManager
             ->getRepository(State::class)
-            ->countOrders($instance, $user, $orderType);
+            ->countOrders(
+                $this->instance, $user, $orderType
+            );
 
-        $repository = $this->getDoctrine()->getManager()->getRepository(BaseUser::class);
+        $repository = $this->objectManager
+            ->getRepository(BaseUser::class);
 
-        $admins = $repository->findManagerOrder($instance);
+        $admins = $repository->findManagerOrder($this->instance);
 
-        return $this->render('Superadmin/Statistics/index.html.twig', array(
-            'orderCount' => $orderCount,
-            'admin' =>$admins
-
-        ));
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig',
+            [
+                'orderCount' => $orderCount,
+                'admin' =>$admins
+            ]
+        );
     }
-
 
 
     /**
      * GET Route annotation.
      * @POST("/pedidos-por-estado", name="pedidos_por_estados", options={"expose"=true})
      */
-    public function getPedidosPorEstado(Request $request)
+    public function getPedidosPorEstado(): JsonResponse
     {
-        $usuario = $request->request->get('user');
-        $fecha_desde = $request->request->get('fecha_desde');
-        $fecha_hasta = $request->request->get('fecha_hasta');
-        $instance=$this->get('celsius3_core.instance_helper')->getSessionInstance();
+        $request = $this->requestStack->getCurrentRequest();
 
-        $array_json=array();
+        $usuario = $request->get('user');
+        $fecha_desde = $request->get('fecha_desde');
+        $fecha_hasta = $request->get('fecha_hasta');
+
+        $array_json = [];
         if (empty($usuario)){
-            $orderType = null;
-            $usuario=null;
-            $repository = $this->getDoctrine()->getManager()->getRepository(BaseUser::class);
-            $managers = $repository->findManagerOrder($instance);
-            $array_user=array();
+            $usuario = null;
+
+            $repository = $this->objectManager->getRepository(BaseUser::class);
+            $managers = $repository->findManagerOrder($this->instance);
+
+            $array_user = [];
+
             foreach ($managers as $m){
-                $user = $this->getDoctrine()->getManager()->getRepository(BaseUser::class)->find($m);
-                $countUserOrders = $this->getDoctrine()->getManager()
+                $user = $this->objectManager
+                    ->getRepository(BaseUser::class)
+                    ->find($m);
+
+                $countUserOrders = $this->objectManager
                     ->getRepository(State::class)
-                    ->countOrdersEntreFechas($instance, $user,null,$fecha_desde,$fecha_hasta);
+                    ->countOrdersEntreFechas(
+                        $this->instance,
+                        $user,
+                        null,
+                        $fecha_desde,
+                        $fecha_hasta
+                    );
                 $array_user[$user->getId()]['nombre']=$user->getFullName();
                 $array_user[$user->getId()]['estados']=$countUserOrders;
             }
+        } else {
+            $user = $this->objectManager
+                ->getRepository(BaseUser::class)
+                ->find($usuario);
 
-
-
-        }else{
-            $user = $this->getDoctrine()->getManager()->getRepository(BaseUser::class)->find($usuario);
-            $countUserOrders = $this->getDoctrine()->getManager()
+            $countUserOrders = $this->objectManager
                 ->getRepository(State::class)
-                ->countOrdersEntreFechas($instance, $user,null,$fecha_desde,$fecha_hasta);
+                ->countOrdersEntreFechas(
+                    $this->instance,
+                    $user,
+                    null,
+                    $fecha_desde,
+                    $fecha_hasta
+                );
 
             $array_user[$user->getId()]['nombre']=$user->getFullName();
             $array_user[$user->getId()]['estados']=$countUserOrders;
@@ -110,43 +132,58 @@ class SuperadminStatisticsController extends BaseController
 
         return new JsonResponse($array_json);
     }
-
 
 
     /**
      * GET Route annotation.
      * @POST("/pedidos-por-estado-por-anio", name="pedidos_por_estados_anio", options={"expose"=true})
      */
-    public function getPedidosPorEstadoPorAnio(Request $request)
+    public function getPedidosPorEstadoPorAnio(): JsonResponse
     {
-        $usuario = $request->request->get('user');
-        $anio_desde = $request->request->get('anio_desde');
-        $anio_hasta = $request->request->get('anio_hasta');
-        $instance=$this->get('celsius3_core.instance_helper')->getSessionInstance();
+        $request = $this->requestStack->getCurrentRequest();
 
-        $array_json=array();
+        $usuario = $request->get('user');
+        $anio_desde = $request->get('anio_desde');
+        $anio_hasta = $request->get('anio_hasta');
+
+        $array_json = [];
         if (empty($usuario)){
-            $orderType = null;
             $usuario=null;
-            $repository = $this->getDoctrine()->getManager()->getRepository(BaseUser::class);
-            $managers = $repository->findManagerOrder($instance);
-            $array_user=array();
+            $repository = $this->objectManager
+                ->getRepository(BaseUser::class);
+
+            $managers = $repository->findManagerOrder($this->instance);
+            $array_user = [];
+
             foreach ($managers as $m){
-                $user = $this->getDoctrine()->getManager()->getRepository(BaseUser::class)->find($m);
-                $countUserOrders = $this->getDoctrine()->getManager()
+                $user = $this->objectManager
+                    ->getRepository(BaseUser::class)
+                    ->find($m);
+
+                $countUserOrders = $this->objectManager
                     ->getRepository(State::class)
-                    ->findRequestsStateCountForUser($instance,$anio_desde,$anio_hasta,$user);
+                    ->findRequestsStateCountForUser(
+                        $this->instance,
+                        $anio_desde,
+                        $anio_hasta,
+                        $user
+                    );
                 $array_user[$user->getId()]['nombre']=$user->getFullName();
                 $array_user[$user->getId()]['estados']=$countUserOrders;
             }
+        } else {
+            $user = $this->objectManager
+                ->getRepository(BaseUser::class)
+                ->find($usuario);
 
-
-
-        }else{
-            $user = $this->getDoctrine()->getManager()->getRepository(BaseUser::class)->find($usuario);
-            $countUserOrders = $this->getDoctrine()->getManager()
+            $countUserOrders = $this->objectManager
                 ->getRepository(State::class)
-                ->findRequestsStateCountForUser($instance,$anio_desde,$anio_hasta,$user);
+                ->findRequestsStateCountForUser(
+                    $this->instance,
+                    $anio_desde,
+                    $anio_hasta,
+                    $user
+                );
 
             $array_user[$user->getId()]['nombre']=$user->getFullName();
             $array_user[$user->getId()]['estados']=$countUserOrders;
@@ -155,7 +192,4 @@ class SuperadminStatisticsController extends BaseController
 
         return new JsonResponse($array_json);
     }
-
-
-
 }

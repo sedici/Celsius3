@@ -23,8 +23,6 @@
 namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\News;
-use Celsius3\Form\Type\NewsType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -32,24 +30,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/news")
  */
-class AdminNewsController extends BaseInstanceDependentController
+class AdminNewsController extends NewsController
 {
-
-    protected final function getEntity(): string
-    { return News::class; }
-
-    protected final function getType(): string
-    { return NewsType::class; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc'
-        ];
-    }
-
 
     /**
      * Lists all News entities.
@@ -57,9 +39,7 @@ class AdminNewsController extends BaseInstanceDependentController
      * @Route("/", name="admin_news")
      */
     public function index(): Response
-    {
-        return $this->baseIndex();
-    }
+    { return $this->baseIndex(); }
 
 
     /**
@@ -71,9 +51,7 @@ class AdminNewsController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function show($id): Response
-    {
-        return $this->baseShow($id);
-    }
+    { return $this->baseShow($id); }
 
 
     /**
@@ -82,9 +60,7 @@ class AdminNewsController extends BaseInstanceDependentController
      * @Route("/new", name="admin_news_new")
      */
     public function new(): Response
-    {
-        return $this->baseInstanceNew();
-    }
+    { return $this->baseInstanceNew(); }
 
 
     /**
@@ -93,9 +69,8 @@ class AdminNewsController extends BaseInstanceDependentController
      * @Route("/create", name="admin_news_create", methods={"POST"})
      */
     public function create(): Response
-    {
-        return $this->baseInstanceCreate(route: 'admin_news');
-    }
+    { return $this->baseInstanceCreate(route: 'admin_news'); }
+
 
     /**
      * Displays a form to edit an existing News entity.
@@ -107,9 +82,7 @@ class AdminNewsController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function edit(string $id): Response
-    {
-        return $this->baseInstanceEdit($id);
-    }
+    { return $this->baseInstanceEdit($id); }
 
 
     /**
@@ -122,7 +95,5 @@ class AdminNewsController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function update(string $id): Response
-    {
-        return $this->baseInstanceUpdate($id, 'admin_news');
-    }
+    { return $this->baseInstanceUpdate($id, 'admin_news'); }
 }

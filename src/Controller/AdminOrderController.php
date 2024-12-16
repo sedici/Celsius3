@@ -26,28 +26,14 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\JournalType;
 use Celsius3\Entity\Order;
-use Celsius3\Exception\Exception;
-use Celsius3\Form\Type\Filter\CityFilterType;
 use Celsius3\Form\Type\JournalTypeType;
-use Celsius3\Form\Type\OrderType;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Request;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\ConfigurationHelper;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 use function get_class;
 

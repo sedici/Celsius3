@@ -23,13 +23,13 @@
 namespace Celsius3\EventListener;
 
 use Celsius3\Manager\Alert;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ResponseListener
 {
     private $session;
 
-    public function __construct(Session $session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

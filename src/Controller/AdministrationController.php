@@ -44,7 +44,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
@@ -60,16 +60,16 @@ use function json_encode;
 class AdministrationController extends BaseInstanceDependentController
 {
 
-    private UserManager $userManager;
-    private Session $session;
-    private Environment $twig;
-    private Mailer $mailer;
-    private $fileRepository;
+    protected UserManager $userManager;
+    protected SessionInterface $session;
+    protected Environment $twig;
+    protected Mailer $mailer;
+    protected $fileRepository;
 
 
     public function __construct(
         UserManager $userManager,
-        Session $session,
+        SessionInterface $session,
         Environment $twig,
         Mailer $mailer,
         ... $args

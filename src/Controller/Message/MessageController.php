@@ -22,21 +22,18 @@
 
 namespace Celsius3\Controller\Message;
 
-use Celsius3\Entity\Thread;
 use Celsius3\Form\Type\Filter\MessageFilterType;
-//use FOS\MessageBundle\Controller\MessageController as BaseController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Celsius3\Controller\BaseController;
+use Celsius3\Controller\BaseEntityController;
+use Celsius3\Entity\Message;
 use Symfony\Component\HttpFoundation\Response;
 
-class MessageController extends BaseController
+class MessageController extends BaseEntityController
 {
     protected final function getEntity(): string
     { return Message::class; }
 
     protected final function getType(): string
-    { return MessageType::class; }
+    { return ''; }
 
     protected final function getTemplatePrefix(): string
     { return 'bundles/FOSMessageBundle/Message/'; }
@@ -49,7 +46,7 @@ class MessageController extends BaseController
     /**
      * Displays the authenticated participant inbox.
      */
-    public function inboxAction()
+    public function inboxAction(): Response
     {
         $threads = $this->getProvider()->getInboxThreadsQuery();
 
@@ -80,10 +77,11 @@ class MessageController extends BaseController
      *
      * @return object The service
      */
-    protected function get($id)
+    protected function get(string $id): object
     {
         return $this->container->get($id);
     }
+
 
     protected function getResultsPerPage()
     {

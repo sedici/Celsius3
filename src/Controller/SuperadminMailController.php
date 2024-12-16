@@ -23,14 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\MailTemplate;
-use Celsius3\Form\Type\MailTemplateType;
 use Celsius3\Form\Type\Filter\MailTemplateFilterType;
-use Celsius3\Exception\Exception;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -38,30 +33,30 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/mail")
  */
-class SuperadminMailController extends BaseController
+class SuperadminMailController extends MailTemplateController
 {
-    protected function listQuery($name)
-    {
 
-        return $this->getDoctrine()->getManager()
-            ->getRepository(MailTemplate::class)
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
+
+    protected function listQuery(): QueryBuilder
+    {
+        return $this->repository
             ->createQueryBuilder('e')
             ->where('e.instance = :instance')
             ->setParameter('instance', $this->getDirectory()->getId());
     }
+
 
     /**
      * Lists all Templates Mail.
      *
      * @Route("/", name="superadmin_mails")
      */
-    public function index(PaginatorInterface $paginator): Response
-    {
-        return $this->render(
-            'Superadmin/Mail/index.html.twig',
-            $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class), $paginator)
-        );
-    }
+    public function index(): Response
+    { return $this->baseInstanceIndex(type: MailTemplateFilterType::class); }
+
 
     /**
      * Displays a form to create a new mail template.
@@ -69,25 +64,7 @@ class SuperadminMailController extends BaseController
      * @Route("/new", name="superadmin_mails_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/Mail/new.html.twig',
-            $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
-    protected function findQuery($name, $id)
-    {
-        //dump($name.':class');
-        // die();
-        //     dump($name.'::class');
-
-        // die;
-        return $this->getDoctrine()->getManager()
-            ->getRepository(MailTemplate::class)
-            ->find($id);
-    }
+    { return $this->baseInstanceNew(); }
 
 
     /**
@@ -99,27 +76,18 @@ class SuperadminMailController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id)
-    {
-        return $this->render(
-            'Superadmin/Mail/edit.html.twig',
-            $this->baseEdit('MailTemplate', $id, MailTemplateType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Creates a new Mail Entity.
      *
      * @Route("/create", name="superadmin_mails_create", methods={"POST"})
      */
-    public function create()
-    {
-        return $this->render('Superadmin/Mail/new.html.twig', $this->baseCreate('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
-                    'instance' => $this->getDirectory(),
-                        ), 'superadmin_mails'));
-    }
+    public function create(): Response
+    { return $this->baseInstanceCreate(route: 'superadmin_mails'); }
+
 
     /**
      * Edits an existing Mail TEmplate.
@@ -130,12 +98,9 @@ class SuperadminMailController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->render('Superadmin/Mail/edit.html.twig', $this->baseUpdate('MailTemplate', $id, MailTemplateType::class, array(
-                    'instance' => $this->getDirectory(),
-                        ), 'superadmin_mails'));
-    }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'superadmin_mails'); }
+
 
     /**
      * Change state an existing Mail TEmplate.
@@ -146,26 +111,21 @@ class SuperadminMailController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function changeState($id): Response
+    public function changeState(string $id): Response
     {
-        $template = $this->findQuery('MailTemplate', $id);
+        $entity = $this->findQuery($id);
 
-        if (!$template) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
-        }
+        if (!$entity) $this->error('entity_not_found');
 
-        $template->setEnabled(!$template->getEnabled());
+        $entity->setEnabled(!$entity->getEnabled());
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($template);
-        $em->flush();
+        $this->persistEntity($entity);
 
-        $this->get('session')->getFlashBag()
-            ->add(
-                'success',
-                'The Template was successfully '
-                . (($template->getEnabled()) ? 'enabled' : 'disabled')
-            );
+        $this->addEntityFlash(
+            'success',
+            'The %entity% was successfully '
+            . (($entity->getEnabled()) ? 'enabled' : 'disabled')
+        );
 
         return $this->redirect($this->generateUrl('superadmin_mails'));
     }

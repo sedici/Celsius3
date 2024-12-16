@@ -23,9 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Helper\MailerHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * BaseUser controller.
@@ -34,15 +34,31 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TechnicalController extends BaseController
 {
+
+    protected MailerHelper $mailerHelper;
+
+    public function __construct(
+        MailerHelper $mailerHelper,
+        ... $args
+    ) {
+        parent::__construct(... $args);
+        $this->mailerHelper = $mailerHelper;
+    }
+
+
+    protected function getTemplatePrefix(): string
+    { return 'Technical/'; }
+
+
     /**
      * Lists all BaseUser entities.
      *
      * @Route("/", name="tichnical_index")
      *
      */
-    public function index()
+    public function index(): Response
     {
-        $instances = $this->getDoctrine()->getManager()
+        $instances = $this->objectManager
             ->getRepository(Instance::class)
             ->findAllEnabledAndVisible();
 
@@ -54,16 +70,23 @@ class TechnicalController extends BaseController
             $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
         }
 
-        return $this->render('Technical/index.html.twig', array('instances' => $cInstances));
+        return $this->render(
+            $this->templatePrefix . 'index.html.twig',
+            [ 'instances' => $cInstances ]
+        );
     }
+
 
     /**
      *  @Route("/test_smtp", name="technical_instance_rest_test_smtp", options={"expose"=true})
      */
-    public function testConnection(Request $request)
+    public function testConnection(): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         $instance_id = $request->get('instance');
-        $instance = $this->getDoctrine()->getManager()
+
+        $instance = $this->objectManager
             ->getRepository(Instance::class)
             ->createQueryBuilder('i')
             ->andWhere('i.id = :instance_id')
@@ -71,11 +94,18 @@ class TechnicalController extends BaseController
             ->getQuery()
             ->getOneOrNullResult();
 
-        $mailerHelper = $this->get('celsius3_core.mailer_helper');
+        $mailerHelper = $this->mailerHelper;
         $info_connection = $mailerHelper->testConnection(
-            $instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue(), $instance->get('smtp_username')->getValue(), $instance->get('smtp_password')->getValue()
+            $instance->get('smtp_host')->getValue(),
+            $instance->get('smtp_port')->getValue(),
+            $instance->get('smtp_protocol')->getValue(),
+            $instance->get('smtp_username')->getValue(),
+            $instance->get('smtp_password')->getValue()
         );
 
-        return $this->render('Technical/_testConnection.html.twig', array('info_connection' => $info_connection));
+        return $this->render(
+            $this->templatePrefix . '_testConnection.html.twig',
+            [ 'info_connection' => $info_connection ]
+        );
     }
 }

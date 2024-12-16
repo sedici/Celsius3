@@ -35,7 +35,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  *
  * @Route("/admin/file")
  */
-class AdminFileController extends BaseController
+class AdminFileController extends BaseEntityController
 {
     
     use FileControllerTrait;

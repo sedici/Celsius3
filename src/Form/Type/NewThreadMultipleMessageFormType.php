@@ -26,7 +26,7 @@ use Celsius3\Entity\BaseUser;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
@@ -36,7 +36,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
-    private $authorization_checker;
+    private AuthorizationCheckerInterface $authorization_checker;
     private $token_storage;
     private $em;
 

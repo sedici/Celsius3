@@ -26,18 +26,16 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Validator\Constraints\ContainsCSS;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\LegacyInstance;
+use Celsius3\Form\Type\InstanceType;
 use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-abstract class InstanceController extends BaseController
+abstract class InstanceController extends BaseInstanceDependentController
 {
 
-    /**
-     * @var MailerHelper
-     */
-    private $mailerHelper;
+    private MailerHelper $mailerHelper;
 
     public function __construct(
         MailerHelper $mailerHelper,
@@ -50,6 +48,9 @@ abstract class InstanceController extends BaseController
 
     protected final function getEntity(): string
     { return Instance::class; }
+
+    protected function getType(): string
+    { return InstanceType::class; }
 
 
     protected function getDirectory(): Instance|null
@@ -120,8 +121,17 @@ abstract class InstanceController extends BaseController
         $builder = $this->createFormBuilder();
 
         foreach ($entity->getConfigurations() as $configuration) {
-            $configurationType = $this->configurationHelper->guessConfigurationType($configuration);
-            $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType,$configurationHelper));
+            $configurationType = $this->configurationHelper
+                ->guessConfigurationType($configuration);
+            $builder->add(
+                $configuration->getKey(),
+                $configurationType,
+                $this->buildConfigurationArray(
+                    $configuration,
+                    $configurationType,
+                    $this->configurationHelper
+                )
+            );
         }
 
         return $builder->getForm();

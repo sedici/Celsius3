@@ -24,8 +24,6 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\Institution;
-use Celsius3\Form\Type\InstitutionType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -34,29 +32,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @Route("/admin/institution")
  */
-class AdminInstitutionController extends BaseInstanceDependentController
+class AdminInstitutionController extends InstitutionController
 {
-
-    protected final function getEntity(): string
-    { return Institution::class; }
-
-    protected final function getType(): string
-    { return InstitutionType::class; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
 
     protected function getDirectory(): Instance|null
     {
-        return $this->managerRegistry
-            ->getRepository(Instance::class)
+        return $this->repository
             ->findOneBy(['url' => 'directory']);
     }
 
@@ -67,9 +48,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
      * @Route("/", name="admin_institution")
      */
     public function index(): Response
-    {
-        return $this->baseInstanceIndex();
-    }
+    { return $this->baseInstanceIndex(); }
+
 
     /**
      * Displays a form to create a new Institution entity.
@@ -77,9 +57,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
      * @Route("/new", name="admin_institution_new", options={"expose"=true})
      */
     public function new(): Response
-    {
-        return $this->baseInstanceNew(options: [ 'show_city' => true ]);
-    }
+    { return $this->baseInstanceNew(options: [ 'show_city' => true ]); }
+
 
     /**
      * Creates a new Institution entity.
@@ -94,6 +73,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
         );
     }
 
+
     /**
      * Displays a form to edit an existing Institution entity.
      *
@@ -103,7 +83,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
         return $this->baseInstanceEdit(
             $id, options: [ 'show_city' => true ]
@@ -119,13 +99,14 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): RedirectResponse|Response
+    public function update(string $id): RedirectResponse|Response
     {
         return $this->baseInstanceUpdate(
             $id, 'admin_institution',
             options: [ 'show_city' => true ]
         );
     }
+
 
     /**
      * Displays a form to edit an existing Institution entity.
@@ -136,7 +117,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show(int $id): Response
+    public function show(string $id): Response
     {
         $entity = $this->findQuery($id);
 

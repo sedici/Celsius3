@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
 use Celsius3\Controller\Api\UserController;
-use Celsius3\Controller\BaseController;
+use Celsius3\Controller\BaseEntityController;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Controller\BaseUserController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

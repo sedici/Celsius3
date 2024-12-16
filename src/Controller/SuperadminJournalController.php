@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Instance;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,6 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Journal;
 use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\Filter\JournalFilterType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -36,37 +38,21 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/journal")
  */
-class SuperadminJournalController extends BaseController
+class SuperadminJournalController extends JournalController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        );
-    }
 
-    protected function listQuery($name)
-    {
-        $valor=$name;
-       // $class = new \ReflectionClass($valor);
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Journal::class)
-            ->createQueryBuilder('e');
-    }
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
 
     /**
      * Lists all Journal entities.
      *
      * @Route("/", name="superadmin_journal")
      */
-    public function index(PaginatorInterface $paginator): Response
-    {
-        return $this->render(
-            'Superadmin/Journal/index.html.twig',
-            $this->baseIndex('Journal', $this->createForm(JournalFilterType::class),$paginator)
-        );
-    }
+    public function index(): Response
+    { return $this->baseInstanceIndex(type: JournalFilterType::class); }
+
 
     /**
      * Displays a form to create a new Journal entity.
@@ -74,26 +60,16 @@ class SuperadminJournalController extends BaseController
      * @Route("/new", name="superadmin_journal_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/Journal/new.html.twig',
-            $this->baseNew('Journal', new Journal(), JournalType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    { return $this->baseInstanceNew(); }
 
     /**
      * Creates a new Journal entity.
      *
      * @Route("/create", name="superadmin_journal_create", methods={"POST"})
      */
-    public function create()
-    {
-        return $this->render('Superadmin/Journal/new.html.twig', $this->baseCreate('Journal', new Journal(), JournalType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_journal'));
-    }
+    public function create(): RedirectResponse|Response
+    { return $this->baseInstanceCreate(); }
+
 
     /**
      * Displays a form to edit an existing Journal entity.
@@ -104,15 +80,9 @@ class SuperadminJournalController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    {
-        return $this->render(
-            'Superadmin/Journal/edit.html.twig',
-            $this->baseEdit('Journal', $id, JournalType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Edits an existing Journal entity.
@@ -123,12 +93,9 @@ class SuperadminJournalController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->render('Superadmin/Journal/edit.html.twig', $this->baseUpdate('Journal', $id, JournalType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_journal'));
-    }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'superadmin_journal'); }
+
 
     /**
      * Batch actions.
@@ -137,27 +104,27 @@ class SuperadminJournalController extends BaseController
      *
      * @return array
      */
-    public function batch()
-    {
-        return $this->baseBatch();
-    }
+    public function batch(): mixed
+    { return $this->baseBatch(); }
 
-    protected function batchUnion($element_ids)
-    {
-        return $this->render('Superadmin/Journal/batchUnion.html.twig', $this->baseUnion('Journal', $element_ids));
-    }
+
+    protected function batchUnion(array $element_ids): Response
+    { return $this->batchUnion($element_ids); }
+
 
     /**
      * Unifies a group of Journal entities.
      *
      * @Route("/doUnion", name="superadmin_journal_doUnion", methods={"POST"})
      */
-    public function doUnion()
+    public function doUnion(): RedirectResponse
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $element_ids = $request->request->get('element');
-        $main_id = $request->request->get('main');
+        $request = $this->requestStack->getCurrentRequest();
 
-        return $this->baseDoUnion(Journal::class, $element_ids, $main_id, 'superadmin_journal');
+        return $this->baseDoUnion(
+            $request->get('element'),
+            $request->get('main'),
+            'superadmin_journal'
+        );
     }
 }

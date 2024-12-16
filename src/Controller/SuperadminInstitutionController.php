@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Instance;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -32,76 +33,37 @@ use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Translation\Translator;
 /**
  * Location controller.
  *
  * @Route("/superadmin/institution")
  */
-class SuperadminInstitutionController extends BaseController
+class SuperadminInstitutionController extends InstitutionController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        );
-    }
+
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
 
     /**
      * Lists all Institution entities.
      *
      * @Route("/", name="superadmin_institution")
      */
-    public function index(PaginatorInterface $paginator): Response
-    {
-        return $this->render(
-            'Superadmin/Institution/index.html.twig',
-            $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class),$paginator)
-        );
-    }
-    protected function listQuery($name)
-    {
-        $valor=$name;
-    //    $class = new \ReflectionClass($valor);
-        return $this->getDoctrine()->getManager()
-            ->getRepository(Institution::class)
-            ->createQueryBuilder('e');
-    }
+    public function index(): Response
+    { return $this->baseInstanceIndex(type: InstitutionFilterType::class); }
 
 
-    protected function baseIndex($name, FormInterface $filter_form = null,$paginator)
-    {
-
-        $query = $this->listQuery($name);
-        $request = $this->get('request_stack')->getCurrentRequest();
-        if (!is_null($filter_form)) {
-            $filter_form = $filter_form->handleRequest($request);
-            //  $query = $this->filter($name, $filter_form, $query);
-        }
-        //    $paginator = $this->get('knp_paginator');
-
-        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
-
-        return array(
-            'pagination' => $pagination,
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
-        );
-    }
     /**
      * Displays a form to create a new Institution entity.
      *
      * @Route("/new", name="superadmin_institution_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/Institution/new.html.twig',
-            $this->baseNew('Institution', new Institution(), InstitutionType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    { return $this->baseInstanceNew(); }
+
 
     /**
      * Creates a new Institution entity.
@@ -109,12 +71,9 @@ class SuperadminInstitutionController extends BaseController
      * @Route("/create", name="superadmin_institution_create", methods={"POST"})
      *
      */
-    public function create()
-    {
-        return $this->render('Superadmin/Instance/new.html.twig', $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_institution'));
-    }
+    public function create(): RedirectResponse|Response
+    { return $this->baseInstanceCreate(route: 'superadmin_institution'); }
+
 
     /**
      * Displays a form to edit an existing Institution entity.
@@ -125,15 +84,9 @@ class SuperadminInstitutionController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    {
-        return $this->render(
-            'Superadmin/Institution/edit.html.twig',
-            $this->baseEdit('Institution', $id, InstitutionType::class, [
-                'instance' => $this->getDirectory(),
-            ])
-        );
-    }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Edits an existing Institution entity.
@@ -145,12 +98,9 @@ class SuperadminInstitutionController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->render('Superadmin/Institution/edit.html.twig', $this->baseUpdate('Institution', $id, InstitutionType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_institution'));
-    }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'superadmin_institution'); }
+
 
     /**
      * Batch actions.
@@ -160,14 +110,17 @@ class SuperadminInstitutionController extends BaseController
      * @return array
      */
     public function batch()
+    { return $this->baseBatch(); }
+
+
+    protected function batchUnion(array $element_ids): Response
     {
-        return $this->baseBatch();
+        return $this->render(
+            (string) $this->templatePrefix . 'batchUnion.html.twig',
+            $this->baseUnion($element_ids)
+        );
     }
 
-    protected function batchUnion($element_ids)
-    {
-        return $this->render('Superadmin/Institution/batchUnion.html.twig', $this->baseUnion('Institution', $element_ids));
-    }
 
     /**
      * Unifies a group of Institution entities.
@@ -175,14 +128,19 @@ class SuperadminInstitutionController extends BaseController
      * @Route("/doUnion", name="superadmin_institution_doUnion", methods={"POST"})
      *
      */
-    public function doUnion()
+    public function doUnion(): RedirectResponse
     {
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $element_ids = $request->request->get('element');
-        $main_id = $request->request->get('main');
+        $request = $this->requestStack->getCurrentRequest();
+        $element_ids = $request->get('element');
+        $main_id = $request->get('main');
 
-        return $this->baseDoUnion(Institution::class, $element_ids, $main_id, 'superadmin_institution');
+        return $this->baseDoUnion(
+            $element_ids,
+            $main_id,
+            'superadmin_institution'
+        );
     }
+
 
     /**
      * Displays a form to edit an existing Institution entity.
@@ -193,19 +151,6 @@ class SuperadminInstitutionController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id): Response
-    {
-        $entity = $this->getDoctrine()->getRepository(Institution::class)->find($id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
-        }
-
-        return $this->render(
-            'Superadmin/Institution/show.html.twig',
-            [
-                'entity' => $entity,
-            ]
-        );
-    }
+    public function show(string $id): Response
+    { return $this->baseShow($id); }
 }

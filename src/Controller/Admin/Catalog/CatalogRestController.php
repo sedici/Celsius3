@@ -20,8 +20,9 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Admin\Catalog;
 
+use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\Catalog;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Form\Type\CatalogType;

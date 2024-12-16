@@ -24,12 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Email;
 use Celsius3\Form\Type\Filter\MailFilterType;
-use Celsius3\Manager\FilterManager;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -37,38 +34,11 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/maillist")
  */
-class AdminMailListController extends BaseInstanceDependentController
+class AdminMailListController extends MailListController
 {
-    /**
-     * @var FilterManager
-     */
-    private $filterManager;
-
-    public function __construct(
-        FilterManager $filterManager,
-        ...$args
-    ) {
-        parent::__construct(...$args);
-        $this->filterManager = $filterManager;
-    }
-
-    protected final function getEntity(): string
-    { return Email::class; }
-
-    protected final function getType(): string
-    { return EmailType::class; }
 
     protected final function getTemplatePrefix(): string
     { return 'Admin/MailList/'; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc'
-        ];
-    }
 
 
     protected function listQuery(): QueryBuilder

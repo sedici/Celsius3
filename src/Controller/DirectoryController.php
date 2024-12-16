@@ -36,7 +36,6 @@ use Celsius3\TicketBundle\Entity\Category;
 use Celsius3\TicketBundle\Entity\Priority;
 use Celsius3\TicketBundle\Entity\TypeState;
 use Celsius3\TicketBundle\Helper\TicketHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +45,7 @@ use function array_key_exists;
 /**
  * @Route("/directory/instance")
  */
-class DirectoryController extends BaseController
+class DirectoryController extends BaseEntityController
 {
 
     protected TicketHelper $ticketHelper;

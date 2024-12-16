@@ -4,14 +4,14 @@ namespace Celsius3\TicketBundle\Helper;
 
 use Celsius3\TicketBundle\Entity\Ticket;
 use Celsius3\TicketBundle\Entity\TicketState;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class TicketHelper
 {
     private $entityManager;
     private $parametros;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

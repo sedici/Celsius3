@@ -38,8 +38,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class CreateOrderPostController extends AbstractController
 {
-    private $authorizationChecker;
-    private $instanceHelper;
+    private AuthorizationCheckerInterface $authorizationChecker;
+    private InstanceHelper $instanceHelper;
     private $journalRepository;
     private $entityManager;
 

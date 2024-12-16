@@ -23,15 +23,13 @@
 namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\MailTemplate;
-use Celsius3\Form\Type\MailTemplateType;
 use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\Validator\Constraints as CelsiusAssert;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -40,36 +38,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *
  * @Route("/admin/mail")
  */
-class AdminMailController extends BaseInstanceDependentController
+class AdminMailController extends MailController
 {
 
-    private AuthorizationChecker $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     private ValidatorInterface $validator;
 
     public function __construct(
-        AuthorizationChecker $authorizationChecker,
+        AuthorizationCheckerInterface $authorizationChecker,
         ValidatorInterface $validator,
         ...$args
     ) {
         parent::__construct(... $args);
         $this->authorizationChecker = $authorizationChecker;
         $this->validator = $validator;
-    }
-
-    protected final function getEntity(): string
-    { return MailTemplate::class; }
-
-    protected final function getType(): string
-    { return MailTemplateType::class; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
     }
 
 
@@ -79,11 +62,7 @@ class AdminMailController extends BaseInstanceDependentController
      * @Route("/", name="admin_mails")
      */
     public function index(): Response
-    {
-        return $this->baseInstanceIndex(filter_form: 
-            $this->createForm(MailTemplateFilterType::class)
-        );
-    }
+    { return $this->baseInstanceIndex(type: MailTemplateFilterType::class); }
 
 
     /**
@@ -161,9 +140,7 @@ class AdminMailController extends BaseInstanceDependentController
      *
      */
     public function create(): RedirectResponse|Response
-    {
-        return $this->baseInstanceCreate();
-    }
+    { return $this->baseInstanceCreate(); }
 
 
     /**

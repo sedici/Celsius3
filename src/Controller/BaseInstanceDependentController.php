@@ -24,36 +24,14 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Instance;
-use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
-// use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormInterface;
 
-abstract class BaseInstanceDependentController extends BaseController
+abstract class BaseInstanceDependentController extends BaseEntityController
 {
-
-    protected InstanceHelper $instanceHelper;
-    protected Instance $instance;
-
-    protected string $filterType;
-
-    public function __construct(
-        InstanceHelper $instanceHelper,
-        ...$args
-    ) {
-        parent::__construct(...$args);
-        $this->instanceHelper = $instanceHelper;
-        $this->instance = $this->getInstance();
-    }
-
-
-    protected function getInstance(): Instance
-    { return $this->instanceHelper->getSessionInstance(); }
-
 
     protected function listQuery(): QueryBuilder
     {
@@ -92,13 +70,15 @@ abstract class BaseInstanceDependentController extends BaseController
         string $route,
         string $type = null,
         array $options = [],
-        string $template = null
+        string $template = null,
+        Entity $entity = null
     ): RedirectResponse|Response {
         return $this->baseUpdate(
             $id, $route, $type,
             [
                 'instance' => $this->instance, ... $options
-            ], $template
+            ], $template,
+            $entity
         );
     }
 
@@ -108,13 +88,15 @@ abstract class BaseInstanceDependentController extends BaseController
         string $type = null,
         string $route = null,
         array $options = [],
-        string $template = null
+        string $template = null,
+        Entity $entity = null,
     ): Response {
         return $this->baseEdit(
             $id, $type,
             [
                 'instance' => $this->instance, ... $options
-            ], $route, $template
+            ], $route, $template,
+            $entity
         );
     }
 

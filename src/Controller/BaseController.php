@@ -22,32 +22,26 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use ReflectionClass;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class BaseController extends AbstractController
 {
@@ -63,14 +57,12 @@ abstract class BaseController extends AbstractController
     protected UserManager $userManager;
     protected FilterManager $filterManager;
     // ----
-    protected string $entityClassName;
-    protected string $typeClassName;
     protected string $templatePrefix;
     protected Instance $directory;
     protected ObjectManager $objectManager;
-    protected array $sortDefaults;
-    protected ReflectionClass $entityClass;
     protected EntityRepository $repository;
+    protected InstanceHelper $instanceHelper;
+    protected Instance $instance;
 
     public function __construct(
         InstanceManager $instanceManager,
@@ -79,11 +71,11 @@ abstract class BaseController extends AbstractController
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
         ManagerRegistry $managerRegistry,
-        ObjectManager $objectManager,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
+        InstanceHelper $instanceHelper,
         ...$args
     ) {
         $this->instanceManager = $instanceManager;
@@ -92,77 +84,36 @@ abstract class BaseController extends AbstractController
         $this->paginator = $paginator;
         $this->translator = $translator;
         $this->managerRegistry = $managerRegistry;
-        $this->objectManager = $objectManager;
         $this->requestStack = $requestStack;
         $this->unionManager = $unionManager;
         $this->$userManager = $userManager;
         $this->filterManager = $filterManager;
-
-        $this->entityClassName = $this->getEntity();
-        $this->entityClass = $this->getEntityClass();
-        $this->typeClassName = $this->getType();
+        $this->instanceHelper = $instanceHelper;
+        
+        $this->objectManager = $this->managerRegistry->getManager();
         $this->directory = $this->getDirectory();
-        $this->repository = $this->getRepository();
-        $this->sortDefaults = $this->getSortDefaults();
         $this->templatePrefix = $this->getTemplatePrefix();
+        $this->instance = $this->getInstance();
     }
 
 
-    protected final function getEntityClass(): ReflectionClass
-    {
-        return new ReflectionClass($this->entityClassName);
-    }
+    protected abstract function getTemplatePrefix(): string;
 
 
-    // En realidad debe retornar una clase que herede de Entity pero no se como definirlo
-    protected abstract function getEntity(): string;
-    protected abstract function getType(): string;
-    protected function getTemplatePrefix(): string
-    {
-        $str = $this->entityClass->getShortName();
-
-	    $str = preg_replace(
-            '/Controller$/', '', $str
-        );
-	
-	    return preg_replace(
-            '/([a-z])([A-Z])/', '$1/$2', $str
-        ) . '/';
-    }
-    protected abstract function getSortDefaults(): array;
-    // protected abstract function baseFilter($entity, $filter_form, $query);
+    protected function getInstance(): Instance
+    { return $this->instanceHelper->getSessionInstance(); }
 
 
-    protected function filter($query): void {}
-    
-    
     protected function getDirectory(): Instance|null
-    {
-        return $this->instanceManager->getDirectory();
-    }
-
-
-    protected function getRepository(): EntityRepository
-    {
-        return $this->managerRegistry
-            ->getRepository($this->entityClassName);
-    }
-
-
-    protected function getBundle(): string
-    { return ''; }
+    { return $this->instanceManager->getDirectory(); }
 
     
     protected function listQuery(): QueryBuilder
-    {
-        return $this->repository->createQueryBuilder('e');
-    }
+    { return $this->repository->createQueryBuilder('e'); }
 
 
     protected function findQuery(string $id)
-    {
-        return $this->repository->find($id);
-    }
+    { return $this->repository->find($id); }
 
 
     protected function getResultsPerPage()
@@ -176,379 +127,16 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function error(
+    protected function baseError(
         string $type,
-        string $entity = null,
         string $msg = null
     ): never {
-        if ($msg === null) {
-            if ($entity === null)
-                $entity = $this->entityClass->getShortName();
-            $msg = (string) 'exception.' . $type . $entity;
-        }
-
         throw Exception::create($type, $msg);
     }
 
 
-    protected function addEntityFlash(
-        string $type, string $id, array $entities = null
-    ): void {
-        $this->addFlash(
-            $type,
-            $this->translator->trans(
-                $id,
-                ($entities === null)
-                    ? [ '%entity%' => $this->translator->trans(
-                        $this->entityClass->getShortName()
-                    ) ]
-                    : [ '%entities%' => $this->translator->trans(
-                        $this->entityClass->getShortName(),
-                        [ '%count%' => count($entities) ],
-                        'Flashes'
-                    ) ],
-                'Flashes'
-            )
-        );
-    }
-
-
-    protected function baseIndex(
-        string $type = null,
-        array $formOptions = [],
-        string $template = null,
-        $data = null,
-        FormInterface $filter_form = null,
-        bool $hasFilterForm = true
-    ): Response {
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'index.html.twig';
-
-        // ---
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        if ($filter_form !== null) {
-            $query = $this->listQuery(); // Pensarlo mejor para poder parametrizar query
-            $filter_form = $filter_form->handleRequest(request: $request);
-            $query = $this->filterManager->filter(
-                $query, $filter_form, $this->entityClassName
-            );
-        } else if ($hasFilterForm) $filter_form = $this->createForm(
-            $type, $data, $formOptions
-        );
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->getResultsPerPage(),
-            $this->sortDefaults
-        );
-
-        return $this->render(
-            $template,
-            [
-                'pagination' => $pagination,
-                'filter_form' => ($filter_form !== null)
-                    ? $filter_form->createView()
-                    : $filter_form,
-            ]
-        );
-    }
-
-
-    protected function baseShow(
-        string $id,
-        string $template = null,
-    ): Response {
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'index.html.twig';
-
-        // ---
-
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        return $this->render(
-            $template,
-            [
-                'entity' => $entity,
-            ]
-        );
-    }
-
-
-    protected function baseNew(
-        Entity $entity = null,
-        string $type = null,
-        array $formOptions = [],
-        string $template = null
-    ): Response {
-        if ($entity === null) {
-            $entityClassName = $this->entityClassName;
-            $entity = new $entityClassName();
-        }
-        
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'new.html.twig';
-
-        // ---
-
-        $form = $this->createForm($type, $entity, $formOptions);
-
-        return $this->render(
-            $template,
-            [
-                'entity' => $entity,
-                'form' => $form->createView(),
-            ]
-        );
-    }
-
-
-    protected function persistEntity($entity)
-    {
-        $this->objectManager->persist($entity);
-        $this->objectManager->flush();
-    }
-
-
-    protected function baseCreate(
-        Entity $entity = null,
-        string $type = null,
-        array $formOptions = [],
-        string $route = null,
-        string $template = null
-    ): RedirectResponse|Response {
-        if ($entity === null) {
-            $entityClassName = $this->entityClassName;
-            $entity = new $entityClassName();
-        }
-        
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'new.html.twig';
-
-        // ---
-
-        $form = $this->createForm(
-            $type, $entity, $formOptions
-        );
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            try {
-                $this->persistEntity($entity);
-                $this->addEntityFlash(
-                    'success', 'The %entity% was successfully created.',
-                );
-
-                return $this->redirect(
-                    $this->generateUrl(
-                        $route
-                    )
-                );
-            } catch (UniqueConstraintViolationException $e) {
-                $this->addEntityFlash(
-                    'error', 'The %entity% already exists.'
-                );
-            }
-        }
-
-        $this->addEntityFlash(
-            'error', 'There were errors creating the %entity%.'
-        );
-
-        return $this->render(
-            $template,
-            [
-                'entity' => $entity,
-                'form' => $form->createView(),
-            ],
-        );
-    }
-
-
-    protected function baseEdit(
-        string $id,
-        string $type = null,
-        array $formOptions = [],
-        string $route = null,
-        string $template = null
-    ): Response {
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'edit.html.twig';
-
-        // ---
-
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        $editForm = $this->createForm(
-            $type, $entity, $formOptions
-        );
-
-        return $this->render(
-            $template,
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView(),
-                'route' => $route,
-            ]
-        );
-    }
-
-
-    protected function baseUpdate(
-        string $id,
-        string $route,
-        string $type = null,
-        array $formOptions = [],
-        string $template = null
-    ): RedirectResponse|Response {
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'edit.html.twig';
-
-        // ---
-
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        $editForm = $this->createForm(
-            $type, $entity, $formOptions
-        );
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            try {
-                $this->persistEntity($entity);
-
-                $this->addEntityFlash(
-                    'success', 'The %entity% was successfully edited.'
-                );
-
-                return $this->redirect(
-                    $this->generateUrl(
-                        (string) $route . '_edit',
-                        ['id' => $id]
-                    )
-                );
-            } catch (UniqueConstraintViolationException $e) {
-                $this->addEntityFlash(
-                    'error', 'The %entity% already exists.'
-                );
-            }
-        }
-
-        $this->addEntityFlash(
-            'error', 'There were errors editing the %entity%.'
-        );
-
-        return $this->render(
-            $template,
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView(),
-                ... $formOptions
-            ]
-        );
-    }
-
-
-    protected function baseDelete(
-        string $id,
-        string $route
-    ): RedirectResponse {
-        $form = $this->createDeleteForm($id);
-        $request = $this->requestStack->getCurrentRequest();
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $entity = $this->findQuery($id);
-
-            if (!$entity) $this->error('entity_not_found');
-
-            $this->persistEntity($entity);
-
-            $this->addEntityFlash(
-                'success', 'The %entity% was successfully deleted.'
-            );
-        }
-
-        return $this->redirect($this->generateUrl($route));
-    }
-
-
-    protected function baseBatch()
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        $action = $request->request->get('action');
-        $function = 'batch' . ucfirst($action);
-        $element_ids = $request->request->get('element', []);
-
-        return $this->$function($element_ids);
-    }
-
-    protected function baseUnion(array $ids): array
-    {
-        $entities = $this->repository
-            ->findBy(['id' => $ids]);
-
-        return [ 'entities' => $entities ];
-    }
-
-
-    protected function baseDoUnion($ids, $main_id, $route, $updateInstance = true)
-    {
-        $main = $this->findQuery($main_id);
-
-        if (!$main) $this->error('entity_not_found');
-
-        $entities = $this->repository
-            ->findBaseDoUnionEntities($main, $ids);
-
-        if (count($entities) !== count($ids) - 1)
-            $this->error('entity_not_found');
-
-        if ($this->entityClassName === BaseUser::class) {
-            $this->mergeSecondaryInstances(
-                $main, $entities
-            );
-        }
-
-        $this->unionManager
-            ->union(
-                $this->entityClassName, $main,
-                $entities, $updateInstance
-            );
-
-
-        $this->addEntityFlash(
-            'success', 'The %entities% were successfully joined.', $entities
-        );
-
-        return $this->redirect($this->generateUrl($route));
-    }
-
-
-    protected function createDeleteForm($id): FormInterface
-    {
-        return $this
-            ->createFormBuilder([
-                'id' => $id,
-            ])
-            ->add('id', HiddenType::class)
-            ->getForm();
-    }
+    protected function validateAjax($target)
+    { return false; }
 
 
     protected function ajax(
@@ -591,27 +179,5 @@ abstract class BaseController extends AbstractController
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-    }
-
-
-    protected function validateAjax($target)
-    { return false; }
-
-
-    protected function createForm(
-        string $type = null,
-        $data = null,
-        array $options = []
-    ): FormInterface {
-        if ($type === null) $type = $this->typeClassName;
-
-        if ($data === null) {
-            $entityClassName = $this->entityClassName;
-            $data = new $entityClassName();
-        }
-
-        return $this->createForm(
-            $type, $data, $options
-        );
     }
 }

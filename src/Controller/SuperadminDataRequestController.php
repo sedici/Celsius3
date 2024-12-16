@@ -37,7 +37,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/data_request")
  */
-class SuperadminDataRequestController extends BaseController
+class SuperadminDataRequestController extends BaseEntityController
 {
 
     protected final function getEntity(): string

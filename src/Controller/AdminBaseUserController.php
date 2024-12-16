@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\Controller\Admin\BaseUser;
+namespace Celsius3\Controller;
 
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;

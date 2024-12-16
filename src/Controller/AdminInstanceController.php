@@ -23,11 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Country;
-use Celsius3\Form\Type\InstanceType;
-use Celsius3\Helper\InstanceHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Instance controller.
@@ -37,28 +35,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class AdminInstanceController extends InstanceController
 {
 
-    /**
-     * @var Session
-     */
-    private $session;
-
-    /**
-     * @var InstanceHelper
-     */
-    protected $instanceHelper;
+    private SessionInterface $session;
 
     public function __construct(
-        Session $session,
-        InstanceHelper $instanceHelper,
+        SessionInterface $session,
         ... $args
     ) {
         parent::__construct(... $args);
         $this->session = $session;
-        $this->instanceHelper = $instanceHelper;
     }
-
-    protected final function getType(): string
-    { return InstanceType::class; }
 
 
     protected function getSortDefaults(): array
@@ -68,6 +53,7 @@ class AdminInstanceController extends InstanceController
             'defaultSortDirection' => 'asc',
         ];
     }
+
 
     /**
      * Displays a form to configure an existing Instance
@@ -100,7 +86,7 @@ class AdminInstanceController extends InstanceController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function configureUpdate($id): Response
+    public function configureUpdate(string $id): Response
     {
         return $this->render(
             (string) $this->templatePrefix . 'configure.html.twig',

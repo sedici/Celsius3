@@ -34,7 +34,7 @@ use Celsius3\Exception\Exception;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Mailer\FosMailer;
 use Celsius3\Manager\FosUserManager;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -47,7 +47,7 @@ class ResettingController extends AbstractController //extends BaseResettingCont
     protected FosUserManager $userManager;
     protected TokenGeneratorInterface $tokenGenerator;
     protected FosMailer $mailer;
-    protected Router $router;
+    protected RouterInterface $router;
     protected RequestStack $requestStack;
     protected InstanceHelper $instanceHelper;
     protected Instance $instance;
@@ -58,7 +58,7 @@ class ResettingController extends AbstractController //extends BaseResettingCont
         FosUserManager $userManager,
         TokenGeneratorInterface $tokenGenerator,
         FosMailer $mailer,
-        Router $router,
+        RouterInterface $router,
         RequestStack $requestStack,
         InstanceHelper $instanceHelper,
         Environment $twig, 

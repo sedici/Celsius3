@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/hive")
  */
-class SuperadminHiveController extends BaseController
+class SuperadminHiveController extends BaseEntityController
 {
 
     protected final function getEntity(): string

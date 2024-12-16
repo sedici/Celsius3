@@ -35,6 +35,7 @@ parameters:
     api_key_map: AIzaSyD0zns4Qlvt-wf-kx__kpBpKkt8p1Z2mfg
 
 services:
+    Celsius3\TicketBundle\Helper\TicketHelper: ~
     # default configuration for services in *this* file
     FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@fos_elastica.finder.app'
     FOS\ElasticaBundle\Transformer\ElasticaToModelTransformer:

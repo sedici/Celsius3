@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace Celsius3\Helper;
 
-use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Celsius3\Repository\InstanceRepositoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

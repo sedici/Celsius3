@@ -24,7 +24,7 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 
-abstract class CountryController extends BaseController
+abstract class CountryController extends BaseEntityController
 {
 
     protected function getDirectory(): Instance|null

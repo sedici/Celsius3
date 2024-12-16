@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Contact;
 use Celsius3\Form\Type\SuperadminContactType;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,8 +36,13 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/contact")
  */
-class SuperadminContactController extends BaseController
+class SuperadminContactController extends ContactController
 {
+
+    protected function getType(): string
+    { return SuperadminContactType::class; }
+
+
     /**
      * Lists all Contact entities.
      *
@@ -48,13 +54,19 @@ class SuperadminContactController extends BaseController
         $deleteForms = [];
 
         foreach ($data['pagination'] as $entity) {
-            $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+            $deleteForms[$entity->getId()] = $this
+                ->createDeleteForm($entity->getId())
+                ->createView();
         }
 
         $data['deleteForms'] = $deleteForms;
 
-        return $this->render('Superadmin/Catalog/index.html.twig', $data);
+        return $this->render(
+            'Superadmin/Catalog/index.html.twig',
+            $data
+        );
     }
+
 
     /**
      * Finds and displays a Contact entity.
@@ -65,13 +77,9 @@ class SuperadminContactController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function show($id)
-    {
-        return $this->render(
-            'Superadmin/Contact/show.html.twig',
-            $this->baseShow('Contact', $id)
-        );
-    }
+    public function show(string $id): Response
+    { return $this->baseShow($id); }
+
 
     /**
      * Displays a form to create a new Contact entity.
@@ -79,22 +87,17 @@ class SuperadminContactController extends BaseController
      * @Route("/new", name="superadmin_contact_new")
      */
     public function new(): Response
-    {
-        return $this->render(
-            'Superadmin/Contact/new.html.twig',
-            $this->baseNew('Contact', new Contact(), SuperadminContactType::class)
-        );
-    }
+    { return $this->baseInstanceNew(); }
+
 
     /**
      * Creates a new Contact entity.
      *
      * @Route("/create", name="superadmin_contact_create", methods={"POST"})
      */
-    public function create()
-    {
-        return $this->render('Superadmin/Contact/new.html.twig', $this->baseCreate('Contact', new Contact(), SuperadminContactType::class, array(), 'superadmin_contact'));
-    }
+    public function create(): Response
+    { return $this->baseInstanceCreate(route: 'superadmin_contact'); }
+
 
     /**
      * Displays a form to edit an existing Contact entity.
@@ -105,21 +108,28 @@ class SuperadminContactController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function edit(string $id): Response
     {
-        $entity = $this->findQuery('Contact', $id);
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
-        }
+        $entity = $this->findQuery($id);
+
+        if (!$entity) $this->error('entity_not_found');
+
+        $editForm = $this->createForm(
+            formOptions: [
+                'owning_instance' => $entity->getOwningInstance(),
+                'user' => $entity->getUser()
+            ]
+        );
 
         return $this->render(
-            'Superadmin/Contact/edit.html.twig',
-            $this->baseEdit('Contact', $id, SuperadminContactType::class, [
-                'owning_instance' => $entity->getOwningInstance(),
-                'user' => $entity->getUser(),
-            ])
+            (string) $this->templatePrefix . 'edit.html.twig',
+            [
+                'entity' => $entity,
+                'edit_form' => $editForm->createView()
+            ]
         );
     }
+
 
     /**
      * Edits an existing Contact entity.
@@ -130,18 +140,22 @@ class SuperadminContactController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
+    public function update(string $id): Response
     {
-        $entity = $this->findQuery('Contact', $id);
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
-        }
+        $entity = $this->findQuery($id);
 
-        return $this->render('Superadmin/Contact/edit.html.twig', $this->baseUpdate('Contact', $id, SuperadminContactType::class, array(
-                    'owning_instance' => $entity->getOwningInstance(),
-                    'user' => $entity->getUser(),
-                        ), 'superadmin_contact'));
+        if (!$entity) $this->error('entity_not_found');
+
+        return $this->baseInstanceUpdate(
+            $id, 'superadmin_contact',
+            options: [
+                'owning_instance' => $entity->getOwningInstance(),
+                'user' => $entity->getUser(),
+            ],
+            entity: $entity
+        );
     }
+
 
     /**
      * Deletes a Contact entity.
@@ -152,9 +166,7 @@ class SuperadminContactController extends BaseController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function delete($id)
-    {
-        return $this->baseDelete('Contact', $id, 'superadmin_contact');
-    }
+    public function delete(string $id): RedirectResponse
+    { return $this->baseDelete($id, 'superadmin_contact'); }
 
 }

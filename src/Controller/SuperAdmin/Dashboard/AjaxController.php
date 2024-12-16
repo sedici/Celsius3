@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
-use Celsius3\Controller\BaseController;
+use Celsius3\Controller\BaseEntityController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\BaseUserType;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +37,7 @@ use function in_array;
  *
  * @Route("/superadmin/ajax")
  */
-final class AjaxController extends BaseController
+final class AjaxController extends BaseEntityController
 {
     
     protected final function getEntity(): string

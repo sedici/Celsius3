@@ -35,7 +35,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 final class NewOrderViewController extends AbstractController
 {
     private $instanceHelper;
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
     public function __construct(InstanceHelper $instanceHelper, AuthorizationCheckerInterface $authorizationChecker)
     {
