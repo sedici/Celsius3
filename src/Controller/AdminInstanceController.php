@@ -41,7 +41,19 @@ class AdminInstanceController extends InstanceController
         SessionInterface $session,
         ... $args
     ) {
-        parent::__construct(... $args);
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
         $this->session = $session;
     }
 
@@ -109,8 +121,7 @@ class AdminInstanceController extends InstanceController
     {
         $instance = $this->instanceHelper->getSessionOrUrlInstance();
         
-        $paisRepository = $this->managerRegistry
-            ->getManager()
+        $paisRepository = $this->entityManager
             ->getRepository(Country::class);
         
         $country = $paisRepository->findForInstanceAndGlobal(

@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\File;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
@@ -32,13 +33,8 @@ use Celsius3\Exception\NotFoundException;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Celsius3\Manager\FileManager;
-use Celsius3\Repository\FileRepository;
-use Celsius3\Repository\RequestRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 

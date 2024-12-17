@@ -24,11 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
-use Celsius3\Controller\Api\UserController;
-use Celsius3\Controller\BaseEntityController;
-use Celsius3\Controller\BaseInstanceDependentController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseUserController;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 

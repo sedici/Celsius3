@@ -39,7 +39,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\Translator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -50,7 +49,7 @@ abstract class BaseController extends AbstractController
     protected EntityManagerInterface $entityManager;
     protected ConfigurationHelper $configurationHelper;
     protected PaginatorInterface $paginator;
-    protected Translator $translator;
+    protected TranslatorInterface $translator;
     protected ManagerRegistry $managerRegistry;
     protected RequestStack $requestStack;
     protected UnionManager $unionManager;
@@ -75,8 +74,7 @@ abstract class BaseController extends AbstractController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper,
-        ...$args
+        InstanceHelper $instanceHelper
     ) {
         $this->instanceManager = $instanceManager;
         $this->entityManager = $entityManager;
@@ -86,7 +84,7 @@ abstract class BaseController extends AbstractController
         $this->managerRegistry = $managerRegistry;
         $this->requestStack = $requestStack;
         $this->unionManager = $unionManager;
-        $this->$userManager = $userManager;
+        $this->userManager = $userManager;
         $this->filterManager = $filterManager;
         $this->instanceHelper = $instanceHelper;
         

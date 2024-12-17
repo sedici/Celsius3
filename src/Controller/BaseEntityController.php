@@ -34,6 +34,18 @@ use Doctrine\ORM\Mapping\Entity;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 abstract class BaseEntityController extends BaseController
 {
 
@@ -43,13 +55,37 @@ abstract class BaseEntityController extends BaseController
     protected ReflectionClass $entityClass;
 
     public function __construct(
-        ...$args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
-
         $this->entityClassName = $this->getEntity();
         $this->entityClass = $this->getEntityClass();
         $this->typeClassName = $this->getType();
+
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
+
         $this->repository = $this->getRepository();
         $this->sortDefaults = $this->getSortDefaults();
     }
@@ -73,9 +109,11 @@ abstract class BaseEntityController extends BaseController
             '/Controller$/', '', $str
         );
 	
-	    return preg_replace(
+	    $str = preg_replace(
             '/([a-z])([A-Z])/', '$1/$2', $str
         ) . '/';
+
+        return (string) 'Celsius3/templates/' . $str;
     }
     
     
@@ -85,7 +123,7 @@ abstract class BaseEntityController extends BaseController
 
     protected function getRepository(): EntityRepository
     {
-        return $this->managerRegistry
+        return $this->entityManager
             ->getRepository($this->entityClassName);
     }
 

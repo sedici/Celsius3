@@ -23,12 +23,21 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\News;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
  * NewsRepository.
  */
 class NewsRepository extends BaseRepository
 {
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        parent::__construct($em, new ClassMetadata(News::class));
+    }
+
     public function findLastNews(Instance $instance, $limit = 3)
     {
         return $this->createQueryBuilder('n')

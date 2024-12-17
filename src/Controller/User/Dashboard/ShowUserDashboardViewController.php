@@ -24,15 +24,14 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Dashboard;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Configuration;
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Entity\Thread;
 use Celsius3\Form\Type\BaseUserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

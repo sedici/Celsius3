@@ -38,13 +38,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Mailer
 {
-    private $entityManager;
-    private $tokenStorage;
-    private $validator;
-    private $mailerHelper;
+    protected $entityManager;
+    protected $tokenStorage;
+    protected $validator;
+    protected MailerHelper $mailerHelper;
 
-    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, ValidatorInterface $validator, MailerHelper $mailerHelper)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage,
+        ValidatorInterface $validator,
+        MailerHelper $mailerHelper
+    ) {
         $this->entityManager = $entityManager;
         $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;

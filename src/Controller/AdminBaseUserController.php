@@ -27,6 +27,7 @@ namespace Celsius3\Controller;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\UserTransformType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 

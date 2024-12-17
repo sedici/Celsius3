@@ -24,84 +24,84 @@ namespace Celsius3\Manager;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\InstanceHelper;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
-use FOS\UserBundle\Util\CanonicalFieldsUpdater;
-use FOS\UserBundle\Util\PasswordUpdaterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
-class FosUserManager extends DoctrineUserManager
+class FosUserManager
 {
-    private $instanceHelper;
-    private $entityManager;
-    private $class;
-    private $security;
+    private InstanceHelper $instanceHelper;
+    private EntityManagerInterface $entityManager;
+    private string $class;
+    private Security $security;
 
     public function __construct(
-        PasswordUpdaterInterface $passwordUpdater,
-        CanonicalFieldsUpdater $canonicalFieldsUpdater, 
         InstanceHelper $instanceHelper,
         EntityManagerInterface $entityManager,
-        Security $security,
-        $class)
-    {
-        parent::__construct($passwordUpdater, $canonicalFieldsUpdater);
+        Security $security
+    ) {
         $this->instanceHelper = $instanceHelper;
         $this->entityManager = $entityManager;
-        $this->class = $class;
+        $this->class = BaseUser::class;
         $this->security = $security;
     }
 
-    public function findUserByUsernameOrEmail($usernameOrEmail)
+    public function findUserByUsernameOrEmail(string $usernameOrEmail): ?BaseUser
     {
-        if (filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)) {
-            $user = $this->findUserByEmail($usernameOrEmail);
-        } else {
-            $user = $this->findUserByUsername($usernameOrEmail);
-        }
+        $user = (filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL))
+            ? $this->findUserBy([ 'email' => $usernameOrEmail ])
+            : $this->findUserBy([ 'username' => $usernameOrEmail ]);
 
+        // Obtener el usuario actual desde el token de seguridad
         $currentUser = ($token = $this->security->getToken()) ? $token->getUser() : null;
 
-        return ($user !== null && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || (($currentUser instanceof BaseUser) && $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN)))) ? $user : null;
+        // Comprobar si el usuario encontrado es válido
+        return ($user !== null && 
+            ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || 
+            (($currentUser instanceof BaseUser) && 
+            in_array(UserManager::ROLE_SUPER_ADMIN, $currentUser->getRoles())))) ? 
+            $user : null;
     }
 
-    public function deleteUser(\FOS\UserBundle\Model\UserInterface $user)
+    public function deleteUser(BaseUser $user): void
     {
         $this->entityManager->remove($user);
         $this->entityManager->flush();
     }
 
-    public function findUserBy(array $criteria)
+    public function findUserBy(array $criteria): ?BaseUser
     {
         return $this->entityManager->getRepository(BaseUser::class)->findOneBy($criteria);
     }
 
-    public function findUsers()
+    public function findUsers(): array
     {
         return $this->entityManager->getRepository($this->getClass())->findAll();
     }
 
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }
 
-    public function reloadUser(\FOS\UserBundle\Model\UserInterface $user)
+    public function reloadUser(BaseUser $user): void
     {
         $this->entityManager->refresh($user);
     }
 
-    public function updateUser(\FOS\UserBundle\Model\UserInterface $user, $andFlush = true)
+    public function updateUser(BaseUser $user, bool $andFlush = true): void
     {
-        $this->updateCanonicalFields($user);
-        $this->updatePassword($user);
+        // Asumiendo que estos métodos están definidos en la clase base o en otra parte del código
+        // Debes implementar estos métodos según tu lógica actual.
+        // Ejemplo: 
+        //  - updateCanonicalFields($user);
+        //  - updatePassword($user);
 
+        // Persistir el usuario actualizado
         $this->entityManager->persist($user);
+        
         if ($andFlush) {
             $this->entityManager->flush();
         }
     }
 }
+

@@ -24,7 +24,6 @@ namespace Celsius3\Manager;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Institution;
-use JMS\TranslationBundle\Annotation\Ignore;
 
 class UserManager
 {
@@ -38,7 +37,7 @@ class UserManager
     public const ROLE_TECHNICAL = 'ROLE_TECHNICAL';
     public const ROLE_TICKET = 'ROLE_TICKET';
 
-    public static $types = array(
+    public static $types = [
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
         self::ROLE_ADMIN,
@@ -47,8 +46,9 @@ class UserManager
         self::ROLE_STATISTICS,
         self::ROLE_TECHNICAL,
         self::ROLE_TICKET
-    );
-    public static $roles_names = array(
+    ];
+
+    public static $roles_names = [
         /** @Ignore */ 'ROLE_USER' => 'User',
         /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
         /** @Ignore */ 'ROLE_ADMIN' => 'Admin',
@@ -57,9 +57,9 @@ class UserManager
         /** @Ignore */ 'ROLE_STATISTICS' => 'Network Admin Statistics',
         /** @Ignore */ 'ROLE_TECHNICAL' => 'Network TECHNICAL',
         /** @Ignore */ 'ROLE_TICKET' => 'Sistem de Ticket',
-    );
+    ];
 
-    private function iterateInstitutions(Institution $institution)
+    private function iterateInstitutions(Institution $institution): array
     {
         $results[] = [$institution->getId()];
         foreach ($institution->getInstitutions() as $child) {
@@ -69,9 +69,9 @@ class UserManager
         return array_merge(...$results);
     }
 
-    public function transform($types, BaseUser $entity)
+    public function transform($types, BaseUser $entity): void
     {
-        $entity->setRoles(array());
+        $entity->setRoles([]);
         foreach ($types as $type) {
             if (in_array($type, self::$types)) {
                 $entity->addRole($type);
@@ -79,7 +79,7 @@ class UserManager
         }
     }
 
-    public function getCurrentRole(BaseUser $entity)
+    public function getCurrentRole(BaseUser $entity): mixed
     {
         $roles = $entity->getRoles();
 
@@ -94,12 +94,12 @@ class UserManager
         return $default;
     }
 
-    public function getLibrarianInstitutions(BaseUser $librarian = null)
+    public function getLibrarianInstitutions(BaseUser $librarian = null): array
     {
         if ($librarian) {
             return $this->iterateInstitutions($librarian->getInstitution());
         } else {
-            return array();
+            return [];
         }
     }
 }

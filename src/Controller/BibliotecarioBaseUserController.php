@@ -22,16 +22,11 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\BaseUser;
 use Celsius3\EntityManager\ThreadManager;
-use Celsius3\Exception\Exception;
-use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Form\Type\UserTransformType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -64,11 +59,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @Route("/", name="bibliotecario_user" ,options={"expose"=true})
      */
     public function index(): Response
-    {
-        return $this->baseInstanceIndex(
-            type: BaseUserFilterType::class
-        );
-    }
+    { return $this->baseInstanceIndex(type: BaseUserFilterType::class); }
 
 
     /**
@@ -103,9 +94,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @Route("/new", name="bibliotecario_user_new")
      */
     public function new(): Response
-    {
-        return $this->baseInstanceNew();
-    }
+    { return $this->baseInstanceNew(); }
 
 
     /**
@@ -114,9 +103,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @Route("/create", name="bibliotecario_user_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
-    {
-        return $this->baseInstanceCreate();
-    }
+    { return $this->baseInstanceCreate(); }
 
 
     /**
@@ -128,7 +115,9 @@ class BibliotecarioBaseUserController extends BaseUserController
      */
     public function edit(string $id): Response
     {
-        return $this->baseInstanceEdit($id, options: [ 'editing' => true ]);
+        return $this->baseInstanceEdit(
+            $id, options: [ 'editing' => true ]
+        );
     }
 
 
@@ -179,7 +168,10 @@ class BibliotecarioBaseUserController extends BaseUserController
             'edit_form' => $editForm->createView(),
         ];
 
-        return $this->render('Admin/BaseUser/edit.html.twig', $parameters);
+        return $this->render(
+            'Admin/BaseUser/edit.html.twig',
+            $parameters
+        );
     }
 
 
@@ -241,9 +233,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function enable(string $id): RedirectResponse
-    {
-        return $this->baseEnable($id);
-    }
+    { return $this->baseEnable($id); }
 
 
     /**
@@ -254,9 +244,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @return array
      */
     public function batch()
-    {
-        return $this->baseBatch();
-    }
+    { return $this->baseBatch(); }
 
 
     /**
@@ -280,9 +268,7 @@ class BibliotecarioBaseUserController extends BaseUserController
 
 
     protected function batchEnable($element_ids): RedirectResponse
-    {
-        return $this->baseBatchEnable($element_ids);
-    }
+    { return $this->baseBatchEnable($element_ids); }
 
 
     protected function batchUnion(array $element_ids): Response

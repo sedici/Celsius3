@@ -24,65 +24,54 @@ declare(strict_types=1);
 
 namespace Celsius3\Mailer;
 
+use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\Helper\MailerHelper;
 use Celsius3\Manager\MailManager;
-use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
-use FOS\UserBundle\Model\UserInterface;
+// use FOS\UserBundle\Model\UserInterface;
 use Swift_Mailer;
 use Swift_Message;
 use Swift_SmtpTransport;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\MailerInterface;
 
 use function array_slice;
 use function compact;
 use function html_entity_decode;
 
-class FosMailer extends DefaultMailer
+class FosMailer extends Mailer //extends DefaultMailer
 {
-    protected $requestStack;
-    protected $mailerHelper;
-    protected $instance;
-    protected $mailManager;
-    protected $twig;
+    protected RequestStack $requestStack;
+    protected Instance $instance;
+    protected Environment $twig;
+    protected RouterInterface $router;
+    protected MailManager $mailManager;
+    protected MailerInterface $mailer;
 
     public function __construct(
         RouterInterface $router,
-        EngineInterface $templating,
-        array $parameters,
         RequestStack $requestStack,
         InstanceHelper $instanceHelper,
-        MailerHelper $mailerHelper,
+        Environment $twig,
         MailManager $mailManager,
-        Environment $twig
+        MailerInterface $mailer,
+        ... $args
     ) {
+        parent::__construct(... $args);
         $this->instance = $instanceHelper->getSessionOrUrlInstance();
-        if ($this->instance !== null) {
-            $transport = Swift_SmtpTransport::newInstance(
-                $this->instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(),
-                $this->instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(),
-                $this->instance->get(ConfigurationHelper::CONF__SMTP_PROTOCOL)->getValue()
-            )
-                ->setUsername($this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue())
-                ->setPassword($this->instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue());
-            $instance_mailer = Swift_Mailer::newInstance($transport);
-
-            parent::__construct($instance_mailer, $router, $templating, $parameters);
-        }
         $this->requestStack = $requestStack;
-        $this->mailerHelper = $mailerHelper;
-        $this->mailManager = $mailManager;
-        $this->templating = $templating;
         $this->twig = $twig;
+        $this->router = $router;
+        $this->mailManager = $mailManager;
+        $this->mailer = $mailer;
     }
 
-    public function sendConfirmationEmailMessage(UserInterface $user): void
+    public function sendConfirmationEmailMessage($user): void
     {
         if (!$this->instance->get('smtp_status')->getValue()) {
             return;
@@ -99,35 +88,45 @@ class FosMailer extends DefaultMailer
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
-        $rendered = $this->twig->createTemplate($template->getText())->render(compact('user', 'url'))."\n".$signature;
-        $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
-        $from_email = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
+        // Renderizar el contenido del email
+        $rendered = $this->twig->createTemplate($template->getText())->render(compact('user', 'url')) . "\n" . $signature;
+        $rendered = html_entity_decode($template->getTitle() . "\n" . $rendered);
+        $fromEmail = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
 
-        $this->sendEmailMessage($rendered, $from_email, $user->getEmail());
+        // Enviar el email
+        $this->sendEmailMessage($rendered, $fromEmail, $user->getEmail());
     }
 
-    /**
-     * @param  string  $renderedTemplate
-     * @param  string  $fromEmail
-     * @param  string  $toEmail
-     */
-    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail): void
-    {
-        // Render the email, use the first line as the subject, and the rest as the body
-        $rendered_lines = explode("\n", trim($renderedTemplate));
-        $subject = $rendered_lines[0];
-        $body = implode("\n", array_slice($rendered_lines, 1));
 
-        $message = Swift_Message::newInstance()
-            ->setSubject($subject)
-            ->setFrom($fromEmail)
-            ->setTo($toEmail)
-            ->setBody($body, 'text/html');
+    protected function sendEmailMessage(
+        string $renderedTemplate,
+        string $fromEmail,
+        string $toEmail
+    ): void {
+        // Renderizar el email, usar la primera línea como asunto y el resto como cuerpo
+        $renderedLines = explode("\n", trim($renderedTemplate));
+        $subject = array_shift($renderedLines); // Obtener el primer elemento como asunto
+        $body = implode("\n", $renderedLines); // El resto es el cuerpo
 
-        $this->mailer->send($message);
+        // Crear el mensaje usando Symfony Mailer
+        $email = (new Email())
+            ->from($fromEmail)
+            ->to($toEmail)
+            ->subject($subject)
+            ->html($body); // Establecer el cuerpo como HTML
+
+        // Enviar el mensaje
+        try {
+            $this->mailer->send($email);
+        } catch (\Exception $e) {
+            // Manejo de excepciones si es necesario
+            // Puedes loggear el error o manejarlo según tus necesidades
+            throw new \RuntimeException('Error sending email: ' . $e->getMessage());
+        }
     }
 
-    public function sendResettingEmailMessage(UserInterface $user): void
+
+    public function sendResettingEmailMessage($user): void
     {
         if (!$this->instance->get('smtp_status')->getValue()) {
             return;

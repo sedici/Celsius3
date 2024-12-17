@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\User\Dashboard;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\InstanceType;

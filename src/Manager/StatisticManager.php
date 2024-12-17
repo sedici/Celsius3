@@ -25,62 +25,60 @@ namespace Celsius3\Manager;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\State;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class StatisticManager
 {
     private $em;
-    private $statistic_data = array(
-        'usersPerInstance' => array(
+    private $statistic_data = [
+        'usersPerInstance' => [
             'repository' => BaseUser::class,
-        ),
-        'newUsersPerInstance' => array(
+        ],
+        'newUsersPerInstance' => [
             'repository' => BaseUser::class,
-        ),
-        'ordersPerStatePerInstance' => array(
+        ],
+        'ordersPerStatePerInstance' => [
             'repository' => State::class,
-        ),
-        'totalOrdersPerInstance' => array(
+        ],
+        'totalOrdersPerInstance' => [
             'repository' => State::class,
-        ),
-    );
+        ],
+    ];
 
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
+    public function __construct(EntityManagerInterface $em)
+    { $this->em = $em; }
 
-    public function usersPerInstance()
+    public function usersPerInstance(): array
     {
         $usersPerInstance = $this->em
-                ->getRepository($this->statistic_data['usersPerInstance']['repository'])
-                ->findUsersPerInstance();
+            ->getRepository($this->statistic_data['usersPerInstance']['repository'])
+            ->findUsersPerInstance();
 
         $response = array();
         foreach ($usersPerInstance as $instance) {
-            $response[] = array(
+            $response[] = [
                 'label' => $this->em->getRepository(Instance::class)
                         ->find((string) $instance['_id'])->getAbbreviation(),
                 'data' => $instance['value'],
-            );
+            ];
         }
 
         return $response;
     }
 
-    public function newUsersPerInstance()
+    public function newUsersPerInstance(): array
     {
         $newUsersPerInstance = $this->em
-                ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
-                ->findNewUsersPerInstance();
+            ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
+            ->findNewUsersPerInstance();
 
         $response = array();
         foreach ($newUsersPerInstance as $instance) {
-            $response[] = array(
+            $response[] = [
                 'label' => $this->em->getRepository(Instance::class)
                         ->find((string) $instance['_id'])->getAbbreviation(),
                 'data' => $instance['value'],
-            );
+            ];
         }
 
         return $response;
@@ -92,7 +90,7 @@ class StatisticManager
                 ->getRepository($this->statistic_data['ordersPerInstance']['repository'])
                 ->findOrdersPerStatePerInstance();
 
-        $response = array();
+        $response = [];
         foreach ($ordersPerInstance as $instance) {
             $response[] = array(
                 'label' => $this->em->getRepository(Instance::class)
@@ -104,48 +102,48 @@ class StatisticManager
         return $response;
     }
 
-    public function getOrderUserTableData()
+    public function getOrderUserTableData(): array
     {
         $instances = $this->em->getRepository(Instance::class)
-                ->findBy(array(
+                ->findBy([
             'enabled' => true,
-        ));
+        ]);
 
-        $data = array(
+        $data = [
             'totalOrders' => $this->em
-                    ->getRepository($this->statistic_data['totalOrdersPerInstance']['repository'])
-                    ->findTotalOrdersPerInstance(),
+                ->getRepository($this->statistic_data['totalOrdersPerInstance']['repository'])
+                ->findTotalOrdersPerInstance(),
             'provisionOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatesPerInstance(array(
-                        StateManager::STATE__CREATED,
-                        StateManager::STATE__SEARCHED,
-                        StateManager::STATE__REQUESTED,
-                            ), 'provision'),
+                ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                ->findOrdersPerStatesPerInstance([
+                    StateManager::STATE__CREATED,
+                    StateManager::STATE__SEARCHED,
+                    StateManager::STATE__REQUESTED,
+                ], 'provision'),
             'pendingOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatesPerInstance(array(StateManager::STATE__CREATED)),
+                ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                ->findOrdersPerStatesPerInstance([StateManager::STATE__CREATED]),
             'searchedOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatesPerInstance(array(StateManager::STATE__SEARCHED)),
+                ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                ->findOrdersPerStatesPerInstance([StateManager::STATE__SEARCHED]),
             'requestedOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatesPerInstance(array(StateManager::STATE__REQUESTED)),
+                ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                ->findOrdersPerStatesPerInstance([StateManager::STATE__REQUESTED]),
             'satisfiedOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatesPerInstance(array(
-                        StateManager::STATE__RECEIVED,
-                        StateManager::STATE__DELIVERED,
-                    )),
+                ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                ->findOrdersPerStatesPerInstance([
+                    StateManager::STATE__RECEIVED,
+                    StateManager::STATE__DELIVERED,
+            ]),
             'pendingUsers' => $this->em
-                    ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
-                    ->findNewUsersPerInstance(),
+                ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
+                ->findNewUsersPerInstance(),
             'totalUsers' => $this->em
-                    ->getRepository($this->statistic_data['usersPerInstance']['repository'])
-                    ->findUsersPerInstance(),
-        );
+                ->getRepository($this->statistic_data['usersPerInstance']['repository'])
+                ->findUsersPerInstance(),
+        ];
 
-        $response = array();
+        $response = [];
         foreach ($instances as $instance) {
             $response[$instance->getId()] = array(
                 'name' => $instance->getName(),

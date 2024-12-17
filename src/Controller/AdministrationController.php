@@ -48,6 +48,18 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
+
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 use function count;
 use function in_array;
 use function json_encode;
@@ -59,8 +71,6 @@ use function json_encode;
  */
 class AdministrationController extends BaseInstanceDependentController
 {
-
-    protected UserManager $userManager;
     protected SessionInterface $session;
     protected Environment $twig;
     protected Mailer $mailer;
@@ -68,14 +78,34 @@ class AdministrationController extends BaseInstanceDependentController
 
 
     public function __construct(
-        UserManager $userManager,
         SessionInterface $session,
         Environment $twig,
         Mailer $mailer,
-        ... $args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ){
-        parent::__construct(... $args);
-        $this->userManager = $userManager;
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
         $this->session = $session;
         $this->mailer = $mailer;
         $this->twig = $twig;
@@ -83,6 +113,9 @@ class AdministrationController extends BaseInstanceDependentController
             ->getRepository(File::class);
     }
 
+
+    protected function getTemplatePrefix(): string
+    { return 'Admin/Dashboard/'; }
 
     protected final function getEntity(): string
     { return Configuration::class; }
@@ -191,7 +224,7 @@ class AdministrationController extends BaseInstanceDependentController
 
         $templates = $entity_manager->getRepository(MailTemplate::class)->findAllEnabled();
 
-        $errors = $this->session->getFlashBag()->get('errors');
+        $errors = $this->session->get('errors');
 
         $error = false;
         $error_message = '';

@@ -24,10 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
-use Celsius3\Controller\BaseEntityController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\OrderController;
 use Celsius3\Manager\StatisticManager;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

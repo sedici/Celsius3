@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\SuperAdmin\Dashboard;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseEntityController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\BaseUserType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use function in_array;
 

@@ -2,23 +2,40 @@
 
 namespace Celsius3\EntityManager;
 
-use FOS\MessageBundle\Model\ParticipantInterface;
-use Doctrine\ORM\Query\Builder;
-use FOS\MessageBundle\EntityManager\ThreadManager as BaseThreadManager;
+// use FOS\MessageBundle\Model\ParticipantInterface;
 
-class ThreadManager extends BaseThreadManager
+use Celsius3\Entity\Thread;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+
+// use FOS\MessageBundle\EntityManager\ThreadManager as BaseThreadManager;
+
+class ThreadManager // extends BaseThreadManager
 {
+
+    protected EntityManagerInterface $entityManager;
+    protected EntityRepository $repository;
+
+    public function __construct(
+        EntityManagerInterface $entityManager
+    ) {
+        $this->entityManager = $entityManager;
+        $this->repository = $this->entityManager
+            ->getRepository(Thread::class);
+    }
+
     /**
      * Finds not deleted threads for a participant,
      * containing at least one message not written by this participant,
      * ordered by last message not written by this participant in reverse order.
      * In one word: an inbox.
      *
-     * @param ParticipantInterface $participant
+     * @param $participant
      *
-     * @return Builder a query builder suitable for pagination
+     * @return QueryBuilder a query builder suitable for pagination
      */
-    public function getParticipantInboxThreadsQueryBuilder(ParticipantInterface $participant)
+    public function getParticipantInboxThreadsQueryBuilder($participant): QueryBuilder
     {
         return $this->repository->createQueryBuilder('t')
             ->addSelect('tm.lastMessageDate AS HIDDEN lastMessageDate')
@@ -51,11 +68,11 @@ class ThreadManager extends BaseThreadManager
      * ordered by last message written by this participant in reverse order.
      * In one word: an sentbox.
      *
-     * @param ParticipantInterface $participant
+     * @param $participant
      *
-     * @return Builder a query builder suitable for pagination
+     * @return QueryBuilder a query builder suitable for pagination
      */
-    public function getParticipantSentThreadsQueryBuilder(ParticipantInterface $participant)
+    public function getParticipantSentThreadsQueryBuilder($participant): QueryBuilder
     {
         return $this->repository->createQueryBuilder('t')
             ->addSelect('tm.lastParticipantMessageDate AS HIDDEN lastParticipantMessageDate')
@@ -85,7 +102,7 @@ class ThreadManager extends BaseThreadManager
     /**
      * {@inheritdoc}
      */
-    public function getParticipantDeletedThreadsQueryBuilder(ParticipantInterface $participant)
+    public function getParticipantDeletedThreadsQueryBuilder($participant): QueryBuilder
     {
         return $this->repository->createQueryBuilder('t')
             ->addSelect('tm.lastMessageDate AS HIDDEN lastMessageDate')
@@ -110,12 +127,12 @@ class ThreadManager extends BaseThreadManager
      * matching the given search term
      * ordered by last message not written by this participant in reverse order.
      *
-     * @param ParticipantInterface $participant
+     * @param $participant
      * @param string               $search
      *
-     * @return Builder a query builder suitable for pagination
+     * @return QueryBuilder a query builder suitable for pagination
      */
-    public function getParticipantThreadsBySearchQueryBuilder(ParticipantInterface $participant, $search)
+    public function getParticipantThreadsBySearchQueryBuilder( $participant, $search): never
     {
         throw new \Exception('not yet implemented');
     }

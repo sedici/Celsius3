@@ -25,8 +25,6 @@ declare(strict_types=1);
 namespace Celsius3\Controller\User\Dashboard;
 
 use Celsius3\Controller\BaseController;
-use Celsius3\Controller\BaseInstanceDependentController;
-use Symfony\Component\HttpFoundation\Request;
 
 use function in_array;
 

@@ -31,17 +31,13 @@ use Symfony\Component\Security\Core\Security;
 
 final class UserGetController extends AbstractFOSRestController
 {
-    /**
-     * @var Security
-     */
-    private $security;
-    /**
-     * @var ViewHandlerInterface
-     */
-    private $viewHandler;
+    private Security $security;
+    private ViewHandlerInterface $viewHandler;
 
-    public function __construct(Security $security, ViewHandlerInterface $viewHandler)
-    {
+    public function __construct(
+        Security $security,
+        ViewHandlerInterface $viewHandler
+    ) {
         $this->security = $security;
         $this->viewHandler = $viewHandler;
     }

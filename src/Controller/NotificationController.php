@@ -22,17 +22,15 @@
 
 namespace Celsius3\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\Notification;
 use Celsius3\Form\Type\SubscriptionType;
 use Celsius3\Entity\NotificationSettings;
-use Celsius3\Exception\Exception;
 use Celsius3\Manager\NotificationManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Notification controller.

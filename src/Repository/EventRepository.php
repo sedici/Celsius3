@@ -34,6 +34,8 @@ use Celsius3\Entity\Journal;
 use Celsius3\Entity\JournalType;
 use Celsius3\Entity\Order;
 use Celsius3\Manager\CatalogManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
@@ -41,6 +43,12 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class EventRepository extends BaseRepository
 {
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        parent::__construct($em, new ClassMetadata(Event::class));
+    }
+
     private function generalSearch()
     {
         $qb = $this->createQueryBuilder('e');

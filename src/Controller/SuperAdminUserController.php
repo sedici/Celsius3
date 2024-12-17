@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\UserTransformType;
