@@ -22,9 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Journal;
 use Celsius3\Exception\Exception;
-use Celsius3\Form\Type\JournalType;
 use Celsius3\Manager\CatalogManager;
 use Celsius3\Repository\EventRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,40 +30,61 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 /**
  * Location controller.
  *
  * @Route("/admin/journal")
  */
-class AdminJournalController extends BaseInstanceDependentController
+class AdminJournalController extends JournalController
 {
 
     private EventRepository $eventRepository;
     private Security $security;
 
+
     public function __construct(
         EventRepository $eventRepository,
         Security $security,
-        ... $args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
         $this->eventRepository = $eventRepository;
         $this->security = $security;
-    }
-
-    protected final function getEntity(): string
-    { return Journal::class; }
-
-    protected final function getType(): string
-    { return JournalType::class; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
     }
 
 

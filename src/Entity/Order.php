@@ -246,10 +246,11 @@ class Order
     public function hasRequest(Instance $instance)
     {
         return $this->getRequests()
-                        ->filter(
-                                function (Request $entry) use ($instance) {
-                                    return $entry->getInstance()->getId() == $instance->getId();
-                                })->count() > 0;
+            ->filter(
+                function (Request $entry) use ($instance) {
+                    return $entry->getInstance()->getId() == $instance->getId();
+                }
+            )->count() > 0;
     }
 
     /**
@@ -259,10 +260,11 @@ class Order
     public function getRequest(Instance $instance)
     {
         $result = $this->getRequests()
-                        ->filter(
-                                function (Request $entry) use ($instance) {
-                                    return $entry->getInstance()->getId() == $instance->getId();
-                                })->first();
+            ->filter(
+                function (Request $entry) use ($instance) {
+                    return $entry->getInstance()->getId() == $instance->getId();
+                }
+            )->first();
 
         return false !== $result ? $result : null;
     }

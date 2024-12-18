@@ -23,12 +23,19 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Admin\FileDownload;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
 use Celsius3\Form\Type\FileDownloadType;
+use Doctrine\ORM\QueryBuilder;
 
+/**
+ * FileDownload controller.
+ *
+ * @Route("/admin/file_download")
+ */
 class ListAllFileDownloadViewController extends BaseInstanceDependentController
 {
 
@@ -51,7 +58,16 @@ class ListAllFileDownloadViewController extends BaseInstanceDependentController
     }
 
 
-    public function __invoke(): Response
+    protected function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
+
+
+    /**
+     * Lists all File entities.
+     *
+     * @Route("/", name="admin_filedownload")
+     */
+    public function index(): Response
     {
         return $this->baseInstanceIndex(type: FileDownloadFilterType::class);
     }

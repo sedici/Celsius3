@@ -31,6 +31,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\QueryBuilder;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 /**
  * AdminContact controller.
  *
@@ -46,9 +58,31 @@ class AdminContactController extends ContactController
 
     public function __construct(
         CustomFieldHelper $customFieldHelper,
-        ... $args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
         $this->customFieldHelper = $customFieldHelper;
     }
     

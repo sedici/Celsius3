@@ -28,21 +28,18 @@ use Celsius3\Entity\BaseUserNotification;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Entity\NotificationSettings;
 use Celsius3\Manager\NotificationManager;
-use Celsius3\Repository\BaseUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-//use FOS\MessageBundle\Model\ParticipantInterface;
-//use FOS\UserBundle\Model\User;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Celsius3\Entity\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Ignore;
+
+
 /**
- * @ORM\Entity(repositoryClass=BaseUserRepository::class)
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseUserRepository")
  * @ORM\Table(name="user", indexes={
  *   @ORM\Index(name="idx_username", columns={"username"}),
  *   @ORM\Index(name="idx_email", columns={"email"}),
@@ -56,8 +53,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
  * @ORM\HasLifecycleCallbacks
  * @DoctrineAssert\UniqueEntity("username")
  * @DoctrineAssert\UniqueEntity("email")
-// * @method string getUserIdentifier()
  */
+// * @method string getUserIdentifier()
 class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, Notifiable
 {
     use TimestampableEntity;

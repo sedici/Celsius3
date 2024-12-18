@@ -5,7 +5,8 @@ ENV_FILE=".env"
 
 # Expresión regular para capturar variables en formato clave=valor (comentadas o no)
 rgx_cmnt="#"
-rgx_varname="([a-zA-Z_]\w*)"
+# rgx_varname="([a-zA-Z_]\w*)"
+rgx_varname="([a-zA-Z_][a-zA-Z0-9_.-]*)"
 rgx_value="(.*)"
 
 cmnt="#"

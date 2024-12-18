@@ -34,14 +34,14 @@ class CatalogRepository extends BaseRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('c')
-                        ->select('c, cp')
-                        ->join('c.positions', 'cp')
-                        ->where('c.instance = :instance_id')
-                        ->orWhere('c.instance = :directory_id')
-                        ->andWhere('cp.instance = :instance_id')
-                        ->orderBy('cp.position', 'asc')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('directory_id', $directory->getId());
+            ->select('c, cp')
+            ->join('c.positions', 'cp')
+            ->where('c.instance = :instance_id')
+            ->orWhere('c.instance = :directory_id')
+            ->andWhere('cp.instance = :instance_id')
+            ->orderBy('cp.position', 'asc')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('directory_id', $directory->getId());
     }
 
     public function findForInstanceAndGlobalWithoutDisabled(Instance $instance, Instance $directory)
@@ -62,36 +62,36 @@ class CatalogRepository extends BaseRepository
     public function getCatalogResults($catalogs, $title)
     {
         return $this->getEntityManager()
-                        ->getRepository(CatalogResult::class)
-                        ->createQueryBuilder('cr')
-                        ->where('cr.title = :title')
-                        ->andWhere('cr.catalog IN (:catalog_ids)')
-                        ->setParameter('title', $title)
-                        ->setParameter('catalog_ids', $catalogs)
-                        ->getQuery()
-                        ->getResult();
+            ->getRepository(CatalogResult::class)
+            ->createQueryBuilder('cr')
+            ->where('cr.title = :title')
+            ->andWhere('cr.catalog IN (:catalog_ids)')
+            ->setParameter('title', $title)
+            ->setParameter('catalog_ids', $catalogs)
+            ->getQuery()
+            ->getResult();
     }
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('c')
-                ->select('COUNT(DISTINCT c.id)')
-                ->join('c.positions', 'cp')
-                ->where('c.instance = :instance_id')
-                ->orWhere('c.instance = :directory_id')
-                ->orderBy('cp.position', 'asc')
-                ->setParameter('instance_id', $instance->getId())
-                ->setParameter('directory_id', $directory->getId())
-                ->andWhere('cp.enabled = :enabled')
-                ->setParameter('enabled', false)
-                ->getQuery()
-                ->getSingleScalarResult();
+            ->select('COUNT(DISTINCT c.id)')
+            ->join('c.positions', 'cp')
+            ->where('c.instance = :instance_id')
+            ->orWhere('c.instance = :directory_id')
+            ->orderBy('cp.position', 'asc')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('directory_id', $directory->getId())
+            ->andWhere('cp.enabled = :enabled')
+            ->setParameter('enabled', false)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function addFindByCity($city, QueryBuilder $query, Instance $instance = null)
     {
         $query = $query->andWhere('ci.city = :city_id')
-                        ->setParameter('city_id', $city->getId());
+            ->setParameter('city_id', $city->getId());
         return $query;
     }
 
@@ -99,8 +99,8 @@ class CatalogRepository extends BaseRepository
     {
         $alias = $query->getRootAliases()[0];
         $query = $query->join($alias.'.institution', 'ci')
-                        ->andWhere('ci.country = :country_id')
-                        ->setParameter('country_id', $country->getId());
+            ->andWhere('ci.country = :country_id')
+            ->setParameter('country_id', $country->getId());
         return $query;
     }
 }

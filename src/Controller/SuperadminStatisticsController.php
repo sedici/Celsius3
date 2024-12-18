@@ -37,10 +37,6 @@ use Symfony\Component\HttpFoundation\Response;
 class SuperadminStatisticsController extends BaseController
 {
 
-    protected function getTemplatePrefix(): string
-    { return 'Superadmin/Statistics/'; }
-
-
     /**
      * Lists all Catalog entities.
      *

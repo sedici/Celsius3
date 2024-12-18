@@ -49,9 +49,9 @@ class InstanceRepository extends ServiceEntityRepository implements InstanceRepo
     public function findOneForInstance(Instance $instance, $id)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.instance = :instance_id')
+            // ->andWhere('e.instance = :instance_id')
             ->andWhere('e.id = :id')
-            ->setParameter('instance_id', $instance->getId())
+            // ->setParameter('instance_id', $instance->getId())
             ->setParameter('id', $id)
             ->getQuery()->getOneOrNullResult();
     }

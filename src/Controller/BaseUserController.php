@@ -24,25 +24,56 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
-use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Helper\CustomFieldHelper;
-use Celsius3\Manager\UserManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
 
-    protected UserManager $userManager;
     protected CustomFieldHelper $customFieldHelper;
 
     public function __construct(
-        UserManager $userManager,
         CustomFieldHelper $custom_field_helper,
-        ...$args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
-        $this->userManager = $userManager;
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
         $this->customFieldHelper = $custom_field_helper;
     }
 

@@ -29,7 +29,6 @@ use Celsius3\Form\Type\CountryType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-
 /**
  * Order controller.
  *

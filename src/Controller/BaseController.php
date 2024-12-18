@@ -38,6 +38,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,7 +88,12 @@ abstract class BaseController extends AbstractController
         $this->userManager = $userManager;
         $this->filterManager = $filterManager;
         $this->instanceHelper = $instanceHelper;
-        
+
+        $this->initialize();
+    }
+
+    public function initialize(): void
+    {
         $this->objectManager = $this->managerRegistry->getManager();
         $this->directory = $this->getDirectory();
         $this->templatePrefix = $this->getTemplatePrefix();
@@ -95,11 +101,28 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected abstract function getTemplatePrefix(): string;
+    protected function getTemplatePrefix(): string
+    {
+        $str = (new ReflectionClass($this))->getShortName();
+
+	    $str = preg_replace(
+            '/Controller$/', '', $str
+        );
+	
+	    $str = preg_replace(
+            '/([a-z])([A-Z])/', '$1/$2', $str
+        ) . '/';
+
+        return $str;
+    }
+
+
+    // protected function getInstance(): Instance
+    // { return $this->instanceHelper->getSessionInstance(); }
 
 
     protected function getInstance(): Instance
-    { return $this->instanceHelper->getSessionInstance(); }
+    { return $this->instanceHelper->getSessionOrUrlInstance(); }
 
 
     protected function getDirectory(): Instance|null
@@ -125,10 +148,12 @@ abstract class BaseController extends AbstractController
     }
 
 
-    protected function baseError(
+    protected function error(
         string $type,
+        string $entity = '',
         string $msg = null
     ): never {
+        $msg = (string) 'exception.' . $type . $entity;
         throw Exception::create($type, $msg);
     }
 

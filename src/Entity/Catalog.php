@@ -25,7 +25,6 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Entity\SoftDeleteableEntity;
 use Celsius3\Entity\TimestampableEntity;
 
 /**
@@ -271,10 +270,11 @@ class Catalog
     public function getPosition(Instance $instance)
     {
         $result = $this->getPositions()
-                        ->filter(
-                                function (CatalogPosition $entry) use ($instance) {
-                                    return $entry->getInstance()->getId() == $instance->getId();
-                                })->first();
+            ->filter(
+                function (CatalogPosition $entry) use ($instance) {
+                    return $entry->getInstance()->getId() == $instance->getId();
+                }
+            )->first();
 
         return false !== $result ? $result : null;
     }

@@ -177,11 +177,11 @@ class Instance extends LegacyInstance
     public function has($key): bool
     {
         return $this->getConfigurations()
-                ->filter(
-                    static function (Configuration $entry) use ($key) {
-                        return $entry->getKey() === $key;
-                    }
-                )->count() > 0;
+            ->filter(
+                static function (Configuration $entry) use ($key) {
+                    return $entry->getKey() === $key;
+                }
+            )->count() > 0;
     }
 
     public function getUrl(): ?string

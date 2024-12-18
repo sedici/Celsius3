@@ -35,8 +35,7 @@ abstract class BaseInstanceDependentController extends BaseEntityController
 
     protected function listQuery(): QueryBuilder
     {
-        return $this->entityManager
-            ->getRepository($this->entityClassName)
+        return $this->repository
             ->findForInstanceAndGlobal(
                 $this->instance,
                 $this->directory
@@ -46,8 +45,7 @@ abstract class BaseInstanceDependentController extends BaseEntityController
 
     protected function findQuery(string $id)
     {
-        return $this->entityManager
-            ->getRepository($this->entityClassName)
+        return $this->repository
             ->findOneForInstance(
                 $this->instance,
                 $id

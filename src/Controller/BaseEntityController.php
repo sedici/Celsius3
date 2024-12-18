@@ -34,17 +34,6 @@ use Doctrine\ORM\Mapping\Entity;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class BaseEntityController extends BaseController
 {
@@ -54,40 +43,16 @@ abstract class BaseEntityController extends BaseController
     protected array $sortDefaults;
     protected ReflectionClass $entityClass;
 
-    public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper
-    ) {
+
+    public function initialize(): void
+    {
         $this->entityClassName = $this->getEntity();
         $this->entityClass = $this->getEntityClass();
         $this->typeClassName = $this->getType();
-
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
-
-
         $this->repository = $this->getRepository();
         $this->sortDefaults = $this->getSortDefaults();
+
+        parent::initialize();
     }
 
 
@@ -99,22 +64,6 @@ abstract class BaseEntityController extends BaseController
 
     protected final function getEntityClass(): ReflectionClass
     { return new ReflectionClass($this->entityClassName); }
-
-
-    protected function getTemplatePrefix(): string
-    {
-        $str = $this->entityClass->getShortName();
-
-	    $str = preg_replace(
-            '/Controller$/', '', $str
-        );
-	
-	    $str = preg_replace(
-            '/([a-z])([A-Z])/', '$1/$2', $str
-        ) . '/';
-
-        return (string) 'Celsius3/templates/' . $str;
-    }
     
     
     protected function getDirectory(): Instance|null
@@ -179,9 +128,10 @@ abstract class BaseEntityController extends BaseController
         // ---
 
         $request = $this->requestStack->getCurrentRequest();
+        
+        $query = $this->listQuery(); // Pensarlo mejor para poder parametrizar query
 
         if ($filter_form !== null) {
-            $query = $this->listQuery(); // Pensarlo mejor para poder parametrizar query
             $filter_form = $filter_form->handleRequest(request: $request);
             $query = $this->filterManager->filter(
                 $query, $filter_form, $this->entityClassName
@@ -519,7 +469,7 @@ abstract class BaseEntityController extends BaseController
             $data = new $entityClassName();
         }
 
-        return $this->createForm(
+        return parent::createForm(
             $type, $data, $options
         );
     }

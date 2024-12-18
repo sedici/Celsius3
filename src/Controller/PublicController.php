@@ -30,29 +30,57 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 /**
  * Public controller.
  *
  * @Route("/public")
  */
-class PublicController extends BaseInstanceDependentController
+class PublicController extends BaseController
 {
     protected string $maxPerPage;
 
     public function __construct(
         string $maxPerPage,
-        ...$args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
         $this->maxPerPage = $maxPerPage;
     }
-
-
-    protected final function getEntity(): string
-    { return ''; }
-
-    protected final function getType(): string
-    { return ''; }
 
     protected final function getTemplatePrefix(): string
     { return 'Public/'; }
@@ -224,7 +252,7 @@ class PublicController extends BaseInstanceDependentController
         $request = $this->requestStack->getCurrentRequest();
 
         if (!$request->query->has('country_id')) 
-            $this->error('entity_not_found');
+            $this->error('entity_not_found', 'Country');
 
         $institutions = $this->objectManager
             ->getRepository(Institution::class)
@@ -259,7 +287,7 @@ class PublicController extends BaseInstanceDependentController
             && !$request->query->has('city_id')
             && !$request->query->has('institution_id')
         ) {
-            $this->error('not_found');
+            $this->error('not_found', 'Country');
         }
 
         $institutions = $this->entityManager

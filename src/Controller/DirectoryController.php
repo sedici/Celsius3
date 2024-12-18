@@ -28,7 +28,6 @@ use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
-use Celsius3\Entity\News;
 use Celsius3\Form\Type\InstanceRegisterType;
 use Celsius3\Form\Type\InstanceType;
 use Celsius3\Repository\NewsRepository;
@@ -39,6 +38,18 @@ use Celsius3\TicketBundle\Helper\TicketHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use function array_key_exists;
 
@@ -54,9 +65,32 @@ class DirectoryController extends BaseEntityController
     public function __construct(
         TicketHelper $ticketHelper,
         NewsRepository $newsRepository,
-        ...$args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
         $this->ticketHelper = $ticketHelper;
         $this->newsRepository = $newsRepository;
     }
@@ -71,6 +105,9 @@ class DirectoryController extends BaseEntityController
     protected final function getTemplatePrefix(): string
     { return 'Directory/'; }
 
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
 
     protected function getSortDefaults(): array
     {
@@ -83,15 +120,19 @@ class DirectoryController extends BaseEntityController
 
     public function index(): Response
     {
-        return $this->baseIndex(formOptions: [
-            'directory' => $this->getDirectory(),
-            'lastNews' => $this->newsRepository
-                ->findLastNews($this->getDirectory()),
-        ]);
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig',
+            [
+                'instance' => $this->instance,
+                'directory' => $this->directory,
+                'lastNews' => $this->newsRepository
+                    ->findLastNews($this->directory),
+            ]
+        );
     }
 
 
-    public function instances()
+    public function instances(): Response
     {
         $instances = $this->repository->findAllEnabledAndVisible();
 
@@ -132,7 +173,8 @@ class DirectoryController extends BaseEntityController
         return $this->render(
             (string) $this->templatePrefix . 'instances.html.twig',
             [
-                'directory' => $this->getDirectory(),
+                'instance' => $this->instance,
+                'directory' => $this->directory,
                 'instances' => $current_instances,
                 'google_maps_api_key' => $this->getParameter('api_key_map'),
                 'google_maps_center_position' => compact('latitude', 'longitude'),
@@ -147,7 +189,8 @@ class DirectoryController extends BaseEntityController
         return $this->render(
             (string) $this->templatePrefix . 'statistics.html.twig',
             [
-                'directory' => $this->getDirectory(),
+                'instance' => $this->instance,
+                'directory' => $this->directory,
             ]
         );
     }

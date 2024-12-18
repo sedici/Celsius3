@@ -32,6 +32,17 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 abstract class InstanceController extends BaseInstanceDependentController
 {
 
@@ -39,9 +50,32 @@ abstract class InstanceController extends BaseInstanceDependentController
 
     public function __construct(
         MailerHelper $mailerHelper,
-        ... $args
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
     ) {
-        parent::__construct(... $args);
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
         $this->mailerHelper = $mailerHelper;
     }
 
@@ -55,19 +89,17 @@ abstract class InstanceController extends BaseInstanceDependentController
 
     protected function getDirectory(): Instance|null
     {
-        return  $this->managerRegistry->getManager()
-            ->getRepository(Instance::class)
+        return  $this->repository
             ->findOneBy(['url' => 'directory']);
     }
 
 
     protected function listQuery(): QueryBuilder
     {
-        $qb = $this->managerRegistry->getManager()
-            ->getRepository(Instance::class)
+        $qb = $this->repository
             ->createQueryBuilder('e')
             ->where('e.id != :id')
-            ->setParameter('id', $this->getDirectory()->getId());
+            ->setParameter('id', $this->directory->getId());
 
         return ($this->entityClassName == LegacyInstance::class)
             ? $qb->andWhere('e INSTANCE OF Celsius3:LegacyInstance')

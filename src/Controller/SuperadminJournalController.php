@@ -23,12 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\Journal;
-use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\Filter\JournalFilterType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

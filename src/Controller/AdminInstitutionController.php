@@ -37,7 +37,8 @@ class AdminInstitutionController extends InstitutionController
 
     protected function getDirectory(): Instance|null
     {
-        return $this->repository
+        return $this->entityManager
+            ->getRepository(Instance::class)
             ->findOneBy(['url' => 'directory']);
     }
 

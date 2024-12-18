@@ -36,8 +36,10 @@ class CertificateCommand extends Command
     private $instanceRepository;
     private $kernel;
 
-    public function __construct(InstanceRepositoryInterface $instanceRepository, KernelInterface $kernel)
-    {
+    public function __construct(
+        InstanceRepositoryInterface $instanceRepository,
+        KernelInterface $kernel
+    ) {
         parent::__construct();
 
         $this->instanceRepository = $instanceRepository;

@@ -27,6 +27,7 @@ namespace Celsius3\Controller;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\UserTransformType;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,15 +53,25 @@ final class AdminBaseUserController extends BaseUserController
     }
 
 
+    protected function listQuery(): QueryBuilder
+    {
+        return $this->repository
+            ->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter(
+                'instance_id',
+                $this->instance->getId()
+            );
+    }
+
+
     /**
      * Lists all BaseUser entities.
      *
      * @Route("/", name="admin_baseuser")
      */
     public function index(): Response
-    {
-        return $this->baseInstanceIndex();
-    }
+    { return $this->baseInstanceIndex(); }
 
 
     /**
@@ -73,9 +84,7 @@ final class AdminBaseUserController extends BaseUserController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function show(string $id)
-    {
-        $this->baseShow($id);
-    }
+    { $this->baseShow($id); }
 
 
     /**
@@ -85,7 +94,9 @@ final class AdminBaseUserController extends BaseUserController
      */
     public function new(): Response
     {
-        return $this->baseInstanceNew(options: ['validation_groups' => 'Registration']);
+        return $this->baseInstanceNew(
+            options: ['validation_groups' => 'Registration']
+        );
     }
 
 
@@ -95,9 +106,7 @@ final class AdminBaseUserController extends BaseUserController
      * @Route("/create", name="admin_baseuser_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
-    {
-        return $this->baseInstanceCreate(route: 'admin_baseuser');
-    }
+    { return $this->baseInstanceCreate(route: 'admin_baseuser'); }
 
 
     /**
@@ -111,7 +120,9 @@ final class AdminBaseUserController extends BaseUserController
      */
     public function edit(string $id): Response
     {
-        return $this->baseInstanceEdit($id, options: [ 'editing' => true ]);
+        return $this->baseInstanceEdit(
+            $id, options: [ 'editing' => true ]
+        );
     }
 
 
@@ -125,9 +136,7 @@ final class AdminBaseUserController extends BaseUserController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function update($id): RedirectResponse|Response
-    {
-        return $this->baseInstanceUpdate($id, 'admin_baseuser');
-    }
+    { return $this->baseInstanceUpdate($id, 'admin_baseuser'); }
 
 
     /**
@@ -140,9 +149,7 @@ final class AdminBaseUserController extends BaseUserController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function enable(string $id): RedirectResponse
-    {
-        return $this->baseEnable($id);
-    }
+    { return $this->baseEnable($id); }
 
 
     // BATCH
@@ -159,15 +166,11 @@ final class AdminBaseUserController extends BaseUserController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function batch(): mixed
-    {
-        return $this->baseBatch();
-    }
+    { return $this->baseBatch(); }
 
 
     protected function batchEnable($element_ids): RedirectResponse
-    {
-        return $this->baseBatchEnable($element_ids);
-    }
+    { return $this->baseBatchEnable($element_ids); }
 
 
     // UNION

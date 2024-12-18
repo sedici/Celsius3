@@ -39,9 +39,6 @@ abstract class OrderController extends BaseInstanceDependentController
     protected final function getType(): string
     { return OrderType::class; }
 
-    protected function getTemplatePrefix(): string
-    { return 'Order/'; }
-
 
     protected function getSortDefaults(): array
     {
