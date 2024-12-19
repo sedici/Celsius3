@@ -151,14 +151,15 @@ abstract class BaseInstanceDependentController extends BaseEntityController
     protected function createForm(
         string $type = null,
         $data = null,
-        array $formOptions = []
+        array $formOptions = [],
+        bool $hasData = true
     ): FormInterface {
         if (empty($formOptions)) $formOptions = [ 'instance' => $this->instance ];
         else if (! array_key_exists('instance', $formOptions))
             $formOptions = [ 'instance' => $this->instance, ...$formOptions ];
 
         return parent::createForm(
-            $type, $data, $formOptions
+            $type, $data, $formOptions, $hasData
         );
     }
 }

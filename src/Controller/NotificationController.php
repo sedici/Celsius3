@@ -40,6 +40,7 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -49,11 +50,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *
  * @Route("/user/notification")
  */
-class NotificationController extends BaseInstanceDependentController
+class NotificationController extends BaseEntityController
 {
 
     protected NotificationManager $notificationManager;
-    protected $nsrepository;
+    protected EntityRepository $nsrepository;
 
     public function __construct(
         NotificationManager $notificationManager,
@@ -84,7 +85,7 @@ class NotificationController extends BaseInstanceDependentController
         );
 
         $this->notificationManager = $notificationManager;
-        $this->nsrepository = $this->managerRegistry
+        $this->nsrepository = $this->entityManager
             ->getRepository(NotificationSettings::class);
     }
 
@@ -95,7 +96,7 @@ class NotificationController extends BaseInstanceDependentController
     { return Notification::class; }
 
     protected final function getTemplatePrefix(): string
-    { return 'NewsFeeds/'; }
+    { return 'Notification/'; }
 
 
     protected function getSortDefaults(): array
@@ -109,7 +110,8 @@ class NotificationController extends BaseInstanceDependentController
 
     protected function listQuery(): QueryBuilder
     {
-        return parent::listQuery()
+        return $this->repository
+            ->createQueryBuilder('e')
             ->join('e.receivers', 'r')
             ->where('r.id = :user_id')
             ->setParameter('user_id', $this->getUser()->getId());
@@ -126,7 +128,10 @@ class NotificationController extends BaseInstanceDependentController
      */
     public function indexAction(): Response
     {
-        return $this->baseIndex();
+        return $this->baseIndex(
+            SubscriptionType::class,
+            hasFilterForm: false,
+        );
     }
 
 
@@ -152,7 +157,7 @@ class NotificationController extends BaseInstanceDependentController
         $form = $this->createForm(
             SubscriptionType::class, null, [
                 'user' => $this->getUser(),
-            ]
+            ], false
         );
 
         foreach ($settings as $value) {

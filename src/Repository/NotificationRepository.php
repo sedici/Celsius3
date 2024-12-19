@@ -29,21 +29,21 @@ class NotificationRepository extends EntityRepository
     public function getUnreadNotificationsCount($user_id)
     {
         return $this->createQueryBuilder('n')
-                        ->select('COUNT(n.id)')
-                        ->where(':user_id MEMBER OF n.receivers')
-                        ->andWhere('n.viewed = false')
-                        ->setParameter('user_id', $user_id)
-                        ->getQuery()
-                        ->getSingleScalarResult();
+            ->select('COUNT(n.id)')
+            ->where(':user_id MEMBER OF n.receivers')
+            ->andWhere('n.viewed = false')
+            ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function getUnreadNotifications($user_id, $limit)
     {
         return $this->createQueryBuilder('n')
-                        ->where(':user_id MEMBER OF n.receivers')
-                        ->andWhere('n.viewed = false')
-                        ->setParameter('user_id', $user_id)
-                        ->getQuery()
-                        ->getResult();
+            ->where(':user_id MEMBER OF n.receivers')
+            ->andWhere('n.viewed = false')
+            ->setParameter('user_id', $user_id)
+            ->getQuery()
+            ->getResult();
     }
 }

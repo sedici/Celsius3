@@ -49,3 +49,9 @@
 - `make clean`: elimina todos archivos generados para la ejecución de este clon del repositorio. Tenga en cuenta que **no para contenedores ni elimina imágenes**.
 
 - `make env <ENV_FILE> <OPT> [<ARGS...>]`: administra las variables de entorno presentes en el archivo `<ENV_FILE>`. Permite listar, agregar, eliminar y comentar variables de entorno. Use `make env` para ver la ayuda.
+
+- `make dxenv <SRV_NAME> <ENV_FILE> <OPT> [<ARGS...>]`: administra las variables de entorno del archivo `<ENV_FILE>` desde dentro del servicio `<SRV_NAME>`.
+
+### Herramientas
+
+- El script bash `env-handler.sh` es una herramienta para manipular variables de entorno de los diferentes programas/sistemas/herramientas del sistema.

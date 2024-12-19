@@ -23,6 +23,7 @@
 namespace Celsius3\Entity\Mixin;
 
 use Celsius3\Entity\Provider;
+// use Celsius3\Provider\Message\Provider;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -31,9 +31,11 @@ use Celsius3\Exception\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\QueryBuilder;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 abstract class BaseEntityController extends BaseController
 {
@@ -140,17 +142,10 @@ abstract class BaseEntityController extends BaseController
             $type, $data, $formOptions
         );
 
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->getResultsPerPage(),
-            $this->sortDefaults
-        );
-
         return $this->render(
             $template,
             [
-                'pagination' => $pagination,
+                'pagination' => $this->paginate(),
                 'filter_form' => ($filter_form !== null)
                     ? $filter_form->createView()
                     : $filter_form,
@@ -460,17 +455,45 @@ abstract class BaseEntityController extends BaseController
     protected function createForm(
         string $type = null,
         $data = null,
-        array $options = []
+        array $options = [],
+        bool $hasData = true
     ): FormInterface {
         if ($type === null) $type = $this->typeClassName;
 
-        if ($data === null) {
+        if ($data === null && $hasData) {
             $entityClassName = $this->entityClassName;
             $data = new $entityClassName();
         }
 
         return parent::createForm(
             $type, $data, $options
+        );
+    }
+
+    protected function paginate(
+        QueryBuilder $query = null,
+        Request $request = null,
+        int $page = null,
+        int $limit = null,
+        array $options = null
+    ): PaginationInterface {
+        if ($request === null)
+            $request = $this->requestStack->getCurrentRequest();
+
+        if ($query === null) $query = $this->listQuery();
+
+        if ($page === null)
+            $page = intval($request->query->get('page', 1));
+
+        if ($limit === null) $limit = $this->getResultsPerPage();
+        
+        if ($options === null) $options = $this->sortDefaults;
+
+        return $this->paginator->paginate(
+            $query,
+            $page,
+            $limit,
+            $options
         );
     }
 }

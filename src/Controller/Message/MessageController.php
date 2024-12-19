@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller\Message;
 
+use Celsius3\Entity\Mixin\ProviderTrait;
 use Celsius3\Form\Type\Filter\MessageFilterType;
 use Celsius3\Controller\BaseEntityController;
 use Celsius3\Entity\Message;
@@ -29,6 +30,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MessageController extends BaseEntityController
 {
+    use ProviderTrait;
+
     protected final function getEntity(): string
     { return Message::class; }
 
@@ -37,7 +40,6 @@ class MessageController extends BaseEntityController
 
     protected final function getTemplatePrefix(): string
     { return 'bundles/FOSMessageBundle/Message/'; }
-
 
     protected function getSortDefaults(): array
     { return [ 'wrap-queries' => false ]; }
@@ -50,7 +52,9 @@ class MessageController extends BaseEntityController
     {
         $threads = $this->getProvider()->getInboxThreadsQuery();
 
-        $filter_form = $this->container->get('form.factory')->create(MessageFilterType::class);
+        $filter_form = $this->createForm(
+            MessageFilterType::class, $threads
+        );
 
         $request = $this->requestStack->getCurrentRequest();
 
