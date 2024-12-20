@@ -1,11 +1,12 @@
 dockname := $(shell grep 'name:' docker-compose.yaml | awk '{print $$2}')
 args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
-.PHONY: all build install deps start stop clean compose/install npm/install database encore tests ps imgs rmi dexec
 all: build install
 install: start deps postbuild
 deps: composer/install npm/install encore
 postbuild: elastica/populate
+
+clean: clean/nmodules clean/pbuild clean/jsonpkgs clean/vendor
 
 build:
 	@docker compose build
@@ -16,8 +17,20 @@ start:
 stop:
 	@docker compose stop
 
-clean:
-	@sudo rm -rf ./node_modules ./public/build ./package-lock.json ./vendor
+clean/nmodules:
+	@sudo rm -rf ./node_modules
+
+clean/pbuild:
+	@sudo rm -rf ./public/build
+
+clean/jsonpkgs:
+	@sudo rm -rf ./package-lock.json
+
+clean/vendor:
+	@sudo rm -rf ./vendor
+
+clean/php-cache:
+	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console cache:clear
 
 composer/install:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 composer install

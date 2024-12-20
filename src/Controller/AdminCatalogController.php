@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\CatalogPosition;
+use Celsius3\Form\Type\Filter\CatalogFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,21 +34,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/catalog")
  */
-class CatalogHTMLController extends CatalogController
+class AdminCatalogController extends CatalogController
 {
-
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/Catalog/'; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
 
     /**
      * Lists all Catalog entities.
@@ -55,7 +43,7 @@ class CatalogHTMLController extends CatalogController
      * @Route("/", name="admin_catalog")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    { return $this->baseInstanceIndex(CatalogFilterType::class); }
 
     /**
      * Displays a form to create a new Catalog entity.

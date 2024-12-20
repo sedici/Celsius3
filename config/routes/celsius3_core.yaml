@@ -1,4 +1,0 @@
-#celsius3_core:
-#    resource: "@Celsius3CoreBundle/Controller/"
-#    type:     annotation
-#    prefix:   /

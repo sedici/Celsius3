@@ -141,7 +141,7 @@ abstract class BaseInstanceDependentController extends BaseEntityController
         return $this->baseIndex(
             $type,
             [
-                'instance' => $this->getInstance(), ... $options
+                'instance' => $this->instance, ... $options
             ], $template, $data,
             $filter_form, $hasFilterForm
         );

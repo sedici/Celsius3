@@ -148,6 +148,9 @@ final class AdminBaseUserController extends BaseUserController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
+
+    // MODIFICAR SOLUCITUDES PARA QUE SEAN PUT
+    
     public function enable(string $id): RedirectResponse
     { return $this->baseEnable($id); }
 
@@ -259,9 +262,12 @@ final class AdminBaseUserController extends BaseUserController
     /**
      * Transform an instance of BaseUser entity.
      *
-     * @Route("/transform", name="admin_baseuser_transform", methods={"GET", "POST"})
+     * @Route("{id}/transform", name="admin_baseuser_transform", methods={"GET", "POST"})
      */
-    public function transform(string $id): array|RedirectResponse|Response
+
+    // SEPARAR EN DOS CONTROLADORES
+
+     public function transform(string $id): array|RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();
         $entity = $this->findQuery($id);

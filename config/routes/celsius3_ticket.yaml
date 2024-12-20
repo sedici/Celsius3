@@ -1,4 +1,0 @@
-celsius3_ticket:
-    resource: "@Celsius3TicketBundle/Controller/"
-    type:     annotation
-    prefix:   /ticket

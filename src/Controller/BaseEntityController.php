@@ -32,6 +32,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
+use Exception as GlobalException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -134,7 +135,7 @@ abstract class BaseEntityController extends BaseController
         $query = $this->listQuery(); // Pensarlo mejor para poder parametrizar query
 
         if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest(request: $request);
+            $filter_form = $filter_form->handleRequest($request);
             $query = $this->filterManager->filter(
                 $query, $filter_form, $this->entityClassName
             );
@@ -149,6 +150,43 @@ abstract class BaseEntityController extends BaseController
                 'filter_form' => ($filter_form !== null)
                     ? $filter_form->createView()
                     : $filter_form,
+            ]
+        );
+    }
+
+
+
+
+    public function customIndex(
+        string $type = null,
+    ): Response {
+        $filter_form = $this->createForm(
+            $type,
+            null,
+            [
+                'instance' => $this->instance,
+            ]
+        );
+
+        $filter_form->handleRequest($this->requestStack->getCurrentRequest());
+        $query = $this->filterManager
+            ->filter(
+                $this->repository->findForInstanceAndGlobal(
+                    $this->instance,
+                    $this->directory
+                ),
+                $filter_form,
+                $this->entityClassName,
+                $this->instance
+            );
+
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig',
+            [
+                'pagination' => $query->getQuery()->getResult(),
+                'filter_form' => $filter_form->createView(),
+                'directory' => $this->directory,
+                'instance' => $this->instance,
             ]
         );
     }
