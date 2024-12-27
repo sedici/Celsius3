@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Form\Type\Filter\InstitutionFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -49,7 +50,7 @@ class AdminInstitutionController extends InstitutionController
      * @Route("/", name="admin_institution")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    { return $this->baseInstanceIndex(InstitutionFilterType::class); }
 
 
     /**
@@ -70,7 +71,7 @@ class AdminInstitutionController extends InstitutionController
     {
         return $this->baseInstanceCreate(
             options: [ 'show_city' => true ],
-            route: 'admin_institution'
+            route: 'admin_institution_new'
         );
     }
 
@@ -103,7 +104,7 @@ class AdminInstitutionController extends InstitutionController
     public function update(string $id): RedirectResponse|Response
     {
         return $this->baseInstanceUpdate(
-            $id, 'admin_institution',
+            $id, 'admin_institution_edit',
             options: [ 'show_city' => true ]
         );
     }

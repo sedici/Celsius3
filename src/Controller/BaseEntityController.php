@@ -32,7 +32,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
-use Exception as GlobalException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -202,7 +201,6 @@ abstract class BaseEntityController extends BaseController
         // ---
 
         $entity = $this->findQuery($id);
-
         if (!$entity) $this->error('entity_not_found');
 
         return $this->render(
@@ -230,7 +228,9 @@ abstract class BaseEntityController extends BaseController
 
         // ---
 
-        $form = $this->createForm($type, $entity, $formOptions);
+        $form = $this->createForm(
+            $type, $entity, $formOptions
+        );
 
         return $this->render(
             $template,
@@ -244,8 +244,22 @@ abstract class BaseEntityController extends BaseController
 
     protected function persistEntity($entity)
     {
-        $this->objectManager->persist($entity);
-        $this->objectManager->flush();
+        // $this->printVar($entity);
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+    }
+
+
+    protected function onValidCreateForm(
+        $entity,
+        FormInterface $form,
+        array $options,
+        string $route,
+        string $template,
+        Request $request
+    ): void {
+        $this->persistEntity($entity);
     }
 
 
@@ -265,18 +279,20 @@ abstract class BaseEntityController extends BaseController
             $template = (string) $this->templatePrefix . 'new.html.twig';
 
         // ---
-
+        
+        $request = $this->requestStack->getCurrentRequest();
+        
         $form = $this->createForm(
             $type, $entity, $formOptions
         );
-
-        $request = $this->requestStack->getCurrentRequest();
-
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             try {
-                $this->persistEntity($entity);
+                $this->onValidCreateForm(
+                    $entity, $form, $formOptions, $route, $template, $request
+                );
+
                 $this->addEntityFlash(
                     'success', 'The %entity% was successfully created.',
                 );
@@ -313,7 +329,8 @@ abstract class BaseEntityController extends BaseController
         array $formOptions = [],
         string $route = null,
         string $template = null,
-        Entity $entity = null
+        Entity $entity = null,
+        array $extraParams = []
     ): Response {
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'edit.html.twig';
@@ -321,7 +338,7 @@ abstract class BaseEntityController extends BaseController
         // ---
 
         if ($entity === null) {
-            $entity = $this->findQuery($id);    
+            $entity = $this->findQuery($id);
             if (!$entity) $this->error('entity_not_found');
         }
 
@@ -335,8 +352,21 @@ abstract class BaseEntityController extends BaseController
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
                 'route' => $route,
+                ... $extraParams
             ]
         );
+    }
+
+
+    protected function onValidUpdateForm(
+        $entity,
+        FormInterface $form,
+        array $options,
+        string $route,
+        string $template,
+        Request $request
+    ): void {
+        $this->persistEntity($entity);
     }
 
 
@@ -366,9 +396,11 @@ abstract class BaseEntityController extends BaseController
 
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
-                $this->persistEntity($entity);
+                $this->onValidUpdateForm(
+                    $entity, $editForm, $formOptions, $route, $template, $request
+                );
 
                 $this->addEntityFlash(
                     'success', 'The %entity% was successfully edited.'
@@ -376,8 +408,7 @@ abstract class BaseEntityController extends BaseController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        (string) $route . '_edit',
-                        ['id' => $id]
+                        $route, ['id' => $id]
                     )
                 );
             } catch (UniqueConstraintViolationException $e) {

@@ -48,12 +48,12 @@ final class DownloadController extends BaseUserController
     private FileManager $fileManager;
     private $requestRepository;
     private $fileRepository;
-    private TokenStorageInterface $tokenStorage;
+    // private TokenStorageInterface $tokenStorage;
     private LifecycleHelper $lifecycleHelper;
 
     public function __construct(
         FileManager $fileManager,
-        TokenStorageInterface $tokenStorage,
+        // TokenStorageInterface $tokenStorage,
         LifecycleHelper $lifecycleHelper,
         ... $args
     ) {
@@ -61,7 +61,7 @@ final class DownloadController extends BaseUserController
         $this->fileManager = $fileManager;
         $this->requestRepository = $this->entityManager->getRepository(Request::class);
         $this->fileRepository = $this->entityManager->getRepository(File::class);
-        $this->tokenStorage = $tokenStorage;
+        // $this->tokenStorage = $tokenStorage;
         $this->lifecycleHelper = $lifecycleHelper;
     }
 

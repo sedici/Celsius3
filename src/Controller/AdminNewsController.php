@@ -69,7 +69,7 @@ class AdminNewsController extends NewsController
      * @Route("/create", name="admin_news_create", methods={"POST"})
      */
     public function create(): Response
-    { return $this->baseInstanceCreate(route: 'admin_news'); }
+    { return $this->baseInstanceCreate(route: 'admin_news_new'); }
 
 
     /**
@@ -95,5 +95,5 @@ class AdminNewsController extends NewsController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'admin_news'); }
+    { return $this->baseInstanceUpdate($id, 'admin_news_edit'); }
 }

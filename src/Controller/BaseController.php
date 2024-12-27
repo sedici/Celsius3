@@ -92,6 +92,15 @@ abstract class BaseController extends AbstractController
         $this->initialize();
     }
 
+    protected function printVar($entity): void {
+        $str = '{ ';
+        foreach ($entity as $property => $value) {
+            $str = $str . "$property => $value, ";
+        }
+        $str = $str . ' }';
+        throw new \Exception($str);
+    }
+
     public function initialize(): void
     {
         $this->objectManager = $this->managerRegistry->getManager();

@@ -88,13 +88,15 @@ abstract class BaseInstanceDependentController extends BaseEntityController
         array $options = [],
         string $template = null,
         Entity $entity = null,
+        array $extraParams = []
     ): Response {
         return $this->baseEdit(
             $id, $type,
             [
                 'instance' => $this->instance, ... $options
             ], $route, $template,
-            $entity
+            $entity,
+            $extraParams
         );
     }
 
@@ -148,7 +150,7 @@ abstract class BaseInstanceDependentController extends BaseEntityController
     }
 
 
-    protected function createForm(
+    protected function instanceCreateForm(
         string $type = null,
         $data = null,
         array $formOptions = [],
@@ -156,7 +158,7 @@ abstract class BaseInstanceDependentController extends BaseEntityController
     ): FormInterface {
         if (empty($formOptions)) $formOptions = [ 'instance' => $this->instance ];
         else if (! array_key_exists('instance', $formOptions))
-            $formOptions = [ 'instance' => $this->instance, ...$formOptions ];
+            $formOptions = [ 'instance' => $this->instance , ...$formOptions ];
 
         return parent::createForm(
             $type, $data, $formOptions, $hasData

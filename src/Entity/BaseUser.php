@@ -319,7 +319,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -356,7 +356,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      *
      * @return string $surname
      */
-    public function getSurname()
+    public function getSurname(): ?string
     {
         return $this->surname;
     }

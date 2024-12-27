@@ -36,17 +36,24 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
 
     protected CustomFieldHelper $customFieldHelper;
+    protected TokenStorageInterface $tokenStorage;
 
     public function __construct(
+        TokenStorageInterface $tokenStorage,
         CustomFieldHelper $custom_field_helper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -75,6 +82,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         );
 
         $this->customFieldHelper = $custom_field_helper;
+        $this->tokenStorage = $tokenStorage;
     }
 
     protected final function getEntity(): string
@@ -90,6 +98,29 @@ abstract class BaseUserController extends BaseInstanceDependentController
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
         ];
+    }
+
+
+    protected function baseShow(
+        string $id,
+        string $template = null
+    ): Response {
+        if ($template === null) 
+            $template = (string) $this->templatePrefix . 'show.html.twig';
+
+        // ---
+
+        $entity = $this->findQuery($id);
+        if (!$entity) $this->error('entity_not_found');
+
+        return $this->render(
+            $template,
+            [
+                'element' => $entity,
+                'messages' => [],
+                'resultsPerPage' => $this->getResultsPerPage()
+            ]
+        );
     }
 
 
@@ -117,8 +148,10 @@ abstract class BaseUserController extends BaseInstanceDependentController
         ];
     }
 
-    protected function baseDoTransform($id, $transformType, array $options, $route)
-    {
+
+    protected function baseDoTransform(
+        $id, $transformType, array $options, $route
+    ): array|RedirectResponse {
         $entity = $this->findQuery($id);
 
         if (!$entity) $this->error('entity_not_found');
@@ -155,8 +188,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
             return $this->redirect(
                 $this->generateUrl(
-                    (string) $route . '_transform',
-                    [ 'id' => $id ]
+                    $route, [ 'id' => $id ]
                 )
             );
         }
@@ -267,38 +299,60 @@ abstract class BaseUserController extends BaseInstanceDependentController
     }
 
 
-    protected function baseUserCreate($request, $template, array $options = [])
+    public function findOneForInstanceByUsername(string $username)
     {
-        $entity = new BaseUser();
+        return $this->repository->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->andWhere('e.id = :id')
+            ->setParameter('instance_id', $this->instance->getId())
+            ->setParameter('username', $username)
+            ->getQuery()->getOneOrNullResult();
+    }
 
-        $form = $this->createForm(BaseUserType::class, $entity, $options);
+    protected function switchUser(string $username): RedirectResponse
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $this->findOneForInstanceByUsername($username);
 
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $this->persistEntity($entity);
-
-            $this->customFieldHelper->processCustomUserFields(
-                $this->getInstance(),
-                $form,
-                $entity
+            $token = new UsernamePasswordToken(
+                $user, 'secured_area', $user->getRoles()
             );
 
-            $this->addEntityFlash(
-                'success', 'The %entity% was successfully created.'
-            );
-
-            return $this->redirect($this->generateUrl('admin_user'));
+            $this->tokenStorage->setToken($token);
         }
 
-        $this->addEntityFlash(
-            'error', 'There were errors creating the %entity%.'
+        return $this->redirectToRoute('user_index');
+    }
+
+
+    protected function onValidCreateForm(
+        $entity,
+        FormInterface $form,
+        array $options,
+        string $route,
+        string $template,
+        Request $request
+    ): void {
+        $this->persistEntity($entity);
+
+        $this->customFieldHelper->processCustomUserFields(
+            $this->instance, $form, $entity
         );
+    }
 
-        $parameters = [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
 
-        return $this->render($template, $parameters);
+    protected function onValidUpdateForm(
+        $entity,
+        FormInterface $form,
+        array $options,
+        string $route,
+        string $template,
+        Request $request
+    ): void {
+        $this->persistEntity($entity);
+
+        $this->customFieldHelper->processCustomUserFields(
+            $this->instance, $form, $entity
+        );
     }
 }

@@ -246,7 +246,7 @@ class AdminContactController extends ContactController
 
         $editForm = $this->createForm(
             data: $entity,
-            formOptions: [
+            options: [
                 'owning_instance' => $this->getInstance(),
                 'user' => $entity->getUser(),
             ]

@@ -90,7 +90,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function create(): RedirectResponse|Response
     {
-        return $this->baseInstanceCreate(route: 'admin_country');
+        return $this->baseInstanceCreate(route: 'admin_country_new');
     }
 
 
@@ -119,6 +119,6 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function update($id): RedirectResponse|Response
     {
-        return $this->baseInstanceUpdate($id, 'admin_country');
+        return $this->baseInstanceUpdate($id, 'admin_country_edit');
     }
 }

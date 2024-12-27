@@ -58,7 +58,7 @@ class AdminCityController extends CityController
      * @Route("/create", name="admin_city_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(route: 'admin_city'); }
+    { return $this->baseInstanceCreate(route: 'admin_city_new'); }
 
 
     /**
@@ -84,5 +84,5 @@ class AdminCityController extends CityController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function update($id): RedirectResponse|Response
-    { return $this->baseInstanceUpdate($id, 'admin_city'); }
+    { return $this->baseInstanceUpdate($id, 'admin_city_edit'); }
 }

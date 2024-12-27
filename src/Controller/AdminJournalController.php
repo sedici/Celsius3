@@ -213,6 +213,6 @@ class AdminJournalController extends JournalController
      */
     public function update(string $id): RedirectResponse|Response
     {
-        return $this->baseInstanceUpdate($id, 'admin_journal');
+        return $this->baseInstanceUpdate($id, 'admin_journal_edit');
     }
 }

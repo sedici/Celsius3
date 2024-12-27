@@ -45,6 +45,7 @@ class AdminCatalogController extends CatalogController
     public function index(): Response
     { return $this->baseInstanceIndex(CatalogFilterType::class); }
 
+
     /**
      * Displays a form to create a new Catalog entity.
      *
@@ -53,13 +54,14 @@ class AdminCatalogController extends CatalogController
     public function new(): Response
     { return $this->baseInstanceNew(); }
 
+
     /**
      * Creates a new Catalog entity.
      *
      * @Route("/create", name="admin_catalog_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(route: 'admin_catalog'); }
+    { return $this->baseInstanceCreate(route: 'admin_catalog_new'); }
 
 
     /**
@@ -74,6 +76,7 @@ class AdminCatalogController extends CatalogController
     public function edit($id): Response
     { return $this->baseInstanceEdit($id); }
 
+
     /**
      * Edits an existing Catalog entity.
      *
@@ -84,7 +87,7 @@ class AdminCatalogController extends CatalogController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function update($id): RedirectResponse|Response
-    { return $this->baseInstanceUpdate($id, 'admin_catalog'); }
+    { return $this->baseInstanceUpdate($id, 'admin_catalog_edit'); }
 
 
     /**

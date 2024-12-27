@@ -27,7 +27,9 @@ namespace Celsius3\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\UserTransformType;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -53,15 +55,21 @@ final class SuperAdminUserController extends BaseUserController
     }
 
 
+    protected function getInstance(): Instance
+    { return $this->directory; }
+
+
+    protected function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
+
+
     /**
      * Lists all BaseUser entities.
      *
      * @Route("/", name="superadmin_user")
      */
     public function index(): Response
-    {
-        return $this->baseInstanceIndex();
-    }
+    { return $this->baseInstanceIndex(); }
 
 
     /**
@@ -73,9 +81,11 @@ final class SuperAdminUserController extends BaseUserController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function show(string $id)
+    public function show(string $id): Response
     {
-        $this->baseShow($id);
+        return $this->baseShow(
+            $id, 'Admin/BaseUser/show.html.twig'
+        );
     }
 
 
@@ -85,9 +95,7 @@ final class SuperAdminUserController extends BaseUserController
      * @Route("/new", name="superadmin_user_new")
      */
     public function new(): Response
-    {
-        return $this->baseInstanceNew(options: ['validation_groups' => 'Registration']);
-    }
+    { return $this->baseInstanceNew(options: ['validation_groups' => 'Registration']); }
 
 
     /**
@@ -96,9 +104,7 @@ final class SuperAdminUserController extends BaseUserController
      * @Route("/create", name="superadmin_user_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
-    {
-        return $this->baseInstanceCreate(route: 'superadmin_baseuser');
-    }
+    { return $this->baseInstanceCreate(route: 'superadmin_user_new'); }
 
 
     /**
@@ -111,9 +117,7 @@ final class SuperAdminUserController extends BaseUserController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function edit(string $id): Response
-    {
-        return $this->baseInstanceEdit($id, options: [ 'editing' => true ]);
-    }
+    { return $this->baseEdit($id, formOptions: [ 'editing' => true ]); }
 
 
     /**
@@ -125,9 +129,12 @@ final class SuperAdminUserController extends BaseUserController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): RedirectResponse|Response
+    public function update(string $id): RedirectResponse|Response
     {
-        return $this->baseInstanceUpdate($id, 'superadmin_baseuser');
+        return $this->baseUpdate(
+            $id, 'superadmin_user_edit',
+            formOptions: [ 'editing' => true ]
+        );
     }
 
 
@@ -141,9 +148,7 @@ final class SuperAdminUserController extends BaseUserController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function enable(string $id): RedirectResponse
-    {
-        return $this->baseEnable($id);
-    }
+    { return $this->baseEnable($id); }
 
 
     // BATCH
@@ -273,7 +278,7 @@ final class SuperAdminUserController extends BaseUserController
                     'user' => $entity,
                     'user_actual' => $this->getUser()
                 ],
-                'superadmin_user'
+                'superadmin_user_transform'
             );
         }
 
