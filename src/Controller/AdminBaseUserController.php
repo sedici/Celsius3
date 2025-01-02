@@ -27,6 +27,7 @@ namespace Celsius3\Controller;
 use Celsius3\Controller\BaseUserController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\BaseUserType;
+use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Form\Type\UserTransformType;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -74,7 +75,7 @@ final class AdminBaseUserController extends BaseUserController
      * @Route("/", name="admin_user")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    { return $this->baseInstanceIndex(BaseUserFilterType::class); }
 
 
     /**

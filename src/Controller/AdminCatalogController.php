@@ -112,6 +112,27 @@ class AdminCatalogController extends CatalogController
 
 
     /**
+     * Enables an existing Catalog entity.
+     *
+     * @Route("/{id}/enable", name="admin_catalog_enable", methods={"POST"})
+     *
+     * @param string $id The entity ID
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function enable(string $id): Response
+    {
+        $catalog = $this->findQuery($id);
+
+        $catalog->setEnabled(true);
+
+        $this->persistEntity($catalog);
+
+        return $this->redirectToRoute('admin_catalog');
+    }
+
+
+    /**
      * Updates the position of a group of existing Catalog entities.
      *
      * @Route("/updateposition", name="admin_catalog_updateposition", methods={"POST"})

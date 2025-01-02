@@ -32,6 +32,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
+use Exception as GlobalException;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -131,29 +132,30 @@ abstract class BaseEntityController extends BaseController
 
         $request = $this->requestStack->getCurrentRequest();
         
-        $query = $this->listQuery(); // Pensarlo mejor para poder parametrizar query
+        $query = $this->listQuery();
 
-        if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filterManager->filter(
-                $query, $filter_form, $this->entityClassName
+        if ($filter_form === null && $hasFilterForm) {
+            $filter_form = $this->createForm(
+                $type, $data, $formOptions
             );
-        } else if ($hasFilterForm) $filter_form = $this->createForm(
-            $type, $data, $formOptions
+        }
+
+        $filter_form->handleRequest($request);
+
+        $query = $this->filterManager->filter(
+            $query, $filter_form, $this->entityClassName, $this->instance
         );
 
         return $this->render(
             $template,
             [
-                'pagination' => $this->paginate(),
+                'pagination' => $this->paginate($query),
                 'filter_form' => ($filter_form !== null)
                     ? $filter_form->createView()
                     : $filter_form,
             ]
         );
     }
-
-
 
 
     public function customIndex(

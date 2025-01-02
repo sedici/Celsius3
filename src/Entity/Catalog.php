@@ -253,7 +253,7 @@ class Catalog
     /**
      * Get positions.
      *
-     * @return Collection $positions
+     * @return ArrayCollection $positions
      */
     public function getPositions()
     {

@@ -58,28 +58,28 @@ class BaseUserFilterType extends AbstractType
                 ->add('email', null, array(
                     'required' => false,
                 ))
-                ->add('state', ChoiceType::class, array(
-//                    'choices_as_values' => true,
-                    'required' => false,
-                    'choices' => array(
-                        /** @Ignore */ 'Enabled' => 'enabled',
-                        /** @Ignore */ 'Pending' => 'pending',
-                        /** @Ignore */ 'Rejected' => 'rejected',
-                    ),
-                    'expanded' => true,
-                    'multiple' => true,
-                ))
-                ->add('roles', ChoiceType::class, [
-//                    'choices_as_values' => true,
-                    'required' => false,
-                    'choices' => [
-                        /** @Ignore */ 'User' => 'ROLE_USER',
-                        /** @Ignore */ 'Manager Orden' => 'ROLE_ORDER_MANAGER',
-                        /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
-                        /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
-                        /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
-                    ],
-                ])
+                // ->add('state', ChoiceType::class, array(
+                //     'required' => false,
+                //     'choices' => array(
+                //         /** @Ignore */ 'Enabled' => 'enabled',
+                //         /** @Ignore */ 'Pending' => 'pending',
+                //         /** @Ignore */ 'Rejected' => 'rejected',
+                //     ),
+                //     'expanded' => true,
+                //     'multiple' => true,
+                // ))
+                // ->add('roles', ChoiceType::class, [
+                //     'required' => false,
+                //     'choices' => [
+                //         /** @Ignore */ 'User' => 'ROLE_USER',
+                //         /** @Ignore */ 'Manager Orden' => 'ROLE_ORDER_MANAGER',
+                //         /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
+                //         /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
+                //         /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
+                //     ],
+                //     'expanded' => true,
+                //     'multiple' => true,
+                // ])
             ->add('country', EntityType::class, array(
                 'class' => Country::class,
                 'mapped' => true,

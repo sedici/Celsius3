@@ -33,30 +33,24 @@ class CatalogRepository extends BaseRepository
 {
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
-        return $this->createQueryBuilder('c')
-            ->select('c, cp')
-            ->join('c.positions', 'cp')
-            ->where('c.instance = :instance_id')
-            ->orWhere('c.instance = :directory_id')
-            ->andWhere('cp.instance = :instance_id')
-            ->orderBy('cp.position', 'asc')
+        return $this->createQueryBuilder('e')
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
             ->setParameter('instance_id', $instance->getId())
-            ->setParameter('directory_id', $directory->getId());
+            ->setParameter('directory_id', $directory->getId())
+            ->orderBy('e.name', 'asc');
     }
 
     public function findForInstanceAndGlobalWithoutDisabled(Instance $instance, Instance $directory)
     {
-        return $this->createQueryBuilder('c')
-            ->select('c, cp')
-            ->join('c.positions', 'cp')
-            ->where('c.instance = :instance_id')
-            ->orWhere('c.instance = :directory_id')
-            ->andWhere('cp.instance = :instance_id')
-            ->andWhere('cp.enabled = :enabled')
-            ->orderBy('cp.position', 'asc')
+        return $this->createQueryBuilder('e')
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->andWhere('e.enabled = :enabled')
             ->setParameter('instance_id', $instance->getId())
             ->setParameter('enabled', true)
-            ->setParameter('directory_id', $directory->getId());
+            ->setParameter('directory_id', $directory->getId())
+            ->orderBy('e.name', 'asc');
     }
 
     public function getCatalogResults($catalogs, $title)
@@ -74,15 +68,13 @@ class CatalogRepository extends BaseRepository
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
-        return $this->createQueryBuilder('c')
-            ->select('COUNT(DISTINCT c.id)')
-            ->join('c.positions', 'cp')
-            ->where('c.instance = :instance_id')
-            ->orWhere('c.instance = :directory_id')
-            ->orderBy('cp.position', 'asc')
+        return $this->createQueryBuilder('e')
+            ->select('COUNT(DISTINCT e.id)')
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->andWhere('e.enabled = :enabled')
             ->setParameter('instance_id', $instance->getId())
             ->setParameter('directory_id', $directory->getId())
-            ->andWhere('cp.enabled = :enabled')
             ->setParameter('enabled', false)
             ->getQuery()
             ->getSingleScalarResult();
@@ -90,16 +82,14 @@ class CatalogRepository extends BaseRepository
 
     public function addFindByCity($city, QueryBuilder $query, Instance $instance = null)
     {
-        $query = $query->andWhere('ci.city = :city_id')
+        $query = $query->andWhere('e.city = :city_id')
             ->setParameter('city_id', $city->getId());
         return $query;
     }
 
     public function addFindByCountry($country, QueryBuilder $query, Instance $instance = null)
     {
-        $alias = $query->getRootAliases()[0];
-        $query = $query->join($alias.'.institution', 'ci')
-            ->andWhere('ci.country = :country_id')
+        $query = $query->andWhere('e.country = :country_id')
             ->setParameter('country_id', $country->getId());
         return $query;
     }

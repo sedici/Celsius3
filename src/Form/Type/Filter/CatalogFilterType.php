@@ -48,7 +48,7 @@ class CatalogFilterType extends AbstractType
 
         $builder->add('country', EntityType::class, array(
                 'class' => Country::class,
-                'mapped' => true,
+                'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -60,7 +60,7 @@ class CatalogFilterType extends AbstractType
         $builder->add('city', EntityType::class, array(
                 'class' => City::class,
                 'choices' => [],
-                'mapped' => true,
+                'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -92,11 +92,11 @@ class CatalogFilterType extends AbstractType
                 $form->add('city', EntityType::class, array(
                     'class' => City::class,
                     'choices' => $cities,
-                    'mapped' => true,
+                    'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
                     'attr' => array(
-                        'class' => 'institution-select',
+                        'class' => 'city-select',
                     ),
                     'auto_initialize' => false,
 
