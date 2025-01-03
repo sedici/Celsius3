@@ -80,17 +80,42 @@ class CatalogRepository extends BaseRepository
             ->getSingleScalarResult();
     }
 
-    public function addFindByCity($city, QueryBuilder $query, Instance $instance = null)
-    {
-        $query = $query->andWhere('e.city = :city_id')
-            ->setParameter('city_id', $city->getId());
+    public function addFindByCity(
+        $data,
+        QueryBuilder $query,
+        Instance $instance = null
+    ): QueryBuilder {
+        $alias = $query->getRootAliases()[0];
+
+        $query = $query->join('i.city', 'cy')
+            ->andWhere('cy.id = :city')
+            ->setParameter('city', $data);
+
+        if (!is_null($instance)) {
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
+        }
+
         return $query;
     }
 
-    public function addFindByCountry($country, QueryBuilder $query, Instance $instance = null)
-    {
-        $query = $query->andWhere('e.country = :country_id')
-            ->setParameter('country_id', $country->getId());
+    public function addFindByCountry(
+        $data,
+        QueryBuilder $query,
+        Instance $instance = null
+    ): QueryBuilder {
+        $alias = $query->getRootAliases()[0];
+
+        $query = $query->join($alias . '.institution', 'i')
+            ->join('i.country', 'c')
+            ->andWhere('c.id = :country')
+            ->setParameter('country', $data);
+
+        if (!is_null($instance)) {
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
+        }
+
         return $query;
     }
 }

@@ -64,48 +64,23 @@ class FilterManager
         $this->catalogFilter = $catalogFilter;
     }
 
-    // public function filter(QueryBuilder $query, FormInterface $form, string $class, Instance $instance = null)
-    // {
-    //     $customFilter = $this->getCustomFilterClass($class);
 
-    //     if ($form->getData()) {
-    //         foreach ($form->getData() as $key => $data) {
-    //             if (!is_null($data) && $data !== '' && count($data) > 0) {
-    //                 if (!is_null($customFilter) && $customFilter->hasCustomFilter($key)) {
-    //                     $query = $customFilter->applyCustomFilter($key, $data, $query, $instance);
-    //                 } else {
-    //                     $query = $this->applyStandardFilter($class, $key, $data, $query);
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     return $query;
-    // }
+    // if ($key === 'country') {
+    //     $query = $query
+    //         ->join('e.institution', 'i')
+    //         ->join('i.country', 'c')
+    //         ->andWhere('c.id = :country')
+    //         ->setParameter('country', $value);
 
 
     public function filter(QueryBuilder $query, FormInterface $form, string $class, Instance $instance = null): QueryBuilder
     {
-
-
-        // REVSAR CAMPOS RELACIÓN
-        // REVSAR CAMPOS RELACIÓN
-        // REVSAR CAMPOS RELACIÓN
-        // REVSAR CAMPOS RELACIÓN
-        // REVSAR CAMPOS RELACIÓN
-        
-
         $customFilter = $this->getCustomFilterClass($class);
 
         // throw new GlobalException((string) var_dump($form->all()));
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityData = $form->getData();
-            $reflectionClass = new ReflectionClass($entityData);
-            $properties = $reflectionClass->getProperties();
-
             foreach ($form->all() as $property) {
-                // $property->setAccessible(true);
                 $key = $property->getName();
                 $value = $property->getData();
 
@@ -113,6 +88,7 @@ class FilterManager
 
                 if ($value !== null && $value !== '' && (is_array($value) ? count($value) > 0 : true)) {
                     // throw new GlobalException((string) $key . ' = ' . $value . ', ');
+
                     $query = ($customFilter !== null && $customFilter->hasCustomFilter($key))
                         ? $customFilter->applyCustomFilter($key, $value, $query, $instance)
                         : $this->applyStandardFilter($class, $key, $value, $query);

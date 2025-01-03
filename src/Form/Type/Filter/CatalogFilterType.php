@@ -40,13 +40,10 @@ class CatalogFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
-                    'required' => false,
-                ))
-
-        ;
-
-        $builder->add('country', EntityType::class, array(
+            ->add('name', null, array(
+                'required' => false,
+            ))
+            ->add('country', EntityType::class, array(
                 'class' => Country::class,
                 'mapped' => false,
                 'placeholder' => '',
@@ -55,9 +52,8 @@ class CatalogFilterType extends AbstractType
                     'class' => 'country-select',
                 ),
                 'auto_initialize' => false,
-            ));
-
-        $builder->add('city', EntityType::class, array(
+            ))
+            ->add('city', EntityType::class, array(
                 'class' => City::class,
                 'choices' => [],
                 'mapped' => false,
@@ -67,9 +63,8 @@ class CatalogFilterType extends AbstractType
                     'class' => 'city-select',
                 ),
                 'auto_initialize' => false,
-            ));
-
-        $builder->add('institution', EntityType::class, array(
+            ))
+            ->add('institution', EntityType::class, array(
                 'class' => Institution::class,
                 'choices' => [],
                 'mapped' => true,
@@ -82,71 +77,71 @@ class CatalogFilterType extends AbstractType
                 'auto_initialize' => false,
             ));
 
-        $builder->get('country')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $country = $event->getForm()->getData();
-                $form = $event->getForm()->getParent();
-
-                $cities = null === $country ? array() : $country->getCities();
-                $form->add('city', EntityType::class, array(
-                    'class' => City::class,
-                    'choices' => $cities,
-                    'mapped' => false,
-                    'placeholder' => '',
-                    'required' => false,
-                    'attr' => array(
-                        'class' => 'city-select',
-                    ),
-                    'auto_initialize' => false,
-
-                ));
-
-                $institutions = null === $country ? array() : $country->getInstitutions();
-                $form->add('institution', EntityType::class, array(
-                    'class' => Institution::class,
-                    'choices' => $institutions,
-                    'mapped' => true,
-                    'label' => ucfirst('institution'),
-                    'placeholder' => '',
-                    'required' => false,
-                    'attr' => array(
-                        'class' => 'institution-select',
-                    ),
-                    'auto_initialize' => false,
-                ));
-            }
-        );
-
-        $builder->get('city')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $city = $event->getForm()->getData();
-                $form = $event->getForm()->getParent();
-                $form->remove('institution');
-
-                $institutions = null === $city ? array() : $city->getInstitutions();
-                $form->add('institution', EntityType::class, array(
-                    'class' => Institution::class,
-                    'choices' => $institutions,
-                    'mapped' => true,
-                    'label' => ucfirst('institution'),
-                    'placeholder' => '',
-                    'required' => false,
-                    'attr' => array(
-                        'class' => 'institution-select',
-                    ),
-                    'auto_initialize' => false,
-                ));
-            }
-        );
+            $builder->get('country')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) {
+                    $country = $event->getForm()->getData();
+                    $form = $event->getForm()->getParent();
+    
+                    $cities = null === $country ? array() : $country->getCities();
+                    $form->add('city', EntityType::class, array(
+                        'class' => City::class,
+                        'choices' => $cities,
+                        'mapped' => false,
+                        'placeholder' => '',
+                        'required' => false,
+                        'attr' => array(
+                            'class' => 'cicty-select',
+                        ),
+                        'auto_initialize' => false,
+    
+                    ));
+    
+                    $institutions = null === $country ? array() : $country->getInstitutions();
+                    $form->add('institution', EntityType::class, array(
+                        'class' => Institution::class,
+                        'choices' => $institutions,
+                        'mapped' => true,
+                        'label' => ucfirst('institution'),
+                        'placeholder' => '',
+                        'required' => false,
+                        'attr' => array(
+                            'class' => 'institution-select',
+                        ),
+                        'auto_initialize' => false,
+                    ));
+                }
+            );
+    
+            $builder->get('city')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) {
+                    $city = $event->getForm()->getData();
+                    $form = $event->getForm()->getParent();
+                    $form->remove('institution');
+    
+                    $institutions = null === $city ? array() : $city->getInstitutions();
+                    $form->add('institution', EntityType::class, array(
+                        'class' => Institution::class,
+                        'choices' => $institutions,
+                        'mapped' => true,
+                        'label' => ucfirst('institution'),
+                        'placeholder' => '',
+                        'required' => false,
+                        'attr' => array(
+                            'class' => 'institution-select',
+                        ),
+                        'auto_initialize' => false,
+                    ));
+                }
+            );
 
         if (is_null($options['instance'])) {
             $builder
-                    ->add('instance', EntityType::class, array(
-                        'required' => false,
-                        'class' => Instance::class,
-                    ))
+                ->add('instance', EntityType::class, array(
+                    'required' => false,
+                    'class' => Instance::class,
+                ))
             ;
         }
     }
@@ -156,6 +151,8 @@ class CatalogFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'instance' => null,
+            'allow_extra_fields' => true,
+            'validation_groups' => ['base_catalog_filter_type']
         ));
     }
 

@@ -28,7 +28,7 @@ use Celsius3\Form\Type\InstitutionType;
 abstract class InstitutionController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Institution::class; }
 
     protected function getType(): string

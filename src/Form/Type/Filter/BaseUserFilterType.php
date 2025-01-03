@@ -43,9 +43,9 @@ class BaseUserFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('id', HiddenType::class, array(
-                    'required' => false,
-                ))
+                // ->add('id', HiddenType::class, array(
+                //     'required' => false,
+                // ))
                 ->add('name', null, array(
                     'required' => false,
                 ))
@@ -82,7 +82,7 @@ class BaseUserFilterType extends AbstractType
                 // ])
             ->add('country', EntityType::class, array(
                 'class' => Country::class,
-                'mapped' => true,
+                'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -93,7 +93,7 @@ class BaseUserFilterType extends AbstractType
             ->add('city', EntityType::class, array(
                 'class' => City::class,
                 'choices' => [],
-                'mapped' => true,
+                'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -125,11 +125,11 @@ class BaseUserFilterType extends AbstractType
                 $form->add('city', EntityType::class, array(
                     'class' => City::class,
                     'choices' => $cities,
-                    'mapped' => true,
+                    'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
                     'attr' => array(
-                        'class' => 'institution-select',
+                        'class' => 'cicty-select',
                     ),
                     'auto_initialize' => false,
 
@@ -176,10 +176,10 @@ class BaseUserFilterType extends AbstractType
 
         if (is_null($options['instance'])) {
             $builder
-                    ->add('instance', EntityType::class, array(
-                        'required' => false,
-                        'class' => Instance::class,
-                    ))
+                ->add('instance', EntityType::class, array(
+                    'required' => false,
+                    'class' => Instance::class,
+                ))
             ;
         }
     }

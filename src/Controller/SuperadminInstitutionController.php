@@ -53,7 +53,7 @@ class SuperadminInstitutionController extends InstitutionController
      * @Route("/", name="superadmin_institution")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(type: InstitutionFilterType::class); }
+    { return $this->baseInstanceIndex(InstitutionFilterType::class); }
 
 
     /**

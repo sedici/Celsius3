@@ -40,13 +40,13 @@ class InstitutionFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
-                    'required' => false,
-                ))
-                ->add('abbreviation', null, array(
-                    'required' => false,
-                ));
-        $builder->add('country', EntityType::class, array(
+            ->add('name', null, array(
+                'required' => false,
+            ))
+            ->add('abbreviation', null, array(
+                'required' => false,
+            ))
+            ->add('country', EntityType::class, array(
                 'class' => Country::class,
                 'mapped' => true,
                 'placeholder' => '',
@@ -55,9 +55,8 @@ class InstitutionFilterType extends AbstractType
                     'class' => 'country-select',
                 ),
                 'auto_initialize' => false,
-            ));
-
-        $builder->add('city', EntityType::class, array(
+            ))
+            ->add('city', EntityType::class, array(
                 'class' => City::class,
                 'choices' => [],
                 'mapped' => true,
@@ -67,9 +66,8 @@ class InstitutionFilterType extends AbstractType
                     'class' => 'city-select',
                 ),
                 'auto_initialize' => false,
-            ));
-
-        $builder->add('parent', EntityType::class, array(
+            ))
+            ->add('parent', EntityType::class, array(
                 'class' => Institution::class,
                 'choices' => [],
                 'mapped' => true,
@@ -82,7 +80,6 @@ class InstitutionFilterType extends AbstractType
                 'auto_initialize' => false,
             ));
 
-
         $builder->get('country')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {
@@ -93,14 +90,13 @@ class InstitutionFilterType extends AbstractType
                 $form->add('city', EntityType::class, array(
                     'class' => City::class,
                     'choices' => $cities,
-                    'mapped' => true,
+                    'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
                     'attr' => array(
                         'class' => 'city-select',
                     ),
                     'auto_initialize' => false,
-
                 ));
 
                 $institutions = null === $country ? array() : $country->getInstitutions();
@@ -131,25 +127,24 @@ class InstitutionFilterType extends AbstractType
                     'class' => Institution::class,
                     'placeholder' => '',
                     'choices' => $institutions,
+                    'required' => false,
                 ));
             }
         );
 
         if (is_null($options['instance'])) {
             $builder
-                    ->add('instance', EntityType::class, array(
-                        'required' => false,
-                        'class' => Instance::class,
-                        'label' => 'Owning Instance',
-                    ))
-                    ->add('celsiusInstance', EntityType::class, array(
-                        'required' => false,
-                        'class' => Instance::class,
-                        'label' => 'Celsius Instance',
-                    ));
+                ->add('instance', EntityType::class, array(
+                    'required' => false,
+                    'class' => Instance::class,
+                    'label' => 'Owning Instance',
+                ))
+                ->add('celsiusInstance', EntityType::class, array(
+                    'required' => false,
+                    'class' => Instance::class,
+                    'label' => 'Celsius Instance',
+                ));
         }
-
-        
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -158,6 +153,7 @@ class InstitutionFilterType extends AbstractType
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
+            'validation_groups' => ['base_institution_filter_type']
         ));
     }
 
