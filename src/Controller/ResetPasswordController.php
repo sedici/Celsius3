@@ -61,6 +61,7 @@ class ResetPasswordController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
     /**
      * Display & process form to request a password reset.
      * @Route("/", name="celsius3_forgot_password_request")
@@ -83,6 +84,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
+
     /**
      * Confirmation page after a user has requested a password reset.
      * @Route("/check-email", name="celsius3_check_email")
@@ -99,6 +101,7 @@ class ResetPasswordController extends AbstractController
             'resetToken' => $resetToken,
         ]);
     }
+
 
     /**
      * Validates and process the reset URL that the user clicked in their email.
@@ -170,14 +173,17 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
+
     private function processSendingPasswordResetEmail(
         string $emailFormData,
         MailerInterface $mailer,
         TranslatorInterface $translator
     ): RedirectResponse {
-        $user = $this->entityManager->getRepository(BaseUser::class)->findOneBy([
-                                                                                    'email' => $emailFormData,
-                                                                                ]);
+        $user = $this->entityManager
+            ->getRepository(BaseUser::class)
+            ->findOneBy([
+                'email' => $emailFormData,
+            ]);
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
@@ -187,16 +193,6 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            // If you want to tell the user why a reset email was not sent, uncomment
-            // the lines below and change the redirect to 'app_forgot_password_request'.
-            // Caution: This may reveal if a user is registered or not.
-            //
-            // $this->addFlash('reset_password_error', sprintf(
-            //     '%s - %s',
-            //     $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_HANDLE, [], 'ResetPasswordBundle'),
-            //     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
-            // ));
-
             return $this->redirectToRoute('celsius3_check_email');
         }
 

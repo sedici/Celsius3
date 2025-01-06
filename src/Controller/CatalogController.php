@@ -23,17 +23,13 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Catalog;
-use Celsius3\Form\Type\CatalogType;
 
 
 abstract class CatalogController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Catalog::class; }
-
-    protected final function getType(): string
-    { return CatalogType::class; }
 
 
     protected function getSortDefaults(): array

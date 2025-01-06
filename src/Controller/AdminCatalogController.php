@@ -23,7 +23,6 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\CatalogPosition;
-use Celsius3\Form\Type\Filter\CatalogFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +42,7 @@ class AdminCatalogController extends CatalogController
      * @Route("/", name="admin_catalog")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(CatalogFilterType::class); }
+    { return $this->baseInstanceIndex(); }
 
 
     /**

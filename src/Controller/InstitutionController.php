@@ -23,16 +23,12 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Institution;
-use Celsius3\Form\Type\InstitutionType;
 
 abstract class InstitutionController extends BaseInstanceDependentController
 {
 
     final protected function getEntity(): string
     { return Institution::class; }
-
-    protected function getType(): string
-    { return InstitutionType::class; }
 
 
     protected function getSortDefaults(): array

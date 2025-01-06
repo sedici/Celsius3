@@ -35,11 +35,8 @@ use Symfony\Component\HttpFoundation\Response;
 class SuperadminHiveController extends BaseEntityController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Hive::class; }
-
-    protected final function getType(): string
-    { return HiveType::class; }
 
 
     protected function getSortDefaults(): array
@@ -57,7 +54,7 @@ class SuperadminHiveController extends BaseEntityController
      * @Route("/", name="superadmin_hive")
      */
     public function index(): Response
-    { return $this->baseIndex(); }
+    { return $this->baseIndex(hasFilterForm: false); }
 
 
     /**

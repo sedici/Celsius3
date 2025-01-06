@@ -45,28 +45,36 @@ abstract class BaseEntityController extends BaseController
     protected string $typeClassName;
     protected array $sortDefaults;
     protected ReflectionClass $entityClass;
+    protected string $filterClassName;
+    protected string $entityClassShortName;
 
 
     public function initialize(): void
     {
         $this->entityClassName = $this->getEntity();
         $this->entityClass = $this->getEntityClass();
+        $this->entityClassShortName = $this->entityClass->getShortName();
         $this->typeClassName = $this->getType();
         $this->repository = $this->getRepository();
         $this->sortDefaults = $this->getSortDefaults();
+        $this->filterClassName = $this->getFilterType();
 
         parent::initialize();
     }
 
 
     // En realidad debe retornar una clase que herede de Entity pero no se como definirlo
-    protected abstract function getEntity(): string;
-    protected abstract function getType(): string;
-    protected abstract function getSortDefaults(): array;
+    abstract protected function getEntity(): string;
+    // abstract protected function getType(): string;
+    abstract protected function getSortDefaults(): array;
 
-
-    protected final function getEntityClass(): ReflectionClass
+    
+    final protected function getEntityClass(): ReflectionClass
     { return new ReflectionClass($this->entityClassName); }
+    protected function getType(): string
+    { return (string) 'Celsius3\Form\Type\\' . $this->entityClassShortName . 'Type'; }
+    protected function getFilterType(): string
+    { return (string) 'Celsius3\Form\Type\Filter\\' . $this->entityClassShortName . 'FilterType'; }
     
     
     protected function getDirectory(): Instance|null
@@ -128,23 +136,25 @@ abstract class BaseEntityController extends BaseController
         if ($template === null) 
             $template = (string) $this->templatePrefix . 'index.html.twig';
 
+        if ($type === null) $type = $this->filterClassName;
+
         // ---
 
         $request = $this->requestStack->getCurrentRequest();
         
         $query = $this->listQuery();
 
-        if ($filter_form === null && $hasFilterForm) {
+        if ($hasFilterForm) {
             $filter_form = $this->createForm(
                 $type, $data, $formOptions
             );
+ 
+            $filter_form->handleRequest($request);
+    
+            $query = $this->filterManager->filter(
+                $query, $filter_form, $this->entityClassName, $this->instance
+            );
         }
-
-        $filter_form->handleRequest($request);
-
-        $query = $this->filterManager->filter(
-            $query, $filter_form, $this->entityClassName, $this->instance
-        );
 
         return $this->render(
             $template,

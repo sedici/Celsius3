@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\Entity\Contact;
 use Celsius3\Form\Type\SuperadminContactType;
 use Celsius3\Exception\Exception;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -43,6 +44,10 @@ class SuperadminContactController extends ContactController
     { return SuperadminContactType::class; }
 
 
+    protected function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
+
+
     /**
      * Lists all Contact entities.
      *
@@ -50,20 +55,21 @@ class SuperadminContactController extends ContactController
      */
     public function index(): Response
     {
-        $data = $this->baseIndex('Contact');
-        $deleteForms = [];
+        $pagination = $this->paginate();
 
-        foreach ($data['pagination'] as $entity) {
+        $deleteForms = [];
+        foreach ($pagination as $entity) {
             $deleteForms[$entity->getId()] = $this
                 ->createDeleteForm($entity->getId())
                 ->createView();
         }
 
-        $data['deleteForms'] = $deleteForms;
-
         return $this->render(
-            'Superadmin/Catalog/index.html.twig',
-            $data
+            (string) $this->templatePrefix . 'index.html.twig',
+            [
+                'pagination' => $pagination,
+                'deleteForms' => $deleteForms
+            ]
         );
     }
 
@@ -115,7 +121,7 @@ class SuperadminContactController extends ContactController
         if (!$entity) $this->error('entity_not_found');
 
         $editForm = $this->createForm(
-            formOptions: [
+            options: [
                 'owning_instance' => $entity->getOwningInstance(),
                 'user' => $entity->getUser()
             ]

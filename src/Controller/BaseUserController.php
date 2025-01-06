@@ -85,11 +85,8 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $this->tokenStorage = $tokenStorage;
     }
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return BaseUser::class; }
-
-    protected final function getType(): string
-    { return BaseUserType::class; }
 
 
     protected function getSortDefaults(): array

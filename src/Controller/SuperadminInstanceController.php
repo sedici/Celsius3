@@ -53,7 +53,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class SuperadminInstanceController extends InstanceController
 {
 
-    private SessionInterface $session;
+    protected SessionInterface $session;
     protected FileManager $fileManager;
 
     protected function __construct(
@@ -73,6 +73,7 @@ class SuperadminInstanceController extends InstanceController
         InstanceHelper $instanceHelper
     ) {
         parent::__construct(
+            $session,
             $mailerHelper,
             $instanceManager,
             $entityManager,
@@ -87,16 +88,6 @@ class SuperadminInstanceController extends InstanceController
             $instanceHelper
         );
         $this->fileManager = $fileManager;
-        $this->session = $session;
-    }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
     }
 
 
@@ -106,7 +97,7 @@ class SuperadminInstanceController extends InstanceController
      * @Route("/", name="superadmin_instance")
      */
     public function index(): Response
-    { return $this->baseIndex(type: InstanceFilterType::class); }
+    { return $this->baseIndex(); }
 
 
     /**

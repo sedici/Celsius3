@@ -36,7 +36,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminCustomFieldController extends BaseInstanceDependentController
 {
     
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return CustomField::class; }
 
     protected final function getType(): string

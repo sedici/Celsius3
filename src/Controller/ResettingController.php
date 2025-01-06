@@ -22,9 +22,6 @@
 
 namespace Celsius3\Controller;
 
-//use FOS\UserBundle\Controller\ResettingController as BaseResettingController;
-//use FOS\UserBundle\Model\UserInterface;
-
 use Celsius3\Entity\Instance;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

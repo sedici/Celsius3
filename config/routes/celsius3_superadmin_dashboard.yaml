@@ -1,7 +1,7 @@
-superadministration:
-    path: /superadmin/
-    defaults: { _controller: Celsius3\Controller\SuperAdmin\Dashboard\ShowSuperadminDashboardViewController }
-    methods: [ GET ]
+# superadministration:
+#     path: /superadmin/
+#     defaults: { _controller: Celsius3\Controller\SuperAdmin\Dashboard\ShowSuperadminDashboardViewController }
+#     methods: [ GET ]
 
 superadmin_ajax:
     path: /superadmin/ajax

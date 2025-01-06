@@ -23,18 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\Institution;
-use Celsius3\Form\Type\InstitutionType;
-use Celsius3\Form\Type\Filter\InstitutionFilterType;
-use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Translation\Translator;
 /**
  * Location controller.
  *
@@ -53,7 +44,7 @@ class SuperadminInstitutionController extends InstitutionController
      * @Route("/", name="superadmin_institution")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(InstitutionFilterType::class); }
+    { return $this->baseInstanceIndex(); }
 
 
     /**

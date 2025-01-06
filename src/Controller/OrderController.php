@@ -25,7 +25,6 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalType;
-use Celsius3\Form\Type\OrderType;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,11 +32,8 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class OrderController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Order::class; }
-
-    protected final function getType(): string
-    { return OrderType::class; }
 
 
     protected function getSortDefaults(): array
@@ -129,7 +125,7 @@ abstract class OrderController extends BaseInstanceDependentController
             $this->createNotFoundException('Inexistent Material Type');
         }
 
-        $form = $this->createForm(formOptions: [
+        $form = $this->createForm(options: [
             'material' => $materialClassName,
             'actual_user' => $this->getUser(),
         ]);

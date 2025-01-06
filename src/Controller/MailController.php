@@ -23,16 +23,12 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\MailTemplate;
-use Celsius3\Form\Type\MailTemplateType;
 
 abstract class MailController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return MailTemplate::class; }
-
-    protected function getType(): string
-    { return MailTemplateType::class; }
 
 
     protected function getSortDefaults(): array

@@ -26,7 +26,6 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Validator\Constraints\ContainsCSS;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\LegacyInstance;
-use Celsius3\Form\Type\InstanceType;
 use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Test\FormInterface;
@@ -42,13 +41,17 @@ use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 abstract class InstanceController extends BaseInstanceDependentController
 {
 
     private MailerHelper $mailerHelper;
+    protected SessionInterface $session;
+
 
     public function __construct(
+        SessionInterface $session,
         MailerHelper $mailerHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -77,14 +80,21 @@ abstract class InstanceController extends BaseInstanceDependentController
         );
 
         $this->mailerHelper = $mailerHelper;
+        $this->session = $session;
     }
 
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Instance::class; }
 
-    protected function getType(): string
-    { return InstanceType::class; }
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
 
 
     protected function getDirectory(): Instance|null

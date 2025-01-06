@@ -92,15 +92,6 @@ class AdminOrderController extends OrderController
     }
 
 
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'o.updatedAt',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
-
     protected function listQuery(): QueryBuilder
     {
         return $this->entityManager

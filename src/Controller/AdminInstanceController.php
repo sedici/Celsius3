@@ -25,20 +25,6 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\Country;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Helper\MailerHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Instance controller.
@@ -47,50 +33,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AdminInstanceController extends InstanceController
 {
-
-    private SessionInterface $session;
-
-    public function __construct(
-        SessionInterface $session,
-        MailerHelper $mailerHelper,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper
-    ) {
-        parent::__construct(
-            $mailerHelper,
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
-        $this->session = $session;
-    }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
 
     /**
      * Displays a form to configure an existing Instance

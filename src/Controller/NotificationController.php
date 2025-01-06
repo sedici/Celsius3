@@ -89,13 +89,13 @@ class NotificationController extends BaseEntityController
             ->getRepository(NotificationSettings::class);
     }
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Notification::class; }
 
-    protected final function getType(): string
+    final protected function getType(): string
     { return Notification::class; }
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Notification/'; }
 
 

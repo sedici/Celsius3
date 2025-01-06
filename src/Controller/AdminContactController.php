@@ -86,7 +86,7 @@ class AdminContactController extends ContactController
         $this->customFieldHelper = $customFieldHelper;
     }
     
-    protected final function getType(): string
+    final protected function getType(): string
     { return AdminContactType::class; }
 
 

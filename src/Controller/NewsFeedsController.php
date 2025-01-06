@@ -23,7 +23,6 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Form\Type\InstanceType;
 use Celsius3\Repository\NewsRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +45,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *
  * @Route("/news/feed")
  */
-class NewsFeedsController extends BaseInstanceDependentController
+class NewsFeedsController extends BaseController
 {
 
     protected NewsRepository $newsRepository;
@@ -81,15 +80,6 @@ class NewsFeedsController extends BaseInstanceDependentController
 
         $this->newsRepository = $newsRepository;
     }
-
-    protected final function getEntity(): string
-    { return Instance::class; }
-
-    protected final function getType(): string
-    { return InstanceType::class; }
-
-    protected final function getTemplatePrefix(): string
-    { return 'NewsFeeds/'; }
 
 
     protected function getSortDefaults(): array

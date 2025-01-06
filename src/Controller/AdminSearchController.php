@@ -53,7 +53,7 @@ class AdminSearchController extends BaseInstanceDependentController
       */
     protected $searchManager;
     
-    function __construct(
+    public function __construct(
         SearchManager $searchManager,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -88,10 +88,7 @@ class AdminSearchController extends BaseInstanceDependentController
     protected function getEntity(): string
     { return Request::class; }
 
-    protected final function getType(): string
-    { return RequestType::class; }
-
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Admin/Search/'; }
 
 

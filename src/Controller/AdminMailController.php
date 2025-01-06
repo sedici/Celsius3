@@ -23,7 +23,6 @@
 namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\Validator\Constraints as CelsiusAssert;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
@@ -96,7 +95,7 @@ class AdminMailController extends MailController
      * @Route("/", name="admin_mails")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(type: MailTemplateFilterType::class); }
+    { return $this->baseInstanceIndex(); }
 
 
     /**
@@ -147,7 +146,7 @@ class AdminMailController extends MailController
         }
 
         $form = $this->createForm(
-            formOptions: [
+            options: [
                 'instance' => $this->getInstance(),
                 'code' => $entity->getCode(),
                 'action' => $route,

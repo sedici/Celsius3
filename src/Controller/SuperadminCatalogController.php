@@ -24,7 +24,6 @@ namespace Celsius3\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\Instance;
-use Celsius3\Form\Type\Filter\CatalogFilterType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +46,7 @@ class SuperadminCatalogController extends CatalogController
      * @Route("/", name="superadmin_catalog")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(CatalogFilterType::class); }
+    { return $this->baseInstanceIndex(); }
 
 
     /**

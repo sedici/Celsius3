@@ -23,9 +23,23 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\Country;
 
-abstract class CountryController extends BaseEntityController
+abstract class CountryController extends BaseInstanceDependentController
 {
+
+    final protected function getEntity(): string
+    { return Country::class; }
+
+
+    protected function getSortDefaults(): array
+    {
+        return [
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
 
     protected function getDirectory(): Instance|null
     {

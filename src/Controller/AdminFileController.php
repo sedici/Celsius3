@@ -91,9 +91,6 @@ class AdminFileController extends BaseEntityController
     protected function getEntity(): string
     { return File::class; }
 
-    protected final function getType(): string
-    { return FileType::class; }
-
 
     protected function getSortDefaults(): array
     {

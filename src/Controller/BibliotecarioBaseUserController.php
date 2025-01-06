@@ -42,6 +42,7 @@ use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * BibliotecarioBaseUser controller.
@@ -55,6 +56,7 @@ class BibliotecarioBaseUserController extends BaseUserController
 
     public function __construct(
         ThreadManager $threadManager,
+        TokenStorageInterface $tokenStorage,
         CustomFieldHelper $custom_field_helper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -69,6 +71,7 @@ class BibliotecarioBaseUserController extends BaseUserController
         InstanceHelper $instanceHelper
     ) {
         parent::__construct(
+            $tokenStorage,
             $custom_field_helper,
             $instanceManager,
             $entityManager,
@@ -97,7 +100,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @Route("/", name="bibliotecario_user" ,options={"expose"=true})
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(type: BaseUserFilterType::class); }
+    { return $this->baseInstanceIndex(); }
 
 
     /**
@@ -172,7 +175,7 @@ class BibliotecarioBaseUserController extends BaseUserController
 
         if (!$entity) $this->error('entity_not_found');
 
-        $editForm = $this->createForm(formOptions: [ 'editing' => true ]);
+        $editForm = $this->createForm(options: [ 'editing' => true ]);
 
         $request = $this->requestStack->getCurrentRequest();
 

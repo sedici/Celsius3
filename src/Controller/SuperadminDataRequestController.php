@@ -23,12 +23,9 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\DataRequest;
-use Celsius3\Entity\UsersDataRequest;
 use Celsius3\Form\Type\DataRequestType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Process\Process;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,17 +37,14 @@ use Symfony\Component\HttpFoundation\Response;
 class SuperadminDataRequestController extends BaseEntityController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return DataRequest::class; }
 
-    protected final function getType(): string
-    { return DataRequestType::class; }
-
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Superadmin/DataRequests/'; }
 
 
-    protected final function getSortDefaults(): array
+    protected function getSortDefaults(): array
     {
         return [
             'defaultSortFieldName' => 'e.updatedAt',

@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,8 +34,12 @@ use Symfony\Component\HttpFoundation\Response;
 class SuperadminContactTypeController extends ContactTypeController
 {
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Superadmin/ContactType/'; }
+
+
+    protected function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
 
 
     /**
@@ -43,7 +48,7 @@ class SuperadminContactTypeController extends ContactTypeController
      * @Route("/", name="superadmin_contacttype")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    { return $this->baseInstanceIndex(hasFilterForm: false); }
 
 
     /**

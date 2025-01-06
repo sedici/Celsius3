@@ -37,7 +37,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminMailListController extends MailListController
 {
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Admin/MailList/'; }
 
 

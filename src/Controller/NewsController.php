@@ -23,16 +23,12 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\News;
-use Celsius3\Form\Type\NewsType;
 
 class NewsController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return News::class; }
-
-    protected function getType(): string
-    { return NewsType::class; }
 
 
     protected function getSortDefaults(): array

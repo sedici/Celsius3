@@ -23,16 +23,12 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\City;
-use Celsius3\Form\Type\CityType;
 
 class CityController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return City::class; }
-
-    protected final function getType(): string
-    { return CityType::class; }
 
 
     protected function getSortDefaults(): array

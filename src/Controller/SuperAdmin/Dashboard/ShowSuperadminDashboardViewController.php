@@ -37,7 +37,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class ShowSuperadminDashboardViewController extends BaseUserController
 {
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'SuperAdmin/Dashboard/'; }
 
 

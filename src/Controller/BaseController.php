@@ -126,10 +126,6 @@ abstract class BaseController extends AbstractController
     }
 
 
-    // protected function getInstance(): Instance
-    // { return $this->instanceHelper->getSessionInstance(); }
-
-
     protected function getInstance(): Instance
     { return $this->instanceHelper->getSessionOrUrlInstance(); }
 

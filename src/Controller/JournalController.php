@@ -23,16 +23,12 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Journal;
-use Celsius3\Form\Type\JournalType;
 
 class JournalController extends BaseInstanceDependentController
 {
 
     protected final function getEntity(): string
     { return Journal::class; }
-
-    protected function getType(): string
-    { return JournalType::class; }
 
 
     protected function getSortDefaults(): array

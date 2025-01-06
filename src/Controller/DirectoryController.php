@@ -29,7 +29,6 @@ use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
 use Celsius3\Form\Type\InstanceRegisterType;
-use Celsius3\Form\Type\InstanceType;
 use Celsius3\Repository\NewsRepository;
 use Celsius3\TicketBundle\Entity\Category;
 use Celsius3\TicketBundle\Entity\Priority;
@@ -96,13 +95,10 @@ class DirectoryController extends BaseEntityController
     }
 
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Instance::class; }
 
-    protected final function getType(): string
-    { return InstanceType::class; }
-
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Directory/'; }
 
     protected function getInstance(): Instance

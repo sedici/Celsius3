@@ -20,21 +20,31 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Contact;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
-abstract class ContactController extends BaseInstanceDependentController
+
+/**
+ * SuperAdminDashboard controller.
+ *
+ * @Route("/superadmin")
+ */
+class SuperadminDashboardController extends DashboardController
 {
-    final protected function getEntity(): string
-    { return Contact::class; }
 
-
-    protected function getSortDefaults(): array
+    /**
+     * Lists all the items to manage.
+     *
+     * @Route("/", name="superadministration")
+     */
+    public function index(): Response
     {
-        return [
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc',
-        ];
+        return $this->render(
+            (string) $this->templatePrefix . 'index.html.twig'
+        );
     }
 }

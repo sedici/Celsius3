@@ -24,15 +24,8 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\JournalTypeType;
-use Celsius3\Helper\ConfigurationHelper;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Entity\Order;
 use Celsius3\Form\Type\OrderType;
-use Celsius3\Form\Type\Filter\OrderFilterType;
-use Celsius3\Exception\Exception;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,18 +44,6 @@ class SuperadminOrderController extends OrderController
 
     protected function getInstance(): Instance
     { return $this->directory; }
-
-    protected function getTemplatePrefix(): string
-    { return 'Superadmin/Order/'; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
 
 
     protected function listQuery(): QueryBuilder
@@ -190,7 +171,7 @@ class SuperadminOrderController extends OrderController
                 'entity' => $entity,
                 'edit_form' => $this->createForm(
                     data: $entity,
-                    formOptions: [
+                    options: [
                         'material' => $this->getMaterialType(
                             get_class($entity->getMaterialData())
                         ),

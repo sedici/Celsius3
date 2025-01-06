@@ -278,15 +278,4 @@ class Catalog
 
         return false !== $result ? $result : null;
     }
-
-    
-    // public function getCountry()
-    // {
-    //     return $this->institution->getCountry();
-    // }
-
-    // public function getCity()
-    // {
-    //     return $this->institution->getCity();
-    // }
 }

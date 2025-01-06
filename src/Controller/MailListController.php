@@ -25,16 +25,12 @@ declare(strict_types=1);
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Email;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class MailListController extends BaseInstanceDependentController
 {
 
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return Email::class; }
-
-    protected function getType(): string
-    { return EmailType::class; }
 
 
     protected function getSortDefaults(): array

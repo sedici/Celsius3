@@ -47,7 +47,7 @@ class SuperadminCityController extends CityController
      * @Route("/", name="superadmin_city")
      */
     public function index(PaginatorInterface $paginator): Response
-    { return $this->baseInstanceIndex(CityFilterType::class); }
+    { return $this->baseInstanceIndex(); }
 
 
     /**

@@ -22,10 +22,7 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\Country;
-use Celsius3\Form\Type\CountryType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,34 +31,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/country")
  */
-class AdminCountryController extends BaseInstanceDependentController
+class AdminCountryController extends CountryController
 {
-
-    protected final function getEntity(): string
-    { return Country::class; }
-
-    protected final function getType(): string
-    { return CountryType::class; }
-
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
-
-    protected function getDirectory(): Instance|null
-    {
-        return $this->managerRegistry
-            ->getRepository(Instance::class)
-            ->findOneBy([
-                'url' => 'directory'
-            ]);
-    }
-
 
     /**
      * Lists all Country entities.

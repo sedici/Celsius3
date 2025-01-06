@@ -22,17 +22,12 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\ContactType;
-use Celsius3\Form\Type\ContactTypeType;
 
 abstract class ContactTypeController extends BaseInstanceDependentController
 {
-    protected final function getEntity(): string
+    final protected function getEntity(): string
     { return ContactType::class; }
-    
-    protected function getType(): string
-    { return ContactTypeType::class; }
 
 
     protected function getSortDefaults(): array

@@ -82,7 +82,7 @@ class PublicController extends BaseController
         $this->maxPerPage = $maxPerPage;
     }
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Public/'; }
 
 
