@@ -56,6 +56,7 @@ class CountryFilterType extends AbstractType
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
+            'validation_groups' => ['base_country_filter_type']
         ));
     }
 

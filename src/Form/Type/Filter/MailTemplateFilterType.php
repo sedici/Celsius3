@@ -43,6 +43,7 @@ class MailTemplateFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'validation_groups' => ['base_mailtemplate_filter_type']
         ));
     }
 

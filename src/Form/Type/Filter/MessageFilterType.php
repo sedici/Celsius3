@@ -66,6 +66,7 @@ class MessageFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'validation_groups' => ['base_message_filter_type']
         ));
     }
 }

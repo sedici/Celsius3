@@ -183,25 +183,22 @@ abstract class BaseController extends AbstractController
         $term = $request->query->get('term');
 
         $result = $this->objectManager
-            ->getRepository((string) 'Celsius3' . $target)
+            ->getRepository((string) 'Celsius3\\Entity\\' . $target)
             ->findByTerm($term, $instance, null)
             ->getResult();
 
         $json = [];
 
         foreach ($result as $element) {
-            if (method_exists($element, 'asJson')) {
-                $json[] = $element->asJSon();
-            } else {
-                $json[] = [
+            $json[] = (method_exists($element, 'asJson'))
+                ? $element->asJSon()
+                : [
                     'id' => $element->getId(),
                     'value' => ($target === 'BaseUser')
                         ? $element->__toString() . ' (' . $element->getUsername() . ')'
                         : $element->__toString(),
                 ];
-            }
         }
-
 
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');

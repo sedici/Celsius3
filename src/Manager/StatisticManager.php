@@ -145,10 +145,14 @@ class StatisticManager
 
         $response = [];
         foreach ($instances as $instance) {
-            $response[$instance->getId()] = array(
+            $response[(string) $instance->getId()] = [
                 'name' => $instance->getName(),
-                'country' => $instance->getOwnerInstitutions()->first() ? ( $instance->getOwnerInstitutions()->first()->getCountry() ? $instance->getOwnerInstitutions()->first()->getCountry()->getName() : '') : '',
-            );
+                'country' => $instance->getOwnerInstitutions()->first()
+                    ? ( $instance->getOwnerInstitutions()->first()->getCountry()
+                        ? $instance->getOwnerInstitutions()->first()->getCountry()->getName()
+                        : '' )
+                    : '',
+            ];
         }
         foreach ($data as $key => $item) {
             foreach ($item as $instance) {

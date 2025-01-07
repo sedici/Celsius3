@@ -30,7 +30,7 @@ class DashboardController extends BaseController
 {
 
     final protected function getTemplatePrefix(): string
-    { return 'SuperAdmin/Dashboard/'; }
+    { return 'Superadmin/Dashboard/'; }
 
 
     protected function getSortDefaults(): array

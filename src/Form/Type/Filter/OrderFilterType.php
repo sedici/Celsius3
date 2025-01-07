@@ -95,6 +95,7 @@ class OrderFilterType extends AbstractType
             'csrf_protection' => false,
             'owner' => null,
             'instance' => null,
+            'validation_groups' => ['base_order_filter_type']
         ));
     }
 }

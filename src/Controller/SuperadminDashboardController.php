@@ -24,9 +24,26 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
+use Celsius3\Entity\Order;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\StatisticManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * SuperAdminDashboard controller.
@@ -36,8 +53,43 @@ use Symfony\Component\HttpFoundation\Response;
 class SuperadminDashboardController extends DashboardController
 {
 
+    private StatisticManager $statsManager;
+
+
+    public function __construct(
+        StatisticManager $statsManager,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper
+    ) {
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper
+        );
+
+        $this->statsManager = $statsManager;
+    }
+
+
     /**
-     * Lists all the items to manage.
+     * Lists all items to manage.
      *
      * @Route("/", name="superadministration")
      */
@@ -45,6 +97,103 @@ class SuperadminDashboardController extends DashboardController
     {
         return $this->render(
             (string) $this->templatePrefix . 'index.html.twig'
+        );
+    }
+
+
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/orderusertable", name="superadmin_orderusertable")
+     */
+    public function orderUserTable(): NotFoundHttpException|Response
+    {
+        $request = $this->requestStack->getMainRequest();
+
+        if (!$request->isXmlHttpRequest()) {
+            return $this->createNotFoundException();
+        }
+
+        return new Response(
+            json_encode(
+                $this->statsManager->getOrderUserTableData()
+            )
+        );
+    }
+
+
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/admins_message", name="superadmin_admins_message", methods={"POST", "GET"})
+     */
+    public function adminsMessage(): RedirectResponse
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $subject = $request->get('subject');
+        $content = $request->get('message');
+
+        if (!$content || empty($content)) {
+            throw new NotFoundHttpException();
+        }
+
+        $composer = $this->get('fos_message.composer');
+
+        $user = $this->getUser();
+        $admins = new ArrayCollection(
+            $this->repository
+                ->getRepository(Order::class)
+                ->findAllAdmins()
+        );
+
+        $message = $composer->newThread()
+            ->setSender($user)
+            ->addRecipients($admins)
+            ->setSubject($subject)
+            ->setBody($content)
+            ->getMessage();
+
+        $sender = $this->get('fos_message.sender');
+
+        $sender->send($message);
+
+        $this->addFlash(
+            'success',
+            $this->translator->trans(
+                'The message was sent',
+                [],
+                'Flashes'
+            )
+        );
+
+        return $this->redirectToRoute('superadministration');
+    }
+
+
+    /**
+     * Lists all Order entities.
+     *
+     * @Route("/ajax", name="superadmin_ajax")
+     */
+    public function customAjax(): Response
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        return $this->ajax($request);
+    }
+
+
+    protected function validateAjax($target): bool
+    {
+        $allowed_targets = [
+            'Journal',
+            'BaseUser',
+        ];
+
+        return in_array(
+            $target,
+            $allowed_targets,
+            true
         );
     }
 }

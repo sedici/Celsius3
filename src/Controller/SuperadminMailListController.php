@@ -24,6 +24,7 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\Filter\MailFilterType;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,11 +39,19 @@ class SuperadminMailListController extends MailListController
     { return $this->directory; }
 
 
+    final protected function getTemplatePrefix(): string
+    { return 'Superadmin/MailList/'; }
+
+
+    protected function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
+
+
     /**
      * Lists all Mail entities.
      *
      * @Route("/", name="superadmin_maillist")
      */
     public function index(): Response
-    { return $this->baseInstanceIndex(type: MailFilterType::class); }
+    { return $this->baseInstanceIndex(MailFilterType::class); }
 }

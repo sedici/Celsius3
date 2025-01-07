@@ -30,15 +30,15 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * LegacyInstance controller.
  *
- * @Route("/superadmin/instance/legacy")
+ * @Route("/superadmin/instance_legacy")
  */
 class SuperadminLegacyInstanceController extends InstanceController
 {
 
-    protected final function getType(): string
+    final protected function getType(): string
     { return LegacyInstanceType::class; }
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Superadmin/LegacyInstance/'; }
 
 

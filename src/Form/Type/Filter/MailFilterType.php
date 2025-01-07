@@ -37,29 +37,18 @@ class MailFilterType extends AbstractType
         $builder->setMethod('GET');
         
         $builder
-                ->add('sender', UserSelectorType::class, array(
-                    'attr' => array(
-                        'class' => 'container',
-                        'readonly' => 'readonly',
-                        'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
-                    ),
-                    'required' => false
-                ))
-                ->add('sender_autocomplete', TextType::class, array(
-                    'attr' => array(
-                        'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
-                       'class' => 'autocomplete',
-                        'target' => 'BaseUser',
-                    ),
-                    'mapped' => false,
-                    'label' => 'Sender',
-                    'required' => false,
-                ))
-                ->add('address', null, array(
-                    'required' => false,
-                ))
+            ->add('sender', UserSelectorType::class, array(
+                'attr' => array(
+                    'class' => 'container',
+                    'readonly' => 'readonly',
+                    'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
+                ),
+                'required' => false
+            ))
+            ->add('address', null, array(
+                'required' => false,
+            ));
                 
-        ;
         if (is_null($options['instance'])) {
             $builder->add('instance', EntityType::class, array(
                 'required' => false,
@@ -67,10 +56,7 @@ class MailFilterType extends AbstractType
             ));
         }
     }
-   
-   
-   
-   
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -78,6 +64,7 @@ class MailFilterType extends AbstractType
             'instance' => null,
             'sender' => null,
             'allow_extra_fields' => true,
+            'validation_groups' => ['base_mail_filter_type']
         ));
     }
 

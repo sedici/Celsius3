@@ -52,6 +52,7 @@ class CustomFieldFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'instance' => null,
+            'validation_groups' => ['base_customfield_filter_type']
         ));
     }
 

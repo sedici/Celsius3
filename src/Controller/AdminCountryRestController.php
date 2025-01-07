@@ -39,7 +39,6 @@ use Celsius3\Exception\Exception;
 class AdminCountryRestController extends BaseInstanceDependentRestController
 {
 
-
     /**
      * @var InstanceManager
      */

@@ -23,7 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\CustomField;
-use Celsius3\Form\Type\CustomFieldType;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,11 +39,13 @@ class AdminCustomFieldController extends BaseInstanceDependentController
     final protected function getEntity(): string
     { return CustomField::class; }
 
-    protected final function getType(): string
-    { return CustomFieldType::class; }
 
-    protected final function getTemplatePrefix(): string
+    final protected function getTemplatePrefix(): string
     { return 'Admin/CustomField/'; }
+
+
+    protected function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
 
 
     protected function getSortDefaults(): array

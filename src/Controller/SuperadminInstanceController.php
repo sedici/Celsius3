@@ -24,7 +24,6 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
-use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Celsius3\Manager\FileManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -87,6 +86,7 @@ class SuperadminInstanceController extends InstanceController
             $filterManager,
             $instanceHelper
         );
+
         $this->fileManager = $fileManager;
     }
 

@@ -43,6 +43,7 @@ class NewsFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'validation_groups' => ['base_news_filter_type']
         ));
     }
 

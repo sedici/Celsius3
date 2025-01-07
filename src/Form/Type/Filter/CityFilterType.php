@@ -61,6 +61,7 @@ class CityFilterType extends AbstractType
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
+            'validation_groups' => ['base_city_filter_type']
         ));
     }
 
