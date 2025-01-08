@@ -433,8 +433,8 @@ class AdminOrderController extends OrderController
      *
      * @Route("/change", name="admin_order_change", options={"expose"=true})
      */
-    public function changeA(): Response
+    public function change(): Response
     {
-        return $this->change();
+        return parent::change();
     }
 }

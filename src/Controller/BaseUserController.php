@@ -24,7 +24,6 @@ namespace Celsius3\Controller;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
-use Celsius3\Form\Type\BaseUserType;
 use Celsius3\Helper\CustomFieldHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -36,7 +35,6 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
-use Doctrine\ORM\Mapping\Entity;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormInterface;

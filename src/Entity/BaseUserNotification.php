@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\BaseNotificationRepository;
 
 /**
- * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseNotificationRepository")
  */
 class BaseUserNotification extends Notification
 {

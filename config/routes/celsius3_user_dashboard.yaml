@@ -1,7 +1,7 @@
-user_index:
-    path: /user
-    defaults: { _controller: Celsius3\Controller\User\Dashboard\ShowUserDashboardViewController }
-    methods: [ GET ]
+# user_index:
+#     path: /user
+#     defaults: { _controller: Celsius3\Controller\User\Dashboard\ShowUserDashboardViewController }
+#     methods: [ GET ]
 
 user_change_context:
     path: /user/instance/{id}/change

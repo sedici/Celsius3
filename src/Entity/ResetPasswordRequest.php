@@ -32,7 +32,7 @@ use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestTrait;
 
 /**
- * @ORM\Entity(repositoryClass=ResetPasswordRequestRepository::class)
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\ResetPasswordRequestRepository")
  */
 class ResetPasswordRequest implements ResetPasswordRequestInterface
 {

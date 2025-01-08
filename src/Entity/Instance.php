@@ -25,14 +25,13 @@ declare(strict_types=1);
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
-use Celsius3\Repository\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=InstanceRepository::class)
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\InstanceRepository")
  *
  * @UniqueEntity("url")
  * @UniqueEntity("host")
@@ -162,11 +161,13 @@ class Instance extends LegacyInstance
 
     public function get($key): Configuration
     {
-        return $this->getConfigurations()->filter(
+        $cfg = $this->getConfigurations()->filter(
             static function (Configuration $entry) use ($key) {
                 return $entry->getKey() === $key;
             }
         )->first();
+
+        return $cfg ? $cfg : new Configuration();
     }
 
     public function getConfigurations()

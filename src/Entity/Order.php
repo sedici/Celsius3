@@ -32,7 +32,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=OrderRepository::class)
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\OrderRepository")
  * @ORM\Table(name="`order`", indexes={
  *   @ORM\Index(name="idx_code", columns={"`code`"}),
  *   @ORM\Index(name="idx_created_at", columns={"created_at"}),

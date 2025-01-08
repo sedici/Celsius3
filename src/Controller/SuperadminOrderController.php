@@ -213,9 +213,9 @@ class SuperadminOrderController extends OrderController
      *
      * @Route("/change", name="superadmin_order_change")
      */
-    public function changeA()
+    public function change(): Response
     {
-        return $this->change();
+        return parent::change();
     }
 
 

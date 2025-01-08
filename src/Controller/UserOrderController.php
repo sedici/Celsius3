@@ -99,7 +99,7 @@ class UserOrderController extends OrderController
         $request = $this->requestStack->getCurrentRequest();
 
         $filter_form = $this->createForm(
-            formOptions: [ 'owner' => $this->getUser() ]
+            options: [ 'owner' => $this->getUser() ]
         );
 
         $query = $this->repository->listUserOrdersQuery(
@@ -167,6 +167,7 @@ class UserOrderController extends OrderController
                     'material' => $material,
                     'user' => $this->getUser(),
                     'actual_user' => $this->getUser(),
+                    'instance' => $this->instance,
                     'target' => $request
                         ->get('order')['originalRequest']['target'] ?? '',
                     'librarian' => $this->authorizationChecker
@@ -181,7 +182,7 @@ class UserOrderController extends OrderController
     /**
      * Change user order.
      *
-     * @Route("/change", name="user_order_change")
+     * @Route("/change", name="user_order_change", options={"expose"=true})
      */
     public function change(): Response
     {

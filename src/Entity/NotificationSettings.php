@@ -10,7 +10,7 @@ use Celsius3\Repository\BaseNotificationRepository;
  * NotificationSettings.
  *
  * @ORM\Table(name="notification_settings")
- * @ORM\Entity(repositoryClass=BaseNotificationRepository::class)
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseNotificationRepository")
  */
 class NotificationSettings
 {

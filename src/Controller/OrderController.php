@@ -56,9 +56,13 @@ abstract class OrderController extends BaseInstanceDependentController
 
 
     protected function baseCreateOrderLogic(
-        $entity /* Order con material de tipo Journal */, string $type, array $options, string $route
+        $entity /* Order con material de tipo Journal */,
+        string $type,
+        array $options,
+        string $route
     ): array|RedirectResponse {
         $request = $this->requestStack->getCurrentRequest();
+
         $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
 
@@ -128,10 +132,12 @@ abstract class OrderController extends BaseInstanceDependentController
         $form = $this->createForm(options: [
             'material' => $materialClassName,
             'actual_user' => $this->getUser(),
+            'instance' => $this->instance,
+            'user' => $this->getUser()
         ]);
 
         return $this->render(
-            (string) $this->templatePrefix . '_materialData.html.twig',
+            (string) $this->entityClassShortName . '/_materialData.html.twig',
             [
                 'form' => $form->createView(),
                 'material' => $request->get('material')

@@ -40,7 +40,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/superadmin/user")
  */
-final class SuperAdminUserController extends BaseUserController
+final class SuperadminUserController extends BaseUserController
 {
 
     protected final function getTemplatePrefix(): string
