@@ -25,8 +25,11 @@ namespace Celsius3\Controller;
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalType;
+use Celsius3\Form\Type\JournalTypeType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class OrderController extends BaseInstanceDependentController
@@ -55,66 +58,96 @@ abstract class OrderController extends BaseInstanceDependentController
     }
 
 
-    protected function baseCreateOrderLogic(
-        $entity /* Order con material de tipo Journal */,
-        string $type,
+    protected function onValidCreateForm(
+        $entity,
+        FormInterface $form,
         array $options,
-        string $route
-    ): array|RedirectResponse {
-        $request = $this->requestStack->getCurrentRequest();
-
-        $form = $this->createForm($type, $entity, $options);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            if ($this->getMaterialType() === JournalType::class) {
-                $journal = $this->managerRegistry->getManager()
-                    ->getRepository(Journal::class)->find(
-                        $request->request
-                            ->get('order', null)['materialData']['journal']
-                    );
-
-                if ($journal === null) {
-                    $entity->getMaterialData()->setOther(
-                        $request->request->get(
-                            'order', null
-                        )['materialData']['journal_autocomplete']
-                    );
-                    
-                    $entity->getMaterialData()->setJournal(null);
-                }
+        string $route,
+        string $template,
+        Request $request
+    ): void {
+        if ($this->getMaterialType() === JournalTypeType::class) {
+            $journal = $this->managerRegistry->getManager()
+                ->getRepository(Journal::class)->find(
+                    $request->request
+                        ->get('order', null)['materialData']['journal']
+                );
+    
+            if ($journal === null) {
+                $entity->getMaterialData()->setOther(
+                    $request->request->get(
+                        'order', null
+                    )['materialData']['journal_autocomplete']
+                );
+                
+                $entity->getMaterialData()->setJournal(null);
             }
-
-            $this->persistEntity($entity);
-            $this->addEntityFlash(
-                'success', 'The %entity% was successfully created.'
-            );
-
-            if ($form->has('save_and_show')) {
-                $saveNShow = $form->get('save_and_show');
-                if (
-                    $saveNShow instanceof SubmitButton
-                    && $saveNShow->isClicked()
-                ) {
-                    return $this->redirect($this->generateUrl(
-                        'admin_order_show',
-                        [ 'id' => $entity->getId()]
-                    ));
-                }
-            }
-
-            return $this->redirect($this->generateUrl($route));
         }
 
-        $this->addEntityFlash(
-            'error', 'There were errors creating the %entity%.'
-        );
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
+        $this->persistEntity($entity);
     }
+
+
+    // protected function baseCreateOrderLogic(
+    //     $entity /* Order con material de tipo Journal */,
+    //     string $type,
+    //     array $options,
+    //     string $route
+    // ): array|RedirectResponse {
+    //     $request = $this->requestStack->getCurrentRequest();
+
+    //     $form = $this->createForm($type, $entity, $options);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isValid()) {
+    //         if ($this->getMaterialType() === JournalTypeType::class) {
+    //             $journal = $this->managerRegistry->getManager()
+    //                 ->getRepository(Journal::class)->find(
+    //                     $request->request
+    //                         ->get('order', null)['materialData']['journal']
+    //                 );
+
+    //             if ($journal === null) {
+    //                 $entity->getMaterialData()->setOther(
+    //                     $request->request->get(
+    //                         'order', null
+    //                     )['materialData']['journal_autocomplete']
+    //                 );
+                    
+    //                 $entity->getMaterialData()->setJournal(null);
+    //             }
+    //         }
+
+    //         $this->persistEntity($entity);
+    //         $this->addEntityFlash(
+    //             'success', 'The %entity% was successfully created.'
+    //         );
+
+    //         if ($form->has('save_and_show')) {
+    //             $saveNShow = $form->get('save_and_show');
+    //             if (
+    //                 $saveNShow instanceof SubmitButton
+    //                 && $saveNShow->isClicked()
+    //             ) {
+    //                 return $this->redirect($this->generateUrl(
+    //                     'admin_order_show',
+    //                     [ 'id' => $entity->getId()]
+    //                 ));
+    //             }
+    //         }
+
+    //         return $this->redirect($this->generateUrl($route));
+    //     }
+
+    //     $this->addEntityFlash(
+    //         'error', 'There were errors creating the %entity%.'
+    //     );
+
+    //     return [
+    //         'entity' => $entity,
+    //         'form' => $form->createView(),
+    //     ];
+    // }
 
 
     protected function change(): Response

@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Journal;
+use Celsius3\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -151,30 +152,26 @@ class UserOrderController extends OrderController
      */
     public function create(): RedirectResponse|Response
     {
-
-        $entityClassName = $this->entityClassName;
-
         $request = $this->requestStack->getCurrentRequest();
 
         $material = $this->getMaterialType();
 
-        return $this->render(
-            (string) $this->templatePrefix . 'new.html.twig',
-            $this->baseCreateOrderLogic(
-                new $entityClassName(),
-                $this->typeClassName,
-                [
-                    'material' => $material,
-                    'user' => $this->getUser(),
-                    'actual_user' => $this->getUser(),
-                    'instance' => $this->instance,
-                    'target' => $request
-                        ->get('order')['originalRequest']['target'] ?? '',
-                    'librarian' => $this->authorizationChecker
-                        ->isGranted(UserManager::ROLE_LIBRARIAN)
-                ],
-                'user_index'
-            )
+        $options = [
+            'material' => $material,
+            'user' => $this->getUser(),
+            'actual_user' => $this->getUser(),
+            'target' => $request
+                ->get('order')['originalRequest']['target'] ?? '',
+            'librarian' => $this->authorizationChecker
+                ->isGranted(UserManager::ROLE_LIBRARIAN),
+        ];
+
+        if ($this->getMaterialType() === JournalTypeType::class)
+            $options['other'] = $request->get('order')['materialData']['journal_autocomplete'];
+
+
+        return $this->baseInstanceCreate(
+            options: $options, route: 'user_index'
         );
     }
 

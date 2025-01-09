@@ -53,7 +53,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  *
  * @Route("/user")
  */
-final class UserController extends BaseUserController
+class UserController extends BaseUserController
 {
 
     protected ThreadRepository $threadRepository;
@@ -182,5 +182,17 @@ final class UserController extends BaseUserController
         }
 
         return $this->redirect($this->generateUrl('public_index'));
+    }
+
+
+    /**
+     * User Ajax request.
+     *
+     * @Route("/ajax", name="user_ajax")
+     */
+    public function userAjax(): Response
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        return parent::ajax($request, $this->instance);
     }
 }
