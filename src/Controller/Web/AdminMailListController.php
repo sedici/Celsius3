@@ -22,7 +22,7 @@ declare(strict_types=1);
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Web;
 
 use Celsius3\Form\Type\Filter\MailFilterType;
 use Doctrine\ORM\QueryBuilder;

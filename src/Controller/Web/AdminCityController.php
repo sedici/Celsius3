@@ -20,12 +20,14 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Web;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\CityController;
+use Celsius3\Controller\Rendering\HtmlRenderingController;
+use Celsius3\Controller\Rendering\RenderingController;
 
 /**
  * Location controller.
@@ -35,6 +37,14 @@ use Celsius3\Controller\Base\CityController;
 class AdminCityController extends CityController
 {
 
+    protected function getRenderingController(): RenderingController
+    {
+        $renderingController = new HtmlRenderingController();
+        $renderingController->setControllerInstance($this);
+        return $renderingController;
+    }
+
+
     /**
      * Lists all City entities.
      *
@@ -42,10 +52,13 @@ class AdminCityController extends CityController
      */
     public function index(): Response
     // { return $this->baseInstanceIndex(); }
+    // {
+    //     return $this->render('Admin/City/index.html.twig', $this->baseInstanceIndex1());
+    // }
     {
-        return $this->render(
-            $this->templatePrefix . '/index.html.twig',
-            $this->baseInstanceIndex1()
+        return $this->renderingController->renderResponse(
+            parameters: $this->baseInstanceIndex1(),
+            twigPostfix: 'index'
         );
     }
 

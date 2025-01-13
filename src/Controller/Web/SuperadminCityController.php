@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Web;
 
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

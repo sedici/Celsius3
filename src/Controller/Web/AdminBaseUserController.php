@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Web;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\UserTransformType;
