@@ -30,7 +30,7 @@ use Celsius3\Exception\Exception;
 /**
  * User controller.
  *
- * @Route("/admin/rest/contact")
+ * @Route("/rest/v1/admin/contact")
  */
 class AdminContactRestController extends BaseInstanceDependentRestController
 {

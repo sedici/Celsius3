@@ -509,9 +509,9 @@ abstract class BaseEntityController extends BaseController
     protected function baseBatch()
     {
         $request = $this->requestStack->getCurrentRequest();
-        $action = $request->request->get('action');
+        $action = $request->get('action');
         $function = 'batch' . ucfirst($action);
-        $element_ids = $request->request->get('element', []);
+        $element_ids = $request->get('element', []);
 
         return $this->$function($element_ids);
     }
@@ -523,6 +523,9 @@ abstract class BaseEntityController extends BaseController
 
         return [ 'entities' => $entities ];
     }
+
+
+    protected function mergeSecondaryInstances(BaseUser $main, array $entities) {}
 
 
     protected function baseDoUnion($ids, $main_id, $route, $updateInstance = true)

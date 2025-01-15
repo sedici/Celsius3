@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Celsius3 - Order management
+ * Celsius3 - Core controller
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
@@ -20,9 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Base;
+namespace Celsius3\Controller\Core;
 
-use Celsius3\Controller\Rendering\RenderingController;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,19 +35,18 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use ReflectionClass;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-abstract class BaseController extends AbstractController
+abstract class Controller extends AbstractController
 {
-    
-    protected string $templatePrefix;
-    // ----
+
     protected InstanceManager $instanceManager;
     protected EntityManagerInterface $entityManager;
     protected ConfigurationHelper $configurationHelper;
@@ -98,7 +96,6 @@ abstract class BaseController extends AbstractController
     {
         $this->objectManager = $this->managerRegistry->getManager();
         $this->directory = $this->getDirectory();
-        $this->templatePrefix = $this->getTemplatePrefix();
         $this->instance = $this->getInstance();
     }
 
@@ -129,7 +126,7 @@ abstract class BaseController extends AbstractController
     { return $this->repository->find($id); }
 
 
-    protected function getResultsPerPage()
+    protected function getResultsPerPage(): mixed
     {
         return $this
             ->configurationHelper
@@ -143,76 +140,46 @@ abstract class BaseController extends AbstractController
     protected function error(
         string $type,
         string $entity = '',
-        string $msg = null
+        ?string $msg = null
     ): never {
         $msg = (string) 'exception.' . $type . $entity;
         throw Exception::create($type, $msg);
     }
 
 
-    // public function initialize(): void
-    // {
-    //     parent::initialize();
-    //     $this->templatePrefix = $this->getTemplatePrefix();
-    // }
+    protected function paginate(
+        ?QueryBuilder $query = null,
+        ?Request $request = null,
+        ?int $page = null,
+        ?int $limit = null,
+        ?array $options = null
+    ): PaginationInterface {
+        if ($request === null)
+            $request = $this->requestStack->getCurrentRequest();
 
+        if ($query === null) $query = $this->listQuery();
 
-    protected function getTemplatePrefix(): string
-    {
-        $str = (new ReflectionClass($this))->getShortName();
+        if ($page === null)
+            $page = intval($request->query->get('page', 1));
 
-	    $str = preg_replace(
-            '/Controller$/', '', $str
+        if ($limit === null) $limit = $this->getResultsPerPage();
+
+        return $this->paginator->paginate(
+            $query,
+            $page,
+            $limit,
+            $options
         );
-	
-	    $str = preg_replace(
-            '/([a-z])([A-Z])/', '$1/$2', $str
-        ) . '/';
-
-        return $str;
     }
 
 
-    protected function validateAjax($target): bool
-    { return false; }
-
-
-    protected function ajax(
-        Request $request,
-        Instance $instance = null,
-    ): Response {
-        if (!$request->isXmlHttpRequest()) {
-            throw $this->createNotFoundException();
-        }
-
-        $target = $request->get('target');
-        if (!$this->validateAjax($target)) {
-            throw $this->createNotFoundException();
-        }
-
-        $term = $request->get('term');
-
-        $result = $this->objectManager
-            ->getRepository((string) 'Celsius3\\Entity\\' . $target)
-            ->findByTerm($term, $instance, null)
-            ->getResult();
-
-        $json = [];
-
-        foreach ($result as $element) {
-            $json[] = (method_exists($element, 'asJson'))
-                ? $element->asJSon()
-                : [
-                    'id' => $element->getId(),
-                    'value' => ($target === 'BaseUser')
-                        ? $element->__toString() . ' (' . $element->getUsername() . ')'
-                        : $element->__toString(),
-                ];
-        }
-
-        $response = new Response(json_encode($json));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+    protected function createDeleteForm(string $id): FormInterface
+    {
+        return $this
+            ->createFormBuilder([
+                'id' => $id,
+            ])
+            ->add('id', HiddenType::class)
+            ->getForm();
     }
 }

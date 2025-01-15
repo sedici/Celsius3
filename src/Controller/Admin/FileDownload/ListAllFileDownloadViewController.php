@@ -24,12 +24,12 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Admin\FileDownload;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
 use Celsius3\Form\Type\FileDownloadType;
 use Doctrine\ORM\QueryBuilder;
+use Celsius3\Controller\Base\BaseInstanceDependentController;
 
 /**
  * FileDownload controller.

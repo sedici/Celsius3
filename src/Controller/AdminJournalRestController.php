@@ -32,7 +32,7 @@ use Celsius3\Entity\Journal;
 /**
  * Journal rest controller.
  *
- * @Route("/admin/rest/journal")
+ * @Route("/rest/v1/admin/journal")
  */
 class AdminJournalRestController extends BaseInstanceDependentRestController
 {

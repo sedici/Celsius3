@@ -42,7 +42,7 @@ use Symfony\Component\Security\Core\Security;
 /**
  * User controller.
  *
- * @Route("/admin/rest/orders")
+ * @Route("/rest/admin/orders")
  */
 class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {

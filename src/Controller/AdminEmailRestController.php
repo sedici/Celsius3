@@ -33,7 +33,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 /**
  * User controller.
  *
- * @Route("/admin/rest/email")
+ * @Route("/rest/v1/admin/email")
  */
 class AdminEmailRestController extends BaseInstanceDependentRestController
 {

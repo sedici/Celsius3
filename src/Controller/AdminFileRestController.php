@@ -31,7 +31,7 @@ use Celsius3\Exception\Exception;
 /**
  * User controller.
  *
- * @Route("/admin/rest/file")
+ * @Route("/rest/v1/admin/file")
  */
 class AdminFileRestController extends BaseInstanceDependentRestController
 {

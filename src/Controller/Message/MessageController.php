@@ -24,9 +24,9 @@ namespace Celsius3\Controller\Message;
 
 use Celsius3\Entity\Mixin\ProviderTrait;
 use Celsius3\Form\Type\Filter\MessageFilterType;
-use Celsius3\Controller\BaseEntityController;
 use Celsius3\Entity\Message;
 use Symfony\Component\HttpFoundation\Response;
+use Celsius3\Controller\Base\BaseEntityController;
 
 class MessageController extends BaseEntityController
 {

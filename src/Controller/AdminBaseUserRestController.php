@@ -45,7 +45,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * User controller.
  *
- * @Route("/admin/rest/users")
+ * @Route("/rest/v1/admin/users")
  */
 class AdminBaseUserRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {

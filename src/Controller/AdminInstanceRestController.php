@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Instance controller.
  *
- * @Route("/admin/instance/rest")
+ * @Route("/rest/v1/admin/instance")
  */
 class AdminInstanceRestController extends BaseInstanceDependentRestController
 {

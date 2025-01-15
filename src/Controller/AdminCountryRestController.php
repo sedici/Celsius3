@@ -34,7 +34,7 @@ use Celsius3\Exception\Exception;
 /**
  * User controller.
  *
- * @Route("/admin/rest/country")
+ * @Route("/rest/v1/admin/country")
  */
 class AdminCountryRestController extends BaseInstanceDependentRestController
 {

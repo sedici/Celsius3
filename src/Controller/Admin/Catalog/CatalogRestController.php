@@ -22,10 +22,10 @@
 
 namespace Celsius3\Controller\Admin\Catalog;
 
-use Celsius3\Controller\BaseInstanceDependentController;
 use Celsius3\Entity\Catalog;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Form\Type\CatalogType;
+use Celsius3\Controller\Base\BaseInstanceDependentController;
 
 
 /**

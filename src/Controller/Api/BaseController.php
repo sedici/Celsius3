@@ -43,22 +43,19 @@ class BaseController extends AbstractFOSRestController
         return $instance;
     }
 
+
     protected function validateAccessToken(AccessToken $token)
     {
-
-        if (is_null($token)) {
-            return false;
-        }
+        if ($token === null) return false;
 
         $actualDateTime = new \DateTime();
         $accessTokenExpires = (new \DateTime())->setTimestamp($token->getExpiresAt());
 
-        if ($actualDateTime > $accessTokenExpires) {
-            return false;
-        }
+        if ($actualDateTime > $accessTokenExpires) return false;
 
         return true;
     }
+
 
     protected function getAccessTokenByToken($token)
     {
