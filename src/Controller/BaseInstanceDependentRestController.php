@@ -29,25 +29,14 @@ use Celsius3\Helper\InstanceHelper;
 class BaseInstanceDependentRestController extends BaseRestController
 {
 
+    protected ConfigurationHelper $configurationHelper;
+    protected InstanceHelper $instanceHelper;
 
 
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-
-    /**
-     * @var ConfigurationHelper
-     */
-    private $instanceHelper;
-
-
-
-    public function __construct(InstanceHelper $instanceHelper,
-                                ConfigurationHelper $configurationHelper
-
-    )
-    {
+    public function __construct(
+        InstanceHelper $instanceHelper,
+        ConfigurationHelper $configurationHelper
+    ) {
         $this->configurationHelper = $configurationHelper;
         $this->instanceHelper=$instanceHelper;
     }

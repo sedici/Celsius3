@@ -23,28 +23,37 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Controller\Core\EntityController;
+use Celsius3\Controller\Core\HtmlCrudControllerInterface;
 use Doctrine\ORM\Mapping\Entity;
 use ReflectionClass;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class HtmlEntityController extends EntityController
+class HtmlEntityController
+    extends AbstractController
+    implements HtmlCrudControllerInterface
 {
 
     protected string|null $templatePrefix;
+    protected EntityController $entityController;
 
 
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->templatePrefix = $this->getTemplatePrefix();
+    public function __construct(
+        EntityController $entityController,
+        ?string $templatePrefix = null
+    ) {
+        $this->entityController = $entityController;
+        $this->templatePrefix = ($templatePrefix === null) 
+            ? $this->getTemplatePrefix()
+            : $templatePrefix;
     }
 
 
-    protected function getTemplatePrefix(): string
+    public function getTemplatePrefix(): string
     {
-        $str = (new ReflectionClass($this))->getShortName();
+        $str = (new ReflectionClass($this->entityController))->getShortName();
 
 	    $str = preg_replace(
             '/Controller$/', '', $str
@@ -58,7 +67,7 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlIndex(
+    public function index(
         ?string $type = null,
         array $formOptions = [],
         $data = null,
@@ -66,8 +75,8 @@ abstract class HtmlEntityController extends EntityController
         ?bool $hasFilterForm = true,
         ?bool $isInstanceDependent = null,
         string $templatePostfix = 'index'
-    ): Response {
-        $parameters = $this->index(
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->index(
             $type,
             $formOptions,
             $data,
@@ -85,12 +94,12 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlShow(
+    public function show(
         string $id,
         ?bool $isInstanceDependent = null,
-        string $templatePostfix = 'show'
-    ): Response {
-        $parameters = $this->show(
+        string $templatePostfix = 'show',
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->show(
             $id,
             $isInstanceDependent
         );
@@ -104,22 +113,24 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlEdit(
+    public function edit(
         string $id,
         ?string $type = null,
         array $formOptions = [],
         ?string $route = null,
         ?Entity $entity = null,
         array $extraParams = [],
+        ?bool $isInstanceDependent = null,
         string $templatePostfix = 'edit'
-    ): Response {
-        $parameters = $this->edit(
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->edit(
             $id,
             $type,
             $formOptions,
             $route,
             $entity,
-            $extraParams
+            $extraParams,
+            $isInstanceDependent
         );
 
         if ($parameters instanceof RedirectResponse) return $parameters;
@@ -131,20 +142,22 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlUpdate(
+    public function update(
         string $id,
         string $redirectRoute = null,
         ?string $type = null,
         array $formOptions = [],
         ?Entity $entity = null,
+        ?bool $isInstanceDependent = null,
         string $templatePostfix = 'update'
-    ): Response {
-        $parameters = $this->update(
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->update(
             $id,
             $redirectRoute,
             $type,
             $formOptions,
-            $entity
+            $entity,
+            $isInstanceDependent
         );
 
         if ($parameters instanceof RedirectResponse) return $parameters;
@@ -156,13 +169,13 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlNew(
+    public function new(
         ?Entity $entity = null,
         ?string $type = null,
         array $formOptions = [],
         string $templatePostfix = 'new'
-    ): Response {
-        $parameters = $this->new(
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->new(
             $entity, $type, $formOptions
         );
 
@@ -175,14 +188,14 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlCreate(
+    public function create(
         ?Entity $entity = null,
         ?string $type = null,
         array $formOptions = [],
         ?string $redirectRoute = null,
         string $templatePostfix = 'create'
-    ): Response {
-        $parameters = $this->create(
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->create(
             $entity,
             $type,
             $formOptions,
@@ -198,12 +211,12 @@ abstract class HtmlEntityController extends EntityController
     }
 
 
-    public function htmlDelete(
+    public function delete(
         string $id,
         string $redirectRoute = null,
         string $templatePostfix = 'delete'
-    ): Response {
-        $parameters = $this->delete(
+    ): array|RedirectResponse {
+        $parameters = $this->entityController->delete(
             $id, $redirectRoute
         );
 

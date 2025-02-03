@@ -22,9 +22,10 @@
 
 namespace Celsius3\Controller\Html;
 
+use Celsius3\Controller\Base\CityController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Entity\City;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
@@ -32,62 +33,83 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * City HTML controller.
  * @Route("/admin/city")
  */
-class AdminCityController extends HtmlEntityController
+class HtmlAdminCityController extends CityController
 {
 
-    final protected function getEntity(): string
-    { return City::class; }
-
-
-    protected function getSortDefaults(): array
+    /**
+     * Lists all City entities.
+     *
+     * @Route("/", name="admin_city")
+     */
+    public function index(): Response
     {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->controller->index()
+        );
     }
 
 
     /**
-     * Lists all City entities.
-     * @Route("/", name="admin_city")
-     */
-    public function indexHandler(): Response
-    { return parent::htmlIndex(); }
-
-
-    /**
      * Displays a form to create a new City entity.
+     *
      * @Route("/new", name="admin_city_new")
      */
-    public function newHandler(): Response
-    { return parent::htmlNew(); }
+    public function new(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->controller->new()
+        );
+    }
 
 
     /**
      * Creates a new City entity.
+     *
      * @Route("/create", name="admin_city_create", methods={"POST"})
      */
-    public function createHandler(): Response
-    { return parent::htmlCreate(); }
+    public function create(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->controller->create()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing City entity.
+     *
      * @Route("/{id}/edit", name="admin_city_edit")
+     *
      * @param string $id The entity ID
+     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function editHandler($id): Response
-    { return parent::htmlEdit($id); }
+    public function edit($id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->controller->edit($id)
+        );
+    }
 
     
     /**
      * Edits an existing City entity.
+     *
      * @Route("/{id}/update", name="admin_city_update", methods={"POST"})
+     *
      * @param string $id The entity ID
+     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function updateHandler($id): Response
-    { return parent::htmlUpdate($id); }
+    public function update($id): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->controller->update($id)
+        );
+    }
 }

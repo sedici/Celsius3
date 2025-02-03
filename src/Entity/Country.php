@@ -22,9 +22,9 @@
 
 namespace Celsius3\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 use Celsius3\Entity\TimestampableEntity;
 
@@ -43,18 +43,21 @@ class Country
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration", "administration_order_show"})
      */
     private $id;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"administration", "administration_order_show"})
      */
     private $name;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"administration"})
      */
     private $abbreviation;
 

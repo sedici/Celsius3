@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Celsius3 - News HTML controller
+ * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
@@ -24,73 +24,77 @@ namespace Celsius3\Controller\Html;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Entity\News;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius3\Controller\Base\NewsController;
 
 /**
- * News HTML controller.
+ * News controller.
+ *
  * @Route("/admin/news")
  */
-class AdminNewsController extends HtmlEntityController
+class AdminNewsController extends NewsController
 {
-    final protected function getEntity(): string
-    { return News::class; }
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc'
-        ];
-    }
 
     /**
      * Lists all News entities.
+     *
      * @Route("/", name="admin_news")
      */
-    public function indexHandler(): Response
-    { return parent::htmlIndex(isInstanceDependent: false); }
+    public function index(): Response
+    { return $this->baseIndex(); }
 
 
     /**
      * Finds and displays a News entity.
+     *
      * @Route("/{id}/show", name="admin_news_show")
      * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function showHandler(string $id): Response
-    { return parent::htmlShow($id, isInstanceDependent: false); }
+    public function show($id): Response
+    { return $this->baseShow($id); }
 
 
     /**
      * Displays a form to create a new News entity.
+     *
      * @Route("/new", name="admin_news_new")
      */
-    public function newHandler(): Response
-    { return parent::htmlNew(); }
+    public function new(): Response
+    { return $this->baseInstanceNew(); }
+
 
     /**
      * Creates a new News entity.
+     *
      * @Route("/create", name="admin_news_create", methods={"POST"})
      */
-    public function createHandler(): Response
-    { return parent::htmlCreate(); }
+    public function create(): Response
+    { return $this->baseInstanceCreate(route: 'admin_news_new'); }
+
 
     /**
      * Displays a form to edit an existing News entity.
+     *
      * @Route("/{id}/edit", name="admin_news_edit")
+     *
      * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function editHandler($id): Response
-    { return parent::htmlEdit($id); }
+    public function edit(string $id): Response
+    { return $this->baseInstanceEdit($id); }
+
 
     /**
      * Edits an existing News entity.
+     *
      * @Route("/{id}/update", name="admin_news_update", methods={"POST"})
+     *
      * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function updateHandler($id): Response
-    { return parent::htmlUpdate($id); }
+    public function update(string $id): Response
+    { return $this->baseInstanceUpdate($id, 'admin_news_edit'); }
 }

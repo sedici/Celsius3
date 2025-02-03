@@ -33,7 +33,7 @@ use Celsius3\Exception\Exception;
  *
  * @Route("/rest/v1/admin/city")
  */
-class AdminCityRestController extends BaseInstanceDependentRestController
+class RestAdminCityRestController extends BaseInstanceDependentRestController
 {
 
     /**

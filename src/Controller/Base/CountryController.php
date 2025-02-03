@@ -22,22 +22,41 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Country;
 
-abstract class CountryController extends BaseInstanceDependentController
+abstract class CountryController
 {
 
-    final protected function getEntity(): string
-    { return Country::class; }
+    protected EntityController $controller;
+    protected HtmlRenderer $htmlRenderer;
+    protected RestRenderer $restRenderer;
 
 
-    protected function getSortDefaults(): array
+    public function __construct(
+        EntityController $controller,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
+    ) {
+        $this->controller = $controller;
+        $this->htmlRenderer = $htmlRenderer;
+        $this->restRenderer = $restRenderer;
+
+        $this->initialize();
+    }
+
+
+    public function initialize(): void
     {
-        return [
+        $this->controller->setEntity(Country::class);
+        $this->controller->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+        $this->htmlRenderer->setTemplatePrefixFromObj($this);
     }
 
 

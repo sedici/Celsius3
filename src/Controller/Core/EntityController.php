@@ -35,9 +35,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class EntityController
-    extends InstanceDependentController
-    implements CRUDControllerInterface
+class EntityController extends InstanceDependentController
 {
 
     protected string $entityClassName;
@@ -51,23 +49,17 @@ abstract class EntityController
 
     public function initialize(): void
     {
-        $this->entityClassName = $this->getEntity();
-        $this->entityClass = $this->getEntityClass();
-        $this->entityClassShortName = $this->entityClass->getShortName();
-        $this->typeClassName = $this->getType();
-        $this->repository = $this->getRepository();
-        $this->sortDefaults = $this->getSortDefaults();
-        $this->filterClassName = $this->getFilterType();
+        // $this->entityClassName = $this->getEntity();
+        // $this->entityClass = $this->getEntityClass();
+        // $this->entityClassShortName = $this->entityClass->getShortName();
+        // $this->typeClassName = $this->getType();
+        // $this->repository = $this->getRepository();
+        // $this->sortDefaults = $this->getSortDefaults();
+        // $this->filterClassName = $this->getFilterType();
         $this->redirectRoute = $this->getRedirectRoute();
 
         parent::initialize();
     }
-
-
-    // En realidad debe retornar una clase que herede de Entity pero no se como definirlo
-    abstract protected function getEntity(): string;
-
-    abstract protected function getSortDefaults(): array;
 
 
     final protected function getEntityClass(): ReflectionClass
@@ -94,6 +86,25 @@ abstract class EntityController
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
+
+
+    final public function getEntityClassName(): string
+    { return $this->entityClassName; }
+
+
+    final public function setEntity(string $entityClassName): void
+    {
+        $this->entityClassName = $entityClassName;
+        $this->entityClass = $this->getEntityClass();
+        $this->entityClassShortName = $this->entityClass->getShortName();
+        $this->typeClassName = $this->getType();
+        $this->repository = $this->getRepository();
+        $this->filterClassName = $this->getFilterType();
+    }
+
+
+    public function setSortDefaults(array $sortDefaults): void
+    { $this->sortDefaults = $sortDefaults; }
 
 
     protected function error(
@@ -130,7 +141,7 @@ abstract class EntityController
     }
 
 
-    protected function createForm(
+    public function createForm(
         ?string $type = null,
         $data = null,
         array $options = [],
@@ -374,10 +385,11 @@ abstract class EntityController
         array $formOptions = [],
         ?string $route = null,
         ?Entity $entity = null,
-        array $extraParams = []
+        array $extraParams = [],
+        ?bool $isInstanceDependent = null
     ): array|RedirectResponse {
         if ($entity === null) {
-            $entity = $this->findQuery($id);
+            $entity = $this->findQuery($id, $isInstanceDependent);
             if (!$entity) $this->error('entity_not_found');
         }
 
@@ -410,10 +422,11 @@ abstract class EntityController
         string $redirectRoute = null,
         ?string $type = null,
         array $formOptions = [],
-        ?Entity $entity = null
+        ?Entity $entity = null,
+        ?bool $isInstanceDependent = null
     ): array|RedirectResponse {
         if ($entity === null) {
-            $entity = $this->findQuery($id);
+            $entity = $this->findQuery($id, $isInstanceDependent);
             if (!$entity) $this->error('entity_not_found');
         }
 

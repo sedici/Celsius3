@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Celsius3 - CRUD controller contract
+ * Celsius3 - Crud controller contract
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
@@ -24,7 +24,7 @@ namespace Celsius3\Controller\Core;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-interface CRUDControllerInterface
+interface CrudControllerInterface
 {
     public function index(): array|RedirectResponse;
     public function show(string $id): array|RedirectResponse;

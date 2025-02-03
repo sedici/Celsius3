@@ -27,6 +27,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\InstitutionRepository")
@@ -36,12 +37,14 @@ class Institution extends Provider
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_list","administration","administration_order_show","administration_user_show","institution_show"})
      */
     private $name;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_list","administration","administration_order_show","administration_user_show","institution_show"})
      */
     private $abbreviation;
 
@@ -70,12 +73,14 @@ class Institution extends Provider
      * @ParentInstitution()
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="institutions")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     * @Groups({"administration_list","administration","administration_order_show","administration_user_show","institution_show"})
      */
     private $parent;
 
     /**
      * @ORM\ManyToOne(targetEntity="City", inversedBy="institutions")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     * @Groups({"administration_order_show","administration_user_show","institution_show"})
      */
     private $city;
 
@@ -83,6 +88,7 @@ class Institution extends Provider
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="institutions")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
+     * @Groups({"administration_user_show","institution_show"})
      */
     private $country;
 
@@ -106,6 +112,7 @@ class Institution extends Provider
     /**
      * @ORM\ManyToOne(targetEntity="LegacyInstance", inversedBy="ownerInstitutions" , cascade={"persist"})
      * @ORM\JoinColumn(name="celsius_instance_id", referencedColumnName="id")
+     * @Groups({"administration_order_show","administration_user_show","institution_show"})
      */
     private $celsiusInstance = null;
 

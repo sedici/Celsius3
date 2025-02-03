@@ -29,7 +29,10 @@ use Celsius3\Manager\InstanceManager;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
@@ -39,16 +42,9 @@ use Celsius3\Exception\Exception;
 class AdminCountryRestController extends BaseInstanceDependentRestController
 {
 
-    /**
-     * @var InstanceManager
-     */
-    private $instanceManager;
+    private InstanceManager $instanceManager;
+    protected ConfigurationHelper $configurationHelper;
 
-
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
 
     public function __construct(
         ConfigurationHelper $configurationHelper,
@@ -65,17 +61,28 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
     /**
      * GET Route annotation.
      * @Get("", name="admin_rest_country", options={"expose"=true})
+     * @Rest\View(serializerGroups={"administration_order_show"})
      */
     public function getCountries()
     {
         $em = $this->getDoctrine()->getManager();
 
         $countries = $em->getRepository(Country::class)
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
-                ->getQuery()
-                ->execute();
+            ->findForInstanceAndGlobal(
+                $this->getInstance(),
+                $this->getDirectory()
+            )
+            ->getQuery()
+            ->execute();
 
-        $view = $this->view(array_values($countries), 200)->setFormat('json');
+        return $this->handleView(
+            View::create(
+                array_values($countries),
+                Response::HTTP_OK
+            )->setFormat('json')
+        );
+
+        // $view = $this->view(array_values($countries), 200)->setFormat('json');
 
         $context = new Context();
         $context->addGroup('administration_order_show');

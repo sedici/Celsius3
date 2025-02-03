@@ -36,15 +36,26 @@ use Celsius3\Manager\UserManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
-abstract class Controller extends AbstractController
+abstract class Controller
 {
 
     protected InstanceManager $instanceManager;
@@ -62,6 +73,9 @@ abstract class Controller extends AbstractController
     protected ObjectManager $objectManager;
     protected EntityRepository $repository;
     protected Instance $instance;
+    protected FormFactoryInterface $formFactory;
+    protected Session $session;
+    protected Router $router;
 
     public function __construct(
         InstanceManager $instanceManager,
@@ -74,7 +88,10 @@ abstract class Controller extends AbstractController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router
     ) {
         $this->instanceManager = $instanceManager;
         $this->entityManager = $entityManager;
@@ -87,6 +104,9 @@ abstract class Controller extends AbstractController
         $this->userManager = $userManager;
         $this->filterManager = $filterManager;
         $this->instanceHelper = $instanceHelper;
+        $this->formFactory = $formFactory;
+        $this->session = $session;
+        $this->router = $router;
 
         $this->initialize();
     }
@@ -97,6 +117,51 @@ abstract class Controller extends AbstractController
         $this->objectManager = $this->managerRegistry->getManager();
         $this->directory = $this->getDirectory();
         $this->instance = $this->getInstance();
+    }
+
+
+    protected function createFormBuilder(
+        $data = null, array $options = []
+    ): FormBuilderInterface {
+        return $this->formFactory
+            ->createBuilder(FormType::class, $data, $options);
+    }
+
+
+    protected function createForm(
+        string $type, $data = null, array $options = []
+    ): FormInterface {
+        return $this->formFactory
+            ->create($type, $data, $options);
+    }
+
+
+    protected function addFlash(string $type, $message): void
+    {
+        try {
+            $this->session->getFlashBag()->add($type, $message);
+        } catch (SessionNotFoundException $e) {
+            throw new \LogicException(
+                'You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $e
+            );
+        }
+    }
+
+
+    protected function redirect(string $url, int $status = 302): RedirectResponse
+    { return new RedirectResponse($url, $status); }
+
+
+    protected function generateUrl(
+        string $route,
+        array $parameters = [],
+        int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
+    ): string {
+        return $this->router->generate(
+            $route,
+            $parameters,
+            $referenceType
+        );
     }
 
 

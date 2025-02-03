@@ -26,6 +26,7 @@ use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\InstanceManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\View\ViewHandlerInterface;
 
 class BaseRestController extends AbstractFOSRestController
 {
@@ -42,6 +43,7 @@ class BaseRestController extends AbstractFOSRestController
      * @var ConfigurationHelper
      */
     private $configurationHelper;
+    protected ViewHandlerInterface $viewHandler;
 
 
 

@@ -1,17 +1,107 @@
 #!/bin/bash
-# filepath: convert_controllers.sh
 
 target_dir="src/Controller/Web"
 pattern="Controller.php"
+valid_controllers="index,show,new,create,edit,update,delete"
+
+function parse_controller() {
+    local method=$(echo $1 | cut -d':' -f1)
+    local inst_dep=true
+    
+    if [[ $1 == *":f"* ]]; then
+        inst_dep=false
+    fi
+    
+    echo "$method|$inst_dep"
+}
+
+function generate_controller() {
+    local entity=$1
+    local controller_spec=$2
+    
+    # Parse controller spec
+    local parsed=($(parse_controller "$controller_spec" | tr '|' ' '))
+    local controller=${parsed[0]}
+    local inst_dep=${parsed[1]}
+    
+    # Add instance dependence param if false
+    local dep_param=""
+    if [ "$inst_dep" = false ]; then
+        dep_param=", isInstanceDependence: false"
+    fi
+    
+    case $controller in
+        "index")
+            echo "    /**
+     * Lists all $entity entities.
+     * @Route(\"/\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')\")
+     */
+    public function indexHandler(): Response
+    { return parent::htmlIndex($dep_param); }"
+            ;;
+        "show")
+            echo "    /**
+     * Shows $entity entity.
+     * @Route(\"/{id}\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_show\")
+     * @throws NotFoundHttpException If entity doesn't exists
+     */
+    public function showHandler(\$id): Response
+    { return parent::htmlShow(\$id$dep_param); }"
+            ;;
+        "new")
+            echo "    /**
+     * Displays form to create new $entity entity.
+     * @Route(\"/new\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_new\")
+     */
+    public function newHandler(): Response
+    { return parent::htmlNew($dep_param); }"
+            ;;
+        "create")
+            echo "    /**
+     * Creates new $entity entity.
+     * @Route(\"/create\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_create\", methods={\"POST\"})
+     */
+    public function createHandler(): Response
+    { return parent::htmlCreate($dep_param); }"
+            ;;
+        "edit")
+            echo "    /**
+     * Displays form to edit $entity entity.
+     * @Route(\"/{id}/edit\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_edit\")
+     * @throws NotFoundHttpException If entity doesn't exists
+     */
+    public function editHandler(\$id): Response
+    { return parent::htmlEdit(\$id$dep_param); }"
+            ;;
+        "update")
+            echo "    /**
+     * Updates $entity entity.
+     * @Route(\"/{id}/update\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_update\", methods={\"POST\"})
+     * @throws NotFoundHttpException If entity doesn't exists
+     */
+    public function updateHandler(\$id): Response
+    { return parent::htmlUpdate(\$id$dep_param); }"
+            ;;
+        "delete")
+            echo "    /**
+     * Deletes $entity entity.
+     * @Route(\"/{id}/delete\", name=\"admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_delete\")
+     * @throws NotFoundHttpException If entity doesn't exists
+     */
+    public function deleteHandler(\$id): Response
+    { return parent::htmlDelete(\$id$dep_param); }"
+            ;;
+    esac
+}
 
 function convert_file() {
     local file=$1
-    # Get entity name from filename (remove Admin and Controller)
+    local controllers=$2
     entity=$(basename "$file" | sed 's/Admin//' | sed 's/Controller\.php//')
     
     echo "Converting $file..."
     
-    # Create new content
+    # Start file content
     cat > "$file.new" << EOF
 <?php
 
@@ -20,19 +110,6 @@ function convert_file() {
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
- *
- * Celsius3 is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Celsius3 is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Celsius3\Controller\Html;
@@ -59,65 +136,40 @@ class Admin${entity}Controller extends HtmlEntityController
         ];
     }
 
-    /**
-     * Lists all $entity entities.
-     * @Route("/", name="admin_$(echo $entity | tr '[:upper:]' '[:lower:]')")
-     */
-    public function indexHandler(): Response
-    { return parent::htmlIndex(); }
-
-    /**
-     * Displays a form to create a new $entity entity.
-     * @Route("/new", name="admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_new")
-     */
-    public function newHandler(): Response
-    { return parent::htmlNew(); }
-
-    /**
-     * Creates a new $entity entity.
-     * @Route("/create", name="admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_create", methods={"POST"})
-     */
-    public function createHandler(): Response
-    { return parent::htmlCreate(); }
-
-    /**
-     * Displays a form to edit an existing $entity entity.
-     * @Route("/{id}/edit", name="admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_edit")
-     * @param string \$id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
-    public function editHandler(\$id): Response
-    { return parent::htmlEdit(\$id); }
-
-    /**
-     * Edits an existing $entity entity.
-     * @Route("/{id}/update", name="admin_$(echo $entity | tr '[:upper:]' '[:lower:]')_update", methods={"POST"})
-     * @param string \$id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
-    public function updateHandler(\$id): Response
-    { return parent::htmlUpdate(\$id); }
-}
 EOF
 
-    # Replace old file with new one
-    mv "$file.new" "$file"
-    echo "Converted $file"
-}
-
-# Check if specific file was provided
-if [ $# -eq 1 ]; then
-    if [ -f "$1" ]; then
-        convert_file "$1"
-    else
-        echo "File $1 not found"
-        exit 1
-    fi
-else
-    # Process all controller files in directory
-    for file in ${target_dir}/*${pattern}; do
-        if [ -f "$file" ]; then
-            convert_file "$file"
+    # Add requested controllers
+    IFS=',' read -ra CTRL <<< "$controllers"
+    for c in "${CTRL[@]}"; do
+        if [[ $valid_controllers =~ $c ]]; then
+            generate_controller "$entity" "$c" >> "$file.new"
+            echo "" >> "$file.new"
         fi
     done
+
+    # Close class
+    echo "}" >> "$file.new"
+
+    mv "$file.new" "$file"
+    echo "Converted $file successfully"
+}
+
+# Validate input
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <file|directory> <controllers>"
+    echo "Valid controllers: $valid_controllers"
+    echo "Example: $0 src/Controller/Web/AdminCountryController.php \"index:f,edit,update:f\""
+    exit 1
+fi
+
+# Process file or directory
+if [ -f "$1" ]; then
+    convert_file "$1" "$2"
+elif [ -d "$1" ]; then
+    for file in "$1"/*${pattern}; do
+        [ -f "$file" ] && convert_file "$file" "$2"
+    done
+else
+    echo "Invalid path: $1"
+    exit 1
 fi

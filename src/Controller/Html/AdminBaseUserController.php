@@ -31,6 +31,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\BaseUserController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Admin BaseUser controller.
@@ -67,7 +68,6 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Lists all BaseUser entities.
-     *
      * @Route("/", name="admin_user")
      */
     public function index(): Response
@@ -76,12 +76,9 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Finds and displays a BaseUser document.
-     *
      * @Route("/{id}/show", name="admin_user_show", options={"expose"=true})
-     *
      * @param string $id The document ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws NotFoundHttpException If document doesn't exists
      */
     public function show(string $id): Response
     { return $this->baseShow($id); }
@@ -89,7 +86,6 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Displays a form to create a new BaseUser entity.
-     *
      * @Route("/new", name="admin_user_new")
      */
     public function new(): Response
@@ -102,7 +98,6 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Creates a new BaseUser entity.
-     *
      * @Route("/create", name="admin_user_create", methods={"POST"})
      */
     public function create(): RedirectResponse|Response
@@ -111,12 +106,9 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Displays a form to edit an existing Country entity.
-     *
      * @Route("/{id}/edit", name="admin_user_edit", options={"expose"=true})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function edit(string $id): Response
     {
@@ -128,12 +120,9 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Updates an existing BaseUser entity.
-     *
      * @Route("/{id}/update", name="admin_user_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function update(
         string $id
@@ -147,12 +136,9 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Enables an existing BaseUser entity.
-     *
      * @Route("/{id}/enable", name="admin_user_enable", methods={"PUT"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
 
     // MODIFICAR SOLUCITUDES PARA QUE SEAN PUT
@@ -167,12 +153,9 @@ final class AdminBaseUserController extends BaseUserController
     // * @Route("/batch", name="admin_user_batch")
     /**
      * Apply a batch function to a group of BaseUser entities.
-     *
      * @Route("/batch", name="admin_user_batch", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function batch(): mixed
     { return $this->baseBatch(); }
@@ -188,7 +171,6 @@ final class AdminBaseUserController extends BaseUserController
     //  * @Route("/union", name="admin_user_union")
     /**
      * Batch union on a group of BaseUser entities.
-     *
      * @Route("/union", name="admin_user_union", methods={"POST"})
      */
     public function union(): RedirectResponse
@@ -267,7 +249,6 @@ final class AdminBaseUserController extends BaseUserController
     //  * @Route("/transform", name="admin_user_transform")
     /**
      * Transform an instance of BaseUser entity.
-     *
      * @Route("{id}/transform", name="admin_user_transform", methods={"GET", "POST"})
      */
 
@@ -317,7 +298,6 @@ final class AdminBaseUserController extends BaseUserController
 
     /**
      * Switch to another instance of BaseUser entity.
-     *
      * @Route("/switch", name="switch_user", methods={"PUT"})
      */
     protected function switch(string $username): RedirectResponse

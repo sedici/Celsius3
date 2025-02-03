@@ -27,13 +27,13 @@ namespace Celsius3\Controller\Core;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormInterface;
 
-abstract class InstanceDependentController extends Controller
+class InstanceDependentController extends Controller
 {
 
     protected bool $isInstanceDependent = true;
 
 
-    protected function listQuery(
+    public function listQuery(
         ?bool $isInstanceDependent = null
     ): QueryBuilder {
         if (!$isInstanceDependent && !$this->isInstanceDependent)
@@ -47,7 +47,7 @@ abstract class InstanceDependentController extends Controller
     }
 
 
-    protected function findQuery(
+    public function findQuery(
         string $id,
         ?bool $isInstanceDependent = null
     ): mixed {
@@ -62,7 +62,7 @@ abstract class InstanceDependentController extends Controller
     }
 
 
-    protected function getResultsPerPage(
+    public function getResultsPerPage(
         ?bool $isInstanceDependent = null
     ): bool|int|string|null {
         if (!$isInstanceDependent && !$this->isInstanceDependent)
@@ -76,7 +76,7 @@ abstract class InstanceDependentController extends Controller
     }
 
 
-    protected function createForm(
+    public function createForm(
         string $type,
         $data = null,
         array $options = [],

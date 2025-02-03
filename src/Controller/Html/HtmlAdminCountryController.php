@@ -22,64 +22,93 @@
 
 namespace Celsius3\Controller\Html;
 
+use Celsius3\Controller\Base\CountryController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Entity\Country;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Country HTML controller.
  * @Route("/admin/country")
  */
-class AdminCountryController extends HtmlEntityController
+class HtmlAdminCountryController extends CountryController
 {
-    final protected function getEntity(): string
-    { return Country::class; }
-
-    protected function getSortDefaults(): array
-    {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
 
     /**
      * Lists all Country entities.
+     *
      * @Route("/", name="admin_country")
      */
-    public function indexHandler(): Response
-    { return parent::htmlIndex(); }
+    public function index(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->controller->index()
+        );
+    }
+
 
     /**
      * Displays a form to create a new Country entity.
+     *
      * @Route("/new", name="admin_country_new")
      */
-    public function newHandler(): Response
-    { return parent::htmlNew(); }
+    public function new(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->controller->new()
+        );
+    }
+
 
     /**
      * Creates a new Country entity.
+     *
      * @Route("/create", name="admin_country_create", methods={"POST"})
      */
-    public function createHandler(): Response
-    { return parent::htmlCreate(); }
+    public function create(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->controller->create()
+        );
+    }
+
 
     /**
      * Displays a form to edit an existing Country entity.
+     *
      * @Route("/{id}/edit", name="admin_country_edit")
+     *
      * @param string $id The entity ID
+     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function editHandler($id): Response
-    { return parent::htmlEdit($id); }
+    public function edit($id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->controller->edit($id)
+        );
+    }
+
 
     /**
      * Edits an existing Country entity.
+     *
      * @Route("/{id}/update", name="admin_country_update", methods={"POST"})
+     *
      * @param string $id The entity ID
+     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function updateHandler($id): Response
-    { return parent::htmlUpdate($id); }
+    public function update($id): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->controller->update($id)
+        );
+    }
 }

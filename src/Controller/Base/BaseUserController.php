@@ -22,6 +22,8 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Controller\Html\HtmlEntityController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\CustomFieldHelper;
@@ -40,7 +42,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -83,6 +84,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $this->tokenStorage = $tokenStorage;
     }
 
+
     final protected function getEntity(): string
     { return BaseUser::class; }
 
@@ -93,29 +95,6 @@ abstract class BaseUserController extends BaseInstanceDependentController
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
         ];
-    }
-
-
-    protected function baseShow(
-        string $id,
-        string $template = null
-    ): Response {
-        if ($template === null) 
-            $template = (string) $this->templatePrefix . 'show.html.twig';
-
-        // ---
-
-        $entity = $this->findQuery($id);
-        if (!$entity) $this->error('entity_not_found');
-
-        return $this->render(
-            $template,
-            [
-                'element' => $entity,
-                'messages' => [],
-                'resultsPerPage' => $this->getResultsPerPage()
-            ]
-        );
     }
 
 
@@ -238,7 +217,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
     }
 
 
-    protected function mergeSecondaryInstances(BaseUser $main, array $entities)
+    protected function mergeSecondaryInstances(BaseUser $main, array $entities): void
     {
         foreach ($entities as $entity) {
             if ($main->getInstance() === $entity->getInstance()) {
