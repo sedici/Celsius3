@@ -22,10 +22,10 @@
 
 namespace Celsius3\Controller\Core;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
@@ -38,6 +38,8 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -45,69 +47,44 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 abstract class Controller
 {
 
-    protected InstanceManager $instanceManager;
-    protected EntityManagerInterface $entityManager;
-    protected ConfigurationHelper $configurationHelper;
-    protected PaginatorInterface $paginator;
-    protected TranslatorInterface $translator;
-    protected ManagerRegistry $managerRegistry;
-    protected RequestStack $requestStack;
-    protected UnionManager $unionManager;
-    protected UserManager $userManager;
-    protected FilterManager $filterManager;
-    protected InstanceHelper $instanceHelper;
     protected Instance $directory;
     protected ObjectManager $objectManager;
     protected EntityRepository $repository;
     protected Instance $instance;
-    protected FormFactoryInterface $formFactory;
-    protected Session $session;
-    protected Router $router;
 
     public function __construct(
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper,
-        FormFactoryInterface $formFactory,
-        SessionInterface $session,
-        RouterInterface $router
+        protected InstanceManager $instanceManager,
+        protected EntityManagerInterface $entityManager,
+        protected PaginatorInterface $paginator,
+        protected ConfigurationHelper $configurationHelper,
+        protected TranslatorInterface $translator,
+        protected ManagerRegistry $managerRegistry,
+        protected RequestStack $requestStack,
+        protected UnionManager $unionManager,
+        protected UserManager $userManager,
+        protected FilterManager $filterManager,
+        protected InstanceHelper $instanceHelper,
+        protected FormFactoryInterface $formFactory,
+        protected FlashBagInterface $session,
+        protected RouterInterface $router,
+        protected TokenStorageInterface $tokenStorage,
+        protected AuthorizationChecker $authorizationChecker,
+        protected HtmlRenderer $htmlRenderer,
+        protected RestRenderer $restRenderer
     ) {
-        $this->instanceManager = $instanceManager;
-        $this->entityManager = $entityManager;
-        $this->configurationHelper = $configurationHelper;
-        $this->paginator = $paginator;
-        $this->translator = $translator;
-        $this->managerRegistry = $managerRegistry;
-        $this->requestStack = $requestStack;
-        $this->unionManager = $unionManager;
-        $this->userManager = $userManager;
-        $this->filterManager = $filterManager;
-        $this->instanceHelper = $instanceHelper;
-        $this->formFactory = $formFactory;
-        $this->session = $session;
-        $this->router = $router;
-
         $this->initialize();
     }
 
@@ -115,8 +92,41 @@ abstract class Controller
     public function initialize(): void
     {
         $this->objectManager = $this->managerRegistry->getManager();
-        $this->directory = $this->getDirectory();
-        $this->instance = $this->getInstance();
+        $this->setInstance($this->instanceHelper->getSessionOrUrlInstance());
+        $this->setDirectory($this->instanceManager->getDirectory());
+    }
+
+
+    // protected function getInstance(): Instance
+    // { return $this->instanceHelper->getSessionOrUrlInstance(); }
+
+
+    protected function setInstance(Instance $instance): void
+    { $this->instance = $instance; }
+
+
+    // protected function getDirectory(): Instance|null
+    // { return $this->instanceManager->getDirectory(); }
+
+
+    protected function setDirectory(Instance $directory): void
+    { $this->directory = $directory; }
+
+    
+    public function listQuery(): QueryBuilder
+    { return $this->repository->createQueryBuilder('e'); }
+
+
+    public function findQuery(string $id)
+    { return $this->repository->find($id); }
+
+
+    protected function getUser(): BaseUser|null
+    {
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) return null;
+        $user = $token->getUser();
+        return $user instanceof BaseUser ? $user : null;
     }
 
 
@@ -139,7 +149,7 @@ abstract class Controller
     protected function addFlash(string $type, $message): void
     {
         try {
-            $this->session->getFlashBag()->add($type, $message);
+            $this->session->add($type, $message);
         } catch (SessionNotFoundException $e) {
             throw new \LogicException(
                 'You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $e
@@ -150,6 +160,17 @@ abstract class Controller
 
     protected function redirect(string $url, int $status = 302): RedirectResponse
     { return new RedirectResponse($url, $status); }
+
+
+    protected function redirectToRoute(
+        string $route,
+        array $parameters = [],
+        int $status = 302
+    ): RedirectResponse {
+        return $this->redirect($this->generateUrl(
+            $route, $parameters
+        ), $status);
+    }
 
 
     protected function generateUrl(
@@ -175,22 +196,6 @@ abstract class Controller
     }
 
 
-    protected function getInstance(): Instance
-    { return $this->instanceHelper->getSessionOrUrlInstance(); }
-
-
-    protected function getDirectory(): Instance|null
-    { return $this->instanceManager->getDirectory(); }
-
-    
-    protected function listQuery(): QueryBuilder
-    { return $this->repository->createQueryBuilder('e'); }
-
-
-    protected function findQuery(string $id)
-    { return $this->repository->find($id); }
-
-
     protected function getResultsPerPage(): mixed
     {
         return $this
@@ -202,7 +207,7 @@ abstract class Controller
     }
 
 
-    protected function error(
+    public function error(
         string $type,
         string $entity = '',
         ?string $msg = null

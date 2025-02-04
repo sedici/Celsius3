@@ -32,6 +32,7 @@ abstract class BaseRenderer implements Renderer
 
     protected ViewHandlerInterface $viewHandler;
     protected Environment $twig;
+    protected EntityController $controller;
 
 
     public function __construct(
@@ -41,4 +42,8 @@ abstract class BaseRenderer implements Renderer
         $this->viewHandler = $viewHandler;
         $this->twig = $twig;
     }
+
+
+    public function setController(EntityController $controller): void
+    { $this->controller = $controller; }
 }

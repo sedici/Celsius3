@@ -36,79 +36,65 @@ class HtmlAdminCountryController extends CountryController
 {
 
     /**
-     * Lists all Country entities.
-     *
      * @Route("/", name="admin_country")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
             templateName: 'index',
-            params: $this->controller->index()
+            params: $this->index()
         );
     }
 
 
     /**
-     * Displays a form to create a new Country entity.
-     *
      * @Route("/new", name="admin_country_new")
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
             templateName: 'new',
-            params: $this->controller->new()
+            params: $this->new()
         );
     }
 
 
     /**
-     * Creates a new Country entity.
-     *
      * @Route("/create", name="admin_country_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
+    public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
             templateName: 'create',
-            params: $this->controller->create()
+            params: $this->create()
         );
     }
 
 
     /**
-     * Displays a form to edit an existing Country entity.
-     *
      * @Route("/{id}/edit", name="admin_country_edit")
-     *
      * @param string $id The entity ID
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function htmlEdit($id): Response
     {
         return $this->htmlRenderer->render(
             templateName: 'edit',
-            params: $this->controller->edit($id)
+            params: $this->edit($id)
         );
     }
 
 
     /**
-     * Edits an existing Country entity.
-     *
      * @Route("/{id}/update", name="admin_country_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): RedirectResponse|Response
+    public function htmlUpdate($id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
             templateName: 'update',
-            params: $this->controller->update($id)
+            params: $this->update($id)
         );
     }
 }

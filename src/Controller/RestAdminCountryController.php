@@ -20,25 +20,30 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Base;
+namespace Celsius3\Controller;
 
-use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\City;
+use Celsius3\Controller\Base\CountryController;
+use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Controller\Annotations\Get;
+use Symfony\Component\HttpFoundation\Response;
 
-class CityController extends EntityController
+
+/**
+ * @Route("/rest/v1/admin/country")
+ */
+class RestAdminCountryController extends CountryController
 {
 
-    public function initialize(): void
-    {
-        $this->setEntity(City::class);
+    /**
+     * @Get("", name="rest_admin_country", options={"expose"=true})
+     */
+    public function restIndex(): Response
+    { return $this->restRenderer->index('administration_order_show'); }
 
-        $this->setSortDefaults([
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ]);
 
-        $this->htmlRenderer->setTemplatePrefixFromObj($this);
-
-        parent::initialize();
-    }
+    /**
+     * @Get("/{id}", name="rest_admin_country_show", options={"expose"=true})
+     */
+    public function getCountry(string $id)
+    { return $this->restRenderer->show($id, 'administration'); }
 }

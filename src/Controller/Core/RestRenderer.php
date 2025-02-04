@@ -22,24 +22,56 @@
 
 namespace Celsius3\Controller\Core;
 
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 class RestRenderer extends BaseRenderer
 {
+
     public function render(... $args): Response
     {
         $view = $this->view(
             $this->getArg($args, 'data'),
-            200)
-        ->setFormat('json');
+            $this->getArgOrDefault($args, Response::HTTP_OK, 'statusCode'),
+        )->setFormat('json');
+
+        $groups = $this->getArgOrNull($args, 'serializerGroups');
+        if ($groups) {
+            $context = new Context();
+            if (is_array($groups)) {
+                $context->addGroups($groups);
+            }
+            if (is_string($groups)) {
+                $context->addGroup($groups);
+            }
+            $view->setContext($context);
+        }
 
         return $this->viewHandler->handle($view);
     }
 
 
     protected function view($data = null, ?int $statusCode = null, array $headers = []): View
-    {
-        return View::create($data, $statusCode, $headers);
+    { return View::create($data, $statusCode, $headers); }
+
+
+    public function index(
+        array|string $serializerGroups = null
+    ): Response {
+        return $this->render(
+            data: array_values($this->controller->listQuery()->getQuery()->execute()),
+            serializerGroups: $serializerGroups
+        );
+    }
+
+
+    public function show(
+        string $id,
+        array|string $serializerGroups = null
+    ): Response {
+        $query = $this->controller->findQuery($id);
+        if (!$query) $this->controller->error('entity_not_found');
+        return $this->render(data: $query, serializerGroups: $serializerGroups);
     }
 }

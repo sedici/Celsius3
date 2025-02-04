@@ -68,4 +68,27 @@ Trait VariadicArgsTrait
 
         return null;
     }
+
+
+    public function getArgOrDefault(
+        array $args,
+        mixed $default,
+        string $argName,
+        ?string $className = null,
+    ): mixed {
+        if (isset($args[$argName])) {
+            if ($className === null) return $args[$argName];
+            else {
+                if ($args[$argName] instanceof $className) {
+                    return $args[$argName];
+                } else {
+                    throw new \InvalidArgumentException(
+                        "Argument $argName not instance of $className"
+                    );
+                }
+            }
+        }
+
+        return $default;
+    }
 }

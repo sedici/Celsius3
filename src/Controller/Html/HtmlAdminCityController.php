@@ -37,79 +37,40 @@ class HtmlAdminCityController extends CityController
 {
 
     /**
-     * Lists all City entities.
-     *
      * @Route("/", name="admin_city")
      */
-    public function index(): Response
-    {
-        return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->controller->index()
-        );
-    }
+    public function htmlIndex(): Response
+    { return $this->htmlRenderer->render(templateName: 'index', params: $this->index()); }
 
 
     /**
-     * Displays a form to create a new City entity.
-     *
      * @Route("/new", name="admin_city_new")
      */
-    public function new(): Response
-    {
-        return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->controller->new()
-        );
-    }
+    public function htmlNew(): Response
+    { return $this->htmlRenderer->render(templateName: 'new', params: $this->new()); }
 
 
     /**
-     * Creates a new City entity.
-     *
      * @Route("/create", name="admin_city_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
-    {
-        return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->controller->create()
-        );
-    }
+    public function htmlCreate(): RedirectResponse|Response
+    { return $this->htmlRenderer->render(templateName: 'create', params: $this->create()); }
 
 
     /**
-     * Displays a form to edit an existing City entity.
-     *
      * @Route("/{id}/edit", name="admin_city_edit")
-     *
      * @param string $id The entity ID
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    {
-        return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->controller->edit($id)
-        );
-    }
+    public function htmlEdit($id): Response
+    { return $this->htmlRenderer->render(templateName: 'edit', params: $this->edit($id)); }
 
     
     /**
-     * Edits an existing City entity.
-     *
      * @Route("/{id}/update", name="admin_city_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): RedirectResponse|Response
-    {
-        return $this->htmlRenderer->render(
-            templateName: 'update',
-            params: $this->controller->update($id)
-        );
-    }
+    public function htmlUpdate($id): RedirectResponse|Response
+    { return $this->htmlRenderer->render(templateName: 'update', params: $this->update($id)); }
 }

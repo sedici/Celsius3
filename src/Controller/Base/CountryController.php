@@ -23,49 +23,31 @@
 namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
-use Celsius3\Controller\Core\HtmlRenderer;
-use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Country;
 
-abstract class CountryController
+abstract class CountryController extends EntityController
 {
-
-    protected EntityController $controller;
-    protected HtmlRenderer $htmlRenderer;
-    protected RestRenderer $restRenderer;
-
-
-    public function __construct(
-        EntityController $controller,
-        HtmlRenderer $htmlRenderer,
-        RestRenderer $restRenderer
-    ) {
-        $this->controller = $controller;
-        $this->htmlRenderer = $htmlRenderer;
-        $this->restRenderer = $restRenderer;
-
-        $this->initialize();
-    }
-
 
     public function initialize(): void
     {
-        $this->controller->setEntity(Country::class);
-        $this->controller->setSortDefaults([
+        $this->setEntity(Country::class);
+
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
         ]);
+
         $this->htmlRenderer->setTemplatePrefixFromObj($this);
-    }
 
+        $this->setDirectory(
+            $this->managerRegistry
+                ->getRepository(Instance::class)
+                ->findOneBy([
+                    'url' => 'directory'
+            ])
+        );
 
-    protected function getDirectory(): Instance|null
-    {
-        return  $this->managerRegistry
-            ->getRepository(Instance::class)
-            ->findOneBy([
-                'url' => 'directory'
-            ]);
+        parent::initialize();
     }
 }

@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Core;
 
+use Celsius3\Entity\Instance;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormInterface;
 

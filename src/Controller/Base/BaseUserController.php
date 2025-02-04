@@ -23,7 +23,8 @@
 namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
-use Celsius3\Controller\Html\HtmlEntityController;
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\CustomFieldHelper;
@@ -39,21 +40,21 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
-abstract class BaseUserController extends BaseInstanceDependentController
+abstract class BaseUserController extends EntityController
 {
 
-    protected CustomFieldHelper $customFieldHelper;
-    protected TokenStorageInterface $tokenStorage;
-
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        CustomFieldHelper $custom_field_helper,
+        protected CustomFieldHelper $customFieldHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -64,38 +65,34 @@ abstract class BaseUserController extends BaseInstanceDependentController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationChecker $authorizationChecker,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
-
-        $this->customFieldHelper = $custom_field_helper;
-        $this->tokenStorage = $tokenStorage;
+        $this->initialize();
     }
 
 
-    final protected function getEntity(): string
-    { return BaseUser::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(BaseUser::class);
+
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+
+        parent::initialize();
     }
+
+
+    public function getUserListRoute(): string
+    { return 'user_index'; }
 
 
     protected function baseTransform(
@@ -285,7 +282,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
     protected function switchUser(string $username): RedirectResponse
     {
-        if (!$this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->findOneForInstanceByUsername($username);
 
             $token = new UsernamePasswordToken(
@@ -302,9 +299,8 @@ abstract class BaseUserController extends BaseInstanceDependentController
     protected function onValidCreateForm(
         $entity,
         FormInterface $form,
-        array $options,
-        string $route,
-        string $template,
+        array $formOptions,
+        string $redirectRoute,
         Request $request
     ): void {
         $this->persistEntity($entity);
@@ -318,9 +314,8 @@ abstract class BaseUserController extends BaseInstanceDependentController
     protected function onValidUpdateForm(
         $entity,
         FormInterface $form,
-        array $options,
-        string $route,
-        string $template,
+        array $formOptions,
+        string $redirectRoute,
         Request $request
     ): void {
         $this->persistEntity($entity);

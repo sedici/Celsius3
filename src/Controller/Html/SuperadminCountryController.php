@@ -40,105 +40,105 @@ class SuperadminCountryController extends CountryController
     { return $this->directory; }
 
 
-    /**
-     * Lists all Country entities.
-     *
-     * @Route("/", name="superadmin_country")
-     */
-    public function index(): Response
-    {
-        return $this->baseIndex();
-    }
+    // /**
+    //  * Lists all Country entities.
+    //  *
+    //  * @Route("/", name="superadmin_country")
+    //  */
+    // public function htmlIndex(): Response
+    // {
+    //     return $this->baseIndex();
+    // }
 
 
-    /**
-     * Displays a form to create a new Country entity.
-     *
-     * @Route("/new", name="superadmin_country_new")
-     */
-    public function new(): Response
-    {
-        return $this->baseNew();
-    }
+    // /**
+    //  * Displays a form to create a new Country entity.
+    //  *
+    //  * @Route("/new", name="superadmin_country_new")
+    //  */
+    // public function new(): Response
+    // {
+    //     return $this->baseNew();
+    // }
 
 
-    /**
-     * Creates a new Country entity.
-     *
-     * @Route("/create", name="superadmin_country_create", methods={"POST"})
-     */
-    public function create()
-    {
-        return $this->baseCreate(route: 'superadmin_country');
-    }
+    // /**
+    //  * Creates a new Country entity.
+    //  *
+    //  * @Route("/create", name="superadmin_country_create", methods={"POST"})
+    //  */
+    // public function create()
+    // {
+    //     return $this->baseCreate(route: 'superadmin_country');
+    // }
 
 
-    /**
-     * Displays a form to edit an existing Country entity.
-     *
-     * @Route("/{id}/edit", name="superadmin_country_edit")
-     *
-     * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function edit(string $id): Response
-    {
-        return $this->baseInstanceEdit($id);
-    }
+    // /**
+    //  * Displays a form to edit an existing Country entity.
+    //  *
+    //  * @Route("/{id}/edit", name="superadmin_country_edit")
+    //  *
+    //  * @param string $id The entity ID
+    //  *
+    //  * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+    //  */
+    // public function edit(string $id): Response
+    // {
+    //     return $this->baseInstanceEdit($id);
+    // }
 
 
-    /**
-     * Edits an existing Country entity.
-     *
-     * @Route("/{id}/update", name="superadmin_country_update", methods={"POST"})
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function update(string $id): RedirectResponse|Response
-    {
-        return $this->baseInstanceUpdate($id, 'superadmin_country');
-    }
+    // /**
+    //  * Edits an existing Country entity.
+    //  *
+    //  * @Route("/{id}/update", name="superadmin_country_update", methods={"POST"})
+    //  *
+    //  * @param string $id
+    //  *                   The entity ID
+    //  *
+    //  * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+    //  */
+    // public function update(string $id): RedirectResponse|Response
+    // {
+    //     return $this->baseInstanceUpdate($id, 'superadmin_country');
+    // }
 
 
-    /**
-     * Batch actions.
-     *
-     * @Route("/batch", name="superadmin_country_batch")
-     *
-     * @return array
-     */
-    public function batch()
-    {
-        return $this->baseBatch();
-    }
+    // /**
+    //  * Batch actions.
+    //  *
+    //  * @Route("/batch", name="superadmin_country_batch")
+    //  *
+    //  * @return array
+    //  */
+    // public function batch()
+    // {
+    //     return $this->baseBatch();
+    // }
 
-    protected function batchUnion($element_ids)
-    {
-        return $this->render(
-            (string) $this->templatePrefix . 'batchUnion.html.twig',
-            $this->baseUnion($element_ids)
-        );
-    }
+    // protected function batchUnion($element_ids)
+    // {
+    //     return $this->render(
+    //         (string) $this->templatePrefix . 'batchUnion.html.twig',
+    //         $this->baseUnion($element_ids)
+    //     );
+    // }
 
-    /**
-     * Unifies a group of Country entities.
-     *
-     * @Route("/doUnion", name="superadmin_country_doUnion", methods={"POST"})
-     */
-    public function doUnion(): RedirectResponse
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        $element_ids = $request->request->get('element');
-        $main_id = $request->request->get('main');
+    // /**
+    //  * Unifies a group of Country entities.
+    //  *
+    //  * @Route("/doUnion", name="superadmin_country_doUnion", methods={"POST"})
+    //  */
+    // public function doUnion(): RedirectResponse
+    // {
+    //     $request = $this->requestStack->getCurrentRequest();
+    //     $element_ids = $request->request->get('element');
+    //     $main_id = $request->request->get('main');
 
-        return $this->baseDoUnion(
-            $element_ids,
-            $main_id,
-            'superadmin_country'
-        );
-    }
+    //     return $this->baseDoUnion(
+    //         $element_ids,
+    //         $main_id,
+    //         'superadmin_country'
+    //     );
+    // }
 }

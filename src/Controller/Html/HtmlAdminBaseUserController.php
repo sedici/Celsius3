@@ -38,23 +38,23 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @Route("/admin/user")
  */
-final class AdminBaseUserController extends BaseUserController
+final class HtmlAdminBaseUserController extends BaseUserController
 {
 
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/BaseUser/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        parent::initialize();
+
+        $this->htmlRenderer->setTemplatePrefix('Admin/BaseUser/');
+
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 
 
-    protected function listQuery(): QueryBuilder
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
     {
         return $this->repository
             ->createQueryBuilder('e')
@@ -70,8 +70,13 @@ final class AdminBaseUserController extends BaseUserController
      * Lists all BaseUser entities.
      * @Route("/", name="admin_user")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+    }
 
 
     /**
@@ -80,18 +85,24 @@ final class AdminBaseUserController extends BaseUserController
      * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function show(string $id): Response
-    { return $this->baseShow($id); }
+    public function htmlShow(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params:  $this->show($id)
+        );
+    }
 
 
     /**
      * Displays a form to create a new BaseUser entity.
      * @Route("/new", name="admin_user_new")
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
-        return $this->baseInstanceNew(
-            options: ['validation_groups' => 'Registration']
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(formOptions: ['validation_groups' => 'Registration'])
         );
     }
 
@@ -100,8 +111,13 @@ final class AdminBaseUserController extends BaseUserController
      * Creates a new BaseUser entity.
      * @Route("/create", name="admin_user_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(route: 'admin_user_new'); }
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create(redirectRoute: 'admin_user_new')
+        );
+    }
 
 
     /**
@@ -110,10 +126,13 @@ final class AdminBaseUserController extends BaseUserController
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
+    public function htmlEdit(string $id): Response
     {
-        return $this->baseEdit(
-            $id, formOptions: [ 'editing' => true ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit(
+                $id, formOptions: [ 'editing' => true ]
+            )
         );
     }
 
@@ -124,12 +143,15 @@ final class AdminBaseUserController extends BaseUserController
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(
+    public function htmlUpdate(
         string $id
     ): RedirectResponse|Response {
-        return $this->baseUpdate(
-            $id, 'admin_user_edit',
-            formOptions: [ 'editing' => true ]
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->update( // debería ser "baseUpdate"
+                $id, 'admin_user_edit',
+                formOptions: [ 'editing' => true ]
+            )
         );
     }
 

@@ -37,89 +37,89 @@ use Celsius3\Controller\Base\CityController;
 class SuperadminCityController extends CityController
 {
 
-    protected function getInstance(): Instance
-    { return $this->directory; }
+    // protected function getInstance(): Instance
+    // { return $this->directory; }
 
 
-    /**
-     * Lists all City entities.
-     *
-     * @Route("/", name="superadmin_city")
-     */
-    public function index(PaginatorInterface $paginator): Response
-    { return $this->baseInstanceIndex(); }
+    // /**
+    //  * Lists all City entities.
+    //  *
+    //  * @Route("/", name="superadmin_city")
+    //  */
+    // public function index(PaginatorInterface $paginator): Response
+    // { return $this->baseInstanceIndex(); }
 
 
-    /**
-     * Displays a form to create a new City entity.
-     *
-     * @Route("/new", name="superadmin_city_new")
-     */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    // /**
+    //  * Displays a form to create a new City entity.
+    //  *
+    //  * @Route("/new", name="superadmin_city_new")
+    //  */
+    // public function new(): Response
+    // { return $this->baseInstanceNew(); }
 
 
-    /**
-     * Creates a new City entity.
-     *
-     * @Route("/create", name="superadmin_city_create", methods={"POST"})
-     */
-    public function create(): Response
-    { return $this->baseInstanceCreate(); }
+    // /**
+    //  * Creates a new City entity.
+    //  *
+    //  * @Route("/create", name="superadmin_city_create", methods={"POST"})
+    //  */
+    // public function create(): Response
+    // { return $this->baseInstanceCreate(); }
 
 
-    /**
-     * Displays a form to edit an existing City entity.
-     *
-     * @Route("/{id}/edit", name="superadmin_city_edit")
-     *
-     * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    // /**
+    //  * Displays a form to edit an existing City entity.
+    //  *
+    //  * @Route("/{id}/edit", name="superadmin_city_edit")
+    //  *
+    //  * @param string $id The entity ID
+    //  *
+    //  * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+    //  */
+    // public function edit(string $id): Response
+    // { return $this->baseInstanceEdit($id); }
 
 
-    /**
-     * Edits an existing City entity.
-     *
-     * @Route("/{id}/update", name="superadmin_city_update", methods={"POST"})
-     *
-     * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_city'); }
+    // /**
+    //  * Edits an existing City entity.
+    //  *
+    //  * @Route("/{id}/update", name="superadmin_city_update", methods={"POST"})
+    //  *
+    //  * @param string $id The entity ID
+    //  *
+    //  * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+    //  */
+    // public function update(string $id): Response
+    // { return $this->baseInstanceUpdate($id, 'superadmin_city'); }
 
 
-    /**
-     * Batch actions.
-     *
-     * @Route("/batch", name="superadmin_city_batch")
-     */
-    public function batch()
-    { return $this->baseBatch(); }
+    // /**
+    //  * Batch actions.
+    //  *
+    //  * @Route("/batch", name="superadmin_city_batch")
+    //  */
+    // public function batch()
+    // { return $this->baseBatch(); }
 
 
-    protected function batchUnion($element_ids): array
-    { return $this->baseUnion($element_ids); }
+    // protected function batchUnion($element_ids): array
+    // { return $this->baseUnion($element_ids); }
 
 
-    /**
-     * Unifies a group of City entities.
-     *
-     * @Route("/doUnion", name="superadmin_city_doUnion", methods={"POST"})
-     */
-    public function doUnion(): RedirectResponse
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        $element_ids = $request->get('element');
-        $main_id = $request->get('main');
+    // /**
+    //  * Unifies a group of City entities.
+    //  *
+    //  * @Route("/doUnion", name="superadmin_city_doUnion", methods={"POST"})
+    //  */
+    // public function doUnion(): RedirectResponse
+    // {
+    //     $request = $this->requestStack->getCurrentRequest();
+    //     $element_ids = $request->get('element');
+    //     $main_id = $request->get('main');
 
-        return $this->baseDoUnion(
-            $element_ids, $main_id, 'superadmin_city'
-        );
-    }
+    //     return $this->baseDoUnion(
+    //         $element_ids, $main_id, 'superadmin_city'
+    //     );
+    // }
 }

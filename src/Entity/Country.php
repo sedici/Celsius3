@@ -22,11 +22,13 @@
 
 namespace Celsius3\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 use Celsius3\Entity\TimestampableEntity;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\CountryRepository")
@@ -94,9 +96,7 @@ class Country
     }
 
     /**
-     * Get id.
-     *
-     * @return id $id
+     * @return $id
      */
     public function getId()
     {
@@ -172,11 +172,9 @@ class Country
     }
 
     /**
-     * Get cities.
-     *
      * @return Collection $cities
      */
-    public function getCities()
+    public function getCities(): Collection
     {
         return $this->cities;
     }

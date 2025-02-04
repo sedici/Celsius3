@@ -26,6 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 use Celsius3\Entity\TimestampableEntity;
@@ -47,17 +48,20 @@ class City
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration", "administration_order_show"})
      */
     private $id;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration", "administration_order_show"})
      */
     private $name;
 
     /**
      * @ORM\Column(name="postal_code", type="string", length=255, nullable=true)
+     * @Groups({"administration"})
      */
     private $postalCode;
 
@@ -105,7 +109,7 @@ class City
     /**
      * Get id.
      *
-     * @return id $id
+     * @return $id
      */
     public function getId()
     {

@@ -34,11 +34,11 @@ class HtmlRenderer extends BaseRenderer
     {
         $str = (new ReflectionClass($controllerObject))->getShortName();
 
-	    $str = preg_replace(
-            '/Controller$/', '', $str
+        $str = str_replace(
+            ['Controller', 'Html', 'Rest'], '', $str
         );
-	
-	    return preg_replace(
+
+        return preg_replace(
             '/([a-z])([A-Z])/', '$1/$2', $str
         ) . '/';
     }

@@ -49,14 +49,9 @@ class EntityController extends InstanceDependentController
 
     public function initialize(): void
     {
-        // $this->entityClassName = $this->getEntity();
-        // $this->entityClass = $this->getEntityClass();
-        // $this->entityClassShortName = $this->entityClass->getShortName();
-        // $this->typeClassName = $this->getType();
-        // $this->repository = $this->getRepository();
-        // $this->sortDefaults = $this->getSortDefaults();
-        // $this->filterClassName = $this->getFilterType();
         $this->redirectRoute = $this->getRedirectRoute();
+        $this->htmlRenderer->setController($this);
+        $this->restRenderer->setController($this);
 
         parent::initialize();
     }
@@ -70,10 +65,6 @@ class EntityController extends InstanceDependentController
     { return (string) 'Celsius3\Form\Type\Filter\\' . $this->entityClassShortName . 'FilterType'; }
 
 
-    protected function getDirectory(): Instance|null
-    { return $this->instanceManager->getDirectory(); }
-
-
     protected function getRepository(): EntityRepository
     {
         return $this->entityManager
@@ -81,7 +72,7 @@ class EntityController extends InstanceDependentController
     }
 
 
-    protected function persistEntity($entity)
+    protected function persistEntity($entity): void
     {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
@@ -107,7 +98,7 @@ class EntityController extends InstanceDependentController
     { $this->sortDefaults = $sortDefaults; }
 
 
-    protected function error(
+    public function error(
         string $type,
         ?string $entity = null,
         ?string $msg = null
