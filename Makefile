@@ -101,7 +101,7 @@ rename:
 
 # ------------ MIGRATIONS ------------
 
-migrations/create: migrations/clean build start migrations/create-project install
+migrations/create: migrations/clean build start/d migrations/create-project install
 
 migrations/create-project:
 	@bash -c 'if [[ $(args) =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?(\.[a-zA-Z0-9]+)?$$ ]]; then \
