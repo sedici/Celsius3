@@ -19,6 +19,7 @@ fi
 # Verifica que la versión de Symfony sea mayor o igual a 4 (esta forma de crear un proyecto es a partir de la v4)
 if ! [[ "$2" =~ ^[0-9]+(\.[0-9]+)*$ ]] || (( $(echo "$2" | cut -d. -f1) < 4 )); then
     echo "La versión de Symfony debe ser 4 o superior"
+    echo "Versión especificada: $2"
     echo $usage
     exit 1
 fi
@@ -41,3 +42,6 @@ if [ -f "./docker/php/dev.dep" ]; then
 else
     echo "El archivo ./docker/php/dev.dep no existe"
 fi
+
+composer update
+composer install
