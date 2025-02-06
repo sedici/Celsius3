@@ -1,0 +1,10 @@
+symfony/debug-bundle
+symfony/maker-bundle
+symfony/stopwatch
+symfony/web-profiler-bundle
+fakerphp/faker
+mockery/mockery
+phpunit/phpunit
+symfony/browser-kit
+symfony/css-selector
+symfony/phpunit-bridge

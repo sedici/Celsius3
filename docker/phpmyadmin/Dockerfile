@@ -1,4 +1,4 @@
-FROM phpmyadmin/phpmyadmin
+FROM phpmyadmin:latest
 
 ENV PMA_HOST=bd
 ENV PMA_PORT=3306

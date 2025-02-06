@@ -1,6 +1,7 @@
 # Agregado
 public/build/
 .vscode/
+vendor-*/
 
 # Assets and user uploads
 /public/uploads/
