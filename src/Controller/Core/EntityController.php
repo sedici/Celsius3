@@ -174,6 +174,25 @@ class EntityController extends InstanceDependentController
     }
 
 
+    protected function baseBatch()
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $action = $request->get('action');
+        $function = 'batch' . ucfirst($action);
+        $element_ids = $request->get('element', []);
+
+        return $this->$function($element_ids);
+    }
+
+    protected function baseUnion(array $ids): array
+    {
+        $entities = $this->repository
+            ->findBy(['id' => $ids]);
+
+        return [ 'entities' => $entities ];
+    }
+
+
     protected function mergeSecondaryInstances(
         BaseUser $main, array $entities
     ): void { }

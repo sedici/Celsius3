@@ -22,93 +22,48 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\EntityManager\ThreadManager;
 use Celsius3\Form\Type\UserTransformType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Celsius3\Controller\Base\BaseUserController;
-
-use Celsius3\Helper\CustomFieldHelper;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Celsius3\Controller\Base\UserController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * BibliotecarioBaseUser controller.
- *
  * @Route("/bibliotecario/user")
  */
-class BibliotecarioBaseUserController extends BaseUserController
+class HtmlBibliotecarioBaseUserController extends UserController
 {
 
-    protected ThreadManager $threadManager;
+    public function initialize(): void
+    {
+        parent::initialize();
 
-    public function __construct(
-        ThreadManager $threadManager,
-        TokenStorageInterface $tokenStorage,
-        CustomFieldHelper $custom_field_helper,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper
-    ) {
-        parent::__construct(
-            $tokenStorage,
-            $custom_field_helper,
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
-
-        $this->threadManager = $threadManager;
+        $this->htmlRenderer->setTemplatePrefix('BibliotecarioBaseUser/');
     }
-
-
-    protected final function getTemplatePrefix(): string
-    { return 'BibliotecarioBaseUser/'; }
 
 
     /**
      * Lists all BaseUser entities.
-     *
      * @Route("/", name="bibliotecario_user" ,options={"expose"=true})
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+    }
 
 
     /**
      * Shows the data of a user.
-     *
      * @Route("/{id}/show", name="bibliotecario_user_show", options={"expose"=true})
      */
-    public function show(string $id): Response
+    public function htmlShow(string $id): Response
     {
         $entity = $this->findQuery($id);
 
@@ -117,10 +72,10 @@ class BibliotecarioBaseUserController extends BaseUserController
         $messages = $this->threadManager
             ->getParticipantSentThreadsQueryBuilder($entity)
             ->getQuery()->getResult();
-
-        return $this->render(
-            (string) $this->templatePrefix . 'show.html.twig',
-            [
+        
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: [
                 'element' => $entity,
                 'messages' => $messages,
                 'resultsPerPage' => $this->getResultsPerPage(),
@@ -131,96 +86,81 @@ class BibliotecarioBaseUserController extends BaseUserController
 
     /**
      * Displays a form to create a new BaseUser entity.
-     *
      * @Route("/new", name="bibliotecario_user_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(formOptions: ['validation_groups' => 'Registration'])
+        );
+    }
 
 
     /**
      * Creates a new BaseUser entity.
-     *
      * @Route("/create", name="bibliotecario_user_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(); }
-
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create(redirectRoute: 'admin_user_new')
+        );
+    }
 
     /**
      * Displays a form to edit an existing BaseUser entity.
-     *
      * @Route("/{id}/edit", name="bibliotecario_user_edit", options={"expose"=true})
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
+    public function htmlEdit(string $id): Response
     {
-        return $this->baseInstanceEdit(
-            $id, options: [ 'editing' => true ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit(
+                $id, formOptions: [ 'editing' => true ]
+            )
+        );
+    }
+
+
+    protected function onValidUpdateForm(
+        $entity,
+        FormInterface $form,
+        array $formOptions,
+        string $redirectRoute,
+        Request $request
+    ): void {
+        $this->persistEntity($entity);
+
+        $this->customFieldHelper->processCustomUserFields(
+            $this->instance, $form, $entity
         );
     }
 
 
     /**
      * Edits an existing BaseUser entity.
-     *
      * @Route("/{id}/update", name="bibliotecario_user_update", methods={"POST"})
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): RedirectResponse|Response
-    {
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        $editForm = $this->createForm(options: [ 'editing' => true ]);
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $this->persistEntity($entity);
-
-            $this->customFieldHelper->processCustomUserFields(
-                $this->getInstance(), $editForm, $entity
-            );
-
-            $this->addEntityFlash(
-                'success', 'The %entity% was successfully edited.'
-            );
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'admin_user_edit',
-                    [ 'id' => $id ]
-                )
-            );
-        }
-
-        $this->addEntityFlash(
-            'error', 'There were errors editing the %entity%.'
-        );
-
-        $parameters = [
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
-        ];
-
-        return $this->render(
-            'Admin/BaseUser/edit.html.twig',
-            $parameters
+    public function htmlUpdate(
+        string $id
+    ): RedirectResponse|Response {
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->update(
+                $id, 'admin_user_edit',
+                formOptions: [ 'editing' => true ]
+            )
         );
     }
 
 
     /**
      * Displays a form to transform an existing BaseUser entity.
-     *
      * @Route("/{id}/transform", name="bibliotecario_user_transform")
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function transform(string $id): array|RedirectResponse|Response
@@ -254,23 +194,18 @@ class BibliotecarioBaseUserController extends BaseUserController
             return $response;
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'transform.html.twig',
-            $response
+        return $this->htmlRenderer->render(
+            templateName: 'transform',
+            params: $response
         );
     }
 
 
     /**
      * Enables a BaseUser entity.
-     *
      * @Route("/{id}/enable", name="bibliotecario_user_enable", options={"expose"=true})
-     *
-     * @param string $id
-     *                   The entity ID
-     *
+     * @param string $id The entity ID
      * @return array
-     *
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function enable(string $id): RedirectResponse
@@ -279,9 +214,7 @@ class BibliotecarioBaseUserController extends BaseUserController
 
     /**
      * Batch actions.
-     *
      * @Route("/batch", name="bibliotecario_user_batch")
-     *
      * @return array
      */
     public function batch()
@@ -290,7 +223,6 @@ class BibliotecarioBaseUserController extends BaseUserController
 
     /**
      * Unifies a group of Journal entities.
-     *
      * @Route("/batch/doUnion", name="bibliotecario_user_doUnion", methods={"POST"})
      */
     public function doUnion(): RedirectResponse

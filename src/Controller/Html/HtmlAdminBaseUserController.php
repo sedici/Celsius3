@@ -30,7 +30,8 @@ use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\BaseUserController;
+use Celsius3\Controller\Base\UserController;
+use Celsius3\Form\Type\BaseUserType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -38,7 +39,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @Route("/admin/user")
  */
-final class HtmlAdminBaseUserController extends BaseUserController
+final class HtmlAdminBaseUserController extends UserController
 {
 
     public function initialize(): void
@@ -258,9 +259,9 @@ final class HtmlAdminBaseUserController extends BaseUserController
 
     protected function batchUnion(array $element_ids): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'batchUnion.html.twig',
-            $this->baseUnion($element_ids)
+        return $this->htmlRenderer->render(
+            templateName: 'batchUnion',
+            params: $this->baseUnion($element_ids)
         );
     }
 
@@ -308,9 +309,9 @@ final class HtmlAdminBaseUserController extends BaseUserController
             return $response;
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'transform.html.twig',
-            $response
+        return $this->htmlRenderer->render(
+            templateName: 'transform.html.twig',
+            params: $response
         );
     }
 

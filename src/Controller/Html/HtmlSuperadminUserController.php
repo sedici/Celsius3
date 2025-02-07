@@ -32,120 +32,136 @@ use Celsius3\Form\Type\UserTransformType;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\BaseUserController;
+use Celsius3\Controller\Base\UserController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Order controller.
  *
  * @Route("/superadmin/user")
  */
-final class SuperadminUserController extends BaseUserController
+final class HtmlSuperadminUserController extends UserController
 {
 
-    protected final function getTemplatePrefix(): string
-    { return 'Superadmin/BaseUser/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        parent::initialize();
+
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/BaseUser/');
+        $this->isInstanceDependent = false;
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+        $this->setInstance($this->directory);
     }
-
-
-    protected function getInstance(): Instance
-    { return $this->directory; }
-
-
-    protected function listQuery(): QueryBuilder
-    { return $this->repository->createQueryBuilder('e'); }
 
 
     /**
      * Lists all BaseUser entities.
-     *
      * @Route("/", name="superadmin_user")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(BaseUserFilterType::class); }
+    public function htmlIndex(): Response
+    // { return $this->baseInstanceIndex(BaseUserFilterType::class); }
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index(
+                BaseUserFilterType::class,
+                isInstanceDependent: true
+                // 'superadmin_user'
+            )
+        );
+    }
 
 
     /**
      * Finds and displays a BaseUser document.
-     *
      * @Route("/{id}/show", name="superadmin_user_show")
-     *
      * @param string $id The document ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws NotFoundHttpException If document doesn't exists
      */
-    public function show(string $id): Response
+    public function htmlShow(string $id): Response
     {
-        return $this->baseShow(
-            $id, 'Admin/BaseUser/show.html.twig'
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
         );
     }
 
 
     /**
      * Displays a form to create a new BaseUser entity.
-     *
      * @Route("/new", name="superadmin_user_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(options: ['validation_groups' => 'Registration']); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(
+                formOptions: ['validation_groups' => 'Registration']
+                // isInstanceDependent: true // tiene sentido?
+            )
+        );
+    }
 
 
     /**
      * Creates a new BaseUser entity.
-     *
      * @Route("/create", name="superadmin_user_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(route: 'superadmin_user_new'); }
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create(
+                redirectRoute: 'superadmin_user_new',
+                // isInstanceDependent: true // tiene sentido?
+            )
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing Country entity.
-     *
      * @Route("/{id}/edit", name="superadmin_user_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseEdit($id, formOptions: [ 'editing' => true ]); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit(
+                $id, formOptions: [ 'editing' => true ]
+            )
+        );
+    }
 
 
     /**
      * Edits an existing BaseUser entity.
-     *
      * @Route("/{id}/update", name="superadmin_user_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): RedirectResponse|Response
+    public function htmlUpdate(string $id): RedirectResponse|Response
     {
-        return $this->baseUpdate(
-            $id, 'superadmin_user_edit',
-            formOptions: [ 'editing' => true ]
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->update(
+                $id, 'superadmin_user_edit',
+                formOptions: [ 'editing' => true ]
+            )
         );
     }
 
 
     /**
      * Enables an existing BaseUser entity.
-     *
      * @Route("/{id}/enable", name="superadmin_user_enable", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function enable(string $id): RedirectResponse
     { return $this->baseEnable($id); }
@@ -157,33 +173,24 @@ final class SuperadminUserController extends BaseUserController
     // * @Route("/batch", name="superadmin_user_batch")
     /**
      * Apply a batch function to a group of BaseUser entities.
-     *
      * @Route("/batch", name="admin_baseuser_batch", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function batch(): mixed
-    {
-        return $this->baseBatch();
-    }
+    { return $this->baseBatch(); }
 
 
     protected function batchEnable($element_ids): RedirectResponse
-    {
-        return $this->baseBatchEnable($element_ids);
-    }
+    { return $this->baseBatchEnable($element_ids); }
 
 
     // UNION
 
 
-    //  * @Route("/union", name="superadmin_user_union")
     /**
      * Batch union on a group of BaseUser entities.
-     *
-     * @Route("/union", name="superadmin_baseuser_union", methods={"POST"})
+     * @Route("/union", name="superadmin_user_union", methods={"POST"})
      */
     public function union(): RedirectResponse
     {
@@ -204,7 +211,9 @@ final class SuperadminUserController extends BaseUserController
 
     private function doUnion(string $main_id, array $element_ids)
     {
-        $main_user = $this->findUser($main_id);
+        $main_user = $this->findQuery($main_id);
+        if (!$main_user) $this->error('entity_not_found');
+
         $users = $this->findUsers($main_user, $element_ids);
 
         $this->mergeSecondaryInstances($main_user, $users);
@@ -220,24 +229,9 @@ final class SuperadminUserController extends BaseUserController
     }
 
 
-    private function findUser(string $main_id): BaseUser
-    {
-        $main_user = $this->findQuery($main_id);
-
-        if (!$main_user) $this->error('entity_not_found');
-
-        return $main_user;
-    }
-
-
     private function findUsers(BaseUser $main_user, array $element_ids): mixed
     {
-        $users = $this->entityManager
-            ->getRepository($this->entityClassName)
-            ->findBaseDoUnionEntities(
-                $main_user,
-                $element_ids
-            );
+        $users = $this->repository->findBaseDoUnionEntities($main_user, $element_ids);
 
         if (count($users) !== count($element_ids) - 1)
             $this->error('entity_not_found');
@@ -246,11 +240,11 @@ final class SuperadminUserController extends BaseUserController
     }
 
 
-    protected function batchUnion(array $element_ids): Response
+    protected function batchUnion(array $ids): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'batchUnion.html.twig',
-            $this->baseUnion($element_ids)
+        return $this->htmlRenderer->render(
+            templateName: 'batchUnion',
+            params: [ 'entities' => $this->repository->findBy(['id' => $ids]) ]
         );
     }
 
@@ -258,10 +252,8 @@ final class SuperadminUserController extends BaseUserController
     // TRANSFORM
 
 
-    //  * @Route("/transform", name="admin_user_transform")
     /**
      * Transform an instance of BaseUser entity.
-     *
      * @Route("/transform", name="superadmin_user_transform", methods={"GET", "POST"})
      */
     public function transform(string $id): array|RedirectResponse|Response
@@ -296,9 +288,9 @@ final class SuperadminUserController extends BaseUserController
             return $response;
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'transform.html.twig',
-            $response
+        return $this->htmlRenderer->render(
+            templateName: 'transform',
+            params: $response
         );
     }
 }

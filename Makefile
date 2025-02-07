@@ -2,17 +2,20 @@ dockname := $(shell grep 'name:' docker-compose.yaml | awk '{print $$2}')
 args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
 all: build install
-install: start deps postbuild
+install: start/d deps postbuild
 deps: composer/install npm/install encore
 postbuild: elastica/populate
 
 clean: clean/nmodules clean/pbuild clean/jsonpkgs clean/vendor
 
 build:
-	@docker compose build
+	@docker compose build --no-cache
 
 start:
 	@[ "$(args)" = "d" ] && docker compose up -d || docker compose up;
+
+start/d:
+	@docker compose up -d
 
 stop:
 	@docker compose stop
@@ -45,7 +48,7 @@ database:
 
 encore:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console assets:install
-    @docker exec --user $(id -u):$(id -g) $(dockname)-node-1 yarn run encore dev
+    @docker exec --user $(id -u):$(id -g) $(dockname)-node-1 npm run encore dev
 
 tests:
 	@docker exec $(dockname)-php-1 php vendor/phpunit/phpunit/phpunit --bootstrap ./tests/bootstrap.php --configuration ./phpunit.xml.dist ./tests
@@ -67,7 +70,7 @@ rmi:
 	}
 
 dx:
-	@docker exec -it --user $(id -u):$(id -g) $(dockname)-$(args)-1 sh
+	@docker exec -it --user $(id -u):$(id -g) $(dockname)-$(args)-1 bash
 
 elastica/populate:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console fos:elastica:populate

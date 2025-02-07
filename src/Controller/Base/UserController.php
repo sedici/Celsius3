@@ -27,6 +27,8 @@ use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\Thread;
+use Celsius3\EntityManager\ThreadManager;
 use Celsius3\Helper\CustomFieldHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -38,6 +40,7 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Celsius3\Repository\ThreadRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -48,12 +51,14 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-abstract class BaseUserController extends EntityController
+abstract class UserController extends EntityController
 {
+    protected ThreadRepository $threadRepository;
 
     public function __construct(
+        protected ThreadManager $threadManager,
         protected CustomFieldHelper $customFieldHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -70,10 +75,31 @@ abstract class BaseUserController extends EntityController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationChecker $authorizationChecker,
+        AuthorizationCheckerInterface $authorizationChecker,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
     ) {
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $authorizationChecker,
+            $htmlRenderer,
+            $restRenderer
+        );
+
         $this->initialize();
     }
 
@@ -82,12 +108,14 @@ abstract class BaseUserController extends EntityController
     {
         $this->setEntity(BaseUser::class);
 
+        parent::initialize();
+
         $this->setSortDefaults([
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
         ]);
 
-        parent::initialize();
+        $this->threadRepository = $this->entityManager->getRepository(Thread::class);
     }
 
 
