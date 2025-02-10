@@ -50,11 +50,11 @@ class InstitutionRepository extends BaseRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $firstLevel = false, Hive $hive = null, $country_id = null, $city_id = null, $filter = null)
     {
         $qb = $this->createQueryBuilder('e')
-                ->where('e.instance = :instance_id')
-                ->orWhere('e.instance = :directory_id')
-                ->orderBy('e.name', 'asc')
-                ->setParameter('instance_id', $instance->getId())
-                ->setParameter('directory_id', $directory->getId());
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->orderBy('e.name', 'asc')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('directory_id', $directory->getId());
 
         if ($firstLevel) {
             $qb = $qb->andWhere('e.parent IS NULL');
@@ -67,13 +67,13 @@ class InstitutionRepository extends BaseRepository
 
         if (!is_null($city_id)) {
             $qb = $qb->andWhere('e.city = :city_id')
-                    ->setParameter('city_id', $city_id);
+                ->setParameter('city_id', $city_id);
         }
 
         if (!is_null($filter)) {
             if ($filter === 'hive' && !is_null($hive)) {
                 $qb = $qb->andWhere('e.hive = :hive_id')
-                        ->setParameter('hive_id', $hive->getId());
+                    ->setParameter('hive_id', $hive->getId());
             } elseif ($filter === 'celsius3') {
                 $qb = $qb->andWhere('e.celsiusInstance IS NOT NULL');
             }

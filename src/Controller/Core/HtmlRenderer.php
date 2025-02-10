@@ -30,6 +30,15 @@ class HtmlRenderer extends BaseRenderer
     protected string $templatePrefix;
 
 
+    public function setController(
+        EntityController $controller,
+        bool $templateNameFromObj = true
+    ): void {
+        parent::setController($controller);
+        if ($templateNameFromObj) $this->setTemplatePrefixFromObj($controller);
+    }
+
+
     protected function templatePrefixFromObj($controllerObject): string
     {
         $str = (new ReflectionClass($controllerObject))->getShortName();

@@ -22,75 +22,24 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Exception\Exception;
 use Celsius3\Manager\CatalogManager;
-use Celsius3\Repository\EventRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Security;
 use Celsius3\Controller\Base\JournalController;
-
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\RequestStack;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Location controller.
- *
  * @Route("/admin/journal")
  */
-class AdminJournalController extends JournalController
+class HtmlAdminJournalController extends JournalController
 {
 
-    private EventRepository $eventRepository;
-    private Security $security;
-
-
-    public function __construct(
-        EventRepository $eventRepository,
-        Security $security,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper
-    ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
-
-        $this->eventRepository = $eventRepository;
-        $this->security = $security;
-    }
-
-
-    protected function findQuery($id)
-    {
+    public function findQuery(
+        string $id,
+        ?bool $isInstanceDependent = null
+    ): mixed {
         $isAdmin = $this->userManager
             ->getCurrentRole($this->security->getUser()) === 'ROLE_SUPER_ADMIN';
 
@@ -113,27 +62,26 @@ class AdminJournalController extends JournalController
 
     /**
      * Lists all Journal entities.
-     *
      * @Route("/", name="admin_journal")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
-        return $this->baseInstanceIndex();
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
     }
 
 
     /**
      * Displays data for a Journal.
-     *
      * @Route("/{id}/show", name="admin_journal_show", options={"expose"=true})
      */
-    public function show($id): Response
+    public function htmlShow($id): Response
     {
         $entity = $this->findShowQuery($id);
+        if (!$entity) $this->error('entity_not_found');
 
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
-        }
         $receptions = $this->eventRepository
             ->getPreviousJournalReceivedRequests(
                 $this->instance, $entity
@@ -153,9 +101,9 @@ class AdminJournalController extends JournalController
             $searches[$search->getResult()][] = $search;
         }
 
-        return $this->render(
-            $this->templatePrefix . 'show.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: [
                 'entity' => $entity,
                 'searches' => $searches,
                 'receptions' => $receptions,
@@ -166,54 +114,57 @@ class AdminJournalController extends JournalController
 
     /**
      * Displays a form to create a new Journal entity.
-     *
      * @Route("/new", name="admin_journal_new", options={"expose"=true})
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
-        return $this->baseInstanceNew();
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
     }
 
 
     /**
      * Creates a new Journal entity.
-     *
      * @Route("/create", name="admin_journal_create", methods={"POST"})
      *
      */
-    public function create(): RedirectResponse|Response
+    public function htmlCreate(): RedirectResponse|Response
     {
-        return $this->baseInstanceCreate();
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create()
+        );
     }
 
 
     /**
      * Displays a form to edit an existing Journal entity.
-     *
      * @Route("/{id}/edit", name="admin_journal_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
+    public function htmlEdit(string $id): Response
     {
-        return $this->baseInstanceEdit($id);
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
     }
 
 
     /**
      * Edits an existing Journal entity.
-     *
      * @Route("/{id}/update", name="admin_journal_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): RedirectResponse|Response
+    public function htmlUpdate(string $id): RedirectResponse|Response
     {
-        return $this->baseInstanceUpdate($id, 'admin_journal_edit');
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->update($id)
+        );
     }
 }

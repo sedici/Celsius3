@@ -30,12 +30,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Helper\ConfigurationHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\UserController;
-use Celsius3\Repository\ConfigurationRepository;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * BaseUser controller.
- *
  * @Route("/user")
  */
 class HtmlUserController extends UserController

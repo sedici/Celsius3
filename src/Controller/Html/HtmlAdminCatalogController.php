@@ -27,77 +27,90 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\CatalogController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
  * Catalog controller.
- *
  * @Route("/admin/catalog")
  */
-class AdminCatalogController extends CatalogController
+class HtmlAdminCatalogController extends CatalogController
 {
 
     /**
      * Lists all Catalog entities.
-     *
      * @Route("/", name="admin_catalog")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+    }
 
 
     /**
      * Displays a form to create a new Catalog entity.
-     *
      * @Route("/new", name="admin_catalog_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Creates a new Catalog entity.
-     *
      * @Route("/create", name="admin_catalog_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(route: 'admin_catalog_new'); }
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing Catalog entity.
-     *
      * @Route("/{id}/edit", name="admin_catalog_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit($id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Edits an existing Catalog entity.
-     *
      * @Route("/{id}/update", name="admin_catalog_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): RedirectResponse|Response
-    { return $this->baseInstanceUpdate($id, 'admin_catalog_edit'); }
+    public function htmlUpdate($id): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Disables an existing Catalog entity.
-     *
      * @Route("/{id}/disable", name="admin_catalog_disable", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function disable(string $id): Response
     {
@@ -113,33 +126,24 @@ class AdminCatalogController extends CatalogController
 
     /**
      * Enables an existing Catalog entity.
-     *
      * @Route("/{id}/enable", name="admin_catalog_enable", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function enable(string $id): Response
     {
         $catalog = $this->findQuery($id);
-
         $catalog->setEnabled(true);
-
         $this->persistEntity($catalog);
-
         return $this->redirectToRoute('admin_catalog');
     }
 
 
     /**
      * Updates the position of a group of existing Catalog entities.
-     *
      * @Route("/updateposition", name="admin_catalog_updateposition", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function update_positions(): Response
     {

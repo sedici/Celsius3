@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Core;
 
-use Celsius3\Entity\Instance;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\FormInterface;
 
@@ -32,6 +31,10 @@ class InstanceDependentController extends Controller
 {
 
     protected bool $isInstanceDependent = true;
+
+
+    protected function setInstanceDependent(bool $isInstanceDependent): void
+    { $this->isInstanceDependent = $isInstanceDependent; }
 
 
     public function listQuery(

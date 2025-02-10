@@ -231,12 +231,13 @@ class HtmlBibliotecarioBaseUserController extends UserController
         $element_ids = $request->get('element');
         $main_id = $request->get('main');
 
-        return $this->baseDoUnion(
+        $this->baseDoUnion(
             $element_ids,
             $main_id,
-            'admin_user',
             false
         );
+
+        return $this->redirectToRoute('admin_user');
     }
 
 
@@ -244,11 +245,12 @@ class HtmlBibliotecarioBaseUserController extends UserController
     { return $this->baseBatchEnable($element_ids); }
 
 
+    // REVISAR
     protected function batchUnion(array $element_ids): Response
     {
-        return $this->render(
-            'Admin/BaseUser/batchUnion.html.twig',
-            $this->baseUnion($element_ids)
+        return $this->htmlRenderer->render(
+            templateName: 'batchUnion',
+            params: $this->baseUnion($element_ids)
         );
     }
 }

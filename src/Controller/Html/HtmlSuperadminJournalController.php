@@ -24,80 +24,97 @@ namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Form\Type\Filter\JournalFilterType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\JournalController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Location controller.
- *
  * @Route("/superadmin/journal")
  */
-class SuperadminJournalController extends JournalController
+class HtmlSuperadminJournalController extends JournalController
 {
-
-    protected function getInstance(): Instance
-    { return $this->directory; }
+    
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstance($this->directory);
+    }
 
 
     /**
      * Lists all Journal entities.
-     *
      * @Route("/", name="superadmin_journal")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(type: JournalFilterType::class); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+    }
 
 
     /**
      * Displays a form to create a new Journal entity.
-     *
      * @Route("/new", name="superadmin_journal_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
+
 
     /**
      * Creates a new Journal entity.
-     *
      * @Route("/create", name="superadmin_journal_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(); }
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing Journal entity.
-     *
      * @Route("/{id}/edit", name="superadmin_journal_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Edits an existing Journal entity.
-     *
      * @Route("/{id}/update", name="superadmin_journal_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_journal'); }
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'update',
+            params: $this->update($id)
+        );
+    }
 
 
     /**
      * Batch actions.
-     *
      * @Route("/batch", name="superadmin_journal_batch")
-     *
      * @return array
      */
     public function batch(): mixed
@@ -110,17 +127,17 @@ class SuperadminJournalController extends JournalController
 
     /**
      * Unifies a group of Journal entities.
-     *
      * @Route("/doUnion", name="superadmin_journal_doUnion", methods={"POST"})
      */
     public function doUnion(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        return $this->baseDoUnion(
+        $this->baseDoUnion(
             $request->get('element'),
-            $request->get('main'),
-            'superadmin_journal'
+            $request->get('main')
         );
+
+        return $this->redirectToRoute('superadmin_journal');
     }
 }

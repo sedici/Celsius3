@@ -31,12 +31,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\UserController;
-use Celsius3\Form\Type\BaseUserType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Admin BaseUser controller.
- *
  * @Route("/admin/user")
  */
 final class HtmlAdminBaseUserController extends UserController
@@ -52,6 +50,8 @@ final class HtmlAdminBaseUserController extends UserController
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
         ]);
+
+        $this->setInstanceDependent(true);
     }
 
 
@@ -75,7 +75,7 @@ final class HtmlAdminBaseUserController extends UserController
     {
         return $this->htmlRenderer->render(
             templateName: 'index',
-            params: $this->index()
+            params: $this->index(isInstanceDependent: true)
         );
     }
 
@@ -132,7 +132,8 @@ final class HtmlAdminBaseUserController extends UserController
         return $this->htmlRenderer->render(
             templateName: 'edit',
             params: $this->edit(
-                $id, formOptions: [ 'editing' => true ]
+                $id,
+                formOptions: [ 'editing' => true ]
             )
         );
     }
@@ -148,8 +149,8 @@ final class HtmlAdminBaseUserController extends UserController
         string $id
     ): RedirectResponse|Response {
         return $this->htmlRenderer->render(
-            templateName: 'update',
-            params: $this->update( // debería ser "baseUpdate"
+            templateName: 'edit',
+            params: $this->update(
                 $id, 'admin_user_edit',
                 formOptions: [ 'editing' => true ]
             )
@@ -272,7 +273,7 @@ final class HtmlAdminBaseUserController extends UserController
     //  * @Route("/transform", name="admin_user_transform")
     /**
      * Transform an instance of BaseUser entity.
-     * @Route("{id}/transform", name="admin_user_transform", methods={"GET", "POST"})
+     * @Route("/{id}/transform", name="admin_user_transform", methods={"GET", "POST"})
      */
 
     // SEPARAR EN DOS CONTROLADORES
@@ -321,8 +322,8 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Switch to another instance of BaseUser entity.
-     * @Route("/switch", name="switch_user", methods={"PUT"})
+     * @Route("/switch/{_switch_user}", name="switch_user")
      */
-    protected function switch(string $username): RedirectResponse
-    { return $this->switchUser($username); }
+    public function switch(string $_switch_user): RedirectResponse
+    { return $this->switchUser($_switch_user); }
 }

@@ -31,10 +31,9 @@ use Celsius3\Controller\Base\CatalogController;
 
 /**
  * Location controller.
- *
  * @Route("/superadmin/catalog")
  */
-class SuperadminCatalogController extends CatalogController
+class HtmlSuperadminCatalogController extends CatalogController
 {
 
     protected function getInstance(): Instance
@@ -43,65 +42,78 @@ class SuperadminCatalogController extends CatalogController
 
     /**
      * Lists all Catalog entities.
-     *
      * @Route("/", name="superadmin_catalog")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+    }
 
 
     /**
      * Displays a form to create a new Catalog entity.
-     *
      * @Route("/new", name="superadmin_catalog_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Creates a new Catalog entity.
-     *
      * @Route("/create", name="superadmin_catalog_create", methods={"POST"})
      *
      */
-    public function create(): Response
-    { return $this->baseInstanceCreate(route: 'superadmin_catalog'); }
+    public function htmlCreate(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing Catalog entity.
-     *
      * @Route("/{id}/edit", name="superadmin_catalog_edit")
-     *
      * @param string $id The entity ID
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Edits an existing Catalog entity.
-     *
      * @Route("/{id}/update", name="superadmin_catalog_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_catalog'); }
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id)
+        );
+    }
 
 
     /**
      * Batch actions.
-     *
      * @Route("/batch", name="superadmin_catalog_batch")
-     *
      * @return array
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function batch()
@@ -110,16 +122,15 @@ class SuperadminCatalogController extends CatalogController
 
     protected function batchUnion($element_ids): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'batchUnion.html.twig',
-            $this->baseUnion($element_ids)
+        return $this->htmlRenderer->render(
+            templateName: 'batchUnion',
+            params: $this->baseUnion($element_ids)
         );
     }
 
 
     /**
      * Unifies a group of Catalog entities.
-     *
      * @Route("/doUnion", name="superadmin_catalog_doUnion", methods={"POST"})
      */
     public function doUnion(Request $request): RedirectResponse
@@ -127,8 +138,10 @@ class SuperadminCatalogController extends CatalogController
         $elementIds = $request->request->get('element');
         $mainId = $request->request->get('main');
 
-        return $this->baseDoUnion(
-            $elementIds, $mainId, 'superadmin_catalog'
+        $this->baseDoUnion(
+            $elementIds, $mainId
         );
+
+        return $this->redirectToRoute('superadmin_catalog');
     }
 }

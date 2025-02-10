@@ -37,7 +37,6 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Order controller.
- *
  * @Route("/superadmin/user")
  */
 final class HtmlSuperadminUserController extends UserController
@@ -49,10 +48,6 @@ final class HtmlSuperadminUserController extends UserController
 
         $this->htmlRenderer->setTemplatePrefix('Superadmin/BaseUser/');
         $this->isInstanceDependent = false;
-        $this->setSortDefaults([
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        ]);
         $this->setInstance($this->directory);
     }
 
@@ -62,13 +57,11 @@ final class HtmlSuperadminUserController extends UserController
      * @Route("/", name="superadmin_user")
      */
     public function htmlIndex(): Response
-    // { return $this->baseInstanceIndex(BaseUserFilterType::class); }
     {
         return $this->htmlRenderer->render(
             templateName: 'index',
             params: $this->index(
-                BaseUserFilterType::class,
-                isInstanceDependent: true
+                BaseUserFilterType::class
                 // 'superadmin_user'
             )
         );

@@ -22,21 +22,23 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Catalog;
 
 
-abstract class CatalogController extends BaseInstanceDependentController
+abstract class CatalogController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return Catalog::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Catalog::class);
+
+        parent::initialize();
+
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 }
