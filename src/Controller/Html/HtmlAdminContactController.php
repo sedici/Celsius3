@@ -22,16 +22,15 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Form\Type\AdminContactType;
 use Celsius3\Helper\CustomFieldHelper;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\ORM\QueryBuilder;
 use Celsius3\Controller\Base\ContactController;
-
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,23 +41,24 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * AdminContact controller.
- *
  * @Route("/admin/contact")
  */
-class AdminContactController extends ContactController
+class HtmlAdminContactController extends ContactController
 {
 
-    /**
-     * @var CustomFieldHelper
-     */
-    private $customFieldHelper;
-
     public function __construct(
-        CustomFieldHelper $customFieldHelper,
+        protected CustomFieldHelper $customFieldHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -69,7 +69,14 @@ class AdminContactController extends ContactController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
             $instanceManager,
@@ -82,19 +89,24 @@ class AdminContactController extends ContactController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $authorizationChecker,
+            $htmlRenderer,
+            $restRenderer
         );
+
         $this->customFieldHelper = $customFieldHelper;
+        $this->initialize();
     }
-    
-    final protected function getType(): string
-    { return AdminContactType::class; }
 
 
-    protected function listQuery(): QueryBuilder
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
     {
-        return $this->managerRegistry->getManager()
-            ->getRepository($this->entityClassName)
+        return $this->repository
             ->createQueryBuilder('e')
             ->select('e')
             ->where('e.owningInstance = :instance')
@@ -107,25 +119,12 @@ class AdminContactController extends ContactController
     }
 
 
-    protected function getDfaultsPerPage()
-    {
-        return $this->configurationHelper->getCastedValue(
-            $this->instanceHelper
-                ->getSessionOrUrlInstance()
-                ->get('results_per_page')
-        );
-    }
-
-
     /**
      * Lists all Contact entities.
-     *
      * @Route("/", name="admin_contact")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
-        // $this->baseInstanceIndex();
-
         $query = $this->listQuery();
         $request = $this->requestStack->getCurrentRequest();
 
@@ -143,9 +142,9 @@ class AdminContactController extends ContactController
             )->createView();
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: [
                 'pagination' => $pagination,
                 'deleteForms' => $deleteForms
             ]
@@ -155,25 +154,24 @@ class AdminContactController extends ContactController
 
     /**
      * Finds and displays a Contact document.
-     *
      * @Route("/{id}/show", name="admin_contact_show")
-     *
      * @param string $id The document ID
-     *
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function show($id): Response
+    public function htmlShow($id): Response
     {
-        return $this->baseShow($id);
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
+        );
     }
 
 
     /**
      * Displays a form to create a new Contact entity.
-     *
      * @Route("/new", name="admin_contact_new")
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
         $entityClassName = $this->entityClassName;
         $entity = new $entityClassName();
@@ -181,16 +179,18 @@ class AdminContactController extends ContactController
             ->setOwningInstance($this->instance)
             ->setInstance($this->instance);
         
-        return $this->baseInstanceNew($entity);
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create($entity)
+        );
     }
 
 
     /**
      * Creates a new Contact entity.
-     *
      * @Route("/create", name="admin_contact_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
+    public function htmlCreate(): RedirectResponse|Response
     {
         $entityClassName = $this->entityClassName;
         $entity = new $entityClassName();
@@ -198,116 +198,89 @@ class AdminContactController extends ContactController
             ->setOwningInstance($this->instance)
             ->setInstance($this->instance);
 
-        return $this->baseInstanceCreate(
-            $entity, route: 'admin_contact'
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create($entity)
         );
     }
 
 
     /**
      * Displays a form to edit an existing Contact entity.
-     *
      * @Route("/{id}/edit", name="admin_contact_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function htmlEdit($id): Response
     {
         $entity = $this->findQuery($id);
 
         if (!$entity) $this->error('entity_not_found');
 
-        return $this->baseInstanceEdit(
-            $id, options: [ 'user' => $entity->getUser() ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($entity, formOptions: [ 'user' => $entity->getUser() ])
         );
     }
 
 
-    // Se puede mejorar este controlador
-    // Separar los mensajes de error
-    // Permitir que se pueda ejecutar una acción processCustom<Entity>Fields para las entidades que correponda
+    protected function updateFormOptions(
+        $entity,
+        string $type,
+        string $redirectRoute,
+        ?bool $isInstanceDependent,
+        array $formExtraOptions
+    ): array {
+        return [
+            'owning_instance' => $entity->instance,
+            'user' => $entity->getUser()
+        ];
+    }
+
+
+    protected function onValidUpdateForm(
+        $entity,
+        FormInterface $form,
+        array $formOptions,
+        string $redirectRoute,
+        Request $request
+    ): void {
+        $this->persistEntity($entity);
+
+        $this->customFieldHelper->processCustomContactFields(
+            $this->instance,
+            $form,
+            $entity
+        );
+    }
+
 
     /**
      * Edits an existing Contact document.
-     *
      * @Route("/{id}/update", name="admin_contact_update", methods={"POST"})
-     *
      * @param string $id The document ID
-     *
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function update(string $id): RedirectResponse|Response
+    public function htmlUpdate(string $id): RedirectResponse|Response
     {
-
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        $editForm = $this->createForm(
-            data: $entity,
-            options: [
-                'owning_instance' => $this->getInstance(),
-                'user' => $entity->getUser(),
-            ]
-        );
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            try {
-                $this->persistEntity($entity);
-
-                $this->customFieldHelper->processCustomContactFields(
-                    $this->instance,
-                    $editForm,
-                    $entity
-                );
-
-                $this->addEntityFlash(
-                    'success', 'The %entity% was successfully edited.'
-                );
-
-                return $this->redirect(
-                    $this->generateUrl(
-                        'admin_contact_edit',
-                        ['id' => $id]
-                    )
-                );
-            } catch (UniqueConstraintViolationException $exception) {
-                $this->addEntityFlash(
-                    'error', 'The %entity% already exists.'
-                );
-            }
-        }
-
-        $this->addEntityFlash(
-            'error', 'There were errors editing the %entity%.'
-        );
-
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView()
-            ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id)
         );
     }
 
+
     /**
      * Deletes a Contact document.
-     *
      * @Route("/{id}/delete", name="admin_contact_delete", methods={"POST"})
-     *
      * @param string $id The document ID
-     *
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function delete(string $id)
+    public function htmlDelete(string $id)
     {
-        $this->baseDelete($id, 'admin_contact');
+        return $this->htmlRenderer->render(
+            templateName: 'delete',
+            params: $this->delete($id)
+        );
     }
 }

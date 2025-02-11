@@ -23,11 +23,11 @@
 namespace Celsius3\Controller\Html;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Entity\Instance;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\CatalogController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Location controller.
@@ -36,8 +36,12 @@ use Celsius3\Controller\Base\CatalogController;
 class HtmlSuperadminCatalogController extends CatalogController
 {
 
-    protected function getInstance(): Instance
-    { return $this->directory; }
+    public function initialize() : void
+    {
+        parent::initialize();
+        $this->setInstanceDependent(false);
+        $this->setInstance($this->directory);
+    }
 
 
     /**
@@ -84,7 +88,7 @@ class HtmlSuperadminCatalogController extends CatalogController
      * Displays a form to edit an existing Catalog entity.
      * @Route("/{id}/edit", name="superadmin_catalog_edit")
      * @param string $id The entity ID
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function htmlEdit(string $id): Response
     {
@@ -99,7 +103,7 @@ class HtmlSuperadminCatalogController extends CatalogController
      * Edits an existing Catalog entity.
      * @Route("/{id}/update", name="superadmin_catalog_update", methods={"POST"})
      * @param string $id The entity ID
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function htmlUpdate(string $id): Response
     {
@@ -114,7 +118,7 @@ class HtmlSuperadminCatalogController extends CatalogController
      * Batch actions.
      * @Route("/batch", name="superadmin_catalog_batch")
      * @return array
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function batch()
     { return $this->baseBatch(); }

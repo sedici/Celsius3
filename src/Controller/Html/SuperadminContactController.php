@@ -23,36 +23,31 @@
 namespace Celsius3\Controller\Html;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\Form\Type\SuperadminContactType;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\ContactController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Contact controller.
- *
  * @Route("/superadmin/contact")
  */
 class SuperadminContactController extends ContactController
 {
 
-    protected function getType(): string
-    { return SuperadminContactType::class; }
-
-
-    protected function listQuery(): QueryBuilder
-    { return $this->repository->createQueryBuilder('e'); }
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstanceDependent(false);
+        $this->setInstance($this->directory);
+    }
 
 
     /**
      * Lists all Contact entities.
-     *
      * @Route("/", name="superadmin_contact")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
         $pagination = $this->paginate();
 
@@ -63,9 +58,9 @@ class SuperadminContactController extends ContactController
                 ->createView();
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: [
                 'pagination' => $pagination,
                 'deleteForms' => $deleteForms
             ]
@@ -75,103 +70,117 @@ class SuperadminContactController extends ContactController
 
     /**
      * Finds and displays a Contact entity.
-     *
      * @Route("/{id}/show", name="superadmin_contact_show")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show(string $id): Response
-    { return $this->baseShow($id); }
-
-
-    /**
-     * Displays a form to create a new Contact entity.
-     *
-     * @Route("/new", name="superadmin_contact_new")
-     */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
-
-
-    /**
-     * Creates a new Contact entity.
-     *
-     * @Route("/create", name="superadmin_contact_create", methods={"POST"})
-     */
-    public function create(): Response
-    { return $this->baseInstanceCreate(route: 'superadmin_contact'); }
-
-
-    /**
-     * Displays a form to edit an existing Contact entity.
-     *
-     * @Route("/{id}/edit", name="superadmin_contact_edit")
-     *
-     * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function edit(string $id): Response
+    public function htmlShow(string $id): Response
     {
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        $editForm = $this->createForm(
-            options: [
-                'owning_instance' => $entity->getOwningInstance(),
-                'user' => $entity->getUser()
-            ]
-        );
-
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $editForm->createView()
-            ]
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
         );
     }
 
 
     /**
-     * Edits an existing Contact entity.
-     *
-     * @Route("/{id}/update", name="superadmin_contact_update", methods={"POST"})
-     *
-     * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * Displays a form to create a new Contact entity.
+     * @Route("/new", name="superadmin_contact_new")
      */
-    public function update(string $id): Response
+    public function htmlNew(): Response
     {
-        $entity = $this->findQuery($id);
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
-        if (!$entity) $this->error('entity_not_found');
 
-        return $this->baseInstanceUpdate(
-            $id, 'superadmin_contact',
-            options: [
-                'owning_instance' => $entity->getOwningInstance(),
-                'user' => $entity->getUser(),
-            ],
-            entity: $entity
+    /**
+     * Creates a new Contact entity.
+     * @Route("/create", name="superadmin_contact_create", methods={"POST"})
+     */
+    public function htmlCreate(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create()
+        );
+    }
+
+
+    protected function editFormOptions(
+        $entity,
+        string $type,
+        string $redirectRoute,
+        ?bool $isInstanceDependent,
+        array $formExtraOptions
+    ): array {
+        return [
+            'owning_instance' => $entity->getOwningInstance(),
+            'user' => $entity->getUser(),
+            ... $formExtraOptions
+        ];
+    }
+
+
+    /**
+     * Displays a form to edit an existing Contact entity.
+     * @Route("/{id}/edit", name="superadmin_contact_edit")
+     * @param string $id The entity ID
+     * @throws NotFoundHttpException If entity doesn't exists
+     */
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
+
+
+    protected function updateFormOptions(
+        $entity,
+        string $type,
+        string $redirectRoute,
+        ?bool $isInstanceDependent,
+        array $formExtraOptions
+    ): array {
+        return [
+            'owning_instance' => $entity->getOwningInstance(),
+            'user' => $entity->getUser(),
+            ... $formExtraOptions
+        ];
+    }
+
+
+    /**
+     * Edits an existing Contact entity.
+     * @Route("/{id}/update", name="superadmin_contact_update", methods={"POST"})
+     * @param string $id The entity ID
+     * @throws NotFoundHttpException If entity doesn't exists
+     */
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id)
         );
     }
 
 
     /**
      * Deletes a Contact entity.
-     *
      * @Route("/{id}/delete", name="superadmin_contact_delete", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function delete(string $id): RedirectResponse
-    { return $this->baseDelete($id, 'superadmin_contact'); }
+    public function htmlDelete(string $id): RedirectResponse
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'delete',
+            params: $this->delete($id)
+        );
+    }
 
 }

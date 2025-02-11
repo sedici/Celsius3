@@ -38,6 +38,7 @@ class HtmlSuperadminCityController extends CityController
     public function initialize(): void
     {
         parent::initialize();
+        $this->setInstanceDependent(false);
         $this->setInstance($this->directory);
     }
 

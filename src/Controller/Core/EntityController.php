@@ -299,6 +299,16 @@ class EntityController extends InstanceDependentController
     }
 
 
+    // Hook method
+    protected function newFormOptions(
+        $entity,
+        string $type,
+        array $formExtraOptions
+    ): array {
+        return [];
+    }
+
+
     public function new(
         ?Entity $entity = null,
         ?string $type = null,
@@ -312,7 +322,10 @@ class EntityController extends InstanceDependentController
         // ---
 
         $form = $this->createForm(
-            $type, $entity, $formOptions
+            $type, $entity,
+            $this->newFormOptions(
+                $entity, $type, $formOptions
+            )
         );
 
         return [
@@ -322,6 +335,7 @@ class EntityController extends InstanceDependentController
     }
 
 
+    // Hook method
     protected function onValidCreateForm(
         $entity,
         FormInterface $form,
@@ -330,6 +344,16 @@ class EntityController extends InstanceDependentController
         Request $request
     ): void {
         $this->persistEntity($entity);
+    }
+
+
+    // Hook method
+    protected function createFormOptions(
+        string $type,
+        string $redirectRoute,
+        array $formExtraOptions
+    ): array {
+        return [];
     }
 
 
@@ -352,7 +376,10 @@ class EntityController extends InstanceDependentController
         $request = $this->requestStack->getCurrentRequest();
         
         $form = $this->createForm(
-            $type, $entity, $formOptions
+            $type, $entity,
+            $this->createFormOptions(
+                $type, $redirectRoute, $formOptions
+            )
         );
         $form->handleRequest($request);
 
@@ -389,6 +416,18 @@ class EntityController extends InstanceDependentController
     }
 
 
+    // Hook method
+    protected function editFormOptions(
+        Entity $entity,
+        string $type,
+        string $redirectRoute,
+        ?bool $isInstanceDependent,
+        array $formExtraOptions
+    ): array {
+        return [];
+    }
+
+
     public function edit(
         string $id,
         ?string $type = null,
@@ -404,7 +443,10 @@ class EntityController extends InstanceDependentController
         }
 
         $editForm = $this->createForm(
-            $type, $entity, $formOptions
+            $type, $entity,
+            $this->editFormOptions(
+                $entity, $type, $route, $isInstanceDependent, $formOptions
+            )
         );
 
         return [
@@ -416,6 +458,7 @@ class EntityController extends InstanceDependentController
     }
 
 
+    // Hook method
     protected function onValidUpdateForm(
         $entity,
         FormInterface $form,
@@ -424,6 +467,18 @@ class EntityController extends InstanceDependentController
         Request $request
     ): void {
         $this->persistEntity($entity);
+    }
+
+
+    // Hook method
+    protected function updateFormOptions(
+        Entity $entity,
+        string $type,
+        string $redirectRoute,
+        ?bool $isInstanceDependent,
+        array $formExtraOptions
+    ): array {
+        return [];
     }
 
 
@@ -446,7 +501,10 @@ class EntityController extends InstanceDependentController
         // ---
 
         $editForm = $this->createForm(
-            $type, $entity, $formOptions
+            $type, $entity,
+            $this->updateFormOptions(
+                $entity, $type, $redirectRoute, $isInstanceDependent, $formOptions
+            )
         );
 
         $request = $this->requestStack->getCurrentRequest();
@@ -489,7 +547,8 @@ class EntityController extends InstanceDependentController
 
     public function delete(
         string $id,
-        string $redirectRoute = null
+        string $redirectRoute = null,
+        ?bool $isInstanceDependent = null
     ): array|RedirectResponse {
         if ($redirectRoute === null)
             $redirectRoute = $this->redirectRoute;
@@ -502,7 +561,7 @@ class EntityController extends InstanceDependentController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $entity = $this->findQuery($id);
+            $entity = $this->findQuery($id, $isInstanceDependent);
 
             if (!$entity) $this->error('entity_not_found');
 

@@ -22,19 +22,20 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Contact;
 
-abstract class ContactController extends BaseInstanceDependentController
+abstract class ContactController extends EntityController
 {
-    final protected function getEntity(): string
-    { return Contact::class; }
 
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Contact::class);
+        parent::initialize();
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc',
-        ];
+        ]);
     }
 }

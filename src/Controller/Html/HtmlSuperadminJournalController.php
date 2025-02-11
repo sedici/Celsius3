@@ -22,7 +22,6 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +38,7 @@ class HtmlSuperadminJournalController extends JournalController
     public function initialize(): void
     {
         parent::initialize();
+        $this->setInstanceDependent(false);
         $this->setInstance($this->directory);
     }
 

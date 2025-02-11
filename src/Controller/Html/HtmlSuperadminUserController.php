@@ -26,10 +26,8 @@ namespace Celsius3\Controller\Html;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\BaseUser;
-use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Form\Type\UserTransformType;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\UserController;
@@ -45,9 +43,8 @@ final class HtmlSuperadminUserController extends UserController
     public function initialize(): void
     {
         parent::initialize();
-
         $this->htmlRenderer->setTemplatePrefix('Superadmin/BaseUser/');
-        $this->isInstanceDependent = false;
+        $this->setInstanceDependent(false);
         $this->setInstance($this->directory);
     }
 
