@@ -35,7 +35,8 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
-
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,23 +47,26 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use function get_class;
 
+
 /**
  * Order controller.
- *
  * @Route("/admin/order")
  */
-class AdminOrderController extends OrderController
+class HtmlAdminOrderController extends OrderController
 {
 
-    private $lifecycleHelper;
-
     public function __construct(
-        LifecycleHelper $lifecycleHelper,
+        protected LifecycleHelper $lifecycleHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -73,7 +77,14 @@ class AdminOrderController extends OrderController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer        
     ) {
         parent::__construct(
             $instanceManager,
@@ -86,54 +97,53 @@ class AdminOrderController extends OrderController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $authorizationChecker,
+            $htmlRenderer,
+            $restRenderer
         );
 
         $this->lifecycleHelper = $lifecycleHelper;
+        $this->initialize();
     }
 
 
-    protected function listQuery(): QueryBuilder
-    {
-        return $this->entityManager
-            ->getRepository($this->entityClassName)
-            ->findForInstance($this->instance);
-    }
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
+    { return $this->repository->findForInstance($this->instance); }
 
 
     /**
      * Lists all Order entities.
-     *
      * @Route("/", name="admin_order", options={"expose"=true})
      */
-    public function index(): RedirectResponse
-    {
-        return $this->redirect($this->generateUrl('administration'));
-    }
+    public function htmlIndex(): RedirectResponse
+    { return $this->redirectToRoute('administration'); }
 
 
     /**
      * Finds and displays a Order entity.
-     *
      * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
-     *
      * @param  string  $id  The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show($id): Response
+    public function htmlShow(string $id): Response
     {
-        return $this->baseShow($id);
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            param: $this->show($id, isInstanceDependent: false)
+        );
     }
 
 
     /**
      * Displays a form to create a new Order entity.
-     *
      * @Route("/new", name="admin_order_new", options={"expose"=true})
-     *
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -143,23 +153,34 @@ class AdminOrderController extends OrderController
                 ->find($request->query->get('user_id'))
             : null;
 
-        return $this->baseInstanceNew(
-            options: [
-                'user' => $user,
-                'operator' => $this->getUser(),
-                'actual_user' => $this->getUser(),
-                'create' => true,
-            ]
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(
+                formOptions: [
+                    'user' => $user,
+                    'operator' => $this->getUser(),
+                    'actual_user' => $this->getUser(),
+                    'create' => true,
+                ]
+            )
         );
+
+        // $this->new(
+        //     options: [
+        //         'user' => $user,
+        //         'operator' => $this->getUser(),
+        //         'actual_user' => $this->getUser(),
+        //         'create' => true,
+        //     ]
+        // )
     }
 
 
     /**
      * Creates a new Order entity.
-     *
      * @Route("/create", name="admin_order_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
+    public function htmlCreate(): RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -185,7 +206,7 @@ class AdminOrderController extends OrderController
         $order = new Order();
         $route = 'administration';
 
-        $form = $this->createForm(data: $order, formOptions: $options);
+        $form = $this->createForm(data: $order, options: $options);
         $form->handleRequest($request);
 
         if (!$order->getOriginalRequest()->getOwner()) {
@@ -228,9 +249,9 @@ class AdminOrderController extends OrderController
 
         $this->addFlash('error', 'There were errors creating the Order.');
 
-        return $this->render(
-            (string) $this->templatePrefix . 'new.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: [
                 'entity' => $order,
                 'form' => $form->createView(),
             ]
@@ -240,14 +261,11 @@ class AdminOrderController extends OrderController
 
     /**
      * Displays a form to edit an existing Order entity.
-     *
      * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
+    public function htmlEdit($id): Response
     {
         $entity = $this->findQuery($id);
 
@@ -264,21 +282,20 @@ class AdminOrderController extends OrderController
 
         $editForm = $this->createForm(
             data: $entity,
-            formOptions: [
+            options: [
                 'material' => $this->getMaterialType($materialClass),
                 'user' => $entity->getOriginalRequest()->getOwner(),
                 'operator' => $this->getUser(),
                 'actual_user' => $this->getUser(),
                 'journal' => $journal,
                 'other' => $other,
-                'journal_id' => $journal !== null ? $journal->getId() : '',
-
+                'journal_id' => $journal !== null ? $journal->getId() : ''
             ]
         );
 
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
             ]
@@ -288,25 +305,22 @@ class AdminOrderController extends OrderController
 
     /**
      * Displays a form to edit an duplicated Order entity.
-     *
      * @Route("/{id}/duplicate", name="admin_order_duplicate", options={"expose"=true}, methods={"POST"})
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function duplicate($id): Response
+    public function duplicate(string $id): Response
     {
         $order = $this->findQuery($id);
 
         if (!$order) $this->error('entity_not_found');
 
-        //Clonar Orden original
         $duplicatedOrder = clone $order;
 
         $request =  $this->lifecycleHelper->createRequest(
             $duplicatedOrder,
             $order->getOriginalRequest()->getOwner(),
             $order->getOriginalRequest()->getType(),
-            $this->getInstance(),
+            $this->instance,
             $order->getOriginalRequest()->getCreator()
         );
         $duplicatedOrder->setOriginalRequest($request);
@@ -320,7 +334,7 @@ class AdminOrderController extends OrderController
         $other = ($duplicatedMaterialData instanceof JournalType)
             ? $duplicatedMaterialData->getOther() : '';
 
-            //Se registra duplicado en la base de datos
+        //Se registra duplicado en la base de datos
         $this->persistEntity($duplicatedOrder);
         $this->persistEntity($request);
 
@@ -328,7 +342,7 @@ class AdminOrderController extends OrderController
 
         $editForm = $this->createForm(
             data: $duplicatedOrder,
-            formOptions: [
+            options: [
                 'material' => $this->getMaterialType($materialClass),
                 'user' => $duplicatedOrder->getOriginalRequest()->getOwner(),
                 'operator' => $this->getUser(),
@@ -338,9 +352,9 @@ class AdminOrderController extends OrderController
             ]
         );
 
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: [
                 'entity' => $duplicatedOrder,
                 'edit_form' => $editForm->createView(),
             ]
@@ -350,15 +364,11 @@ class AdminOrderController extends OrderController
 
     /**
      * Edits an existing Order entity.
-     *
      * @Route("/{id}/update", name="admin_order_update", methods={"POST"})
-     *
      * @param  string  $id  The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): RedirectResponse|Response
+    public function htmlUpdate(string $id): RedirectResponse|Response
     {
         $entity = $this->findQuery($id);
 
@@ -377,7 +387,7 @@ class AdminOrderController extends OrderController
 
         $editForm = $this->createForm(
             data: $entity,
-            formOptions: [
+            options: [
                 'material' => $this->getMaterialType(),
                 'user' => $user,
                 'operator' => $this->getUser(),
@@ -419,9 +429,9 @@ class AdminOrderController extends OrderController
             ));
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
             ]
@@ -431,11 +441,8 @@ class AdminOrderController extends OrderController
 
     /**
      * Updates de form materialData field.
-     *
      * @Route("/change", name="admin_order_change", options={"expose"=true})
      */
     public function change(): Response
-    {
-        return parent::change();
-    }
+    { return parent::change(); }
 }

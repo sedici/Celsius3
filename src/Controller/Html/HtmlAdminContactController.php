@@ -226,10 +226,10 @@ class HtmlAdminContactController extends ContactController
 
     protected function updateFormOptions(
         $entity,
-        string $type,
-        string $redirectRoute,
+        ?string $type = null,
+        ?string $redirectRoute = null,
         ?bool $isInstanceDependent,
-        array $formExtraOptions
+        ?array $formExtraOptions = []
     ): array {
         return [
             'owning_instance' => $entity->instance,

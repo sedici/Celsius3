@@ -50,6 +50,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -248,5 +249,15 @@ abstract class Controller
             ])
             ->add('id', HiddenType::class)
             ->getForm();
+    }
+
+
+    protected function createNotFoundException(
+        string $message = 'Not Found',
+        ?\Throwable $previous = null
+    ): NotFoundHttpException {
+        return new NotFoundHttpException(
+            $message, $previous
+        );
     }
 }

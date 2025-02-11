@@ -25,76 +25,98 @@ namespace Celsius3\Controller\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\NewsController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 /**
  * News controller.
- *
  * @Route("/admin/news")
  */
-class AdminNewsController extends NewsController
+class HtmlAdminNewsController extends NewsController
 {
 
     /**
      * Lists all News entities.
-     *
      * @Route("/", name="admin_news")
      */
-    public function index(): Response
-    { return $this->baseIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templatenName: 'index',
+            params: $this->index(isInstanceDependent: false)
+        );
+    }
 
 
     /**
      * Finds and displays a News entity.
-     *
      * @Route("/{id}/show", name="admin_news_show")
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show($id): Response
-    { return $this->baseShow($id); }
+    public function htmlShow($id): Response
+    {
+        return $this->htmlRenderer->render(
+            templatenName: 'show',
+            params: $this->show(
+                $id, isInstanceDependent: false
+            )
+        );
+    }
 
 
     /**
      * Displays a form to create a new News entity.
-     *
      * @Route("/new", name="admin_news_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templatenName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Creates a new News entity.
-     *
      * @Route("/create", name="admin_news_create", methods={"POST"})
      */
-    public function create(): Response
-    { return $this->baseInstanceCreate(route: 'admin_news_new'); }
+    public function htmlCreate(): Response
+    {
+        return $this->htmlRenderer->render(
+            templatenName: 'new',
+            params: $this->create()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing News entity.
-     *
      * @Route("/{id}/edit", name="admin_news_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templatenName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Edits an existing News entity.
-     *
      * @Route("/{id}/update", name="admin_news_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'admin_news_edit'); }
+    public function uhtmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templatenName: 'edit',
+            params: $this->update($id)
+        );
+    }
 }

@@ -22,35 +22,36 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Form\Type\OrderType;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use function get_class;
 
 /**
  * Order controller.
- *
  * @Route("/superadmin/order")
  */
-class SuperadminOrderController extends OrderController
+class HtmlSuperadminOrderController extends OrderController
 {
 
-    protected function getInstance(): Instance
-    { return $this->directory; }
-
-
-    protected function listQuery(): QueryBuilder
+    public function initialize(): void
     {
-        return $this->managerRegistry->getManager()
-            ->getRepository($this->entityClassName)
+        parent::initialize();
+        $this->setInstance($this->directory);
+        $this->setInstanceDependent(false);
+    }
+
+
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
+    {
+        return $this->repository
             ->createQueryBuilder('e')
             ->select('e, r, m')
             ->join('e.requests', 'r')
@@ -58,72 +59,73 @@ class SuperadminOrderController extends OrderController
     }
 
 
-    protected function findQuery(string $id)
-    {
-        return $this->managerRegistry->getManager()
-            ->getRepository($this->entityClassName)
-            ->find($id);
+    public function findQuery(
+        string $id,
+        ?bool $isInstanceDependent = null
+    ): mixed {
+        return $this->repository->find($id);
     }
 
 
-    protected function getResultsPerPage()
-    {
-        return $this->container->getParameter('max_per_page');
-    }
+    // protected function getResultsPerPage()
+    // {
+    //     return $this->container->getParameter('max_per_page');
+    // }
 
 
     /**
      * Lists all Order entities.
-     *
      * @Route("/", name="superadmin_order")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
         $this->entityManager->getFilters()->disable('softdeleteable');
-
-        return $this->baseIndex();
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
     }
 
 
     /**
      * Finds and displays a Order entity.
-     *
      * @Route("/{id}/show", name="superadmin_order_show")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show(string $id): Response
+    public function htmlShow(string $id): Response
     {
-        return $this->baseShow($id);
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
+        );
     }
 
 
     /**
      * Displays a form to create a new Order entity.
-     *
      * @Route("/new", name="superadmin_order_new")
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
-        return $this->baseInstanceNew(
-            type: OrderType::class,
-            options: [
-                'user' => $this->getUser(),
-                'librarian' => false,
-                'actual_user' => $this->getUser()
-            ]
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(
+                formOptions: [
+                    'user' => $this->getUser(),
+                    'librarian' => false,
+                    'actual_user' => $this->getUser()
+                ]
+            )
         );
     }
 
 
     /**
      * Creates a new Order entity.
-     *
      * @Route("/create", name="superadmin_order_create", methods={"POST"})
      */
-    public function create(Request $request): Response
+    public function htmlCreate(Request $request): Response
     {
         $entityClassName = $this->entityClassName;
 
@@ -139,95 +141,114 @@ class SuperadminOrderController extends OrderController
             $options['other'] = $request->request
                 ->get('order')['materialData']['journal_autocomplete'];
 
-        return $this->render(
-            (string) $this->templatePrefix . 'new.html.twig',
-            $this->baseCreateOrderLogic(
-                new $entityClassName(),
-                $this->typeClassName,
-                $options,
-                'superadmin_order'
-            )
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create(formOptions: $options)
         );
+    }
+
+
+    protected function editFormOptions(
+        $entity,
+        ?string $type = null,
+        ?string $redirectRoute = null,
+        ?bool $isInstanceDependent,
+        ?array $formExtraOptions = []
+    ): array {
+        return [
+            'material' => $this->getMaterialType(
+                get_class($entity->getMaterialData())
+            ),
+            'user' => $this->getUser(),
+            'librarian' => false,
+            'actual_user' => $this->getUser(),
+        ];
     }
 
 
     /**
      * Displays a form to edit an existing Order entity.
-     *
      * @Route("/{id}/edit", name="superadmin_order_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
+    public function htmlEdit(string $id): Response
     {
-        $entity = $this->findQuery($id);
-
-        if (!$entity) $this->error('entity_not_found');
-
-        return $this->render(
-            (string) $this->templatePrefix . 'edit.html.twig',
-            [
-                'entity' => $entity,
-                'edit_form' => $this->createForm(
-                    data: $entity,
-                    options: [
-                        'material' => $this->getMaterialType(
-                            get_class($entity->getMaterialData())
-                        ),
-                        'user' => $this->getUser(),
-                        'librarian' => false,
-                        'actual_user' => $this->getUser(),
-                    ]
-                )->createView(),
-            ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
         );
+
+        // $entity = $this->findQuery($id);
+
+        // if (!$entity) $this->error('entity_not_found');
+
+        // return $this->htmlRenderer->render(
+        //     templateName: 'edit',
+        //     params: [
+        //         'entity' => $entity,
+        //         'edit_form' => $this->createForm(
+        //             data: $entity,
+        //             options: [
+        //                 'material' => $this->getMaterialType(
+        //                     get_class($entity->getMaterialData())
+        //                 ),
+        //                 'user' => $this->getUser(),
+        //                 'librarian' => false,
+        //                 'actual_user' => $this->getUser(),
+        //             ]
+        //         )->createView(),
+        //     ]
+        // );
     }
 
 
     /**
      * Edits an existing Order entity.
-     *
      * @Route("/{id}/update", name="superadmin_order_update", methods={"POST"})
      * @param string $id The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): RedirectResponse|Response
+    public function htmlUpdate(string $id): RedirectResponse|Response
     {
-        return $this->baseInstanceUpdate(
-            $id, 'superadmin_order',
-            options: [
-                'material' => $this->getMaterialType(),
-                'user' => $this->getUser(),
-                'librarian' => false,
-                'actual_user' => $this->getUser(),
-            ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update(
+                $id,
+                formOptions: [
+                    'material' => $this->getMaterialType(),
+                    'user' => $this->getUser(),
+                    'librarian' => false,
+                    'actual_user' => $this->getUser(),
+                ]
+            )
         );
+
+        // return $this->baseInstanceUpdate(
+        //     $id, 'superadmin_order',
+        //     options: [
+        //         'material' => $this->getMaterialType(),
+        //         'user' => $this->getUser(),
+        //         'librarian' => false,
+        //         'actual_user' => $this->getUser(),
+        //     ]
+        // );
     }
 
 
     /**
      * Updates de form materialData field.
-     *
      * @Route("/change", name="superadmin_order_change")
      */
     public function change(): Response
-    {
-        return parent::change();
-    }
+    { return parent::change(); }
 
 
     /**
      * SoftDelete an existing Order entity.
-     *
      * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true}, methods={"POST"})
-     *
      * @param string $id The order ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function softDelete(string $id): JsonResponse
     {
@@ -263,16 +284,13 @@ class SuperadminOrderController extends OrderController
 
     /**
      * SoftDelete an existing Order entity.
-     *
      * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true}, methods={"POST"})
-     *
      * @param string $id The order ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function softUndelete($id)
+    public function softUndelete(string $id): JsonResponse
     {
-        $em = $this->managerRegistry->getManager();
+        $em = $this->entityManager;
 
         $em->getFilters()->disable('softdeleteable');
 

@@ -91,6 +91,7 @@ class EntityController extends InstanceDependentController
         $this->typeClassName = $this->getType();
         $this->repository = $this->getRepository();
         $this->filterClassName = $this->getFilterType();
+        $this->objectManager = $this->entityManager;
     }
 
 
@@ -174,7 +175,7 @@ class EntityController extends InstanceDependentController
     }
 
 
-    protected function baseBatch()
+    protected function baseBatch(): mixed
     {
         $request = $this->requestStack->getCurrentRequest();
         $action = $request->get('action');
@@ -302,8 +303,8 @@ class EntityController extends InstanceDependentController
     // Hook method
     protected function newFormOptions(
         $entity,
-        string $type,
-        array $formExtraOptions
+        ?string $type = null,
+        ?array $formExtraOptions = []
     ): array {
         return [];
     }
@@ -349,9 +350,9 @@ class EntityController extends InstanceDependentController
 
     // Hook method
     protected function createFormOptions(
-        string $type,
-        string $redirectRoute,
-        array $formExtraOptions
+        ?string $type = null,
+        ?string $redirectRoute = null,
+        ?array $formExtraOptions = []
     ): array {
         return [];
     }
@@ -418,11 +419,11 @@ class EntityController extends InstanceDependentController
 
     // Hook method
     protected function editFormOptions(
-        Entity $entity,
-        string $type,
-        string $redirectRoute,
+        $entity,
+        ?string $type = null,
+        ?string $redirectRoute = null,
         ?bool $isInstanceDependent,
-        array $formExtraOptions
+        ?array $formExtraOptions = []
     ): array {
         return [];
     }
@@ -472,11 +473,11 @@ class EntityController extends InstanceDependentController
 
     // Hook method
     protected function updateFormOptions(
-        Entity $entity,
-        string $type,
-        string $redirectRoute,
+        $entity,
+        ?string $type = null,
+        ?string $redirectRoute = null,
         ?bool $isInstanceDependent,
-        array $formExtraOptions
+        ?array $formExtraOptions = []
     ): array {
         return [];
     }

@@ -22,29 +22,27 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
-use Celsius3\Form\Type\JournalType;
 use Celsius3\Form\Type\JournalTypeType;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\SubmitButton;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class OrderController extends BaseInstanceDependentController
+
+abstract class OrderController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return Order::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Order::class);
+        parent::initialize();
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc'
-        ];
+        ]);
     }
 
 
@@ -61,9 +59,8 @@ abstract class OrderController extends BaseInstanceDependentController
     protected function onValidCreateForm(
         $entity,
         FormInterface $form,
-        array $options,
-        string $route,
-        string $template,
+        array $formOptions,
+        string $redirectRoute,
         Request $request
     ): void {
         if ($this->getMaterialType() === JournalTypeType::class) {
@@ -88,68 +85,6 @@ abstract class OrderController extends BaseInstanceDependentController
     }
 
 
-    // protected function baseCreateOrderLogic(
-    //     $entity /* Order con material de tipo Journal */,
-    //     string $type,
-    //     array $options,
-    //     string $route
-    // ): array|RedirectResponse {
-    //     $request = $this->requestStack->getCurrentRequest();
-
-    //     $form = $this->createForm($type, $entity, $options);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isValid()) {
-    //         if ($this->getMaterialType() === JournalTypeType::class) {
-    //             $journal = $this->managerRegistry->getManager()
-    //                 ->getRepository(Journal::class)->find(
-    //                     $request->request
-    //                         ->get('order', null)['materialData']['journal']
-    //                 );
-
-    //             if ($journal === null) {
-    //                 $entity->getMaterialData()->setOther(
-    //                     $request->request->get(
-    //                         'order', null
-    //                     )['materialData']['journal_autocomplete']
-    //                 );
-                    
-    //                 $entity->getMaterialData()->setJournal(null);
-    //             }
-    //         }
-
-    //         $this->persistEntity($entity);
-    //         $this->addEntityFlash(
-    //             'success', 'The %entity% was successfully created.'
-    //         );
-
-    //         if ($form->has('save_and_show')) {
-    //             $saveNShow = $form->get('save_and_show');
-    //             if (
-    //                 $saveNShow instanceof SubmitButton
-    //                 && $saveNShow->isClicked()
-    //             ) {
-    //                 return $this->redirect($this->generateUrl(
-    //                     'admin_order_show',
-    //                     [ 'id' => $entity->getId()]
-    //                 ));
-    //             }
-    //         }
-
-    //         return $this->redirect($this->generateUrl($route));
-    //     }
-
-    //     $this->addEntityFlash(
-    //         'error', 'There were errors creating the %entity%.'
-    //     );
-
-    //     return [
-    //         'entity' => $entity,
-    //         'form' => $form->createView(),
-    //     ];
-    // }
-
-
     protected function change(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -169,9 +104,9 @@ abstract class OrderController extends BaseInstanceDependentController
             'user' => $this->getUser()
         ]);
 
-        return $this->render(
-            (string) $this->entityClassShortName . '/_materialData.html.twig',
-            [
+        return $this->htmlRenderer->render(
+            templateName: '_materialData',
+            params: [
                 'form' => $form->createView(),
                 'material' => $request->get('material')
             ]

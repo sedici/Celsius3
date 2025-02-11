@@ -22,20 +22,22 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\News;
 
-class NewsController extends BaseInstanceDependentController
+class NewsController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return News::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(News::class);
+
+        parent::initialize();
+
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc'
-        ];
+        ]);
     }
 }

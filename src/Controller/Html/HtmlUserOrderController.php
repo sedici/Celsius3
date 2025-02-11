@@ -27,76 +27,34 @@ use Celsius3\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Celsius3\Controller\Base\OrderController;
-
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * User order controller.
- *
  * @Route("/user/order")
  */
-class UserOrderController extends OrderController
+class HtmlUserOrderController extends OrderController
 {
 
-    private AuthorizationCheckerInterface $authorizationChecker;
-    private $journalRepository;
+    protected $journalRepository;
 
 
-    public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper
-    ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
+    public function initialize(): void
+    {
+        parent::initialize();
 
-        $this->authorizationChecker = $authorizationChecker;
         $this->journalRepository = $this->entityManager
             ->getRepository(Journal::class);
+        $this->htmlRenderer->setTemplatePrefix('User/Order/');
     }
-
-    protected final function getTemplatePrefix(): string
-    { return 'User/Order/'; }
 
 
     /**
      * Lists all user orders.
-     *
      * @Route("/", name="user_order")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -114,44 +72,52 @@ class UserOrderController extends OrderController
             $query = $this->filterManager->filter($query, $filter_form, $this->entityClassName);
         }
 
-        return $this->baseInstanceIndex(filter_form: $filter_form);
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index(
+                filter_form: $filter_form
+            )
+        );
     }
 
 
     /**
      * New user order entity.
-     *
      * @Route("/{id}/show", name="user_order_show")
      */
-    public function show(string $id): Response 
+    public function htmlShow(string $id): Response 
     {
-        return $this->baseShow($id);
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
+        );
     }
 
 
     /**
      * New user order entity.
-     *
      * @Route("/new", name="user_order_new")
      */
-    public function new(): Response
+    public function htmlNew(): Response
     {
-        return $this->baseInstanceNew(options: [
-            'user' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-            'librarian' => ($this->authorizationChecker->isGranted(
-                UserManager::ROLE_LIBRARIAN
-            ))
-        ]);
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(
+                formOptions: [
+                    'user' => $this->getUser(),
+                    'librarian' => false,
+                    'actual_user' => $this->getUser()
+                ]
+            )
+        );
     }
 
 
     /**
      * Creates a new user order entity.
-     *
      * @Route("/create", name="user_order_create", methods={"POST"})
      */
-    public function create(): RedirectResponse|Response
+    public function htmlCreate(): RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();
 
@@ -171,19 +137,19 @@ class UserOrderController extends OrderController
             $options['other'] = $request->get('order')['materialData']['journal_autocomplete'];
 
 
-        return $this->baseInstanceCreate(
-            options: $options, route: 'user_index'
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create(
+                formOptions: $options,
+            )
         );
     }
 
 
     /**
      * Change user order.
-     *
      * @Route("/change", name="user_order_change", options={"expose"=true})
      */
     public function change(): Response
-    {
-        return parent::change();
-    }
+    { return parent::change(); }
 }

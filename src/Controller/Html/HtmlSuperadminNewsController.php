@@ -22,26 +22,29 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Form\Type\Filter\NewsFilterType;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\NewsController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 /**
  * News controller.
- *
  * @Route("/superadmin/news")
  */
-class SuperadminNewsController extends NewsController
+class HtmlSuperadminNewsController extends NewsController
 {
 
-    protected function getInstance(): Instance
-    { return $this->directory; }
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstance($this->directory);
+        $this->setInstanceDependent(false);
+    }
 
 
-    protected function listQuery(): QueryBuilder
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
     {
         return $this->repository
             ->createQueryBuilder('e')
@@ -55,66 +58,85 @@ class SuperadminNewsController extends NewsController
 
     /**
      * Lists all News entities.
-     *
      * @Route("/", name="superadmin_news")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(NewsFilterType::class); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+        // return $this->baseInstanceIndex(NewsFilterType::class);
+    }
 
 
     /**
      * Finds and displays a News entity.
-     *
      * @Route("/{id}/show", name="superadmin_news_show")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show(string $id): Response
-    { return $this->baseShow($id); }
+    public function htmlShow(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
+        );
+    }
 
 
     /**
      * Displays a form to create a new News entity.
-     *
      * @Route("/new", name="superadmin_news_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Creates a new News entity.
-     *
      * @Route("/create", name="superadmin_news_create", methods={"POST"})
      */
-    public function create(): Response
-    { return $this->baseInstanceCreate(route: 'superadmin_news'); }
+    public function htmlCreate(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing News entity.
-     *
      * @Route("/{id}/edit", name="superadmin_news_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id, isInstanceDependent: true)
+        );
+    }
 
 
     /**
      * Edits an existing News entity.
-     *
      * @Route("/{id}/update", name="superadmin_news_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_news'); }
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id, isInstanceDependent: true)
+        );
+    }
 }

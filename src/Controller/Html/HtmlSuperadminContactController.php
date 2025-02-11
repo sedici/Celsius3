@@ -32,7 +32,7 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Contact controller.
  * @Route("/superadmin/contact")
  */
-class SuperadminContactController extends ContactController
+class HtmlSuperadminContactController extends ContactController
 {
 
     public function initialize(): void
@@ -111,10 +111,10 @@ class SuperadminContactController extends ContactController
 
     protected function editFormOptions(
         $entity,
-        string $type,
-        string $redirectRoute,
+        ?string $type = null,
+        ?string $redirectRoute = null,
         ?bool $isInstanceDependent,
-        array $formExtraOptions
+        ?array $formExtraOptions = []
     ): array {
         return [
             'owning_instance' => $entity->getOwningInstance(),
@@ -141,10 +141,10 @@ class SuperadminContactController extends ContactController
 
     protected function updateFormOptions(
         $entity,
-        string $type,
-        string $redirectRoute,
+        ?string $type = null,
+        ?string $redirectRoute = null,
         ?bool $isInstanceDependent,
-        array $formExtraOptions
+        ?array $formExtraOptions = []
     ): array {
         return [
             'owning_instance' => $entity->getOwningInstance(),
