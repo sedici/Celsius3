@@ -22,20 +22,22 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Institution;
 
-abstract class InstitutionController extends BaseInstanceDependentController
+abstract class InstitutionController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return Institution::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Institution::class);
+
+        parent::initialize();
+
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 }

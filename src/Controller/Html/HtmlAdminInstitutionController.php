@@ -27,13 +27,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\InstitutionController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Institution controller.
- *
  * @Route("/admin/institution")
  */
-class AdminInstitutionController extends InstitutionController
+class HtmlAdminInstitutionController extends InstitutionController
 {
 
     protected function getDirectory(): Instance|null
@@ -46,80 +46,80 @@ class AdminInstitutionController extends InstitutionController
 
     /**
      * Lists all Institution entities.
-     *
      * @Route("/", name="admin_institution")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+        );
+    }
 
 
     /**
      * Displays a form to create a new Institution entity.
-     *
      * @Route("/new", name="admin_institution_new", options={"expose"=true})
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(options: [ 'show_city' => true ]); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new(formOptions: [ 'show_city' => true ])
+        );
+    }
 
 
     /**
      * Creates a new Institution entity.
-     *
      * @Route("/create", name="admin_institution_create", methods={"POST"})
      */
-    public function create(): Response
+    public function htmlCreate(): Response
     {
-        return $this->baseInstanceCreate(
-            options: [ 'show_city' => true ],
-            route: 'admin_institution_new'
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create(formOptions: [ 'show_city' => true ])
         );
     }
 
 
     /**
      * Displays a form to edit an existing Institution entity.
-     *
      * @Route("/{id}/edit", name="admin_institution_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
+    public function htmlEdit(string $id): Response
     {
-        return $this->baseInstanceEdit(
-            $id, options: [ 'show_city' => true ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id, formOptions: [ 'show_city' => true ])
         );
     }
+
 
     /**
      * Edits an existing Institution entity.
-     *
      * @Route("/{id}/update", name="admin_institution_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): RedirectResponse|Response
+    public function htmlUpdate(string $id): RedirectResponse|Response
     {
-        return $this->baseInstanceUpdate(
-            $id, 'admin_institution_edit',
-            options: [ 'show_city' => true ]
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id, formOptions: [ 'show_city' => true ])
         );
     }
 
 
     /**
      * Displays a form to edit an existing Institution entity.
-     *
      * @Route("/{id}/show", name="admin_institution_show")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show(string $id): Response
+    public function htmlShow(string $id): Response
     {
         $entity = $this->findQuery($id);
 
@@ -127,10 +127,13 @@ class AdminInstitutionController extends InstitutionController
         // pero si no existe la entidad o no tiene acceso manda que no tiene acceso para brindar menos información
         if (
             $entity !== null
-            && $entity->instance !== $this->getDirectory()
+            && $entity->instance !== $this->directory
             && $entity->instance !== $this->instance
         ) $this->error('access_denied', msg: '');
 
-        return $this->baseShow($id);
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id, isInstanceDependent: false)
+        );
     }
 }

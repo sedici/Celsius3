@@ -22,84 +22,100 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\InstitutionController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Location controller.
  *
  * @Route("/superadmin/institution")
  */
-class SuperadminInstitutionController extends InstitutionController
+class HtmlSuperadminInstitutionController extends InstitutionController
 {
 
-    protected function getInstance(): Instance
-    { return $this->directory; }
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstanceDependent(false);
+        $this->setInstance($this->directory);
+    }
 
 
     /**
      * Lists all Institution entities.
-     *
      * @Route("/", name="superadmin_institution")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index(isInstanceDependent: true)
+        );
+    }
 
 
     /**
      * Displays a form to create a new Institution entity.
-     *
      * @Route("/new", name="superadmin_institution_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Creates a new Institution entity.
-     *
      * @Route("/create", name="superadmin_institution_create", methods={"POST"})
-     *
      */
-    public function create(): RedirectResponse|Response
-    { return $this->baseInstanceCreate(route: 'superadmin_institution'); }
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'create',
+            params: $this->create()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing Institution entity.
-     *
      * @Route("/{id}/edit", name="superadmin_institution_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Edits an existing Institution entity.
-     *
      * @Route("/{id}/update", name="superadmin_institution_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_institution'); }
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id)
+        );
+    }
 
 
     /**
      * Batch actions.
-     *
      * @Route("/batch", name="superadmin_institution_batch")
-     *
      * @return array
      */
     public function batch()
@@ -108,18 +124,16 @@ class SuperadminInstitutionController extends InstitutionController
 
     protected function batchUnion(array $element_ids): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'batchUnion.html.twig',
-            $this->baseUnion($element_ids)
+        return $this->htmlRenderer->render(
+            templateName: 'batchUnion',
+            params: $this->baseUnion($element_ids)
         );
     }
 
 
     /**
      * Unifies a group of Institution entities.
-     *
      * @Route("/doUnion", name="superadmin_institution_doUnion", methods={"POST"})
-     *
      */
     public function doUnion(): RedirectResponse
     {
@@ -127,23 +141,26 @@ class SuperadminInstitutionController extends InstitutionController
         $element_ids = $request->get('element');
         $main_id = $request->get('main');
 
-        return $this->baseDoUnion(
+        $this->baseDoUnion(
             $element_ids,
-            $main_id,
-            'superadmin_institution'
+            $main_id
         );
+
+        return $this->redirectToRoute('superadmin_institution');
     }
 
 
     /**
      * Displays a form to edit an existing Institution entity.
-     *
      * @Route("/{id}/show", name="superadmin_institution_show")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function show(string $id): Response
-    { return $this->baseShow($id); }
+    public function htmlShow(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'show',
+            params: $this->show($id)
+        );
+    }
 }
