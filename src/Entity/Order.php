@@ -30,6 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 //use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 //use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\OrderRepository")
@@ -50,18 +51,21 @@ class Order
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $id;
 
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer", name="`code`")
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list", "email_template"})
      */
     private $code;
 
     /**
      * @ORM\OneToOne(targetEntity="MaterialType", inversedBy="order", cascade={"all"}, fetch="EAGER")
      * @ORM\JoinColumn(name="material_data_id", referencedColumnName="id", nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list", "email_template"})
      */
     private $materialData;
 
@@ -69,6 +73,7 @@ class Order
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Request", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="original_request_id", referencedColumnName="id")
+     * @Groups({"api", "user_list"})
      */
     private $originalRequest;
 
@@ -95,6 +100,9 @@ class Order
         $this->originalRequest = null;
     }
 
+    /**
+     * @Groups({"api"})
+     */
     public function getPages()
     {
         $files = $this->getOriginalRequest()->getFiles();
@@ -108,6 +116,9 @@ class Order
         return $pages;
     }
 
+    /**
+     * @Groups({"api"})
+     */
     public function getReceivedAt()
     {
         $states = $this->getOriginalRequest()->getStates();

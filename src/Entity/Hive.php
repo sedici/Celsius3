@@ -25,6 +25,7 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -39,12 +40,14 @@ class Hive
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_order_show"})
      */
     private $id;
     /**
      * @Assert\NotBlank
      * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show"})
      */
     private $name;
     /**

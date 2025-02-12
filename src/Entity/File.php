@@ -27,6 +27,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\FileRepository")
@@ -44,11 +45,13 @@ class File
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_order_show", "user_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show", "user_list"})
      */
     private $name;
 
@@ -69,6 +72,7 @@ class File
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"administration_order_show", "user_list"})
      */
     private $enabled = true;
 
@@ -89,11 +93,13 @@ class File
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"user_list"})
      */
     private $downloaded = false;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"administration_order_show"})
      */
     private $pages = 0;
     private $temp;
@@ -382,6 +388,9 @@ class File
         return $this->downloads;
     }
 
+    /**
+     * @Groups({"user_list"})
+     */
     public function hasDownloadTime()
     {
         if (!$this->isDownloaded()) {

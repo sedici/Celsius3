@@ -24,6 +24,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\MailTemplateRepository")
@@ -31,14 +32,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MailTemplate extends Template
 {
     /**
-     * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"api", "administration"})
      */
     private $enabled = true;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration"})
      */
     private $title;
 

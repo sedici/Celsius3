@@ -23,6 +23,7 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -51,9 +52,13 @@ abstract class Provider
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "institution_show"})
      */
     private $id;
 
+    /**
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
+     */
     abstract public function getProviderType();
 
     /**
@@ -71,6 +76,9 @@ abstract class Provider
         return $this->getProviderName();
     }
 
+    /**
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
+     */
     public function getProviderName()
     {
         return '';

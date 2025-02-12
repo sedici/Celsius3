@@ -22,20 +22,20 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\MailTemplate;
 
-abstract class MailController extends BaseInstanceDependentController
+abstract class MailController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return MailTemplate::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(MailTemplate::class);
+        parent::initialize();
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 }

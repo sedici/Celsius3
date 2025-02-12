@@ -26,6 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\LegacyInstanceRepository")
@@ -53,18 +54,21 @@ class LegacyInstance
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_order_show"})
      */
     protected $id;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show", "email_template"})
      */
     protected $name;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show", "email_template"})
      */
     protected $abbreviation;
 
@@ -72,6 +76,7 @@ class LegacyInstance
      * @Assert\NotBlank()
      * @Assert\Url()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"email_template"})
      */
     protected $website;
 
@@ -79,12 +84,14 @@ class LegacyInstance
      * @Assert\NotBlank()
      * @Assert\Email()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"email_template"})
      */
     protected $email;
 
     /**
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"administration_order_show"})
      */
     protected $enabled = true;
 
@@ -96,6 +103,7 @@ class LegacyInstance
     /**
      * @ORM\ManyToOne(targetEntity="Hive", inversedBy="instances")
      * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
+     * @Groups({"administration_order_show"})
      */
     protected $hive;
 

@@ -266,7 +266,7 @@ class EntityController extends InstanceDependentController
 
         $request = $this->requestStack->getCurrentRequest();
         
-        $query = $this->listQuery();
+        $query = $this->listQuery($isInstanceDependent);
 
         if ($hasFilterForm) {
             $filter_form = $this->createForm(

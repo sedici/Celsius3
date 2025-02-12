@@ -29,10 +29,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\InstanceRepository")
- *
  * @UniqueEntity("url")
  * @UniqueEntity("host")
  */
@@ -42,17 +42,20 @@ class Instance extends LegacyInstance
      * @Assert\NotBlank()
      * @Assert\Regex(pattern="/^[a-zA-Z]+$/")
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"administration_order_show"})
      */
     protected $url;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"administration_order_show"})
      */
     protected $host;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"administration_order_show"})
      */
     protected $invisible = false;
 

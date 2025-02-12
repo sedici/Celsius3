@@ -23,6 +23,7 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -31,10 +32,12 @@ class ThesisType extends MaterialType
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $director;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $degree;
 

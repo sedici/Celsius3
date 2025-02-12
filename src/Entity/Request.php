@@ -30,6 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 //use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\RequestRepository")
@@ -56,6 +57,7 @@ class Request
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $id;
 
@@ -63,17 +65,20 @@ class Request
      * @Assert\NotBlank
      * @Assert\Choice(callback = {"\Celsius3\Manager\OrderManager", "getTypes"}, message = "Choose a valid type.")
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show"})
      */
     private $comments;
 
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="orders")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $owner;
 
@@ -91,16 +96,19 @@ class Request
 
     /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="request")
+     * @Groups({"administration_order_show", "user_list"})
      */
     private $files;
 
     /**
      * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="request", fetch="EAGER")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
      */
     private $events;
 
     /**
      * @ORM\OneToMany(targetEntity="State", mappedBy="request", fetch="EAGER")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
      */
     private $states;
 
@@ -108,24 +116,28 @@ class Request
      * @Assert\NotNull(groups={"Default", "newOrder"})
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="orders")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
+     * @Groups({"administration_order_show", "administration_user_show"})
      */
     private $instance;
 
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="operatedOrders")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $operator;
 
     /**
      * @ORM\ManyToOne(targetEntity="Order", inversedBy="requests")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=false)
+     * @Groups({"administration_order_show"})
      */
     private $order;
 
     /**
      * @ORM\ManyToOne(targetEntity="Request", inversedBy="requests")
      * @ORM\JoinColumn(name="previous_request_id", referencedColumnName="id")
+     * @Groups({"administration_order_show"})
      */
     private $previousRequest;
 
@@ -133,6 +145,12 @@ class Request
      * @ORM\OneToMany(targetEntity="Request", mappedBy="previousRequest")
      */
     private $requests;
+
+    // * @ORM\Column(type="datetime")
+    /**
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     */
+    protected $createdAt;
 
     public function __construct()
     {
@@ -507,6 +525,7 @@ class Request
 
     /**
      * Retorna el estado actual para el presente Request.
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     public function getCurrentState()
     {
@@ -573,6 +592,9 @@ class Request
         return $this->requests;
     }
 
+    /**
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     */
     public function hasDownloadableFiles()
     {
         $files = $this->getFiles()->filter(function (File $f) {

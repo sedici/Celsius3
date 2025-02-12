@@ -8,14 +8,14 @@
     </li>
     {% if (element.username is not empty) %}
         <li>
-            <a href="{{ path('celsius3_reset_password', {'username': element.username}) }}">
+            <a href="{{ path('celsius3_reset_password', {'username': element.id}) }}">
                 <span class="fa fa-key"></span> {{ 'Reset password' | trans }}
             </a>
         </li>
 
         {% if not is_granted('ROLE_PREVIOUS_ADMIN') %}
             <li>
-                <a href="{{ path('switch_user', {'_switch_user': element.username}) }}">
+                <a href="{{ path('switch_user', {'_switch_user': element.id}) }}">
                     <span class="glyphicon glyphicon-log-in"></span> {{ 'Login as' | trans }}
                 </a>
             </li>

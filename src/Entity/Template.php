@@ -24,6 +24,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -47,16 +48,19 @@ abstract class Template
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api", "administration"})
      */
     private $id;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration"})
      */
     private $code;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="text")
+     * @Groups({"api", "administration"})
      */
     private $text;
 

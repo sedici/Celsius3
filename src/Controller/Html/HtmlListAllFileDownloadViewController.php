@@ -21,54 +21,45 @@ declare(strict_types=1);
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Admin\FileDownload;
+namespace Celsius3\Controller\Html;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Form\Type\FileDownloadType;
-use Doctrine\ORM\QueryBuilder;
-use Celsius3\Controller\Base\BaseInstanceDependentController;
 
 /**
  * FileDownload controller.
- *
  * @Route("/admin/file_download")
  */
-class ListAllFileDownloadViewController extends BaseInstanceDependentController
+class HtmlListAllFileDownloadViewController extends EntityController
 {
 
-    protected function getEntity(): string
-    { return FileDownload::class; }
-
-    protected final function getType(): string
-    { return FileDownloadType::class; }
-
-    protected final function getTemplatePrefix(): string
-    { return 'Admin/FileDownload/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(FileDownload::class);
+        parent::initialize();
+        $this->setInstanceDependent(false);
+        $this->htmlRenderer->setTemplatePrefix('Admin/FileDownload/');
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc',
-        ];
+        ]);
+        $this->typeClassName = FileDownloadType::class;
     }
-
-
-    protected function listQuery(): QueryBuilder
-    { return $this->repository->createQueryBuilder('e'); }
 
 
     /**
      * Lists all File entities.
-     *
-     * @Route("/", name="admin_filedownload")
+     * @Route("/", name="admin_file_download")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
-        return $this->baseInstanceIndex(type: FileDownloadFilterType::class);
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index(type: FileDownloadFilterType::class)
+        );
     }
 }

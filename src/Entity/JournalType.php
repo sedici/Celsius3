@@ -24,6 +24,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\JournalTypeRepository")
@@ -33,19 +34,23 @@ class JournalType extends MaterialType
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $volume;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $number;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $other;
     /**
      * @ORM\ManyToOne(targetEntity="Journal", inversedBy="materials", fetch="EAGER")
      * @ORM\JoinColumn(name="journal_id", referencedColumnName="id")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $journal;
 

@@ -22,95 +22,107 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Form\Type\Filter\MailTemplateFilterType;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\MailTemplateController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 /**
  * Order controller.
- *
  * @Route("/superadmin/mail")
  */
-class SuperadminMailController extends MailTemplateController
+class HtmlSuperadminMailTemplateController extends MailTemplateController
 {
 
-    protected function getInstance(): Instance
-    { return $this->directory; }
-
-
-    protected function listQuery(): QueryBuilder
+    public function listQuery(?bool $isInstanceDependet = null): QueryBuilder
     {
         return $this->repository
             ->createQueryBuilder('e')
             ->where('e.instance = :instance')
-            ->setParameter('instance', $this->getDirectory()->getId());
+            ->setParameter('instance', $this->instance->getId());
     }
 
 
     /**
      * Lists all Templates Mail.
-     *
      * @Route("/", name="superadmin_mails")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(type: MailTemplateFilterType::class); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index()
+            // params: [
+            //     'entities' => $this->getPagination(),
+            //     'filterForm' => $this->getFilterForm()->createView(),
+            // ]
+        );
+    }
 
 
     /**
      * Displays a form to create a new mail template.
-     *
      * @Route("/new", name="superadmin_mails_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing mail template.
-     *
      * @Route("/{id}/edit", name="superadmin_mails_edit")
-     *
      * @param string $id The mail template ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Creates a new Mail Entity.
-     *
      * @Route("/create", name="superadmin_mails_create", methods={"POST"})
      */
-    public function create(): Response
-    { return $this->baseInstanceCreate(route: 'superadmin_mails'); }
+    public function htmlCreate(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->create()
+        );
+    }
 
 
     /**
      * Edits an existing Mail TEmplate.
-     *
      * @Route("/{id}/update", name="superadmin_mails_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_mails'); }
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id)
+        );
+    }
 
 
     /**
      * Change state an existing Mail TEmplate.
-     *
      * @Route("/{id}/change_state", name="superadmin_mails_change_state")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function changeState(string $id): Response
     {
@@ -128,6 +140,6 @@ class SuperadminMailController extends MailTemplateController
             . (($entity->getEnabled()) ? 'enabled' : 'disabled')
         );
 
-        return $this->redirect($this->generateUrl('superadmin_mails'));
+        return $this->redirectToRoute('superadmin_mails');
     }
 }

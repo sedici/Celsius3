@@ -24,7 +24,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Entity\TimestampableEntity;
 
 /**
@@ -43,6 +43,7 @@ class CatalogResult
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_order_show"})
      */
     private $id;
 
@@ -50,18 +51,21 @@ class CatalogResult
      * @Assert\NotBlank
      * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show"})
      */
     private $title;
 
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
+     * @Groups({"administration_order_show"})
      */
     private $searches = 0;
 
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
+     * @Groups({"administration_order_show"})
      */
     private $matches = 0;
 
@@ -69,6 +73,7 @@ class CatalogResult
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Catalog", inversedBy="positions")
      * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id", nullable=false)
+     * @Groups({"administration_order_show"})
      */
     private $catalog;
 

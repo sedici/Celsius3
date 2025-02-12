@@ -25,6 +25,7 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\JournalRepository")
@@ -41,15 +42,18 @@ class Journal
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $id;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $name;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $abbreviation;
     /**
@@ -58,6 +62,7 @@ class Journal
     private $responsible;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_order_show"})
      */
     private $ISSN;
     /**

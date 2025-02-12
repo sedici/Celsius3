@@ -22,76 +22,93 @@
 
 namespace Celsius3\Controller\Html;
 
-use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\ContactTypeController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 /**
- * ContactType controller.
- *
+ * ContactType controller.¡
  * @Route("/superadmin/contacttype")
  */
 class SuperadminContactTypeController extends ContactTypeController
 {
 
-    final protected function getTemplatePrefix(): string
-    { return 'Superadmin/ContactType/'; }
-
-
-    protected function listQuery(): QueryBuilder
-    { return $this->repository->createQueryBuilder('e'); }
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/ContactType/');
+        $this->setInstanceDependent(false);
+        $this->setInstance($this->directory);
+    }
 
 
     /**
      * Lists all ContactType entities.
-     *
      * @Route("/", name="superadmin_contacttype")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(hasFilterForm: false); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'index',
+            params: $this->index(hasFilterForm: false)
+        );
+     }
 
 
     /**
      * Displays a form to create a new ContactType entity.
-     *
      * @Route("/new", name="superadmin_contacttype_new")
      */
-    public function new(): Response
-    { return $this->baseInstanceNew(); }
+    public function htmlNew(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'new',
+            params: $this->new()
+        );
+    }
 
 
     /**
      * Creates a new ContactType entity.
-     *
      * @Route("/create", name="superadmin_contacttype_create", methods={"POST"})
      */
-    public function create(): Response
-    { return $this->baseInstanceCreate(template: 'Superadmin/Contact/new.html.twig'); }
+    public function htmlCreate(): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: '../Contact/new',
+            params: $this->create(redirectRoute: 'superadmin_contacttype')
+        );
+    }
 
 
     /**
      * Displays a form to edit an existing ContactType entity.
-     *
      * @Route("/{id}/edit", name="superadmin_contacttype_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    { return $this->baseInstanceEdit($id); }
+    public function htmlEdit(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->edit($id)
+        );
+    }
 
 
     /**
      * Edits an existing ContactType entity.
-     *
      * @Route("/{id}/update", name="superadmin_contacttype_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update(string $id): Response
-    { return $this->baseInstanceUpdate($id, 'superadmin_contacttype'); }
+    public function htmlUpdate(string $id): Response
+    {
+        return $this->htmlRenderer->render(
+            templateName: 'edit',
+            params: $this->update($id, 'superadmin_contacttype_edit')
+        );
+    }
 }

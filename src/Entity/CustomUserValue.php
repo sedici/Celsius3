@@ -26,6 +26,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -36,6 +37,7 @@ class CustomUserValue extends CustomValue
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration"})
      */
     private $id;
 
@@ -61,5 +63,21 @@ class CustomUserValue extends CustomValue
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @Groups({"administration"})
+     */
+    public function getValue(): string
+    {
+        return parent::getValue();
+    }
+
+    /**  
+     * @Groups({"administration"})
+     */
+    public function getField(): CustomField
+    {
+        return parent::getField();
     }
 }

@@ -22,8 +22,8 @@
 
 namespace Celsius3\Entity\Mixin;
 
+use Celsius3\Entity\Event\SingleInstanceRequestEvent;
 use Celsius3\Entity\Provider;
-// use Celsius3\Provider\Message\Provider;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,25 +38,16 @@ trait ProviderTrait
 
     /**
      * Set provider.
-     *
-     * @param Provider $provider
-     *
-     * @return SingleInstanceRequest
      */
-    public function setProvider(Provider $provider)
+    public function setProvider(Provider $provider): SingleInstanceRequestEvent
     {
         $this->provider = $provider;
-
         return $this;
     }
 
     /**
      * Get provider.
-     *
-     * @return Provider $provider
      */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
+    public function getProvider(): Provider
+    { return $this->provider; }
 }

@@ -25,6 +25,7 @@ namespace Celsius3\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -53,17 +54,20 @@ abstract class MaterialType
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $id;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list", "email_template"})
      */
     protected $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $authors;
 
@@ -71,16 +75,19 @@ abstract class MaterialType
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $year;
 
     /**
      * @ORM\Column(name="start_page", type="integer", nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $startPage;
 
     /**
      * @ORM\Column(name="end_page",type="integer", nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $endPage;
 
@@ -89,6 +96,9 @@ abstract class MaterialType
      */
     protected $order;
 
+    /**
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     */
     abstract public function getMaterialType();
 
     public function __toString()

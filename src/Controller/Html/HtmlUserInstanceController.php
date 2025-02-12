@@ -22,62 +22,38 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\Controller\User\Dashboard;
+namespace Celsius3\Controller\Html;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\Controller\BaseInstanceDependentController;
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\InstanceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-use function array_key_exists;
 
 /**
  * Change instance controller.
- *
  * @Route("/user/instance/")
  */
-final class ChangeInstanceController extends BaseInstanceDependentController
+class HtmlUserInstanceController extends EntityController
 {
-    private SessionInterface $session;
-    private $tokenStorage;
 
-    public function __construct(
-        SessionInterface $session,
-        TokenStorageInterface $tokenStorage,
-        ... $args
-    ) {
-        parent::__construct(... $args);
-        $this->session = $session;
-        $this->tokenStorage = $tokenStorage;
-    }
-
-
-    protected final function getEntity(): string
-    { return Instance::class; }
-
-    protected final function getType(): string
-    { return InstanceType::class; }
-
-    protected final function getTemplatePrefix(): string
-    { return 'Instance/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Instance::class);
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Instance/');
+        $this->typeClassName = InstanceType::class;
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 
 
     /**
      * Change between intances.
-     *
      * @Route("/{id}/change", name="user_change_context")
      */
     public function change(string $id): RedirectResponse

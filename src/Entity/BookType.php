@@ -24,6 +24,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -32,16 +33,19 @@ class BookType extends MaterialType
 {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $editor;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $chapter;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $ISBN;
 
@@ -49,6 +53,7 @@ class BookType extends MaterialType
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $withIndex = false;
 

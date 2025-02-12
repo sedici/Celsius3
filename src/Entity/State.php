@@ -29,6 +29,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\StateRepository")
@@ -51,34 +52,40 @@ class State
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $id;
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $current = true;
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"administration_order_show"})
      */
     private $searchPending = false;
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     private $type;
     /**
      * @ORM\OneToOne(targetEntity="Celsius3\Entity\Event\Event", cascade={"persist"})
      * @ORM\JoinColumn(name="remote_event_id", referencedColumnName="id")
+     * @Groups({"administration_order_show"})
      */
     private $remoteEvent;
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="states")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
+     * @Groups({"administration_order_show"})
      */
     private $instance;
     /**
@@ -105,6 +112,12 @@ class State
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;
+
+    // * @ORM\Column(type="datetime")
+    /**
+     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     */
+    protected $createdAt;
 
     public function __construct()
     {

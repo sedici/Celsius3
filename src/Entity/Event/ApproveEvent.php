@@ -31,6 +31,7 @@ use Celsius3\Manager\EventManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
@@ -43,12 +44,15 @@ class ApproveEvent extends MultiInstanceEvent
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
      *      )
+     * @Groups({"administration_order_show"})
      */
     private $files;
+
     /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Celsius3\Entity\Event\Event")
      * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
+     * @Groups({"administration_order_show"})
      */
     private $receiveEvent;
 

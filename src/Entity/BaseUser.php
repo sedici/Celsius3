@@ -36,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Celsius3\Entity\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -63,6 +64,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api", "administration", "administration_list", "administration_order_show", "administration_user_show", "user_list", "admins-select"})
      */
     protected $id;
 
@@ -108,29 +110,34 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api", "administration"})
      */
     private $enabled = false;
 
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration", "administration_list", "administration_order_show", "administration_user_show", "user_list", "admins-select", "email_template"})
      */
     protected $name;
 
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration", "administration_list", "administration_order_show", "administration_user_show", "user_list", "admins-select", "email_template"})
      */
     protected $surname;
 
     /**
      * @Assert\Date(groups={"Default"})
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"administration"})
      */
     protected $birthdate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"administration"})
      */
     protected $address;
 
@@ -138,6 +145,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"api", "user_list"})
      */
     protected $downloadAuth = true;
 
@@ -145,6 +153,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $wrongEmail = false;
 
@@ -152,6 +161,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
+     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
     protected $pdf = true;
 
@@ -181,6 +191,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="users")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
+     * @Groups({"administration", "administration_list", "administration_order_show", "administration_user_show"})
      */
     protected $institution;
 
@@ -191,6 +202,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
 
     /**
      * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user", cascade={"remove"})
+     * @Groups({"administration"})
      */
     protected $customValues;
 
@@ -399,6 +411,9 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
+    /**
+     * @Groups({"email_template"})
+     */
     public function getFullName()
     {
         return $this->getSurname() . ', ' . $this->getName();
@@ -692,9 +707,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     }
 
     /**
-     * Get country.
-     *
-     * @return Country|null
+     * @Groups({"administration"})
      */
     public function getCountry()
     {
@@ -730,9 +743,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     }
 
     /**
-     * Get city.
-     *
-     * @return City|null
+     * @Groups({"administration"})
      */
     public function getCity()
     {
@@ -744,9 +755,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     }
 
     /**
-     * Is librarian.
-     *
-     * @return bool
+     * @Groups({"api", "user_list"})
      */
     public function isLibrarian()
     {

@@ -26,6 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Entity\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\CatalogRepository")
@@ -44,12 +45,14 @@ class Catalog
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"administration_order_show"})
      */
     private $id;
 
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show"})
      */
     private $name;
 
@@ -57,6 +60,7 @@ class Catalog
      * @Assert\NotBlank
      * @Assert\Url
      * @ORM\Column(type="string", length=255)
+     * @Groups({"administration_order_show"})
      */
     private $url;
 
@@ -68,6 +72,7 @@ class Catalog
     /**
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="catalogs")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
+     * @Groups({"administration_order_show"})
      */
     private $institution;
 

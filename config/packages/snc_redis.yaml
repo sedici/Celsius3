@@ -5,11 +5,6 @@ snc_redis:
 #
 # See https://github.com/snc/SncRedisBundle/blob/master/Resources/doc/index.md for instructions on
 # how to configure the bundle.
-#
-#        default:
-#            type: phpredis
-#            alias: default
-#            dsn: "%env(REDIS_URL)%"
 
         default:
             type: predis
@@ -23,17 +18,3 @@ snc_redis:
             type: predis
             alias: cache
             dsn: redis://localhost
-#
-#    session:
-#        client: session
-#
-#    doctrine:
-#        metadata_cache:
-#            client: cache
-#            entity_manager: default          # the name of your entity_manager connection
-#        result_cache:
-#            client: cache
-#            entity_manager: default
-#        query_cache:
-#            client: cache
-#            entity_manager: default

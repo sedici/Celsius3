@@ -28,6 +28,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Celsius3\Entity\SoftDeleteableEntity;
 use Celsius3\Entity\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
@@ -54,26 +55,31 @@ class Contact
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api", "administration"})
      */
     private $id;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration"})
      */
     private $name;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration"})
      */
     private $surname;
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api", "administration"})
      */
     private $email;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"api", "administration"})
      */
     private $address;
     /**
@@ -85,6 +91,7 @@ class Contact
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ContactType", inversedBy="contacts")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
+     * @Groups({"api"})
      */
     private $type;
     /**
