@@ -42,8 +42,8 @@ class HtmlAdminNewsController extends NewsController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templatenName: 'index',
-            params: $this->index(isInstanceDependent: false)
+            'index',
+            $this->index(isInstanceDependent: false)
         );
     }
 
@@ -57,8 +57,8 @@ class HtmlAdminNewsController extends NewsController
     public function htmlShow($id): Response
     {
         return $this->htmlRenderer->render(
-            templatenName: 'show',
-            params: $this->show(
+            'show',
+            $this->show(
                 $id, isInstanceDependent: false
             )
         );
@@ -72,8 +72,8 @@ class HtmlAdminNewsController extends NewsController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templatenName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -85,8 +85,8 @@ class HtmlAdminNewsController extends NewsController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templatenName: 'new',
-            params: $this->create()
+            'new',
+            $this->create()
         );
     }
 
@@ -100,8 +100,8 @@ class HtmlAdminNewsController extends NewsController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templatenName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -115,8 +115,8 @@ class HtmlAdminNewsController extends NewsController
     public function uhtmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templatenName: 'edit',
-            params: $this->update($id)
+            'edit',
+            $this->update($id)
         );
     }
 }

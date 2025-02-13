@@ -105,8 +105,8 @@ abstract class OrderController extends EntityController
         ]);
 
         return $this->htmlRenderer->render(
-            templateName: '_materialData',
-            params: [
+            '_materialData',
+            [
                 'form' => $form->createView(),
                 'material' => $request->get('material')
             ]

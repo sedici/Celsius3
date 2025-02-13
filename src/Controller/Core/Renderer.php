@@ -26,5 +26,5 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface Renderer
 {
-    public function render(... $args): Response;
+    public function render(): Response;
 }

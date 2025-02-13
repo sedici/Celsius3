@@ -24,18 +24,86 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Base;
 
-class DashboardController extends BaseController
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Manager\StatisticManager;
+
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\InstanceDependentController;
+use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
+
+class DashboardController extends EntityController
 {
 
-    final protected function getTemplatePrefix(): string
-    { return 'Superadmin/Dashboard/'; }
+    public function __construct(
+        protected StatisticManager $statsManager,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
+    ) {
+        parent::__construct(
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $authorizationChecker,
+            $htmlRenderer,
+            $restRenderer
+        );
+    }
 
 
-    protected function getSortDefaults(): array
+    public function customAjax(): Response
     {
-        return [
-            'defaultSortFieldName' => 'e.createdAt',
-            'defaultSortDirection' => 'asc',
-        ];
+        return $this->restRenderer->ajax(
+            $this->requestStack->getCurrentRequest(),
+            [
+                'Journal',
+                'BaseUser'
+            ]
+        );
     }
 }

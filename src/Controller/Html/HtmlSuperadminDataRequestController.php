@@ -31,43 +31,31 @@ use Celsius3\Controller\Base\DataRequestController;
 
 /**
  * Data requests list controller.
- *
  * @Route("/superadmin/data_request")
  */
-class SuperadminDataRequestController extends DataRequestController
+class HtmlSuperadminDataRequestController extends DataRequestController
 {
 
-    final protected function getTemplatePrefix(): string
-    { return 'Superadmin/DataRequests/'; }
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/DataRequests/');
+    }
 
 
     /**
      * Lists all data requests.
-     *
      * @Route("/", name="superadmin_data_request_index")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
-        $qb = $this->managerRegistry->getManager()
-            ->getRepository($this->entityClassName)
-            ->createQueryBuilder('e');
-
-        $query = $qb
+        $query = $this->listQuery(false)
             ->where('e.visible = :visible')
             ->setParameter('visible', true);
 
-        $request = $this->requestStack->getCurrentRequest();
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            intval($request->query->get('page', 1)),
-            $this->getResultsPerPage(),
-            $this->sortDefaults
-        );
-
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
-            [ 'pagination' => $pagination ]
+        return $this->htmlRenderer->render(
+            'index',
+            $this->index(data: $query)
         );
     }
 
@@ -82,9 +70,7 @@ class SuperadminDataRequestController extends DataRequestController
         ]);
         $process->run();
 
-        $this->persistEntity(
-            $dataRequest->setExported(true)
-        );
+        $this->persistEntity($dataRequest->setExported(true));
 
         return $this->redirectToRoute('superadmin_data_request_index');
     }
@@ -105,13 +91,13 @@ class SuperadminDataRequestController extends DataRequestController
         return $this->redirectToRoute('superadmin_data_request_index');
     }
 
+
     /**
      * @Route("/{id}/annul", name="superadmin_data_request_annul")
      */
     public function annul(DataRequest $dataRequest): RedirectResponse
     {
         $this->persistEntity($dataRequest->setVisible(false));
-
         return $this->redirectToRoute('superadmin_data_request_index');
     }
 }

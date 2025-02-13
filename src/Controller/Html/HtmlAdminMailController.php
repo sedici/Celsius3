@@ -112,8 +112,8 @@ class HtmlAdminMailController extends MailController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -125,8 +125,8 @@ class HtmlAdminMailController extends MailController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(formOptions: [
+            'new',
+            $this->new(formOptions: [
                 'super_admin' => $this->authorizationChecker
                     ->isGranted('ROLE_SUPER_ADMIN')
             ])
@@ -173,8 +173,8 @@ class HtmlAdminMailController extends MailController
         );
 
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: [
+            'edit',
+            [
                 'entity' => $entity,
                 'edit_form' => $form->createView(),
                 'route' => $route,
@@ -190,8 +190,8 @@ class HtmlAdminMailController extends MailController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create()
+            'create',
+            $this->create()
         );
     }
 
@@ -246,8 +246,8 @@ class HtmlAdminMailController extends MailController
         );
     
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: [
+            'edit',
+            [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView()
             ]

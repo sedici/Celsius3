@@ -44,8 +44,8 @@ class HtmlAdminCatalogController extends CatalogController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -57,8 +57,8 @@ class HtmlAdminCatalogController extends CatalogController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -70,8 +70,8 @@ class HtmlAdminCatalogController extends CatalogController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -85,8 +85,8 @@ class HtmlAdminCatalogController extends CatalogController
     public function htmlEdit($id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -100,8 +100,8 @@ class HtmlAdminCatalogController extends CatalogController
     public function htmlUpdate($id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 

@@ -58,8 +58,8 @@ class HtmlListAllFileDownloadViewController extends EntityController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index(type: FileDownloadFilterType::class)
+            'index',
+            $this->index(type: FileDownloadFilterType::class)
         );
     }
 }

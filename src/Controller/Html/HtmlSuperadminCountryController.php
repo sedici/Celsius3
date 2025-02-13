@@ -50,8 +50,8 @@ class HtmlSuperadminCountryController extends CountryController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -63,8 +63,8 @@ class HtmlSuperadminCountryController extends CountryController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -76,8 +76,8 @@ class HtmlSuperadminCountryController extends CountryController
     public function htmlCreate()
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create()
+            'create',
+            $this->create()
         );
     }
 
@@ -91,8 +91,8 @@ class HtmlSuperadminCountryController extends CountryController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id, isInstanceDependent: true)
+            'edit',
+            $this->edit($id, isInstanceDependent: true)
         );
     }
 
@@ -106,8 +106,8 @@ class HtmlSuperadminCountryController extends CountryController
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'update',
-            params: $this->update($id, isInstanceDependent: true)
+            'update',
+            $this->update($id, isInstanceDependent: true)
         );
     }
 
@@ -124,8 +124,8 @@ class HtmlSuperadminCountryController extends CountryController
     protected function batchUnion(array $element_ids): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'batchUnion',
-            params: $this->baseUnion($element_ids)
+            'batchUnion',
+            $this->baseUnion($element_ids)
         );
     }
 

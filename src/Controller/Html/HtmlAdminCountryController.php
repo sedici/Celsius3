@@ -41,8 +41,8 @@ class HtmlAdminCountryController extends CountryController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -53,8 +53,8 @@ class HtmlAdminCountryController extends CountryController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -65,8 +65,8 @@ class HtmlAdminCountryController extends CountryController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create()
+            'create',
+            $this->create()
         );
     }
 
@@ -79,8 +79,8 @@ class HtmlAdminCountryController extends CountryController
     public function htmlEdit($id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -93,8 +93,8 @@ class HtmlAdminCountryController extends CountryController
     public function htmlUpdate($id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'update',
-            params: $this->update($id)
+            'update',
+            $this->update($id)
         );
     }
 }

@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller\Api;
 
+use Celsius3\Controller\Base\OrderController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Order;
 use FOS\RestBundle\Context\Context;
@@ -35,20 +36,21 @@ use Celsius3\Exception\Exception;
  *
  * @Route("/api/orders")
  */
-class OrderController extends BaseController
+class RestOrderController extends OrderController
 {
 
     /**
      * GET Route annotation.
      * @Get("/received_at_update")
      */
-    public function receivedAtUpdateAction(Request $request)
+    public function receivedAtUpdateAction()
     {
-        $code = $request->query->get('code');
+        $request = $this->requestStack->getCurrentRequest();
+        $order = $this->repository->find($request->query->get('order_id'));
 
-        $order = $this->getDoctrine()->getManager()->getRepository(Order::class)->find($code);
-
-        $view = $this->view($order->getReceivedAt(), 200)->setFormat('json');
+        $view = $this->restRenderer->render(
+            data: $order->getReceivedAt(), statusCode: 200
+        )->setFormat('json');
         return $this->handleView($view);
     }
 

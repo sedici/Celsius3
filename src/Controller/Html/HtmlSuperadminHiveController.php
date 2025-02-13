@@ -25,64 +25,56 @@ namespace Celsius3\Controller\Html;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\HiveController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Hive controller.
- *
  * @Route("/superadmin/hive")
  */
-class SuperadminHiveController extends HiveController
+class HtmlSuperadminHiveController extends HiveController
 {
+
 
     /**
      * Lists all Hive entities.
-     *
      * @Route("/", name="superadmin_hive")
      */
-    public function index(): Response
-    { return $this->baseIndex(hasFilterForm: false); }
+    public function htmlIndex(): Response
+    { return $this->htmlRenderer->render('index', $this->index(hasFilterForm: false));}
 
 
     /**
      * Displays a form to create a new Hive entity.
-     *
      * @Route("/new", name="superadmin_hive_new")
      */
-    public function new(): Response
-    { return $this->baseNew(); }
+    public function htmlNew(): Response
+    { return $this->htmlRenderer->render('new', $this->new()); }
 
 
     /**
      * Creates a new Hive entity.
-     *
      * @Route("/create", name="superadmin_hive_create", methods={"POST"})
      */
-    public function create()
-    { return $this->baseCreate(route: 'superadmin_hive'); }
+    public function htmlCreate()
+    { return $this->htmlRenderer->render('create', $this->create()); }
 
 
     /**
      * Displays a form to edit an existing Hive entity.
-     *
      * @Route("/{id}/edit", name="superadmin_hive_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit($id): Response
-    { return $this->baseEdit($id); }
+    public function htmlEdit($id): Response
+    { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
 
     /**
      * Edits an existing Hive entity.
-     *
      * @Route("/{id}/update", name="superadmin_hive_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update($id): Response
-    { return $this->baseUpdate($id, 'superadmin_hive'); }
+    public function htmlUpdate($id): Response
+    { return $this->htmlRenderer->render('edit', $this->update($id)); }
 }

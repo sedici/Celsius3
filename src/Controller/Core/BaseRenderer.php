@@ -29,15 +29,13 @@ abstract class BaseRenderer implements Renderer
 {
     use VariadicArgsTrait;
 
-
-    protected ViewHandlerInterface $viewHandler;
-    protected Environment $twig;
+    
     protected EntityController $controller;
 
 
     public function __construct(
-        ViewHandlerInterface $viewHandler,
-        Environment $twig
+        protected ViewHandlerInterface $viewHandler,
+        protected Environment $twig
     ) {
         $this->viewHandler = $viewHandler;
         $this->twig = $twig;

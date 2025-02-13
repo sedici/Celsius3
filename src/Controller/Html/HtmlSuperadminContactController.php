@@ -59,8 +59,8 @@ class HtmlSuperadminContactController extends ContactController
         }
 
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: [
+            'index',
+            [
                 'pagination' => $pagination,
                 'deleteForms' => $deleteForms
             ]
@@ -77,8 +77,8 @@ class HtmlSuperadminContactController extends ContactController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 
@@ -90,8 +90,8 @@ class HtmlSuperadminContactController extends ContactController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -103,8 +103,8 @@ class HtmlSuperadminContactController extends ContactController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create()
+            'new',
+            $this->create()
         );
     }
 
@@ -133,8 +133,8 @@ class HtmlSuperadminContactController extends ContactController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -163,8 +163,8 @@ class HtmlSuperadminContactController extends ContactController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id)
+            'edit',
+            $this->update($id)
         );
     }
 
@@ -178,8 +178,8 @@ class HtmlSuperadminContactController extends ContactController
     public function htmlDelete(string $id): RedirectResponse
     {
         return $this->htmlRenderer->render(
-            templateName: 'delete',
-            params: $this->delete($id)
+            'delete',
+            $this->delete($id)
         );
     }
 

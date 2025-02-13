@@ -23,8 +23,6 @@
 namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
-use Celsius3\Controller\Core\HtmlRenderer;
-use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Thread;
@@ -32,6 +30,8 @@ use Celsius3\EntityManager\ThreadManager;
 use Celsius3\Helper\CustomFieldHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,6 +52,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 
 abstract class UserController extends EntityController
 {

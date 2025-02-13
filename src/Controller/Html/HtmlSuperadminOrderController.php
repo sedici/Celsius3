@@ -81,8 +81,8 @@ class HtmlSuperadminOrderController extends OrderController
     {
         $this->entityManager->getFilters()->disable('softdeleteable');
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -96,8 +96,8 @@ class HtmlSuperadminOrderController extends OrderController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 
@@ -109,8 +109,8 @@ class HtmlSuperadminOrderController extends OrderController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(
+            'new',
+            $this->new(
                 formOptions: [
                     'user' => $this->getUser(),
                     'librarian' => false,
@@ -142,8 +142,8 @@ class HtmlSuperadminOrderController extends OrderController
                 ->get('order')['materialData']['journal_autocomplete'];
 
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create(formOptions: $options)
+            'new',
+            $this->create(formOptions: $options)
         );
     }
 
@@ -175,8 +175,8 @@ class HtmlSuperadminOrderController extends OrderController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
 
         // $entity = $this->findQuery($id);
@@ -184,8 +184,8 @@ class HtmlSuperadminOrderController extends OrderController
         // if (!$entity) $this->error('entity_not_found');
 
         // return $this->htmlRenderer->render(
-        //     templateName: 'edit',
-        //     params: [
+        //     'edit',
+        //     [
         //         'entity' => $entity,
         //         'edit_form' => $this->createForm(
         //             data: $entity,
@@ -212,8 +212,8 @@ class HtmlSuperadminOrderController extends OrderController
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update(
+            'edit',
+            $this->update(
                 $id,
                 formOptions: [
                     'material' => $this->getMaterialType(),

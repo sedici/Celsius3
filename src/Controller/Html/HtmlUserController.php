@@ -65,8 +65,8 @@ class HtmlUserController extends UserController
         );
 
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: [
+            'index',
+            [
                 'lastMessages' => $last_messages,
                 'resultsPerPage' => $results_per_page_config->getValue(),
             ]

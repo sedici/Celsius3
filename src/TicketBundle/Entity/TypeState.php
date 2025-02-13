@@ -26,6 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="ticket_type_state")
@@ -43,13 +44,13 @@ class TypeState
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
-    private $typeState;
+    private string $typeState;
 
     public function __construct()
     {
@@ -57,40 +58,26 @@ class TypeState
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId(): int
+    { return $this->id; }
 
     /**
      * Set typeState.
-     *
-     * @param string $typeState
-     *
-     * @return self
      */
-    public function setTypeState($typeState)
+    public function setTypeState(string $typeState): TypeState
     {
         $this->typeState = $typeState;
-
         return $this;
     }
 
     /**
      * Get typeState.
-     *
-     * @return string $typeState
      */
-    public function getTypeState()
-    {
-        return $this->typeState;
-    }
+    public function getTypeState(): string
+    { return $this->typeState; }
 
-    public function __toString()
-    {
-        return $this->typeState;
-    }
+
+    public function __toString(): string
+    { return $this->typeState; }
 }

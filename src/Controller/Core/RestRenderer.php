@@ -22,28 +22,48 @@
 
 namespace Celsius3\Controller\Core;
 
+use Celsius3\Entity\Instance;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\View\View;
+use FOS\RestBundle\View\ViewHandlerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig\Environment;
 
 class RestRenderer extends BaseRenderer
 {
 
-    public function render(... $args): Response
-    {
+    public function __construct(
+        protected EntityManagerInterface $entityManager,
+        ViewHandlerInterface $viewHandler,
+        Environment $twig
+    ) {
+        parent::__construct($viewHandler, $twig);
+    }
+
+
+    public function render(
+        $data = null,
+        int $statusCode = Response::HTTP_OK,
+        array|string $serializerGroups = []
+    ): Response {
+        if (!$data) throw new \Exception('data is required');
+
         $view = $this->view(
-            $this->getArg($args, 'data'),
-            $this->getArgOrDefault($args, Response::HTTP_OK, 'statusCode'),
+            $data, $statusCode,
         )->setFormat('json');
 
-        $groups = $this->getArgOrNull($args, 'serializerGroups');
-        if ($groups) {
+        if ($serializerGroups) {
             $context = new Context();
-            if (is_array($groups)) {
-                $context->addGroups($groups);
+            if (is_array($serializerGroups)) {
+                $context->addGroups($serializerGroups);
             }
-            if (is_string($groups)) {
-                $context->addGroup($groups);
+            if (is_string($serializerGroups)) {
+                $context->addGroup($serializerGroups);
             }
             $view->setContext($context);
         }
@@ -73,5 +93,57 @@ class RestRenderer extends BaseRenderer
         $query = $this->controller->findQuery($id);
         if (!$query) $this->controller->error('entity_not_found');
         return $this->render(data: $query, serializerGroups: $serializerGroups);
+    }
+
+    protected function validateAjax(
+        string $target, array $allowed_targets
+    ): bool {
+        return in_array(
+            $target, $allowed_targets, true
+        );
+    }
+
+
+    protected function getRepository(string $target): EntityRepository
+    {
+        $repository = $this->entityManager
+            ->getRepository((string) 'Celsius3\\Entity\\' . $target);
+        if (!$repository) throw new NotFoundHttpException('Repository not found - Incorrect target');
+        return $repository;
+    }
+
+
+    public function ajax(
+        Request $request,
+        array $allowedTargets,
+        Instance $instance = null
+    ): Response {
+        if (!$request->isXmlHttpRequest())
+            throw new BadRequestHttpException('The request hast to be an AJAX request');
+
+        $target = $request->get('target');
+        if (!$this->validateAjax($target, $allowedTargets))
+            throw new BadRequestHttpException('The target is not allowed');
+
+        $term = $request->get('term');
+
+        $result = $this->getRepository($target)
+            ->findByTerm($term, $instance, null)
+            ->getResult();
+
+        $json = [];
+
+        foreach ($result as $element) {
+            $json[] = (method_exists($element, 'asJson'))
+                ? $element->asJSon()
+                : [
+                    'id' => $element->getId(),
+                    'value' => ($target === 'BaseUser')
+                        ? $element->__toString() . ' (' . $element->getUsername() . ')'
+                        : $element->__toString(),
+                ];
+        }
+
+        return $this->render(data: $json);
     }
 }

@@ -51,8 +51,8 @@ class HtmlSuperadminCatalogController extends CatalogController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -64,8 +64,8 @@ class HtmlSuperadminCatalogController extends CatalogController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -78,8 +78,8 @@ class HtmlSuperadminCatalogController extends CatalogController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create()
+            'create',
+            $this->create()
         );
     }
 
@@ -93,8 +93,8 @@ class HtmlSuperadminCatalogController extends CatalogController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -108,8 +108,8 @@ class HtmlSuperadminCatalogController extends CatalogController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id)
+            'edit',
+            $this->update($id)
         );
     }
 
@@ -127,8 +127,8 @@ class HtmlSuperadminCatalogController extends CatalogController
     protected function batchUnion($element_ids): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'batchUnion',
-            params: $this->baseUnion($element_ids)
+            'batchUnion',
+            $this->baseUnion($element_ids)
         );
     }
 

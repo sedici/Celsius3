@@ -143,8 +143,8 @@ class HtmlAdminContactController extends ContactController
         }
 
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: [
+            'index',
+            [
                 'pagination' => $pagination,
                 'deleteForms' => $deleteForms
             ]
@@ -161,8 +161,8 @@ class HtmlAdminContactController extends ContactController
     public function htmlShow($id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 
@@ -180,8 +180,8 @@ class HtmlAdminContactController extends ContactController
             ->setInstance($this->instance);
         
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create($entity)
+            'new',
+            $this->create($entity)
         );
     }
 
@@ -199,8 +199,8 @@ class HtmlAdminContactController extends ContactController
             ->setInstance($this->instance);
 
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create($entity)
+            'new',
+            $this->create($entity)
         );
     }
 
@@ -218,8 +218,8 @@ class HtmlAdminContactController extends ContactController
         if (!$entity) $this->error('entity_not_found');
 
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($entity, formOptions: [ 'user' => $entity->getUser() ])
+            'edit',
+            $this->edit($entity, formOptions: [ 'user' => $entity->getUser() ])
         );
     }
 
@@ -264,8 +264,8 @@ class HtmlAdminContactController extends ContactController
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id)
+            'edit',
+            $this->update($id)
         );
     }
 
@@ -279,8 +279,8 @@ class HtmlAdminContactController extends ContactController
     public function htmlDelete(string $id)
     {
         return $this->htmlRenderer->render(
-            templateName: 'delete',
-            params: $this->delete($id)
+            'delete',
+            $this->delete($id)
         );
     }
 }

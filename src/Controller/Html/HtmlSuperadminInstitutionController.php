@@ -51,8 +51,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index(isInstanceDependent: true)
+            'index',
+            $this->index(isInstanceDependent: true)
         );
     }
 
@@ -64,8 +64,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -77,8 +77,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create()
+            'create',
+            $this->create()
         );
     }
 
@@ -92,8 +92,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -107,8 +107,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id)
+            'edit',
+            $this->update($id)
         );
     }
 
@@ -125,8 +125,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     protected function batchUnion(array $element_ids): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'batchUnion',
-            params: $this->baseUnion($element_ids)
+            'batchUnion',
+            $this->baseUnion($element_ids)
         );
     }
 
@@ -159,8 +159,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 }

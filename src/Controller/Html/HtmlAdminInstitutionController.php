@@ -51,8 +51,8 @@ class HtmlAdminInstitutionController extends InstitutionController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -64,8 +64,8 @@ class HtmlAdminInstitutionController extends InstitutionController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(formOptions: [ 'show_city' => true ])
+            'new',
+            $this->new(formOptions: [ 'show_city' => true ])
         );
     }
 
@@ -77,8 +77,8 @@ class HtmlAdminInstitutionController extends InstitutionController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create(formOptions: [ 'show_city' => true ])
+            'new',
+            $this->create(formOptions: [ 'show_city' => true ])
         );
     }
 
@@ -92,8 +92,8 @@ class HtmlAdminInstitutionController extends InstitutionController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id, formOptions: [ 'show_city' => true ])
+            'edit',
+            $this->edit($id, formOptions: [ 'show_city' => true ])
         );
     }
 
@@ -107,8 +107,8 @@ class HtmlAdminInstitutionController extends InstitutionController
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id, formOptions: [ 'show_city' => true ])
+            'edit',
+            $this->update($id, formOptions: [ 'show_city' => true ])
         );
     }
 
@@ -132,8 +132,8 @@ class HtmlAdminInstitutionController extends InstitutionController
         ) $this->error('access_denied', msg: '');
 
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id, isInstanceDependent: false)
+            'show',
+            $this->show($id, isInstanceDependent: false)
         );
     }
 }

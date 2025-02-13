@@ -22,20 +22,21 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\DataRequest;
 
-class DataRequestController extends BaseInstanceDependentController
+class DataRequestController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return DataRequest::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(DataRequest::class);
+
+        parent::initialize();
+
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc',
-        ];
+        ]);
     }
 }

@@ -29,10 +29,10 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
- * ContactType controller.¡
+ * ContactType controller.
  * @Route("/superadmin/contacttype")
  */
-class SuperadminContactTypeController extends ContactTypeController
+class HtmlSuperadminContactTypeController extends ContactTypeController
 {
 
     public function initialize(): void
@@ -51,8 +51,8 @@ class SuperadminContactTypeController extends ContactTypeController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index(hasFilterForm: false)
+            'index',
+            $this->index(hasFilterForm: false)
         );
      }
 
@@ -64,8 +64,8 @@ class SuperadminContactTypeController extends ContactTypeController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -77,8 +77,8 @@ class SuperadminContactTypeController extends ContactTypeController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: '../Contact/new',
-            params: $this->create(redirectRoute: 'superadmin_contacttype')
+            '../Contact/new',
+            $this->create(redirectRoute: 'superadmin_contacttype')
         );
     }
 
@@ -92,8 +92,8 @@ class SuperadminContactTypeController extends ContactTypeController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -107,8 +107,8 @@ class SuperadminContactTypeController extends ContactTypeController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id, 'superadmin_contacttype_edit')
+            'edit',
+            $this->update($id, 'superadmin_contacttype_edit')
         );
     }
 }

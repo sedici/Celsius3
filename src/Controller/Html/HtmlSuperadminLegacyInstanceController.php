@@ -27,90 +27,68 @@ use Celsius3\Form\Type\LegacyInstanceType;
 use Celsius3\Form\Type\Filter\InstanceFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\InstanceController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * LegacyInstance controller.
- *
  * @Route("/superadmin/instance_legacy")
  */
-class SuperadminLegacyInstanceController extends InstanceController
+class HtmlSuperadminLegacyInstanceController extends InstanceController
 {
 
-    final protected function getType(): string
-    { return LegacyInstanceType::class; }
-
-    final protected function getTemplatePrefix(): string
-    { return 'Superadmin/LegacyInstance/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/LegacyInstance/');
+        $this->setType(LegacyInstanceType::class);
     }
 
 
     /**
      * Lists all Instance entities.
-     *
      * @Route("/", name="superadmin_instance_legacy")
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
-        return $this->baseIndex(type: InstanceFilterType::class);
+        return $this->htmlRenderer->render(
+            'index', $this->index(type: InstanceFilterType::class)
+        );
     }
 
 
     /**
      * Displays a form to create a new LegacyInstance entity.
-     *
      * @Route("/new", name="superadmin_instance_legacy_new")
      */
-    public function new(): Response
-    {
-        return $this->baseNew();
-    }
+    public function htmlNew(): Response
+    { return $this->htmlRenderer->render('new', $this->new()); }
 
 
     /**
      * Creates a new LegacyInstance entity.
-     *
      * @Route("/create", name="superadmin_instance_legacy_create", methods={"POST"})
      */
-    public function create(): Response
-    {
-        return $this->baseCreate(route: 'superadmin_instance_legacy');
-    }
+    public function htmlCreate(): Response
+    { return $this->htmlRenderer->render('create', $this->create()); }
 
 
     /**
      * Displays a form to edit an existing LegacyInstance entity.
-     *
      * @Route("/{id}/edit", name="superadmin_instance_legacy_edit")
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function edit(string $id): Response
-    {
-        return $this->baseEdit($id);
+    public function htmlEdit(string $id): Response
+    { return $this->htmlRenderer->render('edit', $this->edit($id));
     }
 
 
     /**
      * Edits an existing Instance entity.
-     *
      * @Route("/{id}/update", name="superadmin_instance_legacy_update", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function update($id)
-    {
-        return $this->baseUpdate($id, 'superadmin_instance_legacy');
-    }
+    public function htmlUpdate($id): Response
+    { return $this->htmlRenderer->render('edit', $this->update($id)); }
 }

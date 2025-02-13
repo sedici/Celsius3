@@ -64,8 +64,8 @@ class HtmlMessageController extends EntityController //BaseEntityController
         $pagination = $this->paginator->paginate($threads);
 
         return $this->htmlRenderer->render(
-            templateName: 'inbox',
-            params: [
+            'inbox',
+            [
                 'threads' => $pagination,
                 'filter_form' => $filter_form->createView(),
             ]
@@ -92,8 +92,8 @@ class HtmlMessageController extends EntityController //BaseEntityController
         );
 
         return $this->htmlRenderer->render(
-            templateName: 'sent',
-            params: [
+            'sent',
+            [
                 'threads' => $pagination,
                 'filter_form' => $filter_form->createView(),
             ]
@@ -116,8 +116,8 @@ class HtmlMessageController extends EntityController //BaseEntityController
         $pagination = $this->paginator->paginate($threads);
 
         return $this->htmlRenderer->render(
-            templateName: 'deleted',
-            params: [
+            'deleted',
+            [
                 'threads' => $pagination,
                 'filter_form' => $filter_form->createView(),
             ]

@@ -61,18 +61,16 @@ class HtmlRenderer extends BaseRenderer
     { $this->templatePrefix = $templatePrefix; }
 
 
-    public function render(... $args): Response
-    {
+    public function render(
+        ?string $templateName = null,
+        array $params = []
+    ): Response {
+        if (!$templateName) throw new \Exception('templateName is required');
+
         return new Response(
             $this->twig->render(
-
-                $this->templatePrefix . $this->getArg(
-                    $args, 'templateName' //, string
-                ) .  '.html.twig',
-
-                (array) $this->getArgOrNull(
-                    $args, 'params' //, array
-                )
+                (string) $this->templatePrefix . $templateName .  '.html.twig',
+                $params
             )
         );
     }

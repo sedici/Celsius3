@@ -57,6 +57,8 @@ class EntityController extends InstanceDependentController
     }
 
 
+    protected function setType(string $typeClassName): void
+    { $this->typeClassName = $typeClassName; }
     final protected function getEntityClass(): ReflectionClass
     { return new ReflectionClass($this->entityClassName); }
     protected function getType(): string

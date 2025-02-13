@@ -22,37 +22,41 @@
 
 namespace Celsius3\Controller\Base;
 
-use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Validator\Constraints\ContainsCSS;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\LegacyInstance;
 use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FileManager;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-abstract class InstanceController extends BaseInstanceDependentController
+abstract class InstanceController extends EntityController
 {
 
-    private MailerHelper $mailerHelper;
-    protected SessionInterface $session;
-
-
     public function __construct(
-        SessionInterface $session,
-        MailerHelper $mailerHelper,
+        protected FileManager $fileManager,
+        protected MailerHelper $mailerHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -63,7 +67,14 @@ abstract class InstanceController extends BaseInstanceDependentController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
             $instanceManager,
@@ -76,35 +87,32 @@ abstract class InstanceController extends BaseInstanceDependentController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $authorizationChecker,
+            $htmlRenderer,
+            $restRenderer
         );
-
-        $this->mailerHelper = $mailerHelper;
-        $this->session = $session;
     }
 
 
-    final protected function getEntity(): string
-    { return Instance::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(LegacyInstance::class);
+        parent::initialize();
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ];
+            'defaultSortDirection' => 'asc'
+        ]);
+        $this->setDirectory($this->repository->findOneBy(['url' => 'directory']));
     }
 
 
-    protected function getDirectory(): Instance|null
-    {
-        return  $this->repository
-            ->findOneBy(['url' => 'directory']);
-    }
-
-
-    protected function listQuery(): QueryBuilder
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
     {
         $qb = $this->repository
             ->createQueryBuilder('e')

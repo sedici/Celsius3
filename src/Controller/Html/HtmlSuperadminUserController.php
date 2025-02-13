@@ -56,8 +56,8 @@ final class HtmlSuperadminUserController extends UserController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index(
+            'index',
+            $this->index(
                 BaseUserFilterType::class
                 // 'superadmin_user'
             )
@@ -74,8 +74,8 @@ final class HtmlSuperadminUserController extends UserController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 
@@ -87,8 +87,8 @@ final class HtmlSuperadminUserController extends UserController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(
+            'new',
+            $this->new(
                 formOptions: ['validation_groups' => 'Registration']
                 // isInstanceDependent: true // tiene sentido?
             )
@@ -103,8 +103,8 @@ final class HtmlSuperadminUserController extends UserController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create(
+            'create',
+            $this->create(
                 redirectRoute: 'superadmin_user_new',
                 // isInstanceDependent: true // tiene sentido?
             )
@@ -121,8 +121,8 @@ final class HtmlSuperadminUserController extends UserController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit(
+            'edit',
+            $this->edit(
                 $id, formOptions: [ 'editing' => true ]
             )
         );
@@ -138,8 +138,8 @@ final class HtmlSuperadminUserController extends UserController
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'update',
-            params: $this->update(
+            'update',
+            $this->update(
                 $id, 'superadmin_user_edit',
                 formOptions: [ 'editing' => true ]
             )
@@ -233,8 +233,8 @@ final class HtmlSuperadminUserController extends UserController
     protected function batchUnion(array $ids): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'batchUnion',
-            params: [ 'entities' => $this->repository->findBy(['id' => $ids]) ]
+            'batchUnion',
+            [ 'entities' => $this->repository->findBy(['id' => $ids]) ]
         );
     }
 
@@ -279,8 +279,8 @@ final class HtmlSuperadminUserController extends UserController
         }
 
         return $this->htmlRenderer->render(
-            templateName: 'transform',
-            params: $response
+            'transform',
+            $response
         );
     }
 }

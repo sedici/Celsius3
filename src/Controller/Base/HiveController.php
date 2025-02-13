@@ -22,20 +22,22 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Hive;
 
-class HiveController extends BaseEntityController
+class HiveController extends EntityController
 {
 
-    final protected function getEntity(): string
-    { return Hive::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Hive::class);
+
+        parent::initialize();
+
+        $this->setInstanceDependent(false);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 }

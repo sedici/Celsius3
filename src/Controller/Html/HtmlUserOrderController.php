@@ -73,8 +73,8 @@ class HtmlUserOrderController extends OrderController
         }
 
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index(
+            'index',
+            $this->index(
                 filter_form: $filter_form
             )
         );
@@ -88,8 +88,8 @@ class HtmlUserOrderController extends OrderController
     public function htmlShow(string $id): Response 
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 
@@ -101,8 +101,8 @@ class HtmlUserOrderController extends OrderController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(
+            'new',
+            $this->new(
                 formOptions: [
                     'user' => $this->getUser(),
                     'librarian' => false,
@@ -138,8 +138,8 @@ class HtmlUserOrderController extends OrderController
 
 
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create(
+            'new',
+            $this->create(
                 formOptions: $options,
             )
         );

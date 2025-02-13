@@ -52,9 +52,9 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
-            // params: [
+            'index',
+            $this->index()
+            // [
             //     'entities' => $this->getPagination(),
             //     'filterForm' => $this->getFilterForm()->createView(),
             // ]
@@ -69,8 +69,8 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -84,8 +84,8 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -97,8 +97,8 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create()
+            'new',
+            $this->create()
         );
     }
 
@@ -112,8 +112,8 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id)
+            'edit',
+            $this->update($id)
         );
     }
 

@@ -50,8 +50,8 @@ class HtmlSuperadminJournalController extends JournalController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
     }
 
@@ -63,8 +63,8 @@ class HtmlSuperadminJournalController extends JournalController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -76,8 +76,8 @@ class HtmlSuperadminJournalController extends JournalController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create()
+            'create',
+            $this->create()
         );
     }
 
@@ -91,8 +91,8 @@ class HtmlSuperadminJournalController extends JournalController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id)
+            'edit',
+            $this->edit($id)
         );
     }
 
@@ -106,8 +106,8 @@ class HtmlSuperadminJournalController extends JournalController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'update',
-            params: $this->update($id)
+            'update',
+            $this->update($id)
         );
     }
 

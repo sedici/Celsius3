@@ -133,8 +133,8 @@ class HtmlAdminOrderController extends OrderController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            param: $this->show($id, isInstanceDependent: false)
+            'show',
+            $this->show($id, isInstanceDependent: false)
         );
     }
 
@@ -154,8 +154,8 @@ class HtmlAdminOrderController extends OrderController
             : null;
 
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(
+            'new',
+            $this->new(
                 formOptions: [
                     'user' => $user,
                     'operator' => $this->getUser(),
@@ -250,8 +250,8 @@ class HtmlAdminOrderController extends OrderController
         $this->addFlash('error', 'There were errors creating the Order.');
 
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: [
+            'new',
+            [
                 'entity' => $order,
                 'form' => $form->createView(),
             ]
@@ -294,8 +294,8 @@ class HtmlAdminOrderController extends OrderController
         );
 
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: [
+            'edit',
+            [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
             ]
@@ -353,8 +353,8 @@ class HtmlAdminOrderController extends OrderController
         );
 
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: [
+            'edit',
+            [
                 'entity' => $duplicatedOrder,
                 'edit_form' => $editForm->createView(),
             ]
@@ -430,8 +430,8 @@ class HtmlAdminOrderController extends OrderController
         }
 
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: [
+            'edit',
+            [
                 'entity' => $entity,
                 'edit_form' => $editForm->createView(),
             ]

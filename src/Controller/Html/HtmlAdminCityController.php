@@ -40,21 +40,21 @@ class HtmlAdminCityController extends CityController
      * @Route("/", name="admin_city")
      */
     public function htmlIndex(): Response
-    { return $this->htmlRenderer->render(templateName: 'index', params: $this->index()); }
+    { return $this->htmlRenderer->render('index', $this->index()); }
 
 
     /**
      * @Route("/new", name="admin_city_new")
      */
     public function htmlNew(): Response
-    { return $this->htmlRenderer->render(templateName: 'new', params: $this->new()); }
+    { return $this->htmlRenderer->render('new', $this->new()); }
 
 
     /**
      * @Route("/create", name="admin_city_create", methods={"POST"})
      */
     public function htmlCreate(): RedirectResponse|Response
-    { return $this->htmlRenderer->render(templateName: 'create', params: $this->create()); }
+    { return $this->htmlRenderer->render('create', $this->create()); }
 
 
     /**
@@ -63,7 +63,7 @@ class HtmlAdminCityController extends CityController
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function htmlEdit($id): Response
-    { return $this->htmlRenderer->render(templateName: 'edit', params: $this->edit($id)); }
+    { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
     
     /**
@@ -72,5 +72,5 @@ class HtmlAdminCityController extends CityController
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function htmlUpdate($id): RedirectResponse|Response
-    { return $this->htmlRenderer->render(templateName: 'update', params: $this->update($id)); }
+    { return $this->htmlRenderer->render('update', $this->update($id)); }
 }

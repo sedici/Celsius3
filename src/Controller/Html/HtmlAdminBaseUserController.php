@@ -74,8 +74,8 @@ final class HtmlAdminBaseUserController extends UserController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index(isInstanceDependent: true)
+            'index',
+            $this->index(isInstanceDependent: true)
         );
     }
 
@@ -89,7 +89,7 @@ final class HtmlAdminBaseUserController extends UserController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
+            'show',
             params:  $this->show($id)
         );
     }
@@ -102,8 +102,8 @@ final class HtmlAdminBaseUserController extends UserController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new(formOptions: ['validation_groups' => 'Registration'])
+            'new',
+            $this->new(formOptions: ['validation_groups' => 'Registration'])
         );
     }
 
@@ -115,8 +115,8 @@ final class HtmlAdminBaseUserController extends UserController
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'create',
-            params: $this->create(redirectRoute: 'admin_user_new')
+            'create',
+            $this->create(redirectRoute: 'admin_user_new')
         );
     }
 
@@ -130,8 +130,8 @@ final class HtmlAdminBaseUserController extends UserController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit(
+            'edit',
+            $this->edit(
                 $id,
                 formOptions: [ 'editing' => true ]
             )
@@ -149,8 +149,8 @@ final class HtmlAdminBaseUserController extends UserController
         string $id
     ): RedirectResponse|Response {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update(
+            'edit',
+            $this->update(
                 $id, 'admin_user_edit',
                 formOptions: [ 'editing' => true ]
             )
@@ -261,8 +261,8 @@ final class HtmlAdminBaseUserController extends UserController
     protected function batchUnion(array $element_ids): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'batchUnion',
-            params: $this->baseUnion($element_ids)
+            'batchUnion',
+            $this->baseUnion($element_ids)
         );
     }
 
@@ -311,8 +311,8 @@ final class HtmlAdminBaseUserController extends UserController
         }
 
         return $this->htmlRenderer->render(
-            templateName: 'transform.html.twig',
-            params: $response
+            'transform.html.twig',
+            $response
         );
     }
 

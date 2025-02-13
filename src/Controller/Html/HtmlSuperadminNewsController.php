@@ -63,8 +63,8 @@ class HtmlSuperadminNewsController extends NewsController
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'index',
-            params: $this->index()
+            'index',
+            $this->index()
         );
         // return $this->baseInstanceIndex(NewsFilterType::class);
     }
@@ -79,8 +79,8 @@ class HtmlSuperadminNewsController extends NewsController
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'show',
-            params: $this->show($id)
+            'show',
+            $this->show($id)
         );
     }
 
@@ -92,8 +92,8 @@ class HtmlSuperadminNewsController extends NewsController
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->new()
+            'new',
+            $this->new()
         );
     }
 
@@ -105,8 +105,8 @@ class HtmlSuperadminNewsController extends NewsController
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'new',
-            params: $this->create()
+            'new',
+            $this->create()
         );
     }
 
@@ -120,8 +120,8 @@ class HtmlSuperadminNewsController extends NewsController
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->edit($id, isInstanceDependent: true)
+            'edit',
+            $this->edit($id, isInstanceDependent: true)
         );
     }
 
@@ -135,8 +135,8 @@ class HtmlSuperadminNewsController extends NewsController
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
-            templateName: 'edit',
-            params: $this->update($id, isInstanceDependent: true)
+            'edit',
+            $this->update($id, isInstanceDependent: true)
         );
     }
 }
