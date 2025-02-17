@@ -22,87 +22,70 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Entity\Request as CelsiusRequest;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
  *
  * @Route("/rest/v1/admin/requests")
  */
-class AdminRequestRestController extends BaseInstanceDependentRestController
+class RestAdminRequestController extends EntityController
 {
+
+    public function initialize(): void
+    {
+        $this->setEntity(CelsiusRequest::class);
+        parent::initialize();
+        $this->setInstanceDependent(true);
+    }
+
     /**
      * GET Route annotation.
-     *
      * @Get("/", name="admin_rest_request", options={"expose"=true})
      */
-    public function getRequests()
+    public function getRequests(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $requests = $em->getRepository(\Celsius3\Entity\Request::class)
-                ->findBy(array('instance' => $this->getInstance()->getId()));
-
-        $view = $this->view(array_values($requests), 200)->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->restRenderer->render(
+            $this->repository->findBy(
+                [ 'instance'=>$this->instance->getId() ]
+            )
+        );
     }
+
 
     /**
      * GET Route annotation.
-     *
      * @Get("/{order_id}", name="admin_rest_request_get", options={"expose"=true})
      */
-    public function getRequest($order_id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    public function getRequest(string $id)
+    { return $this->restRenderer->render($this->findQuery($id)); }
 
-        $request = $em->getRepository(\Celsius3\Entity\Request::class)
-                ->findOneBy(array(
-            'order' => $order_id,
-            'instance' => $this->getInstance()->getId(),
-        ));
-
-        if (!$request) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');
-        }
-
-        $view = $this->view($request, 200)->setFormat('json');
-
-   //     $context = new Context();
-
-      //  $context->addGroup('administration_order_show');
-  //      $view->setContext($context);
-
-        return $this->handleView($view);
-    }
 
     /**
      * GET Route annotation.
-     *
      * @Post("/reenable_download", name="admin_rest_request_reenable_download", options={"expose"=true})
      */
-    public function reenableDownload(Request $req)
+    public function reenableDownload(): Response
     {
-        $request_id = $req->request->get('request_id');
-        $manager = $this->getDoctrine()->getManager();
-        $request = $this->getDoctrine()->getRepository(\Celsius3\Entity\Request::class)->find($request_id);
+        $requestId = $this->requestStack->getCurrentRequest()->get('request_id');
+        $cRequest = $this->findQuery($requestId);
 
-        foreach ($request->getFiles() as $file) {
+        foreach ($cRequest->getFiles() as $file) {
             if ($file->getEnabled()) {
                 $file->setDownloaded(false);
-                $manager->persist($file);
+                $$this->entityManager->persist($file);
             }
         }
 
-        $manager->flush();
+        $this->entityManager->flush();
 
-        $view = $this->view(['reenabled' => true], 200)->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->restRenderer->render([ 'reenambled' => true ]);
     }
 }

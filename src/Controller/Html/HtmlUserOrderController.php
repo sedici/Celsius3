@@ -129,7 +129,7 @@ class HtmlUserOrderController extends OrderController
             'actual_user' => $this->getUser(),
             'target' => $request
                 ->get('order')['originalRequest']['target'] ?? '',
-            'librarian' => $this->authorizationChecker
+            'librarian' => $this->security
                 ->isGranted(UserManager::ROLE_LIBRARIAN),
         ];
 

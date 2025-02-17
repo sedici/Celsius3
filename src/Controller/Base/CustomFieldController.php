@@ -22,24 +22,21 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\CustomField;
 
-class CustomFieldController extends BaseInstanceDependentController
+class CustomFieldController extends EntityController
 {
-    
-    final protected function getEntity(): string
-    { return CustomField::class; }
 
-
-    final protected function getTemplatePrefix(): string
-    { return 'Admin/CustomField/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(CustomField::class);
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Admin/CustomField/');
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 }

@@ -53,7 +53,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 
 abstract class Controller
 {
@@ -79,7 +79,7 @@ abstract class Controller
         protected FlashBagInterface $session,
         protected RouterInterface $router,
         protected TokenStorageInterface $tokenStorage,
-        protected AuthorizationCheckerInterface $authorizationChecker,
+        protected Security $security,
         protected HtmlRenderer $htmlRenderer,
         protected RestRenderer $restRenderer
     ) {

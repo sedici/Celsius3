@@ -27,9 +27,10 @@ use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
 use Celsius3\Controller\Mixin\FileControllerTrait;
 use Celsius3\Manager\FileManager;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Celsius3\Controller\Base\FileController;
 
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,11 +41,16 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+
 
 /**
  * File controller.
- *
  * @Route("/admin/file")
  */
 class AdminFileController extends FileController
@@ -52,13 +58,9 @@ class AdminFileController extends FileController
     
     use FileControllerTrait;
 
-    protected $tokenStorage;
-
-    protected $fileManager;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        FileManager $fileManager,
+        protected FileManager $fileManager,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -69,7 +71,14 @@ class AdminFileController extends FileController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
             $instanceManager,
@@ -82,19 +91,24 @@ class AdminFileController extends FileController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-        $this->tokenStorage = $tokenStorage;
-        $this->fileManager = $fileManager;
     }
 
 
     protected function validate(
         Request $request, File $file
     ): void {
-        if (!$request) $this->error('exception_not_found');
-
-        if (!$file) $this->error('exception_not_found');
+        // Esto teóricamente no podría suceder porque los parámetros son obligatorios, no opcionales
+        // if (!$request) $this->error('exception_not_found');
+        // if (!$file) $this->error('exception_not_found');
 
         $user = $this->tokenStorage->getToken()->getUser();
 
@@ -109,10 +123,7 @@ class AdminFileController extends FileController
 
     /**
      * Downloads the file associated to a File entity.
-     *
      * @Route("/{request}/{file}/download", name="admin_file_download_file", options={"expose"=true})
-     *
-     * @param string $id The entity ID
      */
     public function download($request, $file): mixed
     {

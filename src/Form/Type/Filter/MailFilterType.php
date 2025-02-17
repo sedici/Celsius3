@@ -24,51 +24,51 @@ namespace Celsius3\Form\Type\Filter;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\UserSelectorType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormTypeInterface;
 
 class MailFilterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setMethod('GET');
         
         $builder
-            ->add('sender', UserSelectorType::class, array(
-                'attr' => array(
+            ->add('sender', UserSelectorType::class, [
+                'attr' => [
                     'class' => 'container',
                     'readonly' => 'readonly',
-                    'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
-                ),
-                'required' => false
-            ))
-            ->add('address', null, array(
+                    'value' => ($options['sender'] !== null) ? $options['sender']->getId() : null,
+                ],
                 'required' => false,
-            ));
+            ])
+            ->add('address', null, [
+                'required' => false,
+            ]);
                 
-        if (is_null($options['instance'])) {
-            $builder->add('instance', EntityType::class, array(
+        if ($options['instance'] === null) {
+            $builder->add('instance', EntityType::class, [
                 'required' => false,
                 'class' => Instance::class,
-            ));
+            ]);
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'sender' => null,
             'allow_extra_fields' => true,
-            'validation_groups' => ['base_mail_filter_type']
-        ));
+            'validation_groups' => ['base_mail_filter_type'],
+        ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return '';
     }

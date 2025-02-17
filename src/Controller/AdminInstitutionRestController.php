@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\InstitutionController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
@@ -33,89 +34,113 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Entity\Institution;
 use Celsius3\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * User controller.
- *
  * @Route("/rest/v1/admin/institution")
  */
-class AdminInstitutionRestController extends BaseInstanceDependentRestController
+class AdminInstitutionRestController extends InstitutionController // BaseInstanceDependentRestController
 {
 
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstanceDependent(false);
+    }
+
+
     /**
-     * GET Route annotation.
-     *
      * @Get("/intercambio/rest/institution", name="admin_rest_institution_intercambio", options={"expose"=true})
      */
-    public function getInteractionInstitutions(Request $request)
+    public function getInteractionInstitutions(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $city_id = null;
-        $filter = null;
+        $request = $this->requestStack->getCurrentRequest();
         if ($request->query->has('filter') && $request->query->get('filter') !== '') {
             $filter = $request->query->get('filter');
         }
         $country_id = $request->query->get('country_id');
-        $hive = $this->getInstance()->getHive();
+        $hive = $this->instance->getHive();
+        $institutions = $this->repository
+            ->findForInstanceAndGlobal(
+                $this->instance, $this->directory, $country_id
+            );
+        return $this->restRenderer->render(
+            $institutions, serializerGroups: 'administration_order_show'
+        );
 
-        $institutions = $em->getRepository(Institution::class)
-            ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
-            ->getQuery()->getResult();
-        $view = $this->view(array_values($institutions), 200)->setFormat('json');
 
-        $context = new Context();
-        $context->addGroup('administration_order_show');
-        $view->setContext($context);
+        // $em = $this->getDoctrine()->getManager();
+        // $city_id = null;
+        // $filter = null;
+        // if ($request->query->has('filter') && $request->query->get('filter') !== '') {
+        //     $filter = $request->query->get('filter');
+        // }
+        // $country_id = $request->query->get('country_id');
+        // $hive = $this->getInstance()->getHive();
 
-        return $this->handleView($view);
+        // $institutions = $em->getRepository(Institution::class)
+        //     ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
+        //     ->getQuery()->getResult();
+        // $view = $this->view(array_values($institutions), 200)->setFormat('json');
+
+        // $context = new Context();
+        // $context->addGroup('administration_order_show');
+        // $view->setContext($context);
+
+        // return $this->handleView($view);
     }
 
 
 
 
     /**
-     * GET Route annotation.
-     *
      * @Get("/parent/{parent_id}", name="admin_rest_institution_parent_get", options={"expose"=true})
      */
-    public function getInstitutionByParent($parent_id)
+    public function getInstitutionByParent(string $parent_id): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        $institution = $this->repository->findBy([ 'parent' => $parent_id ]);
+        return $this->restRenderer->render(
+            $institution, serializerGroups: 'administration_order_show'
+        );
 
-        $institutions = $em->getRepository(Institution::class)
-                ->findBy(array('parent' => $parent_id));
 
-        $view = $this->view(array_values($institutions), 200)->setFormat('json');
+        // $em = $this->getDoctrine()->getManager();
 
-        $context = new Context();
-        $context->addGroup('administration_order_show');
-        $view->setContext($context);
+        // $institutions = $em->getRepository(Institution::class)
+        //         ->findBy(array('parent' => $parent_id));
 
-        return $this->handleView($view);
+        // $view = $this->view(array_values($institutions), 200)->setFormat('json');
+
+        // $context = new Context();
+        // $context->addGroup('administration_order_show');
+        // $view->setContext($context);
+
+        // return $this->handleView($view);
     }
 
+
     /**
-     * GET Route annotation.
-     *
-     * @Get("/{id}/get", name="admin_rest_institution_get", options={"expose"=true})
+     * @Get("/{id}/show", name="admin_rest_institution_get", options={"expose"=true})
      */
-    public function getInstitution($id)
+    public function getInstitution(string $id): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        return $this->restRenderer->show($id, 'institution_show');
 
-        $institution = $em->getRepository(Institution::class)->find($id);
+        // $em = $this->getDoctrine()->getManager();
 
-        if (!$institution) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
-        }
+        // $institution = $em->getRepository(Institution::class)->find($id);
 
-        $view = $this->view($institution, 200)->setFormat('json');
+        // if (!$institution) {
+        //     throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
+        // }
 
-        $context = new Context();
-        $context->addGroup('institution_show');
-        $view->setContext($context);
+        // $view = $this->view($institution, 200)->setFormat('json');
 
-        return $this->handleView($view);
+        // $context = new Context();
+        // $context->addGroup('institution_show');
+        // $view->setContext($context);
+
+        // return $this->handleView($view);
     }
 
     /**

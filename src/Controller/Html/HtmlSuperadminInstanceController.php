@@ -33,7 +33,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Instance controller.
- *
  * @Route("/superadmin/instance")
  */
 class HtmlSuperadminInstanceController extends InstanceController

@@ -35,7 +35,7 @@ class RestAdminCountryController extends CountryController
 {
 
     /**
-     * @Get("", name="rest_admin_country", options={"expose"=true})
+     * @Get("/", name="rest_admin_country", options={"expose"=true})
      */
     public function restIndex(): Response
     { return $this->restRenderer->index('administration_order_show'); }

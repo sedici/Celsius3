@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -22,7 +24,6 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\Filter\MailFilterType;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,28 +32,50 @@ use Celsius3\Controller\Base\MailListController;
 
 /**
  * MailList controller.
- *
- * @Route("/superadmin/maillist")
+ * @Route("/admin/maillist")
  */
-class SuperadminMailListController extends MailListController
+class HtmlAdminMailListController extends MailListController
 {
-    protected function getInstance(): Instance
-    { return $this->directory; }
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Admin/MailList/');
+    }
 
 
-    final protected function getTemplatePrefix(): string
-    { return 'Superadmin/MailList/'; }
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
+    {
+        return $this->entityManager
+            ->getRepository($this->entityClassName)
+            ->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter(
+                'instance_id',
+                $this->instance->getId()
+            );
+    }
 
 
-    protected function listQuery(): QueryBuilder
-    { return $this->repository->createQueryBuilder('e'); }
+    // protected function getResultsPerPage()
+    // {
+    //     return $this->configurationHelper
+    //         ->getCastedValue(
+    //             $this->instanceHelper
+    //                 ->getSessionOrUrlInstance()
+    //                 ->get('results_per_page')
+    //             );
+    // }
 
 
     /**
      * Lists all Mail entities.
-     *
-     * @Route("/", name="superadmin_maillist")
+     * @Route("/", name="admin_maillist")
      */
-    public function index(): Response
-    { return $this->baseInstanceIndex(MailFilterType::class); }
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            'index', $this->index(MailFilterType::class)
+        );
+    }
 }

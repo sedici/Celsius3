@@ -52,7 +52,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use function get_class;
@@ -82,7 +82,7 @@ class HtmlAdminOrderController extends OrderController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
+        Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer        
     ) {
@@ -102,13 +102,10 @@ class HtmlAdminOrderController extends OrderController
             $session,
             $router,
             $tokenStorage,
-            $authorizationChecker,
+            $security,
             $htmlRenderer,
             $restRenderer
         );
-
-        $this->lifecycleHelper = $lifecycleHelper;
-        $this->initialize();
     }
 
 

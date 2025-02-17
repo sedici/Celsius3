@@ -22,20 +22,22 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\File;
 
-class FileController extends BaseInstanceDependentController
+class FileController extends EntityController
 {
-    
-    final protected function getEntity(): string
-    { return File::class; }
 
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(File::class);
+
+        parent::initialize();
+
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 }

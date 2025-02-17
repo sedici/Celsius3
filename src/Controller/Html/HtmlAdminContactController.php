@@ -48,7 +48,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * AdminContact controller.
@@ -74,7 +74,7 @@ class HtmlAdminContactController extends ContactController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
+        Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
     ) {
@@ -94,13 +94,10 @@ class HtmlAdminContactController extends ContactController
             $session,
             $router,
             $tokenStorage,
-            $authorizationChecker,
+            $security,
             $htmlRenderer,
             $restRenderer
         );
-
-        $this->customFieldHelper = $customFieldHelper;
-        $this->initialize();
     }
 
 
@@ -228,7 +225,7 @@ class HtmlAdminContactController extends ContactController
         $entity,
         ?string $type = null,
         ?string $redirectRoute = null,
-        ?bool $isInstanceDependent,
+        ?bool $isInstanceDependent = null,
         ?array $formExtraOptions = []
     ): array {
         return [

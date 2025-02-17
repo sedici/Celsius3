@@ -23,7 +23,6 @@
 namespace Celsius3\Controller\Core;
 
 use Celsius3\Entity\BaseUser;
-use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
@@ -262,7 +261,7 @@ class EntityController extends InstanceDependentController
         ?bool $hasFilterForm = true,
         ?bool $isInstanceDependent = null
     ): array {
-        if ($type === null) $type = $this->filterClassName;
+        if ($type === null && $hasFilterForm) $type = $this->filterClassName;
 
         // ---
 
@@ -424,7 +423,7 @@ class EntityController extends InstanceDependentController
         $entity,
         ?string $type = null,
         ?string $redirectRoute = null,
-        ?bool $isInstanceDependent,
+        ?bool $isInstanceDependent = null,
         ?array $formExtraOptions = []
     ): array {
         return [];
@@ -478,7 +477,7 @@ class EntityController extends InstanceDependentController
         $entity,
         ?string $type = null,
         ?string $redirectRoute = null,
-        ?bool $isInstanceDependent,
+        ?bool $isInstanceDependent = null,
         ?array $formExtraOptions = []
     ): array {
         return [];

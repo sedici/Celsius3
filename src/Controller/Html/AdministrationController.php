@@ -34,7 +34,6 @@ use Celsius3\Entity\MailTemplate;
 use Celsius3\Entity\State;
 use Celsius3\Mailer\Mailer;
 use Celsius3\Manager\Alert;
-use Celsius3\Manager\UserManager;
 use DateTime;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,11 +43,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Twig\Environment;
+use Celsius3\Controller\Core\EntityController;
 
-
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,33 +55,36 @@ use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-
-use Celsius3\Controller\Base\BaseInstanceDependentController;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Twig\Environment;
 
 use function count;
 use function in_array;
 use function json_encode;
 
+
 /**
  * Administration controller.
- *
  * @Route("/admin")
  */
-class AdministrationController extends BaseInstanceDependentController
+class AdministrationController extends EntityController
 {
-    protected SessionInterface $session;
-    protected Environment $twig;
-    protected Mailer $mailer;
+
     protected $fileRepository;
+    protected array $allowedTargets;
 
 
     public function __construct(
-        SessionInterface $session,
-        Environment $twig,
-        Mailer $mailer,
+        protected Environment $twig,
+        protected Mailer $mailer,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -93,7 +95,14 @@ class AdministrationController extends BaseInstanceDependentController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ){
         parent::__construct(
             $instanceManager,
@@ -106,36 +115,40 @@ class AdministrationController extends BaseInstanceDependentController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-        $this->session = $session;
-        $this->mailer = $mailer;
-        $this->twig = $twig;
-        $this->fileRepository = $this->entityManager
-            ->getRepository(File::class);
     }
 
-
-    protected function getTemplatePrefix(): string
-    { return 'Admin/Dashboard/'; }
-
-    final protected function getEntity(): string
-    { return Configuration::class; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Configuration::class);
+
+        parent::initialize();
+
+        $this->htmlRenderer->setTemplatePrefix('Admin/Dashboard/');
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+
+        $this->fileRepository = $this->entityManager
+            ->getRepository(File::class);
+
+        $this->allowedTargets = [ 'Journal', 'BaseUser' ];
     }
 
 
     /**
      * @Route("/", name="administration", options={"expose"=true})
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
         $config_helper = $this->configurationHelper;
         $results_per_page_config = $this->repository
@@ -146,8 +159,8 @@ class AdministrationController extends BaseInstanceDependentController
                 ]
             );
 
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
+        return $this->htmlRenderer->render(
+            'index',
             [
                 'resultsPerPage' => $results_per_page_config->getValue(),
             ]
@@ -162,8 +175,9 @@ class AdministrationController extends BaseInstanceDependentController
         Request $request = null,
         Instance $instance = null
     ): Response {
-        return parent::ajax(
+        return $this->restRenderer->ajax(
             $this->requestStack->getCurrentRequest(),
+            $this->allowedTargets,
             $this->instance
         );
     }
@@ -174,41 +188,15 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function usernamesAjax(Request $request): NotFoundHttpException|Response
     {
-        if (!$request->isXmlHttpRequest()) {
-            return $this->createNotFoundException();
-        }
-
-        $instance = $this->instance;
-        $term = $request->query->get('term');
-
-        $result = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findByTerm(
-                $term,
-                $instance,
-                null
-            )
-            ->getResult();
-
-        $json = [];
-        foreach ($result as $element) {
-            $json[] = [
-                'id' => $element->getUsername(),
-                'value' => $element->__toString(),
-            ];
-        }
-
-        $response = new Response(json_encode($json));
-        $response->headers->set(
-            'Content-Type', 'application/json');
-
-        return $response;
+        $this->requestStack->getCurrentRequest();
+        return $this->restRenderer->ajax(
+            $request, $this->allowedTargets, $this->instance
+        );
     }
 
 
     /**
      * GET Route annotation.
-     *
      * @Route("/send_reminder_emails", name="admin_send_reminder_emails", options={"expose"=true})
      */
     public function sendReminderEmails()
@@ -216,9 +204,9 @@ class AdministrationController extends BaseInstanceDependentController
         $entity_manager = $this->entityManager;
         $users_with_pending_requets = $entity_manager->getRepository(State::class)
             ->countUsersWithPendingRequests(
-                $this->getInstance(),
-                $this->getInstance()->get('min_days_for_send_mail')->getValue(),
-                $this->getInstance()->get('max_days_for_send_mail')->getValue()
+                $this->instance,
+                $this->instance->get('min_days_for_send_mail')->getValue(),
+                $this->instance->get('max_days_for_send_mail')->getValue()
             );
 
         $templates = $entity_manager->getRepository(MailTemplate::class)->findAllEnabled();
@@ -242,12 +230,15 @@ class AdministrationController extends BaseInstanceDependentController
             ];
         }
 
-        return $this->render('Admin/Dashboard/send_reminder_emails.html.twig', [
-            'users' => $users,
-            'templates' => $templates,
-            'error' => $error,
-            'errorMessage' => $error_message,
-        ]);
+        return $this->htmlRenderer->render(
+            'send_reminder_emails',
+            [
+                'users' => $users,
+                'templates' => $templates,
+                'error' => $error,
+                'errorMessage' => $error_message,
+            ]
+        );
     }
 
 
@@ -262,9 +253,9 @@ class AdministrationController extends BaseInstanceDependentController
         $users_requests = $this->entityManager
             ->getRepository(State::class)
             ->getUsersWithPendingRequests(
-                $this->getInstance(),
-                $this->getInstance()->get('min_days_for_send_mail')->getValue(),
-                $this->getInstance()->get('max_days_for_send_mail')->getValue()
+                $this->instance,
+                $this->instance->get('min_days_for_send_mail')->getValue(),
+                $this->instance->get('max_days_for_send_mail')->getValue()
             );
 
         $i = 0;
@@ -284,14 +275,13 @@ class AdministrationController extends BaseInstanceDependentController
             }
         }
 
-        $mailer = $this->mailer;
-        $twig = $this->twig;
-
         foreach ($users as $user) {
             try {
-                $template = $twig->createTemplate($text);
+                $template = $this->twig->createTemplate($text);
                 $body = $template->render(['user' => $user]);
-                $mailer->sendEmail($user['email'], $subject, $body, $this->getInstance());
+                $this->mailer->sendEmail(
+                    $user['email'], $subject, $body, $this->instance
+                );
             } catch (Exception $e) {
                 $this->addFlash('error', 'Invalid Template');
 
@@ -302,10 +292,9 @@ class AdministrationController extends BaseInstanceDependentController
         return $this->redirectToRoute('administration');
     }
 
+
     /**
      * @Route("/{id}/data_request_download", name="admin_instance_data_request_download", options={"expose"=true})
-     * @param  DataRequest  $dataRequest
-     * @return RedirectResponse|Response
      */
     public function dataRequestDownload(DataRequest $dataRequest)
     {
@@ -339,17 +328,18 @@ class AdministrationController extends BaseInstanceDependentController
     public function dataRequestGet(): Response
     {
         $em = $this->entityManager;
-        $result = $em->getRepository(DataRequest::class)->findExportedRequests($this->getInstance());
-
-        return new Response(json_encode($result));
+        $result = $em->getRepository(DataRequest::class)->findExportedRequests($this->instance);
+        return $this->restRenderer->render($result);
+        // return new Response(json_encode($result));
     }
 
 
     /**
      * @Route("/interaction_get", name="admin_instance_interaction_get", options={"expose"=true}, methods={"POST"})
      */
-    public function getInteractionWith(Request $request): JsonResponse
+    public function getInteractionWith(): JsonResponse
     {
+        $request = $this->requestStack->getCurrentRequest();
         $id = $request->request->get('id');
         $initial_year = !empty($request->request->get('anio_desde')) ? $request->request->get('anio_desde') : 2001;
         $final_year = !empty($request->request->get('anio_hasta')) ? $request->request->get(
@@ -358,7 +348,6 @@ class AdministrationController extends BaseInstanceDependentController
 
         $institution_repository = $this->entityManager->getRepository(Institution::class);
         $institution = $institution_repository->find($id);
-        $instance = $this->getInstance();
 
         $interaction['result'] = false;
         if (true) {
@@ -373,20 +362,20 @@ class AdministrationController extends BaseInstanceDependentController
 
             $request_repository = $this->entityManager->getRepository(\Celsius3\Entity\Request::class);
             $response['institutionInteraction'] = $request_repository->getInteractionOfInstitutionWithInstance(
-                $instance,
+                $this->instance,
                 $institutions,
                 $initial_year,
                 $final_year
             );
             $response['instanceInteraction'] = $request_repository->getInteractionOfInstanceWithInstitution(
-                $instance,
+                $this->instance,
                 $institutions,
                 $initial_year,
                 $final_year
             );
 
             $interaction['institution'] = $institution->getName();
-            $interaction['instance'] = $instance->getName();
+            $interaction['instance'] = $this->instance->getName();
 
             foreach ($response['institutionInteraction'] as $res) {
                 $interaction['institutionInteraction']['data'][$res['year']][$res['st']] = $res['c'];
@@ -397,18 +386,18 @@ class AdministrationController extends BaseInstanceDependentController
             }
         }
 
-        return new JsonResponse($interaction, 200);
+        return $this->restRenderer->render($interaction);
     }
 
-    protected function validateAjax($target): bool
-    {
-        $allowed_targets = [
-            'Journal',
-            'BaseUser',
-        ];
+    // protected function validateAjax($target): bool
+    // {
+    //     $allowed_targets = [
+    //         'Journal',
+    //         'BaseUser',
+    //     ];
 
-        return in_array($target, $allowed_targets, true);
-    }
+    //     return in_array($target, $allowed_targets, true);
+    // }
 
     protected function parentAjax(Request $request, Instance $instance = null, $librarian = null)
     {
@@ -417,13 +406,12 @@ class AdministrationController extends BaseInstanceDependentController
         }
 
         $target = $request->query->get('target');
-        if (!$this->validateAjax($target)) {
+        if (!in_array($target, $this->allowedTargets, true))
             throw $this->createNotFoundException();
-        }
 
         $term = $request->query->get('term');
 
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->security->isGranted('ROLE_ADMIN')) {
             $insts = [];
         } else {
             $insts = $this->userManager->getLibrarianInstitutions($librarian);

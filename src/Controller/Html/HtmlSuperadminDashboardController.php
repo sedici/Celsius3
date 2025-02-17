@@ -52,7 +52,7 @@ class HtmlSuperadminDashboardController extends DashboardController
      * @Route("/", name="superadministration")
      */
     public function htmlIndex(): Response
-    { return $this->htmlRenderer->render('index', $this->index()); }
+    { return $this->htmlRenderer->render('index'); }
 
 
     /**

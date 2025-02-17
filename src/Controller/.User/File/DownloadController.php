@@ -102,7 +102,7 @@ final class DownloadController extends BaseUserController
             throw new NotFoundException('exception.not_found.order');
         }
 
-        $user = $this->tokenStorage->getToken()->getUser();
+        $user = $this->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN')) {
             if (!$file || ($file->isDownloaded() && !$file->hasDownloadTime()) || !$file->getEnabled(

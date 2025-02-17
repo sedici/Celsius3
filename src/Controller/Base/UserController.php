@@ -51,7 +51,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 
 
 abstract class UserController extends EntityController
@@ -76,7 +76,7 @@ abstract class UserController extends EntityController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
+        Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
     ) {
@@ -96,7 +96,7 @@ abstract class UserController extends EntityController
             $session,
             $router,
             $tokenStorage,
-            $authorizationChecker,
+            $security,
             $htmlRenderer,
             $restRenderer
         );
@@ -311,7 +311,7 @@ abstract class UserController extends EntityController
 
     protected function switchUser(string $username): RedirectResponse
     {
-        if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->findOneForInstanceByUsername($username);
 
             $token = new UsernamePasswordToken(

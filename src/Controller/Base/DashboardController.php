@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Base;
 
-use Celsius3\Controller\Core\EntityController;
 use Celsius3\Manager\StatisticManager;
 
 use Celsius3\Controller\Core\HtmlRenderer;
@@ -46,10 +45,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 
 
-class DashboardController extends EntityController
+class DashboardController extends InstanceDependentController
 {
 
     public function __construct(
@@ -69,7 +68,7 @@ class DashboardController extends EntityController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
+        Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
     ) {
@@ -89,7 +88,7 @@ class DashboardController extends EntityController
             $session,
             $router,
             $tokenStorage,
-            $authorizationChecker,
+            $security,
             $htmlRenderer,
             $restRenderer
         );

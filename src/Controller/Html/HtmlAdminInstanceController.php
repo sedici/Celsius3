@@ -26,31 +26,29 @@ use Celsius3\Entity\Country;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\InstanceController;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 /**
  * Instance controller.
- *
  * @Route("/admin/instance")
  */
-class AdminInstanceController extends InstanceController
+class HtmlAdminInstanceController extends InstanceController
 {
 
     /**
      * Displays a form to configure an existing Instance
-     *
      * @Route("/configure", name="admin_instance_configure")
-     *
      * @param string $id The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function configure(): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'configure.html.twig',
+        return $this->htmlRenderer->render(
+            'configure',
             $this->baseConfigure(
-                $this->session->get('instance_id')
+                // $this->session->get('instance_id')
+                $this->instanceHelper->getSessionInstance()->getId()
             )
         );
     }
@@ -58,18 +56,14 @@ class AdminInstanceController extends InstanceController
 
     /**
      * Edits the existing Instance configuration.
-     *
      * @Route("/{id}/update_configuration", name="admin_instance_update_configuration", methods={"POST"})
-     *
      * @param string $id The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function configureUpdate(string $id): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'configure.html.twig',
+        return $this->htmlRenderer->render(
+            'configure',
             $this->baseConfigureUpdate($id, 'admin_instance')
         );
     }
@@ -77,13 +71,9 @@ class AdminInstanceController extends InstanceController
 
     /**
      * Edits the existing Instance configuration.
-     *
      * @Route("/intercambio", name="admin_instance_intercambio", methods={"GET"})
-     *
      * @param string $id The entity ID
-     *
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function intercambioUI(): Response
     {
@@ -94,14 +84,12 @@ class AdminInstanceController extends InstanceController
         
         $country = $paisRepository->findForInstanceAndGlobal(
             $instance,
-            $this->getDirectory()
+            $this->directory
         )->getQuery()->execute();
 
-        return $this->render(
-            (string) $this->templatePrefix . 'intercambio.html.twig',
-            [
-                'countries' => $country
-            ]
+        return $this->htmlRenderer->render(
+            'intercambio',
+            [ 'countries' => $country ]
         );
     }
 }

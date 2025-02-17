@@ -51,7 +51,7 @@ class RestRenderer extends BaseRenderer
         int $statusCode = Response::HTTP_OK,
         array|string $serializerGroups = []
     ): Response {
-        if (!$data) throw new \Exception('data is required');
+        if ($data === null) throw new \Exception('data is required');
 
         $view = $this->view(
             $data, $statusCode,

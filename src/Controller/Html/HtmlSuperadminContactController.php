@@ -113,7 +113,7 @@ class HtmlSuperadminContactController extends ContactController
         $entity,
         ?string $type = null,
         ?string $redirectRoute = null,
-        ?bool $isInstanceDependent,
+        ?bool $isInstanceDependent = null,
         ?array $formExtraOptions = []
     ): array {
         return [
@@ -143,7 +143,7 @@ class HtmlSuperadminContactController extends ContactController
         $entity,
         ?string $type = null,
         ?string $redirectRoute = null,
-        ?bool $isInstanceDependent,
+        ?bool $isInstanceDependent = null,
         ?array $formExtraOptions = []
     ): array {
         return [

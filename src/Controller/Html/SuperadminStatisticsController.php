@@ -28,19 +28,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\BaseController;
+use Celsius3\Controller\Core\Controller;
 
 /**
  * Location controller.
- *
  * @Route("/superadmin/statistic")
  */
-class SuperadminStatisticsController extends BaseController
+class SuperadminStatisticsController extends Controller
 {
 
     /**
      * Lists all Catalog entities.
-     *
      * @Route("/", name="superadmin_statistics")
      */
     public function index(): Response
@@ -59,8 +57,8 @@ class SuperadminStatisticsController extends BaseController
 
         $admins = $repository->findManagerOrder($this->instance);
 
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
+        return $this->htmlRenderer->render(
+            'index',
             [
                 'orderCount' => $orderCount,
                 'admin' =>$admins
@@ -127,7 +125,7 @@ class SuperadminStatisticsController extends BaseController
         }
         $array_json['result']=$array_user;
 
-        return new JsonResponse($array_json);
+        return $this->restRenderer->render($array_json);
     }
 
 
@@ -187,6 +185,6 @@ class SuperadminStatisticsController extends BaseController
         }
         $array_json['result']=$array_user;
 
-        return new JsonResponse($array_json);
+        return $this->restRenderer->render($array_json);
     }
 }

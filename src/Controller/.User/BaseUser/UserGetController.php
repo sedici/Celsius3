@@ -44,7 +44,7 @@ final class UserGetController extends AbstractFOSRestController
 
     public function __invoke($id)
     {
-        $user = $this->security->getUser()->getId() === (int)$id ? $this->security->getUser() : null;
+        $user = $this->getUser()->getId() === (int)$id ? $this->security->getUser() : null;
 
         $view = $this->view($user, 200)->setFormat('json');
 

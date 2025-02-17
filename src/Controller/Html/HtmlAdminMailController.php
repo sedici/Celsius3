@@ -28,7 +28,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Celsius3\Controller\Base\MailController;
 use Celsius3\Controller\Core\HtmlRenderer;
@@ -75,7 +75,7 @@ class HtmlAdminMailController extends MailController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
+        Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
     ) {
@@ -95,13 +95,10 @@ class HtmlAdminMailController extends MailController
             $session,
             $router,
             $tokenStorage,
-            $authorizationChecker,
+            $security,
             $htmlRenderer,
             $restRenderer
         );
-
-        $this->validator = $validator;
-        $this->initialize();
     }
 
 
@@ -127,7 +124,7 @@ class HtmlAdminMailController extends MailController
         return $this->htmlRenderer->render(
             'new',
             $this->new(formOptions: [
-                'super_admin' => $this->authorizationChecker
+                'super_admin' => $this->security
                     ->isGranted('ROLE_SUPER_ADMIN')
             ])
         );
@@ -167,7 +164,7 @@ class HtmlAdminMailController extends MailController
                 'instance' => $this->instance,
                 'code' => $entity->getCode(),
                 'action' => $route,
-                'super_admin' => $this->authorizationChecker
+                'super_admin' => $this->security
                     ->isGranted('ROLE_SUPER_ADMIN')
             ]
         );

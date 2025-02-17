@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -22,24 +20,37 @@ declare(strict_types=1);
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Base;
+namespace Celsius3\Controller\Html;
 
-use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\Email;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Celsius3\Controller\Base\MailListController;
+use Celsius3\Form\Type\Filter\MailFilterType;
 
-class MailListController extends EntityController
+/**
+ * MailList controller.
+ * @Route("/superadmin/maillist")
+ */
+class HtmlSuperadminMailListController extends MailListController
 {
 
     public function initialize(): void
     {
-        $this->setEntity(Email::class);
-
         parent::initialize();
+        $this->setInstance($this->directory);
+        $this->setInstanceDependent(false);
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/MailList/');
+    }
 
-        $this->setInstanceDependent(true);
-        $this->setSortDefaults([
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc'
-        ]);
+
+    /**
+     * Lists all Mail entities.
+     * @Route("/", name="superadmin_maillist")
+     */
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            'index', $this->index(MailFilterType::class)
+        );
     }
 }

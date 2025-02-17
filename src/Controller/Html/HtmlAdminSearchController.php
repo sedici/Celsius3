@@ -24,10 +24,12 @@ namespace Celsius3\Controller\Html;
 
 use Celsius3\Manager\SearchManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
+use Celsius3\Entity\Request as CelsiusRequest;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\BaseInstanceDependentController;
+use Celsius3\Controller\Core\EntityController;
 
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,23 +40,23 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+
 
 /**
  * Search controller
- *
  * @Route("/admin/search")
  */
-class AdminSearchController extends BaseInstanceDependentController
+class HtmlAdminSearchController extends EntityController
 {
-
-    /** 
-      * @var SearchManager
-      */
-    protected $searchManager;
     
     public function __construct(
-        SearchManager $searchManager,
+        protected SearchManager $searchManager,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -65,7 +67,14 @@ class AdminSearchController extends BaseInstanceDependentController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
             $instanceManager,
@@ -78,26 +87,27 @@ class AdminSearchController extends BaseInstanceDependentController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-
-        $this->searchManager = $searchManager;
     }
 
-
-    protected function getEntity(): string
-    { return Request::class; }
-
-    final protected function getTemplatePrefix(): string
-    { return 'Admin/Search/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(CelsiusRequest::class);
+        parent::initialize();
+        $this->setInstanceDependent(true);
+        $this->htmlRenderer->setTemplatePrefix('Admin/Search/');
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc',
-        ];
+        ]);
     }
 
 
@@ -109,10 +119,10 @@ class AdminSearchController extends BaseInstanceDependentController
         $request = $this->requestStack->getCurrentRequest();
         
         $keyword = $request->query->get('keyword');
-        $filters = (array) $request->query->get('filters', []);
+        $filters = (array) $request->query->get('filters') ?? [];
         $searchManager = $this->instanceHelper;
 
-        $delFilter = $request->query->get('del-filter', []);
+        $delFilter = $request->query->get('del-filter') ?? [];
         if (
             !empty($delFilter)
             && array_key_exists($delFilter['name'], $filters)
@@ -120,7 +130,7 @@ class AdminSearchController extends BaseInstanceDependentController
             unset($filters[$delFilter['name']]);
         }
 
-        $addFilter = $request->query->get('add-filter', []);
+        $addFilter = $request->query->get('add-filter') ?? [];
         if (
             !empty($addFilter)
             && !array_key_exists($addFilter['name'], $filters)
@@ -138,14 +148,14 @@ class AdminSearchController extends BaseInstanceDependentController
             intval($request->query->get('page', 1)),
             $this->configurationHelper
                 ->getCastedValue(
-                    $this->getInstance()->get('results_per_page')
+                    $this->instance->get('results_per_page')
                 )
         );
 
         $users = $this->searchManager->getAggsUsersData($aggregations);
 
-        return $this->render(
-            (string) $this->templatePrefix . 'search.html.twig',
+        return $this->htmlRenderer->render(
+            'search',
             [
                 'keyword' => $keyword,
                 'pagination' => $pagination,

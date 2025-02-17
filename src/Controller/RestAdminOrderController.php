@@ -22,126 +22,58 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\OrderController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\Order;
 use Celsius3\Entity\State;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\View\ViewHandlerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Celsius3\Exception\Exception;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * User controller.
- *
- * @Route("/rest/admin/orders")
+ * @Route("/rest/v1/admin/orders")
  */
-class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
+class RestAdminOrderController extends OrderController
 {
 
     /**
-     * @var Security
-     */
-    private $security;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
-    /**
-     * @var ViewHandlerInterface
-     */
-    private $viewHandler;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
-
-    public function __construct(
-        Security $security,
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper,
-        ViewHandlerInterface $viewHandler,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper
-    ) {
-        $this->security = $security;
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
-        $this->viewHandler = $viewHandler;
-        $this->paginator = $paginator;
-        $this->configurationHelper = $configurationHelper;
-    }
-
-    protected function getResultsPerPage()
-    {
-        return $this->configurationHelper
-            ->getCastedValue($this->instanceHelper->getSessionOrUrlInstance()->get('results_per_page'));
-    }
-
-    protected function getSortDefaults()
-    {
-        return [
-            'defaultSortFieldName' => 'o.updatedAt',
-            'defaultSortDirection' => 'asc',
-        ];
-    }
-
-    /**
      * GET Route annotation.
-     *
-     * @Get("", name="admin_rest_order", options={"expose"=true})
+     * @Get("/", name="admin_rest_order", options={"expose"=true})
      */
-    public function getOrders(Request $request)
+    public function getOrders(): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
         if ($request->query->get('type', null) === 'mine') {
-            $user = $this->security->getUser();
+            $user = $this->getUser();
         } else {
             $user = null;
         }
 
         $state = $request->query->get('state', null);
 
-        $orders = $this->entityManager
-            ->getRepository(Order::class)
-            ->findForInstance($this->instanceHelper->getSessionInstance(), $user, $state);
+        $orders = $this->repository
+            ->findForInstance(
+                $this->instance, $user, $state
+            );
 
-        $paginator = $this->paginator;
-        $pagination = $paginator->paginate(
-            $orders,
-            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)
-            /* page number */,
-            $this->getResultsPerPage()/* limit per page */,
-            $this->getSortDefaults()
-        )->getItems();
 
-        $view = $this->view(array_values($pagination), 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($orders);
     }
+
 
     /**
      * GET Route annotation.
      *
      * @Get("/count", name="admin_rest_order_count_get", options={"expose"=true})
      */
-    public function getOrderCount(Request $request)
+    public function getOrderCount(): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         if ($request->query->get('type', null) === 'mine') {
             $user = $this->security->getUser();
         } elseif (is_int(intval($request->query->get('type', null)))) {
@@ -161,21 +93,20 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
 
         $orderCount = $this->entityManager
             ->getRepository(State::class)
-            ->countOrders($this->instanceHelper->getSessionInstance(), $user, $orderType);
+            ->countOrders($this->instance, $user, $orderType);
 
-        $view = $this->view($orderCount, 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($orderCount);
     }
+
 
     /**
      * GET Route annotation.
-     *
      * @Get("/get", name="admin_rest_order_request_get", options={"expose"=true})
      */
-    public function getOrdersAndRequests(Request $request)
+    public function getOrdersAndRequests(): Response
     {
         $em = $this->entityManager;
+        $request = $this->requestStack->getCurrentRequest();
 
         if ($request->query->get('type', null) === 'mine') {
             $user = $this->security->getUser();
@@ -223,21 +154,15 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
             ),
         );
 
-        $view = $this->view($response, 200)->setFormat('json');
-
-        $context = new Context();
-        $context->addGroup('administration_list');
-        $view->setContext($context);
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($response, serializerGroups: 'administration_list');
     }
+
 
     /**
      * GET Route annotation.
-     *
      * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
      */
-    public function getOrder($id)
+    public function getOrder(string $id)
     {
         $em = $this->entityManager;
 
@@ -247,19 +172,14 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
-        $view = $this->view($order, 200)->setFormat('json');
-
-        $context = new Context();
-        $context->addGroup('administration_order_show');
-        $view->setContext($context);
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($order, serializerGroups: 'administration_order_show');
     }
+
 
     /**
      * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
      */
-    public function getInteraction($id)
+    public function getInteraction(string $id)
     {
         $order = $this->entityManager->getRepository(Order::class)->find($id);
         $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
@@ -306,15 +226,14 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
             }
         }
 
-        $view = $this->view($interaction, 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
+        $this->restRenderer->render($interaction);
     }
+
 
     /**
      * @Get("/operator/{id}", name="admin_rest_order_operator", options={"expose"=true})
      */
-    public function getOperator($id)
+    public function getOperator(string $id)
     {
         $order = $this->entityManager->getRepository(Order::class)->find($id);
         if (!$order) {
@@ -327,15 +246,14 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
         foreach ($admins as $key => $value) {
             $interaction['admins'][$key] = $value;
         }
-        $view = $this->view($interaction, 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($interaction);
     }
+
 
     /**
      * @Get("/change-operator/{order_id}/{id}", name="admin_rest_order_change_operator", options={"expose"=true})
      */
-    public function changeOperator($order_id, $id)
+    public function changeOperator(string $order_id, string $id): mixed
     {
         $instance = $this->instanceHelper->getSessionInstance();
 
@@ -354,12 +272,6 @@ class AdminOrderRestController extends AbstractFOSRestController//BaseInstanceDe
         $em->persist($request);
         $em->flush();
 
-        $view = $this->view($request, 200)->setFormat('json');
-
-        $context = new Context();
-        $context->addGroup('administration_order_show');
-        $view->setContext($context);
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($request, serializerGroups: 'administration_order_show');
     }
 }

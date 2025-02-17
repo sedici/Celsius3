@@ -26,7 +26,7 @@ use Celsius3\Entity\Instance;
 use Celsius3\Helper\MailerHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\BaseController;
+use Celsius3\Controller\Core\EntityController;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
@@ -38,20 +38,25 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
+
 
 /**
  * BaseUser controller.
- *
  * @Route("/tichnical")
  */
-class TechnicalController extends BaseController
+class TechnicalController extends EntityController
 {
 
-    protected MailerHelper $mailerHelper;
-
     public function __construct(
-        MailerHelper $mailerHelper,
+        protected MailerHelper $mailerHelper,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -62,7 +67,14 @@ class TechnicalController extends BaseController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
             $instanceManager,
@@ -75,20 +87,23 @@ class TechnicalController extends BaseController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-
-        $this->mailerHelper = $mailerHelper;
     }
 
 
     /**
      * Lists all BaseUser entities.
-     *
      * @Route("/", name="tichnical_index")
-     *
      */
-    public function index(): Response
+    public function htmlIndex(): Response
     {
         $instances = $this->objectManager
             ->getRepository(Instance::class)
@@ -102,8 +117,8 @@ class TechnicalController extends BaseController
             $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
         }
 
-        return $this->render(
-            $this->templatePrefix . 'index.html.twig',
+        return $this->htmlRenderer->render(
+            'index',
             [ 'instances' => $cInstances ]
         );
     }
@@ -135,8 +150,8 @@ class TechnicalController extends BaseController
             $instance->get('smtp_password')->getValue()
         );
 
-        return $this->render(
-            $this->templatePrefix . '_testConnection.html.twig',
+        return $this->htmlRenderer->render(
+            '_testConnection',
             [ 'info_connection' => $info_connection ]
         );
     }

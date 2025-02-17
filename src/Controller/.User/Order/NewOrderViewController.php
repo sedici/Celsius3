@@ -30,7 +30,7 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 
 final class NewOrderViewController extends AbstractController
 {

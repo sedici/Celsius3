@@ -25,7 +25,6 @@ namespace Celsius3\Controller\Base;
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Journal;
 use Celsius3\Repository\EventRepository;
-use Symfony\Component\Security\Core\Security;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
@@ -42,7 +41,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Security;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 
@@ -51,7 +50,6 @@ class JournalController extends EntityController
 
     public function __construct(
         protected EventRepository $eventRepository,
-        protected Security $security,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -67,7 +65,7 @@ class JournalController extends EntityController
         FlashBagInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
+        Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
     ) {
@@ -87,12 +85,10 @@ class JournalController extends EntityController
             $session,
             $router,
             $tokenStorage,
-            $authorizationChecker,
+            $security,
             $htmlRenderer,
             $restRenderer
         );
-
-        $this->initialize();
     }
 
 

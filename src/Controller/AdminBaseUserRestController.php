@@ -225,7 +225,7 @@ class AdminBaseUserRestController extends AbstractFOSRestController//BaseInstanc
         $filteredAdmins = array_filter(
             $admins,
             function (BaseUser $admin) {
-                return (int)$admin->getId() !== (int)$this->security->getUser()->getId();
+                return (int)$admin->getId() !== (int)$this->getUser()->getId();
             }
         );
 

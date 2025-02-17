@@ -139,6 +139,10 @@ class HtmlUserController extends UserController
     public function userAjax(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
-        return parent::ajax($request, $this->instance);
+        return $this->restRenderer->render(
+            $this->restRenderer->ajax(
+                $request, [], $this->instance
+            )
+        );
     }
 }

@@ -152,7 +152,7 @@ class HtmlSuperadminOrderController extends OrderController
         $entity,
         ?string $type = null,
         ?string $redirectRoute = null,
-        ?bool $isInstanceDependent,
+        ?bool $isInstanceDependent = null,
         ?array $formExtraOptions = []
     ): array {
         return [
