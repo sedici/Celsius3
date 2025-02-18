@@ -44,12 +44,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 class JournalController extends EntityController
 {
 
     public function __construct(
         protected EventRepository $eventRepository,
+        ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -70,6 +73,7 @@ class JournalController extends EntityController
         RestRenderer $restRenderer
     ) {
         parent::__construct(
+            $validator,
             $instanceManager,
             $entityManager,
             $paginator,

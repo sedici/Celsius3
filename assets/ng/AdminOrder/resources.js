@@ -24,7 +24,7 @@ orderApp.factory('Event', ['$resource', function ($resource) {
 }]);
 
 orderApp.factory('Contact', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_contact') + '/:institution_id',
+    return $resource(Routing.generate('rest_admin_contact') + '/:institution_id',
         {institution_id: '@institution_id'}
     );
 }]);

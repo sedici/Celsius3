@@ -27,11 +27,11 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpFoundation\Response;
 
+
 /**
- * User controller.
  * @Route("/rest/v1/admin/contact")
  */
-class RestAdminContactController extends ContactController // BaseInstanceDependentRestController
+class RestAdminContactController extends ContactController
 {
 
     public function initialize(): void
@@ -41,28 +41,16 @@ class RestAdminContactController extends ContactController // BaseInstanceDepend
     }
 
 
-    // CONSULTAR
-
-    // /**
-    //  * @Get("/byInstitution/{id}", name="admin_rest_contact", options={"expose"=true})
-    //  */
-    // public function getContacts(string $id): Response
-    // {
-    //     $contacts = $this->repository->findBy([ 'institution' => $id ]);
-    //     return $this->restRenderer->render(
-    //         $contacts, serializerGroups: 'administration'
-    //     );
-    //     // $em = $this->getDoctrine()->getManager();
-
-    //     // $contacts = $em->getRepository(Contact::class)
-    //     //         ->findBy(array(
-    //     //     'institution' => $institution_id,
-    //     // ));
-
-    //     // $view = $this->view(array_values($contacts), 200)->setFormat('json');
-
-    //     // return $this->handleView($view);
-    // }
+    /**
+     * @Get("/byInstitution/{id}", name="rest_admin_contact", options={"expose"=true})
+     */
+    public function getContacts(string $id): Response
+    {
+        $contacts = $this->repository->findBy([ 'institution' => $id ]);
+        return $this->restRenderer->render(
+            $contacts, serializerGroups: 'administration'
+        );
+    }
 
 
     /**

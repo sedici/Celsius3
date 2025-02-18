@@ -52,6 +52,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 abstract class UserController extends EntityController
@@ -61,6 +62,7 @@ abstract class UserController extends EntityController
     public function __construct(
         protected ThreadManager $threadManager,
         protected CustomFieldHelper $customFieldHelper,
+        ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -81,6 +83,7 @@ abstract class UserController extends EntityController
         RestRenderer $restRenderer
     ) {
         parent::__construct(
+            $validator,
             $instanceManager,
             $entityManager,
             $paginator,
@@ -100,8 +103,6 @@ abstract class UserController extends EntityController
             $htmlRenderer,
             $restRenderer
         );
-
-        $this->initialize();
     }
 
 

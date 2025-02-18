@@ -56,8 +56,7 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
     }
 
     /**
-     * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_contact_get", options={"expose"=true})
+     * @Get("/{id}", name="rest_admin_mail", options={"expose"=true})
      */
     public function getContact($id)
     {

@@ -24,13 +24,14 @@ namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\MailTemplate;
+use Celsius3\Mailer\Mailer;
 
 abstract class MailController extends EntityController
 {
 
     public function initialize(): void
     {
-        $this->setEntity(MailTemplate::class);
+        $this->setEntity(Mailer::class);
         parent::initialize();
         $this->setInstanceDependent(true);
         $this->setSortDefaults([

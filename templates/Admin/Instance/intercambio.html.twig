@@ -514,7 +514,7 @@
 
             $.ajax({
                 data: parametros,
-                url: '{{ path('admin_instance_interaction_get') }}',
+                url: '{{ path("admin_instance_interaction_get") }}',
                 type: 'post',
                 beforeSend: function () {
                     $("#not-found-data-message").hide();
@@ -547,7 +547,7 @@
 
             $.ajax({
                 data: parametros,
-                url: '{{ path('admin_rest_institution_intercambio') }}',
+                url: '{{ path("rest_admin_institution_interchange") }}',
                 type: 'get',
                 success: function (response) {
                     $("#form_institucion option").remove();

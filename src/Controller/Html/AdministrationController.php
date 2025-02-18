@@ -45,6 +45,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Controller\Core\EntityController;
+use Twig\Environment;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
@@ -64,7 +65,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
-use Twig\Environment;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use function count;
 use function in_array;
@@ -85,6 +86,7 @@ class AdministrationController extends EntityController
     public function __construct(
         protected Environment $twig,
         protected Mailer $mailer,
+        ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -103,8 +105,9 @@ class AdministrationController extends EntityController
         Security $security,
         HtmlRenderer $htmlRenderer,
         RestRenderer $restRenderer
-    ){
+    ) {
         parent::__construct(
+            $validator,
             $instanceManager,
             $entityManager,
             $paginator,

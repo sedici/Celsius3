@@ -29,10 +29,9 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * User controller.
  * @Route("/rest/v1/admin/file")
  */
-class RestAdminFileController extends FileController // BaseInstanceDependentRestController
+class RestAdminFileController extends FileController
 {
 
     public function initialize(): void

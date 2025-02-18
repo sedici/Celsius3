@@ -61,14 +61,10 @@ class Exception
     ];
 
     public static function isRest()
-    {
-        return self::$rest;
-    }
+    { return self::$rest; }
 
-    public static function setRest()
-    {
-        self::$rest = true;
-    }
+    public static function setRest(bool $isRest = true)
+    { self::$rest = $isRest; }
 
     private static function getClass($type)
     {
@@ -90,8 +86,9 @@ class Exception
         return $class;
     }
 
-    public static function create($type, $message = null)
+    public static function create($type, $message = null, bool $isRest = false)
     {
+        self::setRest($isRest);
         $class = self::getClass($type);
 
         return new $class($message);

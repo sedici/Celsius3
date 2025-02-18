@@ -50,6 +50,8 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 abstract class InstanceController extends EntityController
 {
@@ -57,6 +59,7 @@ abstract class InstanceController extends EntityController
     public function __construct(
         protected FileManager $fileManager,
         protected MailerHelper $mailerHelper,
+        ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -77,6 +80,7 @@ abstract class InstanceController extends EntityController
         RestRenderer $restRenderer
     ) {
         parent::__construct(
+            $validator,
             $instanceManager,
             $entityManager,
             $paginator,

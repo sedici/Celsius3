@@ -22,27 +22,32 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\MailController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Order;
+use Celsius3\Manager\MailManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Email;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
  *
  * @Route("/rest/v1/admin/email")
  */
-class AdminEmailRestController extends BaseInstanceDependentRestController
+class AdminEmailRestController extends MailController
 {
 
     /**
-     * @Post("", name="admin_rest_email", options={"expose"=true})
+     * @Post("/", name="rest_admin_email", options={"expose"=true})
      */
-    public function sendEmail(Request $request)
+    public function sendEmail(): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         $content = $request->getContent();
         $json_content = json_decode($content, true);
 
@@ -54,7 +59,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
 
-        $errors = $this->get('validator')->validate($email, $emailConstraint);
+        $errors = $this->validator->validate($email, $emailConstraint);
 
         if (count($errors) !== 0) {
             throw new NotFoundHttpException('Error sending email');
@@ -71,9 +76,9 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $text = $json_content["text"];
 
         $order_id = $json_content["order_id"];
-        $order = ($order_id) ? $this->getDoctrine()->getManager()->getRepository(Order::class)->find($order_id) : null;
+        $order = ($order_id) ? $this->entityManager->getRepository(Order::class)->find($order_id) : null;
 
-        $user = $this->getDoctrine()->getManager()->getRepository(BaseUser::class)->findOneBy(array('email' => $email));
+        $user = $this->entityManager->getRepository(BaseUser::class)->findOneBy([ 'email' => $email ]);
 
         $mailManager = $this->get('celsius3_core.mail_manager');
 

@@ -11,7 +11,7 @@ institutionControllers.controller('institutionCtrl', ['$scope', '$http', '$filte
         $scope.institution = null;
 
         $scope.getInstitution = function (id) {
-            $http.get(Routing.generate('admin_rest_institution_get', {id: id}))
+            $http.get(Routing.generate('rest_admin_institution_get', {id: id}))
                 .then(function (response) {
                     if (response.data) {
                         $scope.institution = response.data;
@@ -24,7 +24,7 @@ institutionControllers.controller('institutionCtrl', ['$scope', '$http', '$filte
         };
 
         $scope.getChildrenInstitutions = function (id) {
-            $http.get(Routing.generate('admin_rest_institution_parent_get', {parent_id: id}))
+            $http.get(Routing.generate('rest_admin_institution_parent', {parent_id: id}))
                 .then(function (response) {
                     if (response.data) {
                         $scope.institution.institutions = response.data;
@@ -35,7 +35,7 @@ institutionControllers.controller('institutionCtrl', ['$scope', '$http', '$filte
         };
 
         $scope.getInstitutionUsers = function (id) {
-            $http.get(Routing.generate('admin_rest_institution_users_get', {id: id}))
+            $http.get(Routing.generate('rest_admin_institution_users', {id: id}))
                 .then(function (response) {
                     if (response.data) {
                         $scope.institution.users = response.data;

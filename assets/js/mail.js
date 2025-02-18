@@ -41,7 +41,7 @@ $(document).ready(function () {
             text: $('#emailBody').val()
         };
 
-        $.post(Routing.generate('admin_rest_email'), data)
+        $.post(Routing.generate('rest_admin_email'), data)
             .done(function (data) {
                 if (data) {
                     $('#emailForm').get(0).reset;
@@ -54,7 +54,7 @@ $(document).ready(function () {
         let emails = $('#emailAddress').attr('value').split(/ *, */);
         let subject = $('#emailSubject').val();
         let text = $('#emailBody').val();
-        let url = Routing.generate('admin_rest_email');
+        let url = Routing.generate('rest_admin_email');
 
         for (let i = 0; i < emails.length; ++i) {
             let data = {
