@@ -1121,7 +1121,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                 order_id: (!_.isUndefined($scope.order)) ? $scope.order.id : null
             };
 
-            $http.post(Routing.generate('rest_admin_email'), data)
+            $http.post(Routing.generate('rest_admin_send_email'), data)
                 .then(function (response) {
                     if (response.data) {
                         $scope.refreshRequest(true);

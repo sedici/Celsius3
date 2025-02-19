@@ -22,77 +22,69 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Controller\Base\MailController;
+use Celsius3\Controller\Base\EmailController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Order;
-use Celsius3\Manager\MailManager;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Email;
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Post;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * User controller.
- *
- * @Route("/rest/v1/admin/email")
- */
-class AdminEmailRestController extends MailController
+
+#[Route("/rest/v1/admin/email")]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
+class AdminEmailRestController extends EmailController
 {
 
-    /**
-     * @Post("/", name="rest_admin_email", options={"expose"=true})
-     */
-    public function sendEmail(): Response
+    #[Route('/', name: 'rest_admin_send_email', methods: ['POST'], options: ['expose' => true])]
+    public function restSendEmail(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $reqArgs = $this->requestStack->getCurrentRequest()->toArray();
 
-        $content = $request->getContent();
-        $json_content = json_decode($content, true);
-
-        if (!key_exists("email", $json_content)) {
-            throw new NotFoundHttpException('Error sending email');
-        }
-        $email = $json_content["email"];
+        $email = $this->checkArg($reqArgs, 'email', 'Email address', isRest: true);
 
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
-
         $errors = $this->validator->validate($email, $emailConstraint);
+        if (count($errors) !== 0)
+            $this->error('not_found', msg: 'Invalid email address', isRest: true);
 
-        if (count($errors) !== 0) {
-            throw new NotFoundHttpException('Error sending email');
-        }
+        $subject = $this->checkArg($reqArgs, 'subject', isRest: true);
+        $text = $this->checkArg($reqArgs, 'text', 'Email text', isRest: true);
 
-        if (!key_exists("subject", $json_content)) {
-            throw new NotFoundHttpException('Error sending email');
-        }
-        $subject = $json_content["subject"];
+        $order_id = $reqArgs['order_id'];
+        $order = ($order_id)
+            ? $this->entityManager
+                ->getRepository(Order::class)
+                ->find($order_id)
+            : null;
 
-        if (!key_exists("text", $json_content)) {
-            throw new NotFoundHttpException('Error sending email');
-        }
-        $text = $json_content["text"];
+        $user = $this->entityManager
+            ->getRepository(BaseUser::class)
+            ->findOneBy([ 'email' => $email ]);
 
-        $order_id = $json_content["order_id"];
-        $order = ($order_id) ? $this->entityManager->getRepository(Order::class)->find($order_id) : null;
+        $text = $this->mailManager->renderRawTemplate(
+            $text, [
+                'user' => $user,
+                'instance' => $this->instance,
+                'order' => $order
+            ]
+        );
 
-        $user = $this->entityManager->getRepository(BaseUser::class)->findOneBy([ 'email' => $email ]);
+        $result = $this->sendEmail(
+            $email, $subject, $text
+        );
 
-        $mailManager = $this->get('celsius3_core.mail_manager');
-
-        $text = $mailManager->renderRawTemplate($text, [
-            'user' => $user,
-            'instance' => $this->getInstance(),
-            'order' => $order
-        ]);
-
-        $result = $this->get('celsius3_core.mailer')->sendEmail($email, $subject, $text, $this->getInstance());
-
-        $view = $this->view($result, 200)->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->restRenderer->render($result, serializerGroups: 'api');
     }
 
+
+    #[Route('/', name: 'rest_admin_email', methods: ['GET'], options: ['expose' => true])]
+    public function restIndex(): Response
+    {
+        return $this->restRenderer->render(
+            $this->repository->findBy([ 'sender' => 634 ]),
+            serializerGroups: 'api'
+        );
+    }
 }

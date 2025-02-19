@@ -24,6 +24,8 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\EmailRepository")
@@ -43,18 +45,21 @@ class Email
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api"})
      */
     private $address;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api"})
      */
     private $subject;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="text")
+     * @Groups({"api"})
      */
     private $text;
 
@@ -62,6 +67,7 @@ class Email
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=false)
+     * @Groups({"api"})
      */
     private $sender;
 
@@ -90,7 +96,7 @@ class Email
     /**
      * Get id.
      *
-     * @return id $id
+     * @return $id
      */
     public function getId()
     {

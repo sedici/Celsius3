@@ -24,17 +24,15 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Html;
 
+use Celsius3\Controller\Base\EmailController;
 use Celsius3\Form\Type\Filter\MailFilterType;
-use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\MailListController;
 
 /**
- * MailList controller.
- * @Route("/admin/maillist")
+ * @Route("/admin/email")
  */
-class HtmlAdminMailListController extends MailListController
+class HtmlAdminEmailController extends EmailController
 {
 
     public function initialize(): void
@@ -42,30 +40,6 @@ class HtmlAdminMailListController extends MailListController
         parent::initialize();
         $this->htmlRenderer->setTemplatePrefix('Admin/MailList/');
     }
-
-
-    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
-    {
-        return $this->entityManager
-            ->getRepository($this->entityClassName)
-            ->createQueryBuilder('e')
-            ->andWhere('e.instance = :instance_id')
-            ->setParameter(
-                'instance_id',
-                $this->instance->getId()
-            );
-    }
-
-
-    // protected function getResultsPerPage()
-    // {
-    //     return $this->configurationHelper
-    //         ->getCastedValue(
-    //             $this->instanceHelper
-    //                 ->getSessionOrUrlInstance()
-    //                 ->get('results_per_page')
-    //             );
-    // }
 
 
     /**

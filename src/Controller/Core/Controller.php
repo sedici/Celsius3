@@ -208,10 +208,27 @@ abstract class Controller
     public function error(
         string $type,
         string $entity = '',
-        ?string $msg = null
+        ?string $msg = null,
+        bool $isRest = false
     ): never {
         $msg = (string) 'exception.' . $type . $entity;
-        throw Exception::create($type, $msg);
+        throw Exception::create($type, $msg, $isRest);
+    }
+
+
+    public function checkArg(
+        array $args,
+        string $fieldName,
+        ?string $dataName = null,
+        ?string $msg = null,
+        ?string $type = 'not_found',
+        ?bool $isRest = false
+    ): string {
+        $dataName ??= $fieldName;
+        $msg ??= ucfirst($dataName) . ' must be set (at "' . $fieldName . '" field).';
+        if (!isset($args[$fieldName]))
+            $this->error($type, msg: $msg, isRest: $isRest);
+        return $args[$fieldName];
     }
 
 

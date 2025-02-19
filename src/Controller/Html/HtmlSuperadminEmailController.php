@@ -20,23 +20,32 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Base;
+namespace Celsius3\Controller\Html;
 
-use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\MailTemplate;
-use Celsius3\Mailer\Mailer;
+use Symfony\Component\HttpFoundation\Response;
+use Celsius3\Controller\Base\EmailController;
+use Celsius3\Form\Type\Filter\MailFilterType;
+use Symfony\Component\Routing\Annotation\Route;
 
-abstract class MailController extends EntityController
+
+#[Route('/superadmin/email')]
+class HtmlSuperadminEmailController extends EmailController
 {
 
     public function initialize(): void
     {
-        $this->setEntity(Mailer::class);
         parent::initialize();
-        $this->setInstanceDependent(true);
-        $this->setSortDefaults([
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
-        ]);
+        $this->setInstance($this->directory);
+        $this->setInstanceDependent(false);
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/MailList/');
+    }
+
+
+    #[Route('/', name: 'superadmin_maillist')]
+    public function htmlIndex(): Response
+    {
+        return $this->htmlRenderer->render(
+            'index', $this->index(MailFilterType::class)
+        );
     }
 }

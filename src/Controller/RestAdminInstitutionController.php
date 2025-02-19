@@ -128,25 +128,25 @@ class RestAdminInstitutionController extends InstitutionController
 
         $institution = new Institution();
 
-        if (!isset($reqArgs['name']))
-            $this->error('not_found', msg: 'Name must be set at "name" key.', isRest: true);
-        $institution->setName($reqArgs['name'] ?? null);
+        $institution->setName(
+            $this->checkArg($reqArgs, 'name', isRest: true)
+        );
 
-        if (!isset($reqArgs['abbreviation']))
-            $this->error('not_found', msg: 'Abbreviation must be set at "abbreviation" key.', isRest: true);
-        $institution->setAbbreviation($reqArgs['abbreviation'] ?? null);
+        $institution->setAbbreviation(
+            $this->checkArg($reqArgs, 'abbreviation', isRest: true)
+        );
 
-        if (!isset($reqArgs['website']))
-            $this->error('not_found', msg: 'Website must be set at "website" key.', isRest: true);
-        $institution->setWebsite($reqArgs['website']);
+        $institution->setWebsite(
+            $this->checkArg($reqArgs, 'website', isRest: true)
+        );
 
-        if (!isset($reqArgs['address']))
-            $this->error('not_found', msg: 'Address must be set at "address" key.', isRest: true);
-        $institution->setAddress($reqArgs['address']);
+        $institution->setAddress(
+            $this->checkArg($reqArgs, 'address', isRest: true)
+        );
 
-        if (!isset($reqArgs['country']))
-            $this->error('not_found', msg: 'Country ID must be set at "country" key.', isRest: true);
-        $institution->setCountry($countryRepository->find($reqArgs['country']));
+        $institution->setCountry($countryRepository->find(
+            $this->checkArg($reqArgs, 'country', isRest: true)
+        ));
 
         $cityId = $reqArgs['city'] ?? null;
         if ($cityId !== null) $institution->setCity($cityRepository->find($cityId));

@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller\Html;
 
+use Celsius3\Controller\Base\EmailController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Validator\Constraints as CelsiusAssert;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -55,51 +56,8 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Order controller.
  * @Route("/admin/mail")
  */
-class HtmlAdminMailController extends MailController
+class HtmlAdminMailController extends EmailController
 {
-
-    public function __construct(
-        protected ValidatorInterface $validator,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper,
-        FormFactoryInterface $formFactory,
-        FlashBagInterface $session,
-        RouterInterface $router,
-        TokenStorageInterface $tokenStorage,
-        Security $security,
-        HtmlRenderer $htmlRenderer,
-        RestRenderer $restRenderer
-    ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper,
-            $formFactory,
-            $session,
-            $router,
-            $tokenStorage,
-            $security,
-            $htmlRenderer,
-            $restRenderer
-        );
-    }
 
 
     /**
