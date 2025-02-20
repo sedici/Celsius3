@@ -1,7 +1,7 @@
 var orderControllers = angular.module('orderControllers', ['ngFileUpload']);
 
-orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter', '$translate', 'Order', 'Request', 'Catalog', 'Event', 'Contact', 'MailTemplate', 'CatalogResult',
-    function ($scope, $http, Upload, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
+orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter', '$translate', 'Order', 'Request', 'Catalog', 'Event', 'Contact', 'EmailTemplate', 'CatalogResult',
+    function ($scope, $http, Upload, $filter, $translate, Order, Request, Catalog, Event, Contact, EmailTemplate, CatalogResult) {
         'use strict';
 
         function findInstitution(tree) {
@@ -712,7 +712,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                                 });
                         } else if (_.isUndefined(response.data.provider.celsius_instance) && response.data.provider.type !== 'web') {
                             $scope.contacts = Contact.query({institution_id: response.data.provider.id});
-                            $scope.templates = MailTemplate.query();
+                            $scope.templates = EmailTemplate.query();
                             $('#email-modal').modal('show');
                         }
                     }
@@ -819,7 +819,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
 
         $scope.emailModal = function (email) {
             $scope.contacts = null;
-            $scope.templates = MailTemplate.query();
+            $scope.templates = EmailTemplate.query();
             $scope.forms.email.address = email;
 
             // $(document).ready(function () {
@@ -989,7 +989,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
 
                     if (_.isUndefined(response.data.request_event.provider.celsius_instance)) {
                         $scope.contacts = Contact.query({institution_id: response.data.request_event.provider.id});
-                        $scope.templates = MailTemplate.query();
+                        $scope.templates = EmailTemplate.query();
                         $('#email-modal').modal('show');
                     }
                 }, function (response) {
@@ -1013,7 +1013,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
 
                     if (_.isUndefined(response.data.receive_event.provider.celsius_instance)) {
                         $scope.contacts = Contact.query({institution_id: response.data.request_event.provider.id});
-                        $scope.templates = MailTemplate.query();
+                        $scope.templates = EmailTemplate.query();
                         $('#email-modal').modal('show');
                     }
                 }, function (response) {

@@ -45,21 +45,20 @@ class Email
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
-     * @Groups({"api"})
+     * @Groups({"api_administration"})
      */
     private $address;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
-     * @Groups({"api"})
+     * @Groups({"api_administration"})
      */
     private $subject;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="text")
-     * @Groups({"api"})
      */
     private $text;
 
@@ -67,7 +66,7 @@ class Email
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=false)
-     * @Groups({"api"})
+     * @Groups({"api_administration"})
      */
     private $sender;
 

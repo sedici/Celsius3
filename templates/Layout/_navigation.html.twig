@@ -27,7 +27,7 @@
             <li><a href="{{ path('admin_city') }}">{{ 'Cities' | trans }}</a></li>
             <li><a href="{{ path('admin_institution') }}">{{ 'Institutions' | trans }}</a></li>
             <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads' | trans }}</a></li>
-            <li><a href="{{ path('admin_maillist') }}">{{ 'Mail List' | trans }}</a></li>
+            <li><a href="{{ path('admin_email') }}">{{ 'Email List' | trans }}</a></li>
 
             {% if is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_ADMIN')) or is_granted(constant('Celsius3\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
 

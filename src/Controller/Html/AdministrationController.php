@@ -30,7 +30,7 @@ use Celsius3\Entity\DataRequest;
 use Celsius3\Entity\File;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
-use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\EmailTemplate;
 use Celsius3\Entity\State;
 use Celsius3\Mailer\Mailer;
 use Celsius3\Manager\Alert;
@@ -212,7 +212,7 @@ class AdministrationController extends EntityController
                 $this->instance->get('max_days_for_send_mail')->getValue()
             );
 
-        $templates = $entity_manager->getRepository(MailTemplate::class)->findAllEnabled();
+        $templates = $entity_manager->getRepository(EmailTemplate::class)->findAllEnabled();
 
         $errors = $this->session->get('errors');
 

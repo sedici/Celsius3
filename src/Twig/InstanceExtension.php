@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Twig;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\EmailTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -69,13 +69,13 @@ class InstanceExtension extends AbstractExtension
         return $instance->getUrl();
     }
 
-    public function templateEdited(MailTemplate $template): bool
+    public function templateEdited(EmailTemplate $template): bool
     {
         if ($template->getInstance() !== null && $template->getInstance()->getUrl() !== 'directory') {
             return true;
         }
 
-        $templates = $this->entityManager->getRepository(MailTemplate::class)->templateEdited($template);
+        $templates = $this->entityManager->getRepository(EmailTemplate::class)->templateEdited($template);
 
         return count($templates) > 0;
     }

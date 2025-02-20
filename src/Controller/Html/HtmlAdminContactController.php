@@ -49,6 +49,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * AdminContact controller.
@@ -59,6 +60,7 @@ class HtmlAdminContactController extends ContactController
 
     public function __construct(
         protected CustomFieldHelper $customFieldHelper,
+        ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -79,6 +81,7 @@ class HtmlAdminContactController extends ContactController
         RestRenderer $restRenderer
     ) {
         parent::__construct(
+            $validator,
             $instanceManager,
             $entityManager,
             $paginator,

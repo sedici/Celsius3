@@ -22,19 +22,28 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\Controller\Base\MailTemplateController;
+use Celsius3\Controller\Base\EmailTemplateController;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-/**
- * Order controller.
- * @Route("/superadmin/mail")
- */
-class HtmlSuperadminMailTemplateController extends MailTemplateController
+#[
+    Route('/superadmin/email_template'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
+class HtmlSuperadminEmailTemplateController extends EmailTemplateController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstanceDependent(false);
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/EmailTemplate/');
+    }
+
 
     public function listQuery(?bool $isInstanceDependet = null): QueryBuilder
     {
@@ -46,81 +55,50 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
 
 
     /**
-     * Lists all Templates Mail.
-     * @Route("/", name="superadmin_mails")
+     * @Route("/", name="superadmin_emailtemplate")
      */
     public function htmlIndex(): Response
-    {
-        return $this->htmlRenderer->render(
-            'index',
-            $this->index()
-            // [
-            //     'entities' => $this->getPagination(),
-            //     'filterForm' => $this->getFilterForm()->createView(),
-            // ]
-        );
-    }
+    { return $this->htmlRenderer->render('index', $this->index()); }
 
 
     /**
-     * Displays a form to create a new mail template.
-     * @Route("/new", name="superadmin_mails_new")
+     * @Route("/new", name="superadmin_emailtemplate_new")
      */
     public function htmlNew(): Response
-    {
-        return $this->htmlRenderer->render(
-            'new',
-            $this->new()
-        );
-    }
+    { return $this->htmlRenderer->render('new', $this->new()); }
 
 
     /**
      * Displays a form to edit an existing mail template.
-     * @Route("/{id}/edit", name="superadmin_mails_edit")
+     * @Route("/{id}/edit", name="superadmin_emailtemplate_edit")
      * @param string $id The mail template ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function htmlEdit(string $id): Response
-    {
-        return $this->htmlRenderer->render(
-            'edit',
-            $this->edit($id)
-        );
-    }
+    { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
 
     /**
      * Creates a new Mail Entity.
-     * @Route("/create", name="superadmin_mails_create", methods={"POST"})
+     * @Route("/create", name="superadmin_emailtemplate_create", methods={"POST"})
      */
     public function htmlCreate(): Response
-    {
-        return $this->htmlRenderer->render(
-            'new',
-            $this->create()
-        );
-    }
+    { return $this->htmlRenderer->render('new', $this->create()); }
 
 
     /**
      * Edits an existing Mail TEmplate.
-     * @Route("/{id}/update", name="superadmin_mails_update", methods={"POST"})
+     * @Route("/{id}/update", name="superadmin_emailtemplate_update", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
     public function htmlUpdate(string $id): Response
-    {
-        return $this->htmlRenderer->render(
-            'edit',
-            $this->update($id)
-        );
-    }
+    { return $this->htmlRenderer->render('edit', $this->update($id)); }
 
 
     /**
      * Change state an existing Mail TEmplate.
-     * @Route("/{id}/change_state", name="superadmin_mails_change_state")
+     * @Route("/{id}/change_state", name="superadmin_emailtemplate_changestate")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
@@ -140,6 +118,6 @@ class HtmlSuperadminMailTemplateController extends MailTemplateController
             . (($entity->getEnabled()) ? 'enabled' : 'disabled')
         );
 
-        return $this->redirectToRoute('superadmin_mails');
+        return $this->redirectToRoute('superadmin_emailtemplate');
     }
 }

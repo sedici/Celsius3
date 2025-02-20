@@ -22,61 +22,37 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Controller\Base\EmailController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Celsius3\Controller\Base\EmailTemplateController;
 use Celsius3\Validator\Constraints as CelsiusAssert;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Celsius3\Controller\Base\MailController;
-use Celsius3\Controller\Core\HtmlRenderer;
-use Celsius3\Controller\Core\RestRenderer;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-/**
- * Order controller.
- * @Route("/admin/mail")
- */
-class HtmlAdminMailController extends EmailController
+#[
+    Route('/admin/email_template'),
+    IsGranted('ROLE_ADMIN')
+]
+class HtmlAdminEmailTemplateController extends EmailTemplateController
 {
 
-
-    /**
-     * Lists all Templates Mail.
-     * @Route("/", name="admin_mails")
-     */
-    public function htmlIndex(): Response
+    public function initialize(): void
     {
-        return $this->htmlRenderer->render(
-            'index',
-            $this->index()
-        );
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Admin/EmailTemplate/');
     }
 
 
-    /**
-     * Displays a form to create a new mail template.
-     * @Route("/new", name="admin_mails_new")
-     */
+    #[Route('/', name: 'admin_emailtemplate')]
+    public function htmlIndex(): Response
+    { return $this->htmlRenderer->render('index', $this->index(hasFilterForm:false)); }
+
+
+    #[Route('/new', name: 'admin_emailtemplate_new')]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -90,19 +66,18 @@ class HtmlAdminMailController extends EmailController
 
 
     /**
-     * Displays a form to edit an existing mail template.
-     * @Route("/{id}/edit", name="admin_mails_edit")
      * @param string $id The mail template ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'admin_emailtemplate_edit')]
     public function htmlEdit(string $id): RedirectResponse|Response
     {
-        //Se debe determinar si se utilizara admin_mails_edit o admin_mails_create, dependiendo
+        //Se debe determinar si se utilizara admin_emailtemplate_edit o admin_emailtemplate_create, dependiendo
         //si la plantilla le pertenece al directorio o a la instancia.
         $entity = $this->findQuery($id);
 
         if ($entity->instance !== $this->directory) {
-            $route = $this->generateUrl('admin_mails_update', ['id' => $id]);
+            $route = $this->generateUrl('admin_emailtemplate_update', ['id' => $id]);
         } else {
             $result = $this->repository
                 ->findBy([
@@ -111,10 +86,10 @@ class HtmlAdminMailController extends EmailController
                 ]);
 
             if (count($result) > 0) {
-                return $this->redirectToRoute('admin_mails');
+                return $this->redirectToRoute('admin_emailtemplate');
             }
 
-            $route = $this->generateUrl('admin_mails_create');
+            $route = $this->generateUrl('admin_emailtemplate_create');
         }
 
         $form = $this->createForm(
@@ -138,10 +113,7 @@ class HtmlAdminMailController extends EmailController
     }
 
 
-    /**
-     * Creates a new Mail Entity.
-     * @Route("/create", name="admin_mails_create", methods={"POST"})
-     */
+    #[Route('/create', name: 'admin_emailtemplate_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -152,11 +124,10 @@ class HtmlAdminMailController extends EmailController
 
 
     /**
-     * Edits an existing Mail TEmplate.
-     * @Route("/{id}/update", name="admin_mails_update", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'admin_emailtemplate_update', methods: ['POST'])]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         $entity = $this->findQuery($id);
@@ -169,7 +140,7 @@ class HtmlAdminMailController extends EmailController
         if ($editForm->isValid()) {
             $errorList = $this->validator->validate(
                 $entity->getText(),
-                new CelsiusAssert\MailTemplate()
+                new CelsiusAssert\EmailTemplate()
             );
 
             if (0 === count($errorList)) {
@@ -182,7 +153,7 @@ class HtmlAdminMailController extends EmailController
 
                     return $this->redirect(
                         $this->generateUrl(
-                            'admin_mails_edit',
+                            'admin_emailtemplate_edit',
                             [ 'id' => $id ]
                         )
                     );
@@ -212,10 +183,11 @@ class HtmlAdminMailController extends EmailController
 
     /**
      * Change state an existing Mail TEmplate.
-     * @Route("/{id}/change_state", name="admin_mails_change_state")
+     * @Route("/{id}/change_state", name="admin_emailtemplate_changestate")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/change_state', name: 'admin_emailtemplate_changestate')]
     public function changeState(string $id): Response
     {
         $entity = $this->findQuery($id);
@@ -233,6 +205,6 @@ class HtmlAdminMailController extends EmailController
             )
         );
 
-        return $this->redirectToRoute('admin_mails');
+        return $this->redirectToRoute('admin_emailtemplate');
     }
 }

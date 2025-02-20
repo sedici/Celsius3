@@ -26,7 +26,7 @@ namespace Celsius3\Manager;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
-use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\EmailTemplate;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManager;
@@ -81,7 +81,7 @@ class MailManager
 
     public function getTemplate($code, Instance $instance)
     {
-        $template = $this->entityManager->getRepository(MailTemplate::class)
+        $template = $this->entityManager->getRepository(EmailTemplate::class)
             ->findGlobalAndForInstance($instance, $this->instanceManager->getDirectory(), $code)
             ->getQuery()->getResult()[0];
 

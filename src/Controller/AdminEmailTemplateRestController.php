@@ -23,7 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Entity\Contact;
-use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\EmailTemplate;
 use Celsius3\Entity\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -34,18 +34,18 @@ use Celsius3\Exception\Exception;
  *
  * @Route("/rest/v1/admin/mail_template")
  */
-class AdminMailTemplateRestController extends BaseInstanceDependentRestController
+class AdminEmailTemplateRestController extends BaseInstanceDependentRestController
 {
 
     /**
      * GET Route annotation.
      * @Get("/", name="admin_rest_mail_template", options={"expose"=true})
      */
-    public function getMailTemplates()
+    public function getEmailTemplates()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $templates = $em->getRepository(MailTemplate::class)
+        $templates = $em->getRepository(EmailTemplate::class)
                 ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory())
                 ->getQuery()
                 ->getResult();
@@ -88,7 +88,7 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');
         }
 
-        $template = $em->getRepository(MailTemplate::class)
+        $template = $em->getRepository(EmailTemplate::class)
                 ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory(), $code)
                 ->getQuery()
                 ->getSingleResult();

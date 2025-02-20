@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
@@ -22,24 +20,35 @@ declare(strict_types=1);
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Base;
+namespace Celsius3\Form\Type\Filter;
 
-use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\Email;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MailListController extends EntityController
+class EmailTemplateFilterType extends AbstractType
 {
-
-    public function initialize(): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->setEntity(Email::class);
+        $builder->setMethod('GET');
 
-        parent::initialize();
+        $builder
+                ->add('title', null, array(
+                    'required' => false,
+                ))
+        ;
+    }
 
-        $this->setInstanceDependent(true);
-        $this->setSortDefaults([
-            'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'desc'
-        ]);
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+            'validation_groups' => ['base_mailtemplate_filter_type']
+        ));
+    }
+
+    public function getBlockPrefix()
+    {
+        return '';
     }
 }

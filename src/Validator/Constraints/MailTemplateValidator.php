@@ -29,7 +29,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 use function count;
 
-class MailTemplateValidator extends ConstraintValidator
+class EmailTemplateValidator extends ConstraintValidator
 {
     private const VARIABLES = [
         'user.full_name',

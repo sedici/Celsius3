@@ -29,7 +29,7 @@ orderApp.factory('Contact', ['$resource', function ($resource) {
     );
 }]);
 
-orderApp.factory('MailTemplate', ['$resource', function ($resource) {
+orderApp.factory('EmailTemplate', ['$resource', function ($resource) {
     return $resource(Routing.generate('admin_rest_mail_template') + ':id',
         {id: '@id'}
     );

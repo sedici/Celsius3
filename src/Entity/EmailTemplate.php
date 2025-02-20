@@ -27,9 +27,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\MailTemplateRepository")
+ * @ORM\Entity(repositoryClass="Celsius3\Repository\EmailTemplateRepository")
  */
-class MailTemplate extends Template
+class EmailTemplate extends Template
 {
     /**
      * @ORM\Column(type="boolean")

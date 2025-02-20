@@ -449,8 +449,8 @@
         <source>Create a new legacy instance</source>
         <target>Criar uma nova Instância Antiga</target>
       </trans-unit>
-      <trans-unit id="gJzw9Mn" resname="Create a new mail">
-        <source>Create a new mail</source>
+      <trans-unit id="gJzw9Mn" resname="Create a new email template">
+        <source>Create a new email template</source>
         <target>Criar um novo email</target>
       </trans-unit>
       <trans-unit id="3wU9LZN" resname="Create a new news">
@@ -993,20 +993,20 @@
         <source>MESSAGE_STATUS_CHANGED</source>
         <target>Estado alterado</target>
       </trans-unit>
-      <trans-unit id="z30O0.q" resname="Mail Template Creation">
-        <source>Mail Template Creation</source>
+      <trans-unit id="z30O0.q" resname="Email Template Creation">
+        <source>Email Template Creation</source>
         <target>Criação de Modelo de Mail</target>
       </trans-unit>
-      <trans-unit id="0xSZcHE" resname="Mail Template Edit">
-        <source>Mail Template Edit</source>
+      <trans-unit id="0xSZcHE" resname="Email Template Edit">
+        <source>Email Template Edit</source>
         <target>Editar Modelo de Mail</target>
       </trans-unit>
-      <trans-unit id="_ogPGmX" resname="Mail Template List">
-        <source>Mail Template List</source>
+      <trans-unit id="_ogPGmX" resname="Email Template List">
+        <source>Email Template List</source>
         <target>Lista de Modelos de Mail</target>
       </trans-unit>
-      <trans-unit id="aq7w0XN" resname="Mail Templates">
-        <source>Mail Templates</source>
+      <trans-unit id="aq7w0XN" resname="Email Templates">
+        <source>Email Templates</source>
         <target>Modelos de Mail</target>
       </trans-unit>
       <trans-unit id="I0x1vFi" resname="Mail signature">
@@ -1017,9 +1017,9 @@
         <source>Mail templates</source>
         <target>Modelos de Mail</target>
       </trans-unit>
-      <trans-unit id="WEZDLCc" resname="MailTemplate">
-        <source>MailTemplate</source>
-        <target state="new">MailTemplate</target>
+      <trans-unit id="WEZDLCc" resname="EmailTemplate">
+        <source>EmailTemplate</source>
+        <target state="new">EmailTemplate</target>
       </trans-unit>
       <trans-unit id="86iW33X" resname="Material Type">
         <source>Material Type</source>
@@ -1485,8 +1485,8 @@
         <source>Template</source>
         <target>Modelo</target>
       </trans-unit>
-      <trans-unit id="yQelb4m" resname="Template Mail Creation">
-        <source>Template Mail Creation</source>
+      <trans-unit id="yQelb4m" resname="Template Email Creation">
+        <source>Template Email Creation</source>
         <target>Criar Modelo de Mail</target>
       </trans-unit>
       <trans-unit id="Uy6qvZV" resname="Test">
@@ -2728,8 +2728,8 @@
         <source>congress_title_example</source>
         <target>Título do congresso</target>
       </trans-unit>
-      <trans-unit id="wKef9c1" resname="Mail List">
-        <source>Mail List</source>
+      <trans-unit id="wKef9c1" resname="Email List">
+        <source>Email List</source>
         <target>Lista de correios</target>
       </trans-unit>
       <trans-unit id="wpn5uFy" resname="Sender">

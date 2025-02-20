@@ -37,7 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
- *   "mail"="MailTemplate",
+ *   "mail"="EmailTemplate",
  *   "notification"="Celsius3\Entity\NotificationTemplate"
  * })
  */

@@ -1,0 +1,13 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Email Template List'|trans }}
+{% endblock %}
+
+{% from "Macro/Crud/index.html.twig" import index as index %}
+
+{% block content %}
+    <h2>{{ 'Email Template List'|trans }}</h2>
+
+    {{ index('superadmin_emailtemplate', pagination, 'Superadmin/EmailTemplate/', filter_form) }}
+{% endblock %}

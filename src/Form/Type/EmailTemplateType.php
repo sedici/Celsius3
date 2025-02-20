@@ -30,7 +30,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\Manager\MailManager;
 
-class MailTemplateType extends AbstractType
+class EmailTemplateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

@@ -85,7 +85,7 @@ class Instance extends LegacyInstance
     protected $institutions;
 
     /**
-     * @ORM\OneToMany(targetEntity="MailTemplate", mappedBy="instance")
+     * @ORM\OneToMany(targetEntity="EmailTemplate", mappedBy="instance")
      */
     protected $templates;
 
@@ -299,12 +299,12 @@ class Instance extends LegacyInstance
         return $this->institutions;
     }
 
-    public function addTemplate(MailTemplate $template): void
+    public function addTemplate(EmailTemplate $template): void
     {
         $this->templates[] = $template;
     }
 
-    public function removeTemplate(MailTemplate $template): void
+    public function removeTemplate(EmailTemplate $template): void
     {
         $this->templates->removeElement($template);
     }

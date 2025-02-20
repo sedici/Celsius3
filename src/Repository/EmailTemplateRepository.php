@@ -23,15 +23,15 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\EmailTemplate;
 use Celsius3\Manager\InstanceManager;
 
 /**
- * MailTemplateRepository.
+ * EmailTemplateRepository.
  */
-class MailTemplateRepository extends BaseRepository
+class EmailTemplateRepository extends BaseRepository
 {
-    public function findGlobalAndForInstance(Instance $instance, Instance $directory, $code = null)
+    public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $code = null)
     {
         $custom = $this->createQueryBuilder('c')
                         ->select('c.code')
@@ -66,7 +66,7 @@ class MailTemplateRepository extends BaseRepository
                         ->getQuery()->getResult();
     }
 
-    public function templateEdited(MailTemplate $template)
+    public function templateEdited(EmailTemplate $template)
     {
         $qb = $this->createQueryBuilder('mt');
 

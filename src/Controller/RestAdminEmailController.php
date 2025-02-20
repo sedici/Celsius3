@@ -31,10 +31,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-#[Route("/rest/v1/admin/email")]
-#[IsGranted('IS_AUTHENTICATED_FULLY')]
-class AdminEmailRestController extends EmailController
+#[
+    Route("/rest/v1/admin/email"),
+    IsGranted('ROLE_ADMIN')
+]
+class RestAdminEmailController extends EmailController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->setInstanceDependent(true);
+    }
+
 
     #[Route('/', name: 'rest_admin_send_email', methods: ['POST'], options: ['expose' => true])]
     public function restSendEmail(): Response
@@ -75,16 +84,11 @@ class AdminEmailRestController extends EmailController
             $email, $subject, $text
         );
 
-        return $this->restRenderer->render($result, serializerGroups: 'api');
+        return $this->restRenderer->render($result, serializerGroups: 'api_administration');
     }
 
 
     #[Route('/', name: 'rest_admin_email', methods: ['GET'], options: ['expose' => true])]
     public function restIndex(): Response
-    {
-        return $this->restRenderer->render(
-            $this->repository->findBy([ 'sender' => 634 ]),
-            serializerGroups: 'api'
-        );
-    }
+    { return $this->restRenderer->index('api_administration'); }
 }

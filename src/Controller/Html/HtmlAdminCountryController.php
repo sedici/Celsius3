@@ -23,60 +23,41 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Controller\Base\CountryController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * Country HTML controller.
- * @Route("/admin/country")
- */
+
+#[
+    Route('/admin/country'),
+    IsGranted('ROLE_ADMIN')
+]
 class HtmlAdminCountryController extends CountryController
 {
 
-    /**
-     * @Route("/", name="admin_country")
-     */
+    #[Route('/', name: 'admin_country')]
     public function htmlIndex(): Response
-    {
-        return $this->htmlRenderer->render(
-            'index',
-            $this->index()
-        );
-    }
+    { return $this->htmlRenderer->render('index', $this->index()); }
 
 
-    /**
-     * @Route("/new", name="admin_country_new")
-     */
+    #[Route('/new', name: 'admin_country_new')]
     public function htmlNew(): Response
-    {
-        return $this->htmlRenderer->render(
-            'new',
-            $this->new()
-        );
-    }
+    { return $this->htmlRenderer->render('new', $this->new()); }
 
 
-    /**
-     * @Route("/create", name="admin_country_create", methods={"POST"})
-     */
+    #[Route('/create', name: 'admin_country_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
-    {
-        return $this->htmlRenderer->render(
-            'create',
-            $this->create()
-        );
-    }
+    { return $this->htmlRenderer->render('create', $this->create()); }
 
 
     /**
-     * @Route("/{id}/edit", name="admin_country_edit")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function htmlEdit($id): Response
+    #[Route('/{id}/edit', name: 'admin_country_edit')]
+    public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
             'edit',
@@ -86,15 +67,10 @@ class HtmlAdminCountryController extends CountryController
 
 
     /**
-     * @Route("/{id}/update", name="admin_country_update", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function htmlUpdate($id): RedirectResponse|Response
-    {
-        return $this->htmlRenderer->render(
-            'update',
-            $this->update($id)
-        );
-    }
+    #[Route('/{id}/update', name: 'admin_country_update', methods: ['POST'])]
+    public function htmlUpdate(string $id): RedirectResponse|Response
+    { return $this->htmlRenderer->render('update', $this->update($id)); }
 }

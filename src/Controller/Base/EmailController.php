@@ -111,30 +111,25 @@ abstract class EmailController extends EntityController
     public function initialize(): void
     {
         $this->setEntity(Email::class);
+
         parent::initialize();
-        $this->setInstanceDependent(true);
+
+        $this->setInstanceDependent(false);
         $this->setSortDefaults([
-            'defaultSortFieldName' => 'e.name',
-            'defaultSortDirection' => 'asc',
+            'defaultSortFieldName' => 'e.createdAt',
+            'defaultSortDirection' => 'desc',
         ]);
     }
 
 
-    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
+    public function listQuery(bool|null $isInstanceDependent = null): QueryBuilder
     {
-        return $this->entityManager
-            ->getRepository($this->entityClassName)
-            ->createQueryBuilder('e')
+        if (!$isInstanceDependent && !$this->isInstanceDependent)
+            return parent::listQuery($isInstanceDependent);
+
+        return $this->repository->createQueryBuilder('e')
             ->andWhere('e.instance = :instance_id')
-            ->andWhere('e.sender = :user_id')
-            ->setParameter(
-                'user_id',
-                $this->getUser()->getId()
-            )
-            ->setParameter(
-                'instance_id',
-                $this->instance->getId()
-            );
+            ->setParameter('instance_id', $this->instance->getId());
     }
 
 

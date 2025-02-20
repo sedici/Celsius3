@@ -425,7 +425,7 @@ class EntityController extends InstanceDependentController
 
 
     public function create(
-        ?Entity $entity = null,
+        $entity = null,
         ?string $type = null,
         array $formOptions = [],
         ?string $redirectRoute = null

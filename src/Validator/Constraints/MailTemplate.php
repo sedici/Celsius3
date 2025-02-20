@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class MailTemplate extends Constraint {
+class EmailTemplate extends Constraint {
 
     public $message = 'constraint.message.mail_template';
 

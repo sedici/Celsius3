@@ -1,13 +1,13 @@
 {% extends 'Admin/Dashboard/layout.html.twig' %}
 
 {% block title %}
-    {{ 'Mail Template List'|trans }}
+    {{ 'Email Template List'|trans }}
 {% endblock %}
 
 {% from "Macro/Crud/index.html.twig" import index as index %}
 
 {% block content %}
-    <h2>{{ 'Mail Template List'|trans }}</h2>
+    <h2>{{ 'Email Template List'|trans }}</h2>
 
-    {{ index('admin_mails', pagination, 'Admin/Mail/', filter_form) }}
+    {{ index('admin_emailtemplate', pagination, 'Admin/EmailTemplate/', filter_form) }}
 {% endblock %}

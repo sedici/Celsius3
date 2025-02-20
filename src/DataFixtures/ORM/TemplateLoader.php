@@ -29,7 +29,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\Manager\MailManager;
-use Celsius3\Entity\MailTemplate;
+use Celsius3\Entity\EmailTemplate;
 use Celsius3\Entity\NotificationTemplate;
 use Celsius3\Manager\NotificationManager;
 
@@ -122,7 +122,7 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
         $directory = $this->getReference('directory');
 
         foreach ($this->mail_templates as $key => $value) {
-            $template = new MailTemplate();
+            $template = new EmailTemplate();
             $template->setCode($key);
             $template->setEnabled(true);
             $template->setText($value['text']);

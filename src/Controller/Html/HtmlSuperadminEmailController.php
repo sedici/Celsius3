@@ -24,11 +24,14 @@ namespace Celsius3\Controller\Html;
 
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\EmailController;
-use Celsius3\Form\Type\Filter\MailFilterType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-#[Route('/superadmin/email')]
+#[
+    Route('/superadmin/email'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminEmailController extends EmailController
 {
 
@@ -37,15 +40,10 @@ class HtmlSuperadminEmailController extends EmailController
         parent::initialize();
         $this->setInstance($this->directory);
         $this->setInstanceDependent(false);
-        $this->htmlRenderer->setTemplatePrefix('Superadmin/MailList/');
     }
 
 
-    #[Route('/', name: 'superadmin_maillist')]
+    #[Route('/', name: 'superadmin_email')]
     public function htmlIndex(): Response
-    {
-        return $this->htmlRenderer->render(
-            'index', $this->index(MailFilterType::class)
-        );
-    }
+    { return $this->htmlRenderer->render('index', $this->index()); }
 }

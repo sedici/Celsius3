@@ -25,31 +25,36 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Controller\Base\EmailController;
-use Celsius3\Form\Type\Filter\MailFilterType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * @Route("/admin/email")
- */
+
+#[
+    Route('/admin/email'),
+    IsGranted('ROLE_ADMIN')
+]
 class HtmlAdminEmailController extends EmailController
 {
 
     public function initialize(): void
     {
         parent::initialize();
-        $this->htmlRenderer->setTemplatePrefix('Admin/MailList/');
+        $this->setInstanceDependent(true);
     }
 
 
-    /**
-     * Lists all Mail entities.
-     * @Route("/", name="admin_maillist")
-     */
+    #[Route('/', name: 'admin_email')]
     public function htmlIndex(): Response
-    {
-        return $this->htmlRenderer->render(
-            'index', $this->index(MailFilterType::class)
-        );
-    }
+    { return $this->htmlRenderer->render('index', $this->index()); }
+
+
+    #[Route('/new', name: 'admin_email_new')]
+    public function htmlNew(): Response
+    { return $this->htmlRenderer->render('new', $this->new()); }
+
+
+    #[Route('/create', name: 'admin_email_create', methods: ['POST'])]
+    public function htmlCreate(): Response
+    { return $this->htmlRenderer->render('new', $this->create()); }
 }
