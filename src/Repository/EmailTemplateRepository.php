@@ -25,29 +25,30 @@ namespace Celsius3\Repository;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\EmailTemplate;
 use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * EmailTemplateRepository.
  */
 class EmailTemplateRepository extends BaseRepository
 {
-    public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $code = null)
+    public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $code = null): QueryBuilder
     {
         $custom = $this->createQueryBuilder('c')
-                        ->select('c.code')
-                        ->where('c.instance = :instance_id')
-                        ->andWhere('c.enabled = true')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->getQuery()->getResult();
+            ->select('c.code')
+            ->where('c.instance = :instance_id')
+            ->andWhere('c.enabled = true')
+            ->setParameter('instance_id', $instance->getId())
+            ->getQuery()->getResult();
 
         $query = $this->createQueryBuilder('e')
-                        ->where('e.instance = :directory_id')
-                        ->andWhere('e.code NOT IN (:codes)')
-                        ->andWhere('e.enabled = true')
-                        ->orWhere('e.instance = :instance_id')
-                        ->setParameter('directory_id', $directory->getId())
-                        ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
-                        ->setParameter('instance_id', $instance->getId());
+            ->where('e.instance = :directory_id')
+            ->andWhere('e.code NOT IN (:codes)')
+            ->andWhere('e.enabled = true')
+            ->orWhere('e.instance = :instance_id')
+            ->setParameter('directory_id', $directory->getId())
+            ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
+            ->setParameter('instance_id', $instance->getId());
 
         if (!is_null($code)) {
             $query->andWhere('e.code = :code')
@@ -60,10 +61,10 @@ class EmailTemplateRepository extends BaseRepository
     public function findAllEnabled()
     {
         return $this->createQueryBuilder('t')
-                        ->select('t')
-                        ->where('t.enabled = :enabled')
-                        ->setParameter('enabled', true)
-                        ->getQuery()->getResult();
+            ->select('t')
+            ->where('t.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->getQuery()->getResult();
     }
 
     public function templateEdited(EmailTemplate $template)

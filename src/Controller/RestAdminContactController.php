@@ -23,14 +23,15 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Controller\Base\ContactController;
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-/**
- * @Route("/rest/v1/admin/contact")
- */
+#[
+    Route('/rest/v1/admin/contact'),
+    IsGranted('ROLE_ADMIN')
+]
 class RestAdminContactController extends ContactController
 {
 
@@ -41,10 +42,8 @@ class RestAdminContactController extends ContactController
     }
 
 
-    /**
-     * @Get("/byInstitution/{id}", name="rest_admin_contact", options={"expose"=true})
-     */
-    public function getContacts(string $id): Response
+    #[Route('/byInstitution/{id}', name: 'rest_admin_contact', options: ['expose' => true])]
+    public function restShowByInstitution(string $id): Response
     {
         $contacts = $this->repository->findBy([ 'institution' => $id ]);
         return $this->restRenderer->render(
@@ -53,9 +52,7 @@ class RestAdminContactController extends ContactController
     }
 
 
-    /**
-     * @Get("/{id}/show", name="rest_admin_contact", options={"expose"=true})
-     */
-    public function getContact(string $id): Response
+    #[Route('/{id}/show', name: 'rest_admin_contact', options: ['expose' => true])]
+    public function restShow(string $id): Response
     { return $this->restRenderer->show($id, 'administration'); }
 }

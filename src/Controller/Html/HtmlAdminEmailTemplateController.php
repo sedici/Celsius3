@@ -182,8 +182,6 @@ class HtmlAdminEmailTemplateController extends EmailTemplateController
 
 
     /**
-     * Change state an existing Mail TEmplate.
-     * @Route("/{id}/change_state", name="admin_emailtemplate_changestate")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */

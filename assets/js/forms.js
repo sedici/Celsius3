@@ -221,7 +221,7 @@ $('.email_link').click(function () {
     if (addresses.length >= 2) {
         $('.modal').modal('hide');
         var address = addresses.join(', ');
-        $.get(Routing.generate('admin_rest_mail_template'))
+        $.get(Routing.generate('rest_admin_emailtemplate'))
             .done(function (data) {
                 templates = data;
 

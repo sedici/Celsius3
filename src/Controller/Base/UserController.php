@@ -41,6 +41,7 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Celsius3\Repository\ThreadRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -118,6 +119,17 @@ abstract class UserController extends EntityController
         ]);
 
         $this->threadRepository = $this->entityManager->getRepository(Thread::class);
+    }
+
+
+    public function listQuery(bool|null $isInstanceDependent = null): QueryBuilder
+    {
+        if (!$isInstanceDependent && !$this->isInstanceDependent)
+            return parent::listQuery($isInstanceDependent);
+
+        return $this->repository->createQueryBuilder('e')
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter('instance_id', $this->instance->getId());
     }
 
 

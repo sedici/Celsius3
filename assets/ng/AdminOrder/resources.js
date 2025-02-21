@@ -30,7 +30,7 @@ orderApp.factory('Contact', ['$resource', function ($resource) {
 }]);
 
 orderApp.factory('EmailTemplate', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_mail_template') + ':id',
+    return $resource(Routing.generate('rest_admin_emailtemplate_show') + ':id',
         {id: '@id'}
     );
 }]);

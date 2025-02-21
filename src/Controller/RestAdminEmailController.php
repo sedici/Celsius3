@@ -32,7 +32,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 #[
-    Route("/rest/v1/admin/email"),
+    Route('/rest/v1/admin/email'),
     IsGranted('ROLE_ADMIN')
 ]
 class RestAdminEmailController extends EmailController

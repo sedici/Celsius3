@@ -363,7 +363,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                                 $('.modal').modal('hide');
                                 $('.modal-backdrop').remove();
                                 var template = $scope.forms.receive.delivery_type === 'pdf' ? 'order_download' : 'order_printed';
-                                $http.get(Routing.generate('admin_rest_template_compiled_get', {
+                                $http.get(Routing.generate('rest_admin_emailtemplate_compiled', {
                                     code: template,
                                     request_id: $scope.request.id
                                 }))
@@ -694,7 +694,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                         $('.modal-backdrop').remove();
 
                         if (response.data.provider.type === 'institution' && !$scope.hasInstanceOrParentInstitutionWithInstance(response.data.provider)) {
-                            $http.get(Routing.generate('admin_rest_template_compiled_get', {
+                            $http.get(Routing.generate('rest_admin_emailtemplate_compiled', {
                                 code: 'no_hive',
                                 request_id: $scope.request.id
                             }))
@@ -939,7 +939,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     $('#cancelForm').get(0).reset();
                     $('.modal').modal('hide');
                     $('.modal-backdrop').remove();
-                    $http.get(Routing.generate('admin_rest_template_compiled_get', {
+                    $http.get(Routing.generate('rest_admin_emailtemplate_compiled', {
                         code: 'order_cancel',
                         request_id: $scope.request.id
                     }))

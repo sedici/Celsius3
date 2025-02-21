@@ -22,312 +22,238 @@
 
 namespace Celsius3\Controller;
 
-use Celsius3\Entity\Instance;
+use Celsius3\Controller\Base\EmailController;
+use Celsius3\Controller\Base\EmailTemplateController;
+use Celsius3\Controller\Base\UserController;
 use Celsius3\Entity\Order;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Helper\InstanceHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\View\ViewHandlerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Manager\StateManager;
-use Celsius3\Exception\Exception;
 use Celsius3\Entity\BaseUser;
-use Symfony\Component\Security\Core\Security;
-
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * User controller.
- *
- * @Route("/rest/v1/admin/users")
- */
-class AdminBaseUserRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
+
+#[
+    Route('/rest/v1/admin/users'),
+    IsGranted('ROLE_ADMIN')
+]
+class AdminBaseUserRestController extends UserController
 {
-    private $viewHandler;
-    private $entityManager;
-    private $instanceHelper;
-    private $security;
-    /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-    /**
-     * @var ConfigurationHelper
-     */
-    private $configurationHelper;
 
-    public function __construct(
-        ViewHandlerInterface $viewHandler,
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper,
-        Security $security,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper
-    )
+    public function initialize(): void
     {
-        $this->viewHandler = $viewHandler;
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
-        $this->security = $security;
-        $this->paginator = $paginator;
-        $this->configurationHelper = $configurationHelper;
+        parent::initialize();
+        $this->setInstanceDependent(true);
     }
 
-    protected function getInstance(): Instance
+    #[Route(
+        '/',
+        name: 'admin_rest_user',
+        options: ['expose' => true]
+    )]
+    public function getUsers(): Response
+    { return $this->restRenderer->render($this->listQuery(), serializerGroups: 'api'); }
+
+
+    #[Route(
+        '/pending',
+        name: 'admin_rest_user_pending',
+        options: ['expose' => true]
+    )]
+    public function getPendingUsers(): Response
     {
-        return $this->instanceHelper->getSessionInstance();
+        return $this->restRenderer->render(
+            $this->repository->findPendingUsers($this->instance),
+            serializerGroups: 'administration'
+        );
     }
 
-    /**
-     * GET Route annotation.
-     *
-     * @Get("", name="admin_rest_user", options={"expose"=true})
-     */
-    public function getUsers()
-    {
-        $users = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findBy(
-                [
-                    'instance' => $this->getInstance(),
-                ]
-            );
 
-        $view = $this->view(array_values($users), 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
-    }
-
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/pending", name="admin_rest_user_pending", options={"expose"=true})
-     */
-    public function getPendingUsers()
-    {
-        $users = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findPendingUsers($this->getInstance());
-
-        $view = $this->view(
-            array_values($users),
-            200
-        )->setFormat('json');
-
-        $context = new Context();
-        $context->addGroup('administration');
-        $view->setContext($context);
-
-        return $this->viewHandler->handle($view);
-    }
-
-    /**
-     * @Post("/enable", name="admin_rest_user_enable", options={"expose"=true})
-     */
-    public function enableUser(Request $request)
-    {
-        $content = $request->getContent();
-        $json_content = json_decode($content, true);
+    #[Route(
+        '/enable',
+        name: 'admin_rest_user_enable',
+        methods: ['POST'],
+        options: ['expose' => true]
+    )]
+    public function restEnableUser(
+        EmailController $emailController,
+        EmailTemplateController $emailTemplateController
+    ): Response {
+        $json_content = $this->requestStack->getCurrentRequest()->toArray();
         $user_id = $json_content["id"];
-        // $user_id = $request->request->get("id", null);
 
-        $user = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findOneBy(
-                [
-                    'instance' => $this->getInstance()->getId(),
-                    'id' => $user_id,
-                ]
-            );
-
-        if (!$user) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
-        }
+        $user = $this->repository->find($user_id);
+        if (!$user) $this->error('entity_not_found');
 
         $user->setEnabled(true)
             ->setPdf(true)
             ->setDownloadAuth(true);
-
-        $em = $this->entityManager;
-        $em->persist($user);
-        $em->flush();
+        
+        $this->persistEntity($user);
 
         if ($user->isEnabled()) {
-            $mailManager = $this->get('celsius3_core.mail_manager');
-            $text = $mailManager->renderTemplate('user_welcome', $this->getInstance(), $user);
+            // $text = $emailController
+            //     ->renderTemplate(
+            //         'user_welcome', $this->instance->getId()
+            //     );
 
-            $this->get('celsius3_core.mailer')->sendEmail(
-                $user->getEmail(),
-                $mailManager->getTemplate(
-                    'user_welcome',
-                    $this->getInstance()
-                )->getTitle(),
-                $text,
-                $this->getInstance()
-            );
+            // $emailController->sendEmail(
+            //     $user->getEmail(),
+            //     $emailTemplateController->getTemplate(
+            //         'user_welcome', $this->instance
+            //     )->getTitle(),
+            //     $text
+            // );
         }
 
-        $view = $this->view($user->isEnabled(), 200)->setFormat('json');
+        return $this->restRenderer->render($user->isEnabled(), serializerGroups: 'api');
 
-        return $this->viewHandler->handle($view);
+        // $user = $this->entityManager
+        //     ->getRepository(BaseUser::class)
+        //     ->findOneBy(
+        //         [
+        //             'instance' => $this->getInstance()->getId(),
+        //             'id' => $user_id,
+        //         ]
+        //     );
+
+        // if (!$user) {
+        //     throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
+        // }
+
+        // $user->setEnabled(true)
+        //     ->setPdf(true)
+        //     ->setDownloadAuth(true);
+
+        // $em = $this->entityManager;
+        // $em->persist($user);
+        // $em->flush();
+
+        // if ($user->isEnabled()) {
+        //     $mailManager = $this->get('celsius3_core.mail_manager');
+        //     $text = $mailManager->renderTemplate('user_welcome', $this->getInstance(), $user);
+
+        //     $this->get('celsius3_core.mailer')->sendEmail(
+        //         $user->getEmail(),
+        //         $mailManager->getTemplate(
+        //             'user_welcome',
+        //             $this->getInstance()
+        //         )->getTitle(),
+        //         $text,
+        //         $this->getInstance()
+        //     );
+        // }
+
+        // $view = $this->view($user->isEnabled(), 200)->setFormat('json');
+
+        // return $this->viewHandler->handle($view);
     }
 
-    /**
-     * @Post("/reject", name="admin_rest_user_reject", options={"expose"=true})
-     */
-    public function rejectUser(Request $request)
-    {
-        $user_id = $request->request->get('id', null);
 
-        $user = $this->entityManager
-            ->getRepository(BaseUser::class)
+    #[Route(
+        '/reject',
+        name: 'admin_rest_user_reject',
+        methods: ['POST'],
+        options: ['expose' => true]
+    )]
+    public function rejectUser()
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $user_id = $request->get('id', null);
+
+        $user = $this->repository
             ->findOneBy(
                 [
-                    'instance' => $this->getInstance()->getId(),
+                    'instance' => $this->instance->getId(),
                     'id' => $user_id,
                 ]
             );
 
-        if (!$user) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
-        }
+        if (!$user) $this->error('entity_not_found');
 
         try {
-            if (!$user->isEnabled()) {
-                $em = $this->entityManager;
-                $em->remove($user);
-                $em->flush();
-            }
+            if (!$user->isEnabled()) $this->persistEntity($user);
         } catch (\Exception $e) {
-            throw Exception::create(Exception::CAN_NOT_DELETE, 'exception.can_not_delete.user');
+            $this->error('can_not_delete');
         }
 
-        $view = $this->view(!$user->isEnabled(), 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($user, serializerGroups: 'api');
     }
 
-    /**
-     * @Get("/get_admins", name="admin_rest_get_other_admins", options={"expose"=true})
-     */
-    public function getOtherAdmins()
-    {
-        $repository = $this->entityManager->getRepository(BaseUser::class);
 
-        $admins = $repository->findAdmins($this->getInstance());
+    #[Route(
+        '/get_admins',
+        name: 'admin_rest_get_other_admins',
+        options: ['expose' => true]
+    )]
+    public function getOtherAdmins(): Response
+    {
+        $admins = $this->repository->findAdmins($this->instance);
 
         $filteredAdmins = array_filter(
             $admins,
-            function (BaseUser $admin) {
+            function (BaseUser $admin): bool {
                 return (int)$admin->getId() !== (int)$this->getUser()->getId();
             }
         );
 
-        $view = $this->view(array_values($filteredAdmins), 200)->setFormat('json');
-
-        $context = new Context();
-        $context->addGroup('admins-select');
-        $view->setContext($context);
-
-        return $this->viewHandler->handle($view);
+        return $this->restRenderer->render($filteredAdmins, serializerGroups: 'admins-select');
     }
 
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/{id}", name="admin_rest_user_get", options={"expose"=true})
-     */
-    public function user($id)
+
+    #[Route(
+        '/{id}/show',
+        name: 'admin_rest_user_get',
+        options: ['expose' => true]
+    )]
+    public function restShow(string $id): Response
+    { return $this->restRenderer->show($id, 'api'); }
+
+
+    #[Route(
+        '/{id}/orders/{type}',
+        name: 'admin_rest_user_get_orders',
+        options: ['expose' => true]
+    )]
+    public function getOrders(string $id, string $type): Response
     {
-        $em = $this->entityManager;
+        $entity = $this->repository->find($id);
+        if (!$entity) $this->error('entity_not_found');
 
-        $user = $em->getRepository(BaseUser::class)->find($id);
+        if ($type === 'active') 
+            $state = [
+                StateManager::STATE__CREATED,
+                StateManager::STATE__SEARCHED,
+                StateManager::STATE__REQUESTED,
+                StateManager::STATE__APPROVAL_PENDING
+            ];
+        elseif ($type === 'ready')
+            $state = StateManager::STATE__RECEIVED;
+        elseif ($type === 'history')
+            $state = [
+                StateManager::STATE__DELIVERED,
+                StateManager::STATE__ANNULLED,
+                StateManager::STATE__CANCELLED
+            ];
 
-        if (!$user) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
-        }
-
-        $view = $this->view($user, 200)->setFormat('json');
-
-        return $this->viewHandler->handle($view);
-    }
-
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/{id}/orders/{type}", name="admin_rest_user_get_orders", options={"expose"=true})
-     */
-    public function getOrders(Request $request, $id, $type)
-    {
-        $em = $this->entityManager;
-
-        $entity = $em->getRepository(BaseUser::class)->find($id);
-
-        if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
-        }
-
-        if ($type === 'active') {
-            $ordersQuery = $em->getRepository(Order::class)
-                ->findForInstance(
-                    $this->getInstance(),
-                    null,
-                    [
-                        StateManager::STATE__CREATED,
-                        StateManager::STATE__SEARCHED,
-                        StateManager::STATE__REQUESTED,
-                        StateManager::STATE__APPROVAL_PENDING
-                    ],
-                    $entity
-                );
-        } elseif ($type === 'ready') {
-            $ordersQuery = $em->getRepository(Order::class)
-                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
-        } elseif ($type === 'history') {
-            $ordersQuery = $em->getRepository(Order::class)
-                ->findForInstance(
-                    $this->getInstance(),
-                    null,
-                    [
-                        StateManager::STATE__DELIVERED,
-                        StateManager::STATE__ANNULLED,
-                        StateManager::STATE__CANCELLED
-                    ],
-                    $entity
-                );
-        }
+        $ordersQuery = $this->entityManager
+            ->getRepository(Order::class)
+            ->findForInstance(
+                $this->instance, null, $state, $entity
+            );
 
         $totalQuery = clone $ordersQuery;
-        $total = $totalQuery->select('count(DISTINCT o)')->getQuery()->getSingleScalarResult();
+        $total = $totalQuery->select('count(DISTINCT o)')
+            ->getQuery()->getSingleScalarResult();
 
-        $orders = $this->paginator->paginate(
-            $ordersQuery,
-            $request->query->get('page', 1),
-            $this->configurationHelper
-                ->getCastedValue($this->getInstance()->get('results_per_page')),
-            $this->getSortDefaults()
-        )->getItems();
-
-        $view = $this->view(['orders' => $orders, 'total' => $total], 200)->setFormat('json');
-
-        $context = new Context();
-        $context->addGroup('administration_user_show');
-        $view->setContext($context);
-
-        return $this->viewHandler->handle($view);
-    }
-
-    protected function getSortDefaults()
-    {
-        return [
+        $orders = $this->paginate($ordersQuery, options: [
             'defaultSortFieldName' => 'o.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+
+        return $this->restRenderer->render(
+            ['orders' => $orders, 'total' => $total],
+            serializerGroups: 'administration_user_show'
+        );
     }
 }

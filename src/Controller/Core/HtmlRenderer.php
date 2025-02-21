@@ -24,6 +24,7 @@ namespace Celsius3\Controller\Core;
 
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\TemplateWrapper;
 
 class HtmlRenderer extends BaseRenderer
 {
@@ -74,4 +75,8 @@ class HtmlRenderer extends BaseRenderer
             )
         );
     }
+
+
+    public function createTemplate($template, ?string $name = null): TemplateWrapper
+    { return $this->twig->createTemplate($template, $name); }
 }

@@ -4,7 +4,7 @@ $(document).ready(function () {
     $(document).on('click', '.emailModal', function () {
         $('.modal').modal('hide');
         var address = $(this).data('email');
-        $.get(Routing.generate('admin_rest_mail_template'))
+        $.get(Routing.generate('rest_admin_emailtemplate'))
             .done(function (data) {
                 templates = data;
 
