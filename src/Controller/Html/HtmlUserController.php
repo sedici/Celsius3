@@ -84,7 +84,7 @@ class HtmlUserController extends UserController
         $user = $this->getUser();
 
         if (array_key_exists($id, $user->getSecondaryInstances()) || ($user->getInstance()->getId() === (int)$id)) {
-            if (!array_key_exists($user->getInstance()->getId(), $user->getSecondaryInstances())) {
+            if (!array_key_exists((int) $user->getInstance()->getId(), $user->getSecondaryInstances())) {
                 $user->addSecondaryInstance($user->getInstance(), $user->getRoles());
             }
 

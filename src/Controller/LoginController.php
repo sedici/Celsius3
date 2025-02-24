@@ -24,16 +24,16 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Celsius3\Controller\Core\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Routing\Annotation\Route;
 
-class LoginController extends AbstractController
+
+class LoginController extends Controller
 {
-    /**
-     * @Route("/public/login", name="security_login")
-     */
+
+    #[Route('/public/login', name: 'security_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
@@ -43,9 +43,12 @@ class LoginController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('Security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ]);
+        return $this->htmlRenderer->render(
+            'login',
+            [
+                'last_username' => $lastUsername,
+                'error' => $error,
+            ]
+        );
     }
 }

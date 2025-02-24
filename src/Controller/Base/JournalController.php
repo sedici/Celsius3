@@ -44,6 +44,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -65,7 +66,7 @@ class JournalController extends EntityController
         FilterManager $filterManager,
         InstanceHelper $instanceHelper,
         FormFactoryInterface $formFactory,
-        FlashBagInterface $session,
+        SessionInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
         Security $security,

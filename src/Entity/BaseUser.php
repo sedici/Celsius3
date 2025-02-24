@@ -182,7 +182,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
 
     /**
      * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     protected $instance;

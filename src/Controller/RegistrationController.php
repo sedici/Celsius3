@@ -22,6 +22,8 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\EmailController;
+use Celsius3\Controller\Core\Controller;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Exception\Exception;
 
@@ -31,7 +33,6 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\UserManager;
 use Celsius3\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,42 +48,47 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Twig\Environment;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class RegistrationController extends AbstractController
+class RegistrationController extends Controller
 {
-    private EmailVerifier $emailVerifier;
-    private InstanceHelper $instanceHelper;
-    private SessionInterface $session;
-    private UserManager $userManager;
-    private Environment $twig;
-    private TokenStorageInterface $tokenStorage;
+    // private EmailVerifier $emailVerifier;
+    // private InstanceHelper $instanceHelper;
+    // private SessionInterface $session;
+    // private UserManager $userManager;
+    // private Environment $twig;
+    // private TokenStorageInterface $tokenStorage;
 
-    public function __construct(
-        EmailVerifier $emailVerifier,
-        InstanceHelper $instanceHelper,
-        SessionInterface $session,
-        UserManager $userManager,
-        Environment $twig,
-        TokenStorageInterface $tokenStorage
-    ) {
-        $this->emailVerifier = $emailVerifier;
-        $this->instanceHelper = $instanceHelper;
-        $this->session = $session;
-        $this->userManager = $userManager;
-        $this->twig = $twig;
-        $this->tokenStorage = $tokenStorage;
-    }
+    // public function __construct(
+    //     EmailVerifier $emailVerifier,
+    //     InstanceHelper $instanceHelper,
+    //     SessionInterface $session,
+    //     UserManager $userManager,
+    //     Environment $twig,
+    //     TokenStorageInterface $tokenStorage
+    // ) {
+    //     $this->emailVerifier = $emailVerifier;
+    //     $this->instanceHelper = $instanceHelper;
+    //     $this->session = $session;
+    //     $this->userManager = $userManager;
+    //     $this->twig = $twig;
+    //     $this->tokenStorage = $tokenStorage;
+    // }
 
 
-    /**
-     * @Route("/public/registration", name="registration_register", methods={"POST", "GET"})
-     */
+    #[Route(
+        '/public/registration',
+        name: 'registration_register',
+        methods: ['POST', 'GET']
+    )]
     public function register(
-        Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
-        CustomFieldHelper $customFieldHelper
+        CustomFieldHelper $customFieldHelper,
+        EmailController $emailController
     ): Response {
+        $request = $this->requestStack->getCurrentRequest();
         $user = new BaseUser();
         $user->setEnabled(true);
 
@@ -100,10 +106,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $customFieldHelper->processCustomUserFields($this->getInstance(), $form, $user);
+            $customFieldHelper->processCustomUserFields($this->instance, $form, $user);
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation(
+            $emailController->sendEmailConfirmation(
                 'verify_email',
                 $user,
                 (new TemplatedEmail())
@@ -116,20 +122,21 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('administration');
         }
 
-        return $this->render('Registration/register.html.twig', [
+        return $this->htmlRenderer->render('register', [
             'form' => $form->createView(),
         ]);
     }
 
 
-    /**
-     * @Route("/public/registration/wait_confirmation", name="registration_wait_confirmation")
-     */
+    #[Route(
+        '/public/registration/wait_confirmation',
+        name: 'registration_wait_confirmation'
+    )]
     public function waitConfirmation()
     {
         $email = $this->session->get('fos_user_send_confirmation_email/email');
         $this->session->remove('fos_user_send_confirmation_email/email');
-        $user = $this->userManager->findUserByEmail($email);
+        $user = $this->repository->findUserByEmail($email);
 
         if (null === $user) {
             throw new NotFoundHttpException(
@@ -139,32 +146,30 @@ class RegistrationController extends AbstractController
 
         $instance = $this->instanceHelper->getSessionOrUrlInstance();
         $registrationWaitConfirmationTitle = $instance->get('registration_wait_confirmation_title')->getValue();
-        $registrationWaitConfirmationText = $this->twig->createTemplate(
+        $registrationWaitConfirmationText = $this->htmlRenderer->createTemplate(
             $instance->get('registration_wait_confirmation_text')->getValue()
         )->render(['email' => $email]);
 
-        return $this->render('FOSUserBundle:Registration:waitConfirmation.html.twig', [
-            'user' => $user,
-            'registration_wait_confirmation_title' => $registrationWaitConfirmationTitle,
-            'registration_wait_confirmation_text' => $registrationWaitConfirmationText,
-        ]);
+        return $this->htmlRenderer->render(
+            'FOSUserBundle:Registration:waitConfirmation.html.twig',
+            [
+                'user' => $user,
+                'registration_wait_confirmation_title' => $registrationWaitConfirmationTitle,
+                'registration_wait_confirmation_text' => $registrationWaitConfirmationText,
+            ]
+        );
     }
 
-    protected function getInstance()
-    {
-        return $this->instanceHelper->getUrlInstance();
-    }
 
     /**
      * Receive the confirmation token from user email provider, login the user.
      */
-    public function confirm(Request $request, $token)
+    public function confirm($token)
     {
+        $request = $this->requestStack->getCurrentRequest();
         $user = $this->userManager->findUserByConfirmationToken($token);
 
-        if (null === $user) {
-            throw Exception::create(Exception::NOT_FOUND, "The user with confirmation token does not exist");
-        }
+        if (null === $user) $this->error('entity_not_found');
 
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
@@ -189,27 +194,5 @@ class RegistrationController extends AbstractController
         $dispatcher->dispatch(SecurityEvents::INTERACTIVE_LOGIN, $event_login);
 
         return $response;
-    }
-
-    /**
-     * @Route("/public/verify/email", name="verify_email")
-     */
-    public function verifyUserEmail(Request $request): Response
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
-
-            return $this->redirectToRoute('registration');
-        }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
-
-        return $this->redirectToRoute('registration');
     }
 }

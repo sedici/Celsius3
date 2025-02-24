@@ -43,10 +43,11 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
-
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Search controller
@@ -57,6 +58,7 @@ class HtmlAdminSearchController extends EntityController
     
     public function __construct(
         protected SearchManager $searchManager,
+        ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
@@ -69,7 +71,7 @@ class HtmlAdminSearchController extends EntityController
         FilterManager $filterManager,
         InstanceHelper $instanceHelper,
         FormFactoryInterface $formFactory,
-        FlashBagInterface $session,
+        SessionInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
         Security $security,
@@ -77,6 +79,7 @@ class HtmlAdminSearchController extends EntityController
         RestRenderer $restRenderer
     ) {
         parent::__construct(
+            $validator,
             $instanceManager,
             $entityManager,
             $paginator,

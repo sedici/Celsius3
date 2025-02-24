@@ -49,6 +49,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -76,7 +77,7 @@ abstract class UserController extends EntityController
         FilterManager $filterManager,
         InstanceHelper $instanceHelper,
         FormFactoryInterface $formFactory,
-        FlashBagInterface $session,
+        SessionInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
         Security $security,

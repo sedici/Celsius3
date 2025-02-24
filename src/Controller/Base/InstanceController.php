@@ -41,6 +41,7 @@ use Celsius3\Manager\FileManager;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -72,7 +73,7 @@ abstract class InstanceController extends EntityController
         FilterManager $filterManager,
         InstanceHelper $instanceHelper,
         FormFactoryInterface $formFactory,
-        FlashBagInterface $session,
+        SessionInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
         Security $security,

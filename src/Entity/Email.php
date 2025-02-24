@@ -64,7 +64,7 @@ class Email
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="BaseUser")
+     * @ORM\ManyToOne(targetEntity="BaseUser", cascade={"persist"})
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=false)
      * @Groups({"api_administration"})
      */
@@ -72,7 +72,7 @@ class Email
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
+     * @ORM\ManyToOne(targetEntity="Instance", cascade={"persist"})
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
@@ -92,39 +92,21 @@ class Email
      */
     private $error = false;
 
-    /**
-     * Get id.
-     *
-     * @return $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * Set address.
-     *
-     * @param string $address
-     *
-     * @return self
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
+    public function getId(): mixed
+    { return $this->id; }
 
-        return $this;
-    }
 
-    /**
-     * Get address.
-     *
-     * @return string $address
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
+    public function setAddress(string $address): static
+    { $this->address = $address; return $this; }
+
+
+    public function incrementAttempts(): static
+    { $this->attempts++; return $this; }
+
+
+    public function getAddress(): string
+    { return $this->address; }
 
     /**
      * Set subject.

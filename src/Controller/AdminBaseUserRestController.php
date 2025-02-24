@@ -34,7 +34,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 #[
-    Route('/rest/v1/admin/users'),
+    Route('/rest/v1/admin/user'),
     IsGranted('ROLE_ADMIN')
 ]
 class AdminBaseUserRestController extends UserController

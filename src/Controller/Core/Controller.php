@@ -54,6 +54,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 abstract class Controller
 {
@@ -62,6 +63,7 @@ abstract class Controller
     protected ObjectManager $objectManager;
     protected EntityRepository $repository;
     protected Instance $instance;
+    protected FlashBagInterface $flashBag;
 
     public function __construct(
         protected InstanceManager $instanceManager,
@@ -76,7 +78,7 @@ abstract class Controller
         protected FilterManager $filterManager,
         protected InstanceHelper $instanceHelper,
         protected FormFactoryInterface $formFactory,
-        protected FlashBagInterface $session,
+        protected SessionInterface $session,
         protected RouterInterface $router,
         protected TokenStorageInterface $tokenStorage,
         protected Security $security,
@@ -92,6 +94,7 @@ abstract class Controller
         $this->objectManager = $this->managerRegistry->getManager();
         $this->setInstance($this->instanceHelper->getSessionOrUrlInstance());
         $this->setDirectory($this->instanceManager->getDirectory());
+        $this->flashBag = $this->session->getBag('flashes');
     }
 
 
@@ -147,7 +150,7 @@ abstract class Controller
     protected function addFlash(string $type, $message): void
     {
         try {
-            $this->session->add($type, $message);
+            $this->flashBag->add($type, $message);
         } catch (SessionNotFoundException $e) {
             throw new \LogicException(
                 'You cannot use the addFlash method if sessions are disabled. Enable them in "config/packages/framework.yaml".', 0, $e

@@ -62,6 +62,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
@@ -99,7 +100,7 @@ class AdministrationController extends EntityController
         FilterManager $filterManager,
         InstanceHelper $instanceHelper,
         FormFactoryInterface $formFactory,
-        FlashBagInterface $session,
+        SessionInterface $session,
         RouterInterface $router,
         TokenStorageInterface $tokenStorage,
         Security $security,
@@ -214,7 +215,7 @@ class AdministrationController extends EntityController
 
         $templates = $entity_manager->getRepository(EmailTemplate::class)->findAllEnabled();
 
-        $errors = $this->session->get('errors');
+        $errors = $this->flashBag->get('errors');
 
         $error = false;
         $error_message = '';
