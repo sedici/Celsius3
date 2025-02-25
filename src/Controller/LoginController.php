@@ -33,6 +33,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class LoginController extends Controller
 {
 
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Security/');
+    }
+
     #[Route('/public/login', name: 'security_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {

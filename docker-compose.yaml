@@ -30,6 +30,8 @@ services:
             - elasticsearch
         extra_hosts:
             - "host.docker.internal:host-gateway"
+        env_file:
+            - .env.local
         environment:
             PHP_IDE_CONFIG: "serverName=celsius3.istec.org"  # Ajusta según tu configuración
             XDEBUG_MODE: "develop,debug"
@@ -72,7 +74,11 @@ services:
 
     mailer:
         build: docker/mailer/
-        ports: [ "1025", "1080" ]
+        ports:
+            - 1080:1080
+            - 1025:1025
+        networks:
+            - backend
 
 networks:
     backend: ~

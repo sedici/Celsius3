@@ -43,6 +43,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email as MimeEmail;
@@ -65,6 +66,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
 
 abstract class EmailController extends EntityController
 {
@@ -129,6 +132,8 @@ abstract class EmailController extends EntityController
             'defaultSortFieldName' => 'e.createdAt',
             'defaultSortDirection' => 'desc',
         ]);
+
+        $this->mailer = new Mailer(Transport::fromDsn(getenv('MAILER_DSN')));
     }
 
 
@@ -385,8 +390,6 @@ abstract class EmailController extends EntityController
     }
 
 
-
-
     public function sendEmail1(string $address, string $subject, string $text): bool
     {
         try {
@@ -400,19 +403,21 @@ abstract class EmailController extends EntityController
             $this->mailer->send($email);
 
             // 2. Registrar en la entidad Email (opcional)
-            $emailEntity = new Email();
-            $emailEntity->setAddress($address)
+            $emailEntity = (new Email())
+                ->setAddress($address)
                 ->setSubject($subject)
                 ->setText($text)
                 ->setSent(true)
                 ->incrementAttempts();
 
+            $sender = $this->getUser();
             // Asignar sender (ej: usuario autenticado)
-            if ($this->getUser()) {
-                $emailEntity->setSender($this->getUser());
+            if ($sender) {
+                $emailEntity = $emailEntity->setSender($sender);
             }
 
             $this->entityManager->persist($emailEntity);
+            // persistir sender
             $this->entityManager->flush();
 
             return true;

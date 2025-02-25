@@ -110,7 +110,7 @@ class Institution extends Provider
     private $instance;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LegacyInstance", inversedBy="ownerInstitutions" , cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="LegacyInstance", inversedBy="ownerInstitutions", cascade={"persist"})
      * @ORM\JoinColumn(name="celsius_instance_id", referencedColumnName="id")
      * @Groups({"administration_order_show","administration_user_show","institution_show"})
      */
