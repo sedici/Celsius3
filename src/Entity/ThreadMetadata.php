@@ -41,26 +41,28 @@ class ThreadMetadata //extends BaseThreadMetadata
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+
     /**
      * @ORM\ManyToOne(
      *   targetEntity="Celsius3\Entity\Thread",
      *   inversedBy="metadata"
      * )
-     *
-     * @var \FOS\MessageBundle\Model\ThreadInterface
      */
     protected $thread;
+
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     *
-     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;
+
 
     /**
      * @ORM\Column(type="date", name="last_message_date")
      */
     protected $lastMessageDate;
+
 
     /**
      * @return mixed

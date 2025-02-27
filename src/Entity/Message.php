@@ -24,6 +24,7 @@ namespace Celsius3\Entity;
 
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 //use FOS\MessageBundle\Entity\Message as BaseMessage;
 
@@ -42,21 +43,23 @@ class Message /*extends BaseMessage*/ implements Notifiable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+
     /**
      * @ORM\ManyToOne(
      *   targetEntity="Celsius3\Entity\Thread",
      *   inversedBy="messages"
      * )
-     *
-     * @var \FOS\MessageBundle\Model\ThreadInterface
      */
     protected $thread;
+
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     *
-     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $sender;
+
+
     /**
      * @ORM\OneToMany(
      *   targetEntity="Celsius3\Entity\MessageMetadata",
@@ -68,15 +71,18 @@ class Message /*extends BaseMessage*/ implements Notifiable
      */
     protected $metadata;
 
+
     public function __toString()
     {
         return $this->getSender().' - '.$this->getThread()->getSubject();
     }
 
+
     public function notify(NotificationManager $manager): void
     {
         $manager->notifyNewMessage($this);
     }
+
 
     /**
      * Add metadatum.
@@ -92,6 +98,7 @@ class Message /*extends BaseMessage*/ implements Notifiable
         return $this;
     }
 
+
     /**
      * Remove metadatum.
      *
@@ -102,13 +109,35 @@ class Message /*extends BaseMessage*/ implements Notifiable
         $this->metadata->removeElement($metadatum);
     }
 
+
     /**
      * Get metadata.
      *
-     * @return Collection
+     * @return array|ArrayCollection
      */
-    public function getMetadata()
+    public function getMetadata(): array|ArrayCollection
     {
         return $this->metadata;
+    }
+
+    /**
+     * Get sender.
+     *
+     * @return BaseUser
+     */
+    public function getSender(): BaseUser
+    {
+        return $this->sender;
+    }
+
+
+    /**
+     * Get thread.
+     *
+     * @return Thread
+     */
+    public function getThread(): Thread
+    {
+        return $this->thread;
     }
 }

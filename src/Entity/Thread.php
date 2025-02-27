@@ -22,7 +22,9 @@
 
 namespace Celsius3\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Entity\Mixin\ParticipantInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
@@ -45,15 +47,19 @@ class Thread
      * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
      */
     protected $createdBy;
+
+
     /**
      * @ORM\OneToMany(
      *   targetEntity="Celsius3\Entity\Message",
      *   mappedBy="thread"
      * )
      *
-     * @var Message[]|\Doctrine\Common\Collections\Collection
+     * @var ArrayCollection<Message>
      */
     protected $messages;
+
+
     /**
      * @ORM\OneToMany(
      *   targetEntity="Celsius3\Entity\ThreadMetadata",
@@ -61,23 +67,35 @@ class Thread
      *   cascade={"all"}
      * )
      *
-     * @var ThreadMetadata[]|\Doctrine\Common\Collections\Collection
+     * @var ArrayCollection<ThreadMetadata>
      */
     protected $metadata;
+
 
     /**
      * @ORM\Column(name="created_at",  type="datetime")
      */
     protected $createdAt;
+
+
+    /**
+     * Users participating in this conversation.
+     *
+     * @var ArrayCollection<ParticipantInterface>
+     */
+    protected $participants;
+
+
     /**
      * Remove message.
      *
-     * @param \Celsius3\Entity\Message $message
+     * @param Message $message
      */
-    public function removeMessage(\Celsius3\Entity\Message $message)
+    public function removeMessage(Message $message): void
     {
         $this->messages->removeElement($message);
     }
+
 
     /**
      * Add metadatum.
@@ -106,9 +124,9 @@ class Thread
     /**
      * Get metadata.
      *
-     * @return Collection
+     * @return array|ArrayCollection
      */
-    public function getMetadata()
+    public function getMetadata(): array|ArrayCollection
     {
         return $this->metadata;
     }
@@ -122,9 +140,9 @@ class Thread
     }
 
     /**
-     * @return Message[]|\Doctrine\Common\Collections\Collection
+     * @return ArrayCollection<Message>
      */
-    public function getMessages()
+    public function getMessages(): array|ArrayCollection
     {
         return $this->messages;
     }

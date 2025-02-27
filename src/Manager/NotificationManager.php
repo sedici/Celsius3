@@ -22,6 +22,7 @@
 
 namespace Celsius3\Manager;
 
+use Celsius3\Controller\Base\EmailController;
 use Celsius3\Mailer\Mailer;
 use Celsius3\Entity\NotificationTemplate;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,7 @@ use Celsius3\Entity\EventNotification;
 use Celsius3\Entity\Notification;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Instance;
 use Celsius3\Entity\Message;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -53,91 +55,79 @@ class NotificationManager
     public const CAUSE__UPLOAD = 'upload';
     public const CAUSE__RECLAIM = 'reclaim';
 
-    private $zmq_port;
-    private $zmq_host;
-    private $mailer;
-    private $translator;
-    private $entityManager;
-    private $twig;
-    private $router;
-    private $notificationLimit;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        Mailer $mailer,
-        TranslatorInterface $translator,
-        Environment $twig,
-        RouterInterface $router,
-        $notificationLimit,
-        $zmqHost, $zmqPort)
+        protected EntityManagerInterface $entityManager,
+        protected Mailer $mailer,
+        protected TranslatorInterface $translator,
+        protected Environment $twig,
+        protected RouterInterface $router,
+        protected $notificationLimit,
+        protected $zmqHost,
+        protected $zmqPort,
+        protected EmailController $emailController
+    ) { }
+
+
+    private function getMap(): array
     {
-        $this->zmq_host = $zmqHost;
-        $this->zmq_port = $zmqPort;
-        $this->mailer = $mailer;
-        $this->translator = $translator;
-        $this->entityManager = $entityManager;
-        $this->twig = $twig;
-        $this->router = $router;
-        $this->notificationLimit = $notificationLimit;
+        $eventArray = $this->getEventArray();
+        return [
+            self::CAUSE__NEW_MESSAGE => [
+                'template_data' => function (Notification $notification) {
+                    return [
+                        'user' => $notification->getObject()->getSender(),
+                    ];
+                },
+                'route' => 'fos_message_thread_view',
+                'route_params' => function (Notification $notification) {
+                    return [
+                        'threadId' => $notification->getObject()
+                            ->getThread()
+                            ->getId(),
+                    ];
+                },
+            ],
+            self::CAUSE__NEW_USER => [
+                'template_data' => function (Notification $notification) {
+                    return [
+                        'user' => $notification->getObject(),
+                    ];
+                },
+                'route' => 'admin_user',
+                'route_params' => function (Notification $notification) {
+                    return [
+                        'id' => $notification->getObject()->getId(),
+                    ];
+                },
+            ],
+            self::CAUSE__CREATE => $eventArray,
+            self::CAUSE__SEARCH => $eventArray,
+            self::CAUSE__ANNUL => $eventArray,
+            self::CAUSE__REQUEST => $eventArray,
+            self::CAUSE__RECEIVE => $eventArray,
+            self::CAUSE__CANCEL => $eventArray,
+            self::CAUSE__DELIVER => $eventArray,
+            self::CAUSE__UPLOAD => $eventArray,
+            self::CAUSE__RECLAIM => $eventArray,
+        ];
     }
 
-    private function getMap()
+    private function getEventArray(): array
     {
-        $translator = $this->translator;
-        $eventArray = array(
-            'template_data' => function (Notification $notification) use ($translator) {
-                return array(
-                    /** @Ignore */'request' => $notification->getObject()->getRequest(),
-                    /** @Ignore */ 'event' => $translator->trans($notification->getCause()),
-                );
+        return [
+            'template_data' => function (Notification $notification): array {
+                return [
+                    'request' => $notification->getObject()->getRequest(),
+                    'event' => $this->translator->trans($notification->getCause()),
+                ];
             },
-                    'route' => 'admin_order_show',
-                    'route_params' => function (Notification $notification) {
-                        return array(
+            'route' => 'admin_order_show',
+            'route_params' => function (Notification $notification) {
+                return [
                     'id' => $notification->getObject()->getRequest()->getOrder()->getId(),
-                );
-                    },
-                );
-
-        return array(
-                    self::CAUSE__NEW_MESSAGE => array(
-                        'template_data' => function (Notification $notification) {
-                            return array(
-                                'user' => $notification->getObject()->getSender(),
-                            );
-                        },
-                                'route' => 'fos_message_thread_view',
-                                'route_params' => function (Notification $notification) {
-                                    return array(
-                                'threadId' => $notification->getObject()
-                                        ->getThread()
-                                        ->getId(),
-                            );
-                                },
-                            ),
-                            self::CAUSE__NEW_USER => array(
-                                'template_data' => function (Notification $notification) {
-                                    return array(
-                                        'user' => $notification->getObject(),
-                                    );
-                                },
-                                        'route' => 'admin_user',
-                                        'route_params' => function (Notification $notification) {
-                                            return array(
-                                        'id' => $notification->getObject()->getId(),
-                                    );
-                                        },
-                                    ),
-                                    self::CAUSE__CREATE => $eventArray,
-                                    self::CAUSE__SEARCH => $eventArray,
-                                    self::CAUSE__ANNUL => $eventArray,
-                                    self::CAUSE__REQUEST => $eventArray,
-                                    self::CAUSE__RECEIVE => $eventArray,
-                                    self::CAUSE__CANCEL => $eventArray,
-                                    self::CAUSE__DELIVER => $eventArray,
-                                    self::CAUSE__UPLOAD => $eventArray,
-                                    self::CAUSE__RECLAIM => $eventArray,
-                                );
+                ];
+            },
+        ];
     }
 
     public function getRenderedTemplate(Notification $notification)
@@ -157,22 +147,10 @@ class NotificationManager
         return $this->router->generate($route, $params($notification));
     }
 
-    private function notifyRatchet(Notification $notification)
-    {
-//        $context = new \ZMQContext();
-//        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
-//        $socket->connect('tcp://'.$this->zmq_host.':'.$this->zmq_port);
-//
-//        $socket->send(json_encode(array(
-//                                    'type' => 'notification',
-//                                    'data' => array('notification_id' => $notification->getId()),
-//                                )));
-//
-//        $socket->disconnect('tcp://'.$this->zmq_host.':'.$this->zmq_port);
-    }
 
-    private function notifyInterface(Notification $notification, $receivers)
-    {
+    private function notifyInterface(
+        Notification $notification, array $receivers
+    ): void {
         $em = $this->entityManager;
 
         foreach ($receivers as $receiver) {
@@ -180,52 +158,88 @@ class NotificationManager
         }
 
         $em->persist($notification);
-        $em->flush($notification);
-
-        $this->notifyRatchet($notification);
+        $em->flush();
     }
 
-    private function notifyEmail(Notification $notification, $receivers, $instance, $otherText = '')
-    {
+
+    private function notifyEmail(
+        Notification $notification,
+        array $receivers,
+        Instance $instance,
+        string $otherText = ''
+    ): void {
         $function = $this->getMap()[$notification->getCause()]['template_data'];
         $data = $function($notification);
 
         $template = $this->twig->createTemplate($notification->getTemplate()->getText());
 
         foreach ($receivers as $user) {
-            $text = 'Celsius3 - '.$user->getInstance();
-            $text .= "\n\n";
-            $text .= $template->render($data).' ';
-            $text .= $otherText;
+            $text = 'Celsius3 - '
+                . $user->getInstance()
+                . "\n\n"
+                . $template->render($data).' '
+                . $otherText;
 
-            if (/** @Ignore */!$user->getWrongEmail()) {
-                $this->mailer->sendEmail($user->getEmail(), 'Celsius 3 '.$this->translator->trans(/** @Ignore */$notification->getCause()), $text, $instance);
+            if (!$user->getWrongEmail()) {
+                $this->emailController->sendEmail(
+                    $user->getEmail(),
+                    'Celsius 3 ' . $this->translator->trans(
+                        $notification->getCause()
+                    ), $text, instance: $instance
+                );
             }
         }
     }
 
-    public function notifyNewMessage(Message $message)
+
+    public function notifyNewMessage(Message $message): void
     {
         $receivers = new ArrayCollection($message->getThread()->getParticipants());
+        $senderId = $message->getSender()->getId();
+        $instance = $message->getSender()->getInstance();
+
+        $this->notify(
+            $receivers,
+            self::CAUSE__NEW_MESSAGE,
+            $message,
+            MessageNotification::class,
+            $instance,
+            function (BaseUser $receiver) use ($senderId): bool {
+                return $receiver->getId() !== $senderId;
+            }
+        );
+    }
+
+
+    private function notify(
+        ArrayCollection $receivers,
+        string $cause,
+        object $object,
+        string $notificationClass,
+        Instance $instance,
+        callable $filterCondition = null
+    ): void {
         $em = $this->entityManager;
 
-        $usersInterfaceNotification = $em->getRepository(BaseUser::class)->getUsersWithMessageNotification('interface', $receivers);
-        $usersEmailNotification = $em->getRepository(BaseUser::class)->getUsersWithMessageNotification('email', $receivers);
+        $usersInterfaceNotification = $em->getRepository(BaseUser::class)->getUsersWithNotification('interface', $receivers, $cause);
+        $usersEmailNotification = $em->getRepository(BaseUser::class)->getUsersWithNotification('email', $receivers, $cause);
 
-        $receiversInterfaceNotification = $receivers->filter(function (BaseUser $receiver) use ($message, $usersInterfaceNotification) {
-            return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $usersInterfaceNotification));
-        });
-        $receiversEmailNotification = $receivers->filter(function (BaseUser $receiver) use ($message, $usersEmailNotification) {
-            return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $usersEmailNotification));
+        $receiversInterfaceNotification = $receivers->filter(function (BaseUser $receiver) use ($usersInterfaceNotification, $filterCondition): bool {
+            $isInArray = in_array($receiver, $usersInterfaceNotification, true);
+            return ($filterCondition === null || $filterCondition($receiver)) && $isInArray;
         });
 
-        $template = $em->getRepository(NotificationTemplate::class)
-                                        ->findOneBy(array('code' => self::CAUSE__NEW_MESSAGE));
+        $receiversEmailNotification = $receivers->filter(function (BaseUser $receiver) use ($usersEmailNotification, $filterCondition): bool {
+            $isInArray = in_array($receiver, $usersEmailNotification, true);
+            return ($filterCondition === null || $filterCondition($receiver)) && $isInArray;
+        });
 
-        $notification = new MessageNotification(self::CAUSE__NEW_MESSAGE, $message, $template);
+        $template = $em->getRepository(NotificationTemplate::class)->findOneBy(['code' => $cause]);
 
-        $this->notifyInterface($notification, $receiversInterfaceNotification);
-        $this->notifyEmail($notification, $receiversEmailNotification, $message->getSender()->getInstance());
+        $notification = new $notificationClass($cause, $object, $template);
+
+        $this->notifyInterface($notification, $receiversInterfaceNotification->toArray());
+        $this->notifyEmail($notification, $receiversEmailNotification->toArray(), $instance);
     }
 
     public function notifyNewUser(BaseUser $user)

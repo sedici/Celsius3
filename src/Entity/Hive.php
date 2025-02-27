@@ -73,7 +73,7 @@ class Hive
     /**
      * Get id.
      *
-     * @return id $id
+     * @return $id
      */
     public function getId()
     {
@@ -127,9 +127,9 @@ class Hive
     /**
      * Get instances.
      *
-     * @return Collection $instances
+     * @return array|ArrayCollection $instances
      */
-    public function getInstances()
+    public function getInstances(): array|ArrayCollection
     {
         return $this->instances;
     }
@@ -157,9 +157,9 @@ class Hive
     /**
      * Get institutions.
      *
-     * @return Collection $institutions
+     * @return array|ArrayCollection $institutions
      */
-    public function getInstitutions()
+    public function getInstitutions(): array|ArrayCollection
     {
         return $this->institutions;
     }

@@ -108,7 +108,7 @@ abstract class Notification
     /**
      * Get id.
      *
-     * @return id $id
+     * @return int $id
      */
     public function getId()
     {
@@ -166,7 +166,7 @@ abstract class Notification
     /**
      * Set viewedAt.
      *
-     * @param date $viewedAt
+     * @param \DateTime $viewedAt
      *
      * @return self
      */
@@ -180,7 +180,7 @@ abstract class Notification
     /**
      * Get viewedAt.
      *
-     * @return date $viewedAt
+     * @return \DateTime $viewedAt
      */
     public function getViewedAt()
     {
@@ -204,7 +204,7 @@ abstract class Notification
     /**
      * Get object.
      *
-     * @return $object
+     * @return object $object
      */
     public function getObject()
     {
@@ -280,9 +280,9 @@ abstract class Notification
     /**
      * Get receivers.
      *
-     * @return Collection $receivers
+     * @return ArrayCollection $receivers
      */
-    public function getReceivers()
+    public function getReceivers(): array|ArrayCollection
     {
         return $this->receivers;
     }

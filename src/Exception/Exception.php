@@ -37,6 +37,7 @@ class Exception
     public const INVALID_SEARCH = 'invalid_search';
     public const ACCESS_DENIED = 'access_denied';
     public const CAN_NOT_DELETE = 'can_not_delete';
+    public const INVALID_EMAIL = 'invalid_email';
 
     private static $rest = false;
     private static $class_prefix = 'Celsius3\\Exception\\';
@@ -58,6 +59,8 @@ class Exception
         self::ACCESS_DENIED => 'AccessDenied'
         ,
         self::CAN_NOT_DELETE => 'CanNotDelete'
+        ,
+        self::INVALID_EMAIL => 'InvalidEmail'
     ];
 
     public static function isRest()

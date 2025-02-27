@@ -64,7 +64,7 @@ class Email
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="BaseUser")
+     * @ORM\ManyToOne(targetEntity="BaseUser", cascade={"persist"})
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=false)
      * @Groups({"api_administration"})
      */
@@ -72,7 +72,7 @@ class Email
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
+     * @ORM\ManyToOne(targetEntity="Instance", cascade={"persist"})
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
@@ -115,7 +115,7 @@ class Email
      *
      * @return self
      */
-    public function setSubject($subject)
+    public function setSubject(string $subject): static
     {
         $this->subject = $subject;
 
