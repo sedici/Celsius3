@@ -22,6 +22,7 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Email;
 use Celsius3\Entity\Instance;
 
 /**
@@ -29,7 +30,10 @@ use Celsius3\Entity\Instance;
  */
 class EmailRepository extends BaseRepository
 {
-    public function findNotSentEmailsWithLimit(Instance $instance, $limit)
+    /**
+     * @return Email[]
+     */
+    public function findNotSentEmailsWithLimit(Instance $instance, $limit): array
     {
         $qb = $this->createQueryBuilder('e');
 

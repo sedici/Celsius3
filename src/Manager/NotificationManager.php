@@ -57,7 +57,7 @@ class NotificationManager
 
     public function __construct(
         protected EntityManagerInterface $entityManager,
-        protected Mailer $mailer,
+        // protected Mailer $mailer,
         protected TranslatorInterface $translator,
         protected Environment $twig,
         protected RouterInterface $router,

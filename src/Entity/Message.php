@@ -26,7 +26,7 @@ use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-//use FOS\MessageBundle\Entity\Message as BaseMessage;
+use FOS\MessageBundle\Entity\Message as BaseMessage;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
@@ -72,7 +72,7 @@ class Message /*extends BaseMessage*/ implements Notifiable
     protected $metadata;
 
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getSender().' - '.$this->getThread()->getSubject();
     }

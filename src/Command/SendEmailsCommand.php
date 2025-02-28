@@ -22,6 +22,7 @@
 
 namespace Celsius3\Command;
 
+use Celsius3\Controller\Base\EmailController;
 use Celsius3\Entity\Instance;
 use Celsius3\Mailer\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,16 +35,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SendEmailsCommand extends Command
 {
-    private $mailer;
-    private $entityManager;
-    private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, Mailer $mailer, LoggerInterface $logger)
-    {
+    public function __construct(
+        protected EntityManagerInterface $entityManager,
+        // protected Mailer $mailer,
+        protected LoggerInterface $logger,
+        protected EmailController $emailController
+    ) {
         parent::__construct();
-        $this->mailer = $mailer;
-        $this->entityManager = $entityManager;
-        $this->logger = $logger;
     }
 
     protected function configure()
@@ -67,7 +66,7 @@ class SendEmailsCommand extends Command
         $limit = ($limit >= 1 && $limit <= 10) ? $limit : 5;
         $logLevel = ($logLevel === 1 || $logLevel === 2 || $logLevel === 3) ? $logLevel : null;
 
-        $mailer = $this->mailer;
+        $emailController = $this->emailController;
         $em = $this->entityManager;
 
         $logger = $this->logger;
@@ -79,7 +78,9 @@ class SendEmailsCommand extends Command
 
         foreach ($instances as $instance) {
             try {
-                $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
+                $emailController->sendInstanceEmails(
+                    $instance, $limit, $output, $logger, $logLevel
+                );
             } catch (Exception $e) {
                 $message = "Failed to send emails for instance $instance. " . $e->getMessage();
 

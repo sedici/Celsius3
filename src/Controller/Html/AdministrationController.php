@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Html;
 
+use Celsius3\Controller\Base\EmailController;
+use Celsius3\Controller\Base\EmailTemplateController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Configuration;
 use Celsius3\Entity\DataRequest;
@@ -59,6 +61,7 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\TemplateController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -86,7 +89,7 @@ class AdministrationController extends EntityController
 
     public function __construct(
         protected Environment $twig,
-        protected Mailer $mailer,
+        // protected EmailController $emailController,
         ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -281,10 +284,10 @@ class AdministrationController extends EntityController
 
         foreach ($users as $user) {
             try {
-                $template = $this->twig->createTemplate($text);
+                $template = $this->htmlRenderer->createTemplate($text);
                 $body = $template->render(['user' => $user]);
-                $this->mailer->sendEmail(
-                    $user['email'], $subject, $body, $this->instance
+                $this->emailController->sendEmail(
+                    $user['email'], $subject, $body
                 );
             } catch (Exception $e) {
                 $this->addFlash('error', 'Invalid Template');
@@ -393,15 +396,6 @@ class AdministrationController extends EntityController
         return $this->restRenderer->render($interaction);
     }
 
-    // protected function validateAjax($target): bool
-    // {
-    //     $allowed_targets = [
-    //         'Journal',
-    //         'BaseUser',
-    //     ];
-
-    //     return in_array($target, $allowed_targets, true);
-    // }
 
     protected function parentAjax(Request $request, Instance $instance = null, $librarian = null)
     {

@@ -57,7 +57,7 @@ class TechnicalController extends EntityController
 {
 
     public function __construct(
-        protected MailerHelper $mailerHelper,
+        // protected MailerHelper $mailerHelper,
         ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,

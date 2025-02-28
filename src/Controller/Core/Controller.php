@@ -187,16 +187,6 @@ abstract class Controller
     }
 
 
-    protected function printVar($entity): void {
-        $str = '{ ';
-        foreach ($entity as $property => $value) {
-            $str .= "$property => $value, ";
-        }
-        $str .= ' }';
-        throw new \Exception($str);
-    }
-
-
     protected function getResultsPerPage(): mixed
     {
         return $this

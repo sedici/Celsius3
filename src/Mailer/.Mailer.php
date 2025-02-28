@@ -47,12 +47,12 @@ class Mailer
         EntityManagerInterface $entityManager,
         TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
-        MailerHelper $mailerHelper
+        // MailerHelper $mailerHelper
     ) {
         $this->entityManager = $entityManager;
         $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
-        $this->mailerHelper = $mailerHelper;
+        // $this->mailerHelper = $mailerHelper;
     }
 
     public function saveEmail($address, $subject, $text, Instance $instance)

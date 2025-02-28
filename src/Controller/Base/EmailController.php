@@ -41,6 +41,7 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Celsius3\Repository\BaseUserRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -76,7 +77,6 @@ abstract class EmailController extends EntityController
     public function __construct(
         protected MailerInterface $mailer,
         protected MailManager $mailManager,
-        protected MailerHelper $mailerHelper,
         protected readonly LoggerInterface $logger,
         protected readonly VerifyEmailHelperInterface $verifyEmailHelper,
         ValidatorInterface $validator,
@@ -149,95 +149,154 @@ abstract class EmailController extends EntityController
     }
 
 
-    // public function sendInstanceEmails(
-    //     OutputInterface $output, int $limit, int $logLevel = 2
-    // ): void {
-    //     if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
-    //         if ($logLevel <= 2) {
-    //             $message = 'Instance ' . $this->instance->getUrl() . ': The SMTP server data are not valid.';
-    //             $output?->writeln($message);
-    //             $this->logger->error($message);
-    //         }
-    //         return;
-    //     }
+    public function newTransport(
+        string $host, string $port, string $protocol, string $user, string $pass
+    ): TransportInterface {
+        $dsn = sprintf('%s://%s:%s@%s:%s',
+            $protocol === 'ssl' ? 'smtps' : 'smtp',
+            $user, $pass, $host, $port
+        );
 
-    //     $emails = $this->entityManager->getRepository(Email::class)
-    //         ->findNotSentEmailsWithLimit($this->instance, $limit);
+        return Transport::fromDsn($dsn);
+    }
 
-    //     if (count($emails) === 0) {
-    //         $this->addFlash('info', 'No emails to send.');
-    //         return;
-    //     }
 
-    //     $signature = $this->instance->get($this->configurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-    //     $smtpUsername = $this->instance->get($this->configurationHelper::CONF__SMTP_USERNAME)->getValue();
+    public function newMailerFromTransport(
+        string $host, string $port, string $protocol, string $user, string $pass
+    ): MailerInterface {
+        return  new Mailer($this->newTransport(
+            $host, $port, $protocol, $user, $pass
+        ));
+    }
 
-    //     if ($logLevel <= 3) {
-    //         $message = 'Sending mails from instance ' . $this->instance->getUrl();
-    //         $output?->writeln($message);
-    //         $this->logger->info($message);
-    //     }
 
-    //     foreach ($emails as $email) {
-    //         try {
-    //             if ($email->getAttempts() < 10 || $email->getUpdatedAt()->diff(new \DateTime())->h > 2) {
-    //                 $from = $smtpUsername;
-    //                 if ($logLevel <= 2) {
-    //                     $message = 'Sending mail from ' . $from . ' to ' . $email->getAddress();
-    //                     $output?->writeln($message);
-    //                     $this->logger->info($message);
-    //                 }
+    public function getInstanceTransportCongif(): array {
+        $inst = $this->instance;
+        return [
+            'host' => $inst->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(),
+            'port' => $inst->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(),
+            'protocol' => $inst->get(ConfigurationHelper::CONF__SMTP_PROTOCOL)->getValue(),
+            'user' => $inst->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue(),
+            'pass' => $inst->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue()
+        ];
+    }
 
-    //                 $emailMessage = (new MimeEmail())
-    //                     ->subject($email->getSubject())
-    //                     ->from($from)
-    //                     ->to($email->getAddress())
-    //                     ->html($email->getText() . "\n" . $signature);
 
-    //                 $this->mailer->send($emailMessage);
-
-    //                 $email->setSent(true);
-    //                 $this->persistEntity($email);
-    //             }
-    //         } catch (TransportExceptionInterface $e) {
-    //             $email->addAttempt();
-
-    //             $diff = $email->getCreatedAt()->diff(new \DateTime());
-    //             $hours = $diff->h + ($diff->days * 24);
-    //             if ($hours > 48) {
-    //                 $email->setError(true);
-    //             }
-
-    //             $this->entityManager->persist($email);
-    //             $this->entityManager->flush();
-
-    //             $message = "Error al enviar el correo con ID: " . $email->getId();
-    //             $this->logger->error($message, ['exception' => $e]);
-    //             $output?->writeln($message);
-    //         }
-    //     }
-    // }
+    public function mimeEmailFromEntityEmail(Email $email): MimeEmail {
+        return (new MimeEmail())
+            ->from($email->getSender()->getEmail())
+            ->to($email->getAddress())
+            ->subject($email->getSubject())
+            ->text($email->getText());
+    }
 
 
     public function sendInstanceEmails(
         OutputInterface $output, int $limit, int $logLevel = 2
     ): void {
-        $emails = $this->entityManager->getRepository(Email::class)
+        if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
+            if ($logLevel <= 2) {
+                $msg = 'Instance ' . $this->instance->getUrl() . ': The SMTP server data are not valid.';
+                $output?->writeln($msg);
+                $this->logger->error($msg);
+            }
+            return;
+        }
+
+        $emails = $this->repository
             ->findNotSentEmailsWithLimit($this->instance, $limit);
-    
+
+        if (count($emails) === 0) {
+            $this->addFlash('info', 'No emails to send.');
+            return;
+        }
+
+        $instance = $this->instance;
+        $signature = $instance->get($this->configurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        $smtpUsername = $instance->get($this->configurationHelper::CONF__SMTP_USERNAME)->getValue();
+        $transportConfig = $this->getInstanceTransportCongif();
+
+        try {
+            $mailer = $this->newMailerFromTransport(... $transportConfig);
+        } catch (Exception $e) {
+            $msg = 'Error creating Mailer for instance ' . $instance->getUrl() . '. ' . $e->getMessage();
+            $output->writeln($msg);
+            $this->logger->error($msg);
+            return;
+        }
+
+        if ($logLevel <= 3) {
+            $msg = 'Sending mails from instance ' . $this->instance->getUrl();
+            $output?->writeln($msg);
+            $this->logger->info($msg);
+        }
+        if ($logLevel === 1) {
+            foreach (['host', 'port'] as $x) {
+                $msg = 'SMTP ' . ucfirst($x) . ': ' . $transportConfig[$x];
+                $output->writeln($msg);
+                $this->logger->info($msg);
+            }
+        }
+
         foreach ($emails as $email) {
-            $success = $this->sendMimeEmail(
-                $email->getAddress(),
-                $email->getSubject(),
-                $email->getText()
-            );
-    
-            if ($success) $email->setSent(true);
-            else $email->addAttempt();
-    
-            $this->entityManager->flush();
+            try {
+                if ($email->getAttempts() < 10 || $email->getUpdatedAt()->diff(new \DateTime())->h > 2) {
+                    $from = $smtpUsername;
+                    if ($logLevel <= 2) {
+                        $msg = 'Sending email from ' . $from . ' to ' . $email->getAddress();
+                        $output?->writeln($msg);
+                        $this->logger->info($msg);
+                    }
+
+                    $mimeEmail = $this->mimeEmailFromEntityEmail($email);
+                    $this->sendMimeEmail(
+                        email: $mimeEmail
+                            ->from($from)
+                            ->text($mimeEmail->getBody()."\n" . $signature),
+                        mailer: $mailer
+                    );
+
+                    $email->setSent(true);
+                    $this->persistEntity($email);
+                }
+            } catch (TransportExceptionInterface $e) {
+                $email->addAttempt();
+
+                $diff = $email->getCreatedAt()->diff(new \DateTime());
+                $hours = $diff->h + ($diff->days * 24);
+                if ($hours > 48) {
+                    $email->setError(true);
+                }
+
+                $this->persistEntity($email);
+
+                $msg = "Error al enviar el correo con ID: " . $email->getId();
+                $this->logger->error($msg, ['exception' => $e]);
+                $output?->writeln($msg);
+            }
         }
     }
+
+
+    // public function sendInstanceEmails(
+    //     OutputInterface $output, int $limit, int $logLevel = 2
+    // ): void {
+    //     $emails = $this->entityManager->getRepository(Email::class)
+    //         ->findNotSentEmailsWithLimit($this->instance, $limit);
+    
+    //     foreach ($emails as $email) {
+    //         $success = $this->sendMimeEmail(
+    //             $email->getAddress(),
+    //             $email->getSubject(),
+    //             $email->getText()
+    //         );
+    
+    //         if ($success) $email->setSent(true);
+    //         else $email->addAttempt();
+    
+    //         $this->entityManager->flush();
+    //     }
+    // }
 
 
     public function sendConfirmationEmailMessage(BaseUser $user): void
@@ -385,25 +444,30 @@ abstract class EmailController extends EntityController
     }
 
     public function sendMimeEmail(
-        string $address,
-        string $subject,
-        string $text,
-        ?BaseUser $sender = null,
+        string $from = null,
+        string $to = null,
+        string $subject = null,
+        string $text = null,
         ?MimeEmail $email = null,
         ?MailerInterface $mailer = null
     ): bool {
-        $email ??= new MimeEmail();
+        if (
+            $email === null
+            && (
+                $from === null || $to === null || $subject === null || $text === null
+            )
+        ) $this->error('invalid_email');
+
         $mailer ??= $this->mailer;
-        $sender ??= $this->getUser();
 
         try {
-            $email = $email
-                ->from(new Address($sender->getEmail()))
-                ->to(new Address($address))
+            $email ??= (new MimeEmail())
+                ->from($from)
+                ->to($to)
                 ->subject($subject)
                 ->text($text);
 
-            $this->mailer->send($email);
+            $mailer->send($email);
             return true;
         } catch (Exception $e) {
             // $celsiusEmail->setError(true);
@@ -454,8 +518,9 @@ abstract class EmailController extends EntityController
     }
 
 
-    public function testConnection($host, $port, $protocol, $user, $pass): array
-    {
+    public function testConnection(
+        string $host, string $port, string $protocol, string $user, string $pass
+    ): array {
         try {
             $dsn = sprintf('%s://%s:%s@%s:%s',
                 $protocol === 'ssl' ? 'smtps' : 'smtp',

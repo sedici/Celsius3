@@ -59,7 +59,7 @@ abstract class InstanceController extends EntityController
 
     public function __construct(
         protected FileManager $fileManager,
-        protected MailerHelper $mailerHelper,
+        // protected EmailController $emailController,
         ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -249,7 +249,7 @@ abstract class InstanceController extends EntityController
             }
 
             $entity->get('smtp_status')
-                ->setValue($this->mailerHelper->validateSmtpServerData($entity));
+                ->setValue($this->emailController->validateSmtpServerData($entity));
 
             $this->persistEntity($entity);
 
