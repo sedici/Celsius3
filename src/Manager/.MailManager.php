@@ -66,7 +66,7 @@ class MailManager
         $this->serializer = $serializer;
     }
 
-    public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
+    public function renderTemplate($code, Instance $instance, BaseUser $user, ?Order $order = null)
     {
         try {
             $template = $this->twig->createTemplate($this->getTemplate($code, $instance)->getText());

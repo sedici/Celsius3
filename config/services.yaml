@@ -79,6 +79,9 @@ services:
 
     Celsius3\Controller\Base\:
         resource: '../src/Controller/Base'
+        tags: ['controller.service_arguments']
+        autowire: true
+        autoconfigure: true
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

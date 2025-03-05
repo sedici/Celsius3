@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Celsius3 - Order management
+ * Celsius3 - Registration controller
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
@@ -23,176 +23,154 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Controller\Base\EmailController;
-use Celsius3\Controller\Core\Controller;
+use Celsius3\Controller\Base\UserController;
 use Celsius3\Entity\BaseUser;
-use Celsius3\Exception\Exception;
-
-use Celsius3\Form\Type\RegistrationFormType;
-use Celsius3\Helper\CustomFieldHelper;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\UserManager;
-use Celsius3\Security\EmailVerifier;
-use Doctrine\ORM\EntityManagerInterface;
-
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Security\Http\SecurityEvents;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use Twig\Environment;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Celsius3\Form\Type\RegistrationFormType;
 
-class RegistrationController extends Controller
+
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\EntityManager\ThreadManager;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\CustomFieldHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+
+class RegistrationController extends UserController
 {
-    // private EmailVerifier $emailVerifier;
-    // private InstanceHelper $instanceHelper;
-    // private SessionInterface $session;
-    // private UserManager $userManager;
-    // private Environment $twig;
-    // private TokenStorageInterface $tokenStorage;
 
-    // public function __construct(
-    //     EmailVerifier $emailVerifier,
-    //     InstanceHelper $instanceHelper,
-    //     SessionInterface $session,
-    //     UserManager $userManager,
-    //     Environment $twig,
-    //     TokenStorageInterface $tokenStorage
-    // ) {
-    //     $this->emailVerifier = $emailVerifier;
-    //     $this->instanceHelper = $instanceHelper;
-    //     $this->session = $session;
-    //     $this->userManager = $userManager;
-    //     $this->twig = $twig;
-    //     $this->tokenStorage = $tokenStorage;
-    // }
-
-
-    #[Route(
-        '/public/registration',
-        name: 'registration_register',
-        methods: ['POST', 'GET']
-    )]
-    public function register(
-        UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager,
+    public function __construct(
+        protected EmailController $emailController,
+        ThreadManager $threadManager,
         CustomFieldHelper $customFieldHelper,
-        EmailController $emailController
+        ValidatorInterface $validator,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
+    ) {
+        parent::__construct(
+            $threadManager,
+            $customFieldHelper,
+            $validator,
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
+        );
+    }
+
+
+    #[Route('/register', name: 'app_register')]
+    public function register(
+        UserPasswordHasherInterface $passwordHasher
     ): Response {
         $request = $this->requestStack->getCurrentRequest();
         $user = new BaseUser();
-        $user->setEnabled(true);
-
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hash de la contraseña
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
+                $passwordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
+            // Generar token de confirmación y deshabilitar el usuario
+            $user->setConfirmationToken(bin2hex(random_bytes(32)));
+            $user->setEnabled(false);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->persistEntity($user);
 
-            $customFieldHelper->processCustomUserFields($this->instance, $form, $user);
-
-            // generate a signed url and email it to the user
-            $emailController->sendEmailConfirmation(
-                'verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('test@prueba.com', 'Test'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            // Generar URL de confirmación
+            $confirmationUrl = $this->generateUrl(
+                'app_confirm',
+                ['token' => $user->getConfirmationToken()],
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
+            
+            // Aquí se enviaría el correo con el $confirmationUrl (puedes usar el Mailer de Symfony)
+            // Hacer con template de email
+            // $this->emailController->sendMimeEmail(
+            //     'test@prueba.com',
+            //     $user->getEmail(),
+            //     'Please Confirm your Email',
+            //     'registration/confirmation_email.html.twig',
+            // );
 
-            return $this->redirectToRoute('administration');
+            return $this->redirectToRoute('app_register_success');
         }
 
-        return $this->htmlRenderer->render('register', [
-            'form' => $form->createView(),
+        return $this->htmlRenderer->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
         ]);
     }
 
 
-    #[Route(
-        '/public/registration/wait_confirmation',
-        name: 'registration_wait_confirmation'
-    )]
-    public function waitConfirmation()
-    {
-        $email = $this->session->get('fos_user_send_confirmation_email/email');
-        $this->session->remove('fos_user_send_confirmation_email/email');
-        $user = $this->repository->findUserByEmail($email);
-
-        if (null === $user) {
-            throw new NotFoundHttpException(
-                sprintf('The user with email "%s" does not exist', $email)
-            );
+    #[Route('/confirm/{token}', name: 'app_confirm')]
+    public function confirm(
+        string $token
+    ): Response {
+        $user = $this->repository->findOneBy(['confirmationToken' => $token]);
+        if (!$user) {
+            throw $this->createNotFoundException('Usuario no encontrado.');
         }
-
-        $instance = $this->instanceHelper->getSessionOrUrlInstance();
-        $registrationWaitConfirmationTitle = $instance->get('registration_wait_confirmation_title')->getValue();
-        $registrationWaitConfirmationText = $this->htmlRenderer->createTemplate(
-            $instance->get('registration_wait_confirmation_text')->getValue()
-        )->render(['email' => $email]);
-
-        return $this->htmlRenderer->render(
-            'FOSUserBundle:Registration:waitConfirmation.html.twig',
-            [
-                'user' => $user,
-                'registration_wait_confirmation_title' => $registrationWaitConfirmationTitle,
-                'registration_wait_confirmation_text' => $registrationWaitConfirmationText,
-            ]
-        );
-    }
-
-
-    /**
-     * Receive the confirmation token from user email provider, login the user.
-     */
-    public function confirm($token)
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        $user = $this->userManager->findUserByConfirmationToken($token);
-
-        if (null === $user) $this->error('entity_not_found');
-
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
+        // Confirmar la cuenta
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
+        $this->entityManager->flush();
 
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
-        $userManager->updateUser($user);
-
-        if (null === $response = $event->getResponse()) {
-            $url = $this->generateUrl('fos_user_registration_confirmed');
-            $response = new RedirectResponse($url);
-        }
-
-        $dispatcher->dispatch(
-            FOSUserEvents::REGISTRATION_CONFIRMED,
-            new FilterUserResponseEvent($user, $request, $response)
-        );
-        $event_login = new InteractiveLoginEvent($request, $this->tokenStorage->getToken());
-        $dispatcher->dispatch(SecurityEvents::INTERACTIVE_LOGIN, $event_login);
-
-        return $response;
+        return $this->htmlRenderer->render('registration/confirmed.html.twig', [
+            'user' => $user,
+        ]);
     }
 }

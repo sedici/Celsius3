@@ -35,11 +35,9 @@ use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\Helper\MailerHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
-use Celsius3\Repository\BaseUserRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -53,7 +51,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -64,7 +61,6 @@ use Symfony\Component\Validator\Constraints\{Email as EmailConstraint, NotBlank}
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -194,7 +190,7 @@ abstract class EmailController extends EntityController
     public function sendInstanceEmails(
         OutputInterface $output, int $limit, int $logLevel = 2
     ): void {
-        if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
+        if (!$this->validateSmtpServerData($this->instance)) {
             if ($logLevel <= 2) {
                 $msg = 'Instance ' . $this->instance->getUrl() . ': The SMTP server data are not valid.';
                 $output?->writeln($msg);
@@ -278,27 +274,6 @@ abstract class EmailController extends EntityController
     }
 
 
-    // public function sendInstanceEmails(
-    //     OutputInterface $output, int $limit, int $logLevel = 2
-    // ): void {
-    //     $emails = $this->entityManager->getRepository(Email::class)
-    //         ->findNotSentEmailsWithLimit($this->instance, $limit);
-    
-    //     foreach ($emails as $email) {
-    //         $success = $this->sendMimeEmail(
-    //             $email->getAddress(),
-    //             $email->getSubject(),
-    //             $email->getText()
-    //         );
-    
-    //         if ($success) $email->setSent(true);
-    //         else $email->addAttempt();
-    
-    //         $this->entityManager->flush();
-    //     }
-    // }
-
-
     public function sendConfirmationEmailMessage(BaseUser $user): void
     { $this->sendTemplatedEmail($user, 'user_confirmation', 'fos_user_registration_confirm'); }
 
@@ -307,8 +282,9 @@ abstract class EmailController extends EntityController
     { $this->sendTemplatedEmail($user, 'resetting', 'fos_user_resetting_reset'); }
 
 
-    protected function sendTemplatedEmail(BaseUser $user, string $templateName, string $routeName): void
-    {
+    protected function sendTemplatedEmail(
+        BaseUser $user, string $templateName, string $routeName
+    ): void {
         if (!$this->instance->get('smtp_status')->getValue()) return;
 
         $signature = $this->instance->get($this->configurationHelper::CONF__MAIL_SIGNATURE)->getValue();
@@ -330,13 +306,16 @@ abstract class EmailController extends EntityController
     }
 
 
-    protected function sendEmailMessage(string $renderedTemplate, string $fromEmail, string $toEmail): void
-    {
+    protected function sendEmailMessage(
+        string $renderedTemplate, string $fromEmail, string $toEmail
+    ): void {
         $renderedLines = explode("\n", trim($renderedTemplate));
         $subject = array_shift($renderedLines);
         $body = implode("\n", $renderedLines);
 
-        $this->sendEmail($toEmail, $subject, $body);
+        $this->sendMimeEmail(
+            $fromEmail, $toEmail, $subject, $body
+        );
     }
 
 
@@ -444,10 +423,10 @@ abstract class EmailController extends EntityController
     }
 
     public function sendMimeEmail(
-        string $from = null,
-        string $to = null,
-        string $subject = null,
-        string $text = null,
+        ?string $from = null,
+        ?string $to = null,
+        ?string $subject = null,
+        ?string $text = null,
         ?MimeEmail $email = null,
         ?MailerInterface $mailer = null
     ): bool {

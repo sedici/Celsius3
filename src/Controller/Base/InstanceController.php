@@ -26,7 +26,6 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Validator\Constraints\ContainsCSS;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\LegacyInstance;
-use Celsius3\Helper\MailerHelper;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -47,7 +46,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
@@ -59,7 +57,7 @@ abstract class InstanceController extends EntityController
 
     public function __construct(
         protected FileManager $fileManager,
-        // protected EmailController $emailController,
+        protected EmailController $emailController,
         ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,

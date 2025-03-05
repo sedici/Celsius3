@@ -94,7 +94,7 @@ class UserManager
         return $default;
     }
 
-    public function getLibrarianInstitutions(BaseUser $librarian = null): array
+    public function getLibrarianInstitutions(?BaseUser $librarian = null): array
     {
         if ($librarian) {
             return $this->iterateInstitutions($librarian->getInstitution());

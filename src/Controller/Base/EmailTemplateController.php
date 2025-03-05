@@ -33,8 +33,87 @@ use Error;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 abstract class EmailTemplateController extends EntityController
 {
+
+    public const MAIL__ORDER_PRINTED = 'order_printed';
+    public const MAIL__ORDER_DOWNLOAD = 'order_download';
+    public const MAIL__ORDER_CANCEL = 'order_cancel';
+    public const MAIL__ORDER_PRINTED_RECONFIRM = 'order_printed_reconfirm';
+    public const MAIL__USER_WELCOME = 'user_welcome';
+    public const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
+    public const MAIL__USER_LOST = 'user_lost';
+    public const MAIL__NO_HIVE = 'no_hive';
+    public const MAIL__RESETTING = 'resetting';
+    public const MAIL__USER_CONFIRMATION = 'user_confirmation';
+    public const MAIL__CUSTOM = 'custom';
+
+
+    public function __construct(
+        protected SerializerInterface $serializer,
+        ValidatorInterface $validator,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
+    ) {
+        parent::__construct(
+            $validator,
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
+        );
+    }
+
 
     public function initialize(): void
     {
@@ -55,8 +134,7 @@ abstract class EmailTemplateController extends EntityController
         $code,
         Instance $instance,
         BaseUser $user,
-        Order $order = null,
-        SerializerInterface $serializer
+        ?Order $order = null
     ): ?string {
         try {
             $template = $this->htmlRenderer->createTemplate(
@@ -66,7 +144,7 @@ abstract class EmailTemplateController extends EntityController
             );
             $vars = compact('instance', 'user', 'order');
             return $template->render(
-                $this->serializeData($vars, $serializer)
+                $this->serializeData($vars)
             );
         } catch (Error $error) {
             throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template');
@@ -88,15 +166,27 @@ abstract class EmailTemplateController extends EntityController
     }
 
 
-    protected function serializeData($vars, SerializerInterface $serializer): array
+    protected function serializeData($vars): array
     {
         return array_map(
             fn ($value) => $value !== null
-                ? $serializer->serialize($value, 'json', [
+                ? $this->serializer->serialize($value, 'json', [
                     AbstractNormalizer::GROUPS => ['email_template'],
                 ])
                 : null,
             $vars
         );
+    }
+
+
+    public function renderRawTemplate($text, $vars): ?string
+    {
+        try {
+            $template = $this->htmlRenderer->createTemplate($text);
+
+            return $template->render($this->serializeData($vars));
+        } catch (Error $error) {
+            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template');
+        }
     }
 }

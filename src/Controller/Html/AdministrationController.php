@@ -89,7 +89,7 @@ class AdministrationController extends EntityController
 
     public function __construct(
         protected Environment $twig,
-        // protected EmailController $emailController,
+        protected EmailController $emailController,
         ValidatorInterface $validator,
         InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
@@ -397,7 +397,7 @@ class AdministrationController extends EntityController
     }
 
 
-    protected function parentAjax(Request $request, Instance $instance = null, $librarian = null)
+    protected function parentAjax(Request $request, ?Instance $instance = null, $librarian = null): Response
     {
         if (!$request->isXmlHttpRequest()) {
             throw $this->createNotFoundException();

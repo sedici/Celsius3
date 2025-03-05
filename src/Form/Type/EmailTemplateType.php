@@ -28,7 +28,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\Manager\MailManager;
+use Celsius3\Controller\Base\EmailTemplateController;
 
 class EmailTemplateType extends AbstractType
 {
@@ -42,21 +42,21 @@ class EmailTemplateType extends AbstractType
                 ->add('code', ChoiceType::class, [
                     'choices' => [
                         '' => '',
-                        MailManager::MAIL__ORDER_CANCEL => MailManager::MAIL__ORDER_CANCEL,
-                        MailManager::MAIL__ORDER_DOWNLOAD => MailManager::MAIL__ORDER_DOWNLOAD,
-                        MailManager::MAIL__ORDER_PRINTED => MailManager::MAIL__ORDER_PRINTED,
-                        MailManager::MAIL__ORDER_PRINTED_RECONFIRM => MailManager::MAIL__ORDER_PRINTED_RECONFIRM,
-                        MailManager::MAIL__USER_LOST => MailManager::MAIL__USER_LOST,
-                        MailManager::MAIL__USER_WELCOME => MailManager::MAIL__USER_WELCOME,
-                        MailManager::MAIL__USER_WELCOME_PROVISION => MailManager::MAIL__USER_WELCOME_PROVISION,
-                        MailManager::MAIL__NO_HIVE => MailManager::MAIL__NO_HIVE,
-                        MailManager::MAIL__RESETTING => MailManager::MAIL__RESETTING,
-                        MailManager::MAIL__USER_CONFIRMATION => MailManager::MAIL__USER_CONFIRMATION,
-                        MailManager::MAIL__CUSTOM => MailManager::MAIL__CUSTOM,
+                        EmailTemplateController::MAIL__ORDER_CANCEL => EmailTemplateController::MAIL__ORDER_CANCEL,
+                        EmailTemplateController::MAIL__ORDER_DOWNLOAD => EmailTemplateController::MAIL__ORDER_DOWNLOAD,
+                        EmailTemplateController::MAIL__ORDER_PRINTED => EmailTemplateController::MAIL__ORDER_PRINTED,
+                        EmailTemplateController::MAIL__ORDER_PRINTED_RECONFIRM => EmailTemplateController::MAIL__ORDER_PRINTED_RECONFIRM,
+                        EmailTemplateController::MAIL__USER_LOST => EmailTemplateController::MAIL__USER_LOST,
+                        EmailTemplateController::MAIL__USER_WELCOME => EmailTemplateController::MAIL__USER_WELCOME,
+                        EmailTemplateController::MAIL__USER_WELCOME_PROVISION => EmailTemplateController::MAIL__USER_WELCOME_PROVISION,
+                        EmailTemplateController::MAIL__NO_HIVE => EmailTemplateController::MAIL__NO_HIVE,
+                        EmailTemplateController::MAIL__RESETTING => EmailTemplateController::MAIL__RESETTING,
+                        EmailTemplateController::MAIL__USER_CONFIRMATION => EmailTemplateController::MAIL__USER_CONFIRMATION,
+                        EmailTemplateController::MAIL__CUSTOM => EmailTemplateController::MAIL__CUSTOM,
                     ],
                 ]);
         } else {
-            $builder->add('code', HiddenType::class, ['data' => MailManager::MAIL__CUSTOM]);
+            $builder->add('code', HiddenType::class, ['data' => EmailTemplateController::MAIL__CUSTOM]);
         }
 
              $builder->add('text', TextareaType::class, array(
