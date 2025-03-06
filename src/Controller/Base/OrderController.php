@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
-abstract class OrderController extends EntityController
+class OrderController extends EntityController
 {
 
     public function initialize(): void

@@ -67,12 +67,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 
-abstract class EmailController extends EntityController
+
+class EmailController extends EntityController
 {
 
     public function __construct(
         protected MailerInterface $mailer,
-        protected MailManager $mailManager,
+        protected EmailTemplateController $emailTeplateController,
         protected readonly LoggerInterface $logger,
         protected readonly VerifyEmailHelperInterface $verifyEmailHelper,
         ValidatorInterface $validator,
@@ -288,7 +289,7 @@ abstract class EmailController extends EntityController
         if (!$this->instance->get('smtp_status')->getValue()) return;
 
         $signature = $this->instance->get($this->configurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-        $template = $this->mailManager->getTemplate($templateName, $this->instance);
+        $template = $this->emailTeplateController->getTemplate($templateName, $this->instance);
 
         $url = $this->router->generate(
             $routeName,

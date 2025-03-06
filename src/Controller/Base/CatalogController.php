@@ -26,7 +26,7 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Catalog;
 
 
-abstract class CatalogController extends EntityController
+class CatalogController extends EntityController
 {
 
     public function initialize(): void

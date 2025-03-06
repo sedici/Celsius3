@@ -57,7 +57,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-abstract class UserController extends EntityController
+class UserController extends EntityController
 {
     protected ThreadRepository $threadRepository;
 

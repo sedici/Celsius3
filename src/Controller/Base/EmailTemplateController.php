@@ -53,7 +53,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-abstract class EmailTemplateController extends EntityController
+class EmailTemplateController extends EntityController
 {
 
     public const MAIL__ORDER_PRINTED = 'order_printed';
@@ -131,10 +131,8 @@ abstract class EmailTemplateController extends EntityController
 
 
     public function renderTemplate(
-        $code,
-        Instance $instance,
-        BaseUser $user,
-        ?Order $order = null
+        string $code,
+        array $params = []
     ): ?string {
         try {
             $template = $this->htmlRenderer->createTemplate(
@@ -142,12 +140,15 @@ abstract class EmailTemplateController extends EntityController
                     $code, $this->instance
                 )->getText()
             );
-            $vars = compact('instance', 'user', 'order');
+
             return $template->render(
-                $this->serializeData($vars)
+                $this->serializeData($params)
             );
         } catch (Error $error) {
-            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template');
+            throw Exception::create(
+                Exception::RENDER_TEMPLATE,
+                'exception.template.mail_template'
+            );
         }
     }
 

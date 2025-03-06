@@ -22,7 +22,6 @@
 
 namespace Celsius3\Controller\Base;
 
-use Celsius3\Controller\Rendering\RenderingController;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;

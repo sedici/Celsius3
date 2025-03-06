@@ -25,7 +25,8 @@ namespace Celsius3\Controller\Base;
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Contact;
 
-abstract class ContactController extends EntityController
+
+class ContactController extends EntityController
 {
 
     public function initialize(): void

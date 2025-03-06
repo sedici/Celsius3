@@ -40,9 +40,9 @@ class LoginController extends Controller
     }
 
     #[Route('/public/login', name: 'security_login')]
-    public function index(AuthenticationUtils $authenticationUtils): Response
-    {
-        // get the login error if there is one
+    public function index(
+        AuthenticationUtils $authenticationUtils
+    ): Response {
         $error = $authenticationUtils->getLastAuthenticationError();
         dump($error);
 

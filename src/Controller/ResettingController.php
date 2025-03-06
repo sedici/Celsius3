@@ -22,6 +22,8 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\UserController;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -38,54 +40,58 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Twig\Environment;
 
-class ResettingController extends AbstractController //extends BaseResettingController
+
+class ResettingController extends UserController // AbstractController //extends BaseResettingController
 {
 
-    protected FosUserManager $userManager;
-    protected TokenGeneratorInterface $tokenGenerator;
-    protected FosMailer $mailer;
-    protected RouterInterface $router;
-    protected RequestStack $requestStack;
-    protected InstanceHelper $instanceHelper;
-    protected Instance $instance;
-    private Environment $twig;
+    // protected FosUserManager $userManager;
+    // protected TokenGeneratorInterface $tokenGenerator;
+    // protected FosMailer $mailer;
+    // protected RouterInterface $router;
+    // protected RequestStack $requestStack;
+    // protected InstanceHelper $instanceHelper;
+    // protected Instance $instance;
+    // private Environment $twig;
 
 
-    public function __construct(
-        FosUserManager $userManager,
-        TokenGeneratorInterface $tokenGenerator,
-        FosMailer $mailer,
-        RouterInterface $router,
-        RequestStack $requestStack,
-        InstanceHelper $instanceHelper,
-        Environment $twig, 
-    ) {
-        $this->userManager = $userManager;
-        $this->tokenGenerator = $tokenGenerator;
-        $this->mailer;
-        $this->router = $router;
-        $this->requestStack = $requestStack;
-        $this->instanceHelper = $instanceHelper;
-        $this->instance = $this->getInstance();
-        $this->twig = $twig;
-    }
+    // public function __construct(
+    //     FosUserManager $userManager,
+    //     TokenGeneratorInterface $tokenGenerator,
+    //     FosMailer $mailer,
+    //     RouterInterface $router,
+    //     RequestStack $requestStack,
+    //     InstanceHelper $instanceHelper,
+    //     Environment $twig, 
+    // ) {
+    //     $this->userManager = $userManager;
+    //     $this->tokenGenerator = $tokenGenerator;
+    //     $this->mailer;
+    //     $this->router = $router;
+    //     $this->requestStack = $requestStack;
+    //     $this->instanceHelper = $instanceHelper;
+    //     $this->instance = $this->getInstance();
+    //     $this->twig = $twig;
+    // }
 
 
-    protected function getInstance(): Instance
-    { return $this->instanceHelper->getSessionInstance(); }
+    // protected function getInstance(): Instance
+    // { return $this->instanceHelper->getSessionInstance(); }
 
 
-    public function userReset($username): RedirectResponse
+
+
+    // public function initialize(): void
+    // {
+    //     parent::initialize();
+    //     $this->htmlRenderer->setTemplatePrefix('bundles/FOSUserBundle/Resetting/');
+    // }
+
+
+    public function userReset(string $username): RedirectResponse
     {
-        $user = $this->userManager
-            ->findUserByUsernameOrEmail($username);
+        $user = $this->repository->findUserByUsernameOrEmail($username);
 
-        if (!$user) {
-            throw Exception::create(
-                Exception::ENTITY_NOT_FOUND,
-                'exception.entity_not_found.user'
-            );
-        }
+        if ($user === null) $this->error('entity_not_found');
 
         if (null === $user->getConfirmationToken()) {
             $user->setConfirmationToken($this->tokenGenerator->generateToken());
@@ -97,12 +103,10 @@ class ResettingController extends AbstractController //extends BaseResettingCont
 
         $this->addFlash('success', 'The password reset was requested.');
 
-        return new RedirectResponse(
-            $this->router->generate(
-                'admin_user_show',
-                [ 'id' => $user->getId() ],
-                UrlGeneratorInterface::ABSOLUTE_PATH
-            )
+        return $this->redirectToRoute(
+            'admin_user_show',
+            [ 'id' => $user->getId() ],
+            UrlGeneratorInterface::ABSOLUTE_PATH
         );
     }
 
@@ -112,23 +116,20 @@ class ResettingController extends AbstractController //extends BaseResettingCont
         $request = $this->requestStack->getCurrentRequest();
         $email = $request->query->get('email');
 
-        if (empty($email)) {
-            return new RedirectResponse(
-                $this->generateUrl('fos_user_resetting_request')
-            );
-        }
+        if (empty($email))
+            return $this->redirectToRoute('fos_user_resetting_request');
 
         $instance = $this->instance;
         $resettingCheckEmailTitle = $instance
             ->get('resetting_check_email_title')->getValue();
-        $resettingCheckEmailText = $this->twig->createTemplate(
+        $resettingCheckEmailText = $this->htmlRenderer->createTemplate(
             $instance
                 ->get('resetting_check_email_text')
                 ->getValue()
             )->render(['email' => $email]);
 
-        return $this->render(
-            'bundles/FOSUserBundle/Resetting/checkEmail.html.twig',
+        return $this->htmlRenderer->render(
+            'checkEmail',
             [
                 'email' => $email,
                 'resetting_check_email_title' => $resettingCheckEmailTitle,
@@ -138,7 +139,7 @@ class ResettingController extends AbstractController //extends BaseResettingCont
     }
 
 
-    protected function getObfuscatedEmail(UserInterface $user)
+    protected function getObfuscatedEmail(BaseUser $user): string|null
     {
         $email = $user->getEmail();
         if (false !== $pos = strpos($email, '@')) {
@@ -152,20 +153,17 @@ class ResettingController extends AbstractController //extends BaseResettingCont
     }
 
 
-    public function sendEmail(Request $request): RedirectResponse|Response
+    public function sendEmail(): RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();
         $username = $request->get('username');
 
-        $user = $this->userManager
-            ->findUserByUsernameOrEmail($username);
+        $user = $this->repository->findUserByUsernameOrEmail($username);
 
         if (empty($username) || null === $user || !$user->isEnabled()) {
-            return $this->render(
-                'FOSUserBundle:Resetting:request.html.twig',
-                [
-                    'invalid_username' => $username
-                ]
+            return $this->htmlRenderer->render(
+                'request',
+                [ 'invalid_username' => $username ]
             );
         }
 

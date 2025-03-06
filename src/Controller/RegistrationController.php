@@ -23,6 +23,7 @@
 namespace Celsius3\Controller;
 
 use Celsius3\Controller\Base\EmailController;
+use Celsius3\Controller\Base\EmailTemplateController;
 use Celsius3\Controller\Base\UserController;
 use Celsius3\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,6 +60,8 @@ class RegistrationController extends UserController
 {
 
     public function __construct(
+        protected UserPasswordHasherInterface $passwordHasher,
+        protected EmailTemplateController $emailTemplateController,
         protected EmailController $emailController,
         ThreadManager $threadManager,
         CustomFieldHelper $customFieldHelper,
@@ -108,24 +111,25 @@ class RegistrationController extends UserController
     }
 
 
-    #[Route('/register', name: 'app_register')]
-    public function register(
-        UserPasswordHasherInterface $passwordHasher
-    ): Response {
+    #[Route(
+        '/public/registration',
+        name: 'registration_register',
+        methods: ['POST', 'GET']
+    )]
+    public function register(): Response {
         $request = $this->requestStack->getCurrentRequest();
         $user = new BaseUser();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hash de la contraseña
             $user->setPassword(
-                $passwordHasher->hashPassword(
+                $this->passwordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-            // Generar token de confirmación y deshabilitar el usuario
+
             $user->setConfirmationToken(bin2hex(random_bytes(32)));
             $user->setEnabled(false);
 
@@ -133,44 +137,65 @@ class RegistrationController extends UserController
 
             // Generar URL de confirmación
             $confirmationUrl = $this->generateUrl(
-                'app_confirm',
+                'registration_wait_confirmation',
                 ['token' => $user->getConfirmationToken()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
-            
-            // Aquí se enviaría el correo con el $confirmationUrl (puedes usar el Mailer de Symfony)
-            // Hacer con template de email
-            // $this->emailController->sendMimeEmail(
-            //     'test@prueba.com',
-            //     $user->getEmail(),
-            //     'Please Confirm your Email',
-            //     'registration/confirmation_email.html.twig',
-            // );
 
-            return $this->redirectToRoute('app_register_success');
+            try {
+                $this->emailController->sendMimeEmail(
+                    'test@prueba.com',
+                    $user->getEmail(),
+                    'Please Confirm your Email',
+                    $this->emailTemplateController->renderTemplate(
+                        'user_confirmation',
+                        [
+                            'user' => $user,
+                            'instance' => $this->instance,
+                            'url' => $confirmationUrl,
+                        ]
+                    )
+                );
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'error',
+                    'No se pudo enviar el correo de confirmación. '
+                        . 'Causa: '. $e->getMessage()
+                );
+                return $this->redirectToRoute('registration_register');
+            }
+
+            return $this->redirectToRoute('administration');
         }
 
-        return $this->htmlRenderer->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->htmlRenderer->render(
+            'register',
+            [ 'registrationForm' => $form->createView() ]
+        );
     }
 
 
-    #[Route('/confirm/{token}', name: 'app_confirm')]
+    #[Route(
+        '/public/registration/wait_confirmation/{token}',
+        name: 'registration_wait_confirmation'
+    )]
     public function confirm(
         string $token
     ): Response {
-        $user = $this->repository->findOneBy(['confirmationToken' => $token]);
-        if (!$user) {
-            throw $this->createNotFoundException('Usuario no encontrado.');
-        }
+        $user = $this->repository->findOneBy(
+            [ 'confirmationToken' => $token ]
+        );
+    
+        if (!$user) $this->error('entity_not_found');
+
         // Confirmar la cuenta
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
         $this->entityManager->flush();
 
-        return $this->htmlRenderer->render('registration/confirmed.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->htmlRenderer->render(
+            'confirmed',
+            [ 'user' => $user ]
+        );
     }
 }

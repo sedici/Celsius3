@@ -42,7 +42,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * NewsRss controller.
- *
  * @Route("/news/feed")
  */
 class NewsFeedsController extends BaseController
@@ -106,9 +105,7 @@ class NewsFeedsController extends BaseController
 
     /**
      * Generate Rss News.
-     *
      * @Route("/rss", defaults={"_format"="xml"} ,name="rss_news")
-     *
      */
     public function rss(): Response
     {

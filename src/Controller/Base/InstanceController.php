@@ -52,7 +52,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-abstract class InstanceController extends EntityController
+class InstanceController extends EntityController
 {
 
     public function __construct(

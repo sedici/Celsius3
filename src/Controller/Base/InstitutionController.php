@@ -25,7 +25,7 @@ namespace Celsius3\Controller\Base;
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Institution;
 
-abstract class InstitutionController extends EntityController
+class InstitutionController extends EntityController
 {
 
     public function initialize(): void

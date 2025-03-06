@@ -47,7 +47,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Notification controller.
- *
  * @Route("/user/notification")
  */
 class NotificationController extends BaseEntityController

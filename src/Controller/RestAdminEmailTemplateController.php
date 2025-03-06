@@ -82,10 +82,11 @@ class RestAdminEmailTemplateController extends EmailTemplateController
 
         $render = $this->renderTemplate(
             $code,
-            $this->instance,
-            $this->getUser(),
-            $request->getOrder(),
-            $serializer
+            [
+                'user' => $request->getOwner(),
+                'instance' => $this->instance,
+                'order' => $request->getOrder(),
+            ]
         );
         
         $template->setText($render);

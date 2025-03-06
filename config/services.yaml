@@ -74,11 +74,14 @@ services:
         resource: '../src/Controller'
         tags: [ 'controller.service_arguments' ]
 
-    # Celsius3\Controller\Base\:
-    #     resource: '../src/Controller/Base'
-
     Celsius3\Controller\Base\:
         resource: '../src/Controller/Base'
+        tags: ['controller.service_arguments']
+        autowire: true
+        autoconfigure: true
+    
+    Celsius3\Controller\Core\:
+        resource: '../src/Controller/Core'
         tags: ['controller.service_arguments']
         autowire: true
         autoconfigure: true

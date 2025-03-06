@@ -44,7 +44,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Public controller.
- *
  * @Route("/public")
  */
 class PublicController extends BaseController

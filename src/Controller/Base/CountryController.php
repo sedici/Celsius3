@@ -26,7 +26,8 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Country;
 
-abstract class CountryController extends EntityController
+
+class CountryController extends EntityController
 {
 
     public function initialize(): void
