@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Rest;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;

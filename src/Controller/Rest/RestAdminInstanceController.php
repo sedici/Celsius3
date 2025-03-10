@@ -20,12 +20,11 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Rest;
 
 use Celsius3\Controller\Base\InstanceController;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Route('/rest/v1/admin/instance')]

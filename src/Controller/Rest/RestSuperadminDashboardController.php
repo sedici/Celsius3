@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Rest;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
