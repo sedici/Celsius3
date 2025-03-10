@@ -31,6 +31,8 @@ use Celsius3\Helper\ConfigurationHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\UserController;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Celsius3\Exception\Exception;
+
 
 /**
  * BaseUser controller.
@@ -91,7 +93,7 @@ class HtmlUserController extends UserController
             if (
                 !$instance
                 || !array_key_exists($id, $user->getSecondaryInstances())
-            ) $this->error('entity_not_found');
+            ) $this->error(Exception::ENTITY_NOT_FOUND);
 
             $this->session->set('instance_id', $instance->getId());
             $this->session->set('instance_url', $instance->getUrl());

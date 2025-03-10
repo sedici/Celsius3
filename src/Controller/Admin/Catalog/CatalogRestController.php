@@ -80,7 +80,7 @@ class CatalogRestController extends BaseInstanceDependentController
     {
         $catalog = $this->findQuery($id);
 
-        if ($catalog === null) $this->error('entity_not_found');
+        if ($catalog === null) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $view = $this->view($catalog, 200)->setFormat('json');
 

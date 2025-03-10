@@ -32,6 +32,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\UserController;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius3\Exception\Exception;
+
 
 /**
  * Order controller.
@@ -202,7 +204,7 @@ final class HtmlSuperadminUserController extends UserController
     private function doUnion(string $main_id, array $element_ids)
     {
         $main_user = $this->findQuery($main_id);
-        if (!$main_user) $this->error('entity_not_found');
+        if (!$main_user) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $users = $this->findUsers($main_user, $element_ids);
 
@@ -224,7 +226,7 @@ final class HtmlSuperadminUserController extends UserController
         $users = $this->repository->findBaseDoUnionEntities($main_user, $element_ids);
 
         if (count($users) !== count($element_ids) - 1)
-            $this->error('entity_not_found');
+            $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $users;
     }

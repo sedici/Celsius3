@@ -182,7 +182,7 @@ class RegistrationController extends UserController
         $request = $this->requestStack->getCurrentRequest();
         $user = $this->fosUserManager->findUserByConfirmationToken($token);
 
-        if (null === $user) $this->error('entity_not_found');
+        if (null === $user) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $user->setConfirmationToken(null);
         $user->setEnabled(true);

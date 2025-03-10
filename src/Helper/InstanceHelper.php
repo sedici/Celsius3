@@ -24,33 +24,29 @@ declare(strict_types=1);
 
 namespace Celsius3\Helper;
 
+use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
-use Celsius3\Repository\InstanceRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class InstanceHelper
 {
-    private $requestStack;
-    private $session;
-    /**
-     * @var InstanceRepositoryInterface
-     */
-    private $instanceRepository;
+
+    protected EntityRepository $repository;
 
     public function __construct(
-        RequestStack $requestStack,
-        SessionInterface $session,
-        InstanceRepositoryInterface $instanceRepository
+        protected RequestStack $requestStack,
+        protected SessionInterface $session,
+        protected EntityManagerInterface $entityManager
     ) {
-        $this->requestStack = $requestStack;
-        $this->session = $session;
-        $this->instanceRepository = $instanceRepository;
+        $this->repository = $this->entityManager->getRepository(Instance::class);
     }
 
     public function getSessionInstance()
     {
-        $instance = $this->instanceRepository
+        $instance = $this->repository
             ->find($this->session->get('instance_id'));
 
         if (!$instance) {
@@ -63,7 +59,7 @@ class InstanceHelper
     public function getUrlInstance()
     {
         $request = $this->requestStack->getCurrentRequest();
-        $instance = $this->instanceRepository
+        $instance = $this->repository
             ->findOneBy(['host' => $request->getHost()]);
 
         if (!$instance) {
@@ -78,13 +74,14 @@ class InstanceHelper
         $request = $this->requestStack->getCurrentRequest();
 
         if ($this->session->has('instance_url')) {
-            $instance = $this->instanceRepository
+            $instance = $this->repository
                 ->findOneBy(['url' => $this->session->get('instance_url')]);
         } else {
-            $instance = $this->instanceRepository
+            $instance = $this->repository
                 ->findOneBy(['host' => ($request !== null) ? $request->getHost() : '']);
         }
 
-        return $instance;
+        // return $instance;
+        return $this->entityManager->getReference(Instance::class, $instance->getId());
     }
 }

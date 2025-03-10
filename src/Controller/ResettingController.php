@@ -91,7 +91,7 @@ class ResettingController extends UserController // AbstractController //extends
     {
         $user = $this->repository->findUserByUsernameOrEmail($username);
 
-        if ($user === null) $this->error('entity_not_found');
+        if ($user === null) $this->error(Exception::ENTITY_NOT_FOUND);
 
         if (null === $user->getConfirmationToken()) {
             $user->setConfirmationToken($this->tokenGenerator->generateToken());

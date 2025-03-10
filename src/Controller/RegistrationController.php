@@ -32,10 +32,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Celsius3\Form\Type\RegistrationFormType;
 
-
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\EntityManager\ThreadManager;
+use Celsius3\Exception\Exception;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\CustomFieldHelper;
 use Celsius3\Manager\InstanceManager;
@@ -186,7 +186,7 @@ class RegistrationController extends UserController
             [ 'confirmationToken' => $token ]
         );
     
-        if (!$user) $this->error('entity_not_found');
+        if (!$user) $this->error(Exception::ENTITY_NOT_FOUND);
 
         // Confirmar la cuenta
         $user->setConfirmationToken(null);

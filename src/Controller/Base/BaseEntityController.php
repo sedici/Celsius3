@@ -249,7 +249,7 @@ abstract class BaseEntityController extends BaseController
         // ---
 
         $entity = $this->findQuery($id);
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $this->render(
             $template,
@@ -387,7 +387,7 @@ abstract class BaseEntityController extends BaseController
 
         if ($entity === null) {
             $entity = $this->findQuery($id);
-            if (!$entity) $this->error('entity_not_found');
+            if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
         }
 
         $editForm = $this->createForm(
@@ -433,7 +433,7 @@ abstract class BaseEntityController extends BaseController
 
         if ($entity === null) {
             $entity = $this->findQuery($id);
-            if (!$entity) $this->error('entity_not_found');
+            if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
         }
 
         $editForm = $this->createForm(
@@ -493,7 +493,7 @@ abstract class BaseEntityController extends BaseController
         if ($form->isValid()) {
             $entity = $this->findQuery($id);
 
-            if (!$entity) $this->error('entity_not_found');
+            if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
             $this->persistEntity($entity);
 
@@ -532,13 +532,13 @@ abstract class BaseEntityController extends BaseController
     {
         $main = $this->findQuery($main_id);
 
-        if (!$main) $this->error('entity_not_found');
+        if (!$main) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entities = $this->repository
             ->findBaseDoUnionEntities($main, $ids);
 
         if (count($entities) !== count($ids) - 1)
-            $this->error('entity_not_found');
+            $this->error(Exception::ENTITY_NOT_FOUND);
 
         if ($this->entityClassName === BaseUser::class) {
             $this->mergeSecondaryInstances(

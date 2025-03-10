@@ -39,7 +39,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @Route("/public/rest")
  */
-class PublicRestController extends AbstractFOSRestController//BaseInstanceDependentRestController
+class RestPublicController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {
     private $translator;
     private $entityManager;

@@ -25,6 +25,7 @@ namespace Celsius3\Controller;
 use Celsius3\Controller\Base\EmailController;
 use Celsius3\Controller\Base\EmailTemplateController;
 use Celsius3\Controller\Base\UserController;
+use Celsius3\Exception\Exception;
 use Celsius3\Entity\Order;
 use Celsius3\Manager\StateManager;
 use Celsius3\Entity\BaseUser;
@@ -37,7 +38,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
     Route('/rest/v1/admin/user'),
     IsGranted('ROLE_ADMIN')
 ]
-class AdminBaseUserRestController extends UserController
+class RestAdminBaseUserController extends UserController
 {
 
     public function initialize(): void
@@ -83,7 +84,7 @@ class AdminBaseUserRestController extends UserController
         $user_id = $json_content["id"];
 
         $user = $this->repository->find($user_id);
-        if (!$user) $this->error('entity_not_found');
+        if (!$user) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $user->setEnabled(true)
             ->setPdf(true)
@@ -169,7 +170,7 @@ class AdminBaseUserRestController extends UserController
                 ]
             );
 
-        if (!$user) $this->error('entity_not_found');
+        if (!$user) $this->error(Exception::ENTITY_NOT_FOUND);
 
         try {
             if (!$user->isEnabled()) $this->persistEntity($user);
@@ -218,7 +219,7 @@ class AdminBaseUserRestController extends UserController
     public function getOrders(string $id, string $type): Response
     {
         $entity = $this->repository->find($id);
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         if ($type === 'active') 
             $state = [

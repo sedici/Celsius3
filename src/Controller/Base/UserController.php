@@ -29,6 +29,7 @@ use Celsius3\Entity\Thread;
 use Celsius3\EntityManager\ThreadManager;
 use Celsius3\Helper\CustomFieldHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Celsius3\Exception\Exception;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
@@ -145,7 +146,7 @@ class UserController extends EntityController
     ): array|RedirectResponse {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         if (!$this->getUser()->hasHigherRolesThan($entity)) {
             return $this->redirectToRoute($this->getUserListRoute());
@@ -168,7 +169,7 @@ class UserController extends EntityController
     ): array|RedirectResponse {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $transformForm = $this->createForm(
             $transformType, null, $options
@@ -222,7 +223,7 @@ class UserController extends EntityController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $this->enableUser($entity);
 

@@ -55,7 +55,7 @@ class CatalogManager
         );
     }
 
-    public function getCatalogs(Instance $instance = null)
+    public function getCatalogs(?Instance $instance = null)
     {
         return $this->entityManager->getRepository(Catalog::class)
                         ->findBy(array('instance' => $instance->getId()));

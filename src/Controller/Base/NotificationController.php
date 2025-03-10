@@ -30,7 +30,8 @@ use Celsius3\Manager\NotificationManager;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template; // NO BORRAR
+use Celsius3\Exception\Exception;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
@@ -258,7 +259,7 @@ class NotificationController extends BaseEntityController
     {
         $notification = $this->findQuery($id);
 
-        if (!$notification) $this->error('entity_not_found');
+        if (!$notification) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $notification->setViewed(true);
         $this->persistEntity($notification);

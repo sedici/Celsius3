@@ -22,7 +22,7 @@
 
 namespace Celsius3\Aop;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
@@ -35,7 +35,7 @@ class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterfac
     private $requestStack;
     private $em;
 
-    public function __construct(RequestStack $requestStack, EntityManager $em)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
     {
         $this->requestStack = $requestStack;
         $this->em = $em;

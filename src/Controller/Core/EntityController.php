@@ -174,8 +174,10 @@ class EntityController extends InstanceDependentController
         if ($msg === null) {
             if ($entity === null)
                 $entity = $this->entityClass->getShortName();
-            $msg = (string) 'exception.' . $type . $entity;
+            $msg = (string) 'exception.' . $type . '.' . $entity;
         }
+
+        // throw new \Exception($msg);
 
         throw Exception::create($type, $msg, $isRest);
     }
@@ -271,13 +273,13 @@ class EntityController extends InstanceDependentController
     ): void {
         $main = $this->findQuery($main_id);
 
-        if (!$main) $this->error('entity_not_found');
+        if (!$main) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entities = $this->repository
             ->findBaseDoUnionEntities($main, $ids);
 
         if (count($entities) !== count($ids) - 1)
-            $this->error('entity_not_found');
+            $this->error(Exception::ENTITY_NOT_FOUND);
 
         if ($this->entityClassName === BaseUser::class) {
             $this->mergeSecondaryInstances(
@@ -361,7 +363,7 @@ class EntityController extends InstanceDependentController
         ?bool $isInstanceDependent = null
     ): array|RedirectResponse {
         $entity = $this->findQuery($id, $isInstanceDependent);
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         return [ 'entity' => $entity, ];
     }
@@ -507,7 +509,7 @@ class EntityController extends InstanceDependentController
     ): array|RedirectResponse {
         if ($entity === null) {
             $entity = $this->findQuery($id, $isInstanceDependent);
-            if (!$entity) $this->error('entity_not_found');
+            if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
         }
 
         $editForm = $this->createForm(
@@ -560,7 +562,7 @@ class EntityController extends InstanceDependentController
     ): array|RedirectResponse {
         if ($entity === null) {
             $entity = $this->findQuery($id, $isInstanceDependent);
-            if (!$entity) $this->error('entity_not_found');
+            if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
         }
 
         if ($redirectRoute === null)
@@ -631,7 +633,7 @@ class EntityController extends InstanceDependentController
         if ($form->isValid()) {
             $entity = $this->findQuery($id, $isInstanceDependent);
 
-            if (!$entity) $this->error('entity_not_found');
+            if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
             $this->persistEntity($entity);
 

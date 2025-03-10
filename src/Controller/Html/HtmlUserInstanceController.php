@@ -30,6 +30,7 @@ use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\InstanceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Celsius3\Exception\Exception;
 
 
 /**
@@ -69,7 +70,7 @@ class HtmlUserInstanceController extends EntityController
             if (
                 !$instance
                 || !array_key_exists($id, $user->getSecondaryInstances())
-            ) $this->error('entity_not_found');
+            ) $this->error(Exception::ENTITY_NOT_FOUND);
 
             $this->session->set('instance_id', $instance->getId());
             $this->session->set('instance_url', $instance->getUrl());

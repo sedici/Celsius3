@@ -3,6 +3,7 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Controller\Base\EmailController;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

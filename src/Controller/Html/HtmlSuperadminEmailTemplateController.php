@@ -28,6 +28,7 @@ use Celsius3\Controller\Base\EmailTemplateController;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Celsius3\Exception\Exception;
 
 
 #[
@@ -106,7 +107,7 @@ class HtmlSuperadminEmailTemplateController extends EmailTemplateController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entity->setEnabled(!$entity->getEnabled());
 

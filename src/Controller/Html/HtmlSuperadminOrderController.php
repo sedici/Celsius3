@@ -181,7 +181,7 @@ class HtmlSuperadminOrderController extends OrderController
 
         // $entity = $this->findQuery($id);
 
-        // if (!$entity) $this->error('entity_not_found');
+        // if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         // return $this->htmlRenderer->render(
         //     'edit',

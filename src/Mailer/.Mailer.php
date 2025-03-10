@@ -26,7 +26,7 @@ use Celsius3\Entity\Email;
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\MailerHelper;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;

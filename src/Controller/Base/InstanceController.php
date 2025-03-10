@@ -28,6 +28,7 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\LegacyInstance;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Celsius3\Exception\Exception;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
@@ -195,7 +196,7 @@ class InstanceController extends EntityController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $configureForm = $this->getConfigurationForm($entity);
 
@@ -211,7 +212,7 @@ class InstanceController extends EntityController
     ): array|RedirectResponse {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $configureForm = $this->getConfigurationForm($entity);
         $request = $this->requestStack->getCurrentRequest();

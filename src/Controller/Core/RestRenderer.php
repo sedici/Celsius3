@@ -33,6 +33,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
+use Celsius3\Exception\Exception;
+
 
 class RestRenderer extends BaseRenderer
 {
@@ -91,7 +93,7 @@ class RestRenderer extends BaseRenderer
         array|string $serializerGroups = null
     ): Response {
         $query = $this->controller->findQuery($id);
-        if (!$query) $this->controller->error('entity_not_found');
+        if (!$query) $this->controller->error(Exception::ENTITY_NOT_FOUND);
         return $this->render(data: $query, serializerGroups: $serializerGroups);
     }
 

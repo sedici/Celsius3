@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\JournalController;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius3\Exception\Exception;
 
 /**
  * Location controller.
@@ -80,7 +81,7 @@ class HtmlAdminJournalController extends JournalController
     public function htmlShow($id): Response
     {
         $entity = $this->findShowQuery($id);
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $receptions = $this->eventRepository
             ->getPreviousJournalReceivedRequests(

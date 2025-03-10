@@ -29,6 +29,7 @@ use Celsius3\Entity\News;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Celsius3\Exception\Exception;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
@@ -222,7 +223,7 @@ class PublicController extends BaseController
     {
         $request = $this->requestStack->getCurrentRequest();
         if (!$request->query->has('country_id'))
-            $this->error('entity_not_found');
+            $this->error(Exception::ENTITY_NOT_FOUND);
 
         $cities = $this->objectManager
             ->getRepository(City::class)

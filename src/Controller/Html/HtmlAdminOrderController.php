@@ -56,6 +56,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Celsius3\Exception\Exception;
 
 use function get_class;
 
@@ -270,7 +271,7 @@ class HtmlAdminOrderController extends OrderController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $materialClass = get_class($entity->getMaterialData());
 
@@ -313,7 +314,7 @@ class HtmlAdminOrderController extends OrderController
     {
         $order = $this->findQuery($id);
 
-        if (!$order) $this->error('entity_not_found');
+        if (!$order) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $duplicatedOrder = clone $order;
 
@@ -373,7 +374,7 @@ class HtmlAdminOrderController extends OrderController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entity->setMaterialData(null);
 

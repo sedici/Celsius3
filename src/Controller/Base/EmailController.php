@@ -24,12 +24,12 @@ namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Email;
-use Celsius3\Manager\MailManager;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
+use Celsius3\Exception\Exception;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +43,6 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email as MimeEmail;
@@ -215,7 +214,7 @@ class EmailController extends EntityController
 
         try {
             $mailer = $this->newMailerFromTransport(... $transportConfig);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $msg = 'Error creating Mailer for instance ' . $instance->getUrl() . '. ' . $e->getMessage();
             $output->writeln($msg);
             $this->logger->error($msg);
@@ -398,27 +397,27 @@ class EmailController extends EntityController
     }
 
 
-    public function saveEntityEmail(
-        string $address,
+    public function entityEmail(
         string $subject,
         string $text,
-        ?BaseUser $sender = null,
+        ?string $to = null,
+        ?BaseUser $receiver = null,
         ?Instance $instance = null,
-        ?Email $email = null
+        ?Email $email = null,
+        ?bool $sent = false
     ): ?Email {
         $instance ??= $this->instance;
-        $sender ??= $this->getUser();
+        $receiver ??= $this->getUser();
         $email ??= new Email();
+        $to ??= $receiver->getEmail();
 
-        $email = $email
-            ->setAddress($address)
+        $email
+            ->setAddress($to)
             ->setSubject($subject)
             ->setText($text)
-            ->setSent(true)
+            ->setSent($sent)
             ->setInstance($instance)
-            ->setSender($sender);
-            
-        $this->persistEntity($email);
+            ->setSender($receiver);
 
         return $email;
     }
@@ -436,7 +435,7 @@ class EmailController extends EntityController
             && (
                 $from === null || $to === null || $subject === null || $text === null
             )
-        ) $this->error('invalid_email');
+        ) $this->error(Exception::INVALID_EMAIL);
 
         $mailer ??= $this->mailer;
 
@@ -449,36 +448,51 @@ class EmailController extends EntityController
 
             $mailer->send($email);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // $celsiusEmail->setError(true);
             // $this->entityManager->flush();
             $this->logger->error('Error sending email: ' . $e->getMessage(), ['exception' => $e]);
+            // throw new \Exception('Error sending email: ' . $e->getMessage());
             return false;
         }
     }
 
 
     public function sendEmail(
-        string $address,
+        string $from,
         string $subject,
         string $text,
-        ?BaseUser $sender = null,
+        ?BaseUser $receiver = null,
         ?Instance $instance = null
     ): bool {
-        if (!$this->checkAddress($address)) return false;
+        if (!$this->checkAddress($from)) return false;
 
-        $sender ??= $this->getUser();
+        $receiver ??= $this->getUser();
+        $to = $receiver->getEmail();
         $instance ??= $this->instance;
+        
+        $celsiusEmail = $this
+            ->entityEmail(
+                $subject, $text, $to,
+                $receiver, $instance
+            );
 
-        $celsiusEmail = (new Email())->incrementAttempts();
-
-        $success = $this->sendMimeEmail($address, $subject, $text);
-
-        if (!$success) return false;
-
-        $celsiusEmail = $this->saveEntityEmail(
-            $address, $subject, $text, email: $celsiusEmail
+        $success = $this->sendMimeEmail(
+            $from, $to, $subject, $text
         );
+        
+        if (!$success) {
+            $celsiusEmail->setError(true)->incrementAttempts();
+            $this->persistEntity($celsiusEmail);
+            return false;
+        }
+
+        $celsiusEmail->setSent(true);
+        // $this->persistEntity($celsiusEmail);
+
+        $this->entityManager->persist($celsiusEmail);
+
+        $this->entityManager->flush();
 
         return true;
     }
@@ -521,7 +535,7 @@ class EmailController extends EntityController
             return [ 'test' => true, 'message' => $this->translator->trans('Sucefull connection') ];
         } catch (TransportExceptionInterface $e) {
             return [ 'test' => false, 'message' => $e->getMessage() ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [ 'test' => false, 'message' => $e->getMessage() ];
         }
     }

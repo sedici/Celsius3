@@ -22,26 +22,26 @@
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\JournalController;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\JournalType;
-use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Entity\Journal;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Journal rest controller.
- *
- * @Route("/rest/v1/admin/journal")
- */
-class AdminJournalRestController extends BaseInstanceDependentRestController
+
+#[Route('/rest/v1/admin/journal')]
+class AdminJournalRestController extends JournalController
 {
-    /**
-     * @Post("/create", name="admin_rest_journal_create", options={"expose"=true})
-     */
-    public function createJournal(Request $request)
+    #[Post(
+        '/create',
+        name: 'admin_rest_journal_create',
+        options: [ 'expose' => true ])
+    ]
+    public function createJournal(): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        $request = $this->requestStack->getCurrentRequest();
 
         $journal = new Journal();
         $journal->setName($request->request->get('name'));
@@ -49,28 +49,30 @@ class AdminJournalRestController extends BaseInstanceDependentRestController
         $journal->setResponsible($request->request->get('responsible'));
         $journal->setISSN($request->request->get('issn'));
         $journal->setISSNE($request->request->get('issne'));
-        $journal->setInstance($em->getRepository(Instance::class)->find($request->request->get('instance')));
+        $journal->setInstance(
+            $this->entityManager
+                ->getRepository(Instance::class)
+                ->find($request->get('instance')
+            )
+        );
 
-        $validator = $this->get('validator');
-        $errors = $validator->validate($journal);
+        $errors = $this->validator->validate($journal);
 
         if (count($errors) > 0) {
-            $view = $this->view(array('hasErrors' => true, 'errors' => $errors), 200)->setFormat('json');
-
-            return $this->handleView($view);
+            return $this->restRenderer->render(['hasErrors' => true, 'errors' => $errors]);
         }
 
-        $em->persist($journal);
-        $em->flush($journal);
+        $this->persistEntity($journal);
 
-        $material = $em->getRepository(JournalType::class)->find($request->request->get('material_type_id'));
+        $material = $this->entityManager
+            ->getRepository(JournalType::class)
+            ->find(
+                $request->get('material_type_id')
+            );
         $material->setJournal($journal);
 
-        $em->persist($material);
-        $em->flush($material);
+        $this->persistEntity($material);
 
-        $view = $this->view(array('hasErrors' => false, 'journal' => $journal), 200)->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->restRenderer->render(['hasErrors' => false, 'journal' => $journal]);
     }
 }

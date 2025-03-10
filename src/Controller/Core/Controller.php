@@ -127,7 +127,11 @@ abstract class Controller
         $token = $this->tokenStorage->getToken();
         if (null === $token) return null;
         $user = $token->getUser();
-        return $user instanceof BaseUser ? $user : null;
+        return $user instanceof BaseUser
+            ? $this->entityManager->getReference(
+                BaseUser::class, $user->getId()
+            )
+            : null;
     }
 
 

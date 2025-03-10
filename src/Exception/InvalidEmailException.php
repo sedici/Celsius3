@@ -25,25 +25,29 @@ namespace Celsius3\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Celsius3\Manager\Alert;
+use PharIo\Manifest\InvalidEmailException as ManifestInvalidEmailException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Router;
 
-class AccessDeniedRestException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
+class InvalidEmailException extends ManifestInvalidEmailException implements Celsius3ExceptionInterface
 {
+    private $router;
+
     public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
     {
         $exception = $event->getThrowable();
 
-        $response = new JsonResponse([
-            'error' => true,
-            'hasMessage' => true,
-            'message' => $exception->getMessage(),
-        ]);
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
-        $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
-
+        $response = new RedirectResponse($this->router->generate('administration'));
         $event->setResponse($response);
 
         $logger->error($exception);
+    }
+
+
+    public function setRouter(Router $router) {
+        $this->router = $router;
     }
 }

@@ -30,6 +30,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Controller\Base\UserController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Celsius3\Exception\Exception;
+
 
 /**
  * BibliotecarioBaseUser controller.
@@ -67,7 +69,7 @@ class HtmlBibliotecarioBaseUserController extends UserController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $messages = $this->threadManager
             ->getParticipantSentThreadsQueryBuilder($entity)

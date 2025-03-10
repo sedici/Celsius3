@@ -32,6 +32,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\UserController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius3\Exception\Exception;
+
 
 /**
  * Admin BaseUser controller.
@@ -236,7 +238,7 @@ final class HtmlAdminBaseUserController extends UserController
     {
         $main_user = $this->findQuery($main_id);
 
-        if (!$main_user) $this->error('entity_not_found');
+        if (!$main_user) $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $main_user;
     }
@@ -252,7 +254,7 @@ final class HtmlAdminBaseUserController extends UserController
             );
 
         if (count($users) !== count($element_ids) - 1)
-            $this->error('entity_not_found');
+            $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $users;
     }

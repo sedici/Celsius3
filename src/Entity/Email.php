@@ -255,9 +255,10 @@ class Email
     /**
      * @param mixed $error
      */
-    public function setError($error)
+    public function setError(bool $error): static
     {
         $this->error = $error;
+        return $this;
     }
 
 

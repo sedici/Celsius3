@@ -51,6 +51,8 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Celsius3\Exception\Exception;
+
 
 /**
  * AdminContact controller.
@@ -216,7 +218,7 @@ class HtmlAdminContactController extends ContactController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $this->htmlRenderer->render(
             'edit',

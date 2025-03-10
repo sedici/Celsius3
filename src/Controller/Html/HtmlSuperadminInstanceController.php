@@ -88,7 +88,7 @@ class HtmlSuperadminInstanceController extends InstanceController
             $request->get('instance')['institution']
         );
 
-        if ($institution === null) $this->error('entity_not_found');
+        if ($institution === null) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $this->entityManager->wrapInTransaction(
             function () use ($entity, $institution) {
@@ -141,7 +141,7 @@ class HtmlSuperadminInstanceController extends InstanceController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entity->setEnabled(!$entity->getEnabled());
 
@@ -176,7 +176,7 @@ class HtmlSuperadminInstanceController extends InstanceController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entity->setInvisible(!$entity->getInvisible());
 
@@ -261,7 +261,7 @@ class HtmlSuperadminInstanceController extends InstanceController
     {
         $entity = $this->findQuery($id);
 
-        if (!$entity) $this->error('entity_not_found');
+        if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $this->session->set('instance_id', $entity->getId());
         $this->session->set('instance_url', $entity->getUrl());

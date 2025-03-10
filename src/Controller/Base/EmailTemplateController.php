@@ -23,10 +23,8 @@
 namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\EmailTemplate;
 use Celsius3\Entity\Instance;
-use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\EmailTemplateFilterType;
 use Error;
@@ -161,7 +159,7 @@ class EmailTemplateController extends EntityController
 
         $template = $template[0] ?? null;
 
-        if (!$template) $this->error('entity_not_found');
+        if (!$template) $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $template;
     }
