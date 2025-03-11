@@ -12,7 +12,7 @@
 {% endblock form_errors %}
 
 {% block registration_content %}
-    {{ form_start(form, { 'action': path('registration_register'), 'method': 'POST', 'attr': { 'class': 'form', 'role': 'form', 'novalidate': 'novalidate' } }) }}
+    {{ form_start(form, { 'action': path('signin'), 'method': 'POST', 'attr': { 'class': 'form', 'role': 'form', 'novalidate': 'novalidate' } }) }}
     <div class="row">
         <div class="col-md-6">
             <div class="form-group has-feedback {% if not form.name.vars.valid %} has-error {% endif %}">

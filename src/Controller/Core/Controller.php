@@ -118,8 +118,16 @@ abstract class Controller
     { return $this->repository->createQueryBuilder('e'); }
 
 
-    public function findQuery(string $id)
-    { return $this->repository->find($id); }
+    // public function findQuery(string $id)
+    // { return $this->repository->find($id); }
+
+    public function findQuery(string $id): mixed
+    {
+        $entity = $this->repository->find($id);
+        if ($entity === null)
+            $this->error('not_found', 'entity');
+        return $entity;
+    }
 
 
     protected function getUser(): BaseUser|null

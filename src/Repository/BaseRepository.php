@@ -69,4 +69,14 @@ class BaseRepository extends EntityRepository
             ->setParameter('ids', $elements)
             ->getQuery()->getResult();
     }
+
+
+    public function find($id, $lockMode = null, $lockVersion = null): ?object
+    {
+        if ($lockMode === null && $lockVersion === null)
+            return $this->getEntityManager()->getReference(
+                $this->getEntityName(), $id
+            );
+        return parent::find($id, $lockMode, $lockVersion);
+    }
 }

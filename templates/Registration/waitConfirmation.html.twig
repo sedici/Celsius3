@@ -6,16 +6,16 @@
 
 {% block content %}
     <h2>
-        {% if registration_wait_confirmation_title is defined and registration_wait_confirmation_title is not empty %}
-            {{ registration_wait_confirmation_title }}
+        {% if signin_confirmation_title is defined and signin_confirmation_title is not empty %}
+            {{ signin_confirmation_title }}
         {% else %}
             {{ 'Wait Confirmation' | trans }}
         {% endif %}
     </h2>
     <p>
-        {% if registration_wait_confirmation_text is defined and registration_wait_confirmation_text is not empty %}
+        {% if signin_confirmation_text is defined and signin_confirmation_text is not empty %}
             {% autoescape false %}
-                {{ registration_wait_confirmation_text }}
+                {{ signin_confirmation_text }}
             {% endautoescape %}
         {% else %}
             {{ 'Please wait until some administrator confirms your account.' | trans }}

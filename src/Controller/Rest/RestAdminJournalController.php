@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Rest;
 
 use Celsius3\Controller\Base\JournalController;
 use Celsius3\Entity\Instance;
@@ -32,7 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 
 #[Route('/rest/v1/admin/journal')]
-class AdminJournalRestController extends JournalController
+class RestAdminJournalController extends JournalController
 {
     #[Post(
         '/create',

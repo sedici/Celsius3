@@ -56,6 +56,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
+#[Route('/auth/signin')]
 class RegistrationController extends UserController
 {
 
@@ -112,8 +113,8 @@ class RegistrationController extends UserController
 
 
     #[Route(
-        '/public/registration',
-        name: 'registration_register',
+        '/',
+        name: 'signin',
         methods: ['POST', 'GET']
     )]
     public function register(): Response {
@@ -130,14 +131,13 @@ class RegistrationController extends UserController
                 )
             );
 
-            $user->setConfirmationToken(bin2hex(random_bytes(32)));
+            $user->generateConfirmationToken();
             $user->setEnabled(false);
-
             $this->persistEntity($user);
 
             // Generar URL de confirmación
             $confirmationUrl = $this->generateUrl(
-                'registration_wait_confirmation',
+                'signin_confirmation',
                 ['token' => $user->getConfirmationToken()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
@@ -162,7 +162,7 @@ class RegistrationController extends UserController
                     'No se pudo enviar el correo de confirmación. '
                         . 'Causa: '. $e->getMessage()
                 );
-                return $this->redirectToRoute('registration_register');
+                return $this->redirectToRoute('signin');
             }
 
             return $this->redirectToRoute('administration');
@@ -170,14 +170,15 @@ class RegistrationController extends UserController
 
         return $this->htmlRenderer->render(
             'register',
-            [ 'registrationForm' => $form->createView() ]
+            [ 'form' => $form->createView() ]
         );
     }
 
 
     #[Route(
-        '/public/registration/wait_confirmation/{token}',
-        name: 'registration_wait_confirmation'
+        '/confirmation/{token}',
+        name: 'signin_confirmation',
+        requirements: [ "token" => "[^/]+?" ]
     )]
     public function confirm(
         string $token

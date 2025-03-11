@@ -41,6 +41,7 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Celsius3\Repository\InstanceRepository;
 use Celsius3\Repository\ThreadRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -61,6 +62,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends EntityController
 {
     protected ThreadRepository $threadRepository;
+    protected InstanceRepository $instanceRepository;
 
     public function __construct(
         protected ThreadManager $threadManager,
@@ -121,6 +123,7 @@ class UserController extends EntityController
         ]);
 
         $this->threadRepository = $this->entityManager->getRepository(Thread::class);
+        $this->instanceRepository = $this->entityManager->getRepository(Instance::class);
     }
 
 
@@ -187,7 +190,7 @@ class UserController extends EntityController
             );
 
             foreach ($entity->getSecondaryInstances() as $key => $value) {
-                $instance = $this->objectManager
+                $instance = $this->entityManager
                     ->getRepository(Instance::class)->find($key);
 
                 if (array_key_exists($instance->getUrl(), $data)) {
@@ -283,7 +286,7 @@ class UserController extends EntityController
             }
 
             foreach ($entity->getSecondaryInstances() as $id => $secondaryInstance) {
-                $instance = $this->objectManager
+                $instance = $this->entityManager
                     ->getRepository(Instance::class)->find($id);
 
                 if ($main->getInstance() === $instance) {

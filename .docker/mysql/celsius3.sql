@@ -394,9 +394,9 @@ INSERT INTO `configuration` (`id`, `instance_id`, `key`, `name`, `value`, `type`
 (385, 1, 'resetting_check_email_text', 'Resetting text', '', 'text', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
 (401, 1, 'resetting_password_already_requested_title', 'Password already requested title', '', 'string', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
 (417, 1, 'resetting_password_already_requested_text', 'Password already requested text', '', 'text', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
-(433, 1, 'registration_wait_confirmation_title', 'Wait confirmation title', '', 'string', '2017-01-10 08:52:31', '2017-01-10 08:52:31');
+(433, 1, 'signin_confirmation_title', 'Wait confirmation title', '', 'string', '2017-01-10 08:52:31', '2017-01-10 08:52:31');
 INSERT INTO `configuration` (`id`, `instance_id`, `key`, `name`, `value`, `type`, `created_at`, `updated_at`) VALUES
-(449, 1, 'registration_wait_confirmation_text', 'Wait confirmation text', '', 'text', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
+(449, 1, 'signin_confirmation_text', 'Wait confirmation text', '', 'text', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
 (465, 1, 'home_home_btn_text', 'Home button text', '', 'string', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
 (481, 1, 'home_news_btn_text', 'News button text', '', 'string', '2017-01-10 08:52:31', '2017-01-10 08:52:31'),
 (497, 1, 'home_news_visible', '', '1', 'boolean', '2017-01-10 08:52:31', '2019-10-03 11:05:47'),
@@ -435,8 +435,8 @@ INSERT INTO `configuration` (`id`, `instance_id`, `key`, `name`, `value`, `type`
 (1624, 42, 'resetting_check_email_text', 'Resetting text', '', 'text', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
 (1625, 42, 'resetting_password_already_requested_title', 'Password already requested title', '', 'string', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
 (1626, 42, 'resetting_password_already_requested_text', 'Password already requested text', '', 'text', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
-(1627, 42, 'registration_wait_confirmation_title', 'Wait confirmation title', '', 'string', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
-(1628, 42, 'registration_wait_confirmation_text', 'Wait confirmation text', '', 'text', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
+(1627, 42, 'signin_confirmation_title', 'Wait confirmation title', '', 'string', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
+(1628, 42, 'signin_confirmation_text', 'Wait confirmation text', '', 'text', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
 (1629, 42, 'home_home_btn_text', 'Home button text', '', 'string', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
 (1630, 42, 'home_news_btn_text', 'News button text', '', 'string', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
 (1631, 42, 'home_news_visible', '', '1', 'boolean', '2020-03-23 19:41:22', '2020-03-23 19:41:22'),
@@ -475,8 +475,8 @@ INSERT INTO `configuration` (`id`, `instance_id`, `key`, `name`, `value`, `type`
 (1663, 43, 'resetting_check_email_text', 'Resetting text', '', 'text', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
 (1664, 43, 'resetting_password_already_requested_title', 'Password already requested title', '', 'string', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
 (1665, 43, 'resetting_password_already_requested_text', 'Password already requested text', '', 'text', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
-(1666, 43, 'registration_wait_confirmation_title', 'Wait confirmation title', '', 'string', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
-(1667, 43, 'registration_wait_confirmation_text', 'Wait confirmation text', '', 'text', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
+(1666, 43, 'signin_confirmation_title', 'Wait confirmation title', '', 'string', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
+(1667, 43, 'signin_confirmation_text', 'Wait confirmation text', '', 'text', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
 (1668, 43, 'home_home_btn_text', 'Home button text', '', 'string', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
 (1669, 43, 'home_news_btn_text', 'News button text', '', 'string', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
 (1670, 43, 'home_news_visible', '', '1', 'boolean', '2020-03-23 19:42:28', '2020-03-23 19:42:28'),
@@ -515,8 +515,8 @@ INSERT INTO `configuration` (`id`, `instance_id`, `key`, `name`, `value`, `type`
 (1702, 44, 'resetting_check_email_text', 'Resetting text', '', 'text', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
 (1703, 44, 'resetting_password_already_requested_title', 'Password already requested title', '', 'string', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
 (1704, 44, 'resetting_password_already_requested_text', 'Password already requested text', '', 'text', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
-(1705, 44, 'registration_wait_confirmation_title', 'Wait confirmation title', '', 'string', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
-(1706, 44, 'registration_wait_confirmation_text', 'Wait confirmation text', '', 'text', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
+(1705, 44, 'signin_confirmation_title', 'Wait confirmation title', '', 'string', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
+(1706, 44, 'signin_confirmation_text', 'Wait confirmation text', '', 'text', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),
 (1707, 44, 'home_home_btn_text', 'Home button text', '', 'string', '2020-03-23 19:44:22', '2020-03-23 19:44:22');
 INSERT INTO `configuration` (`id`, `instance_id`, `key`, `name`, `value`, `type`, `created_at`, `updated_at`) VALUES
 (1708, 44, 'home_news_btn_text', 'News button text', '', 'string', '2020-03-23 19:44:22', '2020-03-23 19:44:22'),

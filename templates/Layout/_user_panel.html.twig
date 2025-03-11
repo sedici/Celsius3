@@ -16,16 +16,16 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{{ path('security_logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
+                            <a href="{{ path('logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
                         </li>
                     {% endif %}
 
                 {% else %}
                     <li>
-                        <a href="{{ path('security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
+                        <a href="{{ path('login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
+                        <a href="{{ path('signin') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>

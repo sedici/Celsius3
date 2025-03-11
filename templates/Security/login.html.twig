@@ -14,7 +14,7 @@
         <div class="login-box">
             <div class="login-box-body">
                 <p class="login-box-msg">{{ 'login' | trans | first_upper }}</p>
-                <form action="{{ path('security_login') }}" method="post" class="form" role="form">
+                <form action="{{ path('login') }}" method="post" class="form" role="form">
                     {% if error %}
                         <div class="alert alert-danger fade in">
                             <a href="#" class="close" data-dismiss="alert">&times;</a>

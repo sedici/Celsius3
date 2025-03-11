@@ -69,6 +69,11 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     protected $id;
 
     /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private ?string $confirmationToken = null;
+
+    /**
      * @Assert\Email(
      *     groups = {"Default"}
      * )
@@ -261,7 +266,11 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         $this->clientApplications = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->librarianInstitution = new ArrayCollection();
+        $this->salt = $this->generateSalt();
     }
+
+    private function generateSalt(): string
+    { return bin2hex(random_bytes(32)); }
 
     public function __toString()
     {
@@ -1032,5 +1041,24 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+
+    public function generateConfirmationToken(): void
+    { $this->confirmationToken = bin2hex(random_bytes(32)); }
+
+
+    public function getConfirmationToken(): ?string
+    {
+        if (null === $this->confirmationToken)
+            $this->generateConfirmationToken();
+        return $this->confirmationToken;
+    }
+
+
+    public function setConfirmationToken(?string $confirmationToken): self
+    {
+        $this->confirmationToken = $confirmationToken;
+        return $this;
     }
 }

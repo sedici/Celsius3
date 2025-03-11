@@ -72,8 +72,8 @@ class ConfigurationHelper
     public const CONF__RESETTING_CHECK_EMAIL_TEXT = 'resetting_check_email_text';
     public const CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TITLE = 'resetting_password_already_requested_title';
     public const CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT = 'resetting_password_already_requested_text';
-    public const CONF__REGISTRATION_WAIT_CONFIRMATION_TITLE = 'registration_wait_confirmation_title';
-    public const CONF__REGISTRATION_WAIT_CONFIRMATION_TEXT = 'registration_wait_confirmation_text';
+    public const CONF__signin_confirmation_TITLE = 'signin_confirmation_title';
+    public const CONF__signin_confirmation_TEXT = 'signin_confirmation_text';
     public const CONF__HOME_HOME_BTN_TEXT = 'home_home_btn_text';
     public const CONF__HOME_NEWS_BTN_TEXT = 'home_news_btn_text';
     public const CONF__HOME_INFORMATION_BTN_TEXT = 'home_information_btn_text';
@@ -240,13 +240,13 @@ class ConfigurationHelper
             'type' => 'text',
             'required' => false,
         ),
-        self::CONF__REGISTRATION_WAIT_CONFIRMATION_TITLE => array(
+        self::CONF__signin_confirmation_TITLE => array(
             'name' => 'Wait confirmation title',
             'value' => '',
             'type' => 'string',
             'required' => false,
         ),
-        self::CONF__REGISTRATION_WAIT_CONFIRMATION_TEXT => array(
+        self::CONF__signin_confirmation_TEXT => array(
             'name' => 'Wait confirmation text',
             'value' => '',
             'type' => 'text',

@@ -38,8 +38,8 @@ security:
             form_login:
                 provider: celsius3_user_provider
 #                csrf_token_generator: security.csrf.token_manager
-                login_path: security_login
-                check_path: security_login
+                login_path: login
+                check_path: login
                 failure_handler: Celsius3\Handler\CustomAuthenticationFailureHandler
                 success_handler: Celsius3\Handler\CustomAuthenticationSuccessHandler
                 default_target_path: user_index
@@ -49,7 +49,7 @@ security:
                 max_attempts: 3
                 interval: '15 minutes'
             logout:
-                path: security_logout
+                path: logout
                 target: public_index
                 success_handler: Celsius3\Handler\CustomLogoutSuccessHandler
 #            anonymous: true
@@ -70,8 +70,8 @@ security:
             pattern: ^/api/oauth/v2/auth
             form_login:
                 provider: celsius3_user_provider
-                check_path: security_login
-                login_path: security_login
+                check_path: login
+                login_path: login
             anonymous: false
 
 #        api:

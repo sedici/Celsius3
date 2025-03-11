@@ -28,28 +28,7 @@ use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Celsius3\Form\Type\Filter\EmailTemplateFilterType;
 use Error;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
 
-use Celsius3\Controller\Core\HtmlRenderer;
-use Celsius3\Controller\Core\RestRenderer;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EmailTemplateController extends EntityController
 {
@@ -65,52 +44,6 @@ class EmailTemplateController extends EntityController
     public const MAIL__RESETTING = 'resetting';
     public const MAIL__USER_CONFIRMATION = 'user_confirmation';
     public const MAIL__CUSTOM = 'custom';
-
-
-    public function __construct(
-        protected SerializerInterface $serializer,
-        ValidatorInterface $validator,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper,
-        FormFactoryInterface $formFactory,
-        SessionInterface $session,
-        RouterInterface $router,
-        TokenStorageInterface $tokenStorage,
-        Security $security,
-        HtmlRenderer $htmlRenderer,
-        RestRenderer $restRenderer
-    ) {
-        parent::__construct(
-            $validator,
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper,
-            $formFactory,
-            $session,
-            $router,
-            $tokenStorage,
-            $security,
-            $htmlRenderer,
-            $restRenderer
-        );
-    }
 
 
     public function initialize(): void
@@ -140,7 +73,7 @@ class EmailTemplateController extends EntityController
             );
 
             return $template->render(
-                $this->serializeData($params)
+                $params
             );
         } catch (Error $error) {
             throw Exception::create(
@@ -162,30 +95,5 @@ class EmailTemplateController extends EntityController
         if (!$template) $this->error(Exception::ENTITY_NOT_FOUND);
 
         return $template;
-    }
-
-
-    protected function serializeData($vars): array
-    {
-        return array_map(
-            fn ($value) => $value !== null
-                ? $this->serializer->serialize($value, 'json', [
-                    AbstractNormalizer::GROUPS => ['email_template'],
-                ])
-                : null,
-            $vars
-        );
-    }
-
-
-    public function renderRawTemplate($text, $vars): ?string
-    {
-        try {
-            $template = $this->htmlRenderer->createTemplate($text);
-
-            return $template->render($this->serializeData($vars));
-        } catch (Error $error) {
-            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template');
-        }
     }
 }

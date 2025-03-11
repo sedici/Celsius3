@@ -444,7 +444,7 @@ class EmailController extends EntityController
                 ->from($from)
                 ->to($to)
                 ->subject($subject)
-                ->text($text);
+                ->html($text);
 
             $mailer->send($email);
             return true;

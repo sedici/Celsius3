@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Form\Type;
 
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Instance;
 use Celsius3\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\Helper\InstanceHelper;
@@ -145,6 +146,7 @@ class RegistrationFormType extends AbstractType
             [
                 'show_privates' => false,
                 'data_class' => BaseUser::class,
+                'instance' => Instance::class
             ]
         );
     }

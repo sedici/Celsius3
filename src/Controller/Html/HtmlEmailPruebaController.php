@@ -18,7 +18,7 @@ class HtmlEmailPruebaController extends EmailController
     public function prueba(): Response
     {
         $sent = $this->sendEmail(
-            'jeresmendi@gmail.com',
+            'prueba@gmail.com',
             'Email de prueba',
             'Este es un mail de prueba'
         );
