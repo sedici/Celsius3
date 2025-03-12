@@ -266,11 +266,27 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         $this->clientApplications = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->librarianInstitution = new ArrayCollection();
-        $this->salt = $this->generateSalt();
     }
 
-    private function generateSalt(): string
-    { return bin2hex(random_bytes(32)); }
+
+    public function generateConfirmationToken(): static
+    { $this->confirmationToken = $this->tokgen(); return $this; }
+
+
+    public function cleanConfirmationToken(): static
+    { $this->confirmationToken = null; return $this; }
+
+
+    public function getConfirmationToken(): ?string
+    {
+        if (null === $this->confirmationToken)
+            $this->generateConfirmationToken();
+        return $this->confirmationToken;
+    }
+
+    private function tokgen(): string
+    { return bin2hex(random_bytes(48)); }
+
 
     public function __toString()
     {
@@ -1041,24 +1057,5 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     public function isEnabled()
     {
         return $this->enabled;
-    }
-
-
-    public function generateConfirmationToken(): void
-    { $this->confirmationToken = bin2hex(random_bytes(32)); }
-
-
-    public function getConfirmationToken(): ?string
-    {
-        if (null === $this->confirmationToken)
-            $this->generateConfirmationToken();
-        return $this->confirmationToken;
-    }
-
-
-    public function setConfirmationToken(?string $confirmationToken): self
-    {
-        $this->confirmationToken = $confirmationToken;
-        return $this;
     }
 }

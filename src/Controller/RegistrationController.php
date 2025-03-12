@@ -45,6 +45,7 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -60,10 +61,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class RegistrationController extends UserController
 {
 
+    protected float $tokenLifetime;
+
     public function __construct(
         protected UserPasswordHasherInterface $passwordHasher,
         protected EmailTemplateController $emailTemplateController,
         protected EmailController $emailController,
+        TokenGeneratorInterface $tokenGenerator,
         ThreadManager $threadManager,
         CustomFieldHelper $customFieldHelper,
         ValidatorInterface $validator,
@@ -87,6 +91,7 @@ class RegistrationController extends UserController
         RestRenderer $restRenderer
     ) {
         parent::__construct(
+            $tokenGenerator,
             $threadManager,
             $customFieldHelper,
             $validator,
@@ -112,6 +117,13 @@ class RegistrationController extends UserController
     }
 
 
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->tokenLifetime = -1;
+    }
+
+
     #[Route(
         '/',
         name: 'signin',
@@ -129,41 +141,12 @@ class RegistrationController extends UserController
                     $user,
                     $form->get('plainPassword')->getData()
                 )
-            );
+            )->generateConfirmationToken()->setEnabled(false);
 
-            $user->generateConfirmationToken();
-            $user->setEnabled(false);
             $this->persistEntity($user);
 
-            // Generar URL de confirmación
-            $confirmationUrl = $this->generateUrl(
-                'signin_confirmation',
-                ['token' => $user->getConfirmationToken()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
-            try {
-                $this->emailController->sendMimeEmail(
-                    'test@prueba.com',
-                    $user->getEmail(),
-                    'Please Confirm your Email',
-                    $this->emailTemplateController->renderTemplate(
-                        'user_confirmation',
-                        [
-                            'user' => $user,
-                            'instance' => $this->instance,
-                            'url' => $confirmationUrl,
-                        ]
-                    )
-                );
-            } catch (\Exception $e) {
-                $this->addFlash(
-                    'error',
-                    'No se pudo enviar el correo de confirmación. '
-                        . 'Causa: '. $e->getMessage()
-                );
-                return $this->redirectToRoute('signin');
-            }
+            $confirmationEmail = $this->sendConfirmationEmail($user);
+            if (!$confirmationEmail) return $this->redirectToRoute('login');
 
             return $this->redirectToRoute('administration');
         }
@@ -172,6 +155,48 @@ class RegistrationController extends UserController
             'register',
             [ 'form' => $form->createView() ]
         );
+    }
+
+
+    protected function sendConfirmationEmail(BaseUser $user): bool
+    {
+        // Generar URL de confirmación
+        $confirmationUrl = $this->generateUrl(
+            'signin_confirmation',
+            ['token' => $user->getConfirmationToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        try {
+            $this->emailController->sendMimeEmail(
+                $this->instance->getEmail(),
+                $user->getEmail(),
+                'Please Confirm your Email',
+                $this->emailTemplateController->renderTemplate(
+                    'user_confirmation',
+                    [
+                        'user' => $user,
+                        'instance' => $this->instance,
+                        'url' => $confirmationUrl,
+                    ]
+                )
+            );
+
+            $this->addFlash(
+                'success',
+                'Se ha enviado un correo de confirmación a la dirección de correo electrónico proporcionada.'
+            );
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'error',
+                'No se pudo enviar el correo de confirmación. '
+                . 'Por favor, póngase en contacto con el administrador.'
+            );
+
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -186,16 +211,74 @@ class RegistrationController extends UserController
         $user = $this->repository->findOneBy(
             [ 'confirmationToken' => $token ]
         );
-    
         if (!$user) $this->error(Exception::ENTITY_NOT_FOUND);
 
+        $timeFromCreation = $this->timeFromCreation($user);
+
+        // throw new \Exception(
+        //     'timeFromCreation: ' . $timeFromCreation
+        //     . ' - tokenLifetime: ' . $this->tokenLifetime
+        //     . ' - diff: ' . ($timeFromCreation > $this->tokenLifetime)
+        // );
+
+        if ($timeFromCreation > $this->tokenLifetime) {
+            $this->addFlash('error', 'El token de confirmación ha expirado.');
+            return $this->redirectToRoute('signin_reconfirmation', [ 'token' => $token ]);
+        }
+
         // Confirmar la cuenta
-        $user->setConfirmationToken(null);
-        $user->setEnabled(true);
+        $user->cleanConfirmationToken()->setEnabled(true);
         $this->entityManager->flush();
 
         return $this->htmlRenderer->render(
             'confirmed',
+            [ 'user' => $user ]
+        );
+    }
+
+
+    protected function timeFromCreation(BaseUser $user): float
+    {
+        $createdAt = $user->getCreatedAt();
+        $now = new \DateTime();
+        $interval = $now->getTimestamp() - $createdAt->getTimestamp(); // Difference in seconds
+
+        // Convert seconds to hours
+        return $interval / 3600;
+    }
+
+
+    #[Route(
+        '/reconfirmation/{token}',
+        name: 'signin_reconfirmation',
+        requirements: [ "token" => "[^/]+?" ],
+        methods: ['POST', 'GET']
+    )]
+    public function reConfirmation(string $token): Response
+    {
+        $user = $this->repository->findOneBy(
+            [ 'confirmationToken' => $token ]
+        );
+        if (!$user) $this->error(Exception::ENTITY_NOT_FOUND);
+
+        $request = $this->requestStack->getCurrentRequest();
+
+        if ($request->isMethod('POST')) {
+            $password = $request->get('password');
+
+            if ($this->passwordHasher->isPasswordValid($user, $password)) {
+                $user->generateConfirmationToken();
+                $this->entityManager->flush();
+
+                $confirmationEmail = $this->sendConfirmationEmail($user);
+                if (!$confirmationEmail) return $this->redirectToRoute('login');
+            }
+
+            $this->addFlash('error', 'La contraseña no es válida.');
+        }
+
+        return $this->htmlRenderer->render(
+            'reconfirm',
             [ 'user' => $user ]
         );
     }

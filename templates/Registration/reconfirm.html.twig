@@ -1,0 +1,36 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Reconfirm Account'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>{{ 'Reconfirm Account'|trans }}</h2>
+
+            {% if app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {% for message in app.flashes('error') %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <p>
+                {{ 'The token has expired, please enter your password to reconfirm your account.'|trans }}
+            </p>
+
+            <h3>Usuario: {{ user.username }}</h3>
+
+            <form action="{{ path('signin_reconfirmation', {'token': user.confirmationToken }) }}" method="post">
+                <div class="form-group">
+                    <label for="password">{{ 'Password'|trans }}</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">{{ 'Reconfirm'|trans }}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

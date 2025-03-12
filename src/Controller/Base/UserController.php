@@ -56,6 +56,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -65,6 +66,7 @@ class UserController extends EntityController
     protected InstanceRepository $instanceRepository;
 
     public function __construct(
+        protected TokenGeneratorInterface $tokenGenerator,
         protected ThreadManager $threadManager,
         protected CustomFieldHelper $customFieldHelper,
         ValidatorInterface $validator,
