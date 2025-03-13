@@ -36,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Celsius3\Entity\TimestampableEntity;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
@@ -72,6 +73,9 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @ORM\Column(type="string", length=180, nullable=true)
      */
     private ?string $confirmationToken = null;
+
+    private const TOKEN_LIFETIME = -1; // días que dura la validez del token
+    private const CIPHER_ALGO = 'aes-256-cbc'; // Encryption algorithm
 
     /**
      * @Assert\Email(
@@ -269,28 +273,91 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     }
 
 
-    public function generateConfirmationToken(): static
-    { $this->confirmationToken = $this->tokgen(); return $this; }
+
+    public function getConfirmationToken(): ?string
+    { return $this->confirmationToken; }
 
 
     public function cleanConfirmationToken(): static
     { $this->confirmationToken = null; return $this; }
 
 
-    public function getConfirmationToken(): ?string
+    private function getEncryptionKey(): string
+    { return $this->getPassword(); }
+
+
+    private function encryptToken(string $data, string $encryptionKey): string
     {
-        if (null === $this->confirmationToken)
-            $this->generateConfirmationToken();
-        return $this->confirmationToken;
+        $iv = random_bytes(
+            openssl_cipher_iv_length(self::CIPHER_ALGO)
+        );
+
+        $encrypted = openssl_encrypt(
+            $data,
+            self::CIPHER_ALGO,
+            $encryptionKey,
+            0,
+            $iv
+        );
+
+        return base64_encode((string) $iv . $encrypted);
     }
 
-    private function tokgen(): string
-    { return bin2hex(random_bytes(48)); }
+
+    public function generateConfirmationToken(string $pass): static
+    {
+        $timestamp = (new \DateTime())->getTimestamp();
+        $encryptedToken = $this->encryptToken($timestamp, $pass);
+        $this->confirmationToken = $encryptedToken;
+        return $this;
+    }
+
+
+    private function decryptToken(string $base64EncData, string $encryptionKey): ?string
+    {
+        $encryptedData = base64_decode($base64EncData);
+        $ivLength = openssl_cipher_iv_length(self::CIPHER_ALGO);
+        $iv = substr($encryptedData, 0, $ivLength);
+        $encrypted = substr($encryptedData, $ivLength);
+
+        $decrypted = openssl_decrypt(
+            $encrypted,
+            self::CIPHER_ALGO,
+            $encryptionKey,
+            0,
+            $iv
+        );
+
+        if ($decrypted === false) return null;
+        return $decrypted;
+    }
+
+
+    public function isConfirmationTokenValid(
+        string $encryptedData, string $encryptionKey
+    ): bool {
+        $strTimestamp = $this->decryptToken(
+            $encryptedData, $encryptionKey
+        );
+
+        if (null === $strTimestamp) return false; // Token is invalid or decryption failed
+        $timestamp = (new \DateTime())->setTimestamp($strTimestamp);
+
+        $now = new \DateTime();
+        $interval = $now->diff($timestamp);
+        $days = $interval->days;
+
+        return $days <= self::TOKEN_LIFETIME;
+    }
 
 
     public function __toString()
     {
-        return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
+        return ucwords(
+            strtolower($this->getSurname())
+        )
+        . ', '
+        . ucwords(strtolower($this->getName()));
     }
 
     public function getId(): ?int

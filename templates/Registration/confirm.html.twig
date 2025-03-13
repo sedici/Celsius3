@@ -1,0 +1,28 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+    {{ 'Reconfirm Account'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>{{ 'Account confirmation'|trans }}</h2>
+
+            <p>
+                {{ 'Please enter your password to confirm your account.'|trans }}
+            </p>
+
+            <h3>Usuario: {{ user.username }}</h3>
+
+            <form action="{{ path('signin_confirmation', {'token': user.confirmationToken }) }}" method="post">
+                <div class="form-group">
+                    <label for="password">{{ 'Password'|trans }}</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">{{ 'Confirm'|trans }}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
