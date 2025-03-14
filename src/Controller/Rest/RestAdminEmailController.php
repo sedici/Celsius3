@@ -48,7 +48,7 @@ class RestAdminEmailController extends EmailController
     #[Route('/', name: 'rest_admin_send_email', methods: ['POST'], options: ['expose' => true])]
     public function restSendEmail(): Response
     {
-        $reqArgs = $this->requestStack->getCurrentRequest()->toArray();
+        $reqArgs = $this->requestStack->getCurrentRequest()->request->all();
 
         $email = $this->checkArg($reqArgs, 'email', 'Email address', isRest: true);
 
@@ -61,18 +61,31 @@ class RestAdminEmailController extends EmailController
         $subject = $this->checkArg($reqArgs, 'subject', isRest: true);
         $text = $this->checkArg($reqArgs, 'text', 'Email text', isRest: true);
 
-        $order_id = $reqArgs['order_id'];
-        $order = ($order_id)
+
+
+        // $template_id = $this->checkArg($reqArgs, 'template', 'Email template', isRest: true);
+        // throw new \Exception('template: ' . $template_id);
+        // $template = $this->emailTeplateController->findQuery($template_id)->getTitle();
+
+
+
+
+
+        $order = (isset($reqArgs['order_id']) && !empty($reqArgs['order_id']))
             ? $this->entityManager
                 ->getRepository(Order::class)
-                ->find($order_id)
-            : null;
+                ->find($reqArgs['order_id'])
+            : $order = null;
 
         $user = $this->entityManager
             ->getRepository(BaseUser::class)
             ->findOneBy([ 'email' => $email ]);
 
-        $text = $this->mailManager->renderRawTemplate(
+        // throw new \Exception(' text: ' . $text . ' subject: ' . $subject . ' email: ' . $email);
+
+
+        //tiene que ir el codigo de template en $text
+        $text = $this->emailTeplateController->renderTemplate(
             $text, [
                 'user' => $user,
                 'instance' => $this->instance,
@@ -84,7 +97,10 @@ class RestAdminEmailController extends EmailController
             $email, $subject, $text
         );
 
-        return $this->restRenderer->render($result, serializerGroups: 'api_administration');
+        //debería devolver el email enviado
+        return ($result)
+            ? $this->restRenderer->render(null, serializerGroups: 'api_administration')
+            : $this->restRenderer->render(null, serializerGroups: 'api_administration', statusCode: Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
 

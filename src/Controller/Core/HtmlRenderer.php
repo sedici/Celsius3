@@ -28,6 +28,7 @@ use Twig\TemplateWrapper;
 
 class HtmlRenderer extends BaseRenderer
 {
+
     protected string $templatePrefix;
 
 
@@ -60,6 +61,10 @@ class HtmlRenderer extends BaseRenderer
 
     public function setTemplatePrefix(string $templatePrefix): void
     { $this->templatePrefix = $templatePrefix; }
+
+
+    public function getTemplatePrefix(): string
+    { return $this->templatePrefix; }
 
 
     public function render(

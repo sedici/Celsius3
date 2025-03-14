@@ -116,10 +116,11 @@ class EntityController extends InstanceDependentController
     public function initialize(): void
     {
         $this->redirectRoute = $this->getRedirectRoute();
+        // $this->htmlRenderer->setController($this);
+        // $this->restRenderer->setController($this);
+        parent::initialize();
         $this->htmlRenderer->setController($this);
         $this->restRenderer->setController($this);
-
-        parent::initialize();
     }
 
 

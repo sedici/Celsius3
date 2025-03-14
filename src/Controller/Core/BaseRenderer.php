@@ -27,9 +27,6 @@ use Twig\Environment;
 
 abstract class BaseRenderer implements Renderer
 {
-    use VariadicArgsTrait;
-
-    
     protected EntityController $controller;
 
 

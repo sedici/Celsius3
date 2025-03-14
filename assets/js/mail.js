@@ -38,7 +38,8 @@ $(document).ready(function () {
         var data = {
             email: $('#emailAddress').val(),
             subject: $('#emailSubject').val(),
-            text: $('#emailBody').val()
+            text: $('#emailBody').val(),
+            // template: $('#templateSelect').val()
         };
 
         $.post(Routing.generate('rest_admin_send_email'), data)

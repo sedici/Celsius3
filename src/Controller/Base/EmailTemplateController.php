@@ -75,11 +75,8 @@ class EmailTemplateController extends EntityController
             return $template->render(
                 $params
             );
-        } catch (Error $error) {
-            throw Exception::create(
-                Exception::RENDER_TEMPLATE,
-                'exception.template.mail_template'
-            );
+        } catch (\Exception $e) {
+            $this->error(Exception::RENDER_TEMPLATE, msg: $e->getMessage());
         }
     }
 

@@ -36,7 +36,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Celsius3\Entity\TimestampableEntity;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
@@ -74,7 +73,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      */
     private ?string $confirmationToken = null;
 
-    private const TOKEN_LIFETIME = -1; // días que dura la validez del token
+    private const TOKEN_LIFETIME = 2; // días que dura la validez del token
     private const CIPHER_ALGO = 'aes-256-cbc'; // Encryption algorithm
 
     /**
@@ -300,7 +299,11 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
             $iv
         );
 
-        return base64_encode((string) $iv . $encrypted);
+        return strtr(
+            base64_encode((string) $iv . $encrypted),
+            '+/', '-_'
+        );
+        // return base64_encode((string) $iv . $encrypted);
     }
 
 
@@ -315,7 +318,10 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
 
     private function decryptToken(string $base64EncData, string $encryptionKey): ?string
     {
-        $encryptedData = base64_decode($base64EncData);
+        $encryptedData = base64_decode(
+            strtr($base64EncData, '-_', '+/')
+        );
+        // $encryptedData = base64_decode($base64EncData);
         $ivLength = openssl_cipher_iv_length(self::CIPHER_ALGO);
         $iv = substr($encryptedData, 0, $ivLength);
         $encrypted = substr($encryptedData, $ivLength);
