@@ -24,12 +24,13 @@ namespace Celsius3\Controller\Rest;
 
 use Celsius3\Controller\Base\EmailController;
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Contact;
 use Celsius3\Entity\Order;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
+use Symfony\Component\HttpFoundation\Request;
 
 #[
     Route('/rest/v1/admin/email'),
@@ -48,59 +49,60 @@ class RestAdminEmailController extends EmailController
     #[Route('/', name: 'rest_admin_send_email', methods: ['POST'], options: ['expose' => true])]
     public function restSendEmail(): Response
     {
-        $reqArgs = $this->requestStack->getCurrentRequest()->request->all();
+        $request = $this->requestStack->getCurrentRequest();
+
+        $reqArgs = $request->request->all();
+
+        $urlSubroutes = explode('/', $request->headers->get('referer'));
+        array_pop($urlSubroutes);
+        $receiverClass = array_pop($urlSubroutes);
+        if ($receiverClass === 'user') $receiverClass = BaseUser::class;
+        else if ($receiverClass === 'contact') $receiverClass = Contact::class;
+        else $this->error('not_found', msg: 'Invalid receiver', isRest: true);
+        
+        $params = [];
 
         $email = $this->checkArg($reqArgs, 'email', 'Email address', isRest: true);
-
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
         $errors = $this->validator->validate($email, $emailConstraint);
         if (count($errors) !== 0)
             $this->error('not_found', msg: 'Invalid email address', isRest: true);
+        $params['email'] = $email;
 
-        $subject = $this->checkArg($reqArgs, 'subject', isRest: true);
-        $text = $this->checkArg($reqArgs, 'text', 'Email text', isRest: true);
+        $params['subject'] = $this->checkArg($reqArgs, 'subject', 'Subject', isRest: true);
 
+        $params['text'] = $this->checkArg($reqArgs, 'text', 'Email text', isRest: true);
 
+        $order_id = (isset($reqArgs['order_id']) && !empty($reqArgs['order_id']))
+            ? $reqArgs['order_id'] : null;
+        if ($order_id) $params['order'] = $this->entityManager
+            ->getRepository(Order::class)
+            ->find($order_id);
 
-        // $template_id = $this->checkArg($reqArgs, 'template', 'Email template', isRest: true);
-        // throw new \Exception('template: ' . $template_id);
-        // $template = $this->emailTeplateController->findQuery($template_id)->getTitle();
+        $params['user'] = $this->entityManager
+            ->getRepository($receiverClass)
+            ->findOneBy(['email' => $email]);
+        
+        $params['instance'] = $this->instance;
 
-
-
-
-
-        $order = (isset($reqArgs['order_id']) && !empty($reqArgs['order_id']))
-            ? $this->entityManager
-                ->getRepository(Order::class)
-                ->find($reqArgs['order_id'])
-            : $order = null;
-
-        $user = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findOneBy([ 'email' => $email ]);
-
-        // throw new \Exception(' text: ' . $text . ' subject: ' . $subject . ' email: ' . $email);
-
-
-        //tiene que ir el codigo de template en $text
-        $text = $this->emailTeplateController->renderTemplate(
-            $text, [
-                'user' => $user,
-                'instance' => $this->instance,
-                'order' => $order
-            ]
+        $text = $this->emailTeplateController->renderTemplateText(
+            $params['text'], $params
         );
 
-        $result = $this->sendEmail(
-            $email, $subject, $text
+        $email = $this->sendEmail(
+            $email, $params['subject'], $text
         );
 
-        //debería devolver el email enviado
-        return ($result)
-            ? $this->restRenderer->render(null, serializerGroups: 'api_administration')
-            : $this->restRenderer->render(null, serializerGroups: 'api_administration', statusCode: Response::HTTP_INTERNAL_SERVER_ERROR);
+        $statusCode = ($email === null)
+            ? Response::HTTP_INTERNAL_SERVER_ERROR
+            : Response::HTTP_OK;
+
+        return $this->restRenderer->render(
+            $email,
+            serializerGroups: 'api_administration',
+            statusCode: $statusCode
+        );
     }
 
 

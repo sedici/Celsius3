@@ -64,7 +64,7 @@ class EmailTemplateController extends EntityController
     public function renderTemplate(
         string $code,
         array $params = []
-    ): ?string {
+    ): string {
         try {
             $template = $this->htmlRenderer->createTemplate(
                 $this->getTemplate(
@@ -72,11 +72,23 @@ class EmailTemplateController extends EntityController
                 )->getText()
             );
 
-            return $template->render(
-                $params
-            );
+            return $template->render($params);
         } catch (\Exception $e) {
             $this->error(Exception::RENDER_TEMPLATE, msg: $e->getMessage());
+        }
+    }
+
+
+    public function renderTemplateText(
+        string $text,
+        array $params = []
+    ): string {
+        try {
+            $template = $this->htmlRenderer->createTemplate($text);
+            return $template->render($params);
+        } catch (\Exception $e) {
+            // $this->error(Exception::RENDER_TEMPLATE, msg: $e->getMessage());
+            return $e->getMessage();
         }
     }
 

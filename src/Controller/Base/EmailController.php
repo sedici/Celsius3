@@ -464,8 +464,8 @@ class EmailController extends EntityController
         string $text,
         ?BaseUser $receiver = null,
         ?Instance $instance = null
-    ): bool {
-        if (!$this->checkAddress($from)) return false;
+    ): ?Email {
+        if (!$this->checkAddress($from)) return null;
 
         $receiver ??= $this->getUser();
         $to = $receiver->getEmail();
@@ -476,6 +476,7 @@ class EmailController extends EntityController
                 $subject, $text, $to,
                 $receiver, $instance
             );
+        $this->persistEntity($celsiusEmail);
 
         $success = $this->sendMimeEmail(
             $from, $to, $subject, $text
@@ -483,8 +484,8 @@ class EmailController extends EntityController
         
         if (!$success) {
             $celsiusEmail->setError(true)->incrementAttempts();
-            $this->persistEntity($celsiusEmail);
-            return false;
+            $this->entityManager->flush();
+            return $celsiusEmail;
         }
 
         $celsiusEmail->setSent(true);
@@ -494,7 +495,7 @@ class EmailController extends EntityController
 
         $this->entityManager->flush();
 
-        return true;
+        return $celsiusEmail;
     }
 
 

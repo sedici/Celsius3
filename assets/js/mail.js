@@ -7,6 +7,7 @@ $(document).ready(function () {
         $.get(Routing.generate('rest_admin_emailtemplate'))
             .done(function (data) {
                 templates = data;
+                console.log(templates);
 
                 data = {
                     address: address,
@@ -27,8 +28,8 @@ $(document).ready(function () {
 
     $(document).on('select2:select', '#templateSelect', function (e) {
         var selected = $(this).val();
-        var template = _.find(templates, function (template) {
-            return template.id === selected;
+        var template = templates.find(function (element) {
+            return element.id == selected;
         });
         $('#emailSubject').val(template.title);
         $('#emailBody').val(template.text);

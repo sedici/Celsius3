@@ -122,6 +122,20 @@ class Contact
         return $this->id;
     }
 
+    public function full_name(): string
+    {
+        return ($this->user === null)
+            ? (string) $this->surname . ', ' . $this->name
+            : $this->user->getFullName();
+    }
+
+    public function username(): string
+    {
+        return ($this->user === null)
+            ? $this->email
+            : $this->user->getUsername();
+    }
+
     /**
      * Get name.
      *
