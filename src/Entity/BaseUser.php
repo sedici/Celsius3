@@ -517,6 +517,11 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this->getSurname() . ', ' . $this->getName();
     }
 
+    public function full_name(): string
+    {
+        return $this->getFullName();
+    }
+
     public function notify(NotificationManager $manager): void
     {
         $manager->notifyNewUser($this);
