@@ -30,6 +30,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Helper\ConfigurationHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\UserController;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Journal;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Celsius3\Exception\Exception;
 
@@ -142,9 +144,7 @@ class HtmlUserController extends UserController
     {
         $request = $this->requestStack->getCurrentRequest();
         return $this->restRenderer->render(
-            $this->restRenderer->ajax(
-                $request, [], $this->instance
-            )
+            $this->restRenderer->ajax($request)
         );
     }
 }

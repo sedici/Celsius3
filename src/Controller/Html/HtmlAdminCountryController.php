@@ -39,24 +39,48 @@ class HtmlAdminCountryController extends CountryController
 
     #[Route('/', name: 'admin_country')]
     public function htmlIndex(): Response
-    { return $this->htmlRenderer->render('index', $this->index()); }
+    {
+        return $this->htmlRenderer->render(
+            'index',
+            $this->index()
+        );
+    }
 
 
-    #[Route('/new', name: 'admin_country_new')]
+    #[Route(
+        '/new',
+        name: 'admin_country_new'
+    )]
     public function htmlNew(): Response
-    { return $this->htmlRenderer->render('new', $this->new()); }
+    {
+        return $this->htmlRenderer->render(
+            'new',
+            $this->new()
+        );
+    }
 
 
-    #[Route('/create', name: 'admin_country_create', methods: ['POST'])]
+    #[Route(
+        '/create',
+        name: 'admin_country_create',
+        methods: ['POST']
+    )]
     public function htmlCreate(): RedirectResponse|Response
-    { return $this->htmlRenderer->render('create', $this->create()); }
+    {
+        return $this->htmlRenderer->render(
+            'create',
+            $this->create()
+        );
+    }
 
 
     /**
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    #[Route('/{id}/edit', name: 'admin_country_edit')]
+    #[Route(
+        '/{id}/edit',
+        name: 'admin_country_edit'
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -67,10 +91,18 @@ class HtmlAdminCountryController extends CountryController
 
 
     /**
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    #[Route('/{id}/update', name: 'admin_country_update', methods: ['POST'])]
+    #[Route(
+        '/{id}/update',
+        name: 'admin_country_update',
+        methods: ['POST']
+    )]
     public function htmlUpdate(string $id): RedirectResponse|Response
-    { return $this->htmlRenderer->render('update', $this->update($id)); }
+    {
+        return $this->htmlRenderer->render(
+            'update',
+            $this->update($id)
+        );
+    }
 }

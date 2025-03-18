@@ -38,7 +38,7 @@ use Celsius3\Mailer\Mailer;
 use Celsius3\Manager\Alert;
 use DateTime;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -78,13 +78,12 @@ use function json_encode;
 
 /**
  * Administration controller.
- * @Route("/admin")
  */
+#[Route("/admin")]
 class AdministrationController extends EntityController
 {
 
     protected $fileRepository;
-    protected array $allowedTargets;
 
 
     public function __construct(
@@ -133,6 +132,7 @@ class AdministrationController extends EntityController
         );
     }
 
+
     public function initialize(): void
     {
         $this->setEntity(Configuration::class);
@@ -147,14 +147,10 @@ class AdministrationController extends EntityController
 
         $this->fileRepository = $this->entityManager
             ->getRepository(File::class);
-
-        $this->allowedTargets = [ 'Journal', 'BaseUser' ];
     }
 
 
-    /**
-     * @Route("/", name="administration", options={"expose"=true})
-     */
+    #[Route("/", name: "administration", options: ["expose" => true])]
     public function htmlIndex(): Response
     {
         $config_helper = $this->configurationHelper;
@@ -175,37 +171,27 @@ class AdministrationController extends EntityController
     }
 
 
-    /**
-     * @Route("/ajax", name="admin_ajax")
-     */
+    #[Route("/ajax", name: "admin_ajax")]
     public function ajax(
         Request $request = null,
         Instance $instance = null
     ): Response {
         return $this->restRenderer->ajax(
-            $this->requestStack->getCurrentRequest(),
-            $this->allowedTargets,
-            $this->instance
+            $this->requestStack->getCurrentRequest()
         );
     }
 
 
-    /**
-     * @Route("/ajax_username", name="admin_ajax_usernames")
-     */
+    #[Route("/ajax_username", name: "admin_ajax_usernames")]
     public function usernamesAjax(Request $request): NotFoundHttpException|Response
     {
-        $this->requestStack->getCurrentRequest();
         return $this->restRenderer->ajax(
-            $request, $this->allowedTargets, $this->instance
+            $this->requestStack->getCurrentRequest()
         );
     }
 
 
-    /**
-     * GET Route annotation.
-     * @Route("/send_reminder_emails", name="admin_send_reminder_emails", options={"expose"=true})
-     */
+    #[Route("/send_reminder_emails", name: "admin_send_reminder_emails", options: ["expose" => true])]
     public function sendReminderEmails()
     {
         $entity_manager = $this->entityManager;
@@ -249,9 +235,7 @@ class AdministrationController extends EntityController
     }
 
 
-    /**
-     * @Route("/send_reminder_emails_batch", name="admin_send_reminder_emails_batch", methods={"POST"})
-     */
+    #[Route("/send_reminder_emails_batch", name: "admin_send_reminder_emails_batch", methods: ["POST"])]
     public function sendReminderEmailsBatch(Request $request): RedirectResponse
     {
         $subject = $request->request->get('subject');
@@ -300,9 +284,7 @@ class AdministrationController extends EntityController
     }
 
 
-    /**
-     * @Route("/{id}/data_request_download", name="admin_instance_data_request_download", options={"expose"=true})
-     */
+    #[Route("/{id}/data_request_download", name: "admin_instance_data_request_download", options: ["expose" => true])]
     public function dataRequestDownload(DataRequest $dataRequest)
     {
         $filename = $dataRequest->getFile();
@@ -329,9 +311,7 @@ class AdministrationController extends EntityController
     }
 
 
-    /**
-     * @Route("/data_request_get", name="admin_instance_data_requests_get", options={"expose"=true})
-     */
+    #[Route("/data_request_get", name: "admin_instance_data_requests_get", options: ["expose" => true])]
     public function dataRequestGet(): Response
     {
         $em = $this->entityManager;
@@ -341,9 +321,7 @@ class AdministrationController extends EntityController
     }
 
 
-    /**
-     * @Route("/interaction_get", name="admin_instance_interaction_get", options={"expose"=true}, methods={"POST"})
-     */
+    #[Route("/interaction_get", name: "admin_instance_interaction_get", options: ["expose" => true], methods: ["POST"])]
     public function getInteractionWith(): JsonResponse
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -397,49 +375,49 @@ class AdministrationController extends EntityController
     }
 
 
-    protected function parentAjax(Request $request, ?Instance $instance = null, $librarian = null): Response
-    {
-        if (!$request->isXmlHttpRequest()) {
-            throw $this->createNotFoundException();
-        }
+    // protected function parentAjax(Request $request, ?Instance $instance = null, $librarian = null): Response
+    // {
+    //     if (!$request->isXmlHttpRequest()) {
+    //         throw $this->createNotFoundException();
+    //     }
 
-        $target = $request->query->get('target');
-        if (!in_array($target, $this->allowedTargets, true))
-            throw $this->createNotFoundException();
+    //     $target = $request->query->get('target');
+    //     if (!in_array($target, $this->allowedTargets, true))
+    //         throw $this->createNotFoundException();
 
-        $term = $request->query->get('term');
+    //     $term = $request->query->get('term');
 
-        if ($this->security->isGranted('ROLE_ADMIN')) {
-            $insts = [];
-        } else {
-            $insts = $this->userManager->getLibrarianInstitutions($librarian);
-        }
+    //     if ($this->security->isGranted('ROLE_ADMIN')) {
+    //         $insts = [];
+    //     } else {
+    //         $insts = $this->userManager->getLibrarianInstitutions($librarian);
+    //     }
 
-        $result = $this->entityManager
-            ->getRepository('Celsius3\\Entity\\'.$target)
-            ->findByTerm($term, $instance, null)
-            ->getResult();
+    //     $result = $this->entityManager
+    //         ->getRepository('Celsius3\\Entity\\'.$target)
+    //         ->findByTerm($term, $instance, null)
+    //         ->getResult();
 
-        $json = [];
-
-
-        foreach ($result as $element) {
-            if (method_exists( $element,  'asJson' )){
-                $json[] = $element -> asJSon();
-            }
-            else{
-                $json[] = [
-                    'id' => $element->getId(),
-                    'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
-
-                ];
-            }
-        }
+    //     $json = [];
 
 
-        $response = new Response(json_encode($json));
-        $response->headers->set('Content-Type', 'application/json');
+    //     foreach ($result as $element) {
+    //         if (method_exists( $element,  'asJson' )){
+    //             $json[] = $element -> asJSon();
+    //         }
+    //         else{
+    //             $json[] = [
+    //                 'id' => $element->getId(),
+    //                 'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
 
-        return $response;
-    }
+    //             ];
+    //         }
+    //     }
+
+
+    //     $response = new Response(json_encode($json));
+    //     $response->headers->set('Content-Type', 'application/json');
+
+    //     return $response;
+    // }
 }

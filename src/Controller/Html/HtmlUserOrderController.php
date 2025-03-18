@@ -24,16 +24,16 @@ namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Journal;
 use Celsius3\Form\Type\JournalTypeType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
 use Celsius3\Manager\UserManager;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * User order controller.
- * @Route("/user/order")
  */
+#[Route("/user/order")]
 class HtmlUserOrderController extends OrderController
 {
 
@@ -52,8 +52,11 @@ class HtmlUserOrderController extends OrderController
 
     /**
      * Lists all user orders.
-     * @Route("/", name="user_order")
      */
+    #[Route(
+        "/",
+        name: "user_order"
+    )]
     public function htmlIndex(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -83,8 +86,11 @@ class HtmlUserOrderController extends OrderController
 
     /**
      * New user order entity.
-     * @Route("/{id}/show", name="user_order_show")
      */
+    #[Route(
+        "/{id}/show",
+        name: "user_order_show"
+    )]
     public function htmlShow(string $id): Response 
     {
         return $this->htmlRenderer->render(
@@ -96,8 +102,11 @@ class HtmlUserOrderController extends OrderController
 
     /**
      * New user order entity.
-     * @Route("/new", name="user_order_new")
      */
+    #[Route(
+        "/new",
+        name: "user_order_new"
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -115,8 +124,12 @@ class HtmlUserOrderController extends OrderController
 
     /**
      * Creates a new user order entity.
-     * @Route("/create", name="user_order_create", methods={"POST"})
      */
+    #[Route(
+        "/create",
+        name: "user_order_create",
+        methods: ["POST"]
+    )]
     public function htmlCreate(): RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -148,8 +161,20 @@ class HtmlUserOrderController extends OrderController
 
     /**
      * Change user order.
-     * @Route("/change", name="user_order_change", options={"expose"=true})
      */
-    public function change(): Response
-    { return parent::change(); }
+    #[Route(
+        "/change",
+        name: "user_order_change",
+        options: ["expose" => true]
+    )]
+    public function change(
+        ?string $templateName = null,
+        ?string $templatePrefix = null,
+    ): Response
+    {
+        return parent::change(
+            $templateName,
+            $templatePrefix
+        );
+    }
 }

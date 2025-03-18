@@ -22,7 +22,9 @@
 
 namespace Celsius3\Controller\Core;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\Journal;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Context\Context;
@@ -109,7 +111,7 @@ class RestRenderer extends BaseRenderer
     protected function getRepository(string $target): EntityRepository
     {
         $repository = $this->entityManager
-            ->getRepository((string) 'Celsius3\\Entity\\' . $target);
+            ->getRepository($target);
         if (!$repository) throw new NotFoundHttpException('Repository not found - Incorrect target');
         return $repository;
     }
@@ -117,21 +119,29 @@ class RestRenderer extends BaseRenderer
 
     public function ajax(
         Request $request,
-        array $allowedTargets,
-        Instance $instance = null
+        array $allowedTargets = [
+            'Journal' => Journal::class,
+            'BaseUser' => BaseUser::class,
+        ],
+        ?Instance $instance = null
     ): Response {
-        if (!$request->isXmlHttpRequest())
-            throw new BadRequestHttpException('The request hast to be an AJAX request');
+        // if (!$request->isXmlHttpRequest())
+        //     throw new BadRequestHttpException('The request hast to be an AJAX request');
+
+        if ($instance === null) $instance = $this->controller->getInstance();
 
         $target = $request->get('target');
-        if (!$this->validateAjax($target, $allowedTargets))
+        if (!array_key_exists($target, $allowedTargets))
             throw new BadRequestHttpException('The target is not allowed');
 
         $term = $request->get('term');
-
-        $result = $this->getRepository($target)
-            ->findByTerm($term, $instance, null)
-            ->getResult();
+        $result = $this->getRepository($allowedTargets[$target])
+            ->findByTerm($term, $instance, null);
+        
+        // throw new \Exception(print_r($result, true));
+        // $result = array_slice($result[0], 0, 2);
+        // throw new \Exception(print_r($result, true));
+        // CORREGIR ESTO, HAY UN PROBLEMA EN CÓMO DEVUELVE LOS DATOS LA API
 
         $json = [];
 

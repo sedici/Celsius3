@@ -85,8 +85,10 @@ class OrderController extends EntityController
     }
 
 
-    protected function change(): Response
-    {
+    protected function change(
+        ?string $templateName = null,
+        ?string $templatePrefix = null
+    ): Response {
         $request = $this->requestStack->getCurrentRequest();
 
         $materialClassName= $this->getMaterialTypeClassName(
@@ -105,11 +107,12 @@ class OrderController extends EntityController
         ]);
 
         return $this->htmlRenderer->render(
-            '_materialData',
+            $templateName ?? '_materialData',
             [
                 'form' => $form->createView(),
                 'material' => $request->get('material')
-            ]
+            ],
+            $templatePrefix ?? 'Order/'
         );
     }
 

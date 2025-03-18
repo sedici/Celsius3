@@ -63,9 +63,8 @@ class RestSuperadminDashboardController extends DashboardController
      */
     public function customAjax(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
         return $this->restRenderer->ajax(
-            $request, ['Journal', 'BaseUser']
+            $this->requestStack->getCurrentRequest()
         );
     }
 }

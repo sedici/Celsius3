@@ -240,8 +240,16 @@ class HtmlSuperadminOrderController extends OrderController
      * Updates de form materialData field.
      * @Route("/change", name="superadmin_order_change")
      */
-    public function change(): Response
-    { return parent::change(); }
+    public function change(
+        ?string $templateName = null,
+        ?string $templatePrefix = null
+    ): Response
+    {
+        return parent::change(
+            $templateName,
+            $templatePrefix
+        );
+    }
 
 
     /**

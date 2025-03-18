@@ -53,16 +53,22 @@ class RestAdminEmailController extends EmailController
 
         $reqArgs = $request->request->all();
 
-        $urlSubroutes = explode('/', $request->headers->get('referer'));
+        $urlSubroutes = explode(
+            '/', $request->headers->get('referer')
+        );
         array_pop($urlSubroutes);
         $receiverClass = array_pop($urlSubroutes);
         if ($receiverClass === 'user') $receiverClass = BaseUser::class;
         else if ($receiverClass === 'contact') $receiverClass = Contact::class;
-        else $this->error('not_found', msg: 'Invalid receiver', isRest: true);
+        else $this->error(
+            'not_found', msg: 'Invalid receiver', isRest: true
+        );
         
         $params = [];
 
-        $email = $this->checkArg($reqArgs, 'email', 'Email address', isRest: true);
+        $email = $this->checkArg(
+            $reqArgs, 'email', 'Email address', isRest: true
+        );
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
         $errors = $this->validator->validate($email, $emailConstraint);
@@ -70,9 +76,13 @@ class RestAdminEmailController extends EmailController
             $this->error('not_found', msg: 'Invalid email address', isRest: true);
         $params['email'] = $email;
 
-        $params['subject'] = $this->checkArg($reqArgs, 'subject', 'Subject', isRest: true);
+        $params['subject'] = $this->checkArg(
+            $reqArgs, 'subject', 'Subject', isRest: true
+        );
 
-        $params['text'] = $this->checkArg($reqArgs, 'text', 'Email text', isRest: true);
+        $params['text'] = $this->checkArg(
+            $reqArgs, 'text', 'Email text', isRest: true
+        );
 
         $order_id = (isset($reqArgs['order_id']) && !empty($reqArgs['order_id']))
             ? $reqArgs['order_id'] : null;

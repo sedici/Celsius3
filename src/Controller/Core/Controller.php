@@ -204,7 +204,8 @@ abstract class Controller
         return $this
             ->configurationHelper
             ->getCastedValue(
-                $this->directory
+                // $this->directory
+                $this->instance
                     ->get('results_per_page')
             );
     }

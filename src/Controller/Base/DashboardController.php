@@ -29,6 +29,8 @@ use Celsius3\Manager\StatisticManager;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\InstanceDependentController;
 use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Journal;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -101,8 +103,8 @@ class DashboardController extends InstanceDependentController
         return $this->restRenderer->ajax(
             $this->requestStack->getCurrentRequest(),
             [
-                'Journal',
-                'BaseUser'
+                'Journal' => Journal::class,
+                'BaseUser' => BaseUser::class,
             ]
         );
     }

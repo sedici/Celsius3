@@ -445,6 +445,14 @@ class HtmlAdminOrderController extends OrderController
      * Updates de form materialData field.
      * @Route("/change", name="admin_order_change", options={"expose"=true})
      */
-    public function change(): Response
-    { return parent::change(); }
+    public function change(
+        ?string $templateName = null,
+        ?string $templatePrefix = null
+    ): Response
+    {
+        return parent::change(
+            $templateName,
+            $templatePrefix
+        );
+    }
 }

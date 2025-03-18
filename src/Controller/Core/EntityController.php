@@ -35,6 +35,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Entity\Instance;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -132,6 +133,8 @@ class EntityController extends InstanceDependentController
     { return (string) 'Celsius3\Form\Type\\' . $this->entityClassShortName . 'Type'; }
     protected function getFilterType(): string
     { return (string) 'Celsius3\Form\Type\Filter\\' . $this->entityClassShortName . 'FilterType'; }
+    public function getInstance(): ?Instance
+    { return $this->instance; }
 
 
     protected function getRepository(): EntityRepository
@@ -307,7 +310,7 @@ class EntityController extends InstanceDependentController
     }
 
 
-    private function getRedirectRoute(): string 
+    private function getRedirectRoute(): string
     {
         // Remove Controller suffix
         $name = preg_replace(

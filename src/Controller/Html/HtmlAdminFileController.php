@@ -22,12 +22,12 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
 use Celsius3\Controller\Mixin\FileControllerTrait;
 use Celsius3\Manager\FileManager;
 use Celsius3\Controller\Base\FileController;
+use Symfony\Component\Routing\Annotation\Route;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
@@ -50,13 +50,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * File controller.
- * @Route("/admin/file")
- */
-class AdminFileController extends FileController
+
+#[Route('/admin/file')]
+class HtmlAdminFileController extends FileController
 {
-    
+
     use FileControllerTrait;
 
 
@@ -109,10 +107,6 @@ class AdminFileController extends FileController
     protected function validate(
         Request $request, File $file
     ): void {
-        // Esto teóricamente no podría suceder porque los parámetros son obligatorios, no opcionales
-        // if (!$request) $this->error('exception_not_found');
-        // if (!$file) $this->error('exception_not_found');
-
         $user = $this->tokenStorage->getToken()->getUser();
 
         $httpRequest = $this->requestStack->getCurrentRequest();
@@ -124,10 +118,11 @@ class AdminFileController extends FileController
     }
 
 
-    /**
-     * Downloads the file associated to a File entity.
-     * @Route("/{request}/{file}/download", name="admin_file_download_file", options={"expose"=true})
-     */
+    #[Route(
+        '/{request}/{file}/download',
+        name: 'admin_file_download_file',
+        options: ['expose' => true]
+    )]
     public function download($request, $file): mixed
     {
         # No es recursivo, usa el Trait
