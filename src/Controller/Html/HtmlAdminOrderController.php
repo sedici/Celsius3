@@ -160,21 +160,11 @@ class HtmlAdminOrderController extends OrderController
             $this->new(
                 formOptions: [
                     'user' => $user,
-                    'operator' => $this->getUser(),
                     'actual_user' => $this->getUser(),
                     'create' => true,
                 ]
             )
         );
-
-        // $this->new(
-        //     options: [
-        //         'user' => $user,
-        //         'operator' => $this->getUser(),
-        //         'actual_user' => $this->getUser(),
-        //         'create' => true,
-        //     ]
-        // )
     }
 
 

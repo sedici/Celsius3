@@ -125,26 +125,14 @@ class HtmlUserController extends UserController
     }
 
 
-    protected function validateAjax($target): bool
-    {
-        $allowed_targets = [
-            'Journal',
-            'BaseUser',
-        ];
-
-        return in_array($target, $allowed_targets, true);
-    }
-
-
     /**
      * User Ajax request.
      * @Route("/ajax", name="user_ajax")
      */
     public function userAjax(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
-        return $this->restRenderer->render(
-            $this->restRenderer->ajax($request)
+        return $this->restRenderer->ajax(
+            $this->requestStack->getCurrentRequest()
         );
     }
 }

@@ -23,6 +23,7 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
+use Doctrine\ORM\Query;
 
 /**
  * JournalRepository.
@@ -38,7 +39,7 @@ class JournalRepository extends BaseRepository
             ->setParameter('directory_id', $directory->getId());
     }
 
-    public function findByTerm($term, Instance $instance = null)
+    public function findByTerm($term, ?Instance $instance = null): Query
     {
         $qb = $this->createQueryBuilder('j');
 

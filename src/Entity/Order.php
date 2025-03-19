@@ -204,7 +204,7 @@ class Order
      *
      * @return self
      */
-    public function setOriginalRequest(Request $originalRequest = null)
+    public function setOriginalRequest(?Request $originalRequest = null): static
     {
         $this->originalRequest = $originalRequest;
 

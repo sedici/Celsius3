@@ -26,6 +26,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\Repository\JournalRepository")
@@ -42,18 +44,35 @@ class Journal
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     * @Groups({
+     *      "administration_list",
+     *      "administration_order_show",
+     *      "administration_user_show",
+     *      "user_list"
+     * })
      */
     private $id;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     * @Groups({
+     *      "administration_list",
+     *      "administration_order_show",
+     *      "administration_user_show",
+     *      "user_list",
+     *      "ajax_list_name"
+     * })
      */
     private $name;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
+     * @Groups({
+     *      "administration_list",
+     *      "administration_order_show",
+     *      "administration_user_show",
+     *      "user_list",
+     *      "ajax_list"
+     * })
      */
     private $abbreviation;
     /**
@@ -62,11 +81,12 @@ class Journal
     private $responsible;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_order_show"})
+     * @Groups({"administration_order_show", "ajax_list"})
      */
     private $ISSN;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"ajax_list"})
      */
     private $ISSNE;
     /**
@@ -84,8 +104,7 @@ class Journal
      */
     private $instance;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->materials = new ArrayCollection();
     }
 
@@ -94,21 +113,6 @@ class Journal
         return $this->name;
     }
 
-    public function asJson()
-    {
-        $value = $this->name;
-        if($this->getISSN()){
-            $value = $value.' - (ISSN: '.$this->ISSN.')'; 
-        }
-        if($this->getResponsible()){
-        $value = $value.' - (Responsable: '. $this->getResponsible().')';
-        }
-        return  array(
-            'id' => $this->getId(),
-            'value' => $value
-        );
-        
-    }
     /**
      * Get id.
      *

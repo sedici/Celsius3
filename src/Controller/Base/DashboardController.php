@@ -101,11 +101,7 @@ class DashboardController extends InstanceDependentController
     public function customAjax(): Response
     {
         return $this->restRenderer->ajax(
-            $this->requestStack->getCurrentRequest(),
-            [
-                'Journal' => Journal::class,
-                'BaseUser' => BaseUser::class,
-            ]
+            $this->requestStack->getCurrentRequest()
         );
     }
 }

@@ -64,7 +64,15 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api", "administration", "administration_list", "administration_order_show", "administration_user_show", "user_list", "admins-select"})
+     * @Groups({
+     *      "api",
+     *      "administration",
+     *      "administration_list",
+     *      "administration_order_show",
+     *      "administration_user_show",
+     *      "user_list",
+     *      "admins-select"
+     * })
      */
     protected $id;
 
@@ -81,11 +89,13 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
      *     groups = {"Default"}
      * )
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"ajax_list"})
      */
     protected $email;
 
     /**
      * @ORM\Column(type="string", unique=true)
+     * @Groups({"ajax_list_name"})
      */
     private $username;
 
@@ -125,14 +135,34 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration", "administration_list", "administration_order_show", "administration_user_show", "user_list", "admins-select", "email_template"})
+     * @Groups({
+     *      "api",
+     *      "administration",
+     *      "administration_list",
+     *      "administration_order_show",
+     *      "administration_user_show",
+     *      "user_list",
+     *      "admins-select",
+     *      "email_template",
+     *      "ajax_list"
+     * })
      */
     protected $name;
 
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration", "administration_list", "administration_order_show", "administration_user_show", "user_list", "admins-select", "email_template"})
+     * @Groups({
+     *      "api",
+     *      "administration",
+     *      "administration_list",
+     *      "administration_order_show",
+     *      "administration_user_show",
+     *      "user_list",
+     *      "admins-select",
+     *      "email_template",
+     *      "ajax_list"
+     * })
      */
     protected $surname;
 

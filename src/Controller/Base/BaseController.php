@@ -142,18 +142,11 @@ abstract class BaseController extends AbstractController
     protected function error(
         string $type,
         string $entity = '',
-        string $msg = null
+        ?string $msg = null
     ): never {
         $msg = (string) 'exception.' . $type . $entity;
         throw Exception::create($type, $msg);
     }
-
-
-    // public function initialize(): void
-    // {
-    //     parent::initialize();
-    //     $this->templatePrefix = $this->getTemplatePrefix();
-    // }
 
 
     protected function getTemplatePrefix(): string
@@ -169,49 +162,5 @@ abstract class BaseController extends AbstractController
         ) . '/';
 
         return $str;
-    }
-
-
-    protected function validateAjax($target): bool
-    { return false; }
-
-
-    protected function ajax(
-        Request $request,
-        Instance $instance = null,
-    ): Response {
-        if (!$request->isXmlHttpRequest()) {
-            throw $this->createNotFoundException();
-        }
-
-        $target = $request->get('target');
-        if (!$this->validateAjax($target)) {
-            throw $this->createNotFoundException();
-        }
-
-        $term = $request->get('term');
-
-        $result = $this->objectManager
-            ->getRepository((string) 'Celsius3\\Entity\\' . $target)
-            ->findByTerm($term, $instance, null)
-            ->getResult();
-
-        $json = [];
-
-        foreach ($result as $element) {
-            $json[] = (method_exists($element, 'asJson'))
-                ? $element->asJSon()
-                : [
-                    'id' => $element->getId(),
-                    'value' => ($target === 'BaseUser')
-                        ? $element->__toString() . ' (' . $element->getUsername() . ')'
-                        : $element->__toString(),
-                ];
-        }
-
-        $response = new Response(json_encode($json));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
     }
 }

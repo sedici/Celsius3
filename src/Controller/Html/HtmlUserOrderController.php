@@ -143,7 +143,7 @@ class HtmlUserOrderController extends OrderController
             'target' => $request
                 ->get('order')['originalRequest']['target'] ?? '',
             'librarian' => $this->security
-                ->isGranted(UserManager::ROLE_LIBRARIAN),
+                ->isGranted(UserManager::ROLE_LIBRARIAN)
         ];
 
         if ($this->getMaterialType() === JournalTypeType::class)

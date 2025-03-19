@@ -30,18 +30,23 @@ use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 use Celsius3\Exception\Exception;
-
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Translation\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RestRenderer extends BaseRenderer
 {
 
     public function __construct(
+        protected TranslatorInterface $translator,
+        protected NormalizerInterface $normalizer,
         protected EntityManagerInterface $entityManager,
         ViewHandlerInterface $viewHandler,
         Environment $twig
@@ -136,26 +141,31 @@ class RestRenderer extends BaseRenderer
 
         $term = $request->get('term');
         $result = $this->getRepository($allowedTargets[$target])
-            ->findByTerm($term, $instance, null);
-        
-        // throw new \Exception(print_r($result, true));
-        // $result = array_slice($result[0], 0, 2);
-        // throw new \Exception(print_r($result, true));
-        // CORREGIR ESTO, HAY UN PROBLEMA EN CÓMO DEVUELVE LOS DATOS LA API
+            ->findByTerm($term, $instance, null)
+            ->execute();
 
         $json = [];
-
         foreach ($result as $element) {
-            $json[] = (method_exists($element, 'asJson'))
-                ? $element->asJSon()
-                : [
-                    'id' => $element->getId(),
-                    'value' => ($target === 'BaseUser')
-                        ? $element->__toString() . ' (' . $element->getUsername() . ')'
-                        : $element->__toString(),
-                ];
+            $value = $this->normalizer->normalize(
+                $element, 'array', ['groups' => ['ajax_list']]
+            );
+            $elementName = array_values(
+                $this->normalizer->normalize(
+                    $element, 'array', ['groups' => ['ajax_list_name']]
+                )
+            )[0];
+
+            $details = [];
+            foreach ($value as $key => $val) {
+                if ($val) $details[] = (string) $this->translator->trans($key) . ': ' . $val;
+            }
+
+            $details = implode(', ', $details);
+            $json[$element->getId()] = ($details)
+                ? (string) $elementName . ' (' . $details . ')'
+                : $elementName;
         }
 
-        return $this->render(data: $json);
+        return $this->render($json);
     }
 }
