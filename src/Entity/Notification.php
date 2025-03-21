@@ -29,318 +29,191 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\NotificationRepository")
- * @ORM\Table(name="notification", indexes={
- *   @ORM\Index(name="idx_viewed", columns={"viewed"}),
- *   @ORM\Index(name="idx_template", columns={"template_id"}),
- *   @ORM\Index(name="idx_object_user", columns={"base_user_notification_id"}),
- *   @ORM\Index(name="idx_object_message", columns={"message_notification_id"}),
- *   @ORM\Index(name="idx_object_event", columns={"event_notification_id"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "message"="MessageNotification",
- *   "baseuser"="BaseUserNotification",
- *   "event"="EventNotification",
- * })
- */
+
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\NotificationRepository::class)]
+#[ORM\Table(name: "notification", indexes: [
+    new ORM\Index(name: "idx_viewed", columns: ["viewed"]),
+    new ORM\Index(name: "idx_template", columns: ["template_id"]),
+    new ORM\Index(name: "idx_object_user", columns: ["base_user_notification_id"]),
+    new ORM\Index(name: "idx_object_message", columns: ["message_notification_id"]),
+    new ORM\Index(name: "idx_object_event", columns: ["event_notification_id"])
+])]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "message" => MessageNotification::class,
+    "baseuser" => BaseUserNotification::class,
+    "event" => EventNotification::class,
+])]
 abstract class Notification
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $cause;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $viewed = false;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $cause = null;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="change", field="viewed", value="true")
-     */
-    private $viewedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\NotificationTemplate")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=false)
-     */
-    private $template;
+    #[Assert\NotBlank]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    private bool $viewed = false;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\BaseUser")
-     * @ORM\JoinTable(name="notification_receiver",
-     *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="receiver_id", referencedColumnName="id")}
-     *      )
-     */
-    private $receivers;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\BaseUser")
-     * @ORM\JoinTable(name="notification_viewer",
-     *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="receiver_id", referencedColumnName="id", unique=true)}
-     *      )
-     */
+    #[ORM\Column(type: \DateTime::class, nullable: true)]
+    #[Gedmo\Timestampable(on: "change", field: "viewed", value: "true")]
+    private ?\DateTime $viewedAt = null;
+
+
+    #[ORM\ManyToOne(targetEntity: NotificationTemplate::class)]
+    #[ORM\JoinColumn(name: "template_id", referencedColumnName: "id", nullable: false)]
+    private ?Template $template = null;
+
+
+    #[ORM\ManyToMany(targetEntity: BaseUser::class)]
+    #[ORM\JoinTable(name: "notification_receiver",
+        joinColumns: [new ORM\JoinColumn(name: "notification_id", referencedColumnName: "id")],
+        inverseJoinColumns: [new ORM\JoinColumn(name: "receiver_id", referencedColumnName: "id")]
+    )]
+    private ArrayCollection $receivers;
+
+
+    #[ORM\ManyToMany(targetEntity: BaseUser::class)]
+    #[ORM\JoinTable(name: "notification_viewer",
+        joinColumns: [new ORM\JoinColumn(name: "notification_id", referencedColumnName: "id")],
+        inverseJoinColumns: [new ORM\JoinColumn(name: "receiver_id", referencedColumnName: "id", unique: true)]
+    )]
     private $viewer;
+
 
     public function __construct()
     {
         $this->receivers = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     *
-     * @return int $id
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set cause.
-     *
-     * @param string $cause
-     *
-     * @return self
-     */
-    public function setCause($cause)
+    public function setCause(string $cause): self
     {
         $this->cause = $cause;
 
         return $this;
     }
 
-    /**
-     * Get cause.
-     *
-     * @return string $cause
-     */
-    public function getCause()
+    public function getCause(): ?string
     {
         return $this->cause;
     }
 
-    /**
-     * Set viewed.
-     *
-     * @param bool $viewed
-     *
-     * @return self
-     */
-    public function setViewed($viewed)
+    public function setViewed(bool $viewed): self
     {
         $this->viewed = $viewed;
 
         return $this;
     }
 
-    /**
-     * Get viewed.
-     *
-     * @return bool $viewed
-     */
-    public function isViewed()
+    public function isViewed(): bool
     {
         return $this->viewed;
     }
 
-    /**
-     * Set viewedAt.
-     *
-     * @param \DateTime $viewedAt
-     *
-     * @return self
-     */
-    public function setViewedAt($viewedAt)
+    public function setViewedAt(?\DateTime $viewedAt): self
     {
         $this->viewedAt = $viewedAt;
 
         return $this;
     }
 
-    /**
-     * Get viewedAt.
-     *
-     * @return \DateTime $viewedAt
-     */
-    public function getViewedAt()
+    public function getViewedAt(): ?\DateTime
     {
         return $this->viewedAt;
     }
 
-    /**
-     * Set object.
-     *
-     * @param $object
-     *
-     * @return self
-     */
-    public function setObject($object)
+    public function setObject($object): self
     {
         $this->object = $object;
 
         return $this;
     }
 
-    /**
-     * Get object.
-     *
-     * @return object $object
-     */
-    public function getObject()
+    public function getObject(): object
     {
         return $this->object;
     }
 
-    /**
-     * Set source.
-     *
-     * @return self
-     */
-    public function setSource($source)
+    public function setSource($source): self
     {
         $this->source = $source;
 
         return $this;
     }
 
-    /**
-     * Get source.
-     *
-     * @return $source
-     */
     public function getSource()
     {
         return $this->source;
     }
 
-    /**
-     * Set template.
-     *
-     * @param Template $template
-     *
-     * @return self
-     */
-    public function setTemplate(Template $template)
+    public function setTemplate(Template $template): self
     {
         $this->template = $template;
 
         return $this;
     }
 
-    /**
-     * Get template.
-     *
-     * @return Template $template
-     */
-    public function getTemplate()
+    public function getTemplate(): ?Template
     {
         return $this->template;
     }
 
-    /**
-     * Add receivers.
-     *
-     * @param BaseUser $receivers
-     */
-    public function addReceiver(BaseUser $receivers)
+    public function addReceiver(BaseUser $receivers): void
     {
         $this->receivers[] = $receivers;
     }
 
-    /**
-     * Remove receivers.
-     *
-     * @param BaseUser $receivers
-     */
-    public function removeReceiver(BaseUser $receivers)
+    public function removeReceiver(BaseUser $receivers): void
     {
         $this->receivers->removeElement($receivers);
     }
 
-    /**
-     * Get receivers.
-     *
-     * @return ArrayCollection $receivers
-     */
     public function getReceivers(): array|ArrayCollection
     {
         return $this->receivers;
     }
 
-    /**
-     * Set viewer.
-     *
-     * @param BaseUser $viewer
-     *
-     * @return self
-     */
-    public function setViewer(BaseUser $viewer)
+    public function setViewer(BaseUser $viewer): self
     {
         $this->viewer = $viewer;
 
         return $this;
     }
 
-    /**
-     * Get viewer.
-     *
-     * @return BaseUser $viewer
-     */
-    public function getViewer()
+    public function getViewer(): BaseUser
     {
         return $this->viewer;
     }
 
-    /**
-     * Get viewed.
-     *
-     * @return bool
-     */
-    public function getViewed()
+    public function getViewed(): bool
     {
         return $this->viewed;
     }
 
-    /**
-     * Add viewer.
-     *
-     * @param BaseUser $viewer
-     *
-     * @return Notification
-     */
-    public function addViewer(BaseUser $viewer)
+    public function addViewer(BaseUser $viewer): Notification
     {
         $this->viewer[] = $viewer;
 
         return $this;
     }
 
-    /**
-     * Remove viewer.
-     *
-     * @param BaseUser $viewer
-     */
-    public function removeViewer(BaseUser $viewer)
+    public function removeViewer(BaseUser $viewer): void
     {
         $this->viewer->removeElement($viewer);
     }

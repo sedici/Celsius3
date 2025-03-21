@@ -22,43 +22,32 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\ThreadRepository;
 use Doctrine\ORM\Mapping as ORM;
-//use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
- * @ORM\Table(name="message_metadata", indexes={
- *   @ORM\Index(name="idx_message", columns={"message_id"}),
- *   @ORM\Index(name="idx_participant", columns={"participant_id"}),
- *   @ORM\Index(name="idx_read", columns={"is_read"})
- * })
- */
-class MessageMetadata //extends BaseMessageMetadata
+
+#[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\Table(name: "message_metadata", indexes: [
+    new ORM\Index(name: "idx_message", columns: ["message_id"]),
+    new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
+    new ORM\Index(name: "idx_read", columns: ["is_read"])
+])]
+class MessageMetadata
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-    /**
-     * @ORM\ManyToOne(
-     *   targetEntity="Celsius3\Entity\Message",
-     *   inversedBy="metadata"
-     * )
-     *
-     * @var \FOS\MessageBundle\Model\MessageInterface
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    protected ?int $id = null;
+
+
+    #[ORM\ManyToOne(targetEntity: Message::class, inversedBy: "metadata")]
     protected $message;
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     *
-     * @var \FOS\MessageBundle\Model\ParticipantInterface
-     */
+
+
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     protected $participant;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+
+    #[ORM\Column(type: "boolean")]
     protected $isRead;
 }

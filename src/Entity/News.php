@@ -22,187 +22,121 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\NewsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\NewsRepository")
- * @ORM\Table(name="news", indexes={
- *   @ORM\Index(name="idx_title", columns={"title"}),
- *   @ORM\Index(name="idx_date", columns={"date"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: NewsRepository::class)]
+#[ORM\Table(name: "news", indexes: [
+    new ORM\Index(name: "idx_title", columns: ["title"]),
+    new ORM\Index(name: "idx_date", columns: ["date"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
+])]
 class News
 {
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="text")
-     */
-    private $text;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Date()
-     * @ORM\Column(type="datetime")
-     */
-    private $date;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="news")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $instance;
 
-    /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    protected $active = true;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $title = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "text")]
+    private ?string $text = null;
+
+
+    #[Assert\NotBlank]
+    #[Assert\Date]
+    #[ORM\Column(type: \DateTime::class)]
+    private ?\DateTime $date = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "news")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    private ?Instance $instance = null;
+
+
+    #[Assert\NotNull]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    protected bool $active = true;
+
 
     public function __construct()
     {
         $this->date = new \DateTime();
     }
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return self
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title.
-     *
-     * @return string $title
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * Set text.
-     *
-     * @param string $text
-     *
-     * @return self
-     */
-    public function setText($text)
+    public function setText(string $text): self
     {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * Get text.
-     *
-     * @return string $text
-     */
-    public function getText()
+    public function getText(): ?string
     {
         return $this->text;
     }
 
-    /**
-     * Set date.
-     *
-     * @param date $date
-     *
-     * @return self
-     */
-    public function setDate($date)
+    public function setDate($date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    /**
-     * Get date.
-     *
-     * @return date $date
-     */
-    public function getDate()
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
+    public function getInstance(): ?Instance
     {
         return $this->instance;
     }
 
-    /**
-     * Set active.
-     *
-     * @param bool $active
-     *
-     * @return News
-     */
-    public function setActive($active)
+    public function setActive(bool $active): self
     {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * Get active.
-     *
-     * @return bool
-     */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }

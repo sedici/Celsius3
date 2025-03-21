@@ -30,114 +30,101 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\InstanceRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\InstanceRepository")
- * @UniqueEntity("url")
- * @UniqueEntity("host")
- */
+
+#[ORM\Entity(repositoryClass: InstanceRepository::class)]
+#[UniqueEntity('url')]
+#[UniqueEntity('host')]
 class Instance extends LegacyInstance
 {
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/^[a-zA-Z]+$/")
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"administration_order_show"})
-     */
-    protected $url;
+    #[Assert\NotBlank]
+    #[Assert\Regex(pattern: "/^[a-zA-Z]+$/")]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    protected string $url;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"administration_order_show"})
-     */
-    protected $host;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     * @Groups({"administration_order_show"})
-     */
-    protected $invisible = false;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    protected string $host;
 
-    /**
-     * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="instance")
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    protected bool $invisible = false;
+
+
+    #[ORM\OneToMany(targetEntity: BaseUser::class, mappedBy: 'instance')]
     protected $users;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'instance')]
     protected $orders;
 
-    /**
-     * @ORM\OneToMany(targetEntity="News", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'instance')]
     protected $news;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Contact", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'instance')]
     protected $contacts;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Institution", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'instance')]
     protected $institutions;
 
-    /**
-     * @ORM\OneToMany(targetEntity="EmailTemplate", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: EmailTemplate::class, mappedBy: 'instance')]
     protected $templates;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Configuration", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Configuration::class, mappedBy: 'instance')]
     protected $configurations;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Catalog", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Catalog::class, mappedBy: 'instance')]
     protected $catalogs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'instance')]
     protected $events;
 
-    /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'instance')]
     protected $states;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Country", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: Country::class, mappedBy: 'instance')]
     protected $countries;
 
-    /**
-     * @ORM\OneToMany(targetEntity="City", mappedBy="instance")
-     */
+
+    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'instance')]
     protected $cities;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $latitud;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $longitud;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    protected ?string $latitud;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $observaciones;
 
-    /**
-     * @ORM\OneToMany(targetEntity="DataRequest", mappedBy="instance")
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    protected ?string $longitud;
+
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    protected ?string $observaciones;
+
+
+    #[ORM\OneToMany(targetEntity: DataRequest::class, mappedBy: 'instance')]
     protected $dataRequests;
+
 
     public function __construct()
     {

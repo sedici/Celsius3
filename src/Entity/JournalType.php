@@ -22,135 +22,85 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\JournalTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\JournalTypeRepository")
- */
+#[ORM\Entity(repositoryClass: JournalTypeRepository::class)]
 class JournalType extends MaterialType
 {
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $volume;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $number;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $other;
-    /**
-     * @ORM\ManyToOne(targetEntity="Journal", inversedBy="materials", fetch="EAGER")
-     * @ORM\JoinColumn(name="journal_id", referencedColumnName="id")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $journal;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
+    protected ?string $volume;
 
-    public function getMaterialType()
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
+    protected ?string $number;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
+    protected ?string $other;
+
+
+    #[ORM\ManyToOne(targetEntity: Journal::class, inversedBy: "materials", fetch: "EAGER")]
+    #[ORM\JoinColumn(name: "journal_id", referencedColumnName: "id")]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
+    protected ?Journal $journal;
+
+
+    public function getMaterialType(): string
     {
         return 'journal';
     }
 
-    /**
-     * Set volume.
-     *
-     * @param string $volume
-     *
-     * @return self
-     */
-    public function setVolume($volume)
+    public function setVolume(string $volume): self
     {
         $this->volume = $volume;
 
         return $this;
     }
 
-    /**
-     * Get volume.
-     *
-     * @return string $volume
-     */
-    public function getVolume()
+    public function getVolume(): ?string
     {
         return $this->volume;
     }
 
-    /**
-     * Set number.
-     *
-     * @param string $number
-     *
-     * @return self
-     */
-    public function setNumber($number)
+    public function setNumber(string $number): self
     {
         $this->number = $number;
 
         return $this;
     }
 
-    /**
-     * Get number.
-     *
-     * @return string $number
-     */
-    public function getNumber()
+    public function getNumber(): ?string
     {
         return $this->number;
     }
 
-    /**
-     * Set journal.
-     *
-     * @param Journal $journal
-     *
-     * @return self
-     */
-    public function setJournal(Journal $journal = null)
+    public function setJournal(?Journal $journal = null): self
     {
         $this->journal = $journal;
 
         return $this;
     }
 
-    /**
-     * Get journal.
-     *
-     * @return Journal $journal
-     */
-    public function getJournal()
+    public function getJournal(): ?Journal
     {
         return $this->journal;
     }
 
-    /**
-     * Set other.
-     *
-     * @param string $other
-     *
-     * @return self
-     */
-    public function setOther($other)
+    public function setOther(string $other): self
     {
         $this->other = $other;
 
         return $this;
     }
 
-    /**
-     * Get other.
-     *
-     * @return string $other
-     */
-    public function getOther()
+    public function getOther(): ?string
     {
         return $this->other;
     }

@@ -24,57 +24,39 @@ namespace Celsius3\Entity;
 
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\ThreadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\Message as BaseMessage;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
- * @ORM\Table(name="message", indexes={
- *   @ORM\Index(name="idx_thread", columns={"thread_id"}),
- *   @ORM\Index(name="idx_sender", columns={"sender_id"})
- * })
- */
-class Message /*extends BaseMessage*/ implements Notifiable
+
+#[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\Table(name: "message", indexes: [
+    new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
+    new ORM\Index(name: "idx_sender", columns: ["sender_id"])
+])]
+class Message implements Notifiable
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    protected ?int $id = null;
 
 
-    /**
-     * @ORM\ManyToOne(
-     *   targetEntity="Celsius3\Entity\Thread",
-     *   inversedBy="messages"
-     * )
-     */
-    protected $thread;
+    #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: "messages")]
+    protected Thread $thread;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     */
-    protected $sender;
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    protected BaseUser $sender;
 
 
-    /**
-     * @ORM\OneToMany(
-     *   targetEntity="Celsius3\Entity\MessageMetadata",
-     *   mappedBy="message",
-     *   cascade={"all"}
-     * )
-     *
-     * @var MessageMetadata[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $metadata;
+    #[ORM\OneToMany(targetEntity: MessageMetadata::class, mappedBy: "message", cascade: ["all"])]
+    protected MessageMetadata $metadata;
 
 
     public function __toString(): string
     {
-        return $this->getSender().' - '.$this->getThread()->getSubject();
+        return $this->getSender().' - '.$this->thread->getSubject();
     }
 
 
@@ -84,14 +66,7 @@ class Message /*extends BaseMessage*/ implements Notifiable
     }
 
 
-    /**
-     * Add metadatum.
-     *
-     * @param MessageMetadata $metadatum
-     *
-     * @return Message
-     */
-    public function addMetadatum(MessageMetadata $metadatum)
+    public function addMetadatum(MessageMetadata $metadatum): Message
     {
         $this->metadata[] = $metadatum;
 
@@ -99,43 +74,23 @@ class Message /*extends BaseMessage*/ implements Notifiable
     }
 
 
-    /**
-     * Remove metadatum.
-     *
-     * @param MessageMetadata $metadatum
-     */
-    public function removeMetadatum(MessageMetadata $metadatum)
+    public function removeMetadatum(MessageMetadata $metadatum): void
     {
         $this->metadata->removeElement($metadatum);
     }
 
 
-    /**
-     * Get metadata.
-     *
-     * @return array|ArrayCollection
-     */
     public function getMetadata(): array|ArrayCollection
     {
         return $this->metadata;
     }
 
-    /**
-     * Get sender.
-     *
-     * @return BaseUser
-     */
     public function getSender(): BaseUser
     {
         return $this->sender;
     }
 
 
-    /**
-     * Get thread.
-     *
-     * @return Thread
-     */
     public function getThread(): Thread
     {
         return $this->thread;

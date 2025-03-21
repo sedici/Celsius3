@@ -148,17 +148,13 @@ class Institution extends Provider
     private Collection $librarian;
 
 
-    public function getProviderType()
-    {
-        return 'institution';
-    }
+    public function getProviderType(): string
+    { return 'institution'; }
 
     public function __toString(): string
-    {
-        return (string) $this->abbreviation.' - '.$this->name;
-    }
+    { return (string) $this->abbreviation.' - '.$this->name; }
 
-    public function getFullName($ids = [])
+    public function getFullName(array $ids = []): string
     {
         $ids[] = $this->getId();
         $parent = $this->getParent();
@@ -173,409 +169,209 @@ class Institution extends Provider
         $this->contacts = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getProviderName(): string
     {
         return $this->__toString();
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Set abbreviation.
-     *
-     * @param string $abbreviation
-     *
-     * @return self
-     */
-    public function setAbbreviation($abbreviation)
+    public function setAbbreviation(string $abbreviation): self
     {
         $this->abbreviation = $abbreviation;
 
         return $this;
     }
 
-    /**
-     * Get abbreviation.
-     *
-     * @return string $abbreviation
-     */
-    public function getAbbreviation()
+    public function getAbbreviation(): string
     {
         return $this->abbreviation;
     }
 
-    /**
-     * Set website.
-     *
-     * @param string $website
-     *
-     * @return self
-     */
-    public function setWebsite($website)
+    public function setWebsite(string $website): self
     {
         $this->website = $website;
 
         return $this;
     }
 
-    /**
-     * Get website.
-     *
-     * @return string $website
-     */
-    public function getWebsite()
+    public function getWebsite(): string
     {
         return $this->website;
     }
 
-    /**
-     * Set address.
-     *
-     * @param string $address
-     *
-     * @return self
-     */
-    public function setAddress($address)
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
         return $this;
     }
 
-    /**
-     * Get address.
-     *
-     * @return string $address
-     */
-    public function getAddress()
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    /**
-     * Add users.
-     *
-     * @param BaseUser $users
-     */
-    public function addUser(BaseUser $users)
+    public function addUser(BaseUser $users): void
     {
         $this->users[] = $users;
     }
 
-    /**
-     * Remove users.
-     *
-     * @param BaseUser $users
-     */
-    public function removeUser(BaseUser $users)
+    public function removeUser(BaseUser $users): void
     {
         $this->users->removeElement($users);
     }
 
-    /**
-     * Get users.
-     *
-     * @return Collection $users
-     */
-    public function getUsers()
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    /**
-     * Add institution.
-     *
-     * @param Institution $institution
-     */
-    public function addInstitution(Institution $institution)
+    public function addInstitution(Institution $institution): void
     {
         $this->institutions[] = $institution;
     }
 
-    /**
-     * Remove institutions.
-     *
-     * @param Institution $institution
-     */
-    public function removeInstitution(Institution $institution)
+    public function removeInstitution(Institution $institution): void
     {
         $this->institutions->removeElement($institution);
     }
 
-    /**
-     * Get institutions.
-     *
-     * @return Collection $institutions
-     */
-    public function getInstitutions()
+    public function getInstitutions(): Collection
     {
         return $this->institutions;
     }
 
-    /**
-     * Set parent.
-     *
-     * @param Institution $parent
-     *
-     * @return self
-     */
-    public function setParent(Institution $parent = null)
+    public function setParent(?Institution $parent = null): self
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    /**
-     * Get parent.
-     *
-     * @return Institution $parent
-     */
-    public function getParent()
+    public function getParent(): ?Institution
     {
         return $this->parent;
     }
 
-    /**
-     * Set city.
-     *
-     * @param City $city
-     *
-     * @return self
-     */
-    public function setCity(City $city = null)
+    public function setCity(?City $city = null): self
     {
         $this->city = $city;
 
         return $this;
     }
 
-    /**
-     * Get city.
-     *
-     * @return City $city
-     */
-    public function getCity()
+    public function getCity(): ?City
     {
         return $this->city;
     }
 
-    /**
-     * Set country.
-     *
-     * @param Country $country
-     *
-     * @return self
-     */
-    public function setCountry(Country $country)
+    public function setCountry(Country $country): self
     {
         $this->country = $country;
 
         return $this;
     }
 
-    /**
-     * Get country.
-     *
-     * @return Country $country
-     */
-    public function getCountry()
+    public function getCountry(): Country
     {
         return $this->country;
     }
 
-    /**
-     * Add catalogs.
-     *
-     * @param Catalog $catalogs
-     */
-    public function addCatalog(Catalog $catalogs)
+    public function addCatalog(Catalog $catalogs): void
     {
         $this->catalogs[] = $catalogs;
     }
 
-    /**
-     * Remove catalogs.
-     *
-     * @param Catalog $catalogs
-     */
-    public function removeCatalog(Catalog $catalogs)
+    public function removeCatalog(Catalog $catalogs): void
     {
         $this->catalogs->removeElement($catalogs);
     }
 
-    /**
-     * Get catalogs.
-     *
-     * @return Collection $catalogs
-     */
-    public function getCatalogs()
+    public function getCatalogs(): Collection
     {
         return $this->catalogs;
     }
 
-    /**
-     * Add contacts.
-     *
-     * @param Contact $contacts
-     */
-    public function addContact(Contact $contacts)
+    public function addContact(Contact $contacts): void
     {
         $this->contacts[] = $contacts;
     }
 
-    /**
-     * Remove contacts.
-     *
-     * @param Contact $contacts
-     */
-    public function removeContact(Contact $contacts)
+    public function removeContact(Contact $contacts): void
     {
         $this->contacts->removeElement($contacts);
     }
 
-    /**
-     * Get contacts.
-     *
-     * @return Collection $contacts
-     */
-    public function getContacts()
+    public function getContacts(): Collection
     {
         return $this->contacts;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }
 
-    /**
-     * Set celsiusInstance.
-     *
-     * @param LegacyInstance $celsiusInstance
-     *
-     * @return self
-     */
-    public function setCelsiusInstance(LegacyInstance $celsiusInstance = null)
+    public function setCelsiusInstance(?LegacyInstance $celsiusInstance = null): self
     {
         $this->celsiusInstance = $celsiusInstance;
 
         return $this;
     }
 
-    /**
-     * Get celsiusInstance.
-     *
-     * @return LegacyInstance $celsiusInstance
-     */
-    public function getCelsiusInstance()
+    public function getCelsiusInstance(): ?LegacyInstance
     {
         return $this->celsiusInstance;
     }
 
-    /**
-     * Set hive.
-     *
-     * @param Hive $hive
-     *
-     * @return self
-     */
-    public function setHive(Hive $hive)
+    public function setHive(?Hive $hive): self
     {
         $this->hive = $hive;
 
         return $this;
     }
 
-    /**
-     * Get hive.
-     *
-     * @return Hive $hive
-     */
-    public function getHive()
+    public function getHive(): ?Hive
     {
         return $this->hive;
     }
 
-    /**
-     * Add librarian.
-     *
-     * @param BaseUser $librarian
-     *
-     * @return Institution
-     */
-    public function addLibrarian(BaseUser $librarian)
+    public function addLibrarian(BaseUser $librarian): self
     {
         $this->librarian[] = $librarian;
 
         return $this;
     }
 
-    /**
-     * Remove librarian.
-     *
-     * @param BaseUser $librarian
-     */
-    public function removeLibrarian(BaseUser $librarian)
+    public function removeLibrarian(BaseUser $librarian): void
     {
         $this->librarian->removeElement($librarian);
     }
 
-    /**
-     * Get librarian.
-     *
-     * @return Collection
-     */
-    public function getLibrarian()
+    public function getLibrarian(): Collection
     {
         return $this->librarian;
     }
 
-    public function findCelsiusInstance()
+    public function findCelsiusInstance(): LegacyInstance|bool
     {
         $institution = $this;
         do {

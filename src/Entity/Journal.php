@@ -22,87 +22,66 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\JournalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\JournalRepository")
- * @ORM\Table(name="journal", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_abbreviation", columns={"abbreviation"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: JournalRepository::class)]
+#[ORM\Table(name: "journal", indexes: [
+    new ORM\Index(name: "idx_name", columns: ["name"]),
+    new ORM\Index(name: "idx_abbreviation", columns: ["abbreviation"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
+])]
 class Journal
 {
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({
-     *      "administration_list",
-     *      "administration_order_show",
-     *      "administration_user_show",
-     *      "user_list"
-     * })
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({
-     *      "administration_list",
-     *      "administration_order_show",
-     *      "administration_user_show",
-     *      "user_list",
-     *      "ajax_list_name"
-     * })
-     */
-    private $name;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({
-     *      "administration_list",
-     *      "administration_order_show",
-     *      "administration_user_show",
-     *      "user_list",
-     *      "ajax_list"
-     * })
-     */
-    private $abbreviation;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $responsible;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_order_show", "ajax_list"})
-     */
-    private $ISSN;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"ajax_list"})
-     */
-    private $ISSNE;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $frecuency;
-    /**
-     * @ORM\OneToMany(targetEntity="JournalType", mappedBy="journal")
-     */
-    private $materials;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $instance;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
+    private ?int $id = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list", "ajax_list_name"])]
+    private ?string $name;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list", "ajax_list"])]
+    private ?string $abbreviation;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $responsible;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(["administration_order_show", "ajax_list"])]
+    private ?string $ISSN;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(["ajax_list"])]
+    private ?string $ISSNE;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $frecuency;
+    #[ORM\OneToMany(targetEntity: JournalType::class, mappedBy: "journal")]
+    private Collection $materials;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    private ?Instance $instance;
+
 
     public function __construct() {
         $this->materials = new ArrayCollection();
@@ -115,10 +94,8 @@ class Journal
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -130,7 +107,7 @@ class Journal
      *
      * @return self
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -142,7 +119,7 @@ class Journal
      *
      * @return string $name
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -152,7 +129,7 @@ class Journal
      *
      * @return string $name
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->name.' - (Instance: '.$this->getInstance()->getUrl().') - (ISSN: '.$this->ISSN.')';
     }
@@ -164,7 +141,7 @@ class Journal
      *
      * @return self
      */
-    public function setAbbreviation($abbreviation)
+    public function setAbbreviation(string $abbreviation): self
     {
         $this->abbreviation = $abbreviation;
 
@@ -176,7 +153,7 @@ class Journal
      *
      * @return string $abbreviation
      */
-    public function getAbbreviation()
+    public function getAbbreviation(): ?string
     {
         return $this->abbreviation;
     }
@@ -188,7 +165,7 @@ class Journal
      *
      * @return self
      */
-    public function setResponsible($responsible)
+    public function setResponsible(string $responsible): self
     {
         $this->responsible = $responsible;
 
@@ -200,7 +177,7 @@ class Journal
      *
      * @return string $responsible
      */
-    public function getResponsible()
+    public function getResponsible(): ?string
     {
         return $this->responsible;
     }
@@ -212,7 +189,7 @@ class Journal
      *
      * @return self
      */
-    public function setISSN($iSSN)
+    public function setISSN(string $iSSN): self
     {
         $this->ISSN = $iSSN;
 
@@ -224,7 +201,7 @@ class Journal
      *
      * @return string $iSSN
      */
-    public function getISSN()
+    public function getISSN(): ?string
     {
         return $this->ISSN;
     }
@@ -236,7 +213,7 @@ class Journal
      *
      * @return self
      */
-    public function setISSNE($iSSNE)
+    public function setISSNE(string $iSSNE): self
     {
         $this->ISSNE = $iSSNE;
 
@@ -248,7 +225,7 @@ class Journal
      *
      * @return string $iSSNE
      */
-    public function getISSNE()
+    public function getISSNE(): ?string
     {
         return $this->ISSNE;
     }
@@ -260,7 +237,7 @@ class Journal
      *
      * @return self
      */
-    public function setFrecuency($frecuency)
+    public function setFrecuency(string $frecuency): self
     {
         $this->frecuency = $frecuency;
 
@@ -272,7 +249,7 @@ class Journal
      *
      * @return string $frecuency
      */
-    public function getFrecuency()
+    public function getFrecuency(): ?string
     {
         return $this->frecuency;
     }
@@ -282,7 +259,7 @@ class Journal
      *
      * @param JournalType $materials
      */
-    public function addMaterial(JournalType $materials)
+    public function addMaterial(JournalType $materials): void
     {
         $this->materials[] = $materials;
     }
@@ -292,7 +269,7 @@ class Journal
      *
      * @param JournalType $materials
      */
-    public function removeMaterial(JournalType $materials)
+    public function removeMaterial(JournalType $materials): void
     {
         $this->materials->removeElement($materials);
     }
@@ -302,7 +279,7 @@ class Journal
      *
      * @return Collection $materials
      */
-    public function getMaterials()
+    public function getMaterials(): Collection
     {
         return $this->materials;
     }
@@ -314,7 +291,7 @@ class Journal
      *
      * @return self
      */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
@@ -326,7 +303,7 @@ class Journal
      *
      * @return Instance $instance
      */
-    public function getInstance()
+    public function getInstance(): ?Instance
     {
         return $this->instance;
     }

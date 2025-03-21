@@ -22,108 +22,116 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="material_type", indexes={
- *   @ORM\Index(name="idx_type", columns={"type"}),
- *   @ORM\Index(name="idx_title", columns={"title"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "journal"="JournalType",
- *   "book"="BookType",
- *   "congress"="CongressType",
- *   "thesis"="ThesisType",
- *   "patent"="PatentType",
- *   "newspaper"="NewspaperType"
- * })
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(name: "material_type", indexes: [
+    new ORM\Index(name: "idx_type", columns: ["type"]),
+    new ORM\Index(name: "idx_title", columns: ["title"])
+])]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "journal" => JournalType::class,
+    "book" => BookType::class,
+    "congress" => CongressType::class,
+    "thesis" => ThesisType::class,
+    "patent" => PatentType::class,
+    "newspaper" => NewspaperType::class
+])]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
 abstract class MaterialType
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list", "email_template"})
-     */
-    protected $title;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list",
+        "email_template"
+    ])]
+    protected ?string $title = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $authors;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $authors = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $year;
+    #[Assert\NotBlank]
+    #[Assert\Type(type: "integer")]
+    #[ORM\Column(type: "integer")]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?int $year = null;
 
-    /**
-     * @ORM\Column(name="start_page", type="integer", nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $startPage;
+    #[ORM\Column(name: "start_page", type: "integer", nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?int $startPage = null;
 
-    /**
-     * @ORM\Column(name="end_page",type="integer", nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $endPage;
+    #[ORM\Column(name: "end_page", type: "integer", nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?int $endPage = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity="Order", mappedBy="materialData")
-     */
+    #[ORM\OneToOne(targetEntity: Order::class, mappedBy: "materialData")]
     protected $order;
 
-    /**
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    abstract public function getMaterialType();
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    abstract public function getMaterialType(): string;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getTitle();
     }
 
-    /**
-     * Get title.
-     *
-     * @return string $title
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return self
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -135,130 +143,65 @@ abstract class MaterialType
         $this->id = null;
     }
 
-    /**
-     * Get id.
-     *
-     * @return int id $id
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Get authors.
-     *
-     * @return string $authors
-     */
-    public function getAuthors()
+    public function getAuthors(): ?string
     {
         return $this->authors;
     }
 
-    /**
-     * Set authors.
-     *
-     * @param string $authors
-     *
-     * @return self
-     */
-    public function setAuthors($authors)
+    public function setAuthors(string $authors): self
     {
         $this->authors = $authors;
 
         return $this;
     }
 
-    /**
-     * Get year.
-     *
-     * @return int $year
-     */
-    public function getYear()
+    public function getYear(): ?int
     {
         return $this->year;
     }
 
-    /**
-     * Set year.
-     *
-     * @param int $year
-     *
-     * @return self
-     */
-    public function setYear($year)
+    public function setYear(int $year): self
     {
         $this->year = $year;
 
         return $this;
     }
 
-    /**
-     * Get startPage.
-     *
-     * @return int $startPage
-     */
-    public function getStartPage()
+    public function getStartPage(): ?int
     {
         return $this->startPage;
     }
 
-    /**
-     * Set startPage.
-     *
-     * @param int $startPage
-     *
-     * @return self
-     */
-    public function setStartPage($startPage)
+    public function setStartPage(int $startPage): self
     {
         $this->startPage = $startPage;
 
         return $this;
     }
 
-    /**
-     * Get endPage.
-     *
-     * @return int $endPage
-     */
-    public function getEndPage()
+    public function getEndPage(): ?int
     {
         return $this->endPage;
     }
 
-    /**
-     * Set endPage.
-     *
-     * @param int $endPage
-     *
-     * @return self
-     */
-    public function setEndPage($endPage)
+    public function setEndPage(int $endPage): self
     {
         $this->endPage = $endPage;
 
         return $this;
     }
 
-    /**
-     * Get order.
-     *
-     * @return Order $order
-     */
     public function getOrder()
     {
         return $this->order;
     }
 
-    /**
-     * Set order.
-     *
-     * @param Order $order
-     *
-     * @return self
-     */
-    public function setOrder(Order $order)
+    public function setOrder(Order $order): self
     {
         $this->order = $order;
 

@@ -24,38 +24,53 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class NewspaperType extends MaterialType
 {
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $article;
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $article = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $month;
 
-    /**
-     * @ORM\Column(type="integer", length=2, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $day;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $month = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $place;
+
+    #[ORM\Column(type: "integer", length: 2, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?int $day = null;
+
+
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $place = null;
+
 
     public function getMaterialType(): string
     {
@@ -89,7 +104,7 @@ class NewspaperType extends MaterialType
         return $this->day;
     }
 
-    public function setDay($day): self
+    public function setDay(?int $day): self
     {
         $this->day = $day;
         return $this;

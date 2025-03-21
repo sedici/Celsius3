@@ -22,284 +22,186 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\LegacyInstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\LegacyInstanceRepository")
- * @ORM\Table(name="instance", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_website", columns={"website"}),
- *   @ORM\Index(name="idx_hive", columns={"hive_id"}),
- *   @ORM\Index(name="idx_url", columns={"url"}),
- *   @ORM\Index(name="idx_type", columns={"type"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "legacy"="LegacyInstance",
- *   "current"="Instance"
- * })
- *
- * @UniqueEntity("email")
- */
+
+#[ORM\Entity(repositoryClass: LegacyInstanceRepository::class)]
+#[ORM\Table(name: "instance", indexes: [
+    new ORM\Index(name: "idx_name", columns: ["name"]),
+    new ORM\Index(name: "idx_website", columns: ["website"]),
+    new ORM\Index(name: "idx_hive", columns: ["hive_id"]),
+    new ORM\Index(name: "idx_url", columns: ["url"]),
+    new ORM\Index(name: "idx_type", columns: ["type"])
+])]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "legacy" => LegacyInstance::class,
+    "current" => Instance::class
+])]
+#[UniqueEntity("email")]
 class LegacyInstance
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_order_show"})
-     */
-    protected int $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups(["administration_order_show"])]
+    protected ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show", "email_template"})
-     */
-    protected $name;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show", "email_template"})
-     */
-    protected $abbreviation;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups(["administration_order_show", "email_template"])]
+    protected ?string $name;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Url()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"email_template"})
-     */
-    protected $website;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"email_template"})
-     */
-    protected $email;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups(["administration_order_show", "email_template"])]
+    protected ?string $abbreviation;
 
-    /**
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"administration_order_show"})
-     */
-    protected $enabled = true;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Institution", mappedBy="celsiusInstance")
-     */
-    protected $ownerInstitutions;
+    #[Assert\NotBlank]
+    #[Assert\Url]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups(["email_template"])]
+    protected ?string $website;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Hive", inversedBy="instances")
-     * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
-     * @Groups({"administration_order_show"})
-     */
-    protected $hive;
+
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups(["email_template"])]
+    protected ?string $email;
+
+
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    #[Groups(["administration_order_show"])]
+    protected bool $enabled = true;
+
+
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: "celsiusInstance")]
+    protected Collection $ownerInstitutions;
+
+
+    #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances")]
+    #[ORM\JoinColumn(name: "hive_id", referencedColumnName: "id")]
+    #[Groups(["administration_order_show"])]
+    protected ?Hive $hive;
+
 
     public function __construct()
     {
         $this->ownerInstitutions = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
 
-    public function isCurrent()
+    public function isCurrent(): bool
     {
         return false;
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int|null
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Set abbreviation.
-     *
-     * @param string $abbreviation
-     *
-     * @return self
-     */
-    public function setAbbreviation($abbreviation)
+    public function setAbbreviation(string $abbreviation): self
     {
         $this->abbreviation = $abbreviation;
 
         return $this;
     }
 
-    /**
-     * Get abbreviation.
-     *
-     * @return string $abbreviation
-     */
-    public function getAbbreviation()
+    public function getAbbreviation(): ?string
     {
         return $this->abbreviation;
     }
 
-    /**
-     * Set website.
-     *
-     * @param string $website
-     *
-     * @return self
-     */
-    public function setWebsite($website)
+    public function setWebsite(string $website): self
     {
         $this->website = $website;
 
         return $this;
     }
 
-    /**
-     * Get website.
-     *
-     * @return string $website
-     */
-    public function getWebsite()
+    public function getWebsite(): ?string
     {
         return $this->website;
     }
 
-    /**
-     * Set email.
-     *
-     * @param string $email
-     *
-     * @return self
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * Get email.
-     *
-     * @return string $email
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * Set enabled.
-     *
-     * @param bool $enabled
-     *
-     * @return self
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * Get enabled.
-     *
-     * @return bool $enabled
-     */
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * Set hive.
-     *
-     * @param Hive $hive
-     *
-     * @return self
-     */
-    public function setHive(Hive $hive)
+    public function setHive(Hive $hive): self
     {
         $this->hive = $hive;
 
         return $this;
     }
 
-    /**
-     * Get hive.
-     *
-     * @return Hive $hive
-     */
-    public function getHive()
+    public function getHive(): ?Hive
     {
         return $this->hive;
     }
 
-    /**
-     * Add ownerInstitutions.
-     *
-     * @param Institution $ownerInstitutions
-     */
-    public function addOwnerInstitution(Institution $ownerInstitutions)
+    public function addOwnerInstitution(Institution $ownerInstitutions): void
     {
         $this->ownerInstitutions[] = $ownerInstitutions;
     }
 
-    /**
-     * Remove ownerInstitutions.
-     *
-     * @param Institution $ownerInstitutions
-     */
-    public function removeOwnerInstitution(Institution $ownerInstitutions)
+    public function removeOwnerInstitution(Institution $ownerInstitutions): void
     {
         $this->ownerInstitutions->removeElement($ownerInstitutions);
     }
 
-    /**
-     * Get ownerInstitutions.
-     *
-     * @return ArrayCollection $ownerInstitutions
-     */
-    public function getOwnerInstitutions()
+    public function getOwnerInstitutions(): Collection
     {
         return $this->ownerInstitutions;
     }

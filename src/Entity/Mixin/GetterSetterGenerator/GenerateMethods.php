@@ -1,8 +1,8 @@
 <?php
 
 /*
- * Celsius3 - Order management
- * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
+ * Celsius3 - Getter and setter generator
+ * Copyright (C) 2025 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
  *
@@ -20,12 +20,16 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Entity;
 
-use Celsius3\Manager\NotificationManager;
-
-
-interface Notifiable
+#[Attribute(Attribute::TARGET_PROPERTY)]
+class GenerateMethods
 {
-    public function notify(NotificationManager $manager): void;
+    public function __construct(
+        private array $methods // ['getter', 'setter']
+    ) {}
+
+    public function getMethods(): array
+    {
+        return $this->methods;
+    }
 }

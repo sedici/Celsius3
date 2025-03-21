@@ -22,46 +22,41 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="login", indexes={
- *   @ORM\Index(name="idx_category", columns={"category"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(name: "login", indexes: [new ORM\Index(name: "idx_category", columns: ["category"])])]
 class Login
 {
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $category;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="datetime")
-     */
-    private $date;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="text")
-     */
-    private $message;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $category;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "datetime")]
+    private ?\DateTime $date;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "text")]
+    private ?string $message;
+
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -73,7 +68,7 @@ class Login
      *
      * @return self
      */
-    public function setCategory($category)
+    public function setCategory(string $category): self
     {
         $this->category = $category;
 
@@ -85,19 +80,15 @@ class Login
      *
      * @return string $category
      */
-    public function getCategory()
+    public function getCategory(): ?string
     {
         return $this->category;
     }
 
     /**
      * Set date.
-     *
-     * @param timestamp $date
-     *
-     * @return self
      */
-    public function setDate($date)
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 
@@ -106,10 +97,8 @@ class Login
 
     /**
      * Get date.
-     *
-     * @return timestamp $date
      */
-    public function getDate()
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
@@ -121,7 +110,7 @@ class Login
      *
      * @return self
      */
-    public function setMessage($message)
+    public function setMessage(string $message): self
     {
         $this->message = $message;
 
@@ -133,7 +122,7 @@ class Login
      *
      * @return string $message
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
