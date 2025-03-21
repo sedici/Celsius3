@@ -27,74 +27,72 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Entity\TimestampableEntity;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\CatalogResultRepository")
- * @ORM\Table(name="catalog_result", indexes={
- *   @ORM\Index(name="idx_title", columns={"title"}),
- *   @ORM\Index(name="idx_catalog", columns={"catalog_id"}),
- *   @ORM\Index(name="idx_title_catalog", columns={"catalog_id", "title"})
- * })
- */
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogResultRepository::class)]
+#[ORM\Table(name: 'catalog_result', indexes: [
+    new ORM\Index(name: 'idx_title', columns: ['title']),
+    new ORM\Index(name: 'idx_catalog', columns: ['catalog_id']),
+    new ORM\Index(name: 'idx_title_catalog', columns: ['catalog_id', 'title'])
+])]
 class CatalogResult
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_order_show"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\NotNull
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show"})
-     */
-    private $title;
 
-    /**
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer")
-     * @Groups({"administration_order_show"})
-     */
-    private $searches = 0;
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?string $title = null;
 
-    /**
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer")
-     * @Groups({"administration_order_show"})
-     */
-    private $matches = 0;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Catalog", inversedBy="positions")
-     * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id", nullable=false)
-     * @Groups({"administration_order_show"})
-     */
+    #[Assert\Type(type: 'integer')]
+    #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?int $searches = 0;
+
+
+    #[Assert\Type(type: 'integer')]
+    #[ORM\Column(type: 'integer')]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?int $matches = 0;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'positions')]
+    #[ORM\JoinColumn(name: 'catalog_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups([
+        'administration_order_show'
+    ])]
     private $catalog;
+
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int|null
     {
         return $this->id;
     }
 
+
     /**
      * Set title.
-     *
-     * @param string $title
-     *
-     * @return self
      */
-    public function setTitle($title)
+    public function setTitle($title): static
     {
         $this->title = $title;
 
@@ -103,22 +101,16 @@ class CatalogResult
 
     /**
      * Get title.
-     *
-     * @return string $title
      */
-    public function getTitle()
+    public function getTitle(): string|null
     {
         return $this->title;
     }
 
     /**
      * Set searches.
-     *
-     * @param int $searches
-     *
-     * @return self
      */
-    public function setSearches($searches)
+    public function setSearches($searches): static
     {
         $this->searches = $searches;
 
@@ -127,22 +119,16 @@ class CatalogResult
 
     /**
      * Get searches.
-     *
-     * @return int $searches
      */
-    public function getSearches()
+    public function getSearches(): int|null
     {
         return $this->searches;
     }
 
     /**
      * Set matches.
-     *
-     * @param int $matches
-     *
-     * @return self
      */
-    public function setMatches($matches)
+    public function setMatches($matches): static
     {
         $this->matches = $matches;
 
@@ -151,22 +137,16 @@ class CatalogResult
 
     /**
      * Get matches.
-     *
-     * @return int $matches
      */
-    public function getMatches()
+    public function getMatches(): int|null
     {
         return $this->matches;
     }
 
     /**
      * Set catalog.
-     *
-     * @param Catalog $catalog
-     *
-     * @return self
      */
-    public function setCatalog(Catalog $catalog)
+    public function setCatalog(Catalog $catalog): static
     {
         $this->catalog = $catalog;
 
@@ -175,10 +155,8 @@ class CatalogResult
 
     /**
      * Get catalog.
-     *
-     * @return Catalog $catalog
      */
-    public function getCatalog()
+    public function getCatalog(): Catalog
     {
         return $this->catalog;
     }

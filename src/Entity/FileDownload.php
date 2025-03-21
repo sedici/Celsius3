@@ -22,219 +22,135 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="file_download", indexes={
- *   @ORM\Index(name="idx_request", columns={"request_id"}),
- *   @ORM\Index(name="idx_user", columns={"user_id"}),
- *   @ORM\Index(name="idx_ip", columns={"ip"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(name: "file_download", indexes: [
+    new ORM\Index(name: "idx_request", columns: ["request_id"]),
+    new ORM\Index(name: "idx_user", columns: ["user_id"]),
+    new ORM\Index(name: "idx_ip", columns: ["ip"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
+])]
 class FileDownload
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\Ip
-     * @ORM\Column(type="string", length=255)
-     */
-    private $ip;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $userAgent;
+    #[Assert\NotBlank]
+    #[Assert\Ip]
+    #[ORM\Column(type: "string", length: 255)]
+    private string $ip;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="BaseUser")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     */
-    private $user;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="File", inversedBy="downloads")
-     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=false)
-     */
-    private $file;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $userAgent = null;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Request")
-     * @ORM\JoinColumn(name="request_id", referencedColumnName="id", nullable=false)
-     */
-    private $request;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $instance;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
+    private BaseUser $user;
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: File::class, inversedBy: "downloads")]
+    #[ORM\JoinColumn(name: "file_id", referencedColumnName: "id", nullable: false)]
+    private File $file;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Request::class)]
+    #[ORM\JoinColumn(name: "request_id", referencedColumnName: "id", nullable: false)]
+    private Request $request;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    private Instance $instance;
+
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set ip.
-     *
-     * @param string $ip
-     *
-     * @return self
-     */
-    public function setIp($ip)
+    public function setIp(string $ip): self
     {
         $this->ip = $ip;
 
         return $this;
     }
 
-    /**
-     * Get ip.
-     *
-     * @return string $ip
-     */
-    public function getIp()
+    public function getIp(): string
     {
         return $this->ip;
     }
 
-    /**
-     * Set userAgent.
-     *
-     * @param string $userAgent
-     *
-     * @return self
-     */
-    public function setUserAgent($userAgent)
+    public function setUserAgent(string $userAgent): self
     {
         $this->userAgent = $userAgent;
 
         return $this;
     }
 
-    /**
-     * Get userAgent.
-     *
-     * @return string $userAgent
-     */
-    public function getUserAgent()
+    public function getUserAgent(): ?string
     {
         return $this->userAgent;
     }
 
-    /**
-     * Set user.
-     *
-     * @param BaseUser $user
-     *
-     * @return self
-     */
-    public function setUser(BaseUser $user)
+    public function setUser(BaseUser $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * Get user.
-     *
-     * @return BaseUser $user
-     */
-    public function getUser()
+    public function getUser(): BaseUser
     {
         return $this->user;
     }
 
-    /**
-     * Set file.
-     *
-     * @param File $file
-     *
-     * @return self
-     */
-    public function setFile(File $file)
+    public function setFile(File $file): self
     {
         $this->file = $file;
 
         return $this;
     }
 
-    /**
-     * Get file.
-     *
-     * @return File $file
-     */
-    public function getFile()
+    public function getFile(): File
     {
         return $this->file;
     }
 
-    /**
-     * Set request.
-     *
-     * @param Request $request
-     *
-     * @return self
-     */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
 
         return $this;
     }
 
-    /**
-     * Get request.
-     *
-     * @return Request $request
-     */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }

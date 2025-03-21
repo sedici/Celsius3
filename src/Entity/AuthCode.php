@@ -25,28 +25,23 @@ namespace Celsius3\Entity;
 use FOS\OAuthServerBundle\Entity\AuthCode as BaseAuthCode;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- */
+
+#[ORM\Entity]
 class AuthCode extends BaseAuthCode
 {
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    protected ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Client")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Client::class)]
+    #[ORM\JoinColumn(nullable: false)]
     protected $client;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     */
+
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     protected $user;
 
 }

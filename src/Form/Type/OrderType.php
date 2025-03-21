@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Manager\MaterialTypeManager;
 use JMS\TranslationBundle\Annotation\Ignore;
@@ -94,7 +95,7 @@ class OrderType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => Order::class,

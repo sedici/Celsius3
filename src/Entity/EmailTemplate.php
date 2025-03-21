@@ -22,103 +22,69 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\EmailTemplateRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\EmailTemplateRepository")
- */
+#[ORM\Entity(repositoryClass: EmailTemplateRepository::class)]
 class EmailTemplate extends Template
 {
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"api", "administration"})
-     */
-    private $enabled = true;
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "api",
+        "administration",
+    ])]
+    private bool $enabled = true;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration"})
-     */
-    private $title;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="templates")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
-     */
-    private $instance;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration",
+    ])]
+    private string $title;
 
-    /**
-     * Set enabled.
-     *
-     * @param bool $enabled
-     *
-     * @return self
-     */
-    public function setEnabled($enabled)
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "templates")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
+    private Instance $instance;
+
+
+    public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * Get enabled.
-     *
-     * @return bool $enabled
-     */
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return self
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title.
-     *
-     * @return string $title
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }

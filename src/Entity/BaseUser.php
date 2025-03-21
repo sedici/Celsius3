@@ -22,12 +22,8 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Client;
-use Celsius3\Manager\UserManager;
-use Celsius3\Entity\BaseUserNotification;
-use Celsius3\Entity\Notifiable;
-use Celsius3\Entity\NotificationSettings;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Manager\UserManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,260 +31,206 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Celsius3\Entity\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseUserRepository")
- * @ORM\Table(name="user", indexes={
- *   @ORM\Index(name="idx_username", columns={"username"}),
- *   @ORM\Index(name="idx_email", columns={"email"}),
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_surname", columns={"surname"}),
- *   @ORM\Index(name="idx_enabled", columns={"enabled"}),
- *   @ORM\Index(name="idx_locked", columns={"locked"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
- *   @ORM\Index(name="idx_institution", columns={"institution_id"})
- * })
- * @ORM\HasLifecycleCallbacks
- * @DoctrineAssert\UniqueEntity("username")
- * @DoctrineAssert\UniqueEntity("email")
- */
-// * @method string getUserIdentifier()
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseUserRepository::class)]
+#[ORM\Table(name: "user", indexes: [
+    new ORM\Index(name: "idx_username", columns: ["username"]),
+    new ORM\Index(name: "idx_email", columns: ["email"]),
+    new ORM\Index(name: "idx_name", columns: ["name"]),
+    new ORM\Index(name: "idx_surname", columns: ["surname"]),
+    new ORM\Index(name: "idx_enabled", columns: ["enabled"]),
+    new ORM\Index(name: "idx_locked", columns: ["locked"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"]),
+    new ORM\Index(name: "idx_institution", columns: ["institution_id"])
+])]
+#[ORM\HasLifecycleCallbacks]
+#[DoctrineAssert\UniqueEntity("username")]
+#[DoctrineAssert\UniqueEntity("email")]
 class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, Notifiable
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({
-     *      "api",
-     *      "administration",
-     *      "administration_list",
-     *      "administration_order_show",
-     *      "administration_user_show",
-     *      "user_list",
-     *      "admins-select"
-     * })
-     */
-    protected $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "api",
+        "administration",
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list",
+        "admins-select"
+    ])]
+    protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=180, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 180, nullable: true)]
     private ?string $confirmationToken = null;
 
     private const TOKEN_LIFETIME = 2; // días que dura la validez del token
     private const CIPHER_ALGO = 'aes-256-cbc'; // Encryption algorithm
 
-    /**
-     * @Assert\Email(
-     *     groups = {"Default"}
-     * )
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"ajax_list"})
-     */
-    protected $email;
+    #[Assert\Email(groups: ["Default"])]
+    #[ORM\Column(type: "string", length: 180, unique: true)]
+    #[Groups(["ajax_list"])]
+    protected ?string $email = null;
 
-    /**
-     * @ORM\Column(type="string", unique=true)
-     * @Groups({"ajax_list_name"})
-     */
-    private $username;
+    #[ORM\Column(type: "string", unique: true)]
+    #[Groups(["ajax_list_name"])]
+    private ?string $username = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $username_canonical;
+    #[ORM\Column(type: "string")]
+    private ?string $username_canonical = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $email_canonical;
+    #[ORM\Column(type: "string")]
+    private ?string $email_canonical = null;
 
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $roles = [];
+    #[ORM\Column(type: "array")]
+    private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
+    #[ORM\Column(type: "string")]
+    private ?string $password = null;
 
-    /**
-     * @var string The salt
-     * @ORM\Column(type="string")
-     */
-    private $salt;
+    #[ORM\Column(type: "string")]
+    private ?string $salt = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"api", "administration"})
-     */
-    private $enabled = false;
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private bool $enabled = false;
 
-    /**
-     * @Assert\NotBlank(groups={"Default"})
-     * @ORM\Column(type="string", length=255)
-     * @Groups({
-     *      "api",
-     *      "administration",
-     *      "administration_list",
-     *      "administration_order_show",
-     *      "administration_user_show",
-     *      "user_list",
-     *      "admins-select",
-     *      "email_template",
-     *      "ajax_list"
-     * })
-     */
-    protected $name;
+    #[Assert\NotBlank(groups: ["Default"])]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration",
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list",
+        "admins-select",
+        "email_template",
+        "ajax_list"
+    ])]
+    protected ?string $name = null;
 
-    /**
-     * @Assert\NotBlank(groups={"Default"})
-     * @ORM\Column(type="string", length=255)
-     * @Groups({
-     *      "api",
-     *      "administration",
-     *      "administration_list",
-     *      "administration_order_show",
-     *      "administration_user_show",
-     *      "user_list",
-     *      "admins-select",
-     *      "email_template",
-     *      "ajax_list"
-     * })
-     */
-    protected $surname;
+    #[Assert\NotBlank(groups: ["Default"])]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration",
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list",
+        "admins-select",
+        "email_template",
+        "ajax_list"
+    ])]
+    protected ?string $surname = null;
 
-    /**
-     * @Assert\Date(groups={"Default"})
-     * @ORM\Column(type="date", nullable=true)
-     * @Groups({"administration"})
-     */
-    protected $birthdate;
+    #[Assert\Date(groups: ["Default"])]
+    #[ORM\Column(type: "date", nullable: true)]
+    #[Groups(["administration"])]
+    protected ?\DateTime $birthdate = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration"})
-     */
-    protected $address;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(["administration"])]
+    protected ?string $address = null;
 
-    /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"api", "user_list"})
-     */
-    protected $downloadAuth = true;
+    #[Assert\NotNull]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "api",
+        "user_list"
+    ])]
+    protected bool $downloadAuth = true;
 
-    /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $wrongEmail = false;
+    #[Assert\NotNull]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "api",
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected bool $wrongEmail = false;
 
-    /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $pdf = true;
+    #[Assert\NotNull]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "api",
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected bool $pdf = true;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="owner")
-     */
-    protected $orders;
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: "owner")]
+    protected Collection $orders;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="operator")
-     */
-    protected $operatedOrders;
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: "operator")]
+    protected Collection $operatedOrders;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="creator")
-     */
-    protected $createdOrders;
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: "creator")]
+    protected Collection $createdOrders;
 
-    /**
-     * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="users")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    protected $instance;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "users")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    protected ?Instance $instance = null;
 
-    /**
-     * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="Institution", inversedBy="users")
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
-     * @Groups({"administration", "administration_list", "administration_order_show", "administration_user_show"})
-     */
-    protected $institution;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: "users")]
+    #[ORM\JoinColumn(name: "institution_id", referencedColumnName: "id", nullable: false)]
+    #[Groups([
+        "administration",
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show"
+    ])]
+    protected ?Institution $institution = null;
 
-    /**
-     * @ORM\Column(type="array", name="secondary_instances")
-     */
-    protected $secondaryInstances = [];
+    #[ORM\Column(type: "array", name: "secondary_instances")]
+    protected array $secondaryInstances = [];
 
-    /**
-     * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user", cascade={"remove"})
-     * @Groups({"administration"})
-     */
-    protected $customValues;
+    #[ORM\OneToMany(targetEntity: CustomUserValue::class, mappedBy: "user", cascade: ["remove"])]
+    #[Groups(["administration"])]
+    protected Collection $customValues;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\Client")
-     * @ORM\JoinTable(name="user_client",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")}
-     *      )
-     */
-    protected $clientApplications;
+    #[ORM\ManyToMany(targetEntity: Client::class)]
+    #[ORM\JoinTable(name: "user_client",
+        joinColumns: [new ORM\JoinColumn(name: "user_id", referencedColumnName: "id")],
+        inverseJoinColumns: [new ORM\JoinColumn(name: "client_id", referencedColumnName: "id")]
+    )]
+    protected Collection $clientApplications;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Celsius3\Entity\NotificationSettings", mappedBy="user", cascade={"remove"})
-     */
-    protected $notificationSettings;
+    #[ORM\OneToMany(targetEntity: NotificationSettings::class, mappedBy: "user", cascade: ["remove"])]
+    protected Collection $notificationSettings;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Celsius3\Entity\BaseUserNotification", mappedBy="object", cascade={"remove"})
-     */
-    protected $notifications;
+    #[ORM\OneToMany(targetEntity: BaseUserNotification::class, mappedBy: "object", cascade: ["remove"])]
+    protected Collection $notifications;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Institution" , inversedBy="librarian")
-     * @ORM\JoinTable(name="librarian_institution",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="institution_id", referencedColumnName="id")}
-     *      )
-     */
-    protected $librarianInstitution;
+    #[ORM\ManyToMany(targetEntity: Institution::class , inversedBy: "librarian")]
+    #[ORM\JoinTable(name: "librarian_institution",
+        joinColumns: [new ORM\JoinColumn(name: "user_id", referencedColumnName: "id")],
+        inverseJoinColumns: [new ORM\JoinColumn(name: "institution_id", referencedColumnName: "id")]
+    )]
+    protected Collection $librarianInstitution;
 
-    /**
+    #[ORM\Column(type: "string", nullable: true)]
+    protected ?string $observaciones = null;
 
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $observaciones;
-    //
-    // /**
-    //  * @Recaptcha\IsTrue
-    //  */
-    // public $recaptcha;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $locked = false;
+    #[ORM\Column(type: "boolean")]
+    protected bool $locked = false;
 
     public function __construct()
     {
@@ -301,19 +243,17 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         $this->librarianInstitution = new ArrayCollection();
     }
 
-
-
     public function getConfirmationToken(): ?string
     { return $this->confirmationToken; }
 
-
     public function cleanConfirmationToken(): static
-    { $this->confirmationToken = null; return $this; }
-
+    {
+        $this->confirmationToken = null;
+        return $this;
+    }
 
     private function getEncryptionKey(): string
     { return $this->getPassword(); }
-
 
     private function encryptToken(string $data, string $encryptionKey): string
     {
@@ -336,7 +276,6 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         // return base64_encode((string) $iv . $encrypted);
     }
 
-
     public function generateConfirmationToken(string $pass): static
     {
         $timestamp = (new \DateTime())->getTimestamp();
@@ -344,7 +283,6 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         $this->confirmationToken = $encryptedToken;
         return $this;
     }
-
 
     private function decryptToken(string $base64EncData, string $encryptionKey): ?string
     {
@@ -368,7 +306,6 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $decrypted;
     }
 
-
     public function isConfirmationTokenValid(
         string $encryptedData, string $encryptionKey
     ): bool {
@@ -386,8 +323,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $days <= self::TOKEN_LIFETIME;
     }
 
-
-    public function __toString()
+    public function __toString() : string
     {
         return ucwords(
             strtolower($this->getSurname())
@@ -397,14 +333,10 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     }
 
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
     public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+    { return $this->email; }
 
     public function setEmail(string $email): self
     {
@@ -415,9 +347,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     }
 
     public function getUsername(): ?string
-    {
-        return $this->username;
-    }
+    { return $this->username; }
 
     public function setUsername(string $username): self
     {
@@ -427,23 +357,12 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
-    /**
-     * The public representation of the user (e.g. a username, an email address, etc.)
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+    { return (string) $this->email; }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -456,13 +375,8 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
-    {
-        return $this->password;
-    }
+    { return $this->password; }
 
     public function setPassword(string $password): self
     {
@@ -471,377 +385,169 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
     public function getSalt(): ?string
-    {
-        return $this->salt;
-    }
+    { return $this->salt; }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
-    /**
-     * Get surname.
-     *
-     * @return string $surname
-     */
     public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
+    { return $this->surname; }
 
-    /**
-     * Set surname.
-     *
-     * @param string $surname
-     *
-     * @return self
-     */
-    public function setSurname($surname)
+    public function setSurname(string $surname): self
     {
         $this->surname = $surname;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    public function getName(): ?string
+    { return $this->name; }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @Groups({"email_template"})
-     */
-    public function getFullName()
-    {
-        return $this->getSurname() . ', ' . $this->getName();
-    }
+    #[Groups(["email_template"])]
+    public function getFullName(): string
+    { return $this->getSurname() . ', ' . $this->getName(); }
 
     public function full_name(): string
-    {
-        return $this->getFullName();
-    }
+    { return $this->getFullName(); }
 
     public function notify(NotificationManager $manager): void
     {
         $manager->notifyNewUser($this);
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
+    #[ORM\PrePersist]
+    public function prePersist(): void
     {
         $this->addRole(UserManager::ROLE_USER);
     }
 
-    /**
-     * Get birthdate.
-     *
-     * @return date $birthdate
-     */
-    public function getBirthdate()
-    {
-        return $this->birthdate;
-    }
+    public function getBirthdate(): ?\DateTime
+    { return $this->birthdate; }
 
-    /**
-     * Set birthdate.
-     *
-     * @param date $birthdate
-     *
-     * @return self
-     */
-    public function setBirthdate($birthdate)
+    public function setBirthdate(\DateTime $birthdate): self
     {
         $this->birthdate = $birthdate;
 
         return $this;
     }
 
-    /**
-     * Get address.
-     *
-     * @return string $address
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
+    public function getAddress(): ?string
+    { return $this->address; }
 
-    /**
-     * Set address.
-     *
-     * @param string $address
-     *
-     * @return self
-     */
-    public function setAddress($address)
+    public function setAddress(string $address): self
     {
         $this->address = $address;
 
         return $this;
     }
 
-    /**
-     * Add orders.
-     *
-     * @param Order $orders
-     */
-    public function addOrder(Order $orders)
+    public function addOrder(Order $orders): void
     {
         $this->orders[] = $orders;
     }
 
-    /**
-     * Remove orders.
-     *
-     * @param Order $orders
-     */
-    public function removeOrder(Order $orders)
+    public function removeOrder(Order $orders): void
     {
         $this->orders->removeElement($orders);
     }
 
-    /**
-     * Get orders.
-     *
-     * @return Collection $orders
-     */
-    public function getOrders()
-    {
-        return $this->orders;
-    }
+    public function getOrders(): Collection
+    { return $this->orders; }
 
-    /**
-     * Add operated order.
-     *
-     * @param Order $operatedOrder
-     */
-    public function addOperatedOrder(Order $operatedOrder)
+    public function addOperatedOrder(Order $operatedOrder): void
     {
         $this->operatedOrders[] = $operatedOrder;
     }
 
-    /**
-     * Remove operated order.
-     *
-     * @param Order $operatedOrder
-     */
-    public function removeOperatedOrder(Order $operatedOrder)
+    public function removeOperatedOrder(Order $operatedOrder): void
     {
         $this->operatedOrders->removeElement($operatedOrder);
     }
 
-    /**
-     * Get operated orders.
-     *
-     * @return Collection $operatedOrders
-     */
-    public function getOperatedOrders()
-    {
-        return $this->operatedOrders;
-    }
+    public function getOperatedOrders(): Collection
+    { return $this->operatedOrders; }
 
-    /**
-     * Add created order.
-     *
-     * @param Order $createdOrder
-     */
-    public function addCreatedOrder(Order $createdOrder)
+    public function addCreatedOrder(Order $createdOrder): void
     {
         $this->createdOrders[] = $createdOrder;
     }
 
-    /**
-     * Remove created order.
-     *
-     * @param Order $createdOrder
-     */
-    public function removeCreatedOrder(Order $createdOrder)
+    public function removeCreatedOrder(Order $createdOrder): void
     {
         $this->createdOrders->removeElement($createdOrder);
     }
 
-    /**
-     * Get created orders.
-     *
-     * @return Collection $createdOrders
-     */
-    public function getCreatedOrders()
-    {
-        return $this->createdOrders;
-    }
+    public function getCreatedOrders(): Collection
+    { return $this->createdOrders; }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
+    public function getInstance(): ?Instance
+    { return $this->instance; }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-
-    /**
-     * Add customValues.
-     *
-     * @param CustomValue $customValues
-     */
-    public function addCustomValue(CustomValue $customValues)
+    public function addCustomValue(CustomValue $customValues): void
     {
         $this->customValues[] = $customValues;
     }
 
-    /**
-     * Remove customValues.
-     *
-     * @param CustomValue $customValues
-     */
-    public function removeCustomValue(CustomValue $customValues)
+    public function removeCustomValue(CustomValue $customValues): void
     {
         $this->customValues->removeElement($customValues);
     }
 
-    /**
-     * Get customValues.
-     *
-     * @return Collection $customValues
-     */
-    public function getCustomValues()
-    {
-        return $this->customValues;
-    }
+    public function getCustomValues(): Collection
+    { return $this->customValues; }
 
-    /**
-     * Get downloadAuth.
-     *
-     * @return bool $downloadAuth
-     */
-    public function getDownloadAuth()
-    {
-        return $this->downloadAuth;
-    }
+    public function getDownloadAuth(): bool
+    { return $this->downloadAuth; }
 
-    /**
-     * Set downloadAuth.
-     *
-     * @param bool $downloadAuth
-     *
-     * @return self
-     */
-    public function setDownloadAuth(bool $downloadAuth)
+    public function setDownloadAuth(bool $downloadAuth): self
     {
         $this->downloadAuth = $downloadAuth;
 
         return $this;
     }
 
-    /**
-     * Add secondary instance.
-     *
-     * @param Instance $secondaryInstance
-     * @param array $roles
-     */
-    public function addSecondaryInstance(Instance $secondaryInstance, array $roles)
+    public function addSecondaryInstance(Instance $secondaryInstance, array $roles): void
     {
         $this->secondaryInstances[(int)$secondaryInstance->getId()] = $roles;
     }
 
-    /**
-     * Remove secondary instance.
-     *
-     * @param Instance $secondaryInstance
-     */
-    public function removeSecondaryInstance(Instance $secondaryInstance)
+    public function removeSecondaryInstance(Instance $secondaryInstance): void
     {
         unset($this->secondaryInstances[(int)$secondaryInstance->getId()]);
     }
 
-    /**
-     * Get secondary instances.
-     *
-     * @return array $secondaryInstances
-     */
-    public function getSecondaryInstances()
-    {
-        return $this->secondaryInstances;
-    }
+    public function getSecondaryInstances(): array
+    { return $this->secondaryInstances; }
 
-    /**
-     * Set secondary instances.
-     *
-     * @param array $secondaryInstances
-     *
-     * @return BaseUser
-     */
-    public function setSecondaryInstances($secondaryInstances)
+    public function setSecondaryInstances(array $secondaryInstances): self
     {
         $this->secondaryInstances = $secondaryInstances;
 
         return $this;
     }
 
-    /**
-     * Has secondary instances.
-     *
-     * @param Instance $secondaryInstance
-     *
-     * @return bool
-     */
-    public function hasSecondaryInstance(Instance $secondaryInstance)
-    {
-        return array_key_exists($secondaryInstance->getId(), $this->secondaryInstances);
-    }
+    public function hasSecondaryInstance(Instance $secondaryInstance): bool
+    { return array_key_exists($secondaryInstance->getId(), $this->secondaryInstances); }
 
-    /**
-     * @Groups({"administration"})
-     */
+    #[Groups(["administration"])]
     public function getCountry()
     {
         if (!$this->getInstitution()) {
@@ -851,33 +557,17 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this->getInstitution()->getCountry();
     }
 
-    /**
-     * Get institution.
-     *
-     * @return Institution $institution
-     */
-    public function getInstitution()
-    {
-        return $this->institution;
-    }
+    public function getInstitution(): ?Institution
+    { return $this->institution; }
 
-    /**
-     * Set institution.
-     *
-     * @param Institution $institution
-     *
-     * @return self
-     */
-    public function setInstitution(Institution $institution)
+    public function setInstitution(Institution $institution): self
     {
         $this->institution = $institution;
 
         return $this;
     }
 
-    /**
-     * @Groups({"administration"})
-     */
+    #[Groups(["administration"])]
     public function getCity()
     {
         if (!$this->getInstitution()) {
@@ -887,109 +577,45 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this->getInstitution()->getCity();
     }
 
-    /**
-     * @Groups({"api", "user_list"})
-     */
-    public function isLibrarian()
-    {
-        return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles());
-    }
+    #[Groups([
+        "api",
+        "user_list"
+    ])]
+    public function isLibrarian(): bool
+    { return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles()); }
 
-    /**
-     * Get wrong email.
-     *
-     * @return bool $wrongEmail
-     */
-    public function getWrongEmail()
-    {
-        return $this->wrongEmail;
-    }
+    public function getWrongEmail(): bool
+    { return $this->wrongEmail; }
 
-    /**
-     * Set wrong email.
-     *
-     * @param bool $wrongEmail
-     *
-     * @return self
-     */
-    public function setWrongEmail($wrongEmail)
+    public function setWrongEmail(bool $wrongEmail): self
     {
         $this->wrongEmail = $wrongEmail;
 
         return $this;
     }
 
-    /**
-     * Get pdf.
-     *
-     * @return bool $pdf
-     */
-    public function getPdf()
-    {
-        return $this->pdf;
-    }
+    public function getPdf(): bool
+    { return $this->pdf; }
 
-    /**
-     * Set pdf.
-     *
-     * @param bool $pdf
-     *
-     * @return self
-     */
-    public function setPdf(bool $pdf)
+    public function setPdf(bool $pdf): self
     {
         $this->pdf = $pdf;
 
         return $this;
     }
 
-    /**
-     * Is authorized client.
-     *
-     * @param Client $client
-     *
-     * @return bool
-     */
-    public function isAuthorizedClient(Client $client)
-    {
-        return $this->clientApplications->contains($client);
-    }
+    public function isAuthorizedClient(Client $client): bool
+    { return $this->clientApplications->contains($client); }
 
-    /**
-     * Add client application.
-     *
-     * @param Client $client
-     */
-    public function addClientApplication(Client $client)
-    {
-        $this->clientApplications->add($client);
-    }
+    public function addClientApplication(Client $client): void
+    { $this->clientApplications->add($client); }
 
-    /**
-     * Remove client application.
-     *
-     * @param Client $client
-     */
-    public function removeClientApplication(Client $client)
-    {
-        $this->clientApplications->removeElement($client);
-    }
+    public function removeClientApplication(Client $client): void
+    { $this->clientApplications->removeElement($client); }
 
-    /**
-     * Get client application.
-     *
-     * @return ArrayCollection
-     */
-    public function getClientApplications()
-    {
-        return $this->clientApplications;
-    }
+    public function getClientApplications(): Collection
+    { return $this->clientApplications; }
 
-    /**
-     * Get base institution.
-     *
-     * @return Institution
-     */
     public function getBaseInstitution()
     {
         return $this->getBaseInstitutionRec($this->getInstitution());
@@ -1004,137 +630,65 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         }
     }
 
-    /**
-     * Add notification setting.
-     *
-     * @param NotificationSettings $notificationSetting
-     *
-     * @return BaseUser
-     */
-    public function addNotificationSetting(NotificationSettings $notificationSetting)
+    public function addNotificationSetting(NotificationSettings $notificationSetting): self
     {
         $this->notificationSettings[] = $notificationSetting;
 
         return $this;
     }
 
-    /**
-     * Remove notification setting.
-     *
-     * @param NotificationSettings $notificationSetting
-     */
-    public function removeNotificationSetting(NotificationSettings $notificationSetting)
+    public function removeNotificationSetting(NotificationSettings $notificationSetting): void
     {
         $this->notificationSettings->removeElement($notificationSetting);
     }
 
-    /**
-     * Get notification settings.
-     *
-     * @return Collection $notificationSettings
-     */
-    public function getNotificationSettings()
-    {
-        return $this->notificationSettings;
-    }
+    public function getNotificationSettings(): Collection
+    { return $this->notificationSettings; }
 
-    /**
-     * Add notification.
-     *
-     * @param BaseUserNotification $notification
-     */
-    public function addNotification(BaseUserNotification $notification)
+    public function addNotification(BaseUserNotification $notification): void
     {
         $this->notifications[] = $notification;
     }
 
-    /**
-     * Remove notification.
-     *
-     * @param BaseUserNotification $notification
-     */
-    public function removeNotification(BaseUserNotification $notification)
+    public function removeNotification(BaseUserNotification $notification): void
     {
         $this->notifications->removeElement($notification);
     }
 
-    /**
-     * Get notifications.
-     *
-     * @return Collection $notifications
-     */
-    public function getNotifications()
-    {
-        return $this->notifications;
-    }
+    public function getNotifications(): Collection
+    { return $this->notifications; }
 
-    /**
-     * Add librarian institution.
-     *
-     * @param Institution $librarianInstitution
-     *
-     * @return BaseUser
-     */
-    public function addLibrarianInstitution(Institution $librarianInstitution)
+    public function addLibrarianInstitution(Institution $librarianInstitution): self
     {
         $this->librarianInstitution[] = $librarianInstitution;
 
         return $this;
     }
 
-    /**
-     * Remove librarian institution.
-     *
-     * @param Institution $librarianInstitution
-     */
-    public function removeLibrarianInstitution(Institution $librarianInstitution)
-    {
+    public function removeLibrarianInstitution(
+        Institution $librarianInstitution
+    ): void {
         $this->librarianInstitution->removeElement($librarianInstitution);
     }
 
-    /**
-     * Get librarian institution.
-     *
-     * @return Collection $librarianInstitution
-     */
-    public function getLibrarianInstitution()
-    {
-        return $this->librarianInstitution;
-    }
+    public function getLibrarianInstitution(): Collection
+    { return $this->librarianInstitution; }
 
-    /**
-     * Get observaciones.
-     *
-     * @return string
-     */
-    public function getObservaciones()
-    {
-        return $this->observaciones;
-    }
+    public function getObservaciones(): ?string
+    { return $this->observaciones; }
 
-    /**
-     * Set observaciones.
-     *
-     * @param string $observaciones
-     *
-     * @return BaseUser
-     */
-    public function setObservaciones($observaciones)
+    public function setObservaciones(string $observaciones): self
     {
         $this->observaciones = $observaciones;
 
         return $this;
     }
 
-    public function isLocked()
-    {
-        return $this->locked;
-    }
+    public function isLocked(): bool
+    { return $this->locked; }
 
-    public function setLocked($locked)
-    {
-        $this->locked = $locked;
-    }
+    public function setLocked(bool $locked): void
+    { $this->locked = $locked; }
 
     public function hasHigherRolesThan(BaseUser $user): bool
     {
@@ -1147,23 +701,16 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         // TODO: Implement @method string getUserIdentifier()
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
+    public function getEnabled(): bool
+    { return $this->enabled; }
 
-    public function setEnabled(bool $isEnabled)
+    public function setEnabled(bool $isEnabled): self
     {
         $this->enabled = $isEnabled;
 
         return $this;
     }
 
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
+    public function isEnabled(): bool
+    { return $this->enabled; }
 }

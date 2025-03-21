@@ -91,7 +91,7 @@ trait CRUDTrait
 
 
     public function new(
-        ?Entity $entity = null,
+        $entity = null,
         ?string $type = null,
         array $formOptions = []
     ): array|RedirectResponse {

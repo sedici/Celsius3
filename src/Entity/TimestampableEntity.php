@@ -20,23 +20,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 trait TimestampableEntity
 {
-    /**
-     * @var \DateTime
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at" ,type="datetime")
-     */
+    
     #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    protected $createdAt;
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE)]
+    protected \DateTime $createdAt;
 
-    /**
-     * @var \DateTime
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at" ,type="datetime")
-     */
+    
     #[Gedmo\Timestampable(on: 'update')]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    protected $updatedAt;
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_MUTABLE)]
+    protected \DateTime $updatedAt;
 
     /**
      * Sets createdAt.

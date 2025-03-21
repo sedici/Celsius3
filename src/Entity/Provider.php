@@ -22,65 +22,78 @@
 
 namespace Celsius3\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\BaseRepository;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Index;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="provider", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_city", columns={"city_id"}),
- *   @ORM\Index(name="idx_country", columns={"country_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
- *   @ORM\Index(name="idx_celsius_instance", columns={"celsius_instance_id"}),
- *   @ORM\Index(name="idx_parent", columns={"parent_id"}),
- *   @ORM\Index(name="idx_hive", columns={"hive_id"}),
- *   @ORM\Index(name="idx_type", columns={"type"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "author"="Author",
- *   "institution"="Institution",
- *   "web"="Web",
- * })
- */
+
+#[Entity(repositoryClass: BaseRepository::class)]
+#[Table(name: "provider", indexes: [
+    new Index(name: "idx_name", columns: ["name"]),
+    new Index(name: "idx_city", columns: ["city_id"]),
+    new Index(name: "idx_country", columns: ["country_id"]),
+    new Index(name: "idx_instance", columns: ["instance_id"]),
+    new Index(name: "idx_celsius_instance", columns: ["celsius_instance_id"]),
+    new Index(name: "idx_parent", columns: ["parent_id"]),
+    new Index(name: "idx_hive", columns: ["hive_id"]),
+    new Index(name: "idx_type", columns: ["type"])
+])]
+#[InheritanceType("SINGLE_TABLE")]
+#[DiscriminatorColumn(name: "type", type: "string")]
+#[DiscriminatorMap([
+    "author" => Author::class,
+    "institution" => Institution::class,
+    "web" => Web::class,
+])]
 abstract class Provider
 {
-    use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "institution_show"})
-     */
-    private $id;
 
-    /**
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
-     */
+    use TimestampableEntity;
+
+    #[Column(type: "integer")]
+    #[Id]
+    #[GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private int $id;
+
+
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show"
+    ])]
     abstract public function getProviderType();
+
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId(): int
+    { return $this->id; }
 
-    public function __toString()
-    {
-        return $this->getProviderName();
-    }
 
-    /**
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
-     */
-    public function getProviderName()
-    {
-        return '';
-    }
+    public function __toString(): string
+    { return $this->getProviderName(); }
+
+
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show"
+    ])]
+    public function getProviderName(): string
+    { return ''; }
 }

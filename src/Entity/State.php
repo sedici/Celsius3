@@ -30,94 +30,117 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\StateRepository;
+use Doctrine\ORM\Mapping\Index;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\Request;
+use Celsius3\Entity\BaseUser;
+use Doctrine\Common\Collections\Collection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\StateRepository")
- * @ORM\Table(name="state", indexes={
- *   @ORM\Index(name="idx_current", columns={"current"}),
- *   @ORM\Index(name="idx_type", columns={"type"}),
- *   @ORM\Index(name="idx_previous", columns={"previous_id"}),
- *   @ORM\Index(name="idx_request", columns={"request_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
- *   @ORM\Index(name="idx_operator", columns={"operator_id"})
- * })
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- */
+
+#[ORM\Entity(repositoryClass: StateRepository::class)]
+#[ORM\Table(name: "state", indexes: [
+    new Index(name: "idx_current", columns: ["current"]),
+    new Index(name: "idx_type", columns: ["type"]),
+    new Index(name: "idx_previous", columns: ["previous_id"]),
+    new Index(name: "idx_request", columns: ["request_id"]),
+    new Index(name: "idx_instance", columns: ["instance_id"]),
+    new Index(name: "idx_operator", columns: ["operator_id"])
+])]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
 class State
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $current = true;
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"administration_order_show"})
-     */
-    private $searchPending = false;
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $type;
-    /**
-     * @ORM\OneToOne(targetEntity="Celsius3\Entity\Event\Event", cascade={"persist"})
-     * @ORM\JoinColumn(name="remote_event_id", referencedColumnName="id")
-     * @Groups({"administration_order_show"})
-     */
-    private $remoteEvent;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="states")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     * @Groups({"administration_order_show"})
-     */
-    private $instance;
-    /**
-     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="state", cascade={"persist"})
-     */
-    private $events;
-    /**
-     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\MultiInstanceReceiveEvent", mappedBy="remoteState")
-     */
-    private $remoteEvents;
-    /**
-     * @ORM\ManyToOne(targetEntity="State")
-     * @ORM\JoinColumn(name="previous_id", referencedColumnName="id")
-     */
-    private $previous;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Request", inversedBy="states")
-     * @ORM\JoinColumn(name="request_id", referencedColumnName="id", nullable=false)
-     */
-    private $request;
-    /**
-     * @ORM\ManyToOne(targetEntity="BaseUser")
-     * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
-     */
-    private $operator;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    private ?int $id = null;
 
-    // * @ORM\Column(type="datetime")
-    /**
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $createdAt;
+
+    #[Assert\NotBlank]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    private bool $current = true;
+
+
+    #[Assert\NotBlank]
+    #[Assert\Type(type: "boolean")]
+    #[ORM\Column(type: "boolean")]
+    #[Groups(["administration_order_show"])]
+    private bool $searchPending = false;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    private string $type;
+
+
+    #[ORM\OneToOne(targetEntity: Event::class, cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "remote_event_id", referencedColumnName: "id")]
+    #[Groups(["administration_order_show"])]
+    private ?Event $remoteEvent = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "states")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    #[Groups(["administration_order_show"])]
+    private Instance $instance;
+
+
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: "state", cascade: ["persist"])]
+    private ArrayCollection $events;
+
+
+    #[ORM\OneToMany(targetEntity: MultiInstanceReceiveEvent::class, mappedBy: "remoteState")]
+    private ArrayCollection $remoteEvents;
+
+
+    #[ORM\ManyToOne(targetEntity: State::class)]
+    #[ORM\JoinColumn(name: "previous_id", referencedColumnName: "id")]
+    private ?State $previous = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: "states")]
+    #[ORM\JoinColumn(name: "request_id", referencedColumnName: "id", nullable: false)]
+    private Request $request;
+
+
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(name: "operator_id", referencedColumnName: "id")]
+    private ?BaseUser $operator = null;
+
+
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected \DateTime $createdAt;
+
 
     public function __construct()
     {
@@ -132,10 +155,8 @@ class State
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int|null
     {
         return $this->id;
     }
@@ -282,10 +303,8 @@ class State
 
     /**
      * Get events.
-     *
-     * @return Collection $events
      */
-    public function getEvents()
+    public function getEvents(): array|Collection
     {
         return $this->events;
     }
@@ -322,12 +341,8 @@ class State
 
     /**
      * Set previous.
-     *
-     * @param State $previous
-     *
-     * @return self
      */
-    public function setPrevious(State $previous = null)
+    public function setPrevious(?State $previous = null): static
     {
         $this->previous = $previous;
 
@@ -336,10 +351,8 @@ class State
 
     /**
      * Get previous.
-     *
-     * @return State $previous
      */
-    public function getPrevious()
+    public function getPrevious(): State|null
     {
         return $this->previous;
     }
@@ -351,31 +364,24 @@ class State
      *
      * @return self
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): static
     {
         $this->request = $request;
-
         return $this;
     }
 
     /**
      * Get request.
-     *
-     * @return Request $request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
     /**
      * Set operator.
-     *
-     * @param BaseUser $operator
-     *
-     * @return self
      */
-    public function setOperator(BaseUser $operator)
+    public function setOperator(BaseUser $operator): static
     {
         $this->operator = $operator;
 
@@ -384,20 +390,16 @@ class State
 
     /**
      * Get operator.
-     *
-     * @return BaseUser $operator
      */
-    public function getOperator()
+    public function getOperator(): BaseUser|null
     {
         return $this->operator;
     }
 
     /**
      * Get current.
-     *
-     * @return bool
      */
-    public function getCurrent()
+    public function getCurrent(): bool
     {
         return $this->current;
     }

@@ -32,213 +32,123 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Entity\TimestampableEntity;
 
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\CityRepository")
- * @ORM\Table(name="city", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_country", columns={"country_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\CityRepository::class)]
+#[ORM\Table(name: 'city', indexes: [
+    new ORM\Index(name: 'idx_name', columns: ['name']),
+    new ORM\Index(name: 'idx_country', columns: ['country_id']),
+    new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+])]
 class City
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration", "administration_order_show"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'administration',
+        'administration_order_show'
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration", "administration_order_show"})
-     */
-    private $name;
 
-    /**
-     * @ORM\Column(name="postal_code", type="string", length=255, nullable=true)
-     * @Groups({"administration"})
-     */
-    private $postalCode;
+    #[Assert\NotBlank()]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        'administration',
+        'administration_order_show'
+    ])]
+    private ?string $name = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Institution", mappedBy="city")
-     */
+
+    #[ORM\Column(name: 'postal_code', type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'administration'
+    ])]
+    private ?string $postalCode = null;
+
+
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'city')]
     private $institutions;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="cities")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'cities')]
+    #[ORM\JoinColumn(name: 'country_id', referencedColumnName: 'id', nullable: false)]
     private $country;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="cities")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'cities')]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
 
-    /**
-     * To string.
-     *
-     * @return mixed
-     */
-    public function __toString()
-    {
-        return $this->name;
-    }
 
-    /**
-     * City constructor.
-     */
+    public function __toString(): string
+    { return $this->name; }
+
     public function __construct()
     {
         $this->institutions = new ArrayCollection();
     }
 
-    public function getFullName() {
+    public function getFullName(): string {
         return $this->getCountry()->getFullName() . ' - ' . $this->getName();
     }
 
-    /**
-     * Get id.
-     *
-     * @return $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId(): ?int
+    { return $this->id; }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    public function getName(): ?string
+    { return $this->name; }
 
-    /**
-     * Set postal code.
-     *
-     * @param string $postalCode
-     *
-     * @return self
-     */
-    public function setPostalCode($postalCode)
+    public function setPostalCode(?string $postalCode): self
     {
         $this->postalCode = $postalCode;
 
         return $this;
     }
 
-    /**
-     * Get postal code.
-     *
-     * @return string $postalCode
-     */
-    public function getPostalCode()
-    {
-        return $this->postalCode;
-    }
+    public function getPostalCode(): ?string
+    { return $this->postalCode; }
 
-    /**
-     * Add institution.
-     *
-     * @param Institution $institution
-     */
-    public function addInstitution(Institution $institution)
+    public function addInstitution(Institution $institution): void
     {
         $this->institutions[] = $institution;
     }
 
-    /**
-     * Remove institution.
-     *
-     * @param Institution $institution
-     */
-    public function removeInstitution(Institution $institution)
+    public function removeInstitution(Institution $institution): void
     {
         $this->institutions->removeElement($institution);
     }
 
-    /**
-     * Get institutions.
-     *
-     * @return Collection $institutions
-     */
-    public function getInstitutions()
-    {
-        return $this->institutions;
-    }
+    public function getInstitutions(): Collection
+    { return $this->institutions; }
 
-    /**
-     * Set country.
-     *
-     * @param Country $country
-     *
-     * @return self
-     */
-    public function setCountry(Country $country)
+    public function setCountry(Country $country): self
     {
         $this->country = $country;
 
         return $this;
     }
 
-    /**
-     * Get country.
-     *
-     * @return Country $country
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
+    public function getCountry(): Country
+    { return $this->country; }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
+    public function getInstance(): Instance
+    { return $this->instance; }
 }

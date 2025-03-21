@@ -25,23 +25,19 @@ namespace Celsius3\Entity;
 use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class Client extends BaseClient
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Instance")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
-     */
+
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id')]
     protected $instance;
+
 
     public function __construct()
     {

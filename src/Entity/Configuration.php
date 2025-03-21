@@ -24,65 +24,56 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Repository\ConfigurationRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ConfigurationRepository")
- * @ORM\Table(name="configuration", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
- * }, indexes={
- *   @ORM\Index(name="idx_key", columns={"key"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
+#[ORM\Table(name: "configuration", uniqueConstraints: [
+    new ORM\UniqueConstraint(name: "unique_idx", columns: ["key", "instance_id"])
+], indexes: [
+    new ORM\Index(name: "idx_key", columns: ["key"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
+])]
 class Configuration
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(name="`key`", type="string", length=255)
-     */
-    private $key;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[Assert\NotBlank]
+    #[ORM\Column(name: "`key`", type: "string", length: 255)]
+    private string $key;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $value;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    private string $name;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="configurations")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $instance;
+
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $value = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    private string $type;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "configurations")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    private Instance $instance;
+
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -94,7 +85,7 @@ class Configuration
      *
      * @return self
      */
-    public function setKey($key)
+    public function setKey(string $key): self
     {
         $this->key = $key;
 
@@ -106,7 +97,7 @@ class Configuration
      *
      * @return string $key
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -118,7 +109,7 @@ class Configuration
      *
      * @return self
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -130,7 +121,7 @@ class Configuration
      *
      * @return string $name
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -142,7 +133,7 @@ class Configuration
      *
      * @return self
      */
-    public function setValue($value)
+    public function setValue(?string $value): self
     {
         $this->value = $value;
 
@@ -154,7 +145,7 @@ class Configuration
      *
      * @return string $value
      */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -166,7 +157,7 @@ class Configuration
      *
      * @return self
      */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -178,7 +169,7 @@ class Configuration
      *
      * @return string $type
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -190,7 +181,7 @@ class Configuration
      *
      * @return self
      */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
@@ -202,7 +193,7 @@ class Configuration
      *
      * @return Instance $instance
      */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }

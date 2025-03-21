@@ -26,32 +26,30 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use \Celsius3\Repository\BaseRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CustomContactValue extends CustomValue
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Contact", inversedBy="customValues")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true)
-     */
-    private $contact;
 
-    public function getId(): int
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'customValues')]
+    #[ORM\JoinColumn(name: 'contact_id', referencedColumnName: 'id', nullable: true)]
+    private Contact $contact;
+
+
+    public function getId(): int|null
     {
         return $this->id;
     }
 
-    public function getContact(): BaseUser
+    public function getContact(): Contact
     {
         return $this->contact;
     }

@@ -26,37 +26,35 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Repository\BaseRepository;
+use Doctrine\Common\Collections\Collection;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="contact_type", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(name: 'contact_type', indexes: [new ORM\Index(name: 'idx_name', columns: ['name'])] )]
 class ContactType
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api", "administration"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'api',
+        'administration',
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration"})
-     */
-    private $name;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        'api',
+        'administration',
+    ])]
+    private ?string $name = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Contact", mappedBy="type")
-     */
+    #[ORM\OneToMany(targetEntity: \Celsius3\Entity\Contact::class, mappedBy: 'type')]
     private $contacts;
 
     public function __construct()
@@ -71,10 +69,8 @@ class ContactType
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int|null
     {
         return $this->id;
     }
@@ -125,10 +121,8 @@ class ContactType
 
     /**
      * Get contacts.
-     *
-     * @return Collection $contacts
      */
-    public function getContacts()
+    public function getContacts(): array|Collection
     {
         return $this->contacts;
     }

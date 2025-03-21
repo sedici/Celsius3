@@ -37,6 +37,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Entity\Request;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -155,6 +156,43 @@ class HtmlAdminOrderController extends OrderController
                 ->find($request->query->get('user_id'))
             : null;
 
+        $order = new Order();
+
+        $request = new Request();
+        $request->setOwner($this->getUser());
+        $request->setCreator($this->getUser());
+        $request->setInstance($this->instance);
+        $request->setType('provision');
+        $request->setOrder($order);
+        
+        $order->setOriginalRequest($request);
+
+        try {
+            $this->entityManager->persist($request);
+            // $this->entityManager->persist($order);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+
+        throw new \Exception((string) var_dump($this->new(entity: $order)));
+        return $this->htmlRenderer->render(
+            'new',
+            $this->new()
+        );
+    }
+
+
+    public function htmlNew1(): Response
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $user = ($request->query->has('user_id'))
+            ? $this->entityManager
+                ->getRepository(BaseUser::class)
+                ->find($request->query->get('user_id'))
+            : null;
+
         return $this->htmlRenderer->render(
             'new',
             $this->new(
@@ -162,6 +200,7 @@ class HtmlAdminOrderController extends OrderController
                     'user' => $user,
                     'actual_user' => $this->getUser(),
                     'create' => true,
+                    'operator' => $this->getUser()
                 ]
             )
         );
@@ -187,7 +226,7 @@ class HtmlAdminOrderController extends OrderController
             'create' => true,
             'user' => $this->entityManager
                 ->getRepository(BaseUser::class)
-                ->find($request->request->get('order')['originalRequest']['owner']),
+                ->find($request->request->get('order')['originalRequest']['owner'])
         ];
 
         if ($materialType === JournalTypeType::class) {
@@ -196,7 +235,6 @@ class HtmlAdminOrderController extends OrderController
         }
 
         $order = new Order();
-        $route = 'administration';
 
         $form = $this->createForm(data: $order, options: $options);
         $form->handleRequest($request);
@@ -236,7 +274,7 @@ class HtmlAdminOrderController extends OrderController
                 }
             }
 
-            return $this->redirect($this->generateUrl($route));
+            return $this->redirect($this->generateUrl('administration'));
         }
 
         $this->addFlash('error', 'There were errors creating the Order.');
@@ -363,7 +401,6 @@ class HtmlAdminOrderController extends OrderController
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         $entity = $this->findQuery($id);
-
         if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $entity->setMaterialData(null);

@@ -24,52 +24,48 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="custom_value", indexes={
- *   @ORM\Index(name="idx_field", columns={"field_id"}),
- *   @ORM\Index(name="idx_user", columns={"user_id"}),
- *   @ORM\Index(name="idx_contact", columns={"contact_id"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "user_value"="CustomUserValue",
- *   "contact_value"="CustomContactValue"
- * })
- */
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(name: "custom_value", indexes: [
+    new ORM\Index(name: "idx_field", columns: ["field_id"]),
+    new ORM\Index(name: "idx_user", columns: ["user_id"]),
+    new ORM\Index(name: "idx_contact", columns: ["contact_id"])
+])]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "user_value" => CustomUserValue::class,
+    "contact_value" => CustomContactValue::class
+])]
 abstract class CustomValue
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $value;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="CustomField", inversedBy="values")
-     * @ORM\JoinColumn(name="field_id", referencedColumnName="id", nullable=false)
-     */
-    private $field;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $value = null;
 
-    public function getId(): int
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: CustomField::class, inversedBy: "values")]
+    #[ORM\JoinColumn(name: "field_id", referencedColumnName: "id", nullable: false)]
+    private CustomField $field;
+
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }

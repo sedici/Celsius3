@@ -23,20 +23,17 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\BaseRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class Author extends Provider
 {
 
-    public function getProviderType()
-    {
-        return 'author';
-    }
+    public function getProviderType(): string
+    { return 'author'; }
 
-    public function getProviderName()
-    {
-        return 'Provided by the author';
-    }
+
+    public function getProviderName(): string
+    { return 'Provided by the author'; }
 }

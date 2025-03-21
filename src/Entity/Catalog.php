@@ -28,251 +28,131 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Entity\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\CatalogRepository")
- * @ORM\Table(name="catalog", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_url", columns={"url"}),
- *   @ORM\Index(name="idx_institution", columns={"institution_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogRepository::class)]
+#[ORM\Table(name: 'catalog', indexes: [
+    new ORM\Index(name: 'idx_name', columns: ['name']),
+    new ORM\Index(name: 'idx_url', columns: ['url']),
+    new ORM\Index(name: 'idx_institution', columns: ['institution_id']),
+    new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+])]
 class Catalog
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_order_show"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show"})
-     */
-    private $name;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?string $name = null;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\Url
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show"})
-     */
-    private $url;
+    #[Assert\NotBlank]
+    #[Assert\Url]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        'administration_order_show'
+    ])]
+    private ?string $url = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $comments;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $comments = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Institution", inversedBy="catalogs")
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
-     * @Groups({"administration_order_show"})
-     */
+    #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: 'catalogs')]
+    #[ORM\JoinColumn(name: 'institution_id', referencedColumnName: 'id')]
+    #[Groups([
+        'administration_order_show'
+    ])]
     private $institution;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="catalogs")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'catalogs')]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
 
-    /**
-     * @ORM\OneToMany(targetEntity="CatalogPosition", mappedBy="catalog", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: CatalogPosition::class, mappedBy: 'catalog', cascade: ['persist'])]
     private $positions;
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+    public function __toString(): string
+    { return $this->name; }
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId(): ?int
+    { return $this->id; }
 
-    public function getFullName() {
-        return $this->getName();
-    }
+    public function getFullName(): ?string
+    { return $this->getName(); }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    public function getName(): ?string
+    { return $this->name; }
 
-    /**
-     * Set url.
-     *
-     * @param string $url
-     *
-     * @return self
-     */
-    public function setUrl($url)
+    public function setUrl(string $url): self
     {
         $this->url = $url;
-
         return $this;
     }
 
-    /**
-     * Get url.
-     *
-     * @return string $url
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
+    public function getUrl(): ?string
+    { return $this->url; }
 
-    /**
-     * Set comments.
-     *
-     * @param string $comments
-     *
-     * @return self
-     */
-    public function setComments($comments)
+    public function setComments(?string $comments): self
     {
         $this->comments = $comments;
-
         return $this;
     }
 
-    /**
-     * Get comments.
-     *
-     * @return string $comments
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
+    public function getComments(): ?string
+    { return $this->comments; }
 
-    /**
-     * Set institution.
-     *
-     * @param Institution $institution
-     *
-     * @return self
-     */
-    public function setInstitution(Institution $institution = null)
+    public function setInstitution(?Institution $institution = null): self
     {
         $this->institution = $institution;
-
         return $this;
     }
 
-    /**
-     * Get institution.
-     *
-     * @return Institution $institution
-     */
-    public function getInstitution()
-    {
-        return $this->institution;
-    }
+    public function getInstitution(): ?Institution
+    { return $this->institution; }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
-
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
+    public function getInstance(): ?Instance
+    { return $this->instance; }
 
-    /**
-     * Catalog constructor.
-     */
     public function __construct()
     {
         $this->positions = new ArrayCollection();
     }
 
-    /**
-     * Add position.
-     *
-     * @param CatalogPosition $position
-     */
-    public function addPosition(CatalogPosition $position)
+    public function addPosition(CatalogPosition $position): void
     {
         $this->positions[] = $position;
     }
 
-    /**
-     * Remove position.
-     *
-     * @param CatalogPosition $position
-     */
-    public function removePosition(CatalogPosition $position)
+    public function removePosition(CatalogPosition $position): void
     {
         $this->positions->removeElement($position);
     }
 
-    /**
-     * Get positions.
-     *
-     * @return ArrayCollection $positions
-     */
-    public function getPositions()
-    {
-        return $this->positions;
-    }
+    public function getPositions(): ArrayCollection
+    { return $this->positions; }
 
-    /**
-     * Get position.
-     *
-     * @param Instance $instance
-     *
-     * @return CatalogPosition|null
-     */
-    public function getPosition(Instance $instance)
+    public function getPosition(Instance $instance): ?CatalogPosition
     {
         $result = $this->getPositions()
             ->filter(

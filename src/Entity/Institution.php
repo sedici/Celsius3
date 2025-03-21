@@ -26,115 +26,136 @@ use Celsius3\Validator\Constraints\ParentInstitution;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\InstitutionRepository;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Url;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\InstitutionRepository")
- */
+
+#[ORM\Entity(repositoryClass: InstitutionRepository::class)]
 class Institution extends Provider
 {
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list","administration","administration_order_show","administration_user_show","institution_show"})
-     */
-    private $name;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_list","administration","administration_order_show","administration_user_show","institution_show"})
-     */
-    private $abbreviation;
+    #[NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        "administration_list",
+        "administration",
+        "administration_order_show",
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private string $name;
 
-    /**
-     * @Assert\Url()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $website;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $address;
+    #[NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        "administration_list",
+        "administration",
+        "administration_order_show",
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private string $abbreviation;
 
-    /**
-     * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="institution")
-     */
-    private $users;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Institution", mappedBy="parent")
-     */
-    private $institutions;
+    #[Url]
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $website;
 
-    /**
-     * @ParentInstitution()
-     * @ORM\ManyToOne(targetEntity="Institution", inversedBy="institutions")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
-     * @Groups({"administration_list","administration","administration_order_show","administration_user_show","institution_show"})
-     */
-    private $parent;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="City", inversedBy="institutions")
-     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
-     * @Groups({"administration_order_show","administration_user_show","institution_show"})
-     */
-    private $city;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $address;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="institutions")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
-     * @Groups({"administration_user_show","institution_show"})
-     */
-    private $country;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Catalog", mappedBy="institution")
-     */
-    private $catalogs;
+    #[OneToMany(targetEntity: BaseUser::class, mappedBy: 'institution')]
+    private Collection $users;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Contact", mappedBy="institution")
-     */
-    private $contacts;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="institutions")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
-     */
-    private $instance;
+    #[OneToMany(targetEntity: Institution::class, mappedBy: 'parent')]
+    private Collection $institutions;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="LegacyInstance", inversedBy="ownerInstitutions", cascade={"persist"})
-     * @ORM\JoinColumn(name="celsius_instance_id", referencedColumnName="id")
-     * @Groups({"administration_order_show","administration_user_show","institution_show"})
-     */
-    private $celsiusInstance = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Hive", inversedBy="institutions")
-     * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
-     */
-    private $hive;
+    #[ParentInstitution]
+    #[ManyToOne(targetEntity: Institution::class, inversedBy: 'institutions')]
+    #[JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
+    #[Groups([
+        "administration_list",
+        "administration",
+        "administration_order_show",
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private ?Institution $parent;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="BaseUser", mappedBy="librarianInstitution")
-     */
-    private $librarian;
+
+    #[ManyToOne(targetEntity: City::class, inversedBy: 'institutions')]
+    #[JoinColumn(name: 'city_id', referencedColumnName: 'id')]
+    #[Groups([
+        "administration_order_show",
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private ?City $city;
+
+
+    #[NotNull]
+    #[ManyToOne(targetEntity: Country::class, inversedBy: 'institutions')]
+    #[JoinColumn(name: 'country_id', referencedColumnName: 'id')]
+    #[Groups([
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private Country $country;
+
+
+    #[OneToMany(targetEntity: Catalog::class, mappedBy: 'institution')]
+    private Collection $catalogs;
+
+
+    #[OneToMany(targetEntity: Contact::class, mappedBy: 'institution')]
+    private Collection $contacts;
+
+
+    #[NotNull]
+    #[ManyToOne(targetEntity: Instance::class, inversedBy: 'institutions')]
+    #[JoinColumn(name: 'instance_id', referencedColumnName: 'id')]
+    private Instance $instance;
+
+
+    #[ManyToOne(targetEntity: LegacyInstance::class, inversedBy: 'ownerInstitutions', cascade: ['persist'])]
+    #[JoinColumn(name: 'celsius_instance_id', referencedColumnName: 'id')]
+    #[Groups([
+        "administration_order_show",
+        "administration_user_show",
+        "institution_show"
+    ])]
+    private ?LegacyInstance $celsiusInstance = null;
+
+
+    #[ManyToOne(targetEntity: Hive::class, inversedBy: 'institutions')]
+    #[JoinColumn(name: 'hive_id', referencedColumnName: 'id')]
+    private ?Hive $hive;
+
+
+    #[ManyToMany(targetEntity: BaseUser::class, mappedBy: 'librarianInstitution')]
+    private Collection $librarian;
+
 
     public function getProviderType()
     {
         return 'institution';
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->abbreviation.' - '.$this->name;
+        return (string) $this->abbreviation.' - '.$this->name;
     }
 
     public function getFullName($ids = [])
@@ -155,7 +176,7 @@ class Institution extends Provider
     /**
      * @return string
      */
-    public function getProviderName()
+    public function getProviderName(): string
     {
         return $this->__toString();
     }

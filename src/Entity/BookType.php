@@ -26,119 +26,75 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseRepository::class)]
 class BookType extends MaterialType
 {
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $editor;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    protected ?string $editor = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $chapter;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $ISBN;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    protected ?string $chapter = null;
 
-    /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $withIndex = false;
 
-    public function getMaterialType()
-    {
-        return 'book';
-    }
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    protected ?string $ISBN = null;
 
-    /**
-     * Set editor.
-     *
-     * @param string $editor
-     */
-    public function setEditor($editor)
-    {
-        $this->editor = $editor;
-    }
 
-    /**
-     * Get editor.
-     *
-     * @return string $editor
-     */
-    public function getEditor()
-    {
-        return $this->editor;
-    }
+    #[Assert\NotNull()]
+    #[Assert\Type(type: 'boolean')]
+    #[ORM\Column(type: 'boolean')]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    protected ?bool $withIndex = false;
 
-    /**
-     * Set chapter.
-     *
-     * @param string $chapter
-     */
-    public function setChapter($chapter)
-    {
-        $this->chapter = $chapter;
-    }
 
-    /**
-     * Get chapter.
-     *
-     * @return string $chapter
-     */
-    public function getChapter()
-    {
-        return $this->chapter;
-    }
+    public function getMaterialType(): string
+    { return 'book'; }
 
-    /**
-     * Set ISBN.
-     *
-     * @param string $ISBN
-     */
-    public function setISBN($ISBN)
-    {
-        $this->ISBN = $ISBN;
-    }
+    public function setEditor(?string $editor): void
+    { $this->editor = $editor; }
 
-    /**
-     * Get ISBN.
-     *
-     * @return string $ISBN
-     */
-    public function getISBN()
-    {
-        return $this->ISBN;
-    }
+    public function getEditor(): ?string
+    { return $this->editor; }
 
-    /**
-     * Set with index.
-     *
-     * @param bool $withIndex
-     */
-    public function setWithIndex($withIndex)
-    {
-        $this->withIndex = $withIndex;
-    }
+    public function setChapter(?string $chapter): void
+    { $this->chapter = $chapter; }
 
-    /**
-     * Get with index.
-     *
-     * @return bool $withIndex
-     */
-    public function getWithIndex()
-    {
-        return $this->withIndex;
-    }
+    public function getChapter(): ?string
+    { return $this->chapter; }
+
+    public function setISBN(?string $ISBN): void
+    { $this->ISBN = $ISBN; }
+
+    public function getISBN(): ?string
+    { return $this->ISBN; }
+
+    public function setWithIndex(?bool $withIndex): void
+    { $this->withIndex = $withIndex; }
+
+    public function getWithIndex(): ?bool
+    { return $this->withIndex; }
 }

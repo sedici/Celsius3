@@ -23,352 +23,227 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
+use Celsius3\Repository\FileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\FileRepository")
- * @ORM\Table(name="file", indexes={
- *   @ORM\Index(name="idx_event", columns={"event_id"}),
- *   @ORM\Index(name="idx_request", columns={"request_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+#[ORM\Entity(repositoryClass: FileRepository::class)]
+#[ORM\Table(name: "file", indexes: [
+    new ORM\Index(name: "idx_event", columns: ["event_id"]),
+    new ORM\Index(name: "idx_request", columns: ["request_id"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
+])]
 class File
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_order_show", "user_list"})
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "administration_order_show",
+        "user_list",
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show", "user_list"})
-     */
-    private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $path;
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "administration_order_show",
+        "user_list",
+    ])]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $comments;
 
-    /**
-     * @Assert\File(maxSize="8M", mimeTypes = {"application/pdf", "application/x-pdf"})
-     */
-    private $file;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $path = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"administration_order_show", "user_list"})
-     */
-    private $enabled = true;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Request", inversedBy="files")
-     */
-    private $request;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $comments = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Instance")
-     */
-    private $instance;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     */
-    private $event;
+    #[Assert\File(maxSize: "8M", mimeTypes: ["application/pdf", "application/x-pdf"])]
+    private ?UploadedFile $file = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"user_list"})
-     */
-    private $downloaded = false;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Groups({"administration_order_show"})
-     */
-    private $pages = 0;
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "administration_order_show",
+        "user_list",
+    ])]
+    private bool $enabled = true;
+
+
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: "files")]
+    private ?Request $request = null;
+
+
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    private ?Instance $instance = null;
+
+
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    private ?Event $event = null;
+
+
+    #[ORM\Column(type: "boolean")]
+    #[Groups([
+        "user_list",
+    ])]
+    private bool $downloaded = false;
+
+
+    #[ORM\Column(type: "integer")]
+    #[Groups([
+        "administration_order_show",
+    ])]
+    private int $pages = 0;
+
+
     private $temp;
 
-    /**
-     * @ORM\OneToMany(targetEntity="FileDownload", mappedBy="file")
-     */
-    private $downloads;
 
-    /**
-     * Constructor.
-     */
+    #[ORM\OneToMany(targetEntity: FileDownload::class, mappedBy: "file")]
+    private Collection $downloads;
+
+
     public function __construct()
     {
         $this->downloads = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Set path.
-     *
-     * @param string $path
-     *
-     * @return self
-     */
-    public function setPath($path)
+    public function setPath(?string $path): self
     {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * Get path.
-     *
-     * @return string $path
-     */
-    public function getPath()
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    /**
-     * Set comments.
-     *
-     * @param string $comments
-     *
-     * @return self
-     */
-    public function setComments($comments)
+    public function setComments(?string $comments): self
     {
         $this->comments = $comments;
 
         return $this;
     }
 
-    /**
-     * Get comments.
-     *
-     * @return string $comments
-     */
-    public function getComments()
+    public function getComments(): ?string
     {
         return $this->comments;
     }
 
-    /**
-     * Set file.
-     *
-     * @param file $file
-     *
-     * @return self
-     */
-    public function setFile(UploadedFile $file = null)
+    public function setFile(?UploadedFile $file = null): self
     {
         $this->file = $file;
-        // check if we have an old image path
         if (isset($this->path)) {
-            // store the old name to delete after the update
             $this->temp = $this->path;
             $this->path = null;
         } else {
             $this->path = 'initial';
         }
+
+        return $this;
     }
 
-    /**
-     * Get file.
-     *
-     * @return file $file
-     */
-    public function getFile()
+    public function getFile(): ?UploadedFile
     {
         return $this->file;
     }
 
-    /**
-     * Set enabled.
-     *
-     * @param bool $enabled
-     *
-     * @return self
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * Get enabled.
-     *
-     * @return bool $enabled
-     */
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * Set event.
-     *
-     * @param Event $event
-     *
-     * @return self
-     */
-    public function setEvent(Event $event = null)
+    public function setEvent(?Event $event = null): self
     {
         $this->event = $event;
 
         return $this;
     }
 
-    /**
-     * Get event.
-     *
-     * @return Event $event
-     */
-    public function getEvent()
+    public function getEvent(): ?Event
     {
         return $this->event;
     }
 
-    /**
-     * Set downloaded.
-     *
-     * @param bool $downloaded
-     *
-     * @return self
-     */
-    public function setDownloaded($downloaded)
+    public function setDownloaded(bool $downloaded): self
     {
         $this->downloaded = $downloaded;
 
         return $this;
     }
 
-    /**
-     * Get downloaded.
-     *
-     * @return bool $downloaded
-     */
-    public function isDownloaded()
+    public function isDownloaded(): bool
     {
         return $this->downloaded;
     }
 
-    /**
-     * Set request.
-     *
-     * @param Request $request
-     *
-     * @return self
-     */
-    public function setRequest(Request $request = null)
+    public function setRequest(?Request $request = null): self
     {
         $this->request = $request;
 
         return $this;
     }
 
-    /**
-     * Get request.
-     *
-     * @return Request $request
-     */
-    public function getRequest()
+    public function getRequest(): ?Request
     {
         return $this->request;
     }
 
-    /**
-     * Set pages.
-     *
-     * @param int $pages
-     *
-     * @return self
-     */
-    public function setPages($pages)
+    public function setPages(int $pages): self
     {
         $this->pages = $pages;
 
         return $this;
     }
 
-    /**
-     * Get pages.
-     *
-     * @return int $pages
-     */
-    public function getPages()
+    public function getPages(): int
     {
         return $this->pages;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
+    public function getInstance(): ?Instance
     {
         return $this->instance;
     }
@@ -383,15 +258,13 @@ class File
         $this->temp = $temp;
     }
 
-    public function getDownloads()
+    public function getDownloads(): Collection
     {
         return $this->downloads;
     }
 
-    /**
-     * @Groups({"user_list"})
-     */
-    public function hasDownloadTime()
+    #[Groups(["user_list"])]
+    public function hasDownloadTime(): bool
     {
         if (!$this->isDownloaded()) {
             return true;
@@ -419,36 +292,19 @@ class File
         return false;
     }
 
-    /**
-     * Get downloaded.
-     *
-     * @return bool
-     */
-    public function getDownloaded()
+    public function getDownloaded(): bool
     {
         return $this->downloaded;
     }
 
-    /**
-     * Add download.
-     *
-     * @param FileDownload $download
-     *
-     * @return File
-     */
-    public function addDownload(FileDownload $download)
+    public function addDownload(FileDownload $download): self
     {
         $this->downloads[] = $download;
 
         return $this;
     }
 
-    /**
-     * Remove download.
-     *
-     * @param FileDownload $download
-     */
-    public function removeDownload(FileDownload $download)
+    public function removeDownload(FileDownload $download): void
     {
         $this->downloads->removeElement($download);
     }

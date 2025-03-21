@@ -26,131 +26,162 @@ use Celsius3\Entity\Event\Event;
 //use Celsius3\Entity\Order;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-//use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\RequestRepository")
- * @ORM\Table(name="request", indexes={
- *   @ORM\Index(name="idx_type", columns={"type"}),
- *   @ORM\Index(name="idx_owner", columns={"owner_id"}),
- *   @ORM\Index(name="idx_creator", columns={"creator_id"}),
- *   @ORM\Index(name="idx_librarian", columns={"librarian_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
- *   @ORM\Index(name="idx_operator", columns={"operator_id"}),
- *   @ORM\Index(name="idx_order", columns={"order_id"}),
- *   @ORM\Index(name="idx_previous_request", columns={"previous_request_id"}),
- * }, uniqueConstraints={
- *   @ORM\UniqueConstraint(name="idx_order_instance", columns={"instance_id", "order_id"}),
- * })
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- */
+
+#[ORM\Entity(repositoryClass: 'Celsius3\Repository\RequestRepository')]
+#[ORM\Table(name: 'request', indexes: [
+    new ORM\Index(name: 'idx_type', columns: ['type']),
+    new ORM\Index(name: 'idx_owner', columns: ['owner_id']),
+    new ORM\Index(name: 'idx_creator', columns: ['creator_id']),
+    new ORM\Index(name: 'idx_librarian', columns: ['librarian_id']),
+    new ORM\Index(name: 'idx_instance', columns: ['instance_id']),
+    new ORM\Index(name: 'idx_operator', columns: ['operator_id']),
+    new ORM\Index(name: 'idx_order', columns: ['order_id']),
+    new ORM\Index(name: 'idx_previous_request', columns: ['previous_request_id']),
+], uniqueConstraints: [
+    new ORM\UniqueConstraint(name: 'idx_order_instance', columns: ['instance_id', 'order_id']),
+])]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 class Request
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    private int $id;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\Choice(callback = {"\Celsius3\Manager\OrderManager", "getTypes"}, message = "Choose a valid type.")
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $type;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show"})
-     */
-    private $comments;
+    #[Assert\NotBlank]
+    #[Assert\Choice(callback: ['\Celsius3\Manager\OrderManager', 'getTypes'], message: 'Choose a valid type.')]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    private string $type;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="orders")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $owner;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="createdOrders")
-     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
-     */
-    private $creator;
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show'
+    ])]
+    private ?string $comments = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="BaseUser")
-     * @ORM\JoinColumn(name="librarian_id", referencedColumnName="id")
-     */
-    private $librarian;
 
-    /**
-     * @ORM\OneToMany(targetEntity="File", mappedBy="request")
-     * @Groups({"administration_order_show", "user_list"})
-     */
-    private $files;
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    private BaseUser $owner;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Celsius3\Entity\Event\Event", mappedBy="request", fetch="EAGER")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
-     */
-    private $events;
 
-    /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="request", fetch="EAGER")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show"})
-     */
-    private $states;
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'createdOrders')]
+    #[ORM\JoinColumn(name: 'creator_id', referencedColumnName: 'id', nullable: false)]
+    private BaseUser $creator;
 
-    /**
-     * @Assert\NotNull(groups={"Default", "newOrder"})
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="orders")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     * @Groups({"administration_order_show", "administration_user_show"})
-     */
-    private $instance;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="operatedOrders")
-     * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $operator;
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(name: 'librarian_id', referencedColumnName: 'id')]
+    private ?BaseUser $librarian = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Order", inversedBy="requests")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=false)
-     * @Groups({"administration_order_show"})
-     */
-    private $order;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Request", inversedBy="requests")
-     * @ORM\JoinColumn(name="previous_request_id", referencedColumnName="id")
-     * @Groups({"administration_order_show"})
-     */
-    private $previousRequest;
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'request')]
+    #[Groups([
+        'administration_order_show',
+        'user_list'
+    ])]
+    private ArrayCollection $files;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="previousRequest")
-     */
-    private $requests;
 
-    // * @ORM\Column(type="datetime")
-    /**
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $createdAt;
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'request', fetch: 'EAGER')]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show'
+    ])]
+    private ArrayCollection $events;
+
+
+    #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'request', fetch: 'EAGER')]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show'
+    ])]
+    private ArrayCollection $states;
+
+
+    #[Assert\NotNull(groups: ['Default', 'newOrder'])]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups([
+        'administration_order_show',
+        'administration_user_show'
+    ])]
+    private Instance $instance;
+
+
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'operatedOrders')]
+    #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    private ?BaseUser $operator = null;
+
+
+    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'requests', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups(['administration_order_show'])]
+    private Order $order;
+
+
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'requests')]
+    #[ORM\JoinColumn(name: 'previous_request_id', referencedColumnName: 'id')]
+    #[Groups(['administration_order_show'])]
+    private ?Request $previousRequest = null;
+
+
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'previousRequest')]
+    private ArrayCollection $requests;
+
+
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    protected \DateTime $createdAt;
+
 
     public function __construct()
     {
@@ -162,10 +193,8 @@ class Request
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -312,10 +341,8 @@ class Request
 
     /**
      * Get files.
-     *
-     * @return Collection $files
      */
-    public function getFiles()
+    public function getFiles(): array|Collection
     {
         return $this->files;
     }

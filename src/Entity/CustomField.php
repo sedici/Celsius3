@@ -26,92 +26,83 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Repository\CustomFieldRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\CustomFieldRepository")
- * @ORM\Table(name="custom_field", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
- * }, indexes={
- *   @ORM\Index(name="idx_key", columns={"key"}),
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: CustomFieldRepository::class)]
+#[ORM\Table(
+    name: 'custom_field',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(name: 'unique_idx', columns: ['key', 'instance_id'])
+    ],
+    indexes: [
+        new ORM\Index(name: 'idx_key', columns: ['key']),
+        new ORM\Index(name: 'idx_name', columns: ['name']),
+        new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+    ]
+)]
 class CustomField
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
-    /**
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(type="string", length=255, name="`key`")
-     */
-    private $key;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[Gedmo\Slug(fields: ['name'])]
+    #[ORM\Column(type: 'string', length: 255, name: '`key`')]
+    private ?string $key = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $type;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $value;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $private = true;
 
-    /**
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $required = true;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $type = null;
 
-    /**
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $enabled = true;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Instance")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $value = null;
+
+
+    #[Assert\Type(type: 'boolean')]
+    #[ORM\Column(type: 'boolean')]
+    private bool $private = true;
+
+
+    #[Assert\Type(type: 'boolean')]
+    #[ORM\Column(type: 'boolean')]
+    private bool $required = true;
+
+
+    #[Assert\Type(type: 'boolean')]
+    #[ORM\Column(type: 'boolean')]
+    private bool $enabled = true;
+
+
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
 
-    /**
-     * @ORM\OneToMany(targetEntity="CustomValue", mappedBy="field")
-     */
+
+    #[ORM\OneToMany(targetEntity: CustomValue::class, mappedBy: 'field')]
     private $values;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $position;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", nullable=false)
-     */
-    private $entity;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $position = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', nullable: false)]
+    private ?string $entity = null;
+
 
     public function __construct()
     {

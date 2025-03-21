@@ -27,155 +27,85 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Entity\SoftDeleteableEntity;
 use Celsius3\Entity\TimestampableEntity;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="catalog_position", indexes={
- *   @ORM\Index(name="idx_position", columns={"position"}),
- *   @ORM\Index(name="idx_catalog", columns={"catalog_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseRepository::class)]
+#[ORM\Table(name: 'catalog_position', indexes: [
+    new ORM\Index(name: 'idx_position', columns: ['position']),
+    new ORM\Index(name: 'idx_catalog', columns: ['catalog_id']),
+    new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+])]
 class CatalogPosition
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
-    /**
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer")
-     */
-    private $position;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean", options={"default"=true})
-     */
-    private $enabled;
+    #[Assert\Type(type: 'integer')]
+    #[ORM\Column(type: 'integer')]
+    private ?int $position = null;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Catalog", inversedBy="positions")
-     * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private ?bool $enabled = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'positions')]
+    #[ORM\JoinColumn(name: 'catalog_id', referencedColumnName: 'id', nullable: false)]
     private $catalog;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * Set position.
-     *
-     * @param int $position
-     *
-     * @return self
-     */
-    public function setPosition($position)
+    public function getId(): int|null
+    { return $this->id; }
+
+    public function setPosition(int $position): static
     {
         $this->position = $position;
 
         return $this;
     }
 
-    /**
-     * Get position.
-     *
-     * @return int $position
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
+    public function getPosition(): int|null
+    { return $this->position; }
 
-    /**
-     * Set enabled.
-     *
-     * @param bool $enabled
-     *
-     * @return self
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled): static
     {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * Get enabled.
-     *
-     * @return bool $enabled
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
+    public function getEnabled(): bool|null
+    { return $this->enabled; }
 
-    /**
-     * Set catalog.
-     *
-     * @param Catalog $catalog
-     *
-     * @return self
-     */
-    public function setCatalog(Catalog $catalog)
+    public function setCatalog(Catalog $catalog): static
     {
         $this->catalog = $catalog;
 
         return $this;
     }
 
-    /**
-     * Get catalog.
-     *
-     * @return Catalog $catalog
-     */
-    public function getCatalog()
-    {
-        return $this->catalog;
-    }
+    public function getCatalog(): Catalog
+    { return $this->catalog; }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
+    public function getInstance(): Instance
+    { return $this->instance; }
 }

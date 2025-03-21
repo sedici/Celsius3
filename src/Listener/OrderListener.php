@@ -78,7 +78,7 @@ class OrderListener
             );
 
             // Update elasticsearch index
-            $this->objectPersister->insertOne($entity);
+            // $this->objectPersister->insertOne($entity);
         }
     }
 

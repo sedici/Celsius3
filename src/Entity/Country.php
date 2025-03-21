@@ -26,59 +26,63 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Repository\CountryRepository;
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\CountryRepository")
- * @ORM\Table(name="country", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: CountryRepository::class)]
+#[ORM\Table(
+    name: 'country',
+    indexes: [
+        new ORM\Index(name: 'idx_name', columns: ['name']),
+        new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+    ]
+)]
 class Country
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration", "administration_order_show"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'administration',
+        'administration_order_show',
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"administration", "administration_order_show"})
-     */
-    private $name;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"administration"})
-     */
-    private $abbreviation;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        'administration',
+        'administration_order_show',
+    ])]
+    private ?string $name = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="City", mappedBy="country")
-     */
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups([
+        'administration',
+    ])]
+    private ?string $abbreviation = null;
+
+
+    #[ORM\OneToMany(targetEntity: \Celsius3\Entity\City::class, mappedBy: 'country')]
     private $cities;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Institution", mappedBy="country")
-     */
+
+    #[ORM\OneToMany(targetEntity: \Celsius3\Entity\Institution::class, mappedBy: 'country')]
     private $institutions;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="countries")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: \Celsius3\Entity\Instance::class, inversedBy: 'countries')]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
+
 
     public function __toString()
     {

@@ -22,254 +22,178 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\DataRequestRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\DataRequestRepository")
- * @ORM\Table(name="data_request")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "users_data_request"="UsersDataRequest",
- *   "orders_data_request"="OrdersDataRequest"
- * })
- */
+#[ORM\Entity(repositoryClass: DataRequestRepository::class)]
+#[ORM\Table(name: "data_request")]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "users_data_request" => UsersDataRequest::class,
+    "orders_data_request" => OrdersDataRequest::class,
+])]
 abstract class DataRequest
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    protected ?int $id = null;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    protected $name;
 
-    /**
-     * @ORM\Column(name="start_date", type="date")
-     * @Assert\Date()
-     */
-    protected $startDate;
+    #[ORM\Column(type: "string")]
+    #[Assert\NotBlank()]
+    protected string $name;
 
-    /**
-     * @ORM\Column(name="end_date", type="date")
-     * @Assert\Date()
-     */
-    protected $endDate;
 
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     * @Assert\NotNull()
-     */
-    protected $data;
+    #[ORM\Column(name: "start_date", type: "date")]
+    #[Assert\Date()]
+    protected DateTime $startDate;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="dataRequests")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
-     */
-    private $instance;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $exported = false;
+    #[ORM\Column(name: "end_date", type: "date")]
+    #[Assert\Date()]
+    protected DateTime $endDate;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $downloaded = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $visible = true;
+    #[ORM\Column(type: "text", nullable: false)]
+    #[Assert\NotNull()]
+    protected string $data;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $file;
 
-    /**
-     * DataRequest constructor.
-     *
-     * @param $instance Instance
-     */
-    public function __construct($instance)
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "dataRequests")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
+    private Instance $instance;
+
+
+    #[ORM\Column(type: "boolean")]
+    private bool $exported = false;
+
+
+    #[ORM\Column(type: "boolean")]
+    private bool $downloaded = false;
+
+
+    #[ORM\Column(type: "boolean")]
+    private bool $visible = true;
+
+
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $file = null;
+
+
+    public function __construct(Instance $instance)
     {
         $this->instance = $instance;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getData()
+    public function getData(): string
     {
         return $this->data;
     }
 
-    /**
-     * @param string $data
-     */
-    public function setData($data)
+    public function setData(string $data): void
     {
         $this->data = $data;
     }
 
-    public function getArrayData()
+    public function getArrayData(): mixed
     {
         return unserialize($this->data);
     }
 
-    /**
-     * @return Instance
-     */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }
 
-    /**
-     * @param Instance $instance
-     */
-    public function setInstance($instance)
+    public function setInstance(Instance $instance): void
     {
         $this->instance = $instance;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return DataRequest
-     */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStartDate()
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    /**
-     * @param mixed $startDate
-     * @return DataRequest
-     */
-    public function setStartDate($startDate)
+    public function setStartDate(DateTime $startDate): self
     {
         $this->startDate = $startDate;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEndDate()
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
-    /**
-     * @param mixed $endDate
-     * @return DataRequest
-     */
-    public function setEndDate($endDate)
+    public function setEndDate(DateTime $endDate): self
     {
         $this->endDate = $endDate;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExported()
+    public function getExported(): bool
     {
         return $this->exported;
     }
 
-    /**
-     * @param mixed $exported
-     */
-    public function setExported($exported)
+    public function setExported(bool $exported): self
     {
         $this->exported = $exported;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDownloaded()
+    public function getDownloaded(): bool
     {
         return $this->downloaded;
     }
 
-    /**
-     * @param mixed $downloaded
-     */
-    public function setDownloaded($downloaded)
+    public function setDownloaded(bool $downloaded): self
     {
         $this->downloaded = $downloaded;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFile()
+    public function getFile(): ?string
     {
         return $this->file;
     }
 
-    /**
-     * @param mixed $file
-     */
-    public function setFile($file)
+    public function setFile(?string $file): void
     {
         $this->file = $file;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVisible()
+    public function getVisible(): bool
     {
         return $this->visible;
     }
 
-    /**
-     * @param mixed $visible
-     */
-    public function setVisible($visible)
+    public function setVisible(bool $visible): self
     {
         $this->visible = $visible;
 

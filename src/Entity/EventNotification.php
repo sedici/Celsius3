@@ -22,22 +22,22 @@
 
 declare(strict_types=1);
 
-    namespace Celsius3\Entity;
+namespace Celsius3\Entity;
 
+use Celsius3\Entity\Event\Event;
+use Celsius3\Repository\BaseNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Repository\BaseNotificationRepository;
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseNotificationRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
 class EventNotification extends Notification
 {
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     * @ORM\JoinColumn(name="event_notification_id", referencedColumnName="id")
-     */
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    #[ORM\JoinColumn(name: "event_notification_id", referencedColumnName: "id")]
     protected $object;
+
 
     public function __construct($cause, $object, $template)
     {
@@ -48,8 +48,6 @@ class EventNotification extends Notification
         $this->setTemplate($template);
     }
 
-    public function setObject($object)
-    {
-        $this->object = $object;
-    }
+    public function setObject($object): void
+    { $this->object = $object; }
 }

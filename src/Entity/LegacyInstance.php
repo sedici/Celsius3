@@ -56,7 +56,7 @@ class LegacyInstance
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Groups({"administration_order_show"})
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @Assert\NotBlank()
@@ -124,10 +124,8 @@ class LegacyInstance
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int|null
     {
         return $this->id;
     }

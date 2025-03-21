@@ -24,44 +24,39 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Repository\BaseRepository;
 
-
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="counter", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"})
- * })
- */
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(
+    name: 'counter',
+    indexes: [
+        new ORM\Index(name: 'idx_name', columns: ['name'])
+    ]
+)]
 class Counter
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     */
-    protected $name;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $value;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    protected ?string $name = null;
+
+
+    #[ORM\Column(type: 'integer')]
+    protected ?int $value = null;
+
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int|null
     {
         return $this->id;
     }

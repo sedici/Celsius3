@@ -25,62 +25,80 @@ namespace Celsius3\Entity;
 use Celsius3\Manager\StateManager;
 use Celsius3\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-//use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-//use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\OrderRepository")
- * @ORM\Table(name="`order`", indexes={
- *   @ORM\Index(name="idx_code", columns={"`code`"}),
- *   @ORM\Index(name="idx_created_at", columns={"created_at"}),
- *   @ORM\Index(name="idx_material_data", columns={"material_data_id"}),
- *   @ORM\Index(name="idx_original_request", columns={"original_request_id"})
- * })
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- */
+
+#[ORM\Entity(repositoryClass: OrderRepository::class)]
+#[ORM\Table(name: '`order`', indexes: [
+    new ORM\Index(name: 'idx_code', columns: ['`code`']),
+    new ORM\Index(name: 'idx_created_at', columns: ['created_at']),
+    new ORM\Index(name: 'idx_material_data', columns: ['material_data_id']),
+    new ORM\Index(name: 'idx_original_request', columns: ['original_request_id']),
+])]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 class Order
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    private ?int $id = null;
 
-    /**
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer", name="`code`")
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list", "email_template"})
-     */
-    private $code;
 
-    /**
-     * @ORM\OneToOne(targetEntity="MaterialType", inversedBy="order", cascade={"all"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="material_data_id", referencedColumnName="id", nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list", "email_template"})
-     */
-    private $materialData;
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'integer')]
+    #[ORM\Column(type: 'integer', name: '`code`')]
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list',
+        'email_template'
+    ])]
+    private int $code;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\OneToOne(targetEntity="Request", cascade={"persist"}, fetch="EAGER")
-     * @ORM\JoinColumn(name="original_request_id", referencedColumnName="id")
-     * @Groups({"api", "user_list"})
-     */
-    private $originalRequest;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="order", fetch="EAGER")
-     */
-    private $requests;
+    #[ORM\OneToOne(targetEntity: MaterialType::class, inversedBy: 'order', cascade: ['persist', 'remove'], fetch: 'EAGER')]
+    #[ORM\JoinColumn(name: 'material_data_id', referencedColumnName: 'id', nullable: true)]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list',
+        'email_template'
+    ])]
+    private ?MaterialType $materialData = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'], fetch: 'EAGER')]
+    #[ORM\JoinColumn(name: 'original_request_id', referencedColumnName: 'id')]
+    #[Groups([
+        'api',
+        'user_list'
+    ])]
+    private ?Request $originalRequest = null;
+
+
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'order', fetch: 'EAGER')]
+    private Collection $requests;
+
 
     public function __toString()
     {
@@ -141,10 +159,8 @@ class Order
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -180,7 +196,7 @@ class Order
      *
      * @return self
      */
-    public function setMaterialData(MaterialType $materialData = null)
+    public function setMaterialData(?MaterialType $materialData = null)
     {
         $this->materialData = $materialData;
 
@@ -243,10 +259,8 @@ class Order
 
     /**
      * Get requests.
-     *
-     * @return Collection $requests
      */
-    public function getRequests()
+    public function getRequests(): array|Collection
     {
         return $this->requests;
     }

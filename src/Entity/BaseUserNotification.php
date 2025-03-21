@@ -29,17 +29,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\BaseNotificationRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseNotificationRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
 class BaseUserNotification extends Notification
 {
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser", inversedBy="notifications")
-     * @ORM\JoinColumn(name="base_user_notification_id", referencedColumnName="id")
-     */
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'notifications')]
+    #[ORM\JoinColumn(name: 'base_user_notification_id', referencedColumnName: 'id')]
     protected $object;
+
 
     public function __construct($cause, BaseUser $object, $template)
     {
@@ -50,7 +48,8 @@ class BaseUserNotification extends Notification
         $this->setTemplate($template);
     }
 
-    public function setObject($object)
+
+    public function setObject($object): void
     {
         $this->object = $object;
     }

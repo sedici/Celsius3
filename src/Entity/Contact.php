@@ -22,102 +22,118 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\ContactRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Celsius3\Entity\SoftDeleteableEntity;
-use Celsius3\Entity\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ContactRepository")
- * @ORM\Table(name="contact", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"}),
- *   @ORM\Index(name="idx_surname", columns={"surname"}),
- *   @ORM\Index(name="idx_email", columns={"email"}),
- *   @ORM\Index(name="idx_user", columns={"user_id"}),
- *   @ORM\Index(name="idx_institution", columns={"institution_id"}),
- *   @ORM\Index(name="idx_owning_instance", columns={"owning_instance_id"})
- * })
- */
+
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt")]
+#[ORM\Entity(repositoryClass: ContactRepository::class)]
+#[ORM\Table(name: "contact", indexes: [
+    new ORM\Index(name: "idx_name", columns: ["name"]),
+    new ORM\Index(name: "idx_surname", columns: ["surname"]),
+    new ORM\Index(name: "idx_email", columns: ["email"]),
+    new ORM\Index(name: "idx_user", columns: ["user_id"]),
+    new ORM\Index(name: "idx_institution", columns: ["institution_id"]),
+    new ORM\Index(name: "idx_owning_instance", columns: ["owning_instance_id"])
+])]
 class Contact
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    /**
-     * @ORM\OneToMany(targetEntity="CustomContactValue", mappedBy="contact", cascade={"remove"})
-     */
-    protected $customValues;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api", "administration"})
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration"})
-     */
-    private $name;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration"})
-     */
-    private $surname;
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration"})
-     */
-    private $email;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"api", "administration"})
-     */
-    private $address;
-    /**
-     * @ORM\OneToOne(targetEntity="BaseUser")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="ContactType", inversedBy="contacts")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
-     * @Groups({"api"})
-     */
-    private $type;
-    /**
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="contacts")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
-     */
-    private $instance;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Institution", inversedBy="contacts")
-     * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
-     */
-    private $institution;
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
-     * @ORM\JoinColumn(name="owning_instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $owningInstance;
+    #[ORM\OneToMany(targetEntity: CustomContactValue::class, mappedBy: "contact", cascade: ["remove"])]
+    protected Collection $customValues;
+
+
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private ?int $id = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private string $name;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private string $surname;
+
+
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private string $email;
+
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private ?string $address = null;
+
+
+    #[ORM\OneToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+    private ?BaseUser $user = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: ContactType::class, inversedBy: "contacts")]
+    #[ORM\JoinColumn(name: "type_id", referencedColumnName: "id", nullable: false)]
+    #[Groups(["api"])]
+    private ContactType $type;
+
+
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "contacts")]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
+    private ?Instance $instance = null;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: "contacts")]
+    #[ORM\JoinColumn(name: "institution_id", referencedColumnName: "id", nullable: false)]
+    private Institution $institution;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\JoinColumn(name: "owning_instance_id", referencedColumnName: "id", nullable: false)]
+    private Instance $owningInstance;
+
+
+    public function __construct()
+    {
+        $this->customValues = new ArrayCollection();
+    }
 
     /**
      * Get id.
-     *
-     * @return id $id
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -141,7 +157,7 @@ class Contact
      *
      * @return string $name
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -153,7 +169,7 @@ class Contact
      *
      * @return self
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -165,7 +181,7 @@ class Contact
      *
      * @return string $surname
      */
-    public function getSurname()
+    public function getSurname(): string
     {
         return $this->surname;
     }
@@ -177,7 +193,7 @@ class Contact
      *
      * @return self
      */
-    public function setSurname($surname)
+    public function setSurname(string $surname): self
     {
         $this->surname = $surname;
 
@@ -189,7 +205,7 @@ class Contact
      *
      * @return string $email
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -201,7 +217,7 @@ class Contact
      *
      * @return self
      */
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -213,7 +229,7 @@ class Contact
      *
      * @return string $address
      */
-    public function getAddress()
+    public function getAddress(): ?string
     {
         return $this->address;
     }
@@ -225,7 +241,7 @@ class Contact
      *
      * @return self
      */
-    public function setAddress($address)
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -237,7 +253,7 @@ class Contact
      *
      * @return BaseUser $user
      */
-    public function getUser()
+    public function getUser(): ?BaseUser
     {
         return $this->user;
     }
@@ -249,7 +265,7 @@ class Contact
      *
      * @return self
      */
-    public function setUser(BaseUser $user)
+    public function setUser(?BaseUser $user): self
     {
         $this->user = $user;
 
@@ -261,7 +277,7 @@ class Contact
      *
      * @return ContactType $type
      */
-    public function getType()
+    public function getType(): ContactType
     {
         return $this->type;
     }
@@ -273,7 +289,7 @@ class Contact
      *
      * @return self
      */
-    public function setType(ContactType $type)
+    public function setType(ContactType $type): self
     {
         $this->type = $type;
 
@@ -285,7 +301,7 @@ class Contact
      *
      * @return Instance $instance
      */
-    public function getInstance()
+    public function getInstance(): ?Instance
     {
         return $this->instance;
     }
@@ -297,7 +313,7 @@ class Contact
      *
      * @return self
      */
-    public function setInstance(Instance $instance)
+    public function setInstance(?Instance $instance): self
     {
         $this->instance = $instance;
 
@@ -309,7 +325,7 @@ class Contact
      *
      * @return Institution $institution
      */
-    public function getInstitution()
+    public function getInstitution(): Institution
     {
         return $this->institution;
     }
@@ -321,7 +337,7 @@ class Contact
      *
      * @return self
      */
-    public function setInstitution(Institution $institution)
+    public function setInstitution(Institution $institution): self
     {
         $this->institution = $institution;
 
@@ -333,7 +349,7 @@ class Contact
      *
      * @return Instance $owningInstance
      */
-    public function getOwningInstance()
+    public function getOwningInstance(): Instance
     {
         return $this->owningInstance;
     }
@@ -345,7 +361,7 @@ class Contact
      *
      * @return self
      */
-    public function setOwningInstance(Instance $owningInstance)
+    public function setOwningInstance(Instance $owningInstance): self
     {
         $this->owningInstance = $owningInstance;
 

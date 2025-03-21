@@ -114,7 +114,9 @@ class HtmlUserOrderController extends OrderController
             $this->new(
                 formOptions: [
                     'user' => $this->getUser(),
-                    'librarian' => false,
+                    'librarian' => $this->security->isGranted(
+                        UserManager::ROLE_LIBRARIAN
+                    ),
                     'actual_user' => $this->getUser()
                 ]
             )
@@ -134,10 +136,8 @@ class HtmlUserOrderController extends OrderController
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $material = $this->getMaterialType();
-
         $options = [
-            'material' => $material,
+            'material' => $this->getMaterialType(),
             'user' => $this->getUser(),
             'actual_user' => $this->getUser(),
             'target' => $request
@@ -147,7 +147,8 @@ class HtmlUserOrderController extends OrderController
         ];
 
         if ($this->getMaterialType() === JournalTypeType::class)
-            $options['other'] = $request->get('order')['materialData']['journal_autocomplete'];
+            $options['other'] = $request
+                ->get('order')['materialData']['journal_autocomplete'];
 
 
         return $this->htmlRenderer->render(

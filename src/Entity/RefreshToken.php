@@ -24,29 +24,24 @@ namespace Celsius3\Entity;
 
 use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Entity\Client;
+use Celsius3\Entity\BaseUser;
 
-/**
- * @ORM\Entity
- */
+
+#[ORM\Entity]
 class RefreshToken extends BaseRefreshToken
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected int $id;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Client")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    protected $client;
+    #[ORM\ManyToOne(targetEntity: Client::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    protected Client $client;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     */
-    protected $user;
 
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    protected BaseUser $user;
 }

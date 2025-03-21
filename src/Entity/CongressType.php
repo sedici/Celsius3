@@ -22,44 +22,46 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CongressType extends MaterialType
 {
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $place;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $place = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $communication;
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $communication = null;
+
 
     /**
      * Get material type.
-     *
-     * @return string
      */
-    public function getMaterialType()
+    public function getMaterialType(): string
     {
         return 'congress';
     }
 
     /**
      * Set place.
-     *
-     * @param string $place
-     *
-     * @return self
      */
-    public function setPlace($place)
+    public function setPlace(?string $place): self
     {
         $this->place = $place;
 
@@ -71,7 +73,7 @@ class CongressType extends MaterialType
      *
      * @return string $place
      */
-    public function getPlace()
+    public function getPlace(): ?string
     {
         return $this->place;
     }
@@ -83,7 +85,7 @@ class CongressType extends MaterialType
      *
      * @return self
      */
-    public function setCommunication($communication)
+    public function setCommunication(?string $communication): self
     {
         $this->communication = $communication;
 
@@ -95,7 +97,7 @@ class CongressType extends MaterialType
      *
      * @return string $communication
      */
-    public function getCommunication()
+    public function getCommunication(): ?string
     {
         return $this->communication;
     }

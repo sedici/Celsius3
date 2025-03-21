@@ -22,44 +22,51 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="hive", indexes={
- *   @ORM\Index(name="idx_name", columns={"name"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(
+    name: "hive",
+    indexes: [
+        new ORM\Index(name: "idx_name", columns: ["name"])
+    ]
+)]
 class Hive
 {
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"administration_order_show"})
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank
-     * @Assert\NotNull
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"administration_order_show"})
-     */
-    private $name;
-    /**
-     * @ORM\OneToMany(targetEntity="LegacyInstance", mappedBy="hive")
-     */
-    private $instances;
-    /**
-     * @ORM\OneToMany(targetEntity="Institution", mappedBy="hive")
-     */
-    private $institutions;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "administration_order_show",
+    ])]
+    private ?int $id = null;
 
-    public function __toString()
+
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "administration_order_show",
+    ])]
+    private string $name;
+
+
+    #[ORM\OneToMany(targetEntity: LegacyInstance::class, mappedBy: "hive")]
+    private Collection $instances;
+
+
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: "hive")]
+    private Collection $institutions;
+
+
+    public function __toString(): string
     {
         return $this->name;
     }
@@ -70,95 +77,48 @@ class Hive
         $this->institutions = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     *
-     * @return $id
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Add instance.
-     *
-     * @param LegacyInstance $instance
-     */
-    public function addInstance(LegacyInstance $instance)
+    public function addInstance(LegacyInstance $instance): void
     {
         $this->instances[] = $instance;
     }
 
-    /**
-     * Remove instance.
-     *
-     * @param LegacyInstance $instance
-     */
-    public function removeInstance(LegacyInstance $instance)
+    public function removeInstance(LegacyInstance $instance): void
     {
         $this->instances->removeElement($instance);
     }
 
-    /**
-     * Get instances.
-     *
-     * @return array|ArrayCollection $instances
-     */
     public function getInstances(): array|ArrayCollection
     {
         return $this->instances;
     }
 
-    /**
-     * Add institution.
-     *
-     * @param Institution $institution
-     */
-    public function addInstitution(Institution $institution)
+    public function addInstitution(Institution $institution): void
     {
         $this->institutions[] = $institution;
     }
 
-    /**
-     * Remove institution.
-     *
-     * @param Institution $institution
-     */
-    public function removeInstitution(Institution $institution)
+    public function removeInstitution(Institution $institution): void
     {
         $this->institutions->removeElement($institution);
     }
 
-    /**
-     * Get institutions.
-     *
-     * @return array|ArrayCollection $institutions
-     */
     public function getInstitutions(): array|ArrayCollection
     {
         return $this->institutions;

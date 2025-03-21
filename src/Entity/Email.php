@@ -22,99 +22,97 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\EmailRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\EmailRepository")
- * @ORM\Table(name="email")
- */
+#[ORM\Entity(repositoryClass: EmailRepository::class)]
+#[ORM\Table(name: "email")]
 class Email
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api_administration"})
-     */
-    private $address;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api_administration"})
-     */
-    private $subject;
+    #[Assert\NotBlank()]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api_administration",
+    ])]
+    private string $address;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="text")
-     */
-    private $text;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="BaseUser", cascade={"persist"})
-     * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=false)
-     * @Groups({"api_administration"})
-     */
-    private $sender;
+    #[Assert\NotBlank()]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api_administration",
+    ])]
+    private string $subject;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance", cascade={"persist"})
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $instance;
 
-    /**
-     * @ORM\Column(name="sent", type="boolean")
-     */
-    private $sent;
+    #[Assert\NotBlank()]
+    #[ORM\Column(type: "text")]
+    private string $text;
 
-    /**
-     * @ORM\Column(name="attempts", type="integer")
-     */
-    private $attempts = 0;
 
-    /**
-     * @ORM\Column(name="error", type="boolean")
-     */
-    private $error = false;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id", nullable: false)]
+    #[Groups([
+        "api_administration",
+    ])]
+    private BaseUser $sender;
+
+
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
+    private Instance $instance;
+
+
+    #[ORM\Column(name: "sent", type: "boolean")]
+    private bool $sent;
+
+
+    #[ORM\Column(name: "attempts", type: "integer")]
+    private int $attempts = 0;
+
+
+    #[ORM\Column(name: "error", type: "boolean")]
+    private bool $error = false;
 
 
     public function getId(): mixed
-    { return $this->id; }
+    {
+        return $this->id;
+    }
 
 
     public function setAddress(string $address): static
-    { $this->address = $address; return $this; }
+    {
+        $this->address = $address;
+        return $this;
+    }
 
 
     public function incrementAttempts(): static
-    { $this->attempts++; return $this; }
+    {
+        $this->attempts++;
+        return $this;
+    }
 
 
     public function getAddress(): string
-    { return $this->address; }
+    {
+        return $this->address;
+    }
 
-    /**
-     * Set subject.
-     *
-     * @param string $subject
-     *
-     * @return self
-     */
     public function setSubject(string $subject): static
     {
         $this->subject = $subject;
@@ -122,144 +120,77 @@ class Email
         return $this;
     }
 
-    /**
-     * Get subject.
-     *
-     * @return string $subject
-     */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
-    /**
-     * Set text.
-     *
-     * @param string $text
-     *
-     * @return self
-     */
-    public function setText($text)
+    public function setText(string $text): self
     {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * Get text.
-     *
-     * @return string $text
-     */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
 
-    /**
-     * Set sender.
-     *
-     * @param BaseUser $sender
-     *
-     * @return self
-     */
-    public function setSender(BaseUser $sender)
+    public function setSender(BaseUser $sender): self
     {
         $this->sender = $sender;
 
         return $this;
     }
 
-    /**
-     * Get sender.
-     *
-     * @return BaseUser $sender
-     */
-    public function getSender()
+    public function getSender(): BaseUser
     {
         return $this->sender;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }
 
-    /**
-     * Set sent.
-     *
-     * @param bool $sent
-     *
-     * @return Email
-     */
-    public function setSent($sent)
+    public function setSent(bool $sent): self
     {
         $this->sent = $sent;
 
         return $this;
     }
 
-    /**
-     * Get sent.
-     *
-     * @return bool
-     */
-    public function getSent()
+    public function getSent(): bool
     {
         return $this->sent;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAttempts()
+    public function getAttempts(): int
     {
         return $this->attempts;
     }
 
-    /**
-     * Add attempt
-     */
-    public function addAttempt()
+    public function addAttempt(): void
     {
         $this->attempts++;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getError()
+    public function getError(): bool
     {
         return $this->error;
     }
 
-    /**
-     * @param mixed $error
-     */
     public function setError(bool $error): static
     {
         $this->error = $error;
         return $this;
     }
-
-
 }
