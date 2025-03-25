@@ -29,6 +29,7 @@ use Celsius3\Repository\BaseNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 #[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
 class EventNotification extends Notification
 {

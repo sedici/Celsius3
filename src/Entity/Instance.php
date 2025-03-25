@@ -31,6 +31,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\InstanceRepository;
+use Doctrine\Common\Collections\Collection;
 
 
 #[ORM\Entity(repositoryClass: InstanceRepository::class)]
@@ -38,6 +39,7 @@ use Celsius3\Repository\InstanceRepository;
 #[UniqueEntity('host')]
 class Instance extends LegacyInstance
 {
+
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: "/^[a-zA-Z]+$/")]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
@@ -59,7 +61,7 @@ class Instance extends LegacyInstance
     #[Groups([
         'administration_order_show'
     ])]
-    protected bool $invisible = false;
+    protected ?bool $invisible = false;
 
 
     #[ORM\OneToMany(targetEntity: BaseUser::class, mappedBy: 'instance')]
@@ -152,26 +154,20 @@ class Instance extends LegacyInstance
     public function get($key): Configuration
     {
         $cfg = $this->getConfigurations()->filter(
-            static function (Configuration $entry) use ($key) {
-                return $entry->getKey() === $key;
-            }
+            fn (Configuration $entry): bool => $entry->getKey() === $key
         )->first();
 
         return $cfg ? $cfg : new Configuration();
     }
 
-    public function getConfigurations()
-    {
-        return $this->configurations;
-    }
+    public function getConfigurations(): array|Collection
+    { return $this->configurations; }
 
     public function has($key): bool
     {
         return $this->getConfigurations()
             ->filter(
-                static function (Configuration $entry) use ($key) {
-                    return $entry->getKey() === $key;
-                }
+                fn (Configuration $entry): bool => $entry->getKey() === $key
             )->count() > 0;
     }
 

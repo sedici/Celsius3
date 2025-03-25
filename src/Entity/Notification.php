@@ -23,6 +23,7 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Entity\Template;
 use Celsius3\Repository\NotificationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -68,27 +69,42 @@ abstract class Notification
 
 
     #[ORM\Column(type: \DateTime::class, nullable: true)]
-    #[Gedmo\Timestampable(on: "change", field: "viewed", value: "true")]
+    // #[Gedmo\Timestampable(on: "change", field: "viewed", value: true)]
     private ?\DateTime $viewedAt = null;
 
 
     #[ORM\ManyToOne(targetEntity: NotificationTemplate::class)]
-    #[ORM\JoinColumn(name: "template_id", referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(
+        name: "template_id", referencedColumnName: "id", nullable: false
+    )]
     private ?Template $template = null;
 
 
     #[ORM\ManyToMany(targetEntity: BaseUser::class)]
     #[ORM\JoinTable(name: "notification_receiver",
-        joinColumns: [new ORM\JoinColumn(name: "notification_id", referencedColumnName: "id")],
-        inverseJoinColumns: [new ORM\JoinColumn(name: "receiver_id", referencedColumnName: "id")]
+        joinColumns: [new ORM\JoinColumn(
+            name: "notification_id",
+            referencedColumnName: "id"
+        )],
+        inverseJoinColumns: [new ORM\JoinColumn(
+            name: "receiver_id",
+            referencedColumnName: "id"
+        )]
     )]
     private ArrayCollection $receivers;
 
 
     #[ORM\ManyToMany(targetEntity: BaseUser::class)]
     #[ORM\JoinTable(name: "notification_viewer",
-        joinColumns: [new ORM\JoinColumn(name: "notification_id", referencedColumnName: "id")],
-        inverseJoinColumns: [new ORM\JoinColumn(name: "receiver_id", referencedColumnName: "id", unique: true)]
+        joinColumns: [new ORM\JoinColumn(
+            name: "notification_id",
+            referencedColumnName: "id"
+        )],
+        inverseJoinColumns: [new ORM\JoinColumn(
+            name: "receiver_id",
+            referencedColumnName: "id",
+            unique: true
+        )]
     )]
     private BaseUser $viewer;
 

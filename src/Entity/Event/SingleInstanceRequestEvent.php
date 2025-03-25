@@ -31,11 +31,11 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiable
 {
     use ReclaimableTrait;

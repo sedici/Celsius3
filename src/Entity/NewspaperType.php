@@ -28,6 +28,7 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class NewspaperType extends MaterialType
 {

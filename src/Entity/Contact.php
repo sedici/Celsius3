@@ -22,6 +22,8 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\ContactRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

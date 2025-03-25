@@ -36,6 +36,7 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 class Message implements Notifiable
 {
+
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy: "AUTO")]

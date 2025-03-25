@@ -25,7 +25,7 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogRepository::class)]

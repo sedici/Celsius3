@@ -25,12 +25,13 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller;
 
+use Celsius3\Controller\Base\EmailController;
+use Celsius3\Controller\Base\UserController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\ChangePasswordFormType;
 use Celsius3\Form\Type\ResetPasswordRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,82 +44,141 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
-/**
- * @Route("/public/reset-password")
- */
-class ResetPasswordController extends AbstractController
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\EntityManager\ThreadManager;
+use Celsius3\Helper\ConfigurationHelper;
+use Celsius3\Helper\CustomFieldHelper;
+use Celsius3\Manager\InstanceManager;
+use Knp\Component\Pager\PaginatorInterface;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Manager\FilterManager;
+use Celsius3\Manager\UnionManager;
+use Celsius3\Manager\UserManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+
+
+#[Route('/public/reset-password')]
+class ResetPasswordController extends UserController // AbstractController
 {
     use ResetPasswordControllerTrait;
 
-    private $resetPasswordHelper;
-    private $entityManager;
 
     public function __construct(
-        ResetPasswordHelperInterface $resetPasswordHelper,
-        EntityManagerInterface $entityManager
+        protected EmailController $emailController,
+        protected ResetPasswordHelperInterface $resetPasswordHelper,
+        TokenGeneratorInterface $tokenGenerator,
+        ThreadManager $threadManager,
+        CustomFieldHelper $customFieldHelper,
+        ValidatorInterface $validator,
+        InstanceManager $instanceManager,
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        ConfigurationHelper $configurationHelper,
+        TranslatorInterface $translator,
+        ManagerRegistry $managerRegistry,
+        RequestStack $requestStack,
+        UnionManager $unionManager,
+        UserManager $userManager,
+        FilterManager $filterManager,
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
-        $this->resetPasswordHelper = $resetPasswordHelper;
-        $this->entityManager = $entityManager;
+        parent::__construct(
+            $tokenGenerator,
+            $threadManager,
+            $customFieldHelper,
+            $validator,
+            $instanceManager,
+            $entityManager,
+            $paginator,
+            $configurationHelper,
+            $translator,
+            $managerRegistry,
+            $requestStack,
+            $unionManager,
+            $userManager,
+            $filterManager,
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
+        );
+    }
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('reset_password');
     }
 
 
-    /**
-     * Display & process form to request a password reset.
-     * @Route("/", name="celsius3_forgot_password_request")
-     */
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
-    {
+    #[Route("/", name: "password_forgotten")]
+    public function request(
+        MailerInterface $mailer,
+    ): Response {
+        $request = $this->requestStack->getCurrentRequest();
+
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
-                $form->get('email')->getData(),
-                $mailer,
-                $translator
+                $form->get('email')->getData()
             );
         }
 
-        return $this->render('reset_password/request.html.twig', [
-            'requestForm' => $form->createView(),
-        ]);
+        return $this->htmlRenderer->render(
+            'request',
+            [ 'requestForm' => $form->createView() ]
+        );
     }
 
 
-    /**
-     * Confirmation page after a user has requested a password reset.
-     * @Route("/check-email", name="celsius3_check_email")
-     */
+    #[Route("/check-email", name: "check_email")]
     public function checkEmail(): Response
     {
-        // Generate a fake token if the user does not exist or someone hit this page directly.
-        // This prevents exposing whether or not a user was found with the given email address or not
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
             $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
         }
 
-        return $this->render('reset_password/check_email.html.twig', [
-            'resetToken' => $resetToken,
-        ]);
+        return $this->htmlRenderer->render(
+            'check_email',
+            [ 'resetToken' => $resetToken ]
+        );
     }
 
 
-    /**
-     * Validates and process the reset URL that the user clicked in their email.
-     * @Route("/reset/{token}", name="celsius3_reset_password")
-     */
+    #[Route("/reset/{token}", name: "reset_password")]
     public function reset(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         TranslatorInterface $translator,
-        string $token = null
+        ?string $token = null
     ): Response {
         if ($token) {
-            // We store the token in session and remove it from the URL, to avoid the URL being
-            // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
             $this->storeTokenInSession($token);
 
-            return $this->redirectToRoute('celsius3_reset_password');
+            return $this->redirectToRoute('reset_password');
         }
 
         $token = $this->getTokenFromSession();
@@ -142,18 +202,15 @@ class ResetPasswordController extends AbstractController
                 )
             );
 
-            return $this->redirectToRoute('celsius3_forgot_password_request');
+            return $this->redirectToRoute('password_forgotten');
         }
 
-        // The token is valid; allow the user to change their password.
         $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
-            // Encode(hash) the plain password, and set it.
             $encodedPassword = $userPasswordHasher->hashPassword(
                 $user,
                 $form->get('plainPassword')->getData()
@@ -162,41 +219,44 @@ class ResetPasswordController extends AbstractController
             $user->setPassword($encodedPassword);
             $this->entityManager->flush();
 
-            // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('reset_password/reset.html.twig', [
-            'resetForm' => $form->createView(),
-        ]);
+        return $this->htmlRenderer->render(
+            'reset',
+            [ 'resetForm' => $form->createView() ]
+        );
     }
 
 
     private function processSendingPasswordResetEmail(
-        string $emailFormData,
-        MailerInterface $mailer,
-        TranslatorInterface $translator
+        string $emailFormData
     ): RedirectResponse {
-        $user = $this->entityManager
-            ->getRepository(BaseUser::class)
-            ->findOneBy([
-                'email' => $emailFormData,
-            ]);
+        $user = $this->repository->findOneBy(
+            [ 'email' => $emailFormData ]
+        );
 
-        // Do not reveal whether a user account was found or not.
-        if (!$user) {
-            return $this->redirectToRoute('celsius3_check_email');
-        }
+        if (!$user) return $this->redirectToRoute('check_email');
 
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            return $this->redirectToRoute('celsius3_check_email');
+            return $this->redirectToRoute('check_email');
         }
 
-        // TODO: Reemplazar email y nombre por el de la instancia actual
+        $this->emailController->sendEmail(
+            'test@dominio.com',
+            'Your password reset request',
+            $this->emailController->sendTemplatedEmail(
+                $user->getEmail(),
+                'reset_password/email.html.twig',
+                [ 'resetToken' => $resetToken ]
+            ),
+            $this->getUser()
+        );
+
         $email = (new TemplatedEmail())
             ->from(new Address('test@dominio.com', 'test'))
             ->to($user->getEmail())
@@ -206,9 +266,8 @@ class ResetPasswordController extends AbstractController
 
         $mailer->send($email);
 
-        // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);
 
-        return $this->redirectToRoute('celsius3_check_email');
+        return $this->redirectToRoute('check_email');
     }
 }

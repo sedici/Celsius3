@@ -22,11 +22,11 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\TimestampableEntity as MixinTimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Celsius3\Entity\TimestampableEntity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
 
@@ -35,7 +35,7 @@ use Doctrine\Common\Collections\Collection;
 #[ORM\Table(name: 'contact_type', indexes: [new ORM\Index(name: 'idx_name', columns: ['name'])] )]
 class ContactType
 {
-    use TimestampableEntity;
+    use MixinTimestampableEntity;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]

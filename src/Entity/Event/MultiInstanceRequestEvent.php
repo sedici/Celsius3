@@ -34,11 +34,11 @@ use Celsius3\Manager\OrderManager;
 use Celsius3\Manager\StateManager;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 {
     use ReclaimableTrait;
@@ -46,11 +46,9 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     use AnnullableTrait;
     use ProviderTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Request", cascade={"persist", "refresh"})
-     * @ORM\JoinColumn(name="remote_request_id", referencedColumnName="id")
-     */
-    private $remoteRequest;
+    #[ORM\ManyToOne(targetEntity: Request::class, cascade: ['persist', 'refresh'])]
+    #[ORM\JoinColumn(name: 'remote_request_id', referencedColumnName: 'id')]
+    private ?Request $remoteRequest = null;
 
     public function getEventType(): string
     {

@@ -34,50 +34,43 @@ use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\StateManager;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 {
     use ReclaimableTrait;
     use ApprovableTrait;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     */
-    private $deliveryType;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $deliveryType;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\File", cascade={"persist"})
-     * @ORM\JoinTable(name="mirequests_files",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
-     *      )
-     */
-    private $files;
+    #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'mirequests_files',
+        joinColumns: [new ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
+    )]
+    private Collection $files;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(
-     *     targetEntity="Celsius3\Entity\State",
-     *     inversedBy="remoteEvents",
-     *     cascade={"persist",  "refresh"}
-     * )
-     * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
-     */
-    private $remoteState;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(
+        targetEntity: State::class,
+        inversedBy: 'remoteEvents',
+        cascade: ['persist', 'refresh']
+    )]
+    #[ORM\JoinColumn(name: 'remote_state_id', referencedColumnName: 'id')]
+    private State $remoteState;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
-     */
-    private $requestEvent;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    #[ORM\JoinColumn(name: 'request_event_id', referencedColumnName: 'id')]
+    private Event $requestEvent;
 
     public function __construct()
     {
@@ -123,7 +116,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
         $this->files->removeElement($files);
     }
 
-    public function getFiles()
+    public function getFiles(): Collection
     {
         return $this->files;
     }

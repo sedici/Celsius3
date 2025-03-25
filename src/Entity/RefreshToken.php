@@ -31,6 +31,7 @@ use Celsius3\Entity\BaseUser;
 #[ORM\Entity]
 class RefreshToken extends BaseRefreshToken
 {
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

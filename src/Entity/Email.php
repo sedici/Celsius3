@@ -22,6 +22,7 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\EmailRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -27,9 +27,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 #[ORM\Entity(repositoryClass: JournalTypeRepository::class)]
 class JournalType extends MaterialType
 {
+
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
     #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]

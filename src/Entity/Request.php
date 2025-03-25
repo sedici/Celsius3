@@ -23,8 +23,8 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
-//use Celsius3\Entity\Order;
-
+use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -206,7 +206,7 @@ class Request
      *
      * @return self
      */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -218,7 +218,7 @@ class Request
      *
      * @return string $type
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -230,7 +230,7 @@ class Request
      *
      * @return self
      */
-    public function setComments($comments)
+    public function setComments(?string $comments): self
     {
         $this->comments = $comments;
 
@@ -242,7 +242,7 @@ class Request
      *
      * @return string $comments
      */
-    public function getComments()
+    public function getComments(): ?string
     {
         return $this->comments;
     }
@@ -254,7 +254,7 @@ class Request
      *
      * @return self
      */
-    public function setOwner(BaseUser $owner)
+    public function setOwner(BaseUser $owner): static
     {
         $this->owner = $owner;
 
@@ -266,7 +266,7 @@ class Request
      *
      * @return BaseUser $owner
      */
-    public function getOwner()
+    public function getOwner(): BaseUser
     {
         return $this->owner;
     }
@@ -278,7 +278,7 @@ class Request
      *
      * @return self
      */
-    public function setCreator(BaseUser $creator)
+    public function setCreator(BaseUser $creator): self
     {
         $this->creator = $creator;
 
@@ -290,7 +290,7 @@ class Request
      *
      * @return BaseUser $creator
      */
-    public function getCreator()
+    public function getCreator(): BaseUser
     {
         return $this->creator;
     }
@@ -302,7 +302,7 @@ class Request
      *
      * @return self
      */
-    public function setLibrarian(BaseUser $librarian)
+    public function setLibrarian(?BaseUser $librarian): self
     {
         $this->librarian = $librarian;
 
@@ -314,7 +314,7 @@ class Request
      *
      * @return BaseUser $librarian
      */
-    public function getLibrarian()
+    public function getLibrarian(): ?BaseUser
     {
         return $this->librarian;
     }
@@ -324,7 +324,7 @@ class Request
      *
      * @param File $file
      */
-    public function addFile(File $file)
+    public function addFile(File $file): void
     {
         $this->files[] = $file;
     }
@@ -334,7 +334,7 @@ class Request
      *
      * @param File $file
      */
-    public function removeFile(File $file)
+    public function removeFile(File $file): void
     {
         $this->files->removeElement($file);
     }
@@ -352,7 +352,7 @@ class Request
      *
      * @param Event $event
      */
-    public function addEvent(Event $event)
+    public function addEvent(Event $event): void
     {
         $this->events[] = $event;
     }
@@ -362,7 +362,7 @@ class Request
      *
      * @param Event $event
      */
-    public function removeEvent(Event $event)
+    public function removeEvent(Event $event): void
     {
         $this->events->removeElement($event);
     }
@@ -372,7 +372,7 @@ class Request
      *
      * @return Collection $events
      */
-    public function getEvents()
+    public function getEvents(): Collection
     {
         return $this->events;
     }
@@ -382,7 +382,7 @@ class Request
      *
      * @param State $state
      */
-    public function addState(State $state)
+    public function addState(State $state): void
     {
         $this->states[] = $state;
     }
@@ -392,7 +392,7 @@ class Request
      *
      * @param State $state
      */
-    public function removeState(State $state)
+    public function removeState(State $state): void
     {
         $this->states->removeElement($state);
     }
@@ -402,7 +402,7 @@ class Request
      *
      * @return Collection $states
      */
-    public function getStates()
+    public function getStates(): Collection
     {
         return $this->states;
     }
@@ -414,7 +414,7 @@ class Request
      *
      * @return self
      */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
@@ -426,7 +426,7 @@ class Request
      *
      * @return Instance $instance
      */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }
@@ -438,7 +438,7 @@ class Request
      *
      * @return self
      */
-    public function setOperator(BaseUser $operator)
+    public function setOperator(?BaseUser $operator): self
     {
         $this->operator = $operator;
 
@@ -450,7 +450,7 @@ class Request
      *
      * @return BaseUser $operator
      */
-    public function getOperator()
+    public function getOperator(): ?BaseUser
     {
         return $this->operator;
     }
@@ -462,7 +462,7 @@ class Request
      *
      * @return self
      */
-    public function setOrder(Order $order)
+    public function setOrder(Order $order): self
     {
         $this->order = $order;
 
@@ -474,7 +474,7 @@ class Request
      *
      * @return Order $order
      */
-    public function getOrder()
+    public function getOrder(): Order
     {
         return $this->order;
     }
@@ -482,85 +482,95 @@ class Request
     /**
      * Se buscan los archivos para un determinado evento.
      */
-    public function getFilesForEvent($event)
+    public function getFilesForEvent($event): Collection
     {
-        return $this->getFiles()
-                        ->filter(
-                                function (File $entry) use ($event) {
-                                    return $entry->getEvent()->getId() == $event->getId();
-                                });
+        return $this->getFiles()->filter(
+            function (File $entry) use ($event): bool {
+                return $entry->getEvent()->getId() == $event->getId();
+            }
+        );
     }
 
     /**
      * Se buscan los archivos para descargar por el usuario.
      */
-    public function getFilesForDownload()
+    public function getFilesForDownload(): Collection
     {
         $instance = $this->getOrder()->getOriginalRequest()->getInstance();
 
-        return $this->getFiles()
-                        ->filter(
-                                function (File $entry) use ($instance) {
-                                    return $entry->getEvent()->getInstance()->getId() == $instance->getId();
-                                });
+        return $this->getFiles()->filter(
+            function (File $entry) use ($instance): bool {
+                return $entry->getEvent()->getInstance()->getId() == $instance->getId();
+            }
+        );
     }
 
     /**
      * Se buscan los archivos que aún no han sido descargados.
      */
-    public function getNotDownloadedFiles()
+    public function getNotDownloadedFiles(): Collection
     {
         $instance = $this->getOrder()->getOriginalRequest()->getInstance();
 
-        return $this->getFiles()
-                        ->filter(
-                                function (File $entry) use ($instance) {
-                                    return $entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->isDownloaded();
-                                });
+        return $this->getFiles()->filter(
+            function (File $entry) use ($instance): bool {
+                return $entry->getEvent()->getInstance()->getId() == (
+                    $instance->getId() && !$entry->isDownloaded()
+                );
+            }
+        );
     }
 
     /**
      * Retorna si el Request actual ha alcanzado un determinado estado o estados.
      */
-    public function hasState($names)
+    public function hasState($names): bool
     {
         if (!is_array($names)) {
             $names = array($names);
         }
 
-        return $this->getStates()
-                        ->filter(
-                                function (State $entry) use ($names) {
-                                    return in_array($entry->getType(), $names);
-                                })->count() > 0;
+        return $this->getStates()->filter(
+            function (State $entry) use ($names): bool {
+                return in_array(
+                    $entry->getType(),
+                    $names
+                );
+            }
+        )->count() > 0;
     }
 
     /**
      * Retorna el estado con nombre $name para el Request actual.
      * Antes debería verificarse su existencia con hasState.
      */
-    public function getState($name)
+    public function getState(string $name): ?State
     {
-        $result = $this->getStates()
-                        ->filter(
-                                function (State $entry) use ($name) {
-                                    return $entry->getType() === $name;
-                                })->first();
+        $result = $this->getStates()->filter(
+            function (State $entry) use ($name): bool {
+                return $entry->getType() === $name;
+            }
+        )->first();
 
         return false !== $result ? $result : null;
     }
 
     /**
      * Retorna el estado actual para el presente Request.
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
      */
-    public function getCurrentState()
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    public function getCurrentState(): ?State
     {
-        $result = $this->getStates()
-                        ->filter(
-                                function (State $entry) {
-                                    return $entry->isCurrent();
-                                })->first();
+        $result = $this->getStates()->filter(
+            fn (State $entry): bool =>
+                $entry->isCurrent()
+        )->first();
 
         return false !== $result ? $result : null;
     }
@@ -572,7 +582,7 @@ class Request
      *
      * @return self
      */
-    public function setPreviousRequest(Request $previousRequest)
+    public function setPreviousRequest(?Request $previousRequest): self
     {
         $this->previousRequest = $previousRequest;
 
@@ -584,7 +594,7 @@ class Request
      *
      * @return Request $previousRequest
      */
-    public function getPreviousRequest()
+    public function getPreviousRequest(): ?Request
     {
         return $this->previousRequest;
     }
@@ -594,7 +604,7 @@ class Request
      *
      * @param Request $request
      */
-    public function addRequest(Request $request)
+    public function addRequest(Request $request): void
     {
         $this->requests[] = $request;
     }
@@ -604,7 +614,7 @@ class Request
      *
      * @param Request $request
      */
-    public function removeRequest(Request $request)
+    public function removeRequest(Request $request): void
     {
         $this->requests->removeElement($request);
     }
@@ -614,19 +624,24 @@ class Request
      *
      * @return Collection $requests
      */
-    public function getRequests()
+    public function getRequests(): Collection
     {
         return $this->requests;
     }
 
-    /**
-     * @Groups({"api", "administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    public function hasDownloadableFiles()
+    #[Groups([
+        'api',
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+        ])]
+    public function hasDownloadableFiles(): bool
     {
-        $files = $this->getFiles()->filter(function (File $f) {
-            return !$f->isDownloaded() || $f->hasDownloadTime();
-        });
+        $files = $this->getFiles()->filter(
+            fn (File $f): bool =>
+                !$f->isDownloaded() || $f->hasDownloadTime()
+        );
 
         return $files->count() > 0;
     }

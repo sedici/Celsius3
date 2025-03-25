@@ -25,6 +25,7 @@ namespace Celsius3\Entity;
 use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity]
 class Client extends BaseClient
 {

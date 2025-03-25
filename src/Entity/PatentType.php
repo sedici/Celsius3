@@ -25,6 +25,7 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class PatentType extends MaterialType
 {

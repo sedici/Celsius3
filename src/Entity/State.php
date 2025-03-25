@@ -27,7 +27,6 @@ use Celsius3\Entity\Event\MultiInstanceReceiveEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\StateRepository;
@@ -35,8 +34,9 @@ use Doctrine\ORM\Mapping\Index;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Request;
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 
 #[ORM\Entity(repositoryClass: StateRepository::class)]

@@ -29,27 +29,24 @@ use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\StateManager;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\ReclaimEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use function array_key_exists;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ReclaimEventRepository")
- */
+
+#[ORM\Entity(repositoryClass: ReclaimEventRepository::class)]
 class ReclaimEvent extends SingleInstanceEvent implements Notifiable
 {
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
-     */
-    private $requestEvent;
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
-     */
-    private $receiveEvent;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    #[ORM\JoinColumn(name: "request_event_id", referencedColumnName: "id")]
+    private ?Event $requestEvent = null;
+
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    #[ORM\JoinColumn(name: "receive_event_id", referencedColumnName: "id")]
+    private ?Event $receiveEvent = null;
 
     public function getEventType(): string
     {

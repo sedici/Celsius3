@@ -33,6 +33,7 @@ use Celsius3\Repository\BaseNotificationRepository;
 #[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
 class MessageNotification extends Notification
 {
+
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Message::class)]
     #[ORM\JoinColumn(name: "message_notification_id", referencedColumnName: "id")]

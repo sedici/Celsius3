@@ -24,11 +24,11 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class TakeEvent extends SingleInstanceEvent
 {
     public function getEventType(): string

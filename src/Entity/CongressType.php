@@ -30,6 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CongressType extends MaterialType
 {
+
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Groups([
         "administration_list",

@@ -26,20 +26,18 @@ namespace Celsius3\Entity\Event;
 
 use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class ReuploadEvent extends SingleInstanceEvent
 {
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
-     */
-    private $receiveEvent;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    #[ORM\JoinColumn(name: "receive_event_id", referencedColumnName: "id")]
+    private ?Event $receiveEvent = null;
 
     public function getEventType(): string
     {

@@ -22,6 +22,7 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping\Id;
@@ -55,7 +56,6 @@ use Doctrine\ORM\Mapping\DiscriminatorMap;
 ])]
 abstract class Provider
 {
-
     use TimestampableEntity;
 
     #[Column(type: "integer")]

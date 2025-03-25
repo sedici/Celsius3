@@ -24,6 +24,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\ThreadRepository::class)]
 #[ORM\Table(name: "thread_metadata", indexes: [
     new ORM\Index(name: "idx_thread", columns: ["thread_id"]),

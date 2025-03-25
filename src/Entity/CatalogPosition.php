@@ -24,8 +24,8 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Entity\SoftDeleteableEntity;
-use Celsius3\Entity\TimestampableEntity;
+use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseRepository::class)]
 #[ORM\Table(name: 'catalog_position', indexes: [

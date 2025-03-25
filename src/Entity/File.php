@@ -23,6 +23,7 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\FileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,6 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: FileRepository::class)]
 #[ORM\Table(name: "file", indexes: [

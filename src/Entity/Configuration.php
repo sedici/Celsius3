@@ -22,9 +22,9 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\TimestampableEntity as MixinTimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Entity\TimestampableEntity;
 use Celsius3\Repository\ConfigurationRepository;
 
 
@@ -37,7 +37,7 @@ use Celsius3\Repository\ConfigurationRepository;
 ])]
 class Configuration
 {
-    use TimestampableEntity;
+    use MixinTimestampableEntity;
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]

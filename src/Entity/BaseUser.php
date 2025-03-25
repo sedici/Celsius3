@@ -22,6 +22,7 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Manager\NotificationManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseUserRepository::class)]
 #[ORM\Table(name: "user", indexes: [

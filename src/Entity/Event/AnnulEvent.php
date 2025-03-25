@@ -24,17 +24,17 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
-use Celsius3\Entity\Request;
+use Celsius3\Entity\Request as RequestEntity;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 use function array_key_exists;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class AnnulEvent extends SingleInstanceEvent implements Notifiable
 {
     public function getEventType(): string
@@ -42,7 +42,7 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
         return 'annul';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
+    public function applyExtraData(RequestEntity $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         if (array_key_exists('request', $data['extraData'])) {
             $data['extraData']['request']->setAnnulled(true);

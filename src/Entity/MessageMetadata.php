@@ -34,6 +34,7 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 class MessageMetadata
 {
+
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy: "AUTO")]

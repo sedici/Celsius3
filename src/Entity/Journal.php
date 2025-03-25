@@ -22,6 +22,7 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\JournalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -39,6 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Journal
 {
     use TimestampableEntity;
+
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]

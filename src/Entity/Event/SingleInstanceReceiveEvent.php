@@ -30,38 +30,32 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\SingleInstanceReceiveEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\SingleInstanceReceiveEventRepository")
- */
+
+#[ORM\Entity(repositoryClass: SingleInstanceReceiveEventRepository::class)]
 class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiable
 {
     use ReclaimableTrait;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     */
-    private $deliveryType;
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $deliveryType;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Celsius3\Entity\File", cascade={"persist"})
-     * @ORM\JoinTable(name="sirequests_files",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
-     *      )
-     */
-    private $files;
+    #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'sirequests_files')]
+    #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
+    private Collection $files;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Event\Event")
-     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
-     */
-    private $requestEvent;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Event::class)]
+    #[ORM\JoinColumn(name: 'request_event_id', referencedColumnName: 'id')]
+    private ?Event $requestEvent;
 
     public function getEventType(): string
     {
@@ -103,19 +97,19 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
         $this->files->removeElement($files);
     }
 
-    public function getFiles()
+    public function getFiles(): Collection
     {
         return $this->files;
     }
 
-    public function setRequestEvent(Event $requestEvent = null): self
+    public function setRequestEvent(?Event $requestEvent): self
     {
         $this->requestEvent = $requestEvent;
 
         return $this;
     }
 
-    public function getRequestEvent(): Event
+    public function getRequestEvent(): ?Event
     {
         return $this->requestEvent;
     }

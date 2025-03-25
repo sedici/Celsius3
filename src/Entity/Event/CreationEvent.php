@@ -24,11 +24,10 @@ namespace Celsius3\Entity\Event;
 
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CreationEvent extends SingleInstanceEvent implements Notifiable
 {
     public function getEventType(): string

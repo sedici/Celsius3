@@ -28,19 +28,17 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 use function array_key_exists;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $cancelledByUser = false;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $cancelledByUser = false;
 
     public function getEventType(): string
     {

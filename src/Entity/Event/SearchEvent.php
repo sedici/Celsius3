@@ -29,30 +29,23 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
+use Celsius3\Repository\SearchEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\SearchEventRepository")
- */
+
+#[ORM\Entity(repositoryClass: SearchEventRepository::class)]
 class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
-    /**
-     * @Assert\NotBlank
-     * @Assert\Choice(
-     *     callback = {"\Celsius3\Manager\CatalogManager", "getResults"},
-     *     message = "Choose a valid result."
-     * )
-     * @ORM\Column(type="string", length=255)
-     */
-    private $result;
+    #[Assert\NotBlank]
+    #[Assert\Choice(callback: [\Celsius3\Manager\CatalogManager::class, "getResults"], message: "Choose a valid result.")]
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $result = null;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Catalog")
-     * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id")
-     */
-    private $catalog;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Catalog::class)]
+    #[ORM\JoinColumn(name: "catalog_id", referencedColumnName: "id")]
+    private ?Catalog $catalog = null;
 
     public function getEventType(): string
     {

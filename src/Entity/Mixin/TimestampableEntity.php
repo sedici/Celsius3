@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Celsius3\Entity;
+namespace Celsius3\Entity\Mixin;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

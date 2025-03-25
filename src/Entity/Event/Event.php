@@ -36,89 +36,75 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\EventRepository")
- * @ORM\Table(name="event", indexes={
- *   @ORM\Index(name="idx_request", columns={"request_id"}),
- *   @ORM\Index(name="idx_operator", columns={"operator_id"}),
- *   @ORM\Index(name="idx_state", columns={"state_id"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
- *   @ORM\Index(name="idx_type", columns={"type"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "creation"="CreationEvent",
- *   "search"="SearchEvent",
- *   "sirequest"="SingleInstanceRequestEvent",
- *   "cancel"="CancelEvent",
- *   "annul"="AnnulEvent",
- *   "sireceive"="SingleInstanceReceiveEvent",
- *   "mireceive"="MultiInstanceReceiveEvent",
- *   "mirequest"="MultiInstanceRequestEvent",
- *   "deliver"="DeliverEvent",
- *   "localcancel"="LocalCancelEvent",
- *   "remotecancel"="RemoteCancelEvent",
- *   "reclaim"="ReclaimEvent",
- *   "approve"="ApproveEvent",
- *   "undo"="UndoEvent",
- *   "si"="SingleInstanceEvent",
- *   "mi"="MultiInstanceEvent",
- *   "take"="TakeEvent",
- *   "upload"="UploadEvent",
- *   "reupload"="ReuploadEvent",
- *   "searchpendings"="SearchPendingsEvent",
- *   "nosearchpendings"="NoSearchPendingsEvent"
- * })
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- */
+#[ORM\Entity(repositoryClass: 'Celsius3\Repository\EventRepository')]
+#[ORM\Table(name: 'event', indexes: [
+    new ORM\Index(name: 'idx_request', columns: ['request_id']),
+    new ORM\Index(name: 'idx_operator', columns: ['operator_id']),
+    new ORM\Index(name: 'idx_state', columns: ['state_id']),
+    new ORM\Index(name: 'idx_instance', columns: ['instance_id']),
+    new ORM\Index(name: 'idx_type', columns: ['type'])
+])]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap([
+    'creation' => CreationEvent::class,
+    'search' => SearchEvent::class,
+    'sirequest' => SingleInstanceRequestEvent::class,
+    'cancel' => CancelEvent::class,
+    'annul' => AnnulEvent::class,
+    'sireceive' => SingleInstanceReceiveEvent::class,
+    'mireceive' => MultiInstanceReceiveEvent::class,
+    'mirequest' => MultiInstanceRequestEvent::class,
+    'deliver' => DeliverEvent::class,
+    'localcancel' => LocalCancelEvent::class,
+    'remotecancel' => RemoteCancelEvent::class,
+    'reclaim' => ReclaimEvent::class,
+    'approve' => ApproveEvent::class,
+    'undo' => UndoEvent::class,
+    'si' => SingleInstanceEvent::class,
+    'mi' => MultiInstanceEvent::class,
+    'take' => TakeEvent::class,
+    'upload' => UploadEvent::class,
+    'reupload' => ReuploadEvent::class,
+    'searchpendings' => SearchPendingsEvent::class,
+    'nosearchpendings' => NoSearchPendingsEvent::class,
+])]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 abstract class Event implements EventInterface
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $observations;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $observations;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Request", inversedBy="events")
-     * @ORM\JoinColumn(name="request_id", referencedColumnName="id", nullable=false)
-     */
-    private $request;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events')]
+    #[ORM\JoinColumn(name: 'request_id', referencedColumnName: 'id', nullable: false)]
+    private Request $request;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
-     */
-    private $operator;
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
+    private BaseUser $operator;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(
-     *     targetEntity="Celsius3\Entity\State",
-     *     inversedBy="events",
-     *     cascade={"persist", "refresh"}
-     * )
-     * @ORM\JoinColumn(name="state_id", referencedColumnName="id", nullable=false)
-     */
-    private $state;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(
+        targetEntity: State::class,
+        inversedBy: 'events',
+        cascade: ['persist', 'refresh']
+    )]
+    #[ORM\JoinColumn(name: 'state_id', referencedColumnName: 'id', nullable: false)]
+    private State $state;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Instance", inversedBy="events")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
-     */
-    private $instance;
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events')]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
+    private Instance $instance;
 
     abstract public function getEventType(): string;
 
@@ -168,7 +154,7 @@ abstract class Event implements EventInterface
         return $this->operator;
     }
 
-    public function setOperator(BaseUser $operator = null): Event
+    public function setOperator(?BaseUser $operator = null): Event
     {
         $this->operator = $operator;
 
