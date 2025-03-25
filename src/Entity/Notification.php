@@ -24,13 +24,14 @@ namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Template;
+use Celsius3\Repository\NotificationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\NotificationRepository::class)]
+#[ORM\Entity(repositoryClass: NotificationRepository::class)]
 #[ORM\Table(name: "notification", indexes: [
     new ORM\Index(name: "idx_viewed", columns: ["viewed"]),
     new ORM\Index(name: "idx_template", columns: ["template_id"]),
@@ -89,18 +90,14 @@ abstract class Notification
         joinColumns: [new ORM\JoinColumn(name: "notification_id", referencedColumnName: "id")],
         inverseJoinColumns: [new ORM\JoinColumn(name: "receiver_id", referencedColumnName: "id", unique: true)]
     )]
-    private $viewer;
+    private BaseUser $viewer;
 
 
     public function __construct()
-    {
-        $this->receivers = new ArrayCollection();
-    }
+    { $this->receivers = new ArrayCollection(); }
 
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
     public function setCause(string $cause): self
     {
@@ -110,9 +107,7 @@ abstract class Notification
     }
 
     public function getCause(): ?string
-    {
-        return $this->cause;
-    }
+    { return $this->cause; }
 
     public function setViewed(bool $viewed): self
     {
@@ -122,9 +117,7 @@ abstract class Notification
     }
 
     public function isViewed(): bool
-    {
-        return $this->viewed;
-    }
+    { return $this->viewed; }
 
     public function setViewedAt(?\DateTime $viewedAt): self
     {
@@ -134,33 +127,27 @@ abstract class Notification
     }
 
     public function getViewedAt(): ?\DateTime
-    {
-        return $this->viewedAt;
-    }
+    { return $this->viewedAt; }
 
-    public function setObject($object): self
-    {
-        $this->object = $object;
+    // public function setObject(Notification $object): self
+    // {
+    //     $this->object = $object;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getObject(): object
-    {
-        return $this->object;
-    }
+    // public function getObject(): Notification
+    // { return $this->object; }
 
-    public function setSource($source): self
-    {
-        $this->source = $source;
+    // public function setSource($source): self
+    // {
+    //     $this->source = $source;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getSource()
-    {
-        return $this->source;
-    }
+    // public function getSource(): mixed
+    // { return $this->source; }
 
     public function setTemplate(Template $template): self
     {
@@ -170,24 +157,16 @@ abstract class Notification
     }
 
     public function getTemplate(): ?Template
-    {
-        return $this->template;
-    }
+    { return $this->template; }
 
     public function addReceiver(BaseUser $receivers): void
-    {
-        $this->receivers[] = $receivers;
-    }
+    { $this->receivers[] = $receivers; }
 
     public function removeReceiver(BaseUser $receivers): void
-    {
-        $this->receivers->removeElement($receivers);
-    }
+    { $this->receivers->removeElement($receivers); }
 
     public function getReceivers(): array|ArrayCollection
-    {
-        return $this->receivers;
-    }
+    { return $this->receivers; }
 
     public function setViewer(BaseUser $viewer): self
     {
@@ -197,18 +176,14 @@ abstract class Notification
     }
 
     public function getViewer(): BaseUser
-    {
-        return $this->viewer;
-    }
+    { return $this->viewer; }
 
     public function getViewed(): bool
-    {
-        return $this->viewed;
-    }
+    { return $this->viewed; }
 
     public function addViewer(BaseUser $viewer): Notification
     {
-        $this->viewer[] = $viewer;
+        $this->viewer = $viewer;
 
         return $this;
     }

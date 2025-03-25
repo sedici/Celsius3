@@ -100,7 +100,7 @@ class Order
     private Collection $requests;
 
 
-    public function __toString()
+    public function __toString(): string
     {
         return strval($this->getCode());
     }
@@ -118,10 +118,8 @@ class Order
         $this->originalRequest = null;
     }
 
-    /**
-     * @Groups({"api"})
-     */
-    public function getPages()
+    #[Groups(["api"])]
+    public function getPages(): int
     {
         $files = $this->getOriginalRequest()->getFiles();
         $pages = 0;
@@ -134,10 +132,8 @@ class Order
         return $pages;
     }
 
-    /**
-     * @Groups({"api"})
-     */
-    public function getReceivedAt()
+    #[Groups(["api"])]
+    public function getReceivedAt(): ?\DateTime
     {
         $states = $this->getOriginalRequest()->getStates();
 
@@ -157,118 +153,63 @@ class Order
         return $receivedDate;
     }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set code.
-     *
-     * @param int $code
-     *
-     * @return self
-     */
-    public function setCode($code)
+    public function setCode(int $code): self
     {
         $this->code = $code;
 
         return $this;
     }
 
-    /**
-     * Get code.
-     *
-     * @return int $code
-     */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
 
-    /**
-     * Set materialData.
-     *
-     * @param MaterialType $materialData
-     *
-     * @return self
-     */
-    public function setMaterialData(?MaterialType $materialData = null)
+    public function setMaterialData(?MaterialType $materialData = null): self
     {
         $this->materialData = $materialData;
 
         return $this;
     }
 
-    /**
-     * Get materialData.
-     *
-     * @return MaterialType $materialData
-     */
-    public function getMaterialData()
+    public function getMaterialData(): ?MaterialType
     {
         return $this->materialData;
     }
 
-    /**
-     * Set originalRequest.
-     *
-     * @param Request $originalRequest
-     *
-     * @return self
-     */
-    public function setOriginalRequest(?Request $originalRequest = null): static
+    public function setOriginalRequest(?Request $originalRequest = null): self
     {
         $this->originalRequest = $originalRequest;
 
         return $this;
     }
 
-    /**
-     * Get originalRequest.
-     *
-     * @return Request $originalRequest
-     */
-    public function getOriginalRequest()
+    public function getOriginalRequest(): ?Request
     {
         return $this->originalRequest;
     }
 
-    /**
-     * Add request.
-     *
-     * @param Request $request
-     */
-    public function addRequest(Request $request)
+    public function addRequest(Request $request): void
     {
         $this->requests[] = $request;
     }
 
-    /**
-     * Remove request.
-     *
-     * @param Request $request
-     */
-    public function removeRequest(Request $request)
+    public function removeRequest(Request $request): void
     {
         $this->requests->removeElement($request);
     }
 
-    /**
-     * Get requests.
-     */
-    public function getRequests(): array|Collection
+    public function getRequests(): Collection
     {
         return $this->requests;
     }
 
-    /**
-     * Retorna si existe o no un request para $instance.
-     */
-    public function hasRequest(Instance $instance)
+    public function hasRequest(Instance $instance): bool
     {
         return $this->getRequests()
             ->filter(
@@ -278,11 +219,7 @@ class Order
             )->count() > 0;
     }
 
-    /**
-     * Retorna el Request para la instancia $instance para el Order actual.
-     * Antes debería verificarse su existencia con hasRequest.
-     */
-    public function getRequest(Instance $instance)
+    public function getRequest(Instance $instance): ?Request
     {
         $result = $this->getRequests()
             ->filter(

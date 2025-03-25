@@ -23,53 +23,34 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
- * @ORM\Table(name="thread_metadata", indexes={
- *   @ORM\Index(name="idx_thread", columns={"thread_id"}),
- *   @ORM\Index(name="idx_participant", columns={"participant_id"}),
- *   @ORM\Index(name="idx_last_message_date", columns={"last_message_date"})
- * })
- */
-class ThreadMetadata //extends BaseThreadMetadata
+#[ORM\Entity(repositoryClass: \Celsius3\Repository\ThreadRepository::class)]
+#[ORM\Table(name: "thread_metadata", indexes: [
+    new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
+    new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
+    new ORM\Index(name: "idx_last_message_date", columns: ["last_message_date"])
+])]
+class ThreadMetadata
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    protected ?int $id = null;
 
 
-    /**
-     * @ORM\ManyToOne(
-     *   targetEntity="Celsius3\Entity\Thread",
-     *   inversedBy="metadata"
-     * )
-     */
-    protected $thread;
+    #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: "metadata")]
+    protected Thread $thread;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     */
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     protected $participant;
 
 
-    /**
-     * @ORM\Column(type="date", name="last_message_date")
-     */
-    protected $lastMessageDate;
+    #[ORM\Column(type: "date", name: "last_message_date")]
+    protected \DateTime $lastMessageDate;
 
 
-    /**
-     * @return mixed
-     */
-    public function getLastMessageDate()
-    {
-        return $this->lastMessageDate;
-    }
-
+    public function getLastMessageDate(): \DateTime
+    { return $this->lastMessageDate; }
 }

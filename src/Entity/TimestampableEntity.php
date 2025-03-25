@@ -30,47 +30,27 @@ trait TimestampableEntity
     #[ORM\Column(name: 'updated_at', type: Types::DATETIME_MUTABLE)]
     protected \DateTime $updatedAt;
 
-    /**
-     * Sets createdAt.
-     *
-     * @return $this
-     */
-    public function setCreatedAt(\DateTime $createdAt)
+
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * Returns createdAt.
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
 
-    /**
-     * Sets updatedAt.
-     *
-     * @return $this
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
+    public function getCreatedAt(): \DateTime
+    { return $this->createdAt; }
+
+
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    /**
-     * Returns updatedAt.
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
+
+    public function getUpdatedAt(): \DateTime
+    { return $this->updatedAt; }
 }

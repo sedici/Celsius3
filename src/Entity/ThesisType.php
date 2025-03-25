@@ -22,75 +22,59 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class ThesisType extends MaterialType
 {
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $director;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"administration_list", "administration_order_show", "administration_user_show", "user_list"})
-     */
-    protected $degree;
 
-    public function getMaterialType()
-    {
-        return 'thesis';
-    }
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $director = null;
 
-    /**
-     * Set director.
-     *
-     * @param string $director
-     *
-     * @return self
-     */
-    public function setDirector($director)
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
+    protected ?string $degree = null;
+
+
+    public function getMaterialType(): string
+    { return 'thesis'; }
+
+
+    public function setDirector(string $director): static
     {
         $this->director = $director;
 
         return $this;
     }
 
-    /**
-     * Get director.
-     *
-     * @return string $director
-     */
-    public function getDirector()
-    {
-        return $this->director;
-    }
 
-    /**
-     * Set degree.
-     *
-     * @param string $degree
-     *
-     * @return self
-     */
-    public function setDegree($degree)
+    public function getDirector(): ?string
+    { return $this->director; }
+
+
+    public function setDegree(string $degree): static
     {
         $this->degree = $degree;
 
         return $this;
     }
 
-    /**
-     * Get degree.
-     *
-     * @return string $degree
-     */
-    public function getDegree()
-    {
-        return $this->degree;
-    }
+
+    public function getDegree(): ?string
+    { return $this->degree; }
 }

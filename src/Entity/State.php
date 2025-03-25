@@ -148,200 +148,104 @@ class State
         $this->remoteEvents = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->getType();
-    }
+    public function __toString(): string
+    { return $this->getType(); }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int|null
-    {
-        return $this->id;
-    }
 
-    /**
-     * Set current.
-     *
-     * @param bool $current
-     *
-     * @return self
-     */
-    public function setCurrent($current)
+    public function getId(): ?int
+    { return $this->id; }
+
+
+    public function setCurrent($current): static
     {
         $this->current = $current;
 
         return $this;
     }
 
-    /**
-     * Get current.
-     *
-     * @return bool $current
-     */
-    public function isCurrent()
-    {
-        return $this->current;
-    }
 
-    /**
-     * Set searchPending.
-     *
-     * @param bool $searchPending
-     *
-     * @return self
-     */
-    public function setSearchPending($searchPending)
+    public function isCurrent(): bool
+    { return $this->current; }
+
+
+    public function setSearchPending($searchPending): static
     {
         $this->searchPending = $searchPending;
 
         return $this;
     }
 
-    /**
-     * Get searchPending.
-     *
-     * @return bool $searchPending
-     */
-    public function getSearchPending()
-    {
-        return $this->searchPending;
-    }
 
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return self
-     */
-    public function setType($type)
+    public function getSearchPending(): bool
+    { return $this->searchPending; }
+
+
+    public function setType($type): static
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * Get type.
-     *
-     * @return string $type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
-    /**
-     * Set remoteEvent.
-     *
-     * @param $remoteEvent
-     *
-     * @return self
-     */
-    public function setRemoteEvent($remoteEvent)
+    public function getType(): string
+    { return $this->type; }
+
+
+    public function setRemoteEvent($remoteEvent): static
     {
         $this->remoteEvent = $remoteEvent;
 
         return $this;
     }
 
-    /**
-     * Get remoteEvent.
-     *
-     * @return $remoteEvent
-     */
-    public function getRemoteEvent()
-    {
-        return $this->remoteEvent;
-    }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function getRemoteEvent(): ?Event
+    { return $this->remoteEvent; }
+
+
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
 
-    /**
-     * Add events.
-     *
-     * @param Event $events
-     */
-    public function addEvent(Event $events)
-    {
-        $this->events[] = $events;
-    }
+    public function getInstance(): Instance
+    { return $this->instance; }
 
-    /**
-     * Remove events.
-     *
-     * @param Event $events
-     */
-    public function removeEvent(Event $events)
-    {
-        $this->events->removeElement($events);
-    }
 
-    /**
-     * Get events.
-     */
+    public function addEvent(Event $events): void
+    { $this->events[] = $events; }
+
+
+    public function removeEvent(Event $events): void
+    { $this->events->removeElement($events); }
+
+
     public function getEvents(): array|Collection
-    {
-        return $this->events;
-    }
+    { return $this->events; }
 
-    /**
-     * Add remoteEvents.
-     *
-     * @param MultiInstanceReceiveEvent $remoteEvents
-     */
-    public function addRemoteEvent(MultiInstanceReceiveEvent $remoteEvents)
-    {
+
+    public function addRemoteEvent(
+        MultiInstanceReceiveEvent $remoteEvents
+    ): void {
         $this->remoteEvents[] = $remoteEvents;
     }
 
-    /**
-     * Remove remoteEvents.
-     *
-     * @param MultiInstanceReceiveEvent $remoteEvents
-     */
-    public function removeRemoteEvent(MultiInstanceReceiveEvent $remoteEvents)
-    {
+
+    public function removeRemoteEvent(
+        MultiInstanceReceiveEvent $remoteEvents
+    ): void {
         $this->remoteEvents->removeElement($remoteEvents);
     }
 
-    /**
-     * Get remoteEvents.
-     *
-     * @return Collection $remoteEvents
-     */
-    public function getRemoteEvents()
-    {
-        return $this->remoteEvents;
-    }
 
-    /**
-     * Set previous.
-     */
+    public function getRemoteEvents(): array|Collection
+    { return $this->remoteEvents; }
+
+
     public function setPrevious(?State $previous = null): static
     {
         $this->previous = $previous;
@@ -349,38 +253,22 @@ class State
         return $this;
     }
 
-    /**
-     * Get previous.
-     */
-    public function getPrevious(): State|null
-    {
-        return $this->previous;
-    }
 
-    /**
-     * Set request.
-     *
-     * @param Request $request
-     *
-     * @return self
-     */
+    public function getPrevious(): ?State
+    { return $this->previous; }
+
+
     public function setRequest(Request $request): static
     {
         $this->request = $request;
         return $this;
     }
 
-    /**
-     * Get request.
-     */
-    public function getRequest(): Request
-    {
-        return $this->request;
-    }
 
-    /**
-     * Set operator.
-     */
+    public function getRequest(): Request
+    { return $this->request; }
+
+
     public function setOperator(BaseUser $operator): static
     {
         $this->operator = $operator;
@@ -388,19 +276,11 @@ class State
         return $this;
     }
 
-    /**
-     * Get operator.
-     */
-    public function getOperator(): BaseUser|null
-    {
-        return $this->operator;
-    }
 
-    /**
-     * Get current.
-     */
+    public function getOperator(): BaseUser|null
+    { return $this->operator; }
+
+
     public function getCurrent(): bool
-    {
-        return $this->current;
-    }
+    { return $this->current; }
 }

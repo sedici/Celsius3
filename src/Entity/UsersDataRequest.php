@@ -26,9 +26,7 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class UsersDataRequest extends DataRequest
 {
 }

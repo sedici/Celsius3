@@ -24,131 +24,68 @@ namespace Celsius3\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Celsius3\Entity\Mixin\ParticipantInterface;
+use Celsius3\Repository\ThreadRepository;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ThreadRepository")
- * @ORM\Table(name="thread", indexes={
- *   @ORM\Index(name="idx_created_at", columns={"created_at"})
- * })
- */
+
+#[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\Table(name: "thread", indexes: [new ORM\Index(name: "idx_created_at", columns: ["created_at"])])]
 class Thread
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
-    /**
-     *
-     *  @ORM\Column(name="created_by_id", type="integer")
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    protected ?int $id = null;
+
+
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\Column(name: "created_by_id", type: "integer")]
     protected $createdBy;
 
 
-    /**
-     * @ORM\OneToMany(
-     *   targetEntity="Celsius3\Entity\Message",
-     *   mappedBy="thread"
-     * )
-     *
-     * @var ArrayCollection<Message>
-     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "thread")]
     protected $messages;
 
 
-    /**
-     * @ORM\OneToMany(
-     *   targetEntity="Celsius3\Entity\ThreadMetadata",
-     *   mappedBy="thread",
-     *   cascade={"all"}
-     * )
-     *
-     * @var ArrayCollection<ThreadMetadata>
-     */
+    #[ORM\OneToMany(targetEntity: ThreadMetadata::class,mappedBy: "thread",cascade: ["all"])]
     protected $metadata;
 
 
-    /**
-     * @ORM\Column(name="created_at",  type="datetime")
-     */
+    #[ORM\Column(name: "created_at", type: "datetime")]
     protected $createdAt;
 
 
-    /**
-     * Users participating in this conversation.
-     *
-     * @var ArrayCollection<ParticipantInterface>
-     */
-    protected $participants;
+    protected array $participants;
 
 
-    /**
-     * Remove message.
-     *
-     * @param Message $message
-     */
     public function removeMessage(Message $message): void
-    {
-        $this->messages->removeElement($message);
-    }
+    { $this->messages->removeElement($message); }
 
 
-    /**
-     * Add metadatum.
-     *
-     * @param ThreadMetadata $metadatum
-     *
-     * @return Thread
-     */
-    public function addMetadatum(ThreadMetadata $metadatum)
+    public function addMetadatum(ThreadMetadata $metadatum): static
     {
         $this->metadata[] = $metadatum;
 
         return $this;
     }
 
-    /**
-     * Remove metadatum.
-     *
-     * @param ThreadMetadata $metadatum
-     */
-    public function removeMetadatum(ThreadMetadata $metadatum)
-    {
-        $this->metadata->removeElement($metadatum);
-    }
 
-    /**
-     * Get metadata.
-     *
-     * @return array|ArrayCollection
-     */
+    public function removeMetadatum(ThreadMetadata $metadatum): void
+    { $this->metadata->removeElement($metadatum); }
+
+
     public function getMetadata(): array|ArrayCollection
-    {
-        return $this->metadata;
-    }
+    { return $this->metadata; }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * @return ArrayCollection<Message>
-     */
+    public function getId(): int|null
+    { return $this->id; }
+
+
     public function getMessages(): array|ArrayCollection
-    {
-        return $this->messages;
-    }
+    { return $this->messages; }
 
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
+
+    public function getCreatedBy(): BaseUser
+    { return $this->createdBy; }
 }

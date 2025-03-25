@@ -31,39 +31,39 @@ use Doctrine\ORM\Mapping as ORM;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestInterface;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordRequestTrait;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\ResetPasswordRequestRepository")
- */
+
+#[ORM\Entity(repositoryClass: ResetPasswordRequestRepository::class)]
 class ResetPasswordRequest implements ResetPasswordRequestInterface
 {
     use ResetPasswordRequestTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=BaseUser::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
 
-    public function __construct(object $user, DateTimeInterface $expiresAt, string $selector, string $hashedToken)
-    {
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private BaseUser $user;
+
+
+    public function __construct(
+        BaseUser $user,
+        DateTimeInterface $expiresAt,
+        string $selector,
+        string $hashedToken
+    ) {
         $this->user = $user;
-        $this->initialize($expiresAt, $selector, $hashedToken);
+        $this->initialize(
+            $expiresAt, $selector, $hashedToken
+        );
     }
+
 
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
-    public function getUser(): object
-    {
-        return $this->user;
-    }
+    public function getUser(): BaseUser
+    { return $this->user; }
 }

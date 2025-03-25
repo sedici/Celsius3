@@ -22,103 +22,81 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass="Celsius3\Repository\BaseRepository")
- * @ORM\Table(name="template", indexes={
- *   @ORM\Index(name="idx_code", columns={"code"}),
- *   @ORM\Index(name="idx_title", columns={"title"}),
- *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
- *   @ORM\Index(name="idx_type", columns={"type"})
- * })
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *   "mail"="EmailTemplate",
- *   "notification"="Celsius3\Entity\NotificationTemplate"
- * })
- */
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Table(name: "template", indexes: [
+    new ORM\Index(name: "idx_code", columns: ["code"]),
+    new ORM\Index(name: "idx_title", columns: ["title"]),
+    new ORM\Index(name: "idx_instance", columns: ["instance_id"]),
+    new ORM\Index(name: "idx_type", columns: ["type"])
+])]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "mail" => EmailTemplate::class,
+    "notification" => NotificationTemplate::class
+])]
 abstract class Template
 {
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api", "administration"})
-     */
-    private $id;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"api", "administration"})
-     */
-    private $code;
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="text")
-     * @Groups({"api", "administration"})
-     */
-    private $text;
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    #[ORM\Column(type: "integer")]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private ?int $id = null;
 
-    /**
-     * Set code.
-     *
-     * @param string $code
-     *
-     * @return self
-     */
-    public function setCode($code)
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "string", length: 255)]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private ?string $code = null;
+
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: "text")]
+    #[Groups([
+        "api",
+        "administration"
+    ])]
+    private ?string $text = null;
+
+
+    public function getId(): ?int
+    { return $this->id; }
+
+
+    public function setCode(string $code): self
     {
         $this->code = $code;
 
         return $this;
     }
 
-    /**
-     * Get code.
-     *
-     * @return string $code
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
 
-    /**
-     * Set text.
-     *
-     * @param string $text
-     *
-     * @return self
-     */
-    public function setText($text)
+    public function getCode(): ?string
+    { return $this->code; }
+
+
+    public function setText(string $text): self
     {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * Get text.
-     *
-     * @return string $text
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
+
+    public function getText(): ?string
+    { return $this->text; }
 }
