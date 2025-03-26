@@ -279,7 +279,7 @@ class EmailController extends EntityController
 
 
     public function sendResettingEmailMessage(BaseUser $user): void
-    { $this->sendTemplatedEmail($user, 'resetting', 'fos_user_resetting_reset'); }
+    { $this->sendTemplatedEmail($user, 'resetting', 'reset_password'); }
 
 
     protected function sendTemplatedEmail(

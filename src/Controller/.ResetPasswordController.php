@@ -125,53 +125,84 @@ class ResetPasswordController extends UserController // AbstractController
         );
     }
 
-
     public function initialize(): void
     {
         parent::initialize();
         $this->htmlRenderer->setTemplatePrefix('reset_password/');
     }
 
-    #[Route("/", name: "password_forgotten", methods: ['GET', 'POST'])]
-    public function request(): Response
-    {
+
+    #[Route("/", name: "password_forgotten")]
+    public function request(): Response {
         $request = $this->requestStack->getCurrentRequest();
+
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // return $this->processSendingPasswordResetEmail(
-            //     $form->get('email')->getData()
-            // );
-        } else {
-            $errors = $form->getErrors(true);
+            return $this->processSendingPasswordResetEmail(
+                $form->get('email')->getData()
+            );
         }
 
         return $this->htmlRenderer->render(
             'request',
-            ['form' => $form->createView(), 'errors' => $errors]
+            [ 'requestForm' => $form->createView() ]
         );
     }
+
 
     #[Route("/check-email", name: "check_email")]
     public function checkEmail(): Response
     {
-        // Siempre genera token falso para evitar user enumeration
-        $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
-        
+        if (null === ($resetToken = $this->getTokenObjectFromSession())) {
+            $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
+        }
+
         return $this->htmlRenderer->render(
             'check_email',
-            ['resetToken' => $resetToken]
+            [ 'resetToken' => $resetToken ]
         );
     }
 
-    #[Route("/reset/{token}", name: "reset_password", methods: ['GET', 'POST'])]
+
+    #[Route(
+        "/reset",
+        name: "reset_password_request",
+        methods: ['GET']
+    )]
+    public function resetPasswordRequest(): Response
+    {
+        $token = $this->getTokenFromSession();
+        if (null === $token) {
+            throw $this->createNotFoundException('No reset password token found in the URL or in the session.');
+        }
+
+        return $this->htmlRenderer->render(
+            'reset',
+            [
+                'resetForm' => null,
+                'token' => $token
+            ]
+        );
+    }
+
+    #[Route(
+        "/reset/{token}",
+        name: "reset_password",
+        methods: ['POST']
+    )]
     public function reset(
-        Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         TranslatorInterface $translator,
-        string $token
+        ?string $token = null
     ): Response {
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (null === $token) {
+            throw $this->createNotFoundException('No reset password token found in the URL.');
+        }
+
         try {
             $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
@@ -187,6 +218,7 @@ class ResetPasswordController extends UserController // AbstractController
                     $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
                 )
             );
+
             return $this->redirectToRoute('password_forgotten');
         }
 
@@ -195,13 +227,13 @@ class ResetPasswordController extends UserController // AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->resetPasswordHelper->removeResetRequest($token);
-            
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
+
+            $encodedPassword = $userPasswordHasher->hashPassword(
+                $user,
+                $form->get('plainPassword')->getData()
             );
+
+            $user->setPassword($encodedPassword);
             $this->entityManager->flush();
 
             $this->cleanSessionAfterReset();
@@ -218,30 +250,45 @@ class ResetPasswordController extends UserController // AbstractController
         );
     }
 
-    private function processSendingPasswordResetEmail(string $email): RedirectResponse
-    {
-        $user = $this->repository->findOneBy(['email' => $email]);
-        
-        // Redirige igualmente aunque no exista el usuario
-        if (!$user) {
-            $this->addFlash(
-                'entity_not_found',
-                "There's no user with the specified email address."
-            );
-            return $this->redirectToRoute('password_forgotten');
-        }
+
+    private function processSendingPasswordResetEmail(
+        string $emailFormData
+    ): RedirectResponse {
+        $user = $this->repository->findOneBy(
+            [ 'email' => $emailFormData ]
+        );
+
+        if (!$user) return $this->redirectToRoute('check_email');
 
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            $this->addFlash(
-                'unespected_error',
-                'There was an unexpected error. Please try again.'
-            );
-            return $this->redirectToRoute('password_forgotten');
+            return $this->redirectToRoute('check_email');
         }
-
+       
         $this->emailController->sendResettingEmailMessage($user);
+
+        // $this->emailController->sendEmail(
+        //     'test@dominio.com',
+        //     'Your password reset request',
+        //     $this->emailController->sendTemplatedEmail(
+        //         $user->getEmail(),
+        //         'reset_password/email.html.twig',
+        //         [ 'resetToken' => $resetToken ]
+        //     ),
+        //     $this->getUser()
+        // );
+
+        // $email = (new TemplatedEmail())
+        //     ->from(new Address('test@dominio.com', 'test'))
+        //     ->to($user->getEmail())
+        //     ->subject('Your password reset request')
+        //     ->htmlTemplate('reset_password/email.html.twig')
+        //     ->context(['resetToken' => $resetToken]);
+
+        // $this->emailController->send($email);
+
+        $this->setTokenObjectInSession($resetToken);
 
         return $this->redirectToRoute('check_email');
     }

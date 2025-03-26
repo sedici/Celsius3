@@ -1,22 +1,44 @@
-{% extends 'base.html.twig' %}
+{% extends 'Layout/layout.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}
+    {{ 'Reset your password'|trans }}
+{% endblock %}
 
-{% block body %}
+{% block content %}
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
-    <h1>Reset your password</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address and we will send you a
-                link to reset your password.
-            </small>
+    <h2>{{ 'Reset your password'|trans }}</h2>
+
+    {{ form_start(form, { 'action': path('password_forgotten'), 'method': 'POST', 'attr': { 'class': 'form', 'role': 'form' } }) }}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group has-feedback {% if not form.email.vars.valid %} has-error {% endif %}">
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email, { attr: { class: 'form-control', placeholder: 'label.name' | trans | first_upper ~ '*' } }) }}
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+
+                <p>
+                    {{ 'Enter your email address and we will send you a link to reset your password.'|trans }}
+                </p>
+            </div>
         </div>
 
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
+        {# Renderizamos los campos ocultos (por ejemplo, CSRF) y cualquier otro campo no renderizado explícitamente #}
+        {{ form_rest(form) }}
+
+        <div class="col-md-6">
+            <button class="btn btn-primary" type="submit">
+                {{ 'Send password reset email'|trans }}
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+    <ul>
+        {% for child in form %}
+            <li>{{ child.vars.name }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
