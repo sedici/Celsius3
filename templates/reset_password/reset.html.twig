@@ -1,12 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'Layout/layout.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Reset your password</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+    {{ form_start(form) }}
+
+    {% for flash_message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {{ form_widget(form) }}
+
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Reset Password</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}

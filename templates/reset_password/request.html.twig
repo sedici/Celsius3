@@ -11,18 +11,38 @@
 
     <h2>{{ 'Reset your password'|trans }}</h2>
 
-    {{ form_start(form, { 'action': path('password_forgotten'), 'method': 'POST', 'attr': { 'class': 'form', 'role': 'form' } }) }}
+    {{ form_start(form, {
+        'action': path('password_forgotten'),
+        'method': 'POST',
+        'attr': {
+            'class': 'form',
+            'role': 'form',
+            'novalidate': 'novalidate'
+        }
+    }) }}
+
+    {% for flash_message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
     
+    <div class="row">
+        <p class="col">
+            {{ 'Enter your email address and we will send you a link to reset your password.'|trans }}
+        </p>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group has-feedback {% if not form.email.vars.valid %} has-error {% endif %}">
                 {{ form_errors(form.email) }}
-                {{ form_widget(form.email, { attr: { class: 'form-control', placeholder: 'label.name' | trans | first_upper ~ '*' } }) }}
+                {{ form_widget(form.email, {
+                    'attr': {
+                        'class': 'form-control' ~ (form.email.vars.valid ? '' : ' is-invalid'),
+                        'placeholder': form.email.vars.attr.placeholder | trans
+                    }
+                }) }}
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-
-                <p>
-                    {{ 'Enter your email address and we will send you a link to reset your password.'|trans }}
-                </p>
             </div>
         </div>
 
@@ -31,14 +51,16 @@
 
         <div class="col-md-6">
             <button class="btn btn-primary" type="submit">
-                {{ 'Send password reset email'|trans }}
+                {{ 'Send'|trans }}
             </button>
         </div>
-    {{ form_end(form) }}
+    </div>
 
-    <ul>
-        {% for child in form %}
-            <li>{{ child.vars.name }}</li>
-        {% endfor %}
-    </ul>
+    {% for flash_message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {{ form_end(form) }}
 {% endblock %}

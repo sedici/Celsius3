@@ -27,6 +27,7 @@ use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Entity\Template;
 use Celsius3\Repository\NotificationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -68,7 +69,7 @@ abstract class Notification
     private bool $viewed = false;
 
 
-    #[ORM\Column(type: \DateTime::class, nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     // #[Gedmo\Timestampable(on: "change", field: "viewed", value: true)]
     private ?\DateTime $viewedAt = null;
 
@@ -91,7 +92,7 @@ abstract class Notification
             referencedColumnName: "id"
         )]
     )]
-    private ArrayCollection $receivers;
+    private Collection $receivers;
 
 
     #[ORM\ManyToMany(targetEntity: BaseUser::class)]
@@ -106,7 +107,7 @@ abstract class Notification
             unique: true
         )]
     )]
-    private BaseUser $viewer;
+    private Collection $viewer;
 
 
     public function __construct()

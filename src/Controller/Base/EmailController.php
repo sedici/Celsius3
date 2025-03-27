@@ -274,6 +274,35 @@ class EmailController extends EntityController
     }
 
 
+    public function sendTemplateEmail(
+        BaseUser $user,
+        string $templateName,
+        array $options = [],
+        ?Instance $instance = null
+    ): void {
+        if ($instance === null) $instance = $this->instance;
+
+        $template = $this->emailTeplateController->getTemplate(
+            $templateName,
+            $this->instance
+        );
+
+        $rendered = $this->htmlRenderer
+            ->createTemplate($template->getText())
+            ->render(['user' => $user] + $options);
+
+        $this->sendEmail(
+            $instance->get(
+                $this->configurationHelper::CONF__SMTP_USERNAME
+            )->getValue(),
+            $template->getTitle(),
+            $rendered,
+            $user,
+            $instance
+        );
+    }
+
+
     public function sendConfirmationEmailMessage(BaseUser $user): void
     { $this->sendTemplatedEmail($user, 'user_confirmation', 'fos_user_registration_confirm'); }
 
