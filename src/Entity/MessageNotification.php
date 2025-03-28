@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Message;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\Event;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\BaseNotificationRepository;
@@ -49,8 +51,10 @@ class MessageNotification extends Notification
         $this->setTemplate($template);
     }
 
-    public function setObject(Message $object): void
-    {
-        $this->object = $object;
-    }
+    public function setObject(Event|Message|BaseUser $object): self
+    { $this->object = $object; return $this; }
+
+
+    public function getObject(): Event|Message|BaseUser
+    { return $this->object; }
 }

@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Message;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\BaseNotificationRepository;
@@ -36,7 +38,7 @@ class BaseUserNotification extends Notification
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'notifications')]
     #[ORM\JoinColumn(name: 'base_user_notification_id', referencedColumnName: 'id')]
-    protected $object;
+    protected BaseUser $object;
 
 
     public function __construct($cause, BaseUser $object, $template)
@@ -49,8 +51,10 @@ class BaseUserNotification extends Notification
     }
 
 
-    public function setObject($object): void
-    {
-        $this->object = $object;
-    }
+    public function setObject(Event|Message|BaseUser $object): self
+    { $this->object = $object; return $this; }
+
+
+    public function getObject(): Event|Message|BaseUser
+    { return $this->object; }
 }

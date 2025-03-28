@@ -25,7 +25,7 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\Repository\ThreadRepository;
-
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ThreadRepository::class)]
 #[ORM\Table(name: "thread", indexes: [new ORM\Index(name: "idx_created_at", columns: ["created_at"])])]
@@ -39,24 +39,22 @@ class Thread
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
-    #[ORM\Column(name: "created_by_id", type: "integer")]
-    protected $createdBy;
-
-
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "thread")]
-    protected $messages;
-
-
-    #[ORM\OneToMany(targetEntity: ThreadMetadata::class,mappedBy: "thread",cascade: ["all"])]
-    protected $metadata;
-
-
+    #[ORM\JoinColumn(name: "created_by_id", referencedColumnName: "id", nullable: false)]
+    protected BaseUser $createdBy;
+    
+    
     #[ORM\Column(name: "created_at", type: "datetime")]
     protected $createdAt;
 
+    // --- campos inversos (no se guardan en esta tabla) ---
 
-    protected array $participants;
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "thread")]
+    protected Collection $messages;
 
+
+    #[ORM\OneToMany(targetEntity: ThreadMetadata::class, mappedBy: "thread", cascade: ["all"])]
+    protected Collection $metadata;
+    
 
     public function removeMessage(Message $message): void
     { $this->messages->removeElement($message); }
@@ -88,4 +86,8 @@ class Thread
 
     public function getCreatedBy(): BaseUser
     { return $this->createdBy; }
+
+
+    public function getParticipants(): Collection
+    { return $this->metadata->getParticipants(); }
 }

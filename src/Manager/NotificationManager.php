@@ -73,32 +73,28 @@ class NotificationManager
         $eventArray = $this->getEventArray();
         return [
             self::CAUSE__NEW_MESSAGE => [
-                'template_data' => function (Notification $notification) {
-                    return [
+                'template_data' =>
+                    fn (Notification $notification): array => [
                         'user' => $notification->getObject()->getSender(),
-                    ];
-                },
+                    ],
                 'route' => 'fos_message_thread_view',
-                'route_params' => function (Notification $notification) {
-                    return [
+                'route_params' =>
+                    fn (Notification $notification): array => [
                         'threadId' => $notification->getObject()
                             ->getThread()
                             ->getId(),
-                    ];
-                },
+                    ],
             ],
             self::CAUSE__NEW_USER => [
-                'template_data' => function (Notification $notification) {
-                    return [
+                'template_data' =>
+                    fn (Notification $notification): array => [
                         'user' => $notification->getObject(),
-                    ];
-                },
+                    ],
                 'route' => 'admin_user',
-                'route_params' => function (Notification $notification) {
-                    return [
+                'route_params' =>
+                    fn (Notification $notification): array => [
                         'id' => $notification->getObject()->getId(),
-                    ];
-                },
+                    ],
             ],
             self::CAUSE__CREATE => $eventArray,
             self::CAUSE__SEARCH => $eventArray,

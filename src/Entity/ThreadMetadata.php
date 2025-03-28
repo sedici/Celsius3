@@ -22,10 +22,13 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\ParticipantInterface;
+use Celsius3\Repository\ThreadRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\ThreadRepository::class)]
+#[ORM\Entity(repositoryClass: ThreadRepository::class)]
 #[ORM\Table(name: "thread_metadata", indexes: [
     new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
     new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
@@ -41,11 +44,13 @@ class ThreadMetadata
 
 
     #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: "metadata")]
+    #[ORM\JoinColumn(name: "thread_id", referencedColumnName: "id", nullable: false)]
     protected Thread $thread;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
-    protected $participant;
+    #[ORM\Column(name: "participant_id", type: "integer")]
+    protected BaseUser $participants;
 
 
     #[ORM\Column(type: "date", name: "last_message_date")]
@@ -54,4 +59,13 @@ class ThreadMetadata
 
     public function getLastMessageDate(): \DateTime
     { return $this->lastMessageDate; }
+
+
+    public function getParticipants(): Collection
+    {
+        return $this->thread->getMessages()->map(
+            fn (Message $message): BaseUser =>
+                $message->getSender()
+        );
+    }
 }

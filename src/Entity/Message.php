@@ -26,6 +26,7 @@ use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
 use Celsius3\Repository\ThreadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -44,56 +45,52 @@ class Message implements Notifiable
 
 
     #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: "messages")]
+    #[ORM\JoinColumn(name: "thread_id", referencedColumnName: "id", nullable: false)]
     protected Thread $thread;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id", nullable: false)]
     protected BaseUser $sender;
 
 
+    // --- campos inversos (no se guardan en esta tabla) ---
+
+
     #[ORM\OneToMany(targetEntity: MessageMetadata::class, mappedBy: "message", cascade: ["all"])]
-    protected MessageMetadata $metadata;
+    protected Collection $metadata;
 
 
     public function __toString(): string
     {
-        return $this->getSender().' - '.$this->thread->getSubject();
+        // return $this->getSender().' - '.$this->thread->getSubject();
+        return $this->getSender().' - Thread: ' . $this->thread->getId();
     }
+
+
+    public function getId(): ?int
+    { return $this->id; }
 
 
     public function notify(NotificationManager $manager): void
-    {
-        $manager->notifyNewMessage($this);
-    }
+    { $manager->notifyNewMessage($this); }
 
 
-    public function addMetadatum(MessageMetadata $metadatum): Message
-    {
-        $this->metadata[] = $metadatum;
-
-        return $this;
-    }
+    public function addMetadatum(MessageMetadata $metadatum): self
+    { $this->metadata[] = $metadatum; return $this; }
 
 
     public function removeMetadatum(MessageMetadata $metadatum): void
-    {
-        $this->metadata->removeElement($metadatum);
-    }
+    { $this->metadata->removeElement($metadatum); }
 
 
-    public function getMetadata(): array|ArrayCollection
-    {
-        return $this->metadata;
-    }
+    public function getMetadata(): Collection
+    { return $this->metadata; }
 
     public function getSender(): BaseUser
-    {
-        return $this->sender;
-    }
+    { return $this->sender; }
 
 
     public function getThread(): Thread
-    {
-        return $this->thread;
-    }
+    { return $this->thread; }
 }

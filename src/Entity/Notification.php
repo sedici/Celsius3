@@ -23,6 +23,7 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Entity\Template;
 use Celsius3\Repository\NotificationRepository;
@@ -75,10 +76,14 @@ abstract class Notification
 
 
     #[ORM\ManyToOne(targetEntity: NotificationTemplate::class)]
+    #[ORM\Column(name: "template_id", type: "integer")]
     #[ORM\JoinColumn(
         name: "template_id", referencedColumnName: "id", nullable: false
     )]
     private ?Template $template = null;
+
+    
+    // --- campos inversos (no se guardan en esta tabla) ---
 
 
     #[ORM\ManyToMany(targetEntity: BaseUser::class)]
@@ -107,7 +112,11 @@ abstract class Notification
             unique: true
         )]
     )]
-    private Collection $viewer;
+    private Collection $viewers;
+
+
+    abstract public function setObject(Event|Message|BaseUser $object): self;
+    abstract public function getObject(): Event|Message|BaseUser;
 
 
     public function __construct()
@@ -146,16 +155,6 @@ abstract class Notification
     public function getViewedAt(): ?\DateTime
     { return $this->viewedAt; }
 
-    // public function setObject(Notification $object): self
-    // {
-    //     $this->object = $object;
-
-    //     return $this;
-    // }
-
-    // public function getObject(): Notification
-    // { return $this->object; }
-
     // public function setSource($source): self
     // {
     //     $this->source = $source;
@@ -185,28 +184,12 @@ abstract class Notification
     public function getReceivers(): array|ArrayCollection
     { return $this->receivers; }
 
-    public function setViewer(BaseUser $viewer): self
-    {
-        $this->viewer = $viewer;
-
-        return $this;
-    }
-
-    public function getViewer(): BaseUser
-    { return $this->viewer; }
-
     public function getViewed(): bool
     { return $this->viewed; }
 
-    public function addViewer(BaseUser $viewer): Notification
-    {
-        $this->viewer = $viewer;
-
-        return $this;
-    }
+    public function addViewer(BaseUser $viewer): self
+    { $this->viewers->add($viewer); return $this; }
 
     public function removeViewer(BaseUser $viewer): void
-    {
-        $this->viewer->removeElement($viewer);
-    }
+    { $this->viewers->removeElement($viewer); }
 }

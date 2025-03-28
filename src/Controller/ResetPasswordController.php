@@ -134,6 +134,7 @@ class ResetPasswordController extends UserController // AbstractController
         $this->htmlRenderer->setTemplatePrefix('reset_password/');
     }
 
+
     #[Route("/", name: "password_forgotten", methods: ['GET', 'POST'])]
     public function request(): Response
     {
@@ -203,6 +204,7 @@ class ResetPasswordController extends UserController // AbstractController
         );
     }
 
+
     #[Route("/check-email", name: "check_email")]
     public function checkEmail(): Response
     {
@@ -215,13 +217,14 @@ class ResetPasswordController extends UserController // AbstractController
         );
     }
 
+
     #[Route("/reset/{token}", name: "reset_password", methods: ['GET', 'POST'])]
     public function reset(
-        Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        TranslatorInterface $translator,
         string $token
     ): Response {
+        $request = $this->requestStack->getCurrentRequest();
+
         try {
             $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
         } catch (ResetPasswordExceptionInterface $e) {
@@ -229,12 +232,12 @@ class ResetPasswordController extends UserController // AbstractController
                 'reset_password_error',
                 sprintf(
                     '%s - %s',
-                    $translator->trans(
+                    $this->translator->trans(
                         ResetPasswordExceptionInterface::MESSAGE_PROBLEM_VALIDATE,
                         [],
                         'ResetPasswordBundle'
                     ),
-                    $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
+                    $this->translator->trans($e->getReason(), [], 'ResetPasswordBundle')
                 )
             );
             return $this->redirectToRoute('password_forgotten');
