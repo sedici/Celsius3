@@ -76,7 +76,6 @@ abstract class Notification
 
 
     #[ORM\ManyToOne(targetEntity: NotificationTemplate::class)]
-    #[ORM\Column(name: "template_id", type: "integer")]
     #[ORM\JoinColumn(
         name: "template_id", referencedColumnName: "id", nullable: false
     )]

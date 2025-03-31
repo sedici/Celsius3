@@ -72,7 +72,7 @@ class Thread
     { $this->metadata->removeElement($metadatum); }
 
 
-    public function getMetadata(): array|ArrayCollection
+    public function getMetadata(): Collection
     { return $this->metadata; }
 
 
@@ -80,7 +80,7 @@ class Thread
     { return $this->id; }
 
 
-    public function getMessages(): array|ArrayCollection
+    public function getMessages(): Collection
     { return $this->messages; }
 
 
@@ -89,5 +89,10 @@ class Thread
 
 
     public function getParticipants(): Collection
-    { return $this->metadata->getParticipants(); }
+    {
+        return $this->messages->map(
+            fn (Message $message): BaseUser =>
+                $message->getSender()
+        );
+    }
 }

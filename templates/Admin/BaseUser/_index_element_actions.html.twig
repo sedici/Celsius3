@@ -8,9 +8,23 @@
     </li>
     {% if (element.username is not empty) %}
         <li>
-            <a href="{{ path('reset_password', {'username': element.id}) }}">
-                <span class="fa fa-key"></span> {{ 'Reset password' | trans }}
-            </a>
+            {# <a href="{{ path('reset_password_from_admin', {'userId': element.id}) }}">
+                <span class="glyphicon glyphicon-option-horizontal"></span> {{ 'Reset password' | trans }}
+            </a> #}
+
+            <li>
+                <form
+                action="{{ path('reset_password_from_admin', {'userId': element.id}) }}"
+                method="post">
+                    <button
+                    type="submit"
+                    style="background: none!important;
+                    border: none;
+                    padding: 0!important;"><a>
+                        <span class="glyphicon glyphicon-option-horizontal"></span>
+                        {{ 'Reset password' | trans }}
+                    </a></button>
+                </form>
         </li>
 
         {% if not is_granted('ROLE_PREVIOUS_ADMIN') %}

@@ -44,6 +44,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
@@ -72,7 +73,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/public/reset-password')]
 class ResetPasswordController extends UserController // AbstractController
 {
-    use ResetPasswordControllerTrait;
+    // use ResetPasswordControllerTrait;
 
 
     public function __construct(
@@ -136,7 +137,7 @@ class ResetPasswordController extends UserController // AbstractController
 
 
     #[Route("/", name: "password_forgotten", methods: ['GET', 'POST'])]
-    public function request(): Response
+    public function passwordForgotten(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
         $form = $this->createForm(ResetPasswordRequestFormType::class, hasData: false);
@@ -158,31 +159,9 @@ class ResetPasswordController extends UserController // AbstractController
                     return $this->redirectToRoute('password_forgotten');
                 }
 
-                try {
-                    $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-                } catch (ResetPasswordExceptionInterface $e) {
-                    $this->addFlash(
-                        'error',
-                        $this->translator->trans(
-                            'There was an unexpected error: ' . $e->getReason()
-                        )
-                    );
-                    return $this->redirectToRoute('password_forgotten');
-                }
-
-                $this->emailController->sendTemplateEmail(
-                    $user,
-                    'resetting',
-                    [
-                        'url' => $this->router->generate(
-                            'reset_password',
-                            ['token' => $resetToken->getToken()],
-                            UrlGeneratorInterface::ABSOLUTE_URL
-                        )
-                    ]
+                return $this->resetPasswordToUser(
+                    $user, 'password_forgotten'
                 );
-    
-                return $this->redirectToRoute('check_email');
             } else {
                 $errors = $form->getErrors(true);
 
@@ -202,6 +181,65 @@ class ResetPasswordController extends UserController // AbstractController
             'request',
             [ 'form' => $form->createView() ]
         );
+    }
+
+
+    #[
+        Route(
+            "/from-admin/{userId}",
+            name: "reset_password_from_admin",
+            methods: ['POST']
+        ),
+        IsGranted('ROLE_ADMIN')
+    ]
+    public function resetPasswordFromAdmin(): Response
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $userId = $request->get('userId');
+
+        $user = $this->repository->find($userId);
+
+        if (!$user) {
+            $this->addFlash(
+                'error',
+                $this->translator->trans(
+                    "There's no user with the specified email address."
+                )
+            );
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        return $this->resetPasswordToUser($user, 'administration');
+    }
+
+
+    public function resetPasswordToUser(BaseUser $user, string $redirectionRoute): Response
+    {
+        try {
+            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+        } catch (ResetPasswordExceptionInterface $e) {
+            $this->addFlash(
+                'error',
+                $this->translator->trans(
+                    'There was an unexpected error: ' . $e->getReason()
+                )
+            );
+            return $this->redirectToRoute($redirectionRoute);
+        }
+
+        $this->emailController->sendTemplateEmail(
+            $user,
+            'resetting',
+            [
+                'url' => $this->router->generate(
+                    'reset_password',
+                    ['token' => $resetToken->getToken()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                )
+            ]
+        );
+
+        return $this->redirectToRoute('check_email');
     }
 
 
@@ -257,7 +295,11 @@ class ResetPasswordController extends UserController // AbstractController
             );
             $this->entityManager->flush();
 
-            $this->cleanSessionAfterReset();
+            $session = $this->requestStack->getCurrentRequest()->getSession();
+
+            $session->remove('ResetPasswordPublicToken');
+            $session->remove('ResetPasswordCheckEmail');
+            $session->remove('ResetPasswordToken');
 
             return $this->redirectToRoute('login');
         }

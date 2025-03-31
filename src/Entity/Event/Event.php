@@ -80,17 +80,21 @@ abstract class Event implements EventInterface
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
+
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $observations;
+
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'request_id', referencedColumnName: 'id', nullable: false)]
     private Request $request;
 
+
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
     private BaseUser $operator;
+
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(
@@ -101,10 +105,12 @@ abstract class Event implements EventInterface
     #[ORM\JoinColumn(name: 'state_id', referencedColumnName: 'id', nullable: false)]
     private State $state;
 
+
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private Instance $instance;
+
 
     abstract public function getEventType(): string;
 

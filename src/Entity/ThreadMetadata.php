@@ -50,7 +50,7 @@ class ThreadMetadata
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\Column(name: "participant_id", type: "integer")]
-    protected BaseUser $participants;
+    protected BaseUser $participant;
 
 
     #[ORM\Column(type: "date", name: "last_message_date")]
@@ -59,13 +59,4 @@ class ThreadMetadata
 
     public function getLastMessageDate(): \DateTime
     { return $this->lastMessageDate; }
-
-
-    public function getParticipants(): Collection
-    {
-        return $this->thread->getMessages()->map(
-            fn (Message $message): BaseUser =>
-                $message->getSender()
-        );
-    }
 }

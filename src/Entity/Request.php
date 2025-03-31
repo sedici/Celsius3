@@ -66,7 +66,13 @@ class Request
 
 
     #[Assert\NotBlank]
-    #[Assert\Choice(callback: ['\Celsius3\Manager\OrderManager', 'getTypes'], message: 'Choose a valid type.')]
+    #[Assert\Choice(
+        callback: [
+            '\Celsius3\Manager\OrderManager',
+            'getTypes'
+        ],
+        message: 'Choose a valid type.'
+    )]
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups([
         'api',

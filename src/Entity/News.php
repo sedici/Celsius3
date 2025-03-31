@@ -56,7 +56,7 @@ class News
 
     #[Assert\NotBlank]
     #[Assert\Date]
-    #[ORM\Column(type: \DateTime::class)]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTime $date = null;
 
 

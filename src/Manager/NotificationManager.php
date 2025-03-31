@@ -190,7 +190,9 @@ class NotificationManager
 
     public function notifyNewMessage(Message $message): void
     {
-        $receivers = new ArrayCollection($message->getThread()->getParticipants());
+        $receivers = new ArrayCollection(
+            $message->getThread()->getParticipants()->toArray()
+        );
         $senderId = $message->getSender()->getId();
         $instance = $message->getSender()->getInstance();
 
@@ -213,7 +215,7 @@ class NotificationManager
         object $object,
         string $notificationClass,
         Instance $instance,
-        callable $filterCondition = null
+        ?callable $filterCondition = null
     ): void {
         $em = $this->entityManager;
 
@@ -283,14 +285,14 @@ class NotificationManager
     {
         $em = $this->entityManager;
         $template = $em->getRepository(NotificationTemplate::class)
-                                        ->findOneBy(array('code' => 'order_event'));
+            ->findOneBy([ 'code' => 'order_event' ]);
 
         $notification = new EventNotification($type, $event, $template);
 
         $user = $event->getRemoteNotificationTarget();
 
         if (!is_null($user)) {
-            $this->notifyInterface($notification, array($user));
+            $this->notifyInterface($notification, [ $user ]);
         }
     }
 
