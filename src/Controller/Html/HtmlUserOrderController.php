@@ -72,7 +72,9 @@ class HtmlUserOrderController extends OrderController
 
         if ($filter_form !== null) {
             $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filterManager->filter($query, $filter_form, $this->entityClassName);
+            $query = $this->filterManager->filter(
+                $query, $filter_form, $this->entityClassName
+            );
         }
 
         return $this->htmlRenderer->render(

@@ -121,7 +121,7 @@ class Request
         'administration_order_show',
         'user_list'
     ])]
-    private ArrayCollection $files;
+    private Collection $files;
 
 
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'request', fetch: 'EAGER')]
@@ -130,7 +130,7 @@ class Request
         'administration_order_show',
         'administration_user_show'
     ])]
-    private ArrayCollection $events;
+    private Collection $events;
 
 
     #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'request', fetch: 'EAGER')]
@@ -139,7 +139,7 @@ class Request
         'administration_order_show',
         'administration_user_show'
     ])]
-    private ArrayCollection $states;
+    private Collection $states;
 
 
     #[Assert\NotNull(groups: ['Default', 'newOrder'])]

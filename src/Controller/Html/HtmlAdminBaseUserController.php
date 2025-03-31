@@ -27,18 +27,18 @@ namespace Celsius3\Controller\Html;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\UserTransformType;
 use Doctrine\ORM\QueryBuilder;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\UserController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Exception\Exception;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Admin BaseUser controller.
- * @Route("/admin/user")
  */
+#[Route("/admin/user")]
 final class HtmlAdminBaseUserController extends UserController
 {
 
@@ -71,8 +71,8 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Lists all BaseUser entities.
-     * @Route("/", name="admin_user")
      */
+    #[Route("/", name: "admin_user")]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -84,10 +84,10 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Finds and displays a BaseUser document.
-     * @Route("/{id}/show", name="admin_user_show", options={"expose"=true})
      * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */
+    #[Route("/{id}/show", name: "admin_user_show", options: ["expose" => true])]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -99,8 +99,8 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Displays a form to create a new BaseUser entity.
-     * @Route("/new", name="admin_user_new")
      */
+    #[Route("/new", name: "admin_user_new")]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -112,8 +112,8 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Creates a new BaseUser entity.
-     * @Route("/create", name="admin_user_create", methods={"POST"})
      */
+    #[Route("/create", name: "admin_user_create", methods: ["POST"])]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -125,10 +125,10 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Displays a form to edit an existing Country entity.
-     * @Route("/{id}/edit", name="admin_user_edit", options={"expose"=true})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route("/{id}/edit", name: "admin_user_edit", options: ["expose" => true])]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -143,7 +143,6 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Updates an existing BaseUser entity.
-     * @Route("/{id}/update", name="admin_user_update", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
@@ -162,13 +161,10 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Enables an existing BaseUser entity.
-     * @Route("/{id}/enable", name="admin_user_enable", methods={"PUT"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-
-    // MODIFICAR SOLUCITUDES PARA QUE SEAN PUT
-    
+    #[Route("/{id}/enable", name: "admin_user_enable", methods: ["PUT"])]
     public function enable(string $id): RedirectResponse
     { return $this->baseEnable($id); }
 
@@ -176,13 +172,12 @@ final class HtmlAdminBaseUserController extends UserController
     // BATCH
 
 
-    // * @Route("/batch", name="admin_user_batch")
     /**
      * Apply a batch function to a group of BaseUser entities.
-     * @Route("/batch", name="admin_user_batch", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route("/batch", name: "admin_user_batch", methods: ["POST"])]
     public function batch(): mixed
     { return $this->baseBatch(); }
 
@@ -197,8 +192,8 @@ final class HtmlAdminBaseUserController extends UserController
     //  * @Route("/union", name="admin_user_union")
     /**
      * Batch union on a group of BaseUser entities.
-     * @Route("/union", name="admin_user_union", methods={"POST"})
      */
+    #[Route("/union", name: "admin_user_union", methods: ["POST"])]
     public function union(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -275,8 +270,8 @@ final class HtmlAdminBaseUserController extends UserController
     //  * @Route("/transform", name="admin_user_transform")
     /**
      * Transform an instance of BaseUser entity.
-     * @Route("/{id}/transform", name="admin_user_transform", methods={"GET", "POST"})
      */
+    #[Route("/{id}/transform", name: "admin_user_transform", methods: ["GET", "POST"])]
 
     // SEPARAR EN DOS CONTROLADORES
 
@@ -324,8 +319,11 @@ final class HtmlAdminBaseUserController extends UserController
 
     /**
      * Switch to another instance of BaseUser entity.
-     * @Route("/switch/{_switch_user}", name="switch_user")
      */
+    #[
+        Route("/switch/{_switch_user}", name: "switch_user"),
+        IsGranted("ROLE_ADMIN")
+    ]
     public function switch(string $_switch_user): RedirectResponse
     { return $this->switchUser($_switch_user); }
 }

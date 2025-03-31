@@ -227,16 +227,23 @@ class ResetPasswordController extends UserController // AbstractController
             return $this->redirectToRoute($redirectionRoute);
         }
 
+        $url = $this->router->generate(
+            'reset_password',
+            ['token' => $resetToken->getToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        // Genera la url dependiendo de la instancia de donde sea el usuario
+        $components = parse_url($url);
+        $path = isset($components['path']) ? $components['path'] : '';
+        $query = isset($components['query']) ? '?' . $components['query'] : '';
+
+        $url = $user->getInstance()->getWebsite() . $path . $query;
+
         $this->emailController->sendTemplateEmail(
             $user,
             'resetting',
-            [
-                'url' => $this->router->generate(
-                    'reset_password',
-                    ['token' => $resetToken->getToken()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                )
-            ]
+            [ 'url' => $url ]
         );
 
         return $this->redirectToRoute('check_email');

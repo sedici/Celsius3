@@ -114,6 +114,11 @@ abstract class Event implements EventInterface
 
     abstract public function getEventType(): string;
 
+
+    // public function getRemoteNotificationTarget(): BaseUser
+    // { return $this->request->getOrder()->getOriginalRequest()->getOwner(); }
+
+
     public function __toString()
     {
         $title = $this->getRequest()->getOrder()->getMaterialData()->getTitle();
