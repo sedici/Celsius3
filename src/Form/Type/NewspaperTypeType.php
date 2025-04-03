@@ -65,6 +65,9 @@ final class NewspaperTypeType extends MaterialTypeType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => NewspaperType::class]);
+        $resolver->setDefaults([
+            'instance' => null,
+            'data_class' => NewspaperType::class
+        ]);
     }
 }

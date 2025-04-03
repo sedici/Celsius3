@@ -176,7 +176,7 @@ class Request
 
 
     #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'previousRequest')]
-    private ArrayCollection $requests;
+    private Collection $requests;
 
 
     #[Groups([
@@ -627,8 +627,6 @@ class Request
 
     /**
      * Get requests.
-     *
-     * @return Collection $requests
      */
     public function getRequests(): Collection
     {

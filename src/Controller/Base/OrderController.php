@@ -27,6 +27,7 @@ use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

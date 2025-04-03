@@ -36,8 +36,9 @@ class PatentTypeType extends MaterialTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
+            'instance' => null,
             'data_class' => PatentType::class,
-        ));
+        ]);
     }
 }

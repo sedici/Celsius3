@@ -287,10 +287,13 @@ services:
 #    celsius3_core.mailer:
 #        class: Celsius3\CoreBundle\Mailer\Mailer
 #        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@validator', '@celsius3_core.mailer_helper']
-    Celsius3\Listener\CounterListener:
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: postPersist }
+
+
+    # Celsius3\Listener\CounterListener:
+    #     tags:
+    #         - { name: doctrine.event_listener, event: prePersist }
+    #         - { name: doctrine.event_listener, event: postPersist }
+
 #    celsius3_core.catalog_listener:
 #        class: Celsius3\CoreBundle\Listener\CatalogListener
 #        tags:

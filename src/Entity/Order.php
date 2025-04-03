@@ -22,6 +22,7 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Entity\Mixin\CodeGenerator;
 use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Manager\StateManager;
@@ -42,6 +43,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new ORM\Index(name: 'idx_original_request', columns: ['original_request_id']),
 ])]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
+#[ORM\HasLifecycleCallbacks]
 class Order
 {
     use TimestampableEntity;
@@ -60,9 +62,7 @@ class Order
     private ?int $id = null;
 
 
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'integer')]
-    #[ORM\Column(type: 'integer', name: '`code`')]
+    #[ORM\Column(type: 'integer', unique: true)]
     #[Groups([
         'api',
         'administration_list',
@@ -74,8 +74,16 @@ class Order
     private int $code;
 
 
-    #[ORM\OneToOne(targetEntity: MaterialType::class, inversedBy: 'order', cascade: ['persist', 'remove'], fetch: 'EAGER')]
-    #[ORM\JoinColumn(name: 'material_data_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\OneToOne(
+        targetEntity: MaterialType::class,
+        inversedBy: 'order',
+        cascade: ['persist', 'remove']
+    )]
+    #[ORM\JoinColumn(
+        name: 'material_data_id',
+        referencedColumnName: 'id',
+        nullable: true
+    )]
     #[Groups([
         'administration_list',
         'administration_order_show',
@@ -87,7 +95,7 @@ class Order
 
 
     #[Assert\NotNull]
-    #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'], fetch: 'EAGER')]
+    #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'original_request_id', referencedColumnName: 'id')]
     #[Groups([
         'api',
@@ -96,8 +104,19 @@ class Order
     private ?Request $originalRequest = null;
 
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'order', fetch: 'EAGER')]
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'order')]
     private Collection $requests;
+
+    // ----
+
+    // #[ORM\PrePersist]
+    // public function prePersist(CodeGenerator $generator): void
+    // {
+    //     $this->code = $generator->generateCode(
+    //         self::class, 
+    //         'code'
+    //     );
+    // }
 
 
     public function __toString(): string
@@ -146,7 +165,7 @@ class Order
         }
 
         $receivedDate = null;
-        if (!is_null($receivedState)) {
+        if ($receivedState !== null) {
             $receivedDate = $receivedState->getCreatedAt();
         }
 

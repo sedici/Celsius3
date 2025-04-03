@@ -20,30 +20,34 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Form\Type;
+namespace Celsius3\Listener;
 
-use Celsius3\Entity\ThesisType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Celsius3\Entity\Order;
+use Celsius3\Entity\Mixin\CodeGenerator;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Events;
 
-class ThesisTypeType extends MaterialTypeType
+class OrderListener implements EventSubscriber
 {
+    public function __construct(private CodeGenerator $codeGenerator) {}
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function getSubscribedEvents(): array
     {
-        parent::buildForm($builder, $options);
-
-        $builder
-            ->add('director')
-            ->add('degree')
-        ;
+        return [Events::prePersist];
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function prePersist(PrePersistEventArgs $args): void
     {
-        $resolver->setDefaults([
-            'instance' => null,
-            'data_class' => ThesisType::class,
-        ]);
+        $entity = $args->getObject();
+        if ($entity instanceof Order && !$entity->getCode()) {
+            $entity->setCode(
+                $this->codeGenerator->generateCode(
+                    Order::class,
+                    'code'
+                )
+            );
+        }
     }
 }

@@ -162,7 +162,7 @@ class HtmlAdminOrderController extends OrderController
         $request->setOwner($this->getUser());
         $request->setCreator($this->getUser());
         $request->setInstance($this->instance);
-        $request->setType('provision');
+        $request->setType('busqueda');
         $request->setOrder($order);
         
         $order->setOriginalRequest($request);
@@ -175,7 +175,6 @@ class HtmlAdminOrderController extends OrderController
             throw new \Exception($e->getMessage());
         }
 
-        throw new \Exception((string) var_dump($this->new(entity: $order)));
         return $this->htmlRenderer->render(
             'new',
             $this->new()

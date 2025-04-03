@@ -138,6 +138,8 @@ class HtmlUserOrderController extends OrderController
     {
         $request = $this->requestStack->getCurrentRequest();
 
+        $type = $this->getMaterialType();
+
         $options = [
             'material' => $this->getMaterialType(),
             'user' => $this->getUser(),
@@ -148,7 +150,7 @@ class HtmlUserOrderController extends OrderController
                 ->isGranted(UserManager::ROLE_LIBRARIAN)
         ];
 
-        if ($this->getMaterialType() === JournalTypeType::class)
+        if ($type === JournalTypeType::class)
             $options['other'] = $request
                 ->get('order')['materialData']['journal_autocomplete'];
 

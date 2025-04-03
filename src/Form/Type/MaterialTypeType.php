@@ -52,6 +52,7 @@ class MaterialTypeType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => MaterialType::class,
+            'instance' => null,
         ));
     }
 }

@@ -83,6 +83,7 @@ class JournalTypeType extends MaterialTypeType
                 'journal' => null,
                 'other' => '',
                 'journal_id' => '',
+                'instance' => null,
             ]
         );
     }

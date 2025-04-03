@@ -161,9 +161,13 @@ class RestRenderer extends BaseRenderer
             }
 
             $details = implode(', ', $details);
-            $json[$element->getId()] = ($details)
-                ? (string) $elementName . ' (' . $details . ')'
-                : $elementName;
+
+            $json[] = [
+                'id' => $element->getId(),
+                'value' => ($details)
+                    ? (string) $elementName . ' (' . $details . ')'
+                    : $elementName
+            ];
         }
 
         return $this->render($json);

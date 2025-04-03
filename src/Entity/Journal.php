@@ -44,18 +44,35 @@ class Journal
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list"
+    ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list", "ajax_list_name"])]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list",
+        "ajax_list_name"
+    ])]
     private ?string $name;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list", "ajax_list"])]
+    #[Groups([
+        "administration_list",
+        "administration_order_show",
+        "administration_user_show",
+        "user_list",
+        "ajax_list"
+    ])]
     private ?string $abbreviation;
 
 
@@ -64,7 +81,10 @@ class Journal
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups(["administration_order_show", "ajax_list"])]
+    #[Groups([
+        "administration_order_show",
+        "ajax_list"
+    ])]
     private ?string $ISSN;
 
 

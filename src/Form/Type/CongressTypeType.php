@@ -30,32 +30,32 @@ use Symfony\Component\Translation\Translator;
 class CongressTypeType extends MaterialTypeType
 {
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         parent::buildForm($builder, $options);
         $translator = new Translator('en_EN');
         $builder
-                ->add('place')
-                ->add('communication',null ,array(
-                                             'attr' => array(
-                                                         'placeholder' =>  $translator->trans('congress_ponency_example')
-                                                         )        
-                   )   )
-                
-                ->add('title', null, array(
-                                        'attr' => array(
-                                                    'placeholder' => $translator->trans('congress_title_example')
-                                                )        
-                                     ) )
+            ->add('place')
+            ->add('communication', null, [
+                'attr' => [
+                    'placeholder' => $translator->trans('congress_ponency_example')
+                ]
+            ])
+            ->add('title', null, [
+                'attr' => [
+                    'placeholder' => $translator->trans('congress_title_example')
+                ]
+            ])
         ;
-
-       
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
+            'instance' => null,
             'data_class' => CongressType::class,
-        ));
+        ]);
     }
 }

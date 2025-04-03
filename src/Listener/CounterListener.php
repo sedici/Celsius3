@@ -22,18 +22,18 @@
 
 namespace Celsius3\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\Entity\Counter;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 
 class CounterListener
 {
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(PrePersistEventArgs $args)
     {
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $entity->getEntityManager();
 
         if ($entity instanceof Order) {
             $em->getConnection()->beginTransaction();
@@ -48,17 +48,17 @@ class CounterListener
                 $em->persist($code);
 
                 $em->getConnection()->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $em->getConnection()->rollback();
                 throw $e;
             }
         }
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(PrePersistEventArgs $args)
     {
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $entity->getEntityManager();
 
         if ($entity instanceof Instance) {
             $counter = new Counter();
