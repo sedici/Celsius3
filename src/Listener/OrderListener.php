@@ -28,6 +28,8 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 
 //use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
@@ -35,29 +37,12 @@ use Doctrine\ORM\Event\PrePersistEventArgs;
 
 class OrderListener
 {
-    /**
-     * @var LifecycleHelper
-     */
-    private $lifecycleHelper;
-    /**
-     * @var InstanceHelper
-     */
-    private $instanceHelper;
-    /**
-     * @var ObjectPersisterInterface
-     */
-    private $objectPersister;
 
     public function __construct
     (
-        LifecycleHelper $lifecycleHelper,
-        InstanceHelper $instanceHelper
-       // ObjectPersisterInterface $objectPersister
-    ) {
-        $this->lifecycleHelper = $lifecycleHelper;
-        $this->instanceHelper = $instanceHelper;
-      //  $this->objectPersister = $objectPersister;
-    }
+        private LifecycleHelper $lifecycleHelper,
+        private InstanceHelper $instanceHelper
+    ) {}
 
     public function prePersist(PrePersistEventArgs $args): void
     {
@@ -68,7 +53,7 @@ class OrderListener
         }
     }
 
-    public function postPersist(PrePersistEventArgs $args): void
+    public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
 
@@ -84,7 +69,7 @@ class OrderListener
         }
     }
 
-    public function postUpdate(PrePersistEventArgs $args): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
 

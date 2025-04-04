@@ -27,7 +27,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\BaseRepository;
 
-
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 #[ORM\Table(
     name: 'counter',
@@ -54,50 +53,30 @@ class Counter
     protected ?int $value = null;
 
 
-    /**
-     * Get id.
-     */
-    public function getId(): int|null
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     */
-    public function setName($name)
+
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
+
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Set value.
-     *
-     * @param int $value
-     */
-    public function setValue($value)
+    public function setValue(int $value): void
     {
         $this->value = $value;
     }
 
-    /**
-     * Get value.
-     *
-     * @return int $value
-     */
-    public function getValue()
+
+    public function getValue(): ?int
     {
         return $this->value;
     }

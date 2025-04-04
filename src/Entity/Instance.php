@@ -32,11 +32,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\InstanceRepository;
 use Doctrine\Common\Collections\Collection;
-
+use Doctrine\ORM\Event\PostPersistEventArgs;
 
 #[ORM\Entity(repositoryClass: InstanceRepository::class)]
 #[UniqueEntity('url')]
 #[UniqueEntity('host')]
+#[ORM\HasLifecycleCallbacks]
 class Instance extends LegacyInstance
 {
 
@@ -127,6 +128,22 @@ class Instance extends LegacyInstance
     #[ORM\OneToMany(targetEntity: DataRequest::class, mappedBy: 'instance')]
     protected $dataRequests;
 
+    // ----
+
+    #[ORM\PostPersist]
+    public function postPersist(PostPersistEventArgs $args): void
+    {
+        $entity = $args->getObject();
+        $em = $entity->getEntityManager();
+
+        $counter = new Counter();
+        $counter->setName($entity->getId());
+        $counter->setValue(1);
+        $em->persist($counter);
+        $em->flush($counter);
+    }
+
+    // ----
 
     public function __construct()
     {

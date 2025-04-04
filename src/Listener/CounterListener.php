@@ -26,14 +26,17 @@ use Celsius3\Entity\Counter;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
+use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 
 class CounterListener
 {
-    public function prePersist(PrePersistEventArgs $args)
+    public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
         $em = $entity->getEntityManager();
+
+        throw new \Exception((string) var_dump($entity));
 
         if ($entity instanceof Order) {
             $em->getConnection()->beginTransaction();
@@ -55,7 +58,7 @@ class CounterListener
         }
     }
 
-    public function postPersist(PrePersistEventArgs $args)
+    public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
         $em = $entity->getEntityManager();

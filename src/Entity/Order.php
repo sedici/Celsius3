@@ -25,10 +25,17 @@ namespace Celsius3\Entity;
 use Celsius3\Entity\Mixin\CodeGenerator;
 use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 use Celsius3\Entity\Mixin\TimestampableEntity;
+use Celsius3\Helper\InstanceHelper;
+use Celsius3\Helper\LifecycleHelper;
+use Celsius3\Manager\EventManager;
 use Celsius3\Manager\StateManager;
 use Celsius3\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,7 +44,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`', indexes: [
-    new ORM\Index(name: 'idx_code', columns: ['`code`']),
+    new ORM\Index(name: 'idx_code', columns: ['code']),
     new ORM\Index(name: 'idx_created_at', columns: ['created_at']),
     new ORM\Index(name: 'idx_material_data', columns: ['material_data_id']),
     new ORM\Index(name: 'idx_original_request', columns: ['original_request_id']),
@@ -109,15 +116,46 @@ class Order
 
     // ----
 
-    // #[ORM\PrePersist]
-    // public function prePersist(CodeGenerator $generator): void
-    // {
-    //     $this->code = $generator->generateCode(
-    //         self::class, 
-    //         'code'
-    //     );
+    #[ORM\PrePersist]
+    public function prePersist(PrePersistEventArgs $prePersistEventArgs): void
+    {
+        $this->getOriginalRequest()->setOrder($this);
+
+        $em = $prePersistEventArgs->getEntityManager();
+
+        $em->getConnection()->beginTransaction();
+
+        try {
+            $code = $em->getRepository(Counter::class)
+                ->findOneBy([
+                    'name' => $this->getOriginalRequest()->getInstance()->getId(),
+                ]);
+            // throw new \Exception((string) var_dump($em->getRepository(Counter::class)->findAll()));
+            // throw new \Exception((string) var_dump($code));
+            $this->setCode($code->getValue());
+
+            $code->setValue($code->getValue() + 1);
+            $em->persist($code);
+
+            $em->getConnection()->commit();
+        } catch (\Exception $e) {
+            $em->getConnection()->rollback();
+            throw $e;
+        }
+    }
+
+
+    // #[ORM\PostUpdate]
+    // public function postUpdate(): void {
+    //     $instance = $instanceHelper->getSessionInstance();
+    //     $request = $this->getRequest($instance);
+    //     if ($request !== null) {
+    //         // Update elasticsearch index
+    //       //  $this->objectPersister->replaceOne($request);
+    //     }
     // }
 
+    // ----
 
     public function __toString(): string
     {

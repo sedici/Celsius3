@@ -82,6 +82,15 @@ class OrderController extends EntityController
             }
         }
 
+        $originalRequest = $entity->getOriginalRequest();
+
+        $originalRequest->setCreator($this->getUser());
+
+        try { $originalRequest->getOwner(); }
+        catch (\Throwable $e) {
+            $originalRequest->setOwner($this->getUser());
+        }
+
         $this->persistEntity($entity);
     }
 

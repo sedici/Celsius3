@@ -25,10 +25,15 @@ namespace Celsius3\Entity;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 use Celsius3\Entity\Mixin\TimestampableEntity;
+use Celsius3\Helper\LifecycleHelper;
+use Celsius3\Manager\EventManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -47,6 +52,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new ORM\UniqueConstraint(name: 'idx_order_instance', columns: ['instance_id', 'order_id']),
 ])]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
+#[ORM\HasLifecycleCallbacks]
 class Request
 {
     use TimestampableEntity;
@@ -188,6 +194,26 @@ class Request
     ])]
     protected \DateTime $createdAt;
 
+    // ----
+
+    #[ORM\PostPersist]
+    public function postPersist(
+        PostPersistEventArgs $postPersistEventArgs,
+        LifecycleHelper $lifecycleHelper
+    ): void {
+        $entity = $postPersistEventArgs->getObject();
+
+        $lifecycleHelper->createEvent(
+            EventManager::EVENT__CREATION,
+            $entity,
+            $entity->getInstance()
+        );
+
+        // Update elasticsearch index
+        // $this->objectPersister->insertOne($entity);
+    }
+
+    // ----
 
     public function __construct()
     {
