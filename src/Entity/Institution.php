@@ -74,11 +74,11 @@ class Institution extends Provider
     private ?string $address;
 
 
-    #[OneToMany(targetEntity: BaseUser::class, mappedBy: 'institution')]
+    #[OneToMany(targetEntity: BaseUser::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
     private Collection $users;
 
 
-    #[OneToMany(targetEntity: Institution::class, mappedBy: 'parent')]
+    #[OneToMany(targetEntity: Institution::class, mappedBy: 'parent', fetch: "EXTRA_LAZY")]
     private Collection $institutions;
 
 
@@ -115,11 +115,11 @@ class Institution extends Provider
     private Country $country;
 
 
-    #[OneToMany(targetEntity: Catalog::class, mappedBy: 'institution')]
+    #[OneToMany(targetEntity: Catalog::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
     private Collection $catalogs;
 
 
-    #[OneToMany(targetEntity: Contact::class, mappedBy: 'institution')]
+    #[OneToMany(targetEntity: Contact::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
     private Collection $contacts;
 
 

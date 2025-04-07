@@ -26,6 +26,7 @@ namespace Celsius3\Helper;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\SearchEvent;
 use Celsius3\Entity\Event\UndoEvent;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
@@ -123,7 +124,7 @@ class LifecycleHelper
         if ($name === EventManager::EVENT__RECEIVE) {
             $events = array_filter(
                 $this->eventManager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()),
-                static function (Event $item) use ($extra_data) {
+                static function ($item) use ($extra_data) {
                     return $item->getRequestEvent()->getId() === $extra_data['request']->getId();
                 }
             );
@@ -144,7 +145,7 @@ class LifecycleHelper
         if ($name === EventManager::EVENT__SEARCH) {
             $events = array_filter(
                 $this->eventManager->getEvents(EventManager::EVENT__SEARCH, $request->getId()),
-                static function (Event $item) use ($extra_data) {
+                static function (SearchEvent $item) use ($extra_data): bool {
                     return $item->getCatalog()->getId() === $extra_data['catalog']->getId();
                 }
             );
@@ -256,7 +257,7 @@ class LifecycleHelper
         return $state;
     }
 
-    public function createRequest(Order $order, BaseUser $user, $type, Instance $instance, BaseUser $creator)
+    public function createRequest(Order $order, BaseUser $user, $type, Instance $instance, BaseUser $creator): ?Request
     {
         if ($order->hasRequest($instance)) {
             $request = $order->getRequest($instance);
@@ -563,7 +564,7 @@ class LifecycleHelper
 
         $events = array_filter(
             $this->eventManager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()),
-            static function (Event $item) use ($extra_data) {
+            static function ($item) use ($extra_data): bool {
                 return $item->getRequestEvent()->getId() === $extra_data['request']->getId();
             }
         );
@@ -579,50 +580,12 @@ class LifecycleHelper
         return $data;
     }
 
-    public function createCancelEvent(Request $request, Instance $instance = null)
+    public function createCancelEvent(Request $request, ?Instance $instance = null): ?Event
     {
-        $this->entityManager->getConnection()->beginTransaction();
-        try {
-            $data = $this->preValidateCancelEvent($request, $instance);
-
-            $event = $data['event'] ?? $this->setEventData($request, $data);
-
-            $this->entityManager->persist($request);
-            $this->entityManager->persist($event);
-            $this->entityManager->flush();
-
-            $this->entityManager->getConnection()->commit();
-
-            return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->logger->error($ex->getMessage());
-            $this->logger->error($ex->getTraceAsString());
-
-            return null;
-        }
-    }
-
-    private function preValidateCancelEvent(Request $request, Instance $instance = null): array
-    {
-        $session_instance = $this->instanceHelper->getSessionInstance();
-        $instance = $instance ?? $session_instance;
-        $extra_data = $this->eventManager->prepareExtraDataForCancel($request, $instance);
-        $event_name = $this->eventManager->getRealCancelEventName($extra_data);
-
-        $data = [
-            'eventName' => $event_name,
-            'stateName' => $this->stateManager->getStateForEvent($event_name),
-            'instance' => $instance,
-            'date' => date('Y-m-d H:i:s'),
-            'extraData' => $extra_data,
-            'eventClassName' => $this->eventManager->getFullClassNameForEvent($event_name),
-        ];
-
-        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
-            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
-        }
-
-        return $data;
+        return $this->createCustomEvent(
+            $request,
+            EventManager::EVENT__CANCEL,
+            $instance
+        );
     }
 }

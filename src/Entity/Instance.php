@@ -33,6 +33,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\InstanceRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 #[ORM\Entity(repositoryClass: InstanceRepository::class)]
 #[UniqueEntity('url')]
@@ -65,51 +67,51 @@ class Instance extends LegacyInstance
     protected ?bool $invisible = false;
 
 
-    #[ORM\OneToMany(targetEntity: BaseUser::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: BaseUser::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $users;
 
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $orders;
 
 
-    #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $news;
 
 
-    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $contacts;
 
 
-    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $institutions;
 
 
-    #[ORM\OneToMany(targetEntity: EmailTemplate::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: EmailTemplate::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $templates;
 
 
-    #[ORM\OneToMany(targetEntity: Configuration::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Configuration::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $configurations;
 
 
-    #[ORM\OneToMany(targetEntity: Catalog::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Catalog::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $catalogs;
 
 
-    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $events;
 
 
-    #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $states;
 
 
-    #[ORM\OneToMany(targetEntity: Country::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: Country::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $countries;
 
 
-    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $cities;
 
 
@@ -125,7 +127,7 @@ class Instance extends LegacyInstance
     protected ?string $observaciones;
 
 
-    #[ORM\OneToMany(targetEntity: DataRequest::class, mappedBy: 'instance')]
+    #[ORM\OneToMany(targetEntity: DataRequest::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]
     protected $dataRequests;
 
     // ----

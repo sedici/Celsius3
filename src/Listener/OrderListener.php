@@ -27,13 +27,15 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Events;
 
 //use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
 //use  FOS\ElasticaBundle\Persister;
+
 
 class OrderListener
 {
@@ -44,43 +46,45 @@ class OrderListener
         private InstanceHelper $instanceHelper
     ) {}
 
+
+    #[AsDoctrineListener(Events::prePersist)]
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
+        if (!$entity instanceof Order) return;
 
-        if ($entity instanceof Order) {
-            $entity->getOriginalRequest()->setOrder($entity);
-        }
+        $entity->getOriginalRequest()->setOrder($entity);
     }
 
+
+    #[AsDoctrineListener(Events::postPersist)]
     public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
+        if (!$entity instanceof Request) return;
 
-        if ($entity instanceof Request) {
-            $this->lifecycleHelper->createEvent(
-                EventManager::EVENT__CREATION,
-                $entity,
-                $entity->getInstance()
-            );
+        $this->lifecycleHelper->createEvent(
+            EventManager::EVENT__CREATION,
+            $entity,
+            $entity->getInstance()
+        );
 
-            // Update elasticsearch index
-            // $this->objectPersister->insertOne($entity);
-        }
+        // Update elasticsearch index
+        // $this->objectPersister->insertOne($entity);
     }
 
+
+    #[AsDoctrineListener(Events::postUpdate)]
     public function postUpdate(PostUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
+        if (!$entity instanceof Order) return;
 
-        if ($entity instanceof Order) {
-            $instance = $this->instanceHelper->getSessionInstance();
-            $request = $entity->getRequest($instance);
-            if ($request !== null) {
-                // Update elasticsearch index
-              //  $this->objectPersister->replaceOne($request);
-            }
+        $instance = $this->instanceHelper->getSessionInstance();
+        $request = $entity->getRequest($instance);
+        if ($request !== null) {
+            // Update elasticsearch index
+            //  $this->objectPersister->replaceOne($request);
         }
     }
-
 }

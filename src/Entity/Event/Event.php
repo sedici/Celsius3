@@ -36,6 +36,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 #[ORM\Entity(repositoryClass: 'Celsius3\Repository\EventRepository')]
 #[ORM\Table(name: 'event', indexes: [
     new ORM\Index(name: 'idx_request', columns: ['request_id']),
@@ -91,7 +92,7 @@ abstract class Event implements EventInterface
     private Request $request;
 
 
-    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
     private BaseUser $operator;
 
@@ -107,7 +108,7 @@ abstract class Event implements EventInterface
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events')]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private Instance $instance;
 

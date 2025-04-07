@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\StateManager;
@@ -83,7 +84,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
         $this->setObservations($data['extraData']['observations']);
     }
 
-    public function getRequestEvent(): Event
+    public function getRequestEvent(): mixed
     {
         return $this->requestEvent;
     }
@@ -95,7 +96,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
         return $this;
     }
 
-    public function getReceiveEvent(): Event
+    public function getReceiveEvent(): mixed
     {
         return $this->receiveEvent;
     }
@@ -115,7 +116,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
         }
     }
 
-    public function getRemoteNotificationTarget()
+    public function getRemoteNotificationTarget(): ?BaseUser
     {
         $operator = null;
 

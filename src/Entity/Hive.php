@@ -60,11 +60,11 @@ class Hive
     private string $name;
 
 
-    #[ORM\OneToMany(targetEntity: LegacyInstance::class, mappedBy: "hive")]
+    #[ORM\OneToMany(targetEntity: LegacyInstance::class, mappedBy: "hive", fetch: "EXTRA_LAZY")]
     private Collection $instances;
 
 
-    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: "hive")]
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: "hive", fetch: "EXTRA_LAZY")]
     private Collection $institutions;
 
 

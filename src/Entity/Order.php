@@ -111,7 +111,7 @@ class Order
     private ?Request $originalRequest = null;
 
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'order')]
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'order', fetch: 'EXTRA_LAZY')]
     private Collection $requests;
 
     // ----

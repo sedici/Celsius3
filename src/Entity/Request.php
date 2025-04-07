@@ -130,7 +130,7 @@ class Request
     private Collection $files;
 
 
-    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'request', fetch: 'EAGER')]
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
     #[Groups([
         'administration_list',
         'administration_order_show',
@@ -139,7 +139,7 @@ class Request
     private Collection $events;
 
 
-    #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'request', fetch: 'EAGER')]
+    #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
     #[Groups([
         'administration_list',
         'administration_order_show',
@@ -181,7 +181,7 @@ class Request
     private ?Request $previousRequest = null;
 
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'previousRequest')]
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'previousRequest', fetch: "EXTRA_LAZY")]
     private Collection $requests;
 
 
@@ -196,22 +196,22 @@ class Request
 
     // ----
 
-    #[ORM\PostPersist]
-    public function postPersist(
-        PostPersistEventArgs $postPersistEventArgs,
-        LifecycleHelper $lifecycleHelper
-    ): void {
-        $entity = $postPersistEventArgs->getObject();
+    // #[ORM\PostPersist]
+    // public function postPersist(
+    //     PostPersistEventArgs $postPersistEventArgs,
+    //     LifecycleHelper $lifecycleHelper
+    // ): void {
+    //     $entity = $postPersistEventArgs->getObject();
 
-        $lifecycleHelper->createEvent(
-            EventManager::EVENT__CREATION,
-            $entity,
-            $entity->getInstance()
-        );
+    //     $lifecycleHelper->createEvent(
+    //         EventManager::EVENT__CREATION,
+    //         $entity,
+    //         $entity->getInstance()
+    //     );
 
-        // Update elasticsearch index
-        // $this->objectPersister->insertOne($entity);
-    }
+    //     // Update elasticsearch index
+    //     // $this->objectPersister->insertOne($entity);
+    // }
 
     // ----
 

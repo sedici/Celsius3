@@ -176,17 +176,33 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     ])]
     protected bool $pdf = true;
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: "owner")]
+    #[ORM\OneToMany(
+        targetEntity: Request::class,
+        mappedBy: "owner",
+        fetch: "EXTRA_LAZY"
+    )]
     protected Collection $orders;
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: "operator")]
+    #[ORM\OneToMany(
+        targetEntity: Request::class,
+        mappedBy: "operator",
+        fetch: "EXTRA_LAZY"
+    )]
     protected Collection $operatedOrders;
 
-    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: "creator")]
+    #[ORM\OneToMany(
+        targetEntity: Request::class,
+        mappedBy: "creator",
+        fetch: "EXTRA_LAZY"
+    )]
     protected Collection $createdOrders;
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "users")]
+    #[ORM\ManyToOne(
+        targetEntity: Instance::class,
+        inversedBy: "users",
+        cascade: ['persist']
+    )]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
     protected ?Instance $instance = null;
 
@@ -204,27 +220,50 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     #[ORM\Column(type: "array", name: "secondary_instances")]
     protected array $secondaryInstances = [];
 
-    #[ORM\OneToMany(targetEntity: CustomUserValue::class, mappedBy: "user", cascade: ["remove"])]
+    #[ORM\OneToMany(
+        targetEntity: CustomUserValue::class,
+        mappedBy: "user",
+        cascade: ["remove"], 
+        fetch: "EXTRA_LAZY"
+    )]
     #[Groups(["administration"])]
     protected Collection $customValues;
 
     #[ORM\ManyToMany(targetEntity: Client::class)]
     #[ORM\JoinTable(name: "user_client",
-        joinColumns: [new ORM\JoinColumn(name: "user_id", referencedColumnName: "id")],
-        inverseJoinColumns: [new ORM\JoinColumn(name: "client_id", referencedColumnName: "id")]
+        joinColumns: [
+            new ORM\JoinColumn(name: "user_id", referencedColumnName: "id")
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn(name: "client_id", referencedColumnName: "id")
+        ]
     )]
     protected Collection $clientApplications;
 
-    #[ORM\OneToMany(targetEntity: NotificationSettings::class, mappedBy: "user", cascade: ["remove"])]
+    #[ORM\OneToMany(
+        targetEntity: NotificationSettings::class,
+        mappedBy: "user",
+        cascade: ["remove"],
+        fetch: "EXTRA_LAZY"
+    )]
     protected Collection $notificationSettings;
 
-    #[ORM\OneToMany(targetEntity: BaseUserNotification::class, mappedBy: "object", cascade: ["remove"])]
+    #[ORM\OneToMany(
+        targetEntity: BaseUserNotification::class,
+        mappedBy: "object",
+        cascade: ["remove"],
+        fetch: "EXTRA_LAZY"
+    )]
     protected Collection $notifications;
 
     #[ORM\ManyToMany(targetEntity: Institution::class , inversedBy: "librarian")]
     #[ORM\JoinTable(name: "librarian_institution",
-        joinColumns: [new ORM\JoinColumn(name: "user_id", referencedColumnName: "id")],
-        inverseJoinColumns: [new ORM\JoinColumn(name: "institution_id", referencedColumnName: "id")]
+        joinColumns: [
+            new ORM\JoinColumn(name: "user_id", referencedColumnName: "id")
+        ],
+        inverseJoinColumns: [
+            new ORM\JoinColumn(name: "institution_id", referencedColumnName: "id")
+        ]
     )]
     protected Collection $librarianInstitution;
 
