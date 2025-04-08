@@ -48,7 +48,7 @@ class JournalType extends MaterialType
     protected ?string $other;
 
 
-    #[ORM\ManyToOne(targetEntity: Journal::class, inversedBy: "materials", fetch: "EAGER")]
+    #[ORM\ManyToOne(targetEntity: Journal::class, inversedBy: "materials")]
     #[ORM\JoinColumn(name: "journal_id", referencedColumnName: "id")]
     #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
     protected ?Journal $journal;

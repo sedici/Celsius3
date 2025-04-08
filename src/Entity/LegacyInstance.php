@@ -47,6 +47,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     "current" => Instance::class
 ])]
 #[UniqueEntity("email")]
+#[ORM\HasLifecycleCallbacks]
 class LegacyInstance
 {
     use TimestampableEntity;

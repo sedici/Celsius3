@@ -22,19 +22,12 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\CodeGenerator;
 use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 use Celsius3\Entity\Mixin\TimestampableEntity;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Helper\LifecycleHelper;
-use Celsius3\Manager\EventManager;
 use Celsius3\Manager\StateManager;
 use Celsius3\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\PostPersistEventArgs;
-use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
