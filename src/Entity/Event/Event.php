@@ -101,14 +101,14 @@ abstract class Event implements EventInterface
     #[ORM\ManyToOne(
         targetEntity: State::class,
         inversedBy: 'events',
-        cascade: ['persist', 'refresh']
+        cascade: ['persist']
     )]
     #[ORM\JoinColumn(name: 'state_id', referencedColumnName: 'id', nullable: false)]
     private State $state;
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private Instance $instance;
 

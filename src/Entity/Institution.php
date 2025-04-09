@@ -74,14 +74,6 @@ class Institution extends Provider
     private ?string $address;
 
 
-    #[OneToMany(targetEntity: BaseUser::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
-    private Collection $users;
-
-
-    #[OneToMany(targetEntity: Institution::class, mappedBy: 'parent', fetch: "EXTRA_LAZY")]
-    private Collection $institutions;
-
-
     #[ParentInstitution]
     #[ManyToOne(targetEntity: Institution::class, inversedBy: 'institutions')]
     #[JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
@@ -115,21 +107,13 @@ class Institution extends Provider
     private Country $country;
 
 
-    #[OneToMany(targetEntity: Catalog::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
-    private Collection $catalogs;
-
-
-    #[OneToMany(targetEntity: Contact::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
-    private Collection $contacts;
-
-
     #[NotNull]
     #[ManyToOne(targetEntity: Instance::class, inversedBy: 'institutions')]
     #[JoinColumn(name: 'instance_id', referencedColumnName: 'id')]
     private Instance $instance;
 
 
-    #[ManyToOne(targetEntity: LegacyInstance::class, inversedBy: 'ownerInstitutions', cascade: ['persist'])]
+    #[ManyToOne(targetEntity: LegacyInstance::class, inversedBy: 'ownerInstitutions')]
     #[JoinColumn(name: 'celsius_instance_id', referencedColumnName: 'id')]
     #[Groups([
         "administration_order_show",
@@ -144,8 +128,24 @@ class Institution extends Provider
     private ?Hive $hive;
 
 
-    #[ManyToMany(targetEntity: BaseUser::class, mappedBy: 'librarianInstitution')]
+    #[ManyToMany(targetEntity: BaseUser::class, mappedBy: 'librarianInstitution', fetch: "EXTRA_LAZY")]
     private Collection $librarian;
+
+
+    #[OneToMany(targetEntity: BaseUser::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
+    private Collection $users;
+
+
+    #[OneToMany(targetEntity: Institution::class, mappedBy: 'parent', fetch: "EXTRA_LAZY")]
+    private Collection $institutions;
+
+
+    #[OneToMany(targetEntity: Catalog::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
+    private Collection $catalogs;
+
+
+    #[OneToMany(targetEntity: Contact::class, mappedBy: 'institution', fetch: "EXTRA_LAZY")]
+    private Collection $contacts;
 
 
     public function getProviderType(): string

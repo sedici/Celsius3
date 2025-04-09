@@ -63,7 +63,7 @@ class Email
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: BaseUser::class, cascade: ["persist"])]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id", nullable: false)]
     #[Groups([
         "api_administration",
@@ -72,7 +72,7 @@ class Email
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Instance::class, cascade: ["persist"])]
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
     private Instance $instance;
 

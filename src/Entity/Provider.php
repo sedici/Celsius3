@@ -78,9 +78,6 @@ abstract class Provider
     abstract public function getProviderType();
 
 
-    /**
-     * Get id.
-     */
     public function getId(): int
     { return $this->id; }
 

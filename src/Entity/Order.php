@@ -77,7 +77,7 @@ class Order
     #[ORM\OneToOne(
         targetEntity: MaterialType::class,
         inversedBy: 'order',
-        cascade: ['persist', 'remove']
+        cascade: ['persist']
     )]
     #[ORM\JoinColumn(
         name: 'material_data_id',
@@ -136,17 +136,6 @@ class Order
             throw $e;
         }
     }
-
-
-    // #[ORM\PostUpdate]
-    // public function postUpdate(): void {
-    //     $instance = $instanceHelper->getSessionInstance();
-    //     $request = $this->getRequest($instance);
-    //     if ($request !== null) {
-    //         // Update elasticsearch index
-    //       //  $this->objectPersister->replaceOne($request);
-    //     }
-    // }
 
     // ----
 
@@ -263,7 +252,7 @@ class Order
     {
         return $this->getRequests()
             ->filter(
-                function (Request $entry) use ($instance) {
+                function (Request $entry) use ($instance): bool {
                     return $entry->getInstance()->getId() == $instance->getId();
                 }
             )->count() > 0;
@@ -273,7 +262,7 @@ class Order
     {
         $result = $this->getRequests()
             ->filter(
-                function (Request $entry) use ($instance) {
+                function (Request $entry) use ($instance): bool {
                     return $entry->getInstance()->getId() == $instance->getId();
                 }
             )->first();

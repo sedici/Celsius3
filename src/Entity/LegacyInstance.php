@@ -71,12 +71,6 @@ class LegacyInstance
     protected ?string $abbreviation;
 
 
-    #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances")]
-    #[ORM\JoinColumn(name: "hive_id", referencedColumnName: "id")]
-    #[Groups(["administration_order_show"])]
-    protected ?Hive $hive;
-
-
     #[Assert\NotBlank]
     #[Assert\Url]
     #[ORM\Column(type: "string", length: 255)]
@@ -95,6 +89,12 @@ class LegacyInstance
     #[ORM\Column(type: "boolean")]
     #[Groups(["administration_order_show"])]
     protected bool $enabled = true;
+
+
+    #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances", cascade: ['persist'])]
+    #[ORM\JoinColumn(name: "hive_id", referencedColumnName: "id")]
+    #[Groups(["administration_order_show"])]
+    protected ?Hive $hive;
 
 
     #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: "celsiusInstance", fetch: "EXTRA_LAZY")]

@@ -36,21 +36,11 @@ use function array_key_exists;
 
 class FixFilesCommand extends Command
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var Connection
-     */
-    private $connection;
 
-    public function __construct(EntityManagerInterface $entityManager, Connection $connection)
-    {
-        parent::__construct();
-        $this->entityManager = $entityManager;
-        $this->connection = $connection;
-    }
+    public function __construct(
+        protected EntityManagerInterface $entityManager,
+        protected Connection $connection
+    ) { parent::__construct(); }
 
     protected function configure()
     {

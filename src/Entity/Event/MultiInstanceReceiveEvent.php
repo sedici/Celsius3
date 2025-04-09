@@ -61,8 +61,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     #[Assert\NotNull]
     #[ORM\ManyToOne(
         targetEntity: State::class,
-        inversedBy: 'remoteEvents',
-        cascade: ['persist', 'refresh']
+        inversedBy: 'remoteEvents'
     )]
     #[ORM\JoinColumn(name: 'remote_state_id', referencedColumnName: 'id')]
     private State $remoteState;

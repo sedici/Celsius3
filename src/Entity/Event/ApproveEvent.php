@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class ApproveEvent extends MultiInstanceEvent
 {
-    #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: File::class)]
     #[ORM\JoinTable(name: 'approves_files',
         joinColumns: [new ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')],
         inverseJoinColumns: [new ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]

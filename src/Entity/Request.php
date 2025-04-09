@@ -27,6 +27,7 @@ use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
+use Celsius3\Manager\OrderManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PostPersistEventArgs;
@@ -74,7 +75,7 @@ class Request
     #[Assert\NotBlank]
     #[Assert\Choice(
         callback: [
-            '\Celsius3\Manager\OrderManager',
+            OrderManager::class,
             'getTypes'
         ],
         message: 'Choose a valid type.'
@@ -122,7 +123,40 @@ class Request
     private ?BaseUser $librarian = null;
 
 
-    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'request')]
+    #[Assert\NotNull(groups: ['Default', 'newOrder'])]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups([
+        'administration_order_show',
+        'administration_user_show'
+    ])]
+    private Instance $instance;
+
+
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'operatedOrders')]
+    #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
+    #[Groups([
+        'administration_list',
+        'administration_order_show',
+        'administration_user_show',
+        'user_list'
+    ])]
+    private ?BaseUser $operator = null;
+
+
+    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'requests')]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups(['administration_order_show'])]
+    private Order $order;
+
+
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'requests')]
+    #[ORM\JoinColumn(name: 'previous_request_id', referencedColumnName: 'id')]
+    #[Groups(['administration_order_show'])]
+    private ?Request $previousRequest = null;
+
+
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
     #[Groups([
         'administration_order_show',
         'user_list'
@@ -148,39 +182,6 @@ class Request
     private Collection $states;
 
 
-    #[Assert\NotNull(groups: ['Default', 'newOrder'])]
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'orders')]
-    #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups([
-        'administration_order_show',
-        'administration_user_show'
-    ])]
-    private Instance $instance;
-
-
-    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'operatedOrders')]
-    #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
-    private ?BaseUser $operator = null;
-
-
-    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'requests', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups(['administration_order_show'])]
-    private Order $order;
-
-
-    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'requests')]
-    #[ORM\JoinColumn(name: 'previous_request_id', referencedColumnName: 'id')]
-    #[Groups(['administration_order_show'])]
-    private ?Request $previousRequest = null;
-
-
     #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'previousRequest', fetch: "EXTRA_LAZY")]
     private Collection $requests;
 
@@ -193,25 +194,6 @@ class Request
         'user_list'
     ])]
     protected \DateTime $createdAt;
-
-    // ----
-
-    // #[ORM\PostPersist]
-    // public function postPersist(
-    //     PostPersistEventArgs $postPersistEventArgs,
-    //     LifecycleHelper $lifecycleHelper
-    // ): void {
-    //     $entity = $postPersistEventArgs->getObject();
-
-    //     $lifecycleHelper->createEvent(
-    //         EventManager::EVENT__CREATION,
-    //         $entity,
-    //         $entity->getInstance()
-    //     );
-
-    //     // Update elasticsearch index
-    //     // $this->objectPersister->insertOne($entity);
-    // }
 
     // ----
 
