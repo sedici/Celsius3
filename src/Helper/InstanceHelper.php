@@ -73,15 +73,14 @@ class InstanceHelper
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($this->session->has('instance_url')) {
-            $instance = $this->repository
-                ->findOneBy(['url' => $this->session->get('instance_url')]);
-        } else {
-            $instance = $this->repository
-                ->findOneBy(['host' => ($request !== null) ? $request->getHost() : '']);
-        }
+        $instance = $this->session->has('instance_url')
+            ? $this->repository->findOneBy(
+                ['url' => $this->session->get('instance_url')]
+            )
+            : $this->repository->findOneBy(
+                ['host' => ($request !== null) ? $request->getHost() : '']
+            );
 
-        // return $instance;
-        return $this->entityManager->getReference(Instance::class, $instance->getId());
+        return $instance;
     }
 }

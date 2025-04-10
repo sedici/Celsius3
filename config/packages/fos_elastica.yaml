@@ -1,7 +1,7 @@
 fos_elastica:
     clients:
-       default: { url: '%env(ELASTICSEARCH_URL)%' }
-        # default: { url: 'http://elasticsearch:9200' }
+    #    default: { url: '%env(ELASTICSEARCH_URL)%' }
+        default: { url: 'http://elasticsearch:9200' }
     indexes:
         app:
             settings:
@@ -71,5 +71,5 @@ fos_elastica:
                 driver: orm
                 model: Celsius3\Entity\Request
                 provider: ~
-                listener: ~
+                listener: false
                 finder: ~

@@ -88,7 +88,7 @@ class LifecycleHelper
                 $event = $this->setEventData($request, $data);
             }
 
-            $this->entityManager->persist($request);
+            // $this->entityManager->persist($request);
             $this->entityManager->persist($event);
             $this->entityManager->flush();
 

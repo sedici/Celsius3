@@ -61,12 +61,15 @@ class OrderListener
     public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
-        if (!$entity instanceof Request) return;
+        if (!$entity instanceof Order) return;
+
+        $request = $entity->getOriginalRequest();
+        if ($request === null) return;
 
         $this->lifecycleHelper->createEvent(
             EventManager::EVENT__CREATION,
-            $entity,
-            $entity->getInstance()
+            $request,
+            $request->getInstance(),
         );
 
         // Update elasticsearch index

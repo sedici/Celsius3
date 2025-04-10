@@ -32,13 +32,13 @@ class AccessToken extends BaseAccessToken
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id = null;
+    protected $id = null;
 
     #[ORM\ManyToOne(targetEntity: Client::class)]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?Client $client = null;
+    protected $client = null;
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
-    protected ?BaseUser $user = null;
+    protected $user = null;
 
 }

@@ -33,7 +33,7 @@ class AuthCode extends BaseAuthCode
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    protected ?int $id = null;
+    protected $id = null;
 
 
     #[ORM\ManyToOne(targetEntity: Client::class)]

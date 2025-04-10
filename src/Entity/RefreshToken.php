@@ -35,14 +35,14 @@ class RefreshToken extends BaseRefreshToken
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected int $id;
+    protected $id;
 
 
     #[ORM\ManyToOne(targetEntity: Client::class)]
     #[ORM\JoinColumn(nullable: false)]
-    protected Client $client;
+    protected $client;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
-    protected BaseUser $user;
+    protected $user;
 }

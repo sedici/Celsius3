@@ -36,19 +36,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SearchManager
 {
-    private $finder;
 
-     /**
-     * @var InstanceRepositoryInterface
-     */
-    private $instanceRepository;
+    public function __construct(
+        protected PaginatedFinderInterface $finder,
+        protected EntityManagerInterface $entityManager,
+        protected InstanceRepositoryInterface $instanceRepository
+    ) { }
 
-    public function __construct(PaginatedFinderInterface $finder,  EntityManagerInterface $entityManager)
-    {
-        $this->finder = $finder;
-       
-        $this->entityManager = $entityManager;
-    }
     private function prepareKeyword($keyword)
     {
         $search = '';
@@ -174,13 +168,8 @@ class SearchManager
             throw new \RuntimeException('Finder service is not available.');
         }
        return $this->finder->createPaginatorAdapter($query);
-       
     }
-    public function setContainer($container): void
-    {
-        $this->container = $container;
-        $this->finder = $container->get('fos_elastica.finder.app');
-    }
+
     public function getAggsUsersData($aggs)
     {
         $usernames = array();
