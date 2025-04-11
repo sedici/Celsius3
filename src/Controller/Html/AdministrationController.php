@@ -284,7 +284,7 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/{id}/data_request_download", name: "admin_instance_data_request_download", options: ["expose" => true])]
+    #[Route("/{id}/data_request_download", name: "admin_instance_orders_data_request_download", options: ["expose" => true])]
     public function dataRequestDownload(DataRequest $dataRequest)
     {
         $filename = $dataRequest->getFile();
@@ -311,7 +311,7 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/data_request_get", name: "admin_instance_data_requests_get", options: ["expose" => true])]
+    #[Route("/data_request_get", name: "admin_instance_orders_data_requests_get", options: ["expose" => true])]
     public function dataRequestGet(): Response
     {
         $em = $this->entityManager;

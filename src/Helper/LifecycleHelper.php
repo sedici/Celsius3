@@ -71,6 +71,7 @@ class LifecycleHelper
      */
     public function createEvent(string $name, Request $request, ?Instance $instance = null): ?Event
     {
+        return null;
         $this->entityManager->getConnection()->beginTransaction();
         try {
             $data = $this->preValidate($name, $request, $instance);

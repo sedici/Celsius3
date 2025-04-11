@@ -51,7 +51,7 @@ final class ShowUserOrderViewController extends AbstractController
             $order = ($this->userOrderFinder)($id, $instance, $user);
         } catch (EntityNotFoundException $exception) {
             $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('user_order');
+            return $this->redirectToRoute('html_user_order');
         }
 
         return $this->render('User/Order/show.html.twig', ['entity' => $order,]);

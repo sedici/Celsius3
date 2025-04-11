@@ -55,7 +55,7 @@ class HtmlUserOrderController extends OrderController
      */
     #[Route(
         "/",
-        name: "user_order"
+        name: 'html_user_order'
     )]
     public function htmlIndex(): Response
     {
@@ -91,7 +91,7 @@ class HtmlUserOrderController extends OrderController
      */
     #[Route(
         "/{id}/show",
-        name: "user_order_show"
+        name: 'html_user_order_show'
     )]
     public function htmlShow(string $id): Response 
     {
@@ -107,7 +107,7 @@ class HtmlUserOrderController extends OrderController
      */
     #[Route(
         "/new",
-        name: "user_order_new"
+        name: 'html_user_order_new'
     )]
     public function htmlNew(): Response
     {
@@ -131,7 +131,7 @@ class HtmlUserOrderController extends OrderController
      */
     #[Route(
         "/create",
-        name: "user_order_create",
+        name: 'html_user_order_create',
         methods: ["POST"]
     )]
     public function htmlCreate(): RedirectResponse|Response
@@ -154,12 +154,14 @@ class HtmlUserOrderController extends OrderController
             $options['other'] = $request
                 ->get('order')['materialData']['journal_autocomplete'];
 
+        
+        $params = $this->create(formOptions: $options);
+        if ($params instanceof RedirectResponse) {
+            return $params;
+        }
 
         return $this->htmlRenderer->render(
-            'new',
-            $this->create(
-                formOptions: $options,
-            )
+            'new', $params
         );
     }
 
@@ -169,7 +171,7 @@ class HtmlUserOrderController extends OrderController
      */
     #[Route(
         "/change",
-        name: "user_order_change",
+        name: 'html_user_order_change',
         options: ["expose" => true]
     )]
     public function change(

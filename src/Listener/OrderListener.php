@@ -32,6 +32,9 @@ use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\Persistence\Proxy;
+
+use function PHPUnit\Framework\isInstanceOf;
 
 //use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
 //use  FOS\ElasticaBundle\Persister;
@@ -65,6 +68,9 @@ class OrderListener
 
         $request = $entity->getOriginalRequest();
         if ($request === null) return;
+
+        $instance = $request->getInstance();
+        $hive = $instance->getHive();
 
         $this->lifecycleHelper->createEvent(
             EventManager::EVENT__CREATION,

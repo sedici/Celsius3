@@ -27,6 +27,7 @@ namespace Celsius3\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class OrdersDataRequestType extends DataRequestType
 {
@@ -142,5 +143,13 @@ final class OrdersDataRequestType extends DataRequestType
                 ],
                 'mapped' => false
             ]);
+    }
+
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'instance' => null,
+        ]);
     }
 }

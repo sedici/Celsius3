@@ -248,14 +248,14 @@
                 <div>
                  <p>
                     <div>
-                        <a href="{{ { path: 'admin_instance_data_request' } | get_url }}" data-toggle="tooltip" title="{{ 'Instance data request' | trans }}">
+                        <a href="{{ { path: 'admin_instance_orders_data_request' } | get_url }}" data-toggle="tooltip" title="{{ 'Instance data request' | trans }}">
                             {{ 'Instance data request' | trans }}
                         </a>
                     </div>
 
                     <div ng-repeat="dr in data_requests">
                         <span class="glyphicon glyphicon-paperclip"></span>
-                        <a href="{{ { path: 'admin_instance_data_request_download', params: { 'id': dr.id } } | get_url }}">{{ dr.file }}</a>
+                        <a href="{{ { path: 'admin_instance_orders_data_request_download', params: { 'id': dr.id } } | get_url }}">{{ dr.file }}</a>
                     </div>
                     </p>
                 </div>

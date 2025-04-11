@@ -150,7 +150,7 @@ var loadMaterialData = function () {
     if ((user_role === 'ROLE_SUPER_ADMIN') || (user_role === 'ROLE_ADMIN')) {
         urlChange = Routing.generate('admin_order_change');
     } else {
-        urlChange = Routing.generate('user_order_change');
+        urlChange = Routing.generate('html_user_order_change');
     }
 
     $.ajax({

@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>{{'orders'|trans}}
-                        <a class="btn btn-success btn-md pull-right" href="{{ url('user_order_new') }}">
+                        <a class="btn btn-success btn-md pull-right" href="{{ url('html_user_order_new') }}">
                             <span class="glyphicon glyphicon-plus"></span>
                             <span>{{'addOrder'|trans}}</span>
                         </a>
@@ -178,7 +178,7 @@
                                 <a href=""><span class="glyphicon glyphicon-user"></span>  {{'Profile'|trans}}</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{ get_url({path: 'user_order', params: {state: ['delivered', 'cancelled', 'annulled']} }) }}"><span class="glyphicon glyphicon-book"></span> {{'orderHistory'|trans}}</a>
+                                <a href="{{ get_url({path: 'html_user_order', params: {state: ['delivered', 'cancelled', 'annulled']} }) }}"><span class="glyphicon glyphicon-book"></span> {{'orderHistory'|trans}}</a>
                             </li>
                             <li class="list-group-item" ng-if="user_role == ROLE_LIBRARIAN">
                                 <a href="{{ get_url({path: 'bibliotecario_user'}) }}"><span class="glyphicon glyphicon-list"></span>  {{'institutionUsers'|trans}}</a>
