@@ -25,16 +25,11 @@ namespace Celsius3\Entity;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 use Celsius3\Entity\Mixin\TimestampableEntity;
-use Celsius3\Helper\LifecycleHelper;
-use Celsius3\Manager\EventManager;
 use Celsius3\Manager\OrderManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -186,14 +181,14 @@ class Request
     private Collection $requests;
 
 
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
-    protected \DateTime $createdAt;
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
+    // protected \DateTime $createdAt;
 
     // ----
 

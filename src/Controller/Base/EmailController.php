@@ -292,9 +292,7 @@ class EmailController extends EntityController
             ->render(['user' => $user] + $options);
 
         $this->sendEmail(
-            $instance->get(
-                $this->configurationHelper::CONF__SMTP_USERNAME
-            )->getValue(),
+            $instance->getEmail(),
             $template->getTitle(),
             $rendered,
             $user,

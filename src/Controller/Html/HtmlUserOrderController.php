@@ -61,26 +61,28 @@ class HtmlUserOrderController extends OrderController
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $filter_form = $this->createForm(
-            options: [ 'owner' => $this->getUser() ]
-        );
+        // $filter_form = $this->createForm(
+        //     options: [ 'owner' => $this->getUser() ]
+        // );
 
         $query = $this->repository->listUserOrdersQuery(
             $this->instance,
             $this->getUser()
         );
 
-        if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filterManager->filter(
-                $query, $filter_form, $this->entityClassName
-            );
-        }
+        // if ($filter_form !== null) {
+        //     $filter_form = $filter_form->handleRequest($request);
+        //     $query = $this->filterManager->filter(
+        //         $query, $filter_form, $this->entityClassName
+        //     );
+        // }
 
         return $this->htmlRenderer->render(
             'index',
             $this->index(
-                filter_form: $filter_form
+                // filter_form: $filter_form
+                data: $query,
+                hasFilterForm: false
             )
         );
     }

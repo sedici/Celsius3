@@ -128,9 +128,9 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
 
     public function findForInstance(
         Instance $instance,
-        BaseUser $user = null,
+        ?BaseUser $user = null,
         $state = null,
-        BaseUser $owner = null,
+        ?BaseUser $owner = null,
         $orderType = null
     ) {
         $qb = $this->createQueryBuilder('o')

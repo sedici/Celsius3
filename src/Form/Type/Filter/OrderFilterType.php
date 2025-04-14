@@ -44,6 +44,7 @@ class OrderFilterType extends AbstractType
                     ->add('owner', EntityType::class, array(
                         'required' => false,
                         'class' => BaseUser::class,
+                        'property_path' => 'originalRequest.owner'
                     ))
             ;
         }
@@ -60,6 +61,7 @@ class OrderFilterType extends AbstractType
                         'Provision' => 0,
                         'Search' => 1,
                     ),
+                    'property_path' => 'originalRequest.type'
                 ))
                 ->add('state', ChoiceType::class, array(
 //                    'choices_as_values' => true,
