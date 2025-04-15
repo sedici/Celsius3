@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
 use Celsius3\Manager\UserManager;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -47,6 +48,15 @@ class HtmlUserOrderController extends OrderController
         $this->journalRepository = $this->entityManager
             ->getRepository(Journal::class);
         $this->htmlRenderer->setTemplatePrefix('User/Order/');
+    }
+
+
+    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
+    {
+        return $this->repository->listUserOrdersQuery(
+            $this->instance,
+            $this->getUser()
+        );
     }
 
 
