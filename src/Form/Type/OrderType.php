@@ -35,11 +35,15 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 class OrderType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void {
         $class = explode('\\', $options['material']);
-        $preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
-        
+        $preferredMaterial = lcfirst(str_replace(
+            'Type', '', end($class)
+        ));
+
         if ($preferredMaterial === 'journal') {
             $materialOptions = array(
                'constraints' => new Valid(),
@@ -51,9 +55,7 @@ class OrderType extends AbstractType
             $materialOptions = array(
               'constraints' => new Valid(), 
           );
-        }
-
-        
+        }        
 
         $builder
                 ->add('originalRequest', RequestType::class, array(
@@ -77,7 +79,7 @@ class OrderType extends AbstractType
 //                    'choices_as_values' => true,
                     'mapped' => false,
                     'data' => $preferredMaterial,
-                    'label' => 'Material Type',
+                    'label' => 'Material Type'
                 ))
                 ->add('materialData', $options['material'], $materialOptions);
 

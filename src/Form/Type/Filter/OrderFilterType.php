@@ -30,74 +30,72 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\Manager\StateManager;
-use JMS\TranslationBundle\Annotation\Ignore;
 
-/** @Ignore */
+
 class OrderFilterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setMethod('GET');
 
-        if (is_null($options['owner'])) {
-            $builder
-                    ->add('owner', EntityType::class, array(
-                        'required' => false,
-                        'class' => BaseUser::class,
-                        'property_path' => 'originalRequest.owner'
-                    ))
-            ;
+        if ($options['owner'] === null) {
+            $builder->add('owner', EntityType::class, [
+                'required' => false,
+                'class' => BaseUser::class,
+                'data' => $options['owner'],
+                'mapped' => false,
+            ]);
         }
 
         $builder
-                ->add('code', null, array(
-                    'required' => false,
-                ))
-                ->add('type', ChoiceType::class, array(
-//                    'choices_as_values' => true,
-                    'required' => false,
-                    'choices' => array(
-                        '' => '',
-                        'Provision' => 0,
-                        'Search' => 1,
-                    ),
-                    'property_path' => 'originalRequest.type'
-                ))
-                ->add('state', ChoiceType::class, array(
-//                    'choices_as_values' => true,
-                    'required' => false,
-                    'choices' => array(
-                        /** @Ignore */ ucfirst(StateManager::STATE__CREATED) => StateManager::STATE__CREATED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__SEARCHED) => StateManager::STATE__SEARCHED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__REQUESTED) => StateManager::STATE__REQUESTED,
-                        /** @Ignore */ str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)) => StateManager::STATE__APPROVAL_PENDING,
-                        /** @Ignore */ ucfirst(StateManager::STATE__RECEIVED) => StateManager::STATE__RECEIVED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__DELIVERED) => StateManager::STATE__DELIVERED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__CANCELLED) => StateManager::STATE__CANCELLED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__ANNULLED) => StateManager::STATE__ANNULLED,
-                            ),
-                    'multiple' => true,
-                    'expanded' => true,
-                ))
-        ;
+            ->add('code', null, [
+                'required' => false,
+            ])
+            ->add('type', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    '' => '',
+                    'Provision' => 0,
+                    'Search' => 1,
+                ],
+                'mapped' => false,
+                'data' => $options['type'],
+            ])
+            ->add('state', ChoiceType::class, [
+                'required' => false,
+                'choices' => [
+                    ucfirst(StateManager::STATE__CREATED) => StateManager::STATE__CREATED,
+                    ucfirst(StateManager::STATE__SEARCHED) => StateManager::STATE__SEARCHED,
+                    ucfirst(StateManager::STATE__REQUESTED) => StateManager::STATE__REQUESTED,
+                    str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)) => StateManager::STATE__APPROVAL_PENDING,
+                    ucfirst(StateManager::STATE__RECEIVED) => StateManager::STATE__RECEIVED,
+                    ucfirst(StateManager::STATE__DELIVERED) => StateManager::STATE__DELIVERED,
+                    ucfirst(StateManager::STATE__CANCELLED) => StateManager::STATE__CANCELLED,
+                    ucfirst(StateManager::STATE__ANNULLED) => StateManager::STATE__ANNULLED,
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'mapped' => false,
+                'data' => $options['state'],
+            ]);
 
-        if (is_null($options['instance'])) {
-            $builder
-                    ->add('instance', EntityType::class, array(
-                        'required' => false,
-                        'class' => Instance::class,
-                    ))
-            ;
+        if ($options['instance'] === null) {
+            $builder->add('instance', EntityType::class, [
+                'required' => false,
+                'class' => Instance::class,
+            ]);
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'owner' => null,
+            'type' => null,
+            'state' => null,
             'instance' => null,
-            'validation_groups' => ['base_order_filter_type']
-        ));
+            'validation_groups' => ['base_order_filter_type'],
+        ]);
     }
 }

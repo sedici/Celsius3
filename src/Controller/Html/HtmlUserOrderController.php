@@ -51,8 +51,9 @@ class HtmlUserOrderController extends OrderController
     }
 
 
-    public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
-    {
+    public function listQuery(
+        ?bool $isInstanceDependent = null
+    ): QueryBuilder {
         return $this->repository->listUserOrdersQuery(
             $this->instance,
             $this->getUser()
@@ -69,23 +70,34 @@ class HtmlUserOrderController extends OrderController
     )]
     public function htmlIndex(): Response
     {
+        return $this->htmlRenderer->render(
+            'index',
+            $this->index(
+                formOptions: [
+                    'owner' => $this->getUser(),
+                    // 'type' => ''
+                ],
+                // hasFilterForm: false,
+            )
+        );
+
         $request = $this->requestStack->getCurrentRequest();
 
-        // $filter_form = $this->createForm(
-        //     options: [ 'owner' => $this->getUser() ]
-        // );
+        $filter_form = $this->createForm(
+            options: [ 'owner' => $this->getUser() ]
+        );
 
         $query = $this->repository->listUserOrdersQuery(
             $this->instance,
             $this->getUser()
         );
 
-        // if ($filter_form !== null) {
-        //     $filter_form = $filter_form->handleRequest($request);
-        //     $query = $this->filterManager->filter(
-        //         $query, $filter_form, $this->entityClassName
-        //     );
-        // }
+        if ($filter_form !== null) {
+            $filter_form = $filter_form->handleRequest($request);
+            $query = $this->filterManager->filter(
+                $query, $filter_form, $this->entityClassName
+            );
+        }
 
         return $this->htmlRenderer->render(
             'index',
@@ -150,22 +162,23 @@ class HtmlUserOrderController extends OrderController
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $type = $this->getMaterialType();
+        $material = $this->getMaterialType();
+
+        $user = $this->getUser();
 
         $options = [
-            'material' => $this->getMaterialType(),
-            'user' => $this->getUser(),
-            'actual_user' => $this->getUser(),
+            'material' => $material,
+            'user' => $user,
+            'actual_user' => $user,
             'target' => $request
                 ->get('order')['originalRequest']['target'] ?? '',
             'librarian' => $this->security
                 ->isGranted(UserManager::ROLE_LIBRARIAN)
         ];
 
-        if ($type === JournalTypeType::class)
+        if ($material === JournalTypeType::class)
             $options['other'] = $request
                 ->get('order')['materialData']['journal_autocomplete'];
-
         
         $params = $this->create(formOptions: $options);
         if ($params instanceof RedirectResponse) {

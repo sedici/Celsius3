@@ -75,14 +75,10 @@ class Order
 
 
     #[ORM\OneToOne(
-        targetEntity: MaterialType::class,
-        inversedBy: 'order',
-        cascade: ['persist']
+        targetEntity: MaterialType::class, inversedBy: 'order', cascade: ['persist']
     )]
     #[ORM\JoinColumn(
-        name: 'material_data_id',
-        referencedColumnName: 'id',
-        nullable: true
+        name: 'material_data_id', referencedColumnName: 'id', nullable: true
     )]
     #[Groups([
         'administration_list',

@@ -147,6 +147,8 @@ var loadMaterialData = function () {
     var oldValues = getOldValues();
     var urlChange;
 
+    console.log('material: ' + $('#order_materialDataType').val());
+
     if ((user_role === 'ROLE_SUPER_ADMIN') || (user_role === 'ROLE_ADMIN')) {
         urlChange = Routing.generate('admin_order_change');
     } else {

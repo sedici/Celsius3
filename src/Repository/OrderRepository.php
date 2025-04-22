@@ -30,17 +30,15 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * OrderRepository.
- */
+
 class OrderRepository extends ServiceEntityRepository implements OrderRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(private ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);
     }
 
-    public function findBaseDoUnionEntities($main, $ids)
+    public function findBaseDoUnionEntities($main, $ids): array
     {
         return $this->createQueryBuilder('e')
             ->where('e.id IN (:ids)')
@@ -50,54 +48,53 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
             ->getQuery()->getResult();
     }
 
-    public function union($field, $main_id, $elements)
+    public function union(string $field, int $main_id, array $elements): int
     {
         return $this->createQueryBuilder('e')
             ->update()
-            ->set('e.'.$field, ':main_id')
-            ->where('e.'.$field.' IN (:ids)')
+            ->set('e.' . $field, ':main_id')
+            ->where('e.' . $field . ' IN (:ids)')
             ->setParameter('ids', $elements)
             ->setParameter('main_id', $main_id)
-            ->getQuery()->getResult();
+            ->getQuery()->execute();
     }
 
-    public function deleteUnitedEntities(array $elements)
+    public function deleteUnitedEntities(array $elements): int
     {
         return $this->createQueryBuilder('e')
             ->delete()
             ->where('e.id IN (:ids)')
             ->setParameter('ids', $elements)
-            ->getQuery()->getResult();
+            ->getQuery()->execute();
     }
 
-    public function findByTerm($term, Instance $instance = null, $type, $limit = null, $state = null)
-    {
+    public function findByTerm(
+        string $term,
+        ?Instance $instance = null,
+        ?string $type = null,
+        ?int $limit = null,
+        ?string $state = null
+    ): QueryBuilder {
         $qb = $this->createQueryBuilder('o')
             ->addSelect('r')
             ->join('o.requests', 'r')
             ->addSelect('s')
             ->innerJoin('r.states', 's');
 
-        if (!is_null($type)) {
+        if ($type !== null) {
             $secondary = array_map(
-                function ($entity) {
-                    return $entity->getId();
-                },
+                fn($entity) => $entity->getId(),
                 $this->getEntityManager()
                     ->getRepository('Celsius3:' . $type)
                     ->findByTerm($term, $instance)
                     ->getResult()
             );
 
-            if ($type === 'BaseUser' && count($secondary) > 0) {
-                $qb->andWhere($qb->expr()->in('r.owner', $secondary));
-            } elseif ($type === 'JournalType' && count($secondary) > 0) {
-                $qb->andWhere($qb->expr()->in('o.materialData', $secondary));
-            } else {
-                // Esta condición es necesaria para evitar traer todos los resultados cuando
-                // no hay usuarios o revistas que coincidan con los criterios antes buscados.
-                $qb->andWhere('r.id = -1');
-            }
+            match ($type) {
+                'BaseUser' => $qb->andWhere($qb->expr()->in('r.owner', $secondary)),
+                'JournalType' => $qb->andWhere($qb->expr()->in('o.materialData', $secondary)),
+                default => $qb->andWhere('r.id = -1'),
+            };
         } else {
             $qb = $qb->join('o.materialData', 'md')
                 ->addSelect('md')
@@ -107,102 +104,29 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
                 ->orWhere($qb->expr()->like('md.year', $qb->expr()->literal('%' . $term . '%')));
         }
 
-        if (!is_null($instance)) {
+        if ($instance !== null) {
             $qb = $qb->andWhere('r.instance = :instance')
                 ->setParameter('instance', $instance);
         }
 
-        if (!is_null($state) && $state !== 'allStates') {
+        if ($state !== null && $state !== 'allStates') {
             $qb = $qb->andWhere('s.type = :type')
-                ->setParameter(':type', $state)
+                ->setParameter('type', $state)
                 ->andWhere('s.current = :current')
-                ->setParameter(':current', true);
+                ->setParameter('current', true);
         }
 
-        if (!is_null($limit)) {
+        if ($limit !== null) {
             $qb = $qb->setMaxResults($limit);
-        }
-
-        return $qb->getQuery();
-    }
-
-    public function findForInstance(
-        Instance $instance,
-        ?BaseUser $user = null,
-        $state = null,
-        ?BaseUser $owner = null,
-        $orderType = null
-    ) {
-        $qb = $this->createQueryBuilder('o')
-            ->select('o, r, s, e, m, ow, op, i')
-            ->join('o.requests', 'r')
-            ->join('r.states', 's')
-            ->join('r.events', 'e')
-            ->leftJoin('r.owner', 'ow')
-            ->leftJoin('r.operator', 'op')
-            ->leftJoin('ow.institution', 'i')
-            ->join('o.materialData', 'm')
-            ->where('s.current = true')
-            ->andWhere('r.instance = :instance')
-            ->setParameter('instance', $instance);
-
-        if (is_array($state) && count($state) > 0) {
-            //            if (in_array(StateManager::STATE__REQUESTED, $state)) {
-//                $qb->andWhere('s.searchPending = :searchPending')
-//                    ->setParameter('searchPending', false);
-//            }
-            if (in_array(StateManager::STATE__SEARCHED, $state)) {
-                $qb->andWhere(
-                    '(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = :searchPending))'
-                )
-                    ->setParameter('state_types', $state)
-                    ->setParameter('requested', StateManager::STATE__REQUESTED)
-                    ->setParameter('searchPending', true);
-            } else {
-                $qb->andWhere('s.type IN (:state_types)')
-                    ->setParameter('state_types', $state);
-            }
-        } elseif (!is_null($state)) {
-            if (StateManager::STATE__REQUESTED === $state) {
-                $qb->andWhere('s.searchPending = :searchPendind')->setParameter('searchPending', false);
-            }
-
-            if (StateManager::STATE__SEARCHED === $state) {
-                $qb->andWhere('(s.type = :state_type OR (s.type = :requested AND s.searchPending = :searchPending))')
-                    ->setParameter('state_type', $state)
-                    ->setParameter('requested', StateManager::STATE__REQUESTED)
-                    ->setParameter('searchPending', true);
-            } else {
-                $qb->andWhere('s.type = :state_type')
-                    ->setParameter('state_type', $state);
-            }
-        }
-
-        if ((!is_null($orderType) && !($orderType === 'allTypes'))) {
-            $qb->andWhere('r.type = :order_type')
-                ->setParameter('order_type', $orderType);
-        }
-
-        if (!is_null($user)) {
-            if (!(is_array($state) && in_array(StateManager::STATE__CREATED, $state)) && !(!is_null(
-                $state
-            ) && $state === StateManager::STATE__CREATED)) {
-                $qb = $qb->andWhere('(r.operator = :user)')
-                    ->setParameter('user', $user);
-            }
-        }
-
-        if (!is_null($owner)) {
-            $qb->andWhere('r.owner = :owner')
-                ->setParameter('owner', $owner);
         }
 
         return $qb;
     }
 
-    public function findOneForInstance(Instance $instance, $id)
+    public function findOneForInstance(Instance $instance, int $id): ?Order
     {
-        return $this->createQueryBuilder('o')
+        return $this
+            ->createQueryBuilder('o')
             ->select('o, r, s, e, m, ow, op, f')
             ->join('o.requests', 'r')
             ->join('r.states', 's')
@@ -218,9 +142,85 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
             ->getQuery()->getOneOrNullResult();
     }
 
-    public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
-    {
-        return $this->createQueryBuilder('o')
+
+    public function findForInstance(
+        Instance $instance,
+        ?BaseUser $user = null,
+        $state = null,
+        ?BaseUser $owner = null,
+        $orderType = null
+    ): QueryBuilder {
+        $qb = $this->createQueryBuilder('o')
+            ->select('o, r, s, e, m, ow, op, i')
+            ->join('o.requests', 'r')
+            ->join('r.states', 's')
+            ->join('r.events', 'e')
+            ->leftJoin('r.owner', 'ow')
+            ->leftJoin('r.operator', 'op')
+            ->leftJoin('ow.institution', 'i')
+            ->join('o.materialData', 'm')
+            ->where('s.current = true')
+            ->andWhere('r.instance = :instance')
+            ->setParameter('instance', $instance);
+
+        if (is_array($state) && count($state) > 0) {
+            if (in_array(StateManager::STATE__SEARCHED, $state)) {
+                $qb->andWhere(
+                    '(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = :searchPending))'
+                )
+                    ->setParameter('state_types', $state)
+                    ->setParameter('requested', StateManager::STATE__REQUESTED)
+                    ->setParameter('searchPending', true);
+            } else {
+                $qb->andWhere('s.type IN (:state_types)')
+                    ->setParameter('state_types', $state);
+            }
+        } elseif ($state !== null) {
+            if (StateManager::STATE__REQUESTED === $state) {
+                $qb->andWhere('s.searchPending = :searchPendind')->setParameter('searchPending', false);
+            }
+
+            if (StateManager::STATE__SEARCHED === $state) {
+                $qb->andWhere('(s.type = :state_type OR (s.type = :requested AND s.searchPending = :searchPending))')
+                    ->setParameter('state_type', $state)
+                    ->setParameter('requested', StateManager::STATE__REQUESTED)
+                    ->setParameter('searchPending', true);
+            } else {
+                $qb->andWhere('s.type = :state_type')
+                    ->setParameter('state_type', $state);
+            }
+        }
+
+        if (($orderType !== null && !($orderType === 'allTypes'))) {
+            $qb->andWhere('r.type = :order_type')
+                ->setParameter('order_type', $orderType);
+        }
+
+        if ($user !== null) {
+            if (!(is_array($state) && in_array(StateManager::STATE__CREATED, $state)) && !($state !== null
+            && $state === StateManager::STATE__CREATED)) {
+                $qb = $qb->andWhere('(r.operator = :user)')
+                    ->setParameter('user', $user);
+            }
+        }
+
+        if ($owner !== null) {
+            $qb->andWhere('r.owner = :owner')
+                ->setParameter('owner', $owner);
+        }
+
+        return $qb;
+    }
+
+
+    public function findByStateType(
+        string $type,
+        $startDate,
+        ?BaseUser $user = null,
+        ?Instance $instance = null
+    ): array {
+        return $this
+            ->createQueryBuilder('o')
             ->addSelect('r')
             ->join('o.requests', 'r')
             ->join('r.states', 's')
@@ -237,13 +237,13 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
     }
 
     public function findOrdersByStateType(
-        $type,
-        $startDate,
-        BaseUser $user = null,
-        Instance $instance = null,
-        $limit = null,
-        $offset = null
-    ) {
+        string $type,
+        ?\DateTime $startDate = null,
+        ?BaseUser $user = null,
+        ?Instance $instance = null,
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $qb = $this->createQueryBuilder('o')
             ->addSelect('r')
             ->join('o.requests', 'r')
@@ -251,10 +251,12 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
             ->where('s.type = :type')
             ->setParameter('type', $type);
 
-        if (!is_null($startDate)) {
+        if ($startDate !== null) {
             $qb->andWhere('s.createdAt >= :date')
                 ->setParameter('date', $startDate);
-        } elseif (!is_null($limit) && !is_null($offset)) {
+        }
+
+        if ($limit !== null && $offset !== null) {
             $qb->setMaxResults($limit)
                 ->setFirstResult($offset)
                 ->orderBy('r.createdAt', 'DESC');
@@ -263,12 +265,12 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
                 ->orderBy('r.createdAt', 'DESC');
         }
 
-        if (!is_null($instance)) {
+        if ($instance !== null) {
             $qb->andWhere('r.instance = :instance')
                 ->setParameter('instance', $instance);
         }
 
-        if (!is_null($user)) {
+        if ($user !== null) {
             $qb->andWhere('r.owner = :owner')
                 ->setParameter('owner', $user);
         }
@@ -276,82 +278,97 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function addFindByRequestType($type, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
-    {
-        if (intval($type) === 0) {
-            $type = 'provision';
-        } elseif (intval($type) === 1) {
-            $type = 'search';
-        } else {
-            $type = null;
-        }
 
-        if (!is_null($type)) {
-            $query = $query->andWhere('r.type = :type')
-                ->setParameter('type', $type, 'string');
-        }
+    public function addFindByRequestType(
+        string|int|null $type,
+        QueryBuilder $query,
+        ?Instance $instance = null,
+        ?BaseUser $user = null
+    ): QueryBuilder {
+        if (is_int($type))
+            $type = match ($type) {
+                0 => 'provision',
+                1 => 'search',
+                default => null,
+            };
+
+        if ($type !== null) $query = $query
+            ->andWhere('r.type = :type')
+            ->setParameter('type', $type, 'string');
 
         return $query;
     }
 
-    public function findActiveForUser(BaseUser $user, Instance $instance)
-    {
+
+    public function findActiveForUser(
+        BaseUser $user,
+        Instance $instance
+    ): array {
         $qb = $this->createQueryBuilder('o');
 
-        return $this->addFindByStateType(array(
-                                             StateManager::STATE__CREATED,
-                                             StateManager::STATE__SEARCHED,
-                                             StateManager::STATE__REQUESTED,
-                                             StateManager::STATE__APPROVAL_PENDING,
-                                             StateManager::STATE__RECEIVED,
-                                         ), $qb, $instance, $user)
+        return $this
+            ->addFindByStateType(
+                [
+                    StateManager::STATE__CREATED,
+                    StateManager::STATE__SEARCHED,
+                    StateManager::STATE__REQUESTED,
+                    StateManager::STATE__APPROVAL_PENDING,
+                    StateManager::STATE__RECEIVED,
+                ],
+                $qb,
+                $instance,
+                $user
+            )
             ->getQuery()
-            ->execute();
+            ->getResult();
     }
+
 
     public function addFindByStateType(
         array $types,
         QueryBuilder $query,
-        Instance $instance = null,
-        BaseUser $user = null
-    ) {
+        ?Instance $instance = null,
+        ?BaseUser $user = null
+    ): QueryBuilder {
         $query = $query->join('r.states', 's');
 
-        if (count($types) > 0) {
-            $query = $query->andWhere('s.type IN (:state_types)')
-                ->setParameter('state_types', $types)
-                ->andWhere('s.current = true');
-        }
+        if (!empty($types)) $query = $query
+            ->andWhere('s.type IN (:state_types)')
+            ->setParameter('state_types', $types)
+            ->andWhere('s.current = true');
 
-        if (!is_null($instance)) {
-            $query = $query->andWhere('s.instance = :instance_id')
-                ->setParameter('instance_id', $instance->getId());
-        }
+        if ($instance !== null) $query = $query
+            ->andWhere('s.instance = :instance_id')
+            ->setParameter('instance_id', $instance->getId());
 
-        if (!is_null($user)) {
-            $query = $query->andWhere('r.owner = :user_id OR r.librarian = :user_id')
-                ->setParameter('user_ud', $user->getId());
-        }
+        if ($user !== null) $query = $query
+            ->andWhere('r.owner = :user_id OR r.librarian = :user_id')
+            ->setParameter('user_id', $user->getId());
 
         return $query;
     }
+
 
     public function addFindByRequestInstance(
         $data,
         QueryBuilder $query,
-        Instance $instance = null,
-        BaseUser $user = null
-    ) {
-        if ($data instanceof Instance) {
-            $query = $query->andWhere('r.instance = :instance')
-                ->setParameter('instance', $data->getId());
-        }
+        ?Instance $instance = null,
+        ?BaseUser $user = null
+    ): QueryBuilder {
+        if ($data instanceof Instance) $query = $query
+            ->andWhere('r.instance = :instance')
+            ->setParameter('instance', $data->getId());
 
         return $query;
     }
 
-    public function addFindByRequestOwner($data, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
-    {
+
+    public function addFindByRequestOwner(
+        $data,
+        QueryBuilder $query,
+        ?Instance $instance = null,
+        ?BaseUser $user = null
+    ): QueryBuilder {
         if ($data instanceof BaseUser) {
             $query = $query->andWhere('r.owner = :owner')
                 ->setParameter('owner', $data->getId());
@@ -360,8 +377,11 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
         return $query;
     }
 
-    public function listUserOrdersQuery(Instance $instance, BaseUser $user)
-    {
+
+    public function listUserOrdersQuery(
+        Instance $instance,
+        BaseUser $user
+    ): QueryBuilder {
         return $this
             ->createQueryBuilder('e')
             ->join('e.originalRequest', 'r')
@@ -371,6 +391,7 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
             ->andWhere('r.owner = :owner OR r.librarian = :owner')
             ->setParameter('owner', $user->getId());
     }
+
 
     public function findUserOrder(int $id, Instance $instance, BaseUser $user): Order
     {

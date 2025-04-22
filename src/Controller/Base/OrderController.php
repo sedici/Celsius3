@@ -26,6 +26,7 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +55,71 @@ class OrderController extends EntityController
 
     protected function getMaterialClassName(string $short_name): string {
         return 'Celsius3\\Form\\Type\\' . ucfirst($short_name) . 'Type';
+    }
+
+
+
+    public function create(
+        $entity = null,
+        ?string $type = null,
+        array $formOptions = [],
+        ?string $redirectRoute = null
+    ): array|RedirectResponse {
+        if ($entity === null) {
+            $entityClassName = $this->entityClassName;
+            $entity = new $entityClassName();
+        }
+
+        if ($redirectRoute === null)
+            $redirectRoute = $this->redirectRoute;
+
+        // ---
+        
+        $request = $this->requestStack->getCurrentRequest();
+
+        // throw new \Exception((string)var_dump($formOptions));
+
+        $form = $this->createForm(
+            $type, $entity,
+            $this->createFormOptions(
+                $type, $redirectRoute, $formOptions,
+            )
+        );
+        $form->handleRequest($request);
+
+        // throw new \Exception((string)var_dump($entity));
+        // throw new \Exception((string)var_dump($request->request->all()));
+
+        if ($form->isValid()) {
+            try {
+                $this->onValidCreateForm(
+                    $entity, $form, $formOptions, $redirectRoute, $request
+                );
+
+                $this->addEntityFlash(
+                    'success', 'The %entity% was successfully created.',
+                );
+
+                return $this->redirect(
+                    $this->generateUrl(
+                        $redirectRoute
+                    )
+                );
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addEntityFlash(
+                    'error', 'The %entity% already exists.'
+                );
+            }
+        }
+
+        $this->addEntityFlash(
+            'error', 'There were errors creating the %entity%.'
+        );
+
+        return [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ];
     }
 
 
@@ -133,7 +199,7 @@ class OrderController extends EntityController
 
         if ($materialData === null) {
             $materialTypeName = $this->getMaterialTypeClassName(
-                $request->request->get(
+                $request->get(
                     'order', null
                 )['materialDataType']
             );
