@@ -27,6 +27,7 @@ use Celsius3\Form\Type\JournalTypeType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
+use Celsius3\Manager\MaterialTypeManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Routing\Annotation\Route;
@@ -160,14 +161,33 @@ class HtmlUserOrderController extends OrderController
     )]
     public function htmlCreate(): RedirectResponse|Response
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $params = $this->create();
 
-        $material = $this->getMaterialType();
+        if ($params instanceof Response) return $params;
+
+        return $this->htmlRenderer->render(
+            'new', $params
+        );
+    }
+
+
+    protected function createFormOptions(
+        ?string $type = null,
+        ?string $redirectRoute = null,
+        ?array $formExtraOptions = []
+    ): array {
+        $request = $this->requestStack->getCurrentRequest();
 
         $user = $this->getUser();
 
+        $materialName = $request->get(
+            'order', null
+        )['materialDataType'];
+
+        $materialType = MaterialTypeManager::CLSTYPES_FORM_MAP[$materialName];
+
         $options = [
-            'material' => $material,
+            'material' => $materialType,
             'user' => $user,
             'actual_user' => $user,
             'target' => $request
@@ -176,18 +196,11 @@ class HtmlUserOrderController extends OrderController
                 ->isGranted(UserManager::ROLE_LIBRARIAN)
         ];
 
-        if ($material === JournalTypeType::class)
+        if ($materialType === JournalTypeType::class)
             $options['other'] = $request
                 ->get('order')['materialData']['journal_autocomplete'];
         
-        $params = $this->create(formOptions: $options);
-        if ($params instanceof RedirectResponse) {
-            return $params;
-        }
-
-        return $this->htmlRenderer->render(
-            'new', $params
-        );
+        return $options;
     }
 
 

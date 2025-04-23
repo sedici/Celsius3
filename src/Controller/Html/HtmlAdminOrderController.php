@@ -58,6 +58,7 @@ use Symfony\Component\Security\Core\Security;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Celsius3\Exception\Exception;
+use Celsius3\Manager\MaterialTypeManager;
 
 use function get_class;
 
@@ -214,28 +215,18 @@ class HtmlAdminOrderController extends OrderController
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $materialType = $this->getMaterialTypeClassName(
-            $request->request->get('order', null)
-        );
-
-        $options = [
-            'material' => $materialType,
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-            'create' => true,
-            'user' => $this->entityManager
-                ->getRepository(BaseUser::class)
-                ->find($request->request->get('order')['originalRequest']['owner'])
-        ];
-
-        if ($materialType === JournalTypeType::class) {
-            $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
-            $options['journal_id'] = $request->request->get('order')['materialData']['journal'];
-        }
-
         $order = new Order();
 
-        $form = $this->createForm(data: $order, options: $options);
+        throw new \Exception((string)var_dump($order));
+
+        $formOptions = $this->createFormOptions(
+            redirectRoute: $this->redirectRoute
+        );
+
+        $form = $this->createForm(
+            data: $order,
+            options: $formOptions
+        );
         $form->handleRequest($request);
 
         if (!$order->getOriginalRequest()->getOwner()) {
@@ -245,6 +236,8 @@ class HtmlAdminOrderController extends OrderController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $materialType = $formOptions['material'];
+
             if ($materialType === JournalTypeType::class) {
                 $journal = $this->entityManager->getRepository(Journal::class)->find(
                     $request->request->get('order')['materialData']['journal']
@@ -285,6 +278,38 @@ class HtmlAdminOrderController extends OrderController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+
+    protected function createFormOptions(
+        ?string $type = null,
+        ?string $redirectRoute = null,
+        ?array $formExtraOptions = []
+    ): array {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $materialName = $request->get(
+            'order', null
+        )['materialDataType'];
+
+        $materialType = MaterialTypeManager::CLSTYPES_FORM_MAP[$materialName];
+
+        $options = [
+            'material' => $materialType,
+            'operator' => $this->getUser(),
+            'actual_user' => $this->getUser(),
+            'create' => true,
+            'user' => $this->entityManager
+                ->getRepository(BaseUser::class)
+                ->find($request->request->get('order')['originalRequest']['owner'])
+        ];
+
+        if ($materialType === JournalTypeType::class) {
+            $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
+            $options['journal_id'] = $request->request->get('order')['materialData']['journal'];
+        }
+
+        return $options;
     }
 
 

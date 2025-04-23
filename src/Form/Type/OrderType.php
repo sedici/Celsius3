@@ -22,16 +22,15 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Manager\MaterialTypeManager;
-use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
+
 
 class OrderType extends AbstractType
 {
@@ -44,21 +43,23 @@ class OrderType extends AbstractType
             'Type', '', end($class)
         ));
 
+
+        $materialOptions = [ 'constraints' => new Valid() ];
+
         if ($preferredMaterial === 'journal') {
-            $materialOptions = array(
-               'constraints' => new Valid(),
-               'journal' => $options['journal'],
-               'other' => $options['other'],
-               'journal_id' => !is_null($options['journal_id']) ? $options['journal_id'] : '' ,
-           );
-        } else {
-            $materialOptions = array(
-              'constraints' => new Valid(), 
-          );
-        }        
+            $materialOptions['journal'] = $options['journal'];
+            $materialOptions['other'] = $options['other'];
+            $materialOptions['journal_id'] = ($options['journal_id'] !== null)
+                ? $options['journal_id']
+                : '' ;
+        }
+
 
         $builder
-                ->add('originalRequest', RequestType::class, array(
+            ->add(
+                'originalRequest',
+                RequestType::class,
+                [
                     'label' => false,
                     'instance' => $options['instance'],
                     'user' => $options['user'],
@@ -66,40 +67,49 @@ class OrderType extends AbstractType
                     'librarian' => $options['librarian'],
                     'create' => $options['create'],
                     'target' => $options['target']
-                ))
-                ->add('materialDataType', ChoiceType::class, array(
-                    'choices' => array(
-                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__JOURNAL) => MaterialTypeManager::TYPE__JOURNAL,
-                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__BOOK) => MaterialTypeManager::TYPE__BOOK,
-                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__CONGRESS) => MaterialTypeManager::TYPE__CONGRESS,
-                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__THESIS) => MaterialTypeManager::TYPE__THESIS,
-                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__PATENT) => MaterialTypeManager::TYPE__PATENT,
-                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__NEWSPAPER) => MaterialTypeManager::TYPE__NEWSPAPER,
-                    ),
-//                    'choices_as_values' => true,
+                ]
+            )
+            ->add(
+                'materialDataType',
+                ChoiceType::class,
+                [
+                    'choices' => MaterialTypeManager::CHOICES__MAP,
                     'mapped' => false,
                     'data' => $preferredMaterial,
                     'label' => 'Material Type'
-                ))
-                ->add('materialData', $options['material'], $materialOptions);
+                ]
+            )
+            ->add(
+                'materialData',
+                $options['material'],
+                $materialOptions
+            );
 
-        if (array_key_exists('actual_user', $options) && !is_null($options['actual_user'])) {
-            if ($options['actual_user']->hasRole('ROLE_ADMIN') || $options['actual_user']->hasRole('ROLE_SUPER_ADMIN')) {
-                $builder->add('save_and_show', SubmitType::class, array(
-                    'attr' => array(
-                        'class' => 'btn btn-primary submit-button pull-left',
-                        
-                        
-                    ),
+        if (
+            array_key_exists('actual_user', $options)
+            && $options['actual_user'] !== null
+        ) {
+            if (
+                $options['actual_user']->hasRole('ROLE_ADMIN')
+                || $options['actual_user']->hasRole('ROLE_SUPER_ADMIN')
+            ) {
+                $builder->add(
+                    'save_and_show',
+                    SubmitType::class,
+                    [
+                        'attr' => [
+                            'class' => 'btn btn-primary submit-button pull-left',
+                        ],
                     'label' => 'save_and_show',
-                ));
+                    ]
+                );
             }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Order::class,
             'instance' => null,
             'material' => JournalTypeType::class,
@@ -112,6 +122,6 @@ class OrderType extends AbstractType
             'journal_id' => '',
             'create' => false,
             'target' => ''
-        ));
+        ]);
     }
 }

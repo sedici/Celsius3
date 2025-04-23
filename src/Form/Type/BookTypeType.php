@@ -45,6 +45,9 @@ class BookTypeType extends MaterialTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => BookType::class]);
+        $resolver->setDefaults([
+            'data_class' => BookType::class,
+            'instance' => null
+        ]);
     }
 }

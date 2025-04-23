@@ -22,11 +22,13 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseRepository::class)]
+
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 class BookType extends MaterialType
 {
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

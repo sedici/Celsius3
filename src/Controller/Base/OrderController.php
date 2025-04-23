@@ -26,6 +26,7 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
+use Celsius3\Manager\MaterialTypeManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -54,72 +55,7 @@ class OrderController extends EntityController
 
 
     protected function getMaterialClassName(string $short_name): string {
-        return 'Celsius3\\Form\\Type\\' . ucfirst($short_name) . 'Type';
-    }
-
-
-
-    public function create(
-        $entity = null,
-        ?string $type = null,
-        array $formOptions = [],
-        ?string $redirectRoute = null
-    ): array|RedirectResponse {
-        if ($entity === null) {
-            $entityClassName = $this->entityClassName;
-            $entity = new $entityClassName();
-        }
-
-        if ($redirectRoute === null)
-            $redirectRoute = $this->redirectRoute;
-
-        // ---
-        
-        $request = $this->requestStack->getCurrentRequest();
-
-        // throw new \Exception((string)var_dump($formOptions));
-
-        $form = $this->createForm(
-            $type, $entity,
-            $this->createFormOptions(
-                $type, $redirectRoute, $formOptions,
-            )
-        );
-        $form->handleRequest($request);
-
-        // throw new \Exception((string)var_dump($entity));
-        // throw new \Exception((string)var_dump($request->request->all()));
-
-        if ($form->isValid()) {
-            try {
-                $this->onValidCreateForm(
-                    $entity, $form, $formOptions, $redirectRoute, $request
-                );
-
-                $this->addEntityFlash(
-                    'success', 'The %entity% was successfully created.',
-                );
-
-                return $this->redirect(
-                    $this->generateUrl(
-                        $redirectRoute
-                    )
-                );
-            } catch (UniqueConstraintViolationException $e) {
-                $this->addEntityFlash(
-                    'error', 'The %entity% already exists.'
-                );
-            }
-        }
-
-        $this->addEntityFlash(
-            'error', 'There were errors creating the %entity%.'
-        );
-
-        return [
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ];
+        return 'Celsius3\\Entity\\' . ucfirst($short_name) . 'Type';
     }
 
 
@@ -167,13 +103,17 @@ class OrderController extends EntityController
     ): Response {
         $request = $this->requestStack->getCurrentRequest();
 
-        $materialClassName= $this->getMaterialTypeClassName(
-            $request->get('material')
-        );
+        // $this->getMaterialTypeClassName(
+        //     $request->get('material')
+        // );
 
-        if (!class_exists($materialClassName)) {
-            $this->createNotFoundException('Inexistent Material Type');
-        }
+        if (!$request->get('material'))
+            throw $this->createNotFoundException('Material Type not set');
+
+        $materialClassName = MaterialTypeManager::CLSTYPES_FORM_MAP[$request->get('material')];
+
+        if (!class_exists($materialClassName))
+            throw $this->createNotFoundException('Inexistent Material Type');
 
         $form = $this->createForm(options: [
             'material' => $materialClassName,
@@ -198,15 +138,16 @@ class OrderController extends EntityController
         $request = $this->requestStack->getCurrentRequest();
 
         if ($materialData === null) {
-            $materialTypeName = $this->getMaterialTypeClassName(
+            $materialTypeName = MaterialTypeManager::CLSTYPES_FORM_MAP[
                 $request->get(
                     'order', null
                 )['materialDataType']
-            );
+            ];
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = $this
-                ->getMaterialClassName(end($class));
+            $materialTypeName = MaterialTypeManager::CLSTYPES_MAP[
+                end($class)
+            ];
         }
 
         return $materialTypeName;
