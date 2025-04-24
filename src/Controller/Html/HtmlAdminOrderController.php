@@ -143,66 +143,43 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
+    protected function newFormOptions(
+        $entity,
+        string|null $type = null,
+        array|null $formExtraOptions = []
+    ): array {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $user = ($request->request->has('user_id'))
+            ? $this->entityManager
+                ->getRepository(BaseUser::class)
+                ->find($request->get('user_id'))
+            : null;
+
+        $user_1 = $this->getUser();
+
+        return [
+            'user' => $user,
+            'actual_user' => $user_1,
+            'create' => true,
+            'operator' => $user_1
+        ];
+    }
+
+
     /**
      * Displays a form to create a new Order entity.
      * @Route("/new", name="admin_order_new", options={"expose"=true})
      */
     public function htmlNew(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $params = $this->new();
 
-        $user = ($request->query->has('user_id'))
-            ? $this->entityManager
-                ->getRepository(BaseUser::class)
-                ->find($request->query->get('user_id'))
-            : null;
-
-        $order = new Order();
-
-        $request = new Request();
-        $request->setOwner($this->getUser());
-        $request->setCreator($this->getUser());
-        $request->setInstance($this->instance);
-        $request->setType('busqueda');
-        $request->setOrder($order);
-        
-        $order->setOriginalRequest($request);
-
-        try {
-            $this->entityManager->persist($request);
-            // $this->entityManager->persist($order);
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
-        }
+        if ($params instanceof Response) return $params;
 
         return $this->htmlRenderer->render(
             'new',
-            $this->new()
-        );
-    }
-
-
-    public function htmlNew1(): Response
-    {
-        $request = $this->requestStack->getCurrentRequest();
-
-        $user = ($request->query->has('user_id'))
-            ? $this->entityManager
-                ->getRepository(BaseUser::class)
-                ->find($request->query->get('user_id'))
-            : null;
-
-        return $this->htmlRenderer->render(
-            'new',
-            $this->new(
-                formOptions: [
-                    'user' => $user,
-                    'actual_user' => $this->getUser(),
-                    'create' => true,
-                    'operator' => $this->getUser()
-                ]
-            )
+            $params
         );
     }
 
@@ -217,8 +194,6 @@ class HtmlAdminOrderController extends OrderController
 
         $order = new Order();
 
-        throw new \Exception((string)var_dump($order));
-
         $formOptions = $this->createFormOptions(
             redirectRoute: $this->redirectRoute
         );
@@ -229,12 +204,22 @@ class HtmlAdminOrderController extends OrderController
         );
         $form->handleRequest($request);
 
-        if (!$order->getOriginalRequest()->getOwner()) {
-            $form->get('originalRequest')
+        $owner = $form
+            ->get('originalRequest')
+            ->get('owner')
+            ->getData();
+        
+        if ($owner === null) {
+            $form
+                ->get('originalRequest')
                 ->get('owner_autocomplete')
-                ->addError(new FormError('El usuario seleccionado no es válido'));
+                ->addError(
+                    new FormError(
+                        'El usuario seleccionado no es válido'
+                    )
+                );
         }
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $materialType = $formOptions['material'];
 

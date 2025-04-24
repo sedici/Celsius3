@@ -168,27 +168,25 @@
 
         <!-- sidebar.html -->
         <script type="text/ng-template" id="sidebar.html?{{ assets_version('user') }}">
-            {% verbatim %}
                 <div class="row">
                     <div class="col-md-12">
                         <h2>{{'Operaciones'|trans}}</h2>
                         <hr class="separator_hr">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href=""><span class="glyphicon glyphicon-user"></span>  {{'Profile'|trans}}</a>
+                                <a href="#"><span class="glyphicon glyphicon-user"></span>  {{ 'Profile'|trans }}</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{ get_url({path: 'html_user_order', params: {state: ['delivered', 'cancelled', 'annulled']} }) }}"><span class="glyphicon glyphicon-book"></span> {{'orderHistory'|trans}}</a>
+                                <a href="{{ path('html_user_order', { state: ['delivered', 'cancelled', 'annulled'] }) }}"><span class="glyphicon glyphicon-book"></span> {{ 'orderHistory'|trans }}</a>
                             </li>
-                            <li class="list-group-item" ng-if="user_role == ROLE_LIBRARIAN">
-                                <a href="{{ get_url({path: 'bibliotecario_user'}) }}"><span class="glyphicon glyphicon-list"></span>  {{'institutionUsers'|trans}}</a>
+                            <li class="list-group-item" ng-if="user_role == 'ROLE_LIBRARIAN'">
+                                <a href="{{ path('bibliotecario_user') }}"><span class="glyphicon glyphicon-list"></span>  {{ 'institutionUsers'|trans }}</a>
                             </li>
                         </ul>
                         <div class="row" ng-include="'messages.html?' + assets_version">
                         </div>
                     </div>
                 </div>
-            {% endverbatim %}
         </script>
 
     </div>

@@ -136,17 +136,19 @@ class HtmlUserOrderController extends OrderController
     )]
     public function htmlNew(): Response
     {
+        $params = $this->new(
+            formOptions: [
+                'user' => $this->getUser(),
+                'librarian' => $this->security->isGranted(
+                    UserManager::ROLE_LIBRARIAN
+                ),
+                'actual_user' => $this->getUser()
+            ]
+        );
+
         return $this->htmlRenderer->render(
-            'new',
-            $this->new(
-                formOptions: [
-                    'user' => $this->getUser(),
-                    'librarian' => $this->security->isGranted(
-                        UserManager::ROLE_LIBRARIAN
-                    ),
-                    'actual_user' => $this->getUser()
-                ]
-            )
+            'new', $params
+            
         );
     }
 

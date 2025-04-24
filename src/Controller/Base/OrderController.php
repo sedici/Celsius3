@@ -49,16 +49,6 @@ class OrderController extends EntityController
     }
 
 
-    protected function getMaterialTypeClassName(string $short_name): string {
-        return 'Celsius3\\Form\\Type\\' . ucfirst($short_name) . 'TypeType';
-    }
-
-
-    protected function getMaterialClassName(string $short_name): string {
-        return 'Celsius3\\Entity\\' . ucfirst($short_name) . 'Type';
-    }
-
-
     protected function onValidCreateForm(
         $entity,
         FormInterface $form,
@@ -110,7 +100,9 @@ class OrderController extends EntityController
         if (!$request->get('material'))
             throw $this->createNotFoundException('Material Type not set');
 
-        $materialClassName = MaterialTypeManager::CLSTYPES_FORM_MAP[$request->get('material')];
+        $materialClassName = MaterialTypeManager::CLSTYPES_FORM_MAP[
+            $request->get('material')
+        ];
 
         if (!class_exists($materialClassName))
             throw $this->createNotFoundException('Inexistent Material Type');

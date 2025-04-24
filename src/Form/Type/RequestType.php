@@ -26,6 +26,7 @@ use Celsius3\Entity\Request;
 use Celsius3\Manager\InstanceManager;
 use Celsius3\Manager\OrderManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -33,128 +34,207 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use \Symfony\Component\Validator\Constraints\NotBlank;
 
 class RequestType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (array_key_exists('operator', $options) && !is_null($options['operator'])) {
-            $builder->add('type', ChoiceType::class, array(
-                    'choices' => array(
-                        /** @Ignore */ OrderManager::TYPE__SEARCH => OrderManager::TYPE__SEARCH,
-                        /** @Ignore */ ucfirst(OrderManager::TYPE__PROVISION) => OrderManager::TYPE__PROVISION,
-                    ),
-//                    'choices_as_values' => true,
-                ));
+        if (
+            array_key_exists('operator', $options)
+            && $options['operator'] !== null
+        ) {
+            $builder->add(
+                'type',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        OrderManager::TYPE__SEARCH => OrderManager::TYPE__SEARCH,
+                        ucfirst(OrderManager::TYPE__PROVISION) => OrderManager::TYPE__PROVISION,
+                    ]
+                ]
+            );
         } else {
-            $builder->add('type', HiddenType::class, array(
-                    'data' => OrderManager::getTypeForUser($options['instance'], $options['user']),
-                    'attr' => array(
-                        'readonly' => 'readonly',
-                        'value' => OrderManager::getTypeForUser($options['instance'], $options['user']),
+            $builder->add(
+                'type',
+                HiddenType::class,
+                [
+                    'data' => OrderManager::getTypeForUser(
+                        $options['instance'], $options['user']
                     ),
-                ));
+                    'attr' => [
+                        'readonly' => 'readonly',
+                        'value' => OrderManager::getTypeForUser(
+                            $options['instance'], $options['user']
+                        ),
+                    ],
+                ]
+            );
         }
 
         $builder
-                ->add('comments', TextareaType::class, array(
-                    'required' => false,
-                ))
-                ->add('owner', UserSelectorType::class, array(
-                    'attr' => array(
-                        'value' => (!is_null($options['user'])) ? $options['user']->getId() : '',
+            ->add(
+                'comments',
+                TextareaType::class,
+                [ 'required' => false ]
+            )
+            ->add(
+                'owner',
+                UserSelectorType::class,
+                [
+                    'attr' => [
+                        'value' => ($options['user'] !== null)
+                            ? $options['user']->getId()
+                            : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
-                    ),
-                ))
-                ->add('creator', UserSelectorType::class, array(
-                    'attr' => array(
-                        'value' => (!is_null($options['operator'])) ? $options['operator']->getId() : ((!is_null($options['user'])) ? $options['user']->getId() : ''),
+                    ],
+                ]
+            )
+            ->add(
+                'creator',
+                UserSelectorType::class,
+                [
+                    'attr' => [
+                        'value' => ($options['operator'] !==  null)
+                            ? $options['operator']->getId()
+                            : (($options['user'] !== null)
+                                ? $options['user']->getId()
+                                : ''),
                         'class' => 'container',
                         'readonly' => 'readonly',
-                    ),
-                ))
-        ;
+                    ],
+                ]
+            );
 
         if ($options['librarian']) {
             $builder
-                    ->add('target', ChoiceType::class, array(
-                        'choices' => array(
+                ->add(
+                    'target',
+                    ChoiceType::class,
+                    [
+                        'choices' => [
                             'Me' => 'me',
                             'Other' => 'other',
-                        ),
-//                        'choices_as_values' => true,
+                        ],
                         'mapped' => false,
-                    ))
-                    ->add('librarian', UserSelectorType::class, array(
-                        'attr' => array(
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-                    ->add('owner_autocomplete', TextType::class, array(
-                        'attr' => array(
+                    ]
+                )
+                ->add(
+                    'librarian',
+                    UserSelectorType::class,
+                    [ 'attr' => [ 'readonly' => 'readonly' ] ]
+                )
+                ->add(
+                    'owner_autocomplete',
+                    TextType::class,
+                    [
+                        'attr' => [
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => (!is_null($options['user'])) ? $options['user'] : '',
-                        ),
+                            'value' => ($options['user'] !== null)
+                                ? $options['user']
+                                : '',
+                        ],
                         'mapped' => false,
                         'label' => 'Owner',
                         'required' => true,
-                        'constraints' => $options['target'] === 'other' ? [new \Symfony\Component\Validator\Constraints\NotBlank()] : []
-                    ))
-            ;
+                        'constraints' => $options['target'] === 'other'
+                            ? [ new NotBlank() ]
+                            : []
+                    ]
+                );
         }
 
         if ($options['operator'] !== null) {
             $builder
-                    ->add('owner_autocomplete', TextType::class, array(
-                        'attr' => array(
+                ->add(
+                    'owner_autocomplete',
+                    TextType::class,
+                    [
+                        'attr' => [
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => (!is_null($options['user'])) ? $options['user'] : '',
-                        ),
+                            'value' => ($options['user'] !== null)
+                                ? $options['user']
+                                : '',
+                        ],
                         'mapped' => false,
                         'label' => 'Owner',
                         'required' => true,
-                        'constraints' => array(
-                            new \Symfony\Component\Validator\Constraints\NotBlank()
-                        )
-                    ))
-                    ->add('operator', UserSelectorType::class, array(
-                        'attr' => array(
-                            'value' => (!$options['create']) ? $options['operator']->getId() : null,
+                        'constraints' => [ new NotBlank() ]
+                    ]
+                )
+                ->add(
+                    'operator',
+                    UserSelectorType::class,
+                    [
+                        'attr' => [
+                            'value' => (!$options['create'])
+                                ? $options['operator']->getId()
+                                : null,
                             'class' => 'container',
                             'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
+                        ],
+                    ]
+                );
         }
         
-        if (array_key_exists('instance', $options) && $options['instance'] !== null) {
+        if (
+            array_key_exists('instance', $options)
+            && $options['instance'] !== null
+        ) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-                $builder
-                        ->add('instance', null, array(
-                            'query_builder' => function (EntityRepository $repository) {
-                                return $repository->findAllExceptDirectory();
-                            },
-                        ))
-                ;
+                $builder->add(
+                    'instance',
+                    null,
+                    [
+                        'query_builder' => 
+                            fn (EntityRepository $repository): QueryBuilder =>
+                                $repository->findAllExceptDirectory()
+                    ]
+                );
             } else {
-                $builder->add('instance', InstanceSelectorType::class, array(
-                    'data' => $options['instance'],
-                    'attr' => array(
-                        'value' => $options['instance']->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ));
+                $builder->add(
+                    'instance',
+                    InstanceSelectorType::class,
+                    [
+                        'data' => $options['instance'],
+                        'attr' => [
+                            'value' => $options['instance']->getId(),
+                            'readonly' => 'readonly',
+                        ],
+                    ]
+                );
             }
         }
+
+        // $builder->addEventListener(
+        //     FormEvents::POST_SUBMIT,
+        //     function (FormEvent $event) use ($options): void {
+        //         $form = $event->getForm();
+        //         $request = $event->getData(); // Obtiene la entidad Request
+    
+        //         // Verificar si el owner es nulo
+        //         if ($request->getOwner() === null) {
+        //             $field = $form->get('owner_autocomplete');
+        //             $field->addError(
+        //                 new FormError(
+        //                     'El usuario seleccionado no es válido'
+        //                 )
+        //             );
+        //         }
+        //     }
+        // );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Request::class,
             'instance' => null,
             'user' => null,
@@ -162,6 +242,6 @@ class RequestType extends AbstractType
             'librarian' => false,
             'create' => false,
             'target' => ''
-        ));
+        ]);
     }
 }
