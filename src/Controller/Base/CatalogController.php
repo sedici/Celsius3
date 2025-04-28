@@ -24,10 +24,19 @@ namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Catalog;
-
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\JournalType;
+use Celsius3\Entity\Order;
+use Celsius3\Exception\Exception;
 
 class CatalogController extends EntityController
 {
+
+    protected $catalogRepository;
+    protected $orderRepository;
+    protected $eventRepository;
+
+
 
     public function initialize(): void
     {
@@ -35,10 +44,54 @@ class CatalogController extends EntityController
 
         parent::initialize();
 
+        $this->catalogRepository = $this->entityManager->getRepository(Catalog::class);
+        $this->orderRepository = $this->entityManager->getRepository(Order::class);
+        $this->eventRepository = $this->entityManager->getRepository(Event::class);
+
         $this->setInstanceDependent(true);
         $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
         ]);
+    }
+
+
+    protected function getRestCatallogs(): array
+    {
+        return $this->repository
+            ->findForInstanceAndGlobalWithoutDisabled(
+                $this->instance,
+                $this->directory
+            )
+            ->getQuery()
+            ->execute();
+    }
+
+
+    protected function orderCatalogResults(string $order_id): array
+    {
+        $order = $this->orderRepository->find($order_id);
+
+        if (!$order) $this->error(
+            Exception::ENTITY_NOT_FOUND,
+            Order::class,
+        );
+
+        $title = ($order->getMaterialData() instanceof JournalType)
+            ? (($order->getMaterialData()->getJournal())
+                ? $order->getMaterialData()->getJournal()->getName()
+                : $order->getMaterialData()->getOther())
+            : $order->getMaterialData()->getTitle();
+
+        $catalogs = $this->getRestCatallogs();
+
+        $response = [
+            'results' => $this->catalogRepository
+                ->getCatalogResults($catalogs, $title),
+            'searches' => $this->eventRepository
+                ->findSimilarSearches($order, $this->getInstance()),
+        ];
+
+        return $response;
     }
 }

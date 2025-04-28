@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Html\Auth;
 
 use Celsius3\Controller\Base\EmailController;
 use Celsius3\Controller\Base\EmailTemplateController;
@@ -137,9 +137,9 @@ class RegistrationController extends UserController
             $this->persistEntity($user);
 
             $confirmationEmail = $this->sendConfirmationEmail($user);
-            if (!$confirmationEmail) return $this->redirectToRoute('login');
+            if (!$confirmationEmail) return $this->redirectToRoute('signin');
 
-            return $this->redirectToRoute('signin');    
+            return $this->redirectToRoute('login');
         }
 
         return $this->htmlRenderer->render(
@@ -221,7 +221,7 @@ class RegistrationController extends UserController
                     (string) 'El token de confirmación expiró o no es válido.'
                     . ' Se ha enviado un nuevo correo de confirmación.',
                     (string) 'El token de confirmación expiró o no es válido.'
-                    . ' Se intentó enviar un nuevo correo de confirmación, pero no ocurrió un error.'
+                    . ' Se intentó enviar un nuevo correo de confirmación, pero ocurrió un error.'
                     . ' Póngase en contacto con un adminstrador o intente más tarde.'
                 );
 

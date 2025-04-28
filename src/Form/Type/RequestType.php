@@ -217,17 +217,16 @@ class RequestType extends AbstractType
         //     FormEvents::POST_SUBMIT,
         //     function (FormEvent $event) use ($options): void {
         //         $form = $event->getForm();
-        //         $request = $event->getData(); // Obtiene la entidad Request
-    
-        //         // Verificar si el owner es nulo
-        //         if ($request->getOwner() === null) {
-        //             $field = $form->get('owner_autocomplete');
-        //             $field->addError(
-        //                 new FormError(
-        //                     'El usuario seleccionado no es válido'
-        //                 )
-        //             );
-        //         }
+        //         $formOwner = $form->get('owner');
+
+        //         if ($formOwner->getData() === null)
+        //             $form
+        //                 ->get('owner_autocomplete')
+        //                 ->addError(
+        //                     new FormError(
+        //                         'El usuario seleccionado no es válido'
+        //                     )
+        //                 );
         //     }
         // );
     }

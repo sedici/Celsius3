@@ -219,17 +219,19 @@ class HtmlAdminOrderController extends OrderController
                     )
                 );
         }
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
+            // throw new \Exception((string)var_dump($form));
             $materialType = $formOptions['material'];
 
             if ($materialType === JournalTypeType::class) {
-                $journal = $this->entityManager->getRepository(Journal::class)->find(
-                    $request->request->get('order')['materialData']['journal']
-                );
+                $journal = $this->entityManager
+                    ->getRepository(Journal::class)->find(
+                        $request->get('order')['materialData']['journal']
+                    );
                 if ($journal === null) {
                     $order->getMaterialData()->setOther(
-                        $request->request->get('order')['materialData']['journal_autocomplete']
+                        $request->get('order')['materialData']['journal_autocomplete']
                     );
                     $order->getMaterialData()->setJournal(null);
                 }

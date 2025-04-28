@@ -20,28 +20,37 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\Controller\Rest;
 
-use Celsius3\Controller\Base\CityController;
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Get;
+use Celsius3\Controller\Base\CatalogController;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 
 #[
-    Route('/rest/v1/admin/city'),
+    Route('/rest/v1/admin/catalogs'),
     IsGranted('ROLE_ADMIN')
 ]
-class RestAdminCityController extends CityController
-{
-
-    #[Get('/', name: 'rest_admin_city', options: ['expose' => true])]
+final class RestAdminCatalogController extends CatalogController
+{    
+    
+    #[Route("/", name: "admin_rest_catalog", options: ['expose' => true])]
     public function restIndex(): Response
     { return $this->restRenderer->index('administration_order_show'); }
 
 
-    #[Get('/{id}', name: 'rest_admin_city_show', options: ['expose' => true])]
+    #[Route("/{id}", name: "admin_rest_catalog_get", options: ['expose' => true])]
     public function restShow(string $id): Response
-    { return $this->restRenderer->show($id, 'administration'); }
+    { return $this->restRenderer->show($id, 'administration_order_show'); }
+
+
+    #[Route("/results/{order_id}", name: "admin_rest_catalog_results_order", options: ['expose' => true])]
+    public function catalogResultsOrder(string $order_id): Response
+    { return $this->restRenderer->render(
+        $this->orderCatalogResults($order_id),
+        serializerGroups: 'administration_order_show'
+    ); }
 }

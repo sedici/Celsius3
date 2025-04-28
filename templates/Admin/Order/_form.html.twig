@@ -1,6 +1,6 @@
 {% form_theme form 'Form/fields.html.twig' %}
 
-<div class="row">
+<div class="row" style="margin-bottom: 20px;">
     <div class="col-md-4">
         {{ form_row(form.originalRequest.type, {
             label_attr: {'class': 'col-lg-2 control-label'},
@@ -14,12 +14,14 @@
         }) }}
     </div>
 </div>
+
 <div class="row" style="margin-bottom: 20px;">
     <div class="col-md-12">
-        {{ form_row(form.materialDataType, {
-            label_attr: {'class': 'col-lg-2 control-label'},
+        {# {{ form_row(form.materialDataType, {
+            label_attr: {'class': 'col-md-12 control-label'},
             attr: {'class': 'form-control'}
-        }) }}
+        }) }} #}
+        {{ form_row(form.materialDataType) }}
     </div>
 </div>
 <br>

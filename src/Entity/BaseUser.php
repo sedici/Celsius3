@@ -476,7 +476,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     public function getBirthdate(): ?\DateTime
     { return $this->birthdate; }
 
-    public function setBirthdate(\DateTime $birthdate): self
+    public function setBirthdate(?\DateTime $birthdate): self
     {
         $this->birthdate = $birthdate;
 

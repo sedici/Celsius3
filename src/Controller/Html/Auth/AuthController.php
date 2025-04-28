@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\Controller;
+namespace Celsius3\Controller\Html\Auth;
 
 use Celsius3\Controller\Base\UserController;
 use Symfony\Component\HttpFoundation\Response;

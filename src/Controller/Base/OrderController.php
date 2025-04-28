@@ -32,6 +32,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function PHPUnit\Framework\isInstanceOf;
 
 
 class OrderController extends EntityController
@@ -57,15 +58,22 @@ class OrderController extends EntityController
         Request $request
     ): void {
         if ($this->getMaterialType() === JournalTypeType::class) {
-            $journal = $this->managerRegistry->getManager()
-                ->getRepository(Journal::class)->find(
-                    $request->request
-                        ->get('order', null)['materialData']['journal']
-                );
+            $rawJournal = $request->get(
+                'order', null
+            )['materialData']['journal'];
+
+            $journal = null;
+
+            if (is_int($rawJournal)) {
+                $journal = $this->managerRegistry->getManager()
+                    ->getRepository(Journal::class)->find(
+                        $rawJournal
+                    );
+            }
     
             if ($journal === null) {
                 $entity->getMaterialData()->setOther(
-                    $request->request->get(
+                    $request->get(
                         'order', null
                     )['materialData']['journal_autocomplete']
                 );

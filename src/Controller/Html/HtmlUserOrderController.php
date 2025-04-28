@@ -81,33 +81,6 @@ class HtmlUserOrderController extends OrderController
                 // hasFilterForm: false,
             )
         );
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        $filter_form = $this->createForm(
-            options: [ 'owner' => $this->getUser() ]
-        );
-
-        $query = $this->repository->listUserOrdersQuery(
-            $this->instance,
-            $this->getUser()
-        );
-
-        if ($filter_form !== null) {
-            $filter_form = $filter_form->handleRequest($request);
-            $query = $this->filterManager->filter(
-                $query, $filter_form, $this->entityClassName
-            );
-        }
-
-        return $this->htmlRenderer->render(
-            'index',
-            $this->index(
-                // filter_form: $filter_form
-                data: $query,
-                hasFilterForm: false
-            )
-        );
     }
 
 
@@ -136,39 +109,21 @@ class HtmlUserOrderController extends OrderController
     )]
     public function htmlNew(): Response
     {
+        $user = $this->getUser();
+
         $params = $this->new(
             formOptions: [
-                'user' => $this->getUser(),
+                'user' => $user,
                 'librarian' => $this->security->isGranted(
                     UserManager::ROLE_LIBRARIAN
                 ),
-                'actual_user' => $this->getUser()
+                'actual_user' => $user
             ]
         );
 
         return $this->htmlRenderer->render(
             'new', $params
             
-        );
-    }
-
-
-    /**
-     * Creates a new user order entity.
-     */
-    #[Route(
-        "/create",
-        name: 'html_user_order_create',
-        methods: ["POST"]
-    )]
-    public function htmlCreate(): RedirectResponse|Response
-    {
-        $params = $this->create();
-
-        if ($params instanceof Response) return $params;
-
-        return $this->htmlRenderer->render(
-            'new', $params
         );
     }
 
@@ -203,6 +158,26 @@ class HtmlUserOrderController extends OrderController
                 ->get('order')['materialData']['journal_autocomplete'];
         
         return $options;
+    }
+
+
+    /**
+     * Creates a new user order entity.
+     */
+    #[Route(
+        "/create",
+        name: 'html_user_order_create',
+        methods: ["POST"]
+    )]
+    public function htmlCreate(): RedirectResponse|Response
+    {
+        $params = $this->create();
+
+        if ($params instanceof Response) return $params;
+
+        return $this->htmlRenderer->render(
+            'new', $params
+        );
     }
 
 
