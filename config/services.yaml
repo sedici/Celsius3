@@ -328,9 +328,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
         arguments: ['@monolog.logger.celsius_exception', '@monolog.logger.celsius_rest_exception', '@router']
-    Celsius3\EventListener\ContextListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    # Celsius3\EventListener\ContextListener:
+    #     tags:
+    #         - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 #    celsius3_core.response_listener:
 #        class: Celsius3\CoreBundle\EventListener\ResponseListener
 #        tags:

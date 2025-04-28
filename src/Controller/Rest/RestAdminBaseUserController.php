@@ -53,7 +53,7 @@ class RestAdminBaseUserController extends UserController
         options: ['expose' => true]
     )]
     public function getUsers(): Response
-    { return $this->restRenderer->render($this->listQuery(), serializerGroups: 'api'); }
+    { return $this->restRenderer->index('api'); }
 
 
     #[Route(

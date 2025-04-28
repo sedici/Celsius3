@@ -45,12 +45,12 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         'Technician',
     );
     
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /*
          * Instancia que representa al directorio
@@ -111,7 +111,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
     }

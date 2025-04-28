@@ -25,8 +25,6 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Controller\Base\EmailController;
-use Celsius3\Controller\Base\EmailTemplateController;
-use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Configuration;
 use Celsius3\Entity\DataRequest;
 use Celsius3\Entity\File;
@@ -34,7 +32,6 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\EmailTemplate;
 use Celsius3\Entity\State;
-use Celsius3\Mailer\Mailer;
 use Celsius3\Manager\Alert;
 use DateTime;
 use Exception;
@@ -61,10 +58,8 @@ use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\TemplateController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -72,8 +67,6 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use function count;
-use function in_array;
-use function json_encode;
 
 
 /**
