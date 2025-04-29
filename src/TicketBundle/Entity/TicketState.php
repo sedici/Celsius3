@@ -25,7 +25,7 @@ namespace Celsius3\TicketBundle\Entity;
 use Celsius3\Entity\BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Celsius3\Entity\Mixin\TimestampableEntity;
 
 /**
  * @ORM\Entity("")

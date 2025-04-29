@@ -48,6 +48,7 @@ use Twig\Environment;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
+use Celsius3\Entity\Order;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -69,9 +70,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function count;
 
 
-/**
- * Administration controller.
- */
 #[Route("/admin")]
 class AdministrationController extends EntityController
 {
@@ -150,7 +148,7 @@ class AdministrationController extends EntityController
         $results_per_page_config = $this->repository
             ->findOneBy(
                 [
-                    'instance' => $this->instance,
+                    // 'instance' => $this->instance,
                     'key' => $config_helper::CONF__RESULTS_PER_PAGE,
                 ]
             );
@@ -184,7 +182,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/send_reminder_emails", name: "admin_send_reminder_emails", options: ["expose" => true])]
+    #[Route(
+        "/send_reminder_emails",
+        name: "admin_send_reminder_emails",
+        options: ["expose" => true]
+    )]
     public function sendReminderEmails()
     {
         $entity_manager = $this->entityManager;
@@ -228,7 +230,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/send_reminder_emails_batch", name: "admin_send_reminder_emails_batch", methods: ["POST"])]
+    #[Route(
+        "/send_reminder_emails_batch",
+        name: "admin_send_reminder_emails_batch",
+        methods: ["POST"]
+    )]
     public function sendReminderEmailsBatch(Request $request): RedirectResponse
     {
         $subject = $request->request->get('subject');
@@ -277,7 +283,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/{id}/data_request_download", name: "admin_instance_orders_data_request_download", options: ["expose" => true])]
+    #[Route(
+        "/{id}/data_request_download",
+        name: "admin_instance_orders_data_request_download",
+        options: ["expose" => true]
+    )]
     public function dataRequestDownload(DataRequest $dataRequest)
     {
         $filename = $dataRequest->getFile();
@@ -304,7 +314,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/data_request_get", name: "admin_instance_orders_data_requests_get", options: ["expose" => true])]
+    #[Route(
+        "/data_request_get",
+        name: "admin_instance_orders_data_requests_get",
+        options: ["expose" => true]
+    )]
     public function dataRequestGet(): Response
     {
         $em = $this->entityManager;
@@ -314,7 +328,12 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/interaction_get", name: "admin_instance_interaction_get", options: ["expose" => true], methods: ["POST"])]
+    #[Route(
+        "/interaction_get",
+        name: "admin_instance_interaction_get",
+        options: ["expose" => true],
+        methods: ["POST"]
+    )]
     public function getInteractionWith(): JsonResponse
     {
         $request = $this->requestStack->getCurrentRequest();

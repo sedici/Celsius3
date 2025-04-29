@@ -27,12 +27,9 @@ use Celsius3\Entity\Journal;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Manager\MaterialTypeManager;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use function PHPUnit\Framework\isInstanceOf;
 
 
 class OrderController extends EntityController

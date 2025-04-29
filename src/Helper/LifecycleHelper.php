@@ -71,10 +71,10 @@ class LifecycleHelper
      */
     public function createEvent(string $name, Request $request, ?Instance $instance = null): ?Event
     {
-        return null;
         $this->entityManager->getConnection()->beginTransaction();
         try {
             $data = $this->preValidate($name, $request, $instance);
+
             if (array_key_exists('event', $data)) {
                 $event = $data['event'];
                 if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
@@ -89,9 +89,11 @@ class LifecycleHelper
                 $event = $this->setEventData($request, $data);
             }
 
-            // $this->entityManager->persist($request);
+            
+            $this->entityManager->persist($request);
             $this->entityManager->persist($event);
             $this->entityManager->flush();
+            throw new \Exception((string)var_dump($event));
 
             $this->entityManager->getConnection()->commit();
 
@@ -100,6 +102,8 @@ class LifecycleHelper
             $this->entityManager->getConnection()->rollBack();
             $this->logger->error($ex->getMessage());
             $this->logger->error($ex->getTraceAsString());
+
+            throw new \Exception($ex->getMessage());
 
             return null;
         }
@@ -186,12 +190,15 @@ class LifecycleHelper
     {
         /** @var Event $event */
         $event = new $data['eventClassName']();
+
         $event->setOperator($this->securityTokenStorage->getToken()->getUser());
         $event->setInstance($data['instance']);
         $event->setRequest($request);
         $event->setState($this->getState($request, $data));
 
         $event->applyExtraData($request, $data, $this, $data['date']);
+
+
         $this->entityManager->persist($event->getState());
         $this->entityManager->persist($event);
 

@@ -133,13 +133,13 @@ class State
     private ?BaseUser $operator = null;
 
 
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
-    protected \DateTime $createdAt;
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
+    // protected \DateTime $createdAt;
 
 
     public function __construct()
