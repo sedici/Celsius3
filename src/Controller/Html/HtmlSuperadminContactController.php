@@ -22,16 +22,17 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\ContactController;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Contact controller.
- * @Route("/superadmin/contact")
- */
+
+#[
+    Route('/superadmin/contact'),
+    IsGranted(data: 'ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminContactController extends ContactController
 {
 
@@ -42,11 +43,7 @@ class HtmlSuperadminContactController extends ContactController
         $this->setInstance($this->directory);
     }
 
-
-    /**
-     * Lists all Contact entities.
-     * @Route("/", name="superadmin_contact")
-     */
+    #[Route("/", name: "superadmin_contact")]
     public function htmlIndex(): Response
     {
         $pagination = $this->paginate();
@@ -67,13 +64,7 @@ class HtmlSuperadminContactController extends ContactController
         );
     }
 
-
-    /**
-     * Finds and displays a Contact entity.
-     * @Route("/{id}/show", name="superadmin_contact_show")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/show", name: "superadmin_contact_show")]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -82,11 +73,7 @@ class HtmlSuperadminContactController extends ContactController
         );
     }
 
-
-    /**
-     * Displays a form to create a new Contact entity.
-     * @Route("/new", name="superadmin_contact_new")
-     */
+    #[Route("/new", name: "superadmin_contact_new")]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -95,11 +82,7 @@ class HtmlSuperadminContactController extends ContactController
         );
     }
 
-
-    /**
-     * Creates a new Contact entity.
-     * @Route("/create", name="superadmin_contact_create", methods={"POST"})
-     */
+    #[Route("/create", name: "superadmin_contact_create", methods: ["POST"])]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -107,7 +90,6 @@ class HtmlSuperadminContactController extends ContactController
             $this->create()
         );
     }
-
 
     protected function editFormOptions(
         $entity,
@@ -123,13 +105,7 @@ class HtmlSuperadminContactController extends ContactController
         ];
     }
 
-
-    /**
-     * Displays a form to edit an existing Contact entity.
-     * @Route("/{id}/edit", name="superadmin_contact_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/edit", name: "superadmin_contact_edit")]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -137,7 +113,6 @@ class HtmlSuperadminContactController extends ContactController
             $this->edit($id)
         );
     }
-
 
     protected function updateFormOptions(
         $entity,
@@ -153,13 +128,7 @@ class HtmlSuperadminContactController extends ContactController
         ];
     }
 
-
-    /**
-     * Edits an existing Contact entity.
-     * @Route("/{id}/update", name="superadmin_contact_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/update", name: "superadmin_contact_update", methods: ["POST"])]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -168,13 +137,7 @@ class HtmlSuperadminContactController extends ContactController
         );
     }
 
-
-    /**
-     * Deletes a Contact entity.
-     * @Route("/{id}/delete", name="superadmin_contact_delete", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/delete", name: "superadmin_contact_delete", methods: ["POST"])]
     public function htmlDelete(string $id): RedirectResponse
     {
         return $this->htmlRenderer->render(

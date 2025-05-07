@@ -57,7 +57,7 @@ class Message implements Notifiable
     // --- campos inversos (no se guardan en esta tabla) ---
 
 
-    #[ORM\OneToMany(targetEntity: MessageMetadata::class, mappedBy: "message", cascade: ["all"])]
+    #[ORM\OneToMany(targetEntity: MessageMetadata::class, mappedBy: "message", cascade: ["all"], fetch: "EXTRA_LAZY")]
     protected Collection $metadata;
 
 

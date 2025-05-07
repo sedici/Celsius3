@@ -25,9 +25,10 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 
 
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\CityRepository::class)]
@@ -66,7 +67,7 @@ class City
     private ?string $postalCode = null;
 
 
-    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'city')]
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'city', fetch: "EXTRA_LAZY")]
     private $institutions;
 
 

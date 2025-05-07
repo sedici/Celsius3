@@ -34,10 +34,11 @@ use Doctrine\ORM\Mapping\Index;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Request;
 use Celsius3\Entity\BaseUser;
-use Celsius3\Entity\Mixin\SoftDeleteableEntity;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Doctrine\Common\Collections\Collection;
-
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: StateRepository::class)]
 #[ORM\Table(name: "state", indexes: [

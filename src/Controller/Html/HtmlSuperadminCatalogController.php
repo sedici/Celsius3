@@ -13,8 +13,7 @@
  *
  * Celsius3 is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
@@ -22,17 +21,18 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\CatalogController;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Location controller.
- * @Route("/superadmin/catalog")
- */
+
+#[
+    Route('/superadmin/catalog'),
+    IsGranted(data: 'ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminCatalogController extends CatalogController
 {
 
@@ -43,11 +43,10 @@ class HtmlSuperadminCatalogController extends CatalogController
         $this->setInstance($this->directory);
     }
 
-
-    /**
-     * Lists all Catalog entities.
-     * @Route("/", name="superadmin_catalog")
-     */
+    #[Route(
+        "/",
+        name: "superadmin_catalog"
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -56,11 +55,10 @@ class HtmlSuperadminCatalogController extends CatalogController
         );
     }
 
-
-    /**
-     * Displays a form to create a new Catalog entity.
-     * @Route("/new", name="superadmin_catalog_new")
-     */
+    #[Route(
+        "/new",
+        name: "superadmin_catalog_new"
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -69,12 +67,11 @@ class HtmlSuperadminCatalogController extends CatalogController
         );
     }
 
-
-    /**
-     * Creates a new Catalog entity.
-     * @Route("/create", name="superadmin_catalog_create", methods={"POST"})
-     *
-     */
+    #[Route(
+        "/create",
+        name: "superadmin_catalog_create",
+        methods: ["POST"]
+    )]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -83,13 +80,10 @@ class HtmlSuperadminCatalogController extends CatalogController
         );
     }
 
-
-    /**
-     * Displays a form to edit an existing Catalog entity.
-     * @Route("/{id}/edit", name="superadmin_catalog_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/edit",
+        name: "superadmin_catalog_edit"
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -98,13 +92,11 @@ class HtmlSuperadminCatalogController extends CatalogController
         );
     }
 
-
-    /**
-     * Edits an existing Catalog entity.
-     * @Route("/{id}/update", name="superadmin_catalog_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/update",
+        name: "superadmin_catalog_update",
+        methods: ["POST"]
+    )]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -113,16 +105,12 @@ class HtmlSuperadminCatalogController extends CatalogController
         );
     }
 
-
-    /**
-     * Batch actions.
-     * @Route("/batch", name="superadmin_catalog_batch")
-     * @return array
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/batch",
+        name: "superadmin_catalog_batch"
+    )]
     public function batch()
     { return $this->baseBatch(); }
-
 
     protected function batchUnion($element_ids): Response
     {
@@ -132,11 +120,11 @@ class HtmlSuperadminCatalogController extends CatalogController
         );
     }
 
-
-    /**
-     * Unifies a group of Catalog entities.
-     * @Route("/doUnion", name="superadmin_catalog_doUnion", methods={"POST"})
-     */
+    #[Route(
+        "/doUnion",
+        name: "superadmin_catalog_doUnion",
+        methods: ["POST"]
+    )]
     public function doUnion(Request $request): RedirectResponse
     {
         $elementIds = $request->request->get('element');

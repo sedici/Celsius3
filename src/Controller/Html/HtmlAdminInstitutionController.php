@@ -23,16 +23,17 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Instance;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\InstitutionController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Institution controller.
- * @Route("/admin/institution")
- */
+#[
+    Route('/admin/institution'),
+    IsGranted(data: 'ROLE_ADMIN')
+]
 class HtmlAdminInstitutionController extends InstitutionController
 {
 
@@ -44,10 +45,10 @@ class HtmlAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * Lists all Institution entities.
-     * @Route("/", name="admin_institution")
-     */
+    #[Route(
+        '/',
+        name: 'admin_institution'
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -57,10 +58,11 @@ class HtmlAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * Displays a form to create a new Institution entity.
-     * @Route("/new", name="admin_institution_new", options={"expose"=true})
-     */
+    #[Route(
+        '/new',
+        name: 'admin_institution_new',
+        options: ['expose' => true]
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -70,10 +72,11 @@ class HtmlAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * Creates a new Institution entity.
-     * @Route("/create", name="admin_institution_create", methods={"POST"})
-     */
+    #[Route(
+        '/create',
+        name: 'admin_institution_create',
+        methods: ['POST']
+    )]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -83,12 +86,10 @@ class HtmlAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * Displays a form to edit an existing Institution entity.
-     * @Route("/{id}/edit", name="admin_institution_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/edit',
+        name: 'admin_institution_edit'
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -98,12 +99,11 @@ class HtmlAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * Edits an existing Institution entity.
-     * @Route("/{id}/update", name="admin_institution_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/update',
+        name: 'admin_institution_update',
+        methods: ['POST']
+    )]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -113,12 +113,10 @@ class HtmlAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * Displays a form to edit an existing Institution entity.
-     * @Route("/{id}/show", name="admin_institution_show")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/show',
+        name: 'admin_institution_show'
+    )]
     public function htmlShow(string $id): Response
     {
         $entity = $this->findQuery($id);

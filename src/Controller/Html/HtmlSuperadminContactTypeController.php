@@ -13,8 +13,7 @@
  *
  * Celsius3 is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
@@ -22,16 +21,16 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\ContactTypeController;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 
-/**
- * ContactType controller.
- * @Route("/superadmin/contacttype")
- */
+#[
+    Route('/superadmin/contacttype'),
+    IsGranted(data: 'ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminContactTypeController extends ContactTypeController
 {
 
@@ -43,11 +42,10 @@ class HtmlSuperadminContactTypeController extends ContactTypeController
         $this->setInstance($this->directory);
     }
 
-
-    /**
-     * Lists all ContactType entities.
-     * @Route("/", name="superadmin_contacttype")
-     */
+    #[Route(
+        "/",
+        name: "superadmin_contacttype"
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -56,11 +54,10 @@ class HtmlSuperadminContactTypeController extends ContactTypeController
         );
      }
 
-
-    /**
-     * Displays a form to create a new ContactType entity.
-     * @Route("/new", name="superadmin_contacttype_new")
-     */
+    #[Route(
+        "/new",
+        name: "superadmin_contacttype_new"
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -69,11 +66,11 @@ class HtmlSuperadminContactTypeController extends ContactTypeController
         );
     }
 
-
-    /**
-     * Creates a new ContactType entity.
-     * @Route("/create", name="superadmin_contacttype_create", methods={"POST"})
-     */
+    #[Route(
+        "/create",
+        name: "superadmin_contacttype_create",
+        methods: ["POST"]
+    )]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -82,13 +79,10 @@ class HtmlSuperadminContactTypeController extends ContactTypeController
         );
     }
 
-
-    /**
-     * Displays a form to edit an existing ContactType entity.
-     * @Route("/{id}/edit", name="superadmin_contacttype_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/edit",
+        name: "superadmin_contacttype_edit"
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -97,13 +91,11 @@ class HtmlSuperadminContactTypeController extends ContactTypeController
         );
     }
 
-
-    /**
-     * Edits an existing ContactType entity.
-     * @Route("/{id}/update", name="superadmin_contacttype_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/update",
+        name: "superadmin_contacttype_update",
+        methods: ["POST"]
+    )]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(

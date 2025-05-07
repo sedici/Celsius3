@@ -23,7 +23,8 @@
 namespace Celsius3\TicketBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 

@@ -23,16 +23,17 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\DataRequest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\DataRequestController;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * Data requests list controller.
- * @Route("/superadmin/data_request")
- */
+#[
+    Route('/superadmin/data_request'),
+    IsGranted(data: 'ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminDataRequestController extends DataRequestController
 {
 
@@ -40,13 +41,11 @@ class HtmlSuperadminDataRequestController extends DataRequestController
     {
         parent::initialize();
         $this->htmlRenderer->setTemplatePrefix('Superadmin/DataRequests/');
+        $this->setInstanceDependent(false);
     }
 
 
-    /**
-     * Lists all data requests.
-     * @Route("/", name="superadmin_data_request_index")
-     */
+    #[Route("/", name: "superadmin_data_request_index")]
     public function htmlIndex(): Response
     {
         $query = $this->listQuery(false)
@@ -55,14 +54,12 @@ class HtmlSuperadminDataRequestController extends DataRequestController
 
         return $this->htmlRenderer->render(
             'index',
-            $this->index(data: $query)
+            $this->index(data: $query, hasFilterForm: false)
         );
     }
 
 
-    /**
-     * @Route("/{id}/export_orders", name="superadmin_orders_data_request_export")
-     */
+    #[Route("/{id}/export_orders", name: "superadmin_orders_data_request_export")]
     public function exportOrders(DataRequest $dataRequest): RedirectResponse
     {
         $process = new Process([
@@ -76,9 +73,7 @@ class HtmlSuperadminDataRequestController extends DataRequestController
     }
 
 
-    /**
-     * @Route("/{id}/export_users", name="superadmin_users_data_request_export")
-     */
+    #[Route("/{id}/export_users", name: "superadmin_users_data_request_export")]
     public function exportUsers(DataRequest $dataRequest): RedirectResponse
     {
         $process = new Process([
@@ -92,9 +87,7 @@ class HtmlSuperadminDataRequestController extends DataRequestController
     }
 
 
-    /**
-     * @Route("/{id}/annul", name="superadmin_data_request_annul")
-     */
+    #[Route("/{id}/annul", name: "superadmin_data_request_annul")]
     public function annul(DataRequest $dataRequest): RedirectResponse
     {
         $this->persistEntity($dataRequest->setVisible(false));

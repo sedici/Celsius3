@@ -24,8 +24,9 @@ namespace Celsius3\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogRepository::class)]
@@ -77,7 +78,7 @@ class Catalog
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
 
-    #[ORM\OneToMany(targetEntity: CatalogPosition::class, mappedBy: 'catalog', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: CatalogPosition::class, mappedBy: 'catalog', cascade: ['persist'], fetch: "EXTRA_LAZY")]
     private $positions;
 
     public function __toString(): string

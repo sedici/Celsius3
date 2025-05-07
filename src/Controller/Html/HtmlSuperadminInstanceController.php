@@ -42,6 +42,8 @@ class HtmlSuperadminInstanceController extends InstanceController
     {
         parent::initialize();
         $this->setEntity(Instance::class);
+        $this->setInstanceDependent(false);
+        $this->htmlRenderer->setTemplatePrefix('Superadmin/Instance/');
     }
 
 

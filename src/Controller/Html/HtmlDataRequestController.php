@@ -41,7 +41,11 @@ class HtmlDataRequestController extends DataRequestController
     }
 
 
-    #[Route("/orders", name: 'admin_instance_orders_data_request')]
+    #[Route(
+        "/orders",
+        name: 'admin_instance_orders_data_request',
+        options: ['expose' => true]
+    )]
     public function ordersDataRequest(): Response
     {
         return $this->dataRequestController(

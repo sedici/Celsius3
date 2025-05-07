@@ -23,9 +23,10 @@
 namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 
 
 #[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogResultRepository::class)]

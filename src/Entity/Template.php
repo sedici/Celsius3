@@ -22,9 +22,10 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 

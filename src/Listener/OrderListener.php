@@ -22,8 +22,11 @@
 
 namespace Celsius3\Listener;
 
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\CreationEvent;
 use Celsius3\Entity\Order;
 use Celsius3\Entity\Request;
+use Celsius3\Entity\State;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
@@ -77,7 +80,7 @@ class OrderListener
             $request,
             $instance,
         );
-        throw new \Exception((string)var_dump($event));
+        // throw new \Exception((string)var_dump($event));
         
         // Update elasticsearch index
         // $this->objectPersister->insertOne($entity);

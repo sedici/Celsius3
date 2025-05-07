@@ -24,10 +24,12 @@ declare(strict_types=1);
 
 namespace Celsius3\Helper;
 
+use Celsius3\Entity\Hive;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 

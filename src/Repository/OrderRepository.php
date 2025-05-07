@@ -123,7 +123,7 @@ class OrderRepository extends ServiceEntityRepository implements OrderRepository
         return $qb;
     }
 
-    public function findOneForInstance(Instance $instance, int $id): ?Order
+    public function findOneForInstance(Instance $instance, string $id): ?Order
     {
         return $this
             ->createQueryBuilder('o')

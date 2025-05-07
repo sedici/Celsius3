@@ -23,14 +23,15 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
-use Celsius3\Entity\Mixin\SoftDeleteableEntity;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Manager\OrderManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 

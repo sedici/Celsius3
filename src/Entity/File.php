@@ -23,11 +23,12 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\FileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -110,7 +111,7 @@ class File
     private $temp;
 
 
-    #[ORM\OneToMany(targetEntity: FileDownload::class, mappedBy: "file")]
+    #[ORM\OneToMany(targetEntity: FileDownload::class, mappedBy: "file", fetch: "EXTRA_LAZY")]
     private Collection $downloads;
 
 

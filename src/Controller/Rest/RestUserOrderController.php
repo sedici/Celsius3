@@ -28,12 +28,17 @@ use Celsius3\Entity\Request;
 use Celsius3\Entity\State;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+#[
+    Route('/rest/v1/admin/order'),
+    IsGranted('IS_AUTHENTICATED_FULLY'),
+]
  final class RestUserOrderController extends OrderController
 {
 
     #[Route(
-        '/user/rest/orders',
+        '/',
         name: 'user_rest_order',
         methods: ['GET'],
         options: ['expose' => true]
@@ -92,7 +97,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
     #[Route(
-        '/user/rest/orders/count',
+        '/count',
         name: 'user_rest_order_count_get',
         methods: ['GET'],
         options: ['expose' => true]
@@ -110,7 +115,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
     #[Route(
-        '/user/rest/orders/{id}',
+        '/{id}',
         name: 'user_rest_order_get',
         methods: ['GET'],
         options: ['expose' => true]

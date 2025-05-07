@@ -23,7 +23,6 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Helper\MailerHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Core\EntityController;

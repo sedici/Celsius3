@@ -13,8 +13,7 @@
  *
  * Celsius3 is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
@@ -23,7 +22,7 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Form\Type\UserTransformType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,8 +34,8 @@ use Celsius3\Exception\Exception;
 
 /**
  * BibliotecarioBaseUser controller.
- * @Route("/bibliotecario/user")
  */
+#[Route('/bibliotecario/user')]
 class HtmlBibliotecarioBaseUserController extends UserController
 {
 
@@ -48,10 +47,11 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Lists all BaseUser entities.
-     * @Route("/", name="bibliotecario_user" ,options={"expose"=true})
-     */
+    #[Route(
+        '/',
+        name: 'bibliotecario_user',
+        options: ['expose' => true]
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -61,10 +61,11 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Shows the data of a user.
-     * @Route("/{id}/show", name="bibliotecario_user_show", options={"expose"=true})
-     */
+    #[Route(
+        '/{id}/show',
+        name: 'bibliotecario_user_show',
+        options: ['expose' => true]
+    )]
     public function htmlShow(string $id): Response
     {
         $entity = $this->findQuery($id);
@@ -86,10 +87,10 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Displays a form to create a new BaseUser entity.
-     * @Route("/new", name="bibliotecario_user_new")
-     */
+    #[Route(
+        '/new',
+        name: 'bibliotecario_user_new'
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -99,10 +100,11 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Creates a new BaseUser entity.
-     * @Route("/create", name="bibliotecario_user_create", methods={"POST"})
-     */
+    #[Route(
+        '/create',
+        name: 'bibliotecario_user_create',
+        methods: ['POST']
+    )]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -111,11 +113,12 @@ class HtmlBibliotecarioBaseUserController extends UserController
         );
     }
 
-    /**
-     * Displays a form to edit an existing BaseUser entity.
-     * @Route("/{id}/edit", name="bibliotecario_user_edit", options={"expose"=true})
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+
+    #[Route(
+        '/{id}/edit',
+        name: 'bibliotecario_user_edit',
+        options: ['expose' => true]
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -142,11 +145,11 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Edits an existing BaseUser entity.
-     * @Route("/{id}/update", name="bibliotecario_user_update", methods={"POST"})
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/update',
+        name: 'bibliotecario_user_update',
+        methods: ['POST']
+    )]
     public function htmlUpdate(
         string $id
     ): RedirectResponse|Response {
@@ -160,11 +163,10 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Displays a form to transform an existing BaseUser entity.
-     * @Route("/{id}/transform", name="bibliotecario_user_transform")
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/transform',
+        name: 'bibliotecario_user_transform'
+    )]
     public function transform(string $id): array|RedirectResponse|Response
     {
         $entity = $this->findQuery($id);
@@ -203,30 +205,28 @@ class HtmlBibliotecarioBaseUserController extends UserController
     }
 
 
-    /**
-     * Enables a BaseUser entity.
-     * @Route("/{id}/enable", name="bibliotecario_user_enable", options={"expose"=true})
-     * @param string $id The entity ID
-     * @return array
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/enable',
+        name: 'bibliotecario_user_enable',
+        options: ['expose' => true]
+    )]
     public function enable(string $id): RedirectResponse
     { return $this->baseEnable($id); }
 
 
-    /**
-     * Batch actions.
-     * @Route("/batch", name="bibliotecario_user_batch")
-     * @return array
-     */
+    #[Route(
+        '/batch',
+        name: 'bibliotecario_user_batch'
+    )]
     public function batch()
     { return $this->baseBatch(); }
 
 
-    /**
-     * Unifies a group of Journal entities.
-     * @Route("/batch/doUnion", name="bibliotecario_user_doUnion", methods={"POST"})
-     */
+    #[Route(
+        '/batch/doUnion',
+        name: 'bibliotecario_user_doUnion',
+        methods: ['POST']
+    )]
     public function doUnion(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();

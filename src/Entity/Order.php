@@ -22,8 +22,8 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\SoftDeleteableEntity;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\SoftDeleteableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Manager\StateManager;
 use Celsius3\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,6 +32,8 @@ use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 

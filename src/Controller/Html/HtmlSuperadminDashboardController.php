@@ -25,18 +25,18 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Order;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Controller\Base\DashboardController;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
-/**
- * SuperAdminDashboard controller.
- * @Route("/superadmin")
- */
+#[
+    Route('/superadmin'),
+    IsGranted(data: 'ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminDashboardController extends DashboardController
 {
 
@@ -47,18 +47,12 @@ class HtmlSuperadminDashboardController extends DashboardController
     }
 
 
-    /**
-     * Lists all items to manage.
-     * @Route("/", name="superadministration")
-     */
+    #[Route("/", name: "superadministration")]
     public function htmlIndex(): Response
     { return $this->htmlRenderer->render('index'); }
 
 
-    /**
-     * Lists all Order entities.
-     * @Route("/admins_message", name="superadmin_admins_message", methods={"POST", "GET"})
-     */
+    #[Route("/admins_message", name: "superadmin_admins_message", methods: ["POST", "GET"])]
     public function adminsMessage(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();

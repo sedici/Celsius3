@@ -22,20 +22,20 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\TimestampableEntity as MixinTimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity as MixinTimestampableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 #[ORM\Table(name: 'contact_type', indexes: [new ORM\Index(name: 'idx_name', columns: ['name'])] )]
 class ContactType
 {
-    use MixinTimestampableEntity;
+    use TimestampableEntity;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
@@ -54,7 +54,7 @@ class ContactType
     ])]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: \Celsius3\Entity\Contact::class, mappedBy: 'type')]
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'type', fetch: "EXTRA_LAZY")]
     private $contacts;
 
     public function __construct()

@@ -141,7 +141,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/", name: "administration", options: ["expose" => true])]
+    #[Route(
+        "/",
+        name: "administration",
+        options: ["expose" => true]
+    )]
     public function htmlIndex(): Response
     {
         $config_helper = $this->configurationHelper;
@@ -162,7 +166,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/ajax", name: "admin_ajax")]
+    #[Route(
+        "/ajax",
+        name: "admin_ajax",
+        options: ["expose" => true]
+    )]
     public function ajax(
         Request $request = null,
         Instance $instance = null
@@ -173,7 +181,11 @@ class AdministrationController extends EntityController
     }
 
 
-    #[Route("/ajax_username", name: "admin_ajax_usernames")]
+    #[Route(
+        "/ajax_username",
+        name: "admin_ajax_usernames",
+        options: ["expose" => true]
+    )]
     public function usernamesAjax(Request $request): NotFoundHttpException|Response
     {
         return $this->restRenderer->ajax(

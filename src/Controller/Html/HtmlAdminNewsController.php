@@ -13,8 +13,7 @@
  *
  * Celsius3 is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
@@ -22,23 +21,27 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\NewsController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
  * News controller.
- * @Route("/admin/news")
  */
+#[
+    Route('/admin/news'),
+    IsGranted(data: 'ROLE_ADMIN')
+]
 class HtmlAdminNewsController extends NewsController
 {
 
-    /**
-     * Lists all News entities.
-     * @Route("/", name="admin_news")
-     */
+    #[Route(
+        '/',
+        name: 'admin_news'
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -48,12 +51,10 @@ class HtmlAdminNewsController extends NewsController
     }
 
 
-    /**
-     * Finds and displays a News entity.
-     * @Route("/{id}/show", name="admin_news_show")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/show',
+        name: 'admin_news_show'
+    )]
     public function htmlShow($id): Response
     {
         return $this->htmlRenderer->render(
@@ -65,10 +66,10 @@ class HtmlAdminNewsController extends NewsController
     }
 
 
-    /**
-     * Displays a form to create a new News entity.
-     * @Route("/new", name="admin_news_new")
-     */
+    #[Route(
+        '/new',
+        name: 'admin_news_new'
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -78,10 +79,11 @@ class HtmlAdminNewsController extends NewsController
     }
 
 
-    /**
-     * Creates a new News entity.
-     * @Route("/create", name="admin_news_create", methods={"POST"})
-     */
+    #[Route(
+        '/create',
+        name: 'admin_news_create',
+        methods: ['POST']
+    )]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -91,12 +93,10 @@ class HtmlAdminNewsController extends NewsController
     }
 
 
-    /**
-     * Displays a form to edit an existing News entity.
-     * @Route("/{id}/edit", name="admin_news_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/edit',
+        name: 'admin_news_edit'
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -106,12 +106,11 @@ class HtmlAdminNewsController extends NewsController
     }
 
 
-    /**
-     * Edits an existing News entity.
-     * @Route("/{id}/update", name="admin_news_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/update',
+        name: 'admin_news_update',
+        methods: ['POST']
+    )]
     public function uhtmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(

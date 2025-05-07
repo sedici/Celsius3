@@ -22,7 +22,7 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping\Id;
@@ -34,7 +34,7 @@ use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[Entity(repositoryClass: BaseRepository::class)]
 #[Table(name: "provider", indexes: [

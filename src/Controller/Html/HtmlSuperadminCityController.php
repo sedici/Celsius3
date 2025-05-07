@@ -22,16 +22,16 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\CityController;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * Location controller.
- * @Route("/superadmin/city")
- */
+#[
+    Route('/superadmin/city'),
+    IsGranted(data: 'ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminCityController extends CityController
 {
 
@@ -43,10 +43,7 @@ class HtmlSuperadminCityController extends CityController
     }
 
 
-    /**
-     * Lists all City entities.
-     * @Route("/", name="superadmin_city")
-     */
+    #[Route("/", name: "superadmin_city")]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -56,10 +53,7 @@ class HtmlSuperadminCityController extends CityController
     }
 
 
-    /**
-     * Displays a form to create a new City entity.
-     * @Route("/new", name="superadmin_city_new")
-     */
+    #[Route("/new", name: "superadmin_city_new")]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -69,10 +63,7 @@ class HtmlSuperadminCityController extends CityController
     }
 
 
-    /**
-     * Creates a new City entity.
-     * @Route("/create", name="superadmin_city_create", methods={"POST"})
-     */
+    #[Route("/create", name: "superadmin_city_create", methods: ["POST"])]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -82,12 +73,7 @@ class HtmlSuperadminCityController extends CityController
     }
 
 
-    /**
-     * Displays a form to edit an existing City entity.
-     * @Route("/{id}/edit", name="superadmin_city_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/edit", name: "superadmin_city_edit")]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -97,12 +83,7 @@ class HtmlSuperadminCityController extends CityController
     }
 
 
-    /**
-     * Edits an existing City entity.
-     * @Route("/{id}/update", name="superadmin_city_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/update", name: "superadmin_city_update", methods: ["POST"])]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -112,10 +93,7 @@ class HtmlSuperadminCityController extends CityController
     }
 
 
-    /**
-     * Batch actions.
-     * @Route("/batch", name="superadmin_city_batch")
-     */
+    #[Route("/batch", name: "superadmin_city_batch")]
     public function batch()
     { return $this->baseBatch(); }
 
@@ -124,10 +102,7 @@ class HtmlSuperadminCityController extends CityController
     { return $this->baseUnion($element_ids); }
 
 
-    /**
-     * Unifies a group of City entities.
-     * @Route("/doUnion", name="superadmin_city_doUnion", methods={"POST"})
-     */
+    #[Route("/doUnion", name: "superadmin_city_doUnion", methods: ["POST"])]
     public function doUnion(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();

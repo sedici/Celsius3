@@ -26,9 +26,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Entity\Mixin\TimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\CustomFieldRepository;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: CustomFieldRepository::class)]
 #[ORM\Table(
@@ -91,7 +91,7 @@ class CustomField
     private $instance;
 
 
-    #[ORM\OneToMany(targetEntity: CustomValue::class, mappedBy: 'field')]
+    #[ORM\OneToMany(targetEntity: CustomValue::class, mappedBy: 'field', fetch: "EXTRA_LAZY")]
     private $values;
 
 

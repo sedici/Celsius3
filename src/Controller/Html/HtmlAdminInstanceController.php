@@ -23,25 +23,22 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Country;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\InstanceController;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
-/**
- * Instance controller.
- * @Route("/admin/instance")
- */
+#[
+    Route('/admin/instance'),
+    IsGranted(data: 'ROLE_ADMIN')
+]
 class HtmlAdminInstanceController extends InstanceController
 {
 
-    /**
-     * Displays a form to configure an existing Instance
-     * @Route("/configure", name="admin_instance_configure")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/configure',
+        name: 'admin_instance_configure'
+    )]
     public function configure(): Response
     {
         return $this->htmlRenderer->render(
@@ -54,12 +51,11 @@ class HtmlAdminInstanceController extends InstanceController
     }
 
 
-    /**
-     * Edits the existing Instance configuration.
-     * @Route("/{id}/update_configuration", name="admin_instance_update_configuration", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/update_configuration',
+        name: 'admin_instance_update_configuration',
+        methods: ['POST']
+    )]
     public function configureUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -69,12 +65,11 @@ class HtmlAdminInstanceController extends InstanceController
     }
 
 
-    /**
-     * Edits the existing Instance configuration.
-     * @Route("/intercambio", name="admin_instance_intercambio", methods={"GET"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/intercambio',
+        name: 'admin_instance_intercambio',
+        methods: ['GET']
+    )]
     public function intercambioUI(): Response
     {
         $instance = $this->instanceHelper->getSessionOrUrlInstance();

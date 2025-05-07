@@ -23,17 +23,18 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Manager\CatalogManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\JournalController;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * Location controller.
- * @Route("/admin/journal")
- */
+#[
+    Route('/admin/journal'),
+    IsGranted(data: 'ROLE_ADMIN')
+]
 class HtmlAdminJournalController extends JournalController
 {
 
@@ -61,10 +62,10 @@ class HtmlAdminJournalController extends JournalController
     }
 
 
-    /**
-     * Lists all Journal entities.
-     * @Route("/", name="admin_journal")
-     */
+    #[Route(
+        '/',
+        name: 'admin_journal'
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -74,10 +75,11 @@ class HtmlAdminJournalController extends JournalController
     }
 
 
-    /**
-     * Displays data for a Journal.
-     * @Route("/{id}/show", name="admin_journal_show", options={"expose"=true})
-     */
+    #[Route(
+        '/{id}/show',
+        name: 'admin_journal_show',
+        options: ['expose' => true]
+    )]
     public function htmlShow($id): Response
     {
         $entity = $this->findShowQuery($id);
@@ -113,10 +115,11 @@ class HtmlAdminJournalController extends JournalController
     }
 
 
-    /**
-     * Displays a form to create a new Journal entity.
-     * @Route("/new", name="admin_journal_new", options={"expose"=true})
-     */
+    #[Route(
+        '/new',
+        name: 'admin_journal_new',
+        options: ['expose' => true]
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -126,11 +129,11 @@ class HtmlAdminJournalController extends JournalController
     }
 
 
-    /**
-     * Creates a new Journal entity.
-     * @Route("/create", name="admin_journal_create", methods={"POST"})
-     *
-     */
+    #[Route(
+        '/create',
+        name: 'admin_journal_create',
+        methods: ['POST']
+    )]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -140,12 +143,10 @@ class HtmlAdminJournalController extends JournalController
     }
 
 
-    /**
-     * Displays a form to edit an existing Journal entity.
-     * @Route("/{id}/edit", name="admin_journal_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/edit',
+        name: 'admin_journal_edit'
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -155,12 +156,11 @@ class HtmlAdminJournalController extends JournalController
     }
 
 
-    /**
-     * Edits an existing Journal entity.
-     * @Route("/{id}/update", name="admin_journal_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/update',
+        name: 'admin_journal_update',
+        methods: ['POST']
+    )]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(

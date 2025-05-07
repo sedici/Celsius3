@@ -28,6 +28,7 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Event\SearchEvent;
 use Celsius3\Entity\Event\UndoEvent;
+use Celsius3\Entity\Hive;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Entity\Request;
@@ -38,6 +39,7 @@ use Celsius3\Manager\FileManager;
 use Celsius3\Manager\StateManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
+use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -71,8 +73,11 @@ class LifecycleHelper
      */
     public function createEvent(string $name, Request $request, ?Instance $instance = null): ?Event
     {
+        // $this->entityManager->clear();
         $this->entityManager->getConnection()->beginTransaction();
-        try {
+
+
+        // try {
             $data = $this->preValidate($name, $request, $instance);
 
             if (array_key_exists('event', $data)) {
@@ -88,25 +93,24 @@ class LifecycleHelper
             } else {
                 $event = $this->setEventData($request, $data);
             }
-
             
             $this->entityManager->persist($request);
             $this->entityManager->persist($event);
+
             $this->entityManager->flush();
-            throw new \Exception((string)var_dump($event));
 
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->logger->error($ex->getMessage());
-            $this->logger->error($ex->getTraceAsString());
+        // } catch (\Exception $ex) {
+        //     $this->entityManager->getConnection()->rollBack();
+        //     $this->logger->error($ex->getMessage());
+        //     $this->logger->error($ex->getTraceAsString());
 
-            throw new \Exception($ex->getMessage());
+        //     throw new \Exception($ex->getMessage());
 
-            return null;
-        }
+        //     return null;
+        // }
     }
 
     private function preValidate($name, Request $request, ?Instance $instance = null): array
@@ -129,7 +133,7 @@ class LifecycleHelper
         if ($name === EventManager::EVENT__RECEIVE) {
             $events = array_filter(
                 $this->eventManager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()),
-                static function ($item) use ($extra_data) {
+                static function ($item) use ($extra_data): bool {
                     return $item->getRequestEvent()->getId() === $extra_data['request']->getId();
                 }
             );
@@ -191,16 +195,26 @@ class LifecycleHelper
         /** @var Event $event */
         $event = new $data['eventClassName']();
 
-        $event->setOperator($this->securityTokenStorage->getToken()->getUser());
+        $user = $this->securityTokenStorage->getToken()->getUser();
+
+        $event->setOperator($user);
         $event->setInstance($data['instance']);
         $event->setRequest($request);
-        $event->setState($this->getState($request, $data));
 
-        $event->applyExtraData($request, $data, $this, $data['date']);
+        $state = $this->getState($request, $data);
+        $event->setState($state);
 
+        $event->applyExtraData(
+            $request,
+            $data,
+            $this,
+            $data['date']
+        );
 
-        $this->entityManager->persist($event->getState());
+        $this->entityManager->persist($state);
         $this->entityManager->persist($event);
+
+        // Problema al hacer este ultimo persist
 
         return $event;
     }

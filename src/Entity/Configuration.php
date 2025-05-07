@@ -22,11 +22,11 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\TimestampableEntity as MixinTimestampableEntity;
+// use Celsius3\Entity\Mixin\TimestampableEntity as MixinTimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\ConfigurationRepository;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
 #[ORM\Table(name: "configuration", uniqueConstraints: [
@@ -37,7 +37,7 @@ use Celsius3\Repository\ConfigurationRepository;
 ])]
 class Configuration
 {
-    use MixinTimestampableEntity;
+    use TimestampableEntity;
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]

@@ -105,14 +105,16 @@ class InstanceController extends EntityController
 
     public function initialize(): void
     {
-        $this->setEntity(LegacyInstance::class);
+        $this->setEntity(Instance::class);
         parent::initialize();
         $this->setInstanceDependent(true);
         $this->setSortDefaults([
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc'
         ]);
-        $this->setDirectory($this->repository->findOneBy(['url' => 'directory']));
+        $this->setDirectory(
+            $this->repository->findOneBy(['url' => 'directory'])
+        );
     }
 
 

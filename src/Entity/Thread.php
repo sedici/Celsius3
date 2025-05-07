@@ -48,11 +48,11 @@ class Thread
 
     // --- campos inversos (no se guardan en esta tabla) ---
 
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "thread")]
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "thread", fetch: "EXTRA_LAZY")]
     protected Collection $messages;
 
 
-    #[ORM\OneToMany(targetEntity: ThreadMetadata::class, mappedBy: "thread", cascade: ["all"])]
+    #[ORM\OneToMany(targetEntity: ThreadMetadata::class, mappedBy: "thread", cascade: ["all"], fetch: "EXTRA_LAZY")]
     protected Collection $metadata;
     
 

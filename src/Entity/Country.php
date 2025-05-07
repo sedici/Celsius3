@@ -70,16 +70,16 @@ class Country
     private ?string $abbreviation = null;
 
 
-    #[ORM\OneToMany(targetEntity: \Celsius3\Entity\City::class, mappedBy: 'country')]
+    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'country', fetch: "EXTRA_LAZY")]
     private $cities;
 
 
-    #[ORM\OneToMany(targetEntity: \Celsius3\Entity\Institution::class, mappedBy: 'country')]
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'country', fetch: "EXTRA_LAZY")]
     private $institutions;
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: \Celsius3\Entity\Instance::class, inversedBy: 'countries')]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'countries')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private $instance;
 

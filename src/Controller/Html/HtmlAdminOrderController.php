@@ -28,7 +28,6 @@ use Celsius3\Entity\JournalType;
 use Celsius3\Entity\Order;
 use Celsius3\Form\Type\JournalTypeType;
 use Celsius3\Helper\LifecycleHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\SubmitButton;
@@ -59,14 +58,16 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Celsius3\Exception\Exception;
 use Celsius3\Manager\MaterialTypeManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 use function get_class;
 
 
-/**
- * Order controller.
- * @Route("/admin/order")
- */
+#[
+    Route('/admin/order'),
+    IsGranted(data: 'ROLE_ADMIN')
+]
 class HtmlAdminOrderController extends OrderController
 {
 
@@ -120,20 +121,20 @@ class HtmlAdminOrderController extends OrderController
     { return $this->repository->findForInstance($this->instance); }
 
 
-    /**
-     * Lists all Order entities.
-     * @Route("/", name="admin_order", options={"expose"=true})
-     */
+    #[Route(
+        "/",
+        name: "admin_order",
+        options: ["expose" => true]
+    )]
     public function htmlIndex(): RedirectResponse
     { return $this->redirectToRoute('administration'); }
 
 
-    /**
-     * Finds and displays a Order entity.
-     * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
-     * @param  string  $id  The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/show",
+        name: "admin_order_show",
+        options: ["expose" => true]
+    )]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -167,10 +168,11 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
-    /**
-     * Displays a form to create a new Order entity.
-     * @Route("/new", name="admin_order_new", options={"expose"=true})
-     */
+    #[Route(
+        "/new",
+        name: "admin_order_new",
+        options: ["expose" => true]
+    )]
     public function htmlNew(): Response
     {
         $params = $this->new();
@@ -184,10 +186,11 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
-    /**
-     * Creates a new Order entity.
-     * @Route("/create", name="admin_order_create", methods={"POST"})
-     */
+    #[Route(
+        "/create",
+        name: "admin_order_create",
+        methods: ["POST"]
+    )]
     public function htmlCreate(): RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -300,12 +303,11 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
-    /**
-     * Displays a form to edit an existing Order entity.
-     * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/edit",
+        name: "admin_order_edit",
+        options: ["expose" => true]
+    )]
     public function htmlEdit($id): Response
     {
         $entity = $this->findQuery($id);
@@ -344,11 +346,12 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
-    /**
-     * Displays a form to edit an duplicated Order entity.
-     * @Route("/{id}/duplicate", name="admin_order_duplicate", options={"expose"=true}, methods={"POST"})
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/duplicate",
+        name: "admin_order_duplicate",
+        options: ["expose" => true],
+        methods: ["POST"]
+    )]
     public function duplicate(string $id): Response
     {
         $order = $this->findQuery($id);
@@ -403,12 +406,11 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
-    /**
-     * Edits an existing Order entity.
-     * @Route("/{id}/update", name="admin_order_update", methods={"POST"})
-     * @param  string  $id  The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        "/{id}/update",
+        name: "admin_order_update",
+        methods: ["POST"]
+    )]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         $entity = $this->findQuery($id);
@@ -479,10 +481,11 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
-    /**
-     * Updates de form materialData field.
-     * @Route("/change", name="admin_order_change", options={"expose"=true})
-     */
+    #[Route(
+        "/change",
+        name: "admin_order_change",
+        options: ["expose" => true]
+    )]
     public function change(
         ?string $templateName = null,
         ?string $templatePrefix = null
