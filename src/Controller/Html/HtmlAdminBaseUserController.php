@@ -87,7 +87,7 @@ final class HtmlAdminBaseUserController extends UserController
      * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */
-    #[Route("/{id}/show", name: "admin_user_show", options: ["expose" => true])]
+    #[Route("/{id}", name: "admin_user_show", options: ["expose" => true])]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(

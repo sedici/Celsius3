@@ -56,7 +56,7 @@ class CatalogController extends EntityController
     }
 
 
-    protected function getRestCatallogs(): array
+    protected function getRestCatalogs(): array
     {
         return $this->repository
             ->findForInstanceAndGlobalWithoutDisabled(
@@ -83,7 +83,7 @@ class CatalogController extends EntityController
                 : $order->getMaterialData()->getOther())
             : $order->getMaterialData()->getTitle();
 
-        $catalogs = $this->getRestCatallogs();
+        $catalogs = $this->getRestCatalogs();
 
         $response = [
             'results' => $this->catalogRepository

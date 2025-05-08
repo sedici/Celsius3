@@ -88,7 +88,7 @@ class HtmlUserOrderController extends OrderController
      * New user order entity.
      */
     #[Route(
-        "/{id}/show",
+        "/{id}",
         name: 'html_user_order_show'
     )]
     public function htmlShow(string $id): Response 

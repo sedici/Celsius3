@@ -42,7 +42,7 @@ class RestAdminFileController extends FileController
 
 
     // /**
-    //  * @Get("/{id}/show", name="rest_admin_file", options={"expose"=true})
+    //  * @Get("/{id}", name="rest_admin_file", options={"expose"=true})
     //  */
     // public function getContact(string $id): Response
     // { return $this->restRenderer->show($id, 'administration_order_show'); }

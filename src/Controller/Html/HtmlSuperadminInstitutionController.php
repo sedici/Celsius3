@@ -152,7 +152,7 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Displays a form to edit an existing Institution entity.
-     * @Route("/{id}/show", name="superadmin_institution_show")
+     * @Route("/{id}", name="superadmin_institution_show")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */

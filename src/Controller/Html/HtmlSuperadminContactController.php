@@ -64,7 +64,7 @@ class HtmlSuperadminContactController extends ContactController
         );
     }
 
-    #[Route("/{id}/show", name: "superadmin_contact_show")]
+    #[Route("/{id}", name: "superadmin_contact_show")]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(

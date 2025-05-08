@@ -203,7 +203,7 @@ class RestAdminBaseUserController extends UserController
 
 
     #[Route(
-        '/{id}/show',
+        '/{id}',
         name: 'admin_rest_user_get',
         options: ['expose' => true]
     )]

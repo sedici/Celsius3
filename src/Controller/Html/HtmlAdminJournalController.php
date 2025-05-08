@@ -76,7 +76,7 @@ class HtmlAdminJournalController extends JournalController
 
 
     #[Route(
-        '/{id}/show',
+        '/{id}',
         name: 'admin_journal_show',
         options: ['expose' => true]
     )]

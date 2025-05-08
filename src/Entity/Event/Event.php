@@ -33,6 +33,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 // use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -84,6 +85,7 @@ abstract class Event implements EventInterface
 
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['administration_order_show'])]
     private ?string $observations;
 
 
@@ -114,6 +116,7 @@ abstract class Event implements EventInterface
     private Instance $instance;
 
 
+    #[Groups(['administration_order_show'])]
     abstract public function getEventType(): string;
 
 

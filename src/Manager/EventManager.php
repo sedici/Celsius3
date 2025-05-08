@@ -65,7 +65,7 @@ class EventManager
     public const EVENT__RECEIVE = 'receive';
 
     private $class_prefix = 'Celsius3\\Entity\\Event\\';
-    public $event_classes = array(
+    public $event_classes = [
         self::EVENT__CREATION => 'CreationEvent',
         self::EVENT__SEARCH => 'SearchEvent',
         self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequestEvent',
@@ -84,7 +84,7 @@ class EventManager
         self::EVENT__REUPLOAD => 'ReuploadEvent',
         self::EVENT__SEARCH_PENDINGS => 'SearchPendingsEvent',
         self::EVENT__NO_SEARCH_PENDINGS => 'NoSearchPendingsEvent',
-    );
+    ];
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -477,8 +477,9 @@ class EventManager
 
         $results = [];
         foreach ($repositories as $repository) {
-            $results[] = $entity_manager->getRepository('Celsius3\\Entity\\Event\\'.$repository)
-                            ->findBy(['request' => $request_id]);
+            $results[] = $entity_manager
+                ->getRepository('Celsius3\\Entity\\Event\\'.$repository)
+                ->findBy(['request' => $request_id]);
         }
 
         return array_merge(...$results);

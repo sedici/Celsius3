@@ -89,7 +89,7 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Finds and displays a Order entity.
-     * @Route("/{id}/show", name="superadmin_order_show")
+     * @Route("/{id}", name="superadmin_order_show")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */

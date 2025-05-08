@@ -42,7 +42,11 @@ class RestAdminContactController extends ContactController
     }
 
 
-    #[Route('/byInstitution/{id}', name: 'rest_admin_contact', options: ['expose' => true])]
+    #[Route(
+        '/byInstitution/{id}',
+        name: 'rest_admin_contact',
+        options: ['expose' => true]
+    )]
     public function restShowByInstitution(string $id): Response
     {
         $contacts = $this->repository->findBy([ 'institution' => $id ]);
@@ -52,7 +56,11 @@ class RestAdminContactController extends ContactController
     }
 
 
-    #[Route('/{id}/show', name: 'rest_admin_contact', options: ['expose' => true])]
+    #[Route(
+        '/{id}',
+        name: 'rest_admin_contact_get',
+        options: ['expose' => true]
+    )]
     public function restShow(string $id): Response
     { return $this->restRenderer->show($id, 'administration'); }
 }

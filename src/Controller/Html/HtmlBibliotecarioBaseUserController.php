@@ -62,7 +62,7 @@ class HtmlBibliotecarioBaseUserController extends UserController
 
 
     #[Route(
-        '/{id}/show',
+        '/{id}',
         name: 'bibliotecario_user_show',
         options: ['expose' => true]
     )]

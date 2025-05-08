@@ -149,15 +149,4 @@ class OrderController extends EntityController
 
         return $materialTypeName;
     }
-
-
-    protected function normalizeString(string $input): string {
-        // Verifica si la cadena termina con 'Type'
-        if (substr($input, -4) === 'Type') {
-            // Elimina los últimos 4 caracteres
-            $input = substr($input, 0, -4);
-        }
-        // Convierte todo a minúsculas
-        return strtolower($input);
-    }
 }

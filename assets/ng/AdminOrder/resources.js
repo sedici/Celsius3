@@ -1,12 +1,12 @@
 var orderApp = angular.module('orderApp');
 orderApp.factory('Order', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_order') + '/:id',
+    return $resource(Routing.generate('admin_rest_order') + ':id',
         {id: '@id'}
     );
 }]);
 
 orderApp.factory('Request', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_request') + ':order_id',
+    return $resource(Routing.generate('admin_rest_request_from_order') + '/:order_id',
         {order_id: '@order_id'}
     );
 }]);
@@ -18,7 +18,7 @@ orderApp.factory('Catalog', ['$resource', function ($resource) {
 }]);
 
 orderApp.factory('Event', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_event') + '/:request_id/:event',
+    return $resource(Routing.generate('admin_rest_event') + '/:request_id/creation',
         {request_id: '@request_id', event: '@event'}
     );
 }]);
@@ -36,7 +36,7 @@ orderApp.factory('EmailTemplate', ['$resource', function ($resource) {
 }]);
 
 orderApp.factory('CatalogResult', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_catalog') + '/results/:order_id',
+    return $resource(Routing.generate('admin_rest_catalog_results_order') + '/:order_id',
         {order_id: '@order_id'}
     );
 }]);

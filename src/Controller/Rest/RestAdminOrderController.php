@@ -162,7 +162,7 @@ class RestAdminOrderController extends OrderController
      * GET Route annotation.
      * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
      */
-    public function getOrder(string $id)
+    public function getOrder(string $id): Response
     {
         $em = $this->entityManager;
 

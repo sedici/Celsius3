@@ -52,7 +52,7 @@ class HtmlAdminNewsController extends NewsController
 
 
     #[Route(
-        '/{id}/show',
+        '/{id}',
         name: 'admin_news_show'
     )]
     public function htmlShow($id): Response

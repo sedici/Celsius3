@@ -30,6 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CreationEvent extends SingleInstanceEvent implements Notifiable
 {
+
     public function getEventType(): string
     {
         return 'creation';

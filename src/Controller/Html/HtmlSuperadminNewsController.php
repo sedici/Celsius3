@@ -72,7 +72,7 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Finds and displays a News entity.
-     * @Route("/{id}/show", name="superadmin_news_show")
+     * @Route("/{id}", name="superadmin_news_show")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */

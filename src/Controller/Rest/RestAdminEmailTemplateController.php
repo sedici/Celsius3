@@ -47,7 +47,7 @@ class RestAdminEmailTemplateController extends EmailTemplateController
 
 
     #[Route(
-        '/{id}/show',
+        '/{id}',
         name: 'rest_admin_emailtemplate_show',
         options: ['expose' => true]
     )]

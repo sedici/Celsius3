@@ -68,6 +68,7 @@ class RestRenderer extends BaseRenderer
 
         if ($serializerGroups) {
             $context = new Context();
+
             if (is_array($serializerGroups)) {
                 $context->addGroups($serializerGroups);
             }

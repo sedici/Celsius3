@@ -114,7 +114,7 @@ class HtmlAdminInstitutionController extends InstitutionController
 
 
     #[Route(
-        '/{id}/show',
+        '/{id}',
         name: 'admin_institution_show'
     )]
     public function htmlShow(string $id): Response

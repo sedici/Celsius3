@@ -79,7 +79,7 @@ class RestAdminInstitutionController extends InstitutionController
 
 
     /**
-     * @Get("/{id}/show", name="rest_admin_institution_get", options={"expose"=true})
+     * @Get("/{id}", name="rest_admin_institution_get", options={"expose"=true})
      */
     public function getInstitution(string $id): Response
     { return $this->restRenderer->show($id, 'institution_show'); }

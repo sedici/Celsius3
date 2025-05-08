@@ -157,7 +157,7 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Finds and displays a Contact document.
-     * @Route("/{id}/show", name="admin_contact_show")
+     * @Route("/{id}", name="admin_contact_show")
      * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */

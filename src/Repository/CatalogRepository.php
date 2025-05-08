@@ -22,6 +22,7 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\CatalogPosition;
 use Celsius3\Entity\CatalogResult;
 use Celsius3\Entity\Instance;
 use Doctrine\ORM\QueryBuilder;
@@ -44,13 +45,13 @@ class CatalogRepository extends BaseRepository
     public function findForInstanceAndGlobalWithoutDisabled(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')
-            ->where('e.instance = :instance_id')
-            ->orWhere('e.instance = :directory_id')
-            ->andWhere('e.enabled = :enabled')
+            ->innerJoin(CatalogPosition::class, 'cp', 'WITH', 'e.instance = cp.instance AND e.id = cp.catalog')
+            ->where('(cp.instance = :instance_id OR cp.instance = :directory_id)')
+            ->andWhere('cp.enabled = :enabled')
             ->setParameter('instance_id', $instance->getId())
-            ->setParameter('enabled', true)
             ->setParameter('directory_id', $directory->getId())
-            ->orderBy('e.name', 'asc');
+            ->setParameter('enabled', true)
+            ->orderBy('e.name', 'ASC');
     }
 
     public function getCatalogResults($catalogs, $title)
@@ -69,10 +70,11 @@ class CatalogRepository extends BaseRepository
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')
+            ->innerJoin(CatalogPosition::class, 'cp', 'WITH', 'e.instance = cp.instance AND e.id = cp.catalog')
             ->select('COUNT(DISTINCT e.id)')
             ->where('e.instance = :instance_id')
             ->orWhere('e.instance = :directory_id')
-            ->andWhere('e.enabled = :enabled')
+            ->andWhere('cp.enabled = :enabled')
             ->setParameter('instance_id', $instance->getId())
             ->setParameter('directory_id', $directory->getId())
             ->setParameter('enabled', false)

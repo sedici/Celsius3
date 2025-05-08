@@ -1,13 +1,13 @@
 var cciWidget = angular.module('cciWidget');
 
 cciWidget.factory('Country', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_country') + ':id',
+    return $resource(Routing.generate('rest_admin_country_show') + ':id',
         {id: '@id'}
     );
 }]);
 
 cciWidget.factory('City', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_city') + '/:country_id',
+    return $resource(Routing.generate('rest_admin_city_show') + '/:country_id',
         {country_id: '@country_id'}
     );
 }]);

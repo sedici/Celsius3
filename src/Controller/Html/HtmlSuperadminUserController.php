@@ -69,7 +69,7 @@ final class HtmlSuperadminUserController extends UserController
 
     /**
      * Finds and displays a BaseUser document.
-     * @Route("/{id}/show", name="superadmin_user_show")
+     * @Route("/{id}", name="superadmin_user_show")
      * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */

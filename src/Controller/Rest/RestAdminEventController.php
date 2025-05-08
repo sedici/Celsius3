@@ -208,15 +208,14 @@ final class RestAdminEventController extends EventController
 
 
     #[Route(
-        "/{event_id}/show",
+        "/{id}/show",
         name: "admin_rest_event_get",
         options: ['expose' => true]
     )]
-    public function showEvent(string $event_id): Response
+    public function showEvent(string $id): Response
     {
-        return $this->restRenderer->render(
-            $this->findEvent($event_id),
-            serializerGroups: 'administration_order_show'
+        return $this->restRenderer->show(
+            $id, 'administration_order_show'
         );
     }
 

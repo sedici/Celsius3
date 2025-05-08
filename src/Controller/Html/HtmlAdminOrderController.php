@@ -117,6 +117,13 @@ class HtmlAdminOrderController extends OrderController
     }
 
 
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->htmlRenderer->setTemplatePrefix('Admin/Order/');
+    }
+
+
     public function listQuery(?bool $isInstanceDependent = null): QueryBuilder
     { return $this->repository->findForInstance($this->instance); }
 
@@ -131,7 +138,7 @@ class HtmlAdminOrderController extends OrderController
 
 
     #[Route(
-        "/{id}/show",
+        "/{id}",
         name: "admin_order_show",
         options: ["expose" => true]
     )]

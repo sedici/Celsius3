@@ -23,17 +23,21 @@
 namespace Celsius3\Controller\Rest;
 
 use Celsius3\Controller\Core\EntityController;
+use Celsius3\Entity\Order;
 use Celsius3\Entity\Request as CelsiusRequest;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * User controller.
- *
- * @Route("/rest/v1/admin/requests")
- */
+#[
+    Route(
+        '/rest/v1/admin/requests',
+        options: ['expose' => true]
+    ),
+    IsGranted('ROLE_ADMIN')
+]
 class RestAdminRequestController extends EntityController
 {
 
@@ -44,10 +48,12 @@ class RestAdminRequestController extends EntityController
         $this->setInstanceDependent(true);
     }
 
-    /**
-     * GET Route annotation.
-     * @Get("/", name="admin_rest_request", options={"expose"=true})
-     */
+    #[Route(
+        '/',
+        name: 'admin_rest_request',
+        options: ['expose' => true],
+        methods: ['GET']
+    )]
     public function getRequests(): Response
     {
         return $this->restRenderer->render(
@@ -57,19 +63,44 @@ class RestAdminRequestController extends EntityController
         );
     }
 
-
-    /**
-     * GET Route annotation.
-     * @Get("/{order_id}", name="admin_rest_request_get", options={"expose"=true})
-     */
+    #[Route(
+        '/{id}',
+        name: 'admin_rest_request_get',
+        options: ['expose' => true],
+        methods: ['GET']
+    )]
     public function getRequest(string $id)
-    { return $this->restRenderer->render($this->findQuery($id)); }
+    { return $this->restRenderer->show($id, 'api'); }
 
 
-    /**
-     * GET Route annotation.
-     * @Post("/reenable_download", name="admin_rest_request_reenable_download", options={"expose"=true})
-     */
+    #[Route(
+        '/from_order/{id}',
+        name: 'admin_rest_request_from_order',
+        options: ['expose' => true],
+        methods: ['GET']
+    )]
+    public function getRequestFromOrder(string $id): Response
+    {
+        $order = $this->entityManager->getRepository(Order::class)->find($id);
+        if (!$order) $this->error('not_found', Order::class);
+
+        $request = $this->repository->findOneBy([
+            'instance' => $this->instance,
+            'order' => $order
+        ]);
+
+        if (!$request) $this->error('not_found');
+
+        return $this->restRenderer->render($request, serializerGroups: 'api');
+    }
+
+
+    #[Route(
+        '/reenable_download',
+        name: 'admin_rest_request_reenable_download',
+        options: ['expose' => true],
+        methods: ['POST']
+    )]
     public function reenableDownload(): Response
     {
         $requestId = $this->requestStack->getCurrentRequest()->get('request_id');
