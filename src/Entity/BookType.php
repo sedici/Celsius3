@@ -32,44 +32,44 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class BookType extends MaterialType
 {
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     protected ?string $editor = null;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     protected ?string $chapter = null;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     protected ?string $ISBN = null;
 
 
     #[Assert\NotNull()]
     #[Assert\Type(type: 'boolean')]
     #[ORM\Column(type: 'boolean')]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     protected ?bool $withIndex = false;
 
 

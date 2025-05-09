@@ -55,25 +55,25 @@ class Order
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     private ?int $id = null;
 
 
     #[ORM\Column(type: 'integer', unique: true)]
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list',
-        'email_template'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list',
+    //     'email_template'
+    // ])]
     private int $code;
 
 
@@ -83,23 +83,23 @@ class Order
     #[ORM\JoinColumn(
         name: 'material_data_id', referencedColumnName: 'id', nullable: true
     )]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list',
-        'email_template'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list',
+    //     'email_template'
+    // ])]
     private ?MaterialType $materialData = null;
 
 
     #[Assert\NotNull]
     #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'original_request_id', referencedColumnName: 'id')]
-    #[Groups([
-        'api',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'user_list'
+    // ])]
     private ?Request $originalRequest = null;
 
 
@@ -156,7 +156,7 @@ class Order
         $this->originalRequest = null;
     }
 
-    #[Groups(["api"])]
+    // #[Groups(["api"])]
     public function getPages(): int
     {
         $files = $this->getOriginalRequest()->getFiles();
@@ -170,7 +170,7 @@ class Order
         return $pages;
     }
 
-    #[Groups(["api"])]
+    // #[Groups(["api"])]
     public function getReceivedAt(): ?\DateTime
     {
         $states = $this->getOriginalRequest()->getStates();

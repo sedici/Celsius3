@@ -57,46 +57,46 @@ class Contact
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private string $name;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private string $surname;
 
 
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private string $email;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private ?string $address = null;
 
 
@@ -108,7 +108,7 @@ class Contact
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: ContactType::class, inversedBy: "contacts")]
     #[ORM\JoinColumn(name: "type_id", referencedColumnName: "id", nullable: false)]
-    #[Groups(["api"])]
+    // #[Groups(["api"])]
     private ContactType $type;
 
 

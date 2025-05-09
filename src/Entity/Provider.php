@@ -61,20 +61,20 @@ abstract class Provider
     #[Column(type: "integer")]
     #[Id]
     #[GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private int $id;
 
 
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show"
+    // ])]
     abstract public function getProviderType();
 
 
@@ -86,11 +86,11 @@ abstract class Provider
     { return $this->getProviderName(); }
 
 
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show"
+    // ])]
     public function getProviderName(): string
     { return ''; }
 }

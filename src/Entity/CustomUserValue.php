@@ -36,9 +36,9 @@ class CustomUserValue extends CustomValue
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'administration',
-    ])]
+    // #[Groups([
+    //     'administration',
+    // ])]
     private ?int $id = null;
 
     #[Assert\NotNull]
@@ -63,17 +63,17 @@ class CustomUserValue extends CustomValue
         return $this;
     }
 
-    #[Groups([
-        'administration',
-    ])]
+    // #[Groups([
+    //     'administration',
+    // ])]
     public function getValue(): string
     {
         return parent::getValue();
     }
 
-    #[Groups([
-        'administration',
-    ])]
+    // #[Groups([
+    //     'administration',
+    // ])]
     public function getField(): CustomField
     {
         return parent::getField();

@@ -46,27 +46,27 @@ class Country
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'administration',
-        'administration_order_show',
-    ])]
+    // #[Groups([
+    //     'administration',
+    //     'administration_order_show',
+    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([
-        'administration',
-        'administration_order_show',
-    ])]
+    // #[Groups([
+    //     'administration',
+    //     'administration_order_show',
+    // ])]
     private ?string $name = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([
-        'administration',
-    ])]
+    // #[Groups([
+    //     'administration',
+    // ])]
     private ?string $abbreviation = null;
 
 

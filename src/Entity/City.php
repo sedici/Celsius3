@@ -44,26 +44,26 @@ class City
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'administration',
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration',
+    //     'administration_order_show'
+    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        'administration',
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration',
+    //     'administration_order_show'
+    // ])]
     private ?string $name = null;
 
 
     #[ORM\Column(name: 'postal_code', type: 'string', length: 255, nullable: true)]
-    #[Groups([
-        'administration'
-    ])]
+    // #[Groups([
+    //     'administration'
+    // ])]
     private ?string $postalCode = null;
 
 

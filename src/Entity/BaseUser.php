@@ -57,15 +57,15 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "api",
-        "administration",
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list",
-        "admins-select"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration",
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list",
+    //     "admins-select"
+    // ])]
     protected ?int $id = null;
 
     #[ORM\Column(type: "string", length: 180, nullable: true)]
@@ -76,11 +76,11 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
 
     #[Assert\Email(groups: ["Default"])]
     #[ORM\Column(type: "string", length: 180, unique: true)]
-    #[Groups(["ajax_list"])]
+    // #[Groups(["ajax_list"])]
     protected ?string $email = null;
 
     #[ORM\Column(type: "string", unique: true)]
-    #[Groups(["ajax_list_name"])]
+    // #[Groups(["ajax_list_name"])]
     private ?string $username = null;
 
     #[ORM\Column(type: "string")]
@@ -99,82 +99,82 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     private ?string $salt = null;
 
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private bool $enabled = false;
 
     #[Assert\NotBlank(groups: ["Default"])]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration",
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list",
-        "admins-select",
-        "email_template",
-        "ajax_list"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration",
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list",
+    //     "admins-select",
+    //     "email_template",
+    //     "ajax_list"
+    // ])]
     protected ?string $name = null;
 
     #[Assert\NotBlank(groups: ["Default"])]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration",
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list",
-        "admins-select",
-        "email_template",
-        "ajax_list"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration",
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list",
+    //     "admins-select",
+    //     "email_template",
+    //     "ajax_list"
+    // ])]
     protected ?string $surname = null;
 
     #[Assert\Date(groups: ["Default"])]
     #[ORM\Column(type: "date", nullable: true)]
-    #[Groups(["administration"])]
+    // #[Groups(["administration"])]
     protected ?\DateTime $birthdate = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups(["administration"])]
+    // #[Groups(["administration"])]
     protected ?string $address = null;
 
     #[Assert\NotNull]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "api",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "user_list"
+    // ])]
     protected bool $downloadAuth = true;
 
     #[Assert\NotNull]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "api",
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected bool $wrongEmail = false;
 
     #[Assert\NotNull]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "api",
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected bool $pdf = true;
 
     #[ORM\OneToMany(
@@ -210,12 +210,12 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: "users")]
     #[ORM\JoinColumn(name: "institution_id", referencedColumnName: "id", nullable: false)]
-    #[Groups([
-        "administration",
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show"
-    ])]
+    // #[Groups([
+    //     "administration",
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show"
+    // ])]
     protected ?Institution $institution = null;
 
     #[ORM\Column(type: "array", name: "secondary_instances")]
@@ -227,7 +227,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         cascade: ["remove"], 
         fetch: "EXTRA_LAZY"
     )]
-    #[Groups(["administration"])]
+    // #[Groups(["administration"])]
     protected Collection $customValues;
 
     #[ORM\ManyToMany(targetEntity: Client::class)]
@@ -456,7 +456,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
-    #[Groups(["email_template"])]
+    // #[Groups(["email_template"])]
     public function getFullName(): string
     { return $this->getSurname() . ', ' . $this->getName(); }
 
@@ -589,7 +589,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     public function hasSecondaryInstance(Instance $secondaryInstance): bool
     { return array_key_exists($secondaryInstance->getId(), $this->secondaryInstances); }
 
-    #[Groups(["administration"])]
+    // #[Groups(["administration"])]
     public function getCountry()
     {
         if (!$this->getInstitution()) {
@@ -609,7 +609,7 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this;
     }
 
-    #[Groups(["administration"])]
+    // #[Groups(["administration"])]
     public function getCity()
     {
         if (!$this->getInstitution()) {
@@ -619,10 +619,10 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         return $this->getInstitution()->getCity();
     }
 
-    #[Groups([
-        "api",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "user_list"
+    // ])]
     public function isLibrarian(): bool
     { return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles()); }
 

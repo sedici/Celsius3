@@ -85,13 +85,14 @@ abstract class Event implements EventInterface
 
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(['administration_order_show'])]
+    // #[Groups(['administration_order_show'])]
     private ?string $observations;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'request_id', referencedColumnName: 'id', nullable: false)]
+    // #[Groups(['administration_order_show'])]
     private Request $request;
 
 
@@ -116,7 +117,7 @@ abstract class Event implements EventInterface
     private Instance $instance;
 
 
-    #[Groups(['administration_order_show'])]
+    // #[Groups(['administration_order_show'])]
     abstract public function getEventType(): string;
 
 

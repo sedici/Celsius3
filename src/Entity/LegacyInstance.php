@@ -56,45 +56,45 @@ class LegacyInstance
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups(["administration_order_show"])]
+    // #[Groups(["administration_order_show"])]
     protected ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups(["administration_order_show", "email_template"])]
+    // #[Groups(["administration_order_show", "email_template"])]
     protected ?string $name;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups(["administration_order_show", "email_template"])]
+    // #[Groups(["administration_order_show", "email_template"])]
     protected ?string $abbreviation;
 
 
     #[Assert\NotBlank]
     #[Assert\Url]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups(["email_template"])]
+    // #[Groups(["email_template"])]
     protected ?string $website;
 
 
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups(["email_template"])]
+    // #[Groups(["email_template"])]
     protected ?string $email;
 
 
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    #[Groups(["administration_order_show"])]
+    // #[Groups(["administration_order_show"])]
     protected bool $enabled = true;
 
 
     #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances")]
     #[ORM\JoinColumn(name: "hive_id", referencedColumnName: "id")]
-    #[Groups(["administration_order_show"])]
+    // #[Groups(["administration_order_show"])]
     protected ?Hive $hive;
 
 

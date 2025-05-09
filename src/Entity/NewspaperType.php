@@ -34,42 +34,42 @@ class NewspaperType extends MaterialType
 {
 
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?string $article = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?string $month = null;
 
 
     #[ORM\Column(type: "integer", length: 2, nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?int $day = null;
 
 
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?string $place = null;
 
 

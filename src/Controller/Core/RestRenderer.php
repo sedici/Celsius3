@@ -37,6 +37,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 use Celsius3\Exception\Exception;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -68,6 +69,7 @@ class RestRenderer extends BaseRenderer
 
         if ($serializerGroups) {
             $context = new Context();
+            $context->enableMaxDepth();
 
             if (is_array($serializerGroups)) {
                 $context->addGroups($serializerGroups);
@@ -75,6 +77,11 @@ class RestRenderer extends BaseRenderer
             if (is_string($serializerGroups)) {
                 $context->addGroup($serializerGroups);
             }
+
+            $context->setAttribute(
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER,
+                fn ($object) => null
+            );
             $view->setContext($context);
         }
 

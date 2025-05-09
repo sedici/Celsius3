@@ -32,22 +32,22 @@ class ThesisType extends MaterialType
 {
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?string $director = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?string $degree = null;
 
 

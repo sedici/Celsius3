@@ -57,72 +57,72 @@ abstract class MaterialType
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?int $id = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list",
-        "email_template"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list",
+    //     "email_template"
+    // ])]
     protected ?string $title = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?string $authors = null;
 
     #[Assert\NotBlank]
     #[Assert\Type(type: "integer")]
     #[ORM\Column(type: "integer")]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?int $year = null;
 
     #[ORM\Column(name: "start_page", type: "integer", nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?int $startPage = null;
 
     #[ORM\Column(name: "end_page", type: "integer", nullable: true)]
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     protected ?int $endPage = null;
 
     #[ORM\OneToOne(targetEntity: Order::class, mappedBy: "materialData")]
     protected $order;
 
-    #[Groups([
-        "administration_list",
-        "administration_order_show",
-        "administration_user_show",
-        "user_list"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "user_list"
+    // ])]
     abstract public function getMaterialType(): string;
 
     public function __toString(): string

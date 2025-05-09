@@ -44,24 +44,24 @@ class Instance extends LegacyInstance
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: "/^[a-zA-Z]+$/")]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     protected string $url;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     protected string $host;
 
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     protected ?bool $invisible = false;
 
 

@@ -42,43 +42,43 @@ class CatalogResult
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?string $title = null;
 
 
     #[Assert\Type(type: 'integer')]
     #[ORM\Column(type: 'integer')]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?int $searches = 0;
 
 
     #[Assert\Type(type: 'integer')]
     #[ORM\Column(type: 'integer')]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?int $matches = 0;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'positions')]
     #[ORM\JoinColumn(name: 'catalog_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private $catalog;
 
 

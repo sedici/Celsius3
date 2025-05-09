@@ -43,24 +43,24 @@ class Catalog
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?int $id = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?string $name = null;
 
     #[Assert\NotBlank]
     #[Assert\Url]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private ?string $url = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -68,9 +68,9 @@ class Catalog
 
     #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(name: 'institution_id', referencedColumnName: 'id')]
-    #[Groups([
-        'administration_order_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show'
+    // ])]
     private $institution;
 
     #[Assert\NotNull]

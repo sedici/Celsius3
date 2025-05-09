@@ -50,28 +50,28 @@ abstract class Template
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private ?string $code = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "text")]
-    #[Groups([
-        "api",
-        "administration"
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration"
+    // ])]
     private ?string $text = null;
 
 

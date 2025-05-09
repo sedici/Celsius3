@@ -43,25 +43,25 @@ class Institution extends Provider
 
     #[NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "administration_list",
-        "administration",
-        "administration_order_show",
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private string $name;
 
 
     #[NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        "administration_list",
-        "administration",
-        "administration_order_show",
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private string $abbreviation;
 
 
@@ -77,33 +77,33 @@ class Institution extends Provider
     #[ParentInstitution]
     #[ManyToOne(targetEntity: Institution::class, inversedBy: 'institutions')]
     #[JoinColumn(name: 'parent_id', referencedColumnName: 'id')]
-    #[Groups([
-        "administration_list",
-        "administration",
-        "administration_order_show",
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_list",
+    //     "administration",
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private ?Institution $parent;
 
 
     #[ManyToOne(targetEntity: City::class, inversedBy: 'institutions')]
     #[JoinColumn(name: 'city_id', referencedColumnName: 'id')]
-    #[Groups([
-        "administration_order_show",
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private ?City $city;
 
 
     #[NotNull]
     #[ManyToOne(targetEntity: Country::class, inversedBy: 'institutions')]
     #[JoinColumn(name: 'country_id', referencedColumnName: 'id')]
-    #[Groups([
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private Country $country;
 
 
@@ -115,11 +115,11 @@ class Institution extends Provider
 
     #[ManyToOne(targetEntity: LegacyInstance::class, inversedBy: 'ownerInstitutions')]
     #[JoinColumn(name: 'celsius_instance_id', referencedColumnName: 'id')]
-    #[Groups([
-        "administration_order_show",
-        "administration_user_show",
-        "institution_show"
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    //     "administration_user_show",
+    //     "institution_show"
+    // ])]
     private ?LegacyInstance $celsiusInstance = null;
 
 

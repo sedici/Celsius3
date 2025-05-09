@@ -18,7 +18,7 @@ orderApp.factory('Catalog', ['$resource', function ($resource) {
 }]);
 
 orderApp.factory('Event', ['$resource', function ($resource) {
-    return $resource(Routing.generate('admin_rest_event') + '/:request_id/:event',
+    return $resource(Routing.generate('admin_rest_event') + '/:request_id/creation',
         {request_id: '@request_id', event: '@event'}
     );
 }]);

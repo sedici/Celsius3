@@ -59,13 +59,13 @@ class Request
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     private int $id;
 
 
@@ -78,35 +78,35 @@ class Request
         message: 'Choose a valid type.'
     )]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     private string $type;
 
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show'
+    // ])]
     private ?string $comments = null;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     private BaseUser $owner;
 
 
@@ -123,59 +123,59 @@ class Request
     #[Assert\NotNull(groups: ['Default', 'newOrder'])]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups([
-        'administration_order_show',
-        'administration_user_show'
-    ])]
+    // #[Groups([
+    //     'administration_order_show',
+    //     'administration_user_show'
+    // ])]
     private Instance $instance;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'operatedOrders')]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     private ?BaseUser $operator = null;
 
 
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'requests')]
     #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false)]
-    #[Groups(['administration_order_show'])]
+    // #[Groups(['administration_order_show'])]
     private Order $order;
 
 
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'requests')]
     #[ORM\JoinColumn(name: 'previous_request_id', referencedColumnName: 'id')]
-    #[Groups(['administration_order_show'])]
+    // #[Groups(['administration_order_show'])]
     private ?Request $previousRequest = null;
 
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
-    #[Groups([
-        'administration_order_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'administration_order_show',
+    //     'user_list'
+    // ])]
     private Collection $files;
 
 
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show'
+    // ])]
     private Collection $events;
 
 
     #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
-    #[Groups([
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show'
-    ])]
+    // #[Groups([
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show'
+    // ])]
     private Collection $states;
 
 
@@ -193,6 +193,24 @@ class Request
     // protected \DateTime $createdAt;
 
     // ----
+
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
+    public function hasDownloadableFiles(): bool
+    {
+        $files = $this->getFiles()->filter(
+            fn (File $f): bool =>
+                !$f->isDownloaded() || $f->hasDownloadTime()
+        );
+
+        return $files->count() > 0;
+    }
+
 
     public function __construct()
     {
@@ -636,22 +654,5 @@ class Request
     public function getRequests(): Collection
     {
         return $this->requests;
-    }
-
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-        ])]
-    public function hasDownloadableFiles(): bool
-    {
-        $files = $this->getFiles()->filter(
-            fn (File $f): bool =>
-                !$f->isDownloaded() || $f->hasDownloadTime()
-        );
-
-        return $files->count() > 0;
     }
 }

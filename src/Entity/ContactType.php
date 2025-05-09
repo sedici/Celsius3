@@ -40,18 +40,18 @@ class ContactType
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[Groups([
-        'api',
-        'administration',
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration',
+    // ])]
     private ?int $id = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([
-        'api',
-        'administration',
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration',
+    // ])]
     private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'type', fetch: "EXTRA_LAZY")]

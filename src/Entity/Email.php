@@ -44,17 +44,17 @@ class Email
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api_administration",
-    ])]
+    // #[Groups([
+    //     "api_administration",
+    // ])]
     private string $address;
 
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api_administration",
-    ])]
+    // #[Groups([
+    //     "api_administration",
+    // ])]
     private string $subject;
 
 
@@ -66,9 +66,9 @@ class Email
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id", nullable: false)]
-    #[Groups([
-        "api_administration",
-    ])]
+    // #[Groups([
+    //     "api_administration",
+    // ])]
     private BaseUser $sender;
 
 

@@ -33,19 +33,19 @@ class EmailTemplate extends Template
 {
 
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "api",
-        "administration",
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration",
+    // ])]
     private bool $enabled = true;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "api",
-        "administration",
-    ])]
+    // #[Groups([
+    //     "api",
+    //     "administration",
+    // ])]
     private string $title;
 
 

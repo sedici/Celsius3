@@ -47,18 +47,18 @@ class File
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "administration_order_show",
-        "user_list",
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    //     "user_list",
+    // ])]
     private ?int $id = null;
 
 
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "administration_order_show",
-        "user_list",
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    //     "user_list",
+    // ])]
     private string $name;
 
 
@@ -75,10 +75,10 @@ class File
 
 
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "administration_order_show",
-        "user_list",
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    //     "user_list",
+    // ])]
     private bool $enabled = true;
 
 
@@ -95,16 +95,16 @@ class File
 
 
     #[ORM\Column(type: "boolean")]
-    #[Groups([
-        "user_list",
-    ])]
+    // #[Groups([
+    //     "user_list",
+    // ])]
     private bool $downloaded = false;
 
 
     #[ORM\Column(type: "integer")]
-    #[Groups([
-        "administration_order_show",
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    // ])]
     private int $pages = 0;
 
 
@@ -266,7 +266,7 @@ class File
         return $this->downloads;
     }
 
-    #[Groups(["user_list"])]
+    // #[Groups(["user_list"])]
     public function hasDownloadTime(): bool
     {
         if (!$this->isDownloaded()) {

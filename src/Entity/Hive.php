@@ -46,18 +46,18 @@ class Hive
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    #[Groups([
-        "administration_order_show",
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[ORM\Column(type: "string", length: 255)]
-    #[Groups([
-        "administration_order_show",
-    ])]
+    // #[Groups([
+    //     "administration_order_show",
+    // ])]
     private string $name;
 
 
