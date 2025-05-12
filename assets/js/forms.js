@@ -314,7 +314,7 @@ $('.uncheck-all').click(function () {
 
 $(document).ready(function () {
     $('#form_test_connection').click(function () {
-        $('#form_test_connection').append('<img class="process-spinner" alt="" src="/assets/images/select2-spinner.gif" align="center" />');
+        $('#form_test_connection').append('<img class="process-spinner" alt="" src="/build/images/select2-spinner.gif" align="center" />');
         $.ajax({
             type: 'POST',
             url: Routing.generate('admin_instance_rest_test_smtp'),
@@ -352,7 +352,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#submit_send_test_email', function () {
-        $('#submit_send_test_email').append('<img class="process-spinner" alt="" src="/assets/images/select2-spinner.gif" align="center" />');
+        $('#submit_send_test_email').append('<img class="process-spinner" alt="" src="/build/images/select2-spinner.gif" align="center" />');
 
         $.ajax({
             type: 'POST',

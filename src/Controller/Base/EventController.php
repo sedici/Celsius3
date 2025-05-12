@@ -164,7 +164,7 @@ class EventController extends EntityController
     private function addReclaimEvents(array $all): array
     {
         $keys = array_map(
-            fn (Event $e): array => $e->getId(),
+            fn (Event $e) => $e->getId(),
             $all
         );
 

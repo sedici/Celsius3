@@ -23,31 +23,37 @@
  namespace Celsius3\Controller\Rest;
 
 use Celsius3\Controller\Base\UserController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[
+    Route(
+        '/rest/v1/user/users',
+        options: ['expose' => true]
+    ),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
  final class RestUserController extends UserController
 {
     #[Route(
-        '/user/rest/user',
+        '/',
         name: 'user_rest_user',
-        methods: ['GET'],
-        options: ['expose' => true]
+        methods: ['GET']
     )]
     public function getUsers(): Response
     { return $this->restRenderer->render([]); }
 
 
     #[Route(
-        '/user/rest/user/{id}',
+        '/{id}',
         name: 'user_rest_user_get',
-        methods: ['GET'],
-        options: ['expose' => true]
+        methods: ['GET']
     )]
     public function getUserById(string $id): Response
     {
         return $this->restRenderer->render(
-            $this->getUser() === (int)$id
+            $this->getUser()->getId() === (int)$id
                 ? $this->getUser()
                 : null,
             serializerGroups: 'user_list'

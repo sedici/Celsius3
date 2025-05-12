@@ -26,8 +26,6 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Order;
 use Celsius3\Entity\Request as CelsiusRequest;
 use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -70,7 +68,7 @@ class RestAdminRequestController extends EntityController
         methods: ['GET']
     )]
     public function getRequest(string $id)
-    { return $this->restRenderer->show($id, 'api'); }
+    { return $this->restRenderer->show($id, 'administration_order_show'); }
 
 
     #[Route(
@@ -91,7 +89,7 @@ class RestAdminRequestController extends EntityController
 
         if (!$request) $this->error('not_found');
 
-        return $this->restRenderer->render($request, serializerGroups: 'api');
+        return $this->restRenderer->render($request, serializerGroups: 'administration_order_show');
     }
 
 

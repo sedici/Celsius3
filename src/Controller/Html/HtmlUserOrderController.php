@@ -30,12 +30,16 @@ use Celsius3\Controller\Base\OrderController;
 use Celsius3\Manager\MaterialTypeManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\ORM\QueryBuilder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * User order controller.
  */
-#[Route("/user/order")]
+#[
+    Route("/user/order"),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
 class HtmlUserOrderController extends OrderController
 {
 

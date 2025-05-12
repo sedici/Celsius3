@@ -31,8 +31,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[
-    Route('/rest/v1/admin/order'),
-    IsGranted('IS_AUTHENTICATED_FULLY'),
+    Route(
+        '/rest/v1/user/orders',
+        options: ['expose' => true]
+    ),
+    IsGranted('IS_AUTHENTICATED_FULLY')
 ]
  final class RestUserOrderController extends OrderController
 {
@@ -40,8 +43,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
     #[Route(
         '/',
         name: 'user_rest_order',
-        methods: ['GET'],
-        options: ['expose' => true]
+        methods: ['GET']
     )]
     public function ordersGet(): Response
     {
@@ -99,8 +101,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
     #[Route(
         '/count',
         name: 'user_rest_order_count_get',
-        methods: ['GET'],
-        options: ['expose' => true]
+        methods: ['GET']
     )]
     public function orderCount(): Response
     {
@@ -117,8 +118,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
     #[Route(
         '/{id}',
         name: 'user_rest_order_get',
-        methods: ['GET'],
-        options: ['expose' => true]
+        methods: ['GET']
     )]
     public function getOrder(string $id): Response
     { return $this->restRenderer->show($id); }

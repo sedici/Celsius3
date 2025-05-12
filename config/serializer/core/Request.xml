@@ -68,7 +68,7 @@
         <attribute name="order">
             <group>administration_order_show</group>
         </attribute>
-        <attribute name="currentState">
+        <attribute name="currentState.type" serialized-name="current_state">
             <group>api</group>
             <group>administration_list</group>
             <group>administration_order_show</group>

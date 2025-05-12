@@ -37,7 +37,12 @@ use Symfony\Component\HttpFoundation\Response;
 final class RestAdminEventController extends EventController
 {
 
-    #[Route("/{request_id}", name: "admin_rest_events", options: ['expose' => true])]
+    #[Route(
+        "/{request_id}",
+        name: "admin_rest_events",
+        options: ['expose' => true],
+        methods: ['GET'],
+    )]
     public function restIndex(string $request_id): Response
     {
         return $this->restRenderer->render(
@@ -47,8 +52,10 @@ final class RestAdminEventController extends EventController
     }
 
 
-    private function handleEvent(string $request_id, callable $eventHandler): Response
-    {
+    private function handleEvent(
+        string $request_id,
+        callable $eventHandler
+    ): Response {
         $request = $this->findRequest($request_id);
         $result = $eventHandler($request, $this->instance);
         return $this->restRenderer->render(
@@ -103,7 +110,7 @@ final class RestAdminEventController extends EventController
 
 
     #[Route(
-        "/{request_id}/cretion",
+        "/{request_id}/creation",
         name: "admin_rest_order_creation_event",
         methods: ['POST'],
         options: ['expose' => true]
@@ -208,7 +215,7 @@ final class RestAdminEventController extends EventController
 
 
     #[Route(
-        "/{id}/show",
+        "/{id}/get",
         name: "admin_rest_event_get",
         options: ['expose' => true]
     )]
@@ -245,14 +252,15 @@ final class RestAdminEventController extends EventController
 
 
     #[Route(
-        "/{request_id}/{event_id}",
+        "/{request_id}/{event_type}",
         name: "admin_rest_event",
-        options: ['expose' => true]
+        options: ['expose' => true],
+        methods: ['GET'],
     )]
-    public function eventByType(string $request_id, string $event_id): Response
+    public function eventByType(string $request_id, string $event_type): Response
     {
         return $this->restRenderer->render(
-            $this->eventManager->getEvents($event_id, $request_id),
+            $this->eventManager->getEvents($event_type, $request_id),
             serializerGroups: 'administration_order_show'
         );
     }

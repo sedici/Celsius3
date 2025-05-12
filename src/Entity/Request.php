@@ -587,13 +587,13 @@ class Request
     /**
      * Retorna el estado actual para el presente Request.
      */
-    #[Groups([
-        'api',
-        'administration_list',
-        'administration_order_show',
-        'administration_user_show',
-        'user_list'
-    ])]
+    // #[Groups([
+    //     'api',
+    //     'administration_list',
+    //     'administration_order_show',
+    //     'administration_user_show',
+    //     'user_list'
+    // ])]
     public function getCurrentState(): ?State
     {
         $result = $this->getStates()->filter(
