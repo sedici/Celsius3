@@ -20,34 +20,31 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Entity\Mixin;
+namespace Celsius3\Controller\Base;
 
-use Celsius3\Entity\Event\SingleInstanceRequestEvent;
-use Celsius3\Entity\Provider;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Thread;
+use Celsius3\Entity\ThreadMetadata;
+use Celsius3\Exception\Exception;
+use Doctrine\ORM\EntityRepository;
 
-trait ProviderTrait
+
+class ThreadController extends EntityController
 {
-    /**
-     * @Assert\NotNull(groups={"request"})
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Provider")
-     * @ORM\JoinColumn(name="provider_id", referencedColumnName="id")
-     */
-    private $provider;
 
-    /**
-     * Set provider.
-     */
-    public function setProvider(Provider $provider): self
+    protected EntityRepository $threadMetadataRepository;
+
+    public function initialize(): void
     {
-        $this->provider = $provider;
-        return $this;
-    }
+        $this->setEntity(Thread::class);
 
-    /**
-     * Get provider.
-     */
-    public function getProvider(): Provider
-    { return $this->provider; }
+        parent::initialize();
+
+        $this->htmlRenderer->setTemplatePrefix('bundles/FOSMessageBundle/Thread/');
+        $this->setInstanceDependent(true);
+        $this->setSortDefaults([ 'wrap-queries' => false ]);
+
+        $this->threadMetadataRepository = $this->entityManager->getRepository(ThreadMetadata::class);
+    }
 }

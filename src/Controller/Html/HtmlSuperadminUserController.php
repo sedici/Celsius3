@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\Form\Type\UserTransformType;
@@ -33,12 +32,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\UserController;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\Exception\Exception;
+use FOS\RestBundle\Controller\Annotations\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-/**
- * Order controller.
- * @Route("/superadmin/user")
- */
+#[
+    Route('/superadmin/user'),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
 final class HtmlSuperadminUserController extends UserController
 {
 
@@ -51,10 +52,13 @@ final class HtmlSuperadminUserController extends UserController
     }
 
 
-    /**
-     * Lists all BaseUser entities.
-     * @Route("/", name="superadmin_user")
-     */
+    #[
+        Route(
+            '/',
+            name: 'superadmin_user',
+            methods: ['GET']
+        )
+    ]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -67,12 +71,11 @@ final class HtmlSuperadminUserController extends UserController
     }
 
 
-    /**
-     * Finds and displays a BaseUser document.
-     * @Route("/{id}", name="superadmin_user_show")
-     * @param string $id The document ID
-     * @throws NotFoundHttpException If document doesn't exists
-     */
+    #[Route(
+        '/{id}',
+        name: 'superadmin_user_show',
+        methods: ['GET']
+    )]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -81,11 +84,12 @@ final class HtmlSuperadminUserController extends UserController
         );
     }
 
-
-    /**
-     * Displays a form to create a new BaseUser entity.
-     * @Route("/new", name="superadmin_user_new")
-     */
+    
+    #[Route(
+        '/new',
+        name: 'superadmin_user_new',
+        methods: ['GET']
+    )]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -98,10 +102,11 @@ final class HtmlSuperadminUserController extends UserController
     }
 
 
-    /**
-     * Creates a new BaseUser entity.
-     * @Route("/create", name="superadmin_user_create", methods={"POST"})
-     */
+    #[Route(
+        '/create',
+        name: 'superadmin_user_create',
+        methods: ['POST']
+    )]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -114,12 +119,11 @@ final class HtmlSuperadminUserController extends UserController
     }
 
 
-    /**
-     * Displays a form to edit an existing Country entity.
-     * @Route("/{id}/edit", name="superadmin_user_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/edit',
+        name: 'superadmin_user_edit',
+        methods: ['GET']
+    )]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -131,12 +135,11 @@ final class HtmlSuperadminUserController extends UserController
     }
 
 
-    /**
-     * Edits an existing BaseUser entity.
-     * @Route("/{id}/update", name="superadmin_user_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/update',
+        name: 'superadmin_user_update',
+        methods: ['POST']
+    )]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -149,12 +152,11 @@ final class HtmlSuperadminUserController extends UserController
     }
 
 
-    /**
-     * Enables an existing BaseUser entity.
-     * @Route("/{id}/enable", name="superadmin_user_enable", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(
+        '/{id}/enable',
+        name: 'superadmin_user_enable',
+        methods: ['POST']
+    )]
     public function enable(string $id): RedirectResponse
     { return $this->baseEnable($id); }
 
@@ -180,10 +182,11 @@ final class HtmlSuperadminUserController extends UserController
     // UNION
 
 
-    /**
-     * Batch union on a group of BaseUser entities.
-     * @Route("/union", name="superadmin_user_union", methods={"POST"})
-     */
+    #[Route(
+        '/union',
+        name: 'superadmin_user_union',
+        methods: ['POST']
+    )]
     public function union(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -244,10 +247,11 @@ final class HtmlSuperadminUserController extends UserController
     // TRANSFORM
 
 
-    /**
-     * Transform an instance of BaseUser entity.
-     * @Route("/transform", name="superadmin_user_transform", methods={"GET", "POST"})
-     */
+    #[Route(
+        '/{id}/transform',
+        name: 'superadmin_user_transform',
+        methods: ['GET', 'POST']
+    )]
     public function transform(string $id): array|RedirectResponse|Response
     {
         $request = $this->requestStack->getCurrentRequest();

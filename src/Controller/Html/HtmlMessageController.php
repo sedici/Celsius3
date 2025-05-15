@@ -22,40 +22,48 @@
 
 namespace Celsius3\Controller\Html;
 
-use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\Mixin\ProviderTrait;
+use Celsius3\Controller\Base\MessageController;
+use Celsius3\Entity\BaseUser;
 use Celsius3\Form\Type\Filter\MessageFilterType;
-use Celsius3\Entity\Message;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Message controller.
- * @Route("/user/message")
- */
-class HtmlMessageController extends EntityController //BaseEntityController
+#[
+    Route('/user/message'),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
+ class HtmlMessageController extends MessageController
 {
-    use ProviderTrait;
 
-    public function initialize(): void
-    {
-        $this->setEntity(Message::class);
-
-        parent::initialize();
-
-        $this->htmlRenderer->setTemplatePrefix('bundles/FOSMessageBundle/Message/');
-        $this->setInstanceDependent(true);
-        $this->setSortDefaults([ 'wrap-queries' => false ]);
-    }
-
-
-    /**
-     * Displays the authenticated participant inbox.
-     * @Route("/", name="fos_message_inbox")
-     */
+    #[Route(
+        '/',
+        name: 'fos_message_inbox',
+        methods: ['GET']
+    )]
     public function inboxAction(): Response
     {
-        $threads = $this->getProvider()->getInboxThreadsQuery();
+        // throw new \Exception((string)var_dump());
+
+        // $threads = $this->threadController->getUserThreads(
+        //     $this->entityManager->getRepository(BaseUser::class)->find(634)
+        // );
+
+        // $threads = $this->getProvider()->getInboxThreadsQuery();
+
+        // throw new \Exception((string)var_dump($this->listQuery()->getQuery()->execute()));
+
+
+        return $this->htmlRenderer->render(
+            'inbox',
+            array_merge(
+                $this->index(hasFilterForm: false, isInstanceDependent: false),
+                [ 'threads' => $this->threadRepository->getParticipantInboxThreadsQueryBuilder(
+                    $this->entityManager->getRepository(BaseUser::class)->find(634)
+                )->getQuery()->execute() ]
+                // getProvider()->getInboxThreadsQuery()
+            )
+        );
 
         $filter_form = $this->createForm(MessageFilterType::class);
 

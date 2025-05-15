@@ -25,7 +25,6 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Configuration;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Helper\ConfigurationHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,12 +33,14 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Journal;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 
-/**
- * BaseUser controller.
- * @Route("/user")
- */
+#[
+    Route('/user'),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
 class HtmlUserController extends UserController
 {
 
@@ -53,10 +54,11 @@ class HtmlUserController extends UserController
     }
 
 
-    /**
-     * Dashboard index.
-     * @Route("/", name="user_index")
-     */
+    #[Route(
+        '/',
+        name: 'user_index',
+        methods: ['GET']
+    )]
     public function htmlIndex(): Response
     {
         $last_messages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
@@ -78,10 +80,11 @@ class HtmlUserController extends UserController
     }
 
 
-    /**
-     * Change between intances.
-     * @Route("/{id}/change", name="user_change_context")
-     */
+    #[Route(
+        '/{id}/change',
+        name: 'user_change_context',
+        methods: ['GET']
+    )]
     public function change(string $id): RedirectResponse
     {
         $instance = $this->findQuery($id);
@@ -122,17 +125,5 @@ class HtmlUserController extends UserController
         }
 
         return $this->redirect($this->generateUrl('public_index'));
-    }
-
-
-    /**
-     * User Ajax request.
-     * @Route("/ajax", name="user_ajax")
-     */
-    public function userAjax(): Response
-    {
-        return $this->restRenderer->ajax(
-            $this->requestStack->getCurrentRequest()
-        );
     }
 }

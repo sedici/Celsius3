@@ -22,13 +22,12 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Entity\Mixin\ParticipantInterface;
-use Celsius3\Repository\ThreadRepository;
-use Doctrine\Common\Collections\Collection;
+use Celsius3\Repository\BaseRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 #[ORM\Table(name: "thread_metadata", indexes: [
     new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
     new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
@@ -44,19 +43,32 @@ class ThreadMetadata
 
 
     #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: "metadata")]
-    #[ORM\JoinColumn(name: "thread_id", referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(name: "thread_id", referencedColumnName: "id")]
     protected Thread $thread;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
-    #[ORM\Column(name: "participant_id", type: "integer")]
+    #[ORM\JoinColumn(name: "participant_id", referencedColumnName: "id")]
     protected BaseUser $participant;
 
 
-    #[ORM\Column(type: "date", name: "last_message_date")]
-    protected \DateTime $lastMessageDate;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: "last_message_date")]
+    protected ?\DateTime $lastMessageDate;
+
+
+    #[ORM\Column(name: 'is_deleted', type: 'boolean')]
+    private bool $isDeleted;
 
 
     public function getLastMessageDate(): \DateTime
     { return $this->lastMessageDate; }
+
+    public function getThread(): Thread
+    { return $this->thread; }
+
+    public function getParticipant(): BaseUser
+    { return $this->participant; }
+
+    public function setThread(Thread $thread): void
+    { $this->thread = $thread; }
 }

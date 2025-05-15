@@ -8,7 +8,7 @@ user_change_context:
     defaults: { _controller: Celsius3\Controller\User\Dashboard\ChangeInstanceController }
     methods: [ GET ]
 
-# user_ajax:
+# user_order_new_ajax:
 #     path: /user/ajax
 #     defaults: { _controller: Celsius3\Controller\User\Dashboard\AjaxController }
 #     methods: [ GET ]

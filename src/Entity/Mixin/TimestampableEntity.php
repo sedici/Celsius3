@@ -22,7 +22,7 @@ trait TimestampableEntity
 {
     
     #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_IMMUTABLE)]
     protected \DateTime $createdAt;
 
     

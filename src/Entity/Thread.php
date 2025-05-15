@@ -22,13 +22,20 @@
 
 namespace Celsius3\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\Repository\ThreadRepository;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 #[ORM\Entity(repositoryClass: ThreadRepository::class)]
-#[ORM\Table(name: "thread", indexes: [new ORM\Index(name: "idx_created_at", columns: ["created_at"])])]
+#[ORM\Table(
+    name: "thread",
+    indexes: [
+        new ORM\Index(name: "idx_created_at",
+        columns: ["created_at"])
+    ]
+)]
 class Thread
 {
 
@@ -44,7 +51,7 @@ class Thread
     
     
     #[ORM\Column(name: "created_at", type: "datetime")]
-    protected $createdAt;
+    protected \DateTime $createdAt;
 
     // --- campos inversos (no se guardan en esta tabla) ---
 
@@ -54,6 +61,9 @@ class Thread
 
     #[ORM\OneToMany(targetEntity: ThreadMetadata::class, mappedBy: "thread", cascade: ["all"], fetch: "EXTRA_LAZY")]
     protected Collection $metadata;
+
+
+    protected ?Collection $participants = null;
     
 
     public function removeMessage(Message $message): void
@@ -88,11 +98,73 @@ class Thread
     { return $this->createdBy; }
 
 
+    public function isReadByParticipant(BaseUser $user): bool
+    {
+        foreach ($this->getMessages() as $message) {
+            if (!$message->isReadByParticipant($user)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public function getParticipants(): Collection
     {
         return $this->messages->map(
             fn (Message $message): BaseUser =>
                 $message->getSender()
         );
+    }
+
+
+    protected function getParticipantsCollection(): Collection
+    {
+        if (null === $this->participants) {
+            $this->participants = new ArrayCollection();
+
+            foreach ($this->metadata as $data) {
+                $this->participants->add($data->getParticipant());
+            }
+        }
+
+        return $this->participants;
+    }
+
+
+    public function addParticipant(BaseUser $participant): static
+    {
+        if (!$this->isParticipant($participant)) {
+            $this->getParticipantsCollection()->add($participant);
+        }
+
+        return $this;
+    }
+
+
+    public function addParticipants(array $users): static
+    {
+        foreach ($users as $participant) {
+            if (!$participant instanceof BaseUser) {
+                throw new \InvalidArgumentException('Participant must be an instance of BaseUser');
+            }
+            $this->addParticipant($participant);
+        }
+
+        return $this;
+    }
+
+
+    public function isParticipant(BaseUser $user): bool
+    { return $this->getParticipantsCollection()->contains($user); }
+
+
+    public function addMetadata(ThreadMetadata $meta): static
+    {
+        $meta->setThread($this);
+        $this->metadata->add($meta);
+        
+        return $this;
     }
 }

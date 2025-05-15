@@ -15,19 +15,23 @@
             <group>administration_order_show</group>
             <group>administration_user_show</group>
             <group>user_list</group>
+            <group>ajax_list_name</group>
         </attribute>
         <attribute name="abbreviation">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>
             <group>user_list</group>
+            <group>ajax_list</group>
         </attribute>
         <attribute name="responsible">
         </attribute>
         <attribute name="ISSN">
             <group>administration_order_show</group>
+            <group>ajax_list</group>
         </attribute>
         <attribute name="ISSNE">
+            <group>ajax_list</group>
         </attribute>
         <attribute name="frecuency">
         </attribute>

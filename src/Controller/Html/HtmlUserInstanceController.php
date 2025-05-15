@@ -24,19 +24,19 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Instance;
 use Celsius3\Form\Type\InstanceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
-
-/**
- * Change instance controller.
- * @Route("/user/instance/")
- */
+#[
+    Route("/user/instance"),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
 class HtmlUserInstanceController extends EntityController
 {
 
@@ -53,10 +53,10 @@ class HtmlUserInstanceController extends EntityController
     }
 
 
-    /**
-     * Change between intances.
-     * @Route("/{id}/change", name="user_change_context")
-     */
+    #[Route(
+        "/{id}/change",
+        name: 'user_change_context'
+    )]
     public function change(string $id): RedirectResponse
     {
         $instance = $this->findQuery($id);

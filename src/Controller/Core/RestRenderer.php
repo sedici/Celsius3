@@ -157,6 +157,7 @@ class RestRenderer extends BaseRenderer
             $value = $this->normalizer->normalize(
                 $element, 'array', ['groups' => ['ajax_list']]
             );
+
             $elementName = array_values(
                 $this->normalizer->normalize(
                     $element, 'array', ['groups' => ['ajax_list_name']]

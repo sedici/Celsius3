@@ -22,11 +22,11 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Repository\ThreadRepository;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 #[ORM\Table(name: "message_metadata", indexes: [
     new ORM\Index(name: "idx_message", columns: ["message_id"]),
     new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
@@ -51,4 +51,24 @@ class MessageMetadata
 
     #[ORM\Column(type: "boolean")]
     protected $isRead;
+
+
+    public function getId(): int
+    { return $this->id; }
+
+
+    public function getIsRead(): bool
+    { return $this->isRead; }
+
+
+    public function setIsRead(bool $isRead): static
+    { $this->isRead = $isRead; return $this; }
+
+
+    public function getParticipant(): BaseUser
+    { return $this->participant; }
+
+
+    public function setMessage(Message $message): static
+    { $this->message = $message; return $this; }
 }

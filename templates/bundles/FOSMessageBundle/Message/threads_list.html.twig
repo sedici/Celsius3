@@ -193,7 +193,7 @@
     <div class="list-group">
         {% for thread in threads %}
             <div id="id{{ thread.id }}"
-                 class="list-group-item row {{ fos_message_is_read(thread)?'message-read':'text-bold' }}">
+                 class="list-group-item row {{ thread.hasUnreadMessagesFor(user)?'message-read':'text-bold' }}">
                 <span class="col-md-1">
                     <input type="checkbox" name="threads[]" value="{{ thread.id }}" style="margin: 0px;"/>
                 </span>
@@ -202,7 +202,8 @@
                         {{ thread.lastMessage.sender.fullName | slice(0, 20) }}
                     </span>
                     <span class="message-subject col-md-6 autoellipsis">
-                        ({{ get_unread_messages(thread) }}) {{ thread.subject }}
+                        {# ({{ thread.getMessages()[0] }}) {{ thread.subject }} #}
+                        {{ thread.subject }}
                     </span>
                     <span class="col-md-3">
                         {{ thread.lastMessage.createdAt|localizeddate }}

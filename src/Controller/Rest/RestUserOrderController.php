@@ -99,6 +99,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
     #[Route(
+        '/new/ajax',
+        name: 'user_order_new_ajax',
+        methods: ['GET']
+    )]
+    public function newOrderAjax(): Response
+    {
+        return $this->restRenderer->ajax(
+            $this->requestStack->getCurrentRequest()
+        );
+    }
+
+
+    #[Route(
         '/count',
         name: 'user_rest_order_count_get',
         methods: ['GET']

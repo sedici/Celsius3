@@ -81,7 +81,7 @@ class State
 
     #[Assert\NotBlank]
     #[Assert\Type(type: "boolean")]
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column(name: "search_pending", type: "boolean")]
     // #[Groups(["administration_order_show"])]
     private bool $searchPending = false;
 

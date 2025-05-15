@@ -24,13 +24,12 @@ namespace Celsius3\Entity;
 
 use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
-use Celsius3\Repository\ThreadRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: ThreadRepository::class)]
+#[ORM\Entity(repositoryClass: BaseRepository::class)]
 #[ORM\Table(name: "message", indexes: [
     new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
     new ORM\Index(name: "idx_sender", columns: ["sender_id"])
@@ -93,4 +92,44 @@ class Message implements Notifiable
 
     public function getThread(): Thread
     { return $this->thread; }
+
+
+    public function isReadByParticipant(BaseUser $user): bool
+    {
+        return $this->getMetadata()->filter(
+            fn(MessageMetadata $m): bool => $m->getParticipant()->getId() === $user->getId()
+        )->first()->getIsRead();
+    }
+
+
+    public function setIsReadByParticipant(BaseUser $user, bool $isRead): static
+    {
+        $metadata = $this->getMetadata()->filter(
+            fn(MessageMetadata $m): bool =>
+                $m->getParticipant()->getId() === $user->getId()
+        )->first();
+        if ($metadata) {
+            $metadata->setIsRead($isRead);
+        }
+
+        return $this;
+    }
+
+
+    public function getMetadataForParticipant(BaseUser $user): ?MessageMetadata
+    {
+        return $this->getMetadata()->filter(
+            fn(MessageMetadata $m): bool =>
+                $m->getParticipant()->getId() === $user->getId()
+        )->first();
+    }
+
+
+    public function addMetadata(MessageMetadata $meta): static
+    {
+        $meta->setMessage($this);
+        $this->metadata->add($meta);
+
+        return $this;
+    }
 }
