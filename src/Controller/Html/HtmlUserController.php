@@ -61,7 +61,10 @@ class HtmlUserController extends UserController
     )]
     public function htmlIndex(): Response
     {
-        $last_messages = $this->threadRepository->findUserLastMessages($this->getUser(), 3);
+        $last_messages = $this->threadRepository
+            ->getParticipantThreadsQueryBuilder(
+                $this->getUser(), limit: 5
+            )->getQuery()->execute();
 
         $results_per_page_config = $this->configurationRepository->findOneBy(
             [

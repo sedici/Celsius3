@@ -23,21 +23,40 @@
 namespace Celsius3\Menu\Message;
 
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+
 
 class Builder
 {
-    use ContainerAwareTrait;
+    private FactoryInterface $factory;
 
-    public function messageMenu(FactoryInterface $factory)
+    public function __construct(FactoryInterface $factory)
     {
-        $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked');
+        $this->factory = $factory;
+    }
 
-        $menu->addChild('Inbox', array('route' => 'fos_message_inbox'))->setAttribute('class', 'fa fa-inbox');
-        $menu->addChild('Sent', array('route' => 'fos_message_sent'))->setAttribute('class', 'fa fa-inbox');
-        $menu->addChild('Trash', array('route' => 'fos_message_deleted'))->setAttribute('class', 'fa fa-inbox');
-
+    public function messageMenu(array $options = []): ItemInterface
+    {
+        $menu = $this->factory->createItem('root');
+        $menu->addChild('Inbox', ['route' => 'fos_message_inbox']);
         return $menu;
     }
 }
+
+// class Builder
+// {
+//     use ContainerAwareTrait;
+
+//     public function messageMenu(FactoryInterface $factory)
+//     {
+//         $menu = $factory->createItem('root');
+//         $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked');
+
+//         $menu->addChild('Inbox', array('route' => 'fos_message_inbox'))->setAttribute('class', 'fa fa-inbox');
+//         $menu->addChild('Sent', array('route' => 'fos_message_sent'))->setAttribute('class', 'fa fa-inbox');
+//         $menu->addChild('Trash', array('route' => 'fos_message_deleted'))->setAttribute('class', 'fa fa-inbox');
+
+//         return $menu;
+//     }
+// }

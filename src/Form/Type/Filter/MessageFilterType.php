@@ -23,51 +23,102 @@
 namespace Celsius3\Form\Type\Filter;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;           // ← antes era null
+use Symfony\Component\Form\Extension\Core\Type\DateType;           // ← cambia ligeramente la configuración
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;       // ← igual que antes
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MessageFilterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-                ->add('q', null, array(
-                    'required' => false,
-                    'label' => 'Content or participant',
-                ))
-                ->add('created_between', DateType::class, array(
-                    'required' => false,
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
-                    'attr' => array(
-                        'class' => 'date',
-                    ),
-                ))
-                ->add('and', DateType::class, array(
-                    'required' => false,
-                    'widget' => 'single_text',
-                    'format' => 'dd-MM-yyyy',
-                    'attr' => array(
-                        'class' => 'date',
-                    ),
-                ))
-                ->add('read', CheckboxType::class, array(
-                    'required' => false,
-                ))
-                ->add('unread', CheckboxType::class, array(
-                    'required' => false,
-                ))
+            ->add('q', TextType::class, [
+                'required' => false,
+                'label' => 'Content or participant',
+                'mapped' => false
+            ])
+
+            ->add('created_between', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => false,
+                'attr' => ['class' => 'date'],
+                'mapped' => false
+            ])
+
+            ->add('created_until', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'html5' => false,
+                'attr' => ['class' => 'date'],
+                'mapped' => false
+            ])
+
+            ->add('read', CheckboxType::class, [
+                'required' => false,
+                'mapped' => false
+            ])
+            ->add('unread', CheckboxType::class, [
+                'required' => false,
+                'mapped' => false
+            ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'csrf_protection' => false,
-            'validation_groups' => ['base_message_filter_type'],
-            'instance' => null,
-        ));
+        $resolver->setDefaults([
+            'csrf_protection'       => false,
+            'validation_groups'     => ['base_message_filter_type'],
+            'instance'              => null,
+        ]);
     }
 }
+
+// class MessageFilterType extends AbstractType
+// {
+//     public function buildForm(FormBuilderInterface $builder, array $options)
+//     {
+//         $builder
+//                 ->add('q', null, array(
+//                     'required' => false,
+//                     'label' => 'Content or participant',
+//                 ))
+//                 ->add('created_between', DateType::class, array(
+//                     'required' => false,
+//                     'widget' => 'single_text',
+//                     'format' => 'dd-MM-yyyy',
+//                     'attr' => array(
+//                         'class' => 'date',
+//                     ),
+//                 ))
+//                 ->add('and', DateType::class, array(
+//                     'required' => false,
+//                     'widget' => 'single_text',
+//                     'format' => 'dd-MM-yyyy',
+//                     'attr' => array(
+//                         'class' => 'date',
+//                     ),
+//                 ))
+//                 ->add('read', CheckboxType::class, array(
+//                     'required' => false,
+//                 ))
+//                 ->add('unread', CheckboxType::class, array(
+//                     'required' => false,
+//                 ))
+//         ;
+//     }
+
+//     public function configureOptions(OptionsResolver $resolver)
+//     {
+//         $resolver->setDefaults(array(
+//             'csrf_protection' => false,
+//             'validation_groups' => ['base_message_filter_type'],
+//             'instance' => null,
+//         ));
+//     }
+// }

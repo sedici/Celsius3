@@ -19,14 +19,15 @@ class ThreadRepository extends BaseRepository
     public function getParticipantThreadsQueryBuilder(
         BaseUser $participant,
         ?bool $isDeleted = null,
-        ?bool $sentByParticipant = null
+        ?bool $sentByParticipant = null,
+        ?int $limit = null
     ): QueryBuilder {
         $qb = $this->createQueryBuilder('t')
             ->innerJoin('t.metadata', 'tm')
-            ->innerJoin('tm.participant', 'p')
-            ->where('p = :user_id')
+            // ->innerJoin('tm.participant', 'p')
+            ->where('tm.participant = :user_id')
             ->setParameter('user_id', $participant->getId())
-            ->orderBy('t.lastMessageDate', 'DESC');
+            ->orderBy('tm.lastMessageDate', 'DESC');
         
         $qb = ($isDeleted === null)
             ? $qb
@@ -35,8 +36,12 @@ class ThreadRepository extends BaseRepository
         
         $qb = ($sentByParticipant === null)
             ? $qb
-            : $qb->andWhere('t.isSender = :sentByParticipant')
-                ->setParameter('sentByParticipant', $sentByParticipant, \PDO::PARAM_BOOL);
+            : $qb->andWhere('t.createdBy ' . ($sentByParticipant ? '=' : '<>') . ' :user_id');
+                // ->setParameter('sentByParticipant', $sentByParticipant, \PDO::PARAM_BOOL);
+
+        $qb = ($limit === null)
+            ? $qb
+            : $qb->setMaxResults($limit);
 
         return $qb;
     }

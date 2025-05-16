@@ -90,7 +90,7 @@ class ThreadRepository extends EntityRepository
             ->setParameter('id', $user->getId());
     }
 
-    public function findUserLastMessages(BaseUser $user)
+    public function findUserLastMessages(BaseUser $user, int $limit = 3): QueryBuilder
     {
         return $this->createQueryBuilder('t')
             ->join('t.metadata', 'tm')

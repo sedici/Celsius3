@@ -222,6 +222,12 @@ services:
             - { name: knp_menu.menu_builder, method: publicMenu, alias: public }
             - { name: knp_menu.menu_builder, method: directoryMenu, alias: directory }
 
+    celsius3_message_menu_builder:
+        class: Celsius3\Menu\Message\Builder
+        arguments: [ "@knp_menu.factory" ]
+        tags:
+            - { name: knp_menu.menu_builder, method: messageMenu, alias: messageMenu }
+
     Celsius3\EventListener\SecurityListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

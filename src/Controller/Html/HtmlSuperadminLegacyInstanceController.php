@@ -41,6 +41,7 @@ class HtmlSuperadminLegacyInstanceController extends InstanceController
         parent::initialize();
         $this->htmlRenderer->setTemplatePrefix('Superadmin/LegacyInstance/');
         $this->setType(LegacyInstanceType::class);
+        $this->setInstanceDependent(false);
     }
 
 

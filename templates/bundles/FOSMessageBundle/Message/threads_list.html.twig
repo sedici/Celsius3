@@ -193,7 +193,7 @@
     <div class="list-group">
         {% for thread in threads %}
             <div id="id{{ thread.id }}"
-                 class="list-group-item row {{ thread.hasUnreadMessagesFor(user)?'message-read':'text-bold' }}">
+                 class="list-group-item row {{ thread.isReadByParticipant(user)?'message-read':'text-bold' }}">
                 <span class="col-md-1">
                     <input type="checkbox" name="threads[]" value="{{ thread.id }}" style="margin: 0px;"/>
                 </span>

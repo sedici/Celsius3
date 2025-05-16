@@ -43,92 +43,85 @@ use Symfony\Component\Routing\Annotation\Route;
     )]
     public function inboxAction(): Response
     {
-        // throw new \Exception((string)var_dump());
+        $user = $this->getUser();
 
-        // $threads = $this->threadController->getUserThreads(
-        //     $this->entityManager->getRepository(BaseUser::class)->find(634)
-        // );
-
-        // $threads = $this->getProvider()->getInboxThreadsQuery();
-
-        // throw new \Exception((string)var_dump($this->listQuery()->getQuery()->execute()));
+        $threads = $this->paginator->paginate(
+            $this->threadRepository->getParticipantThreadsQueryBuilder(
+                $user
+            )->getQuery()->execute()
+        );
 
 
         return $this->htmlRenderer->render(
             'inbox',
             array_merge(
-                $this->index(hasFilterForm: false, isInstanceDependent: false),
-                [ 'threads' => $this->threadRepository->getParticipantInboxThreadsQueryBuilder(
-                    $this->entityManager->getRepository(BaseUser::class)->find(634)
-                )->getQuery()->execute() ]
+                $this->index(),
+                [ 
+                    'threads' => $threads,
+                    'user' => $user
+                ]
                 // getProvider()->getInboxThreadsQuery()
             )
         );
+    }
 
-        $filter_form = $this->createForm(MessageFilterType::class);
 
-        $request = $this->requestStack->getCurrentRequest();
+    #[Route(
+        '/sent',
+        name: 'fos_message_sent',
+        methods: ['GET']
+    )]
+    public function sentAction(): Response
+    {
+        $user = $this->getUser();
 
-        $pagination = $this->paginator->paginate($threads);
+        $threads = $this->paginator->paginate(
+            $this->threadRepository->getParticipantThreadsQueryBuilder(
+                $user, sentByParticipant: true
+            )->getQuery()->execute()
+        );
+
 
         return $this->htmlRenderer->render(
             'inbox',
-            [
-                'threads' => $pagination,
-                'filter_form' => $filter_form->createView(),
-            ]
+            array_merge(
+                $this->index(),
+                [ 
+                    'threads' => $threads,
+                    'user' => $user
+                ]
+                // getProvider()->getInboxThreadsQuery()
+            )
         );
     }
 
 
-    /**
-     * Displays the authenticated participant sent mails.
-     * @Route("/sent", name="fos_message_sent")
-     */
-    public function sentAction(): Response
-    {
-        $threads = $this->getProvider()->getSentThreadsQuery();
-
-        $filter_form = $this->createForm(MessageFilterType::class);
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        $pagination = $this->paginator->paginate(
-            $threads,
-            $request->query->get('page', 1),
-            $this->getResultsPerPage()
-        );
-
-        return $this->htmlRenderer->render(
-            'sent',
-            [
-                'threads' => $pagination,
-                'filter_form' => $filter_form->createView(),
-            ]
-        );
-    }
-
-
-    /**
-     * Displays the authenticated participant deleted threads.
-     * @Route("/deleted", name="fos_message_deleted")
-     */
+    #[Route(
+        '/deleted',
+        name: 'fos_message_deleted',
+        methods: ['GET']
+    )]
     public function deletedAction(): Response
     {
-        $threads = $this->getProvider()->getDeletedThreads();
+        $user = $this->getUser();
 
-        $filter_form = $this->createForm(MessageFilterType::class);
-        
-        $request = $this->requestStack->getCurrentRequest();
+        $threads = $this->paginator->paginate(
+            $this->threadRepository->getParticipantThreadsQueryBuilder(
+                $user, true
+            )->getQuery()->execute()
+        );
 
-        $pagination = $this->paginator->paginate($threads);
 
         return $this->htmlRenderer->render(
-            'deleted',
-            [
-                'threads' => $pagination,
-                'filter_form' => $filter_form->createView(),
-            ]
+            'inbox',
+            array_merge(
+                $this->index(),
+                [ 
+                    'threads' => $threads,
+                    'user' => $user
+                ]
+                // getProvider()->getInboxThreadsQuery()
+            )
         );
     }
 

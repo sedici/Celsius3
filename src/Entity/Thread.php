@@ -53,6 +53,10 @@ class Thread
     #[ORM\Column(name: "created_at", type: "datetime")]
     protected \DateTime $createdAt;
 
+
+    #[ORM\Column(name: "subject", type: "string", length: 255)]
+    protected string $subject;
+
     // --- campos inversos (no se guardan en esta tabla) ---
 
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "thread", fetch: "EXTRA_LAZY")]
@@ -96,6 +100,25 @@ class Thread
 
     public function getCreatedBy(): BaseUser
     { return $this->createdBy; }
+
+
+    public function getSubject(): string
+    { return $this->subject; }
+
+
+    public function getLastMessage(): ?Message
+    {
+        return ($this->getId() !== null) // Ensure thread is persisted and has an ID
+            ? $this->messages->reduce(fn (?Message $carry, Message $message) =>
+                ($carry === null)
+                    ? $message
+                    : ( ($message->getCreatedAt() > $carry->getCreatedAt()) // Explicitly group the nested ternary
+                        ? $message
+                        : $carry
+                    )
+            )
+            : null;
+    }
 
 
     public function isReadByParticipant(BaseUser $user): bool

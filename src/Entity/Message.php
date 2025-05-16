@@ -26,6 +26,7 @@ use Celsius3\Entity\Notifiable;
 use Celsius3\Manager\NotificationManager;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -53,6 +54,10 @@ class Message implements Notifiable
     protected BaseUser $sender;
 
 
+    #[ORM\Column(name: "created_at", type: 'datetime')]
+    protected \DateTime $createdAt;
+
+
     // --- campos inversos (no se guardan en esta tabla) ---
 
 
@@ -69,6 +74,10 @@ class Message implements Notifiable
 
     public function getId(): ?int
     { return $this->id; }
+
+
+    public function getCreatedAt(): \DateTime
+    { return $this->createdAt; }
 
 
     public function notify(NotificationManager $manager): void
@@ -96,9 +105,11 @@ class Message implements Notifiable
 
     public function isReadByParticipant(BaseUser $user): bool
     {
-        return $this->getMetadata()->filter(
+        $metadata = $this->getMetadata()->filter(
             fn(MessageMetadata $m): bool => $m->getParticipant()->getId() === $user->getId()
-        )->first()->getIsRead();
+        )->first();
+
+        return $metadata ? $metadata->getIsRead() : false;
     }
 
 

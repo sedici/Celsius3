@@ -52,8 +52,20 @@ class ThreadMetadata
     protected BaseUser $participant;
 
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, name: "last_message_date")]
+    #[ORM\Column(
+        type: Types::DATETIME_MUTABLE,
+        name: "last_message_date",
+        nullable: true
+    )]
     protected ?\DateTime $lastMessageDate;
+
+
+    #[ORM\Column(
+        type: Types::DATETIME_MUTABLE,
+        name: "last_participant_message_date",
+        nullable: true
+    )]
+    protected ?\DateTime $lastParticipantMessageDate;
 
 
     #[ORM\Column(name: 'is_deleted', type: 'boolean')]

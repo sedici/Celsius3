@@ -23,30 +23,30 @@
 
         <!-- messages.html -->
         <script type="text/ng-template" id="messages.html?{{ assets_version('user') }}">
-            {% verbatim %}
             <div class="col-md-12">
-                <h2>{{'lastMessages'|trans}}</h2>
+                <h2>{{ 'lastMessages'|trans }}</h2>
                 <hr class="separator_hr">
                 <div class="user-message-actions">
                     <a class="btn btn-primary" href="{{ url('fos_message_thread_new') }}">
-                        <span class="glyphicon glyphicon-envelope"></span> {{'new'|trans}}
+                        <span class="glyphicon glyphicon-envelope"></span> {{ 'new'|trans }}
                     </a>
                     <a class="btn btn-default" href="{{ url('fos_message_inbox') }}">
-                        <span class="glyphicon glyphicon-inbox"></span> {{'all'|trans}}
+                        <span class="glyphicon glyphicon-inbox"></span> {{ 'all'|trans }}
                     </a>
                 </div>
                 <div class="clearfix"></div>
                 <br />
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="thread in threads">
-                        <a href="{{ url('fos_message_thread_view', {'threadId': thread.id} ) }}">
-                            <span class="label label-default">{{ thread.createdBy.fullName }}</span>
-                            {{ thread.subject }}
-                        </a>
-                    </li>
+                    {% for thread in lastMessages %}
+                        <li class="list-group-item">
+                            <a href="{{ url('fos_message_thread_view', {'threadId': thread.id} ) }}">
+                                <span class="label label-default">{{ thread.createdBy.fullName }}</span>
+                                {{ thread.subject }}
+                            </a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
-            {% endverbatim %}
         </script>
 
         <!-- orders.html -->
