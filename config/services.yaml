@@ -310,12 +310,12 @@ services:
 #        tags:
 #            - { name: doctrine.event_listener, event: postPersist }
 #        arguments: ['@celsius3_core.configuration_helper']
-    Celsius3\Listener\OrderListener:
+    # Celsius3\Listener\OrderListener:
 
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: postPersist }
-            - { name: doctrine.event_listener, event: postUpdate }
+    #     tags:
+    #         - { name: doctrine.event_listener, event: prePersist }
+    #         - { name: doctrine.event_listener, event: postPersist }
+    #         - { name: doctrine.event_listener, event: postUpdate }
 #    celsius3_core.search_event_listener:
 #        class: Celsius3\CoreBundle\Listener\SearchEventListener
 #        tags:

@@ -26,33 +26,44 @@ use Celsius3\Entity\Counter;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Order;
 use Celsius3\Exception\Exception;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Events;
 
+
+#[AsDoctrineListener(Events::prePersist)]
+#[AsDoctrineListener(Events::postPersist)]
 class CounterListener
 {
+    public function __construct
+    (
+        private EntityManagerInterface $entityManager
+    ) {}
+
+
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
-        $em = $entity->getEntityManager();
 
-        throw new \Exception((string) var_dump($entity));
+        // throw new \Exception((string) var_dump($entity));
 
         if ($entity instanceof Order) {
-            $em->getConnection()->beginTransaction();
+            $this->entityManager->getConnection()->beginTransaction();
             try {
-                $code = $em->getRepository(Counter::class)
-                        ->findOneBy(array(
-                    'name' => $entity->getOriginalRequest()->getInstance()->getId(),
-                ));
+                $code = $this->entityManager->getRepository(Counter::class)
+                    ->findOneBy([
+                        'name' => $entity->getOriginalRequest()->getInstance()->getId(),
+                    ]);
                 $entity->setCode($code->getValue());
 
                 $code->setValue($code->getValue() + 1);
-                $em->persist($code);
+                $this->entityManager->persist($code);
 
-                $em->getConnection()->commit();
+                $this->entityManager->getConnection()->commit();
             } catch (\Exception $e) {
-                $em->getConnection()->rollback();
+                $this->entityManager->getConnection()->rollback();
                 throw $e;
             }
         }
@@ -61,14 +72,14 @@ class CounterListener
     public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
-        $em = $entity->getEntityManager();
+        $em = $this->entityManager;
 
         if ($entity instanceof Instance) {
             $counter = new Counter();
             $counter->setName($entity->getId());
             $counter->setValue(1);
             $em->persist($counter);
-            $em->flush($counter);
+            $em->flush();
         }
     }
 }

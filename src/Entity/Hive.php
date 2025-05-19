@@ -43,8 +43,8 @@ class Hive
 {
     use TimestampableEntity;
 
-    #[ORM\Column(type: "integer")]
     #[ORM\Id]
+    #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy: "AUTO")]
     // #[Groups([
     //     "administration_order_show",

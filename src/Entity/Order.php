@@ -108,33 +108,33 @@ class Order
 
     // ----
 
-    #[ORM\PrePersist]
-    public function prePersist(PrePersistEventArgs $prePersistEventArgs): void
-    {
-        $this->getOriginalRequest()->setOrder($this);
+    // #[ORM\PrePersist]
+    // public function prePersist(PrePersistEventArgs $prePersistEventArgs): void
+    // {
+    //     $this->getOriginalRequest()->setOrder($this);
 
-        $em = $prePersistEventArgs->getEntityManager();
+    //     $em = $prePersistEventArgs->getEntityManager();
 
-        $em->getConnection()->beginTransaction();
+    //     $em->getConnection()->beginTransaction();
 
-        try {
-            $code = $em->getRepository(Counter::class)
-                ->findOneBy([
-                    'name' => $this->getOriginalRequest()->getInstance()->getId(),
-                ]);
-            // throw new \Exception((string) var_dump($em->getRepository(Counter::class)->findAll()));
-            // throw new \Exception((string) var_dump($code));
-            $this->setCode($code->getValue());
+    //     try {
+    //         $code = $em->getRepository(Counter::class)
+    //             ->findOneBy([
+    //                 'name' => $this->getOriginalRequest()->getInstance()->getId(),
+    //             ]);
+    //         // throw new \Exception((string) var_dump($em->getRepository(Counter::class)->findAll()));
+    //         // throw new \Exception((string) var_dump($code));
+    //         $this->setCode($code->getValue());
 
-            $code->setValue($code->getValue() + 1);
-            $em->persist($code);
+    //         $code->setValue($code->getValue() + 1);
+    //         $em->persist($code);
 
-            $em->getConnection()->commit();
-        } catch (\Exception $e) {
-            $em->getConnection()->rollback();
-            throw $e;
-        }
-    }
+    //         $em->getConnection()->commit();
+    //     } catch (\Exception $e) {
+    //         $em->getConnection()->rollback();
+    //         throw $e;
+    //     }
+    // }
 
     // ----
 

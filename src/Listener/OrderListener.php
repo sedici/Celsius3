@@ -22,11 +22,8 @@
 
 namespace Celsius3\Listener;
 
-use Celsius3\Entity\BaseUser;
-use Celsius3\Entity\Event\CreationEvent;
 use Celsius3\Entity\Order;
 use Celsius3\Entity\Request;
-use Celsius3\Entity\State;
 use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
@@ -35,14 +32,11 @@ use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Proxy;
-
-use function PHPUnit\Framework\isInstanceOf;
-
-//use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
-//use  FOS\ElasticaBundle\Persister;
 
 
+#[AsDoctrineListener(Events::prePersist)]
+#[AsDoctrineListener(Events::postPersist)]
+#[AsDoctrineListener(Events::postUpdate)]
 class OrderListener
 {
 
@@ -53,7 +47,7 @@ class OrderListener
     ) {}
 
 
-    #[AsDoctrineListener(Events::prePersist)]
+    // #[AsDoctrineListener(Events::prePersist)]
     public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -63,21 +57,23 @@ class OrderListener
     }
 
 
-    #[AsDoctrineListener(Events::postPersist)]
+    // #[AsDoctrineListener(Events::postPersist)]
     public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof Order) return;
+        if (!$entity instanceof Request) return;
 
-        $request = $entity->getOriginalRequest();
-        if ($request === null) return;
+        // if (!$entity instanceof Order) return;
+
+        // $request = $entity->getOriginalRequest();
+        // if ($entity === null) return;
         
-        $instance = $request->getInstance();
+        $instance = $entity->getInstance();
         
         $event = $this->lifecycleHelper->createEvent(
             EventManager::EVENT__CREATION,
-            $request,
+            $entity,
             $instance,
         );
         // throw new \Exception((string)var_dump($event));
@@ -87,7 +83,7 @@ class OrderListener
     }
 
 
-    #[AsDoctrineListener(Events::postUpdate)]
+    // #[AsDoctrineListener(Events::postUpdate)]
     public function postUpdate(PostUpdateEventArgs $args): void
     {
         $entity = $args->getObject();

@@ -409,20 +409,21 @@ class EventManager
                 self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL;
     }
 
-    public function prepareExtraData($event, Request $request, Instance $instance)
+    public function prepareExtraData($event, Request $request, Instance $instance): ?array
     {
-        switch ($event) {
-            case 'search': return $this->prepareExtraDataForSearch(); break;
-            case 'request': return $this->prepareExtraDataForRequest(); break;
-            case 'receive': return $this->prepareExtraDataForReceive($request); break;
-            case 'deliver': return $this->prepareExtraDataForDeliver(); break;
-            case 'upload': return $this->prepareExtraDataForUpload(); break;
-            case 'reupload': return $this->prepareExtraDataForReupload(); break;
-            case 'approve': return $this->prepareExtraDataForApprove(); break;
-            case 'reclaim': return $this->prepareExtraDataForReclaim(); break;
-            case 'cancel': return $this->prepareExtraDataForCancel($request, $instance); break;
-            case 'annul': return $this->prepareExtraDataForAnnul($request, $instance); break;
-        }
+        return match ($event) {
+            self::EVENT__SEARCH => $this->prepareExtraDataForSearch(),
+            self::EVENT__REQUEST => $this->prepareExtraDataForRequest(),
+            self::EVENT__RECEIVE => $this->prepareExtraDataForReceive($request),
+            self::EVENT__DELIVER => $this->prepareExtraDataForDeliver(),
+            self::EVENT__UPLOAD => $this->prepareExtraDataForUpload(),
+            self::EVENT__REUPLOAD => $this->prepareExtraDataForReupload(),
+            self::EVENT__APPROVE => $this->prepareExtraDataForApprove(),
+            self::EVENT__RECLAIM => $this->prepareExtraDataForReclaim(),
+            self::EVENT__CANCEL => $this->prepareExtraDataForCancel($request, $instance),
+            self::EVENT__ANNUL => $this->prepareExtraDataForAnnul($request, $instance),
+            default => null,
+        };
     }
 
     public function cancelRequests(array $requests, HttpRequest $httpRequest)

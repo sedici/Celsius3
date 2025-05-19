@@ -76,7 +76,6 @@ class LifecycleHelper
         // $this->entityManager->clear();
         $this->entityManager->getConnection()->beginTransaction();
 
-
         // try {
             $data = $this->preValidate($name, $request, $instance);
 
@@ -96,7 +95,7 @@ class LifecycleHelper
             
             $this->entityManager->persist($request);
             $this->entityManager->persist($event);
-
+            
             $this->entityManager->flush();
 
             $this->entityManager->getConnection()->commit();
@@ -118,7 +117,8 @@ class LifecycleHelper
         $session_instance = $this->instanceHelper->getSessionInstance();
         $request_instance = $request->getInstance();
 
-        $instance = $instance ?? ($name !== EventManager::EVENT__CREATION ? $session_instance : $request_instance);
+        // $instance ??= $name !== EventManager::EVENT__CREATION ? $session_instance : $request_instance;
+        $instance ??= $name !== EventManager::EVENT__CREATION ? $session_instance : $request_instance;
         $extra_data = $this->eventManager->prepareExtraData($name, $request, $instance);
         $event_name = $this->eventManager->getRealEventName($name, $extra_data, $instance, $request);
         $data = [
@@ -210,6 +210,9 @@ class LifecycleHelper
             $this,
             $data['date']
         );
+
+        throw new \Exception((string) var_dump($request->getInstance()) . ' ' . var_dump($data['instance']));
+
 
         $this->entityManager->persist($state);
         $this->entityManager->persist($event);

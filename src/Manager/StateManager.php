@@ -281,7 +281,7 @@ class StateManager
         return new NotFoundException($message, $previous);
     }
 
-    public function getStateForEvent($event)
+    public function getStateForEvent(string $event)
     {
         if (!array_key_exists($event, $this->event_manager->event_classes)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');

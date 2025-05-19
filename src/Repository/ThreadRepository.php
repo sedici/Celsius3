@@ -29,18 +29,15 @@ class ThreadRepository extends BaseRepository
             ->setParameter('user_id', $participant->getId())
             ->orderBy('tm.lastMessageDate', 'DESC');
         
-        $qb = ($isDeleted === null)
-            ? $qb
+        $qb = ($isDeleted === null) ? $qb
             : $qb->andWhere('tm.isDeleted = :isDeleted')
                 ->setParameter('isDeleted', $isDeleted, \PDO::PARAM_BOOL);
         
-        $qb = ($sentByParticipant === null)
-            ? $qb
+        $qb = ($sentByParticipant === null) ? $qb
             : $qb->andWhere('t.createdBy ' . ($sentByParticipant ? '=' : '<>') . ' :user_id');
                 // ->setParameter('sentByParticipant', $sentByParticipant, \PDO::PARAM_BOOL);
 
-        $qb = ($limit === null)
-            ? $qb
+        $qb = ($limit === null) ? $qb
             : $qb->setMaxResults($limit);
 
         return $qb;
