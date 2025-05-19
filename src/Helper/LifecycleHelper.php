@@ -211,9 +211,6 @@ class LifecycleHelper
             $data['date']
         );
 
-        throw new \Exception((string) var_dump($request->getInstance()) . ' ' . var_dump($data['instance']));
-
-
         $this->entityManager->persist($state);
         $this->entityManager->persist($event);
 
