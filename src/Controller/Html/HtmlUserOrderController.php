@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
 use Celsius3\Manager\MaterialTypeManager;
 use Celsius3\Manager\UserManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;

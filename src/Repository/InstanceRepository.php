@@ -36,6 +36,29 @@ class InstanceRepository extends ServiceEntityRepository implements InstanceRepo
         parent::__construct($registry, Instance::class);
     }
 
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?object
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        // Construye los criterios dinámicamente
+        $paramCount = 0;
+        foreach ($criteria as $field => $value) {
+            $param = ":param_$paramCount";
+            $qb->andWhere("e.$field = $param")
+               ->setParameter($param, $value);
+            $paramCount++;
+        }
+
+        // Añade ordenamiento si existe
+        if ($orderBy) {
+            foreach ($orderBy as $field => $direction) {
+                $qb->addOrderBy("e.$field", $direction);
+            }
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function findBaseDoUnionEntities($main, $ids)
     {
         return $this->createQueryBuilder('e')

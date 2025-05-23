@@ -157,9 +157,9 @@ services:
         class: Monolog\Handler\StreamHandler
         arguments: [ "%kernel.logs_dir%/%kernel.environment%.mailer.log", 400 ]
 
-    Celsius3\EventListener\LoginListener:
-        tags:
-            - { name: kernel.event_listener, event: security.authentication.success, method: onSecurityInteractiveLogin }
+    # Celsius3\EventListener\LoginListener:
+    #     tags:
+    #         - { name: kernel.event_listener, event: security.authentication.success, method: onSecurityInteractiveLogin }
 
     # Usado temporalmente para corregir error de migración a Symfony3
     fos_user.doctrine_registry:

@@ -22,22 +22,39 @@
 
 namespace Celsius3\EventListener;
 
+use Celsius3\Entity\BaseUser;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use function PHPUnit\Framework\isInstanceOf;
 
+#[AsEventListener(
+    event: AuthenticationSuccessEvent::class,
+    method: 'onSecurityInteractiveLogin'
+)]
 class LoginListener
 {
-    private $session;
 
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
+    protected $userRepository;
+
+    public function __construct(
+        protected SessionInterface $session,
+        protected EntityManagerInterface $entityManager
+    ) {
+        $this->userRepository = $this->entityManager
+            ->getRepository(BaseUser::class);
     }
 
-    public function onSecurityInteractiveLogin(AuthenticationSuccessEvent $event)
+    public function onSecurityInteractiveLogin(AuthenticationSuccessEvent $event): void
     {
         $user = $event->getAuthenticationToken()->getUser();
+        $user = ($user instanceof BaseUser)
+            ? $this->userRepository->find($user->getId())
+            : null;
+        if (!$user) throw new \Exception('User not found');
         dump($user);
         dump('si paso por acá');
         if ($user instanceof UserInterface) {

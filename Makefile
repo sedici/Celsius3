@@ -2,11 +2,11 @@ dockname := $(shell grep 'name:' docker-compose.yaml | awk '{print $$2}')
 args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
 all: build install
-install: start/d deps postbuild
-deps: composer/install npm/install encore
+install: composer/install npm/install encore # Tiene que estar corriendo para ejecutar esto
 postbuild: elastica/populate
 
-clean: clean/nmodules clean/pbuild clean/jsonpkgs clean/vendor
+clean/all: clean/nmodules clean/pbuild clean/jsonpkgs clean/vendor clean/php-cache
+
 
 build:
 	@docker compose build --no-cache
@@ -18,7 +18,10 @@ start/d:
 	@docker compose up -d
 
 stop:
-	@docker compose stop
+	@docker compose down
+
+
+# ------- CLEAN COMMANDS -------
 
 clean/nmodules:
 	@sudo rm -rf ./node_modules
@@ -35,23 +38,35 @@ clean/vendor:
 clean/php-cache:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console cache:clear
 
+
+# ------- DEPENDENCIES COMMANDS -------
+
 composer/install:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 composer install
 
 npm/install:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-node-1 npm install
 
+encore:
+	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console assets:install
+    @docker exec --user $(id -u):$(id -g) $(dockname)-node-1 npm run encore dev
+
+
+# ------- DATABASE COMMANDS -------
+
 database:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:drop --force
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:create
 	@docker exec -i $(dockname)-bd-1 sh -c 'exec mysql -ucelsius3_usr -pcelsius3_pass celsius3' < .docker/mysql/celsius3.sql
 
-encore:
-	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console assets:install
-    @docker exec --user $(id -u):$(id -g) $(dockname)-node-1 npm run encore dev
+
+# ------- TEST COMMANDS -------
 
 tests:
 	@docker exec $(dockname)-php-1 php vendor/phpunit/phpunit/phpunit --bootstrap ./tests/bootstrap.php --configuration ./phpunit.xml.dist ./tests
+
+
+# ------- DOCKER COMMANDS -------
 
 ps:
 	@docker ps --filter name=$(dockname)* --format "table {{.Image}}\\t{{.Ports}}\\t{{.Names}}"
@@ -72,8 +87,14 @@ rmi:
 dx:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-$(args)-1 bash
 
+
+# ------- ELASTICSEARCH COMMANDS -------
+
 elastica/populate:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console fos:elastica:populate
+
+
+# ------- ENVIRONMENT COMMANDS -------
 
 env:
 	@./env-handler.sh $(args)

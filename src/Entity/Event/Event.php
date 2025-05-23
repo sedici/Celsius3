@@ -29,6 +29,8 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\Request;
 use Celsius3\Entity\State;
 use Celsius3\Helper\LifecycleHelper;
+use Celsius3\Manager\EventManager;
+use Celsius3\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -39,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: 'Celsius3\Repository\EventRepository')]
+#[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\Table(name: 'event', indexes: [
     new ORM\Index(name: 'idx_request', columns: ['request_id']),
     new ORM\Index(name: 'idx_operator', columns: ['operator_id']),
@@ -49,28 +51,51 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+// #[ORM\DiscriminatorMap([
+//     'creation' => CreationEvent::class,
+//     'search' => SearchEvent::class,
+//     'sirequest' => SingleInstanceRequestEvent::class,
+//     'cancel' => CancelEvent::class,
+//     'annul' => AnnulEvent::class,
+//     'sireceive' => SingleInstanceReceiveEvent::class,
+//     'mireceive' => MultiInstanceReceiveEvent::class,
+//     'mirequest' => MultiInstanceRequestEvent::class,
+//     'deliver' => DeliverEvent::class,
+//     'localcancel' => LocalCancelEvent::class,
+//     'remotecancel' => RemoteCancelEvent::class,
+//     'reclaim' => ReclaimEvent::class,
+//     'approve' => ApproveEvent::class,
+//     'undo' => UndoEvent::class,
+//     'si' => SingleInstanceEvent::class,
+//     'mi' => MultiInstanceEvent::class,
+//     'take' => TakeEvent::class,
+//     'upload' => UploadEvent::class,
+//     'reupload' => ReuploadEvent::class,
+//     'searchpendings' => SearchPendingsEvent::class,
+//     'nosearchpendings' => NoSearchPendingsEvent::class,
+// ])]
 #[ORM\DiscriminatorMap([
-    'creation' => CreationEvent::class,
-    'search' => SearchEvent::class,
-    'sirequest' => SingleInstanceRequestEvent::class,
-    'cancel' => CancelEvent::class,
-    'annul' => AnnulEvent::class,
-    'sireceive' => SingleInstanceReceiveEvent::class,
-    'mireceive' => MultiInstanceReceiveEvent::class,
-    'mirequest' => MultiInstanceRequestEvent::class,
-    'deliver' => DeliverEvent::class,
-    'localcancel' => LocalCancelEvent::class,
-    'remotecancel' => RemoteCancelEvent::class,
-    'reclaim' => ReclaimEvent::class,
-    'approve' => ApproveEvent::class,
-    'undo' => UndoEvent::class,
-    'si' => SingleInstanceEvent::class,
-    'mi' => MultiInstanceEvent::class,
-    'take' => TakeEvent::class,
-    'upload' => UploadEvent::class,
-    'reupload' => ReuploadEvent::class,
-    'searchpendings' => SearchPendingsEvent::class,
-    'nosearchpendings' => NoSearchPendingsEvent::class,
+    EventManager::EVENT__CREATION                       => CreationEvent::class,
+    EventManager::EVENT__SEARCH                         => SearchEvent::class,
+    EventManager::EVENT__SINGLE_INSTANCE_REQUEST        => SingleInstanceRequestEvent::class,
+    EventManager::EVENT__CANCEL                         => CancelEvent::class,
+    EventManager::EVENT__ANNUL                          => AnnulEvent::class,
+    EventManager::EVENT__SINGLE_INSTANCE_RECEIVE        => SingleInstanceReceiveEvent::class,
+    EventManager::EVENT__MULTI_INSTANCE_RECEIVE         => MultiInstanceReceiveEvent::class,
+    EventManager::EVENT__MULTI_INSTANCE_REQUEST         => MultiInstanceRequestEvent::class,
+    EventManager::EVENT__DELIVER                        => DeliverEvent::class,
+    EventManager::EVENT__LOCAL_CANCEL                   => LocalCancelEvent::class,
+    EventManager::EVENT__REMOTE_CANCEL                  => RemoteCancelEvent::class,
+    EventManager::EVENT__RECLAIM                        => ReclaimEvent::class,
+    EventManager::EVENT__APPROVE                        => ApproveEvent::class,
+    EventManager::EVENT__TAKE                           => TakeEvent::class,
+    EventManager::EVENT__UPLOAD                         => UploadEvent::class,
+    EventManager::EVENT__REUPLOAD                       => ReuploadEvent::class,
+    EventManager::EVENT__SEARCH_PENDINGS                => SearchPendingsEvent::class,
+    EventManager::EVENT__NO_SEARCH_PENDINGS             => NoSearchPendingsEvent::class,
+    'undo'                                              => UndoEvent::class,
+    'si'                                                => SingleInstanceEvent::class,
+    'mi'                                                => MultiInstanceEvent::class,
 ])]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
 abstract class Event implements EventInterface
@@ -90,15 +115,15 @@ abstract class Event implements EventInterface
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events')]
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'request_id', referencedColumnName: 'id', nullable: false)]
     // #[Groups(['administration_order_show'])]
     private Request $request;
 
 
-    #[ORM\ManyToOne(targetEntity: BaseUser::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'events', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
-    private BaseUser $operator;
+    private ?BaseUser $operator;
 
 
     #[Assert\NotNull]
@@ -112,7 +137,7 @@ abstract class Event implements EventInterface
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events')]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private Instance $instance;
 

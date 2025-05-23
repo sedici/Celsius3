@@ -110,11 +110,11 @@ class State
     private Instance $instance;
 
 
-    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: "state", cascade: ["persist"], fetch: "EXTRA_LAZY")]
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: "state", cascade: ["persist"])]
     private Collection $events;
 
 
-    #[ORM\OneToMany(targetEntity: MultiInstanceReceiveEvent::class, mappedBy: "remoteState", fetch: "EXTRA_LAZY")]
+    #[ORM\OneToMany(targetEntity: MultiInstanceReceiveEvent::class, mappedBy: "remoteState")]
     private Collection $remoteEvents;
 
 

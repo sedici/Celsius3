@@ -92,7 +92,7 @@ class LegacyInstance
     protected bool $enabled = true;
 
 
-    #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances")]
+    #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances", fetch: "EAGER")]
     #[ORM\JoinColumn(name: "hive_id", referencedColumnName: "id")]
     // #[Groups(["administration_order_show"])]
     protected ?Hive $hive;

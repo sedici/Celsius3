@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Helper;
 
 use Celsius3\Entity\BaseUser;
+use Celsius3\Entity\Event\CreationEvent;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Event\SearchEvent;
 use Celsius3\Entity\Event\UndoEvent;
@@ -37,6 +38,7 @@ use Celsius3\Exception\Exception;
 use Celsius3\Manager\EventManager;
 use Celsius3\Manager\FileManager;
 use Celsius3\Manager\StateManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
@@ -45,6 +47,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 use function array_key_exists;
 use function count;
+
 
 class LifecycleHelper
 {
@@ -58,6 +61,40 @@ class LifecycleHelper
         private TokenStorageInterface $securityTokenStorage,
         private LoggerInterface $logger
     ) {}
+
+
+    public function listarEntidadesGestionadas(EntityManagerInterface $em): void
+    {
+        $unitOfWork = $em->getUnitOfWork();
+
+        // Obtiene el mapa de identidad: array con todas las entidades gestionadas agrupadas por clase
+        $identityMap = $unitOfWork->getIdentityMap();
+
+        foreach ($identityMap as $className => $entities) {
+            echo "<br>Clase: $className<br>";
+
+            foreach ($entities as $entity) {
+                // Obtener el identificador de la entidad (array de claves primarias)
+                $id = $unitOfWork->getEntityIdentifier($entity);
+
+                // Obtener la posición en memoria (hash interno PHP)
+                $memoryPos = spl_object_hash($entity);
+
+                $instanceId = null;
+                if (method_exists($entity, 'getInstance')) {
+                    $instance = $entity->getInstance();
+                    if ($instance) {
+                        $instanceId = $unitOfWork->getEntityIdentifier($instance); // Obtener ID de la instancia
+                    }
+                }
+
+                $instanceIdStr = $instanceId ? json_encode($instanceId) : 'N/A';
+
+                echo "- ID: " . json_encode($id) . " | Instance ID: $instanceIdStr | Memoria: $memoryPos<br>";
+            }
+        }
+    }
+
 
     public function getEventManager(): EventManager
     { return $this->eventManager; }
@@ -92,11 +129,27 @@ class LifecycleHelper
             } else {
                 $event = $this->setEventData($request, $data);
             }
+
+
+            // $event->getInstance()->setHive($this->entityManager->getRepository(Hive::class)->find($request->getInstance()->getHive()->getId()));
             
             $this->entityManager->persist($request);
             $this->entityManager->persist($event);
+
             
+            // $this->listarEntidadesGestionadas($this->entityManager);
+            // echo "<br>" . Event::class . "<br>";
+            // echo "- ID: " . json_encode($event->getID())
+            //     . " | Instance ID: " . $event->getInstance()->getId()
+            //     . " | Dirección de instancia de evento: " . spl_object_hash($event->getInstance())
+            //     . " | Dirección de hive de instancia de evento: " . spl_object_hash($event->getInstance()->getHive())
+            //     . "<br>";
+
+            // echo (string) var_dump($event->getInstance()->getHive());
+
             $this->entityManager->flush();
+
+
 
             $this->entityManager->getConnection()->commit();
 

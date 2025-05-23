@@ -35,6 +35,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
         new ORM\Index(name: 'idx_name', columns: ['name'])
     ]
 )]
+#[ORM\HasLifecycleCallbacks]
 class Counter
 {
     use TimestampableEntity;

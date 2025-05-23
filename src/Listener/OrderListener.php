@@ -28,6 +28,7 @@ use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
@@ -63,11 +64,6 @@ class OrderListener
         $entity = $args->getObject();
 
         if (!$entity instanceof Request) return;
-
-        // if (!$entity instanceof Order) return;
-
-        // $request = $entity->getOriginalRequest();
-        // if ($entity === null) return;
         
         $instance = $entity->getInstance();
         

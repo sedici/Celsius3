@@ -23,6 +23,8 @@
 namespace Celsius3\Entity;
 
 // use Celsius3\Entity\Mixin\TimestampableEntity;
+
+use Celsius3\Entity\Event\Event;
 use Celsius3\Manager\NotificationManager;
 use Celsius3\Manager\UserManager;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -267,6 +269,9 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         ]
     )]
     protected Collection $librarianInstitution;
+
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'operator')]
+    protected Collection $events;
 
     #[ORM\Column(type: "string", nullable: true)]
     protected ?string $observaciones = null;

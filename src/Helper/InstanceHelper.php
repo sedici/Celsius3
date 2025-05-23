@@ -82,6 +82,12 @@ class InstanceHelper
             : $this->repository->findOneBy(
                 ['host' => ($request !== null) ? $request->getHost() : '']
             );
+        
+        // $instance = $this->repository->findOneBy(
+        //     ['url' => $this->session->get('instance_url')]
+        // );
+
+        // if (!$instance) echo 'no instance url: ' . (string)var_dump($this->session->get('instance_url'));
 
         return $instance;
     }

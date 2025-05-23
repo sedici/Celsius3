@@ -38,6 +38,8 @@ use Celsius3\Entity;
 class InstanceLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
 
+    protected ?ContainerInterface $container = null;
+
     public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
@@ -57,7 +59,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
         $instance->setEnabled(true);
         $instance->setHive($hive);
         $manager->persist($instance);
-        $manager->flush($instance);
+        $manager->flush();
     }
 
     public function getOrder(): int

@@ -25,11 +25,9 @@ namespace Celsius3\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\CountryRepository;
 use Doctrine\Common\Collections\Collection;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ORM\Table(

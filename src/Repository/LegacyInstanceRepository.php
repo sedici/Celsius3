@@ -30,11 +30,11 @@ class LegacyInstanceRepository extends BaseRepository
     public function findEnabled()
     {
         return $this->createQueryBuilder('li')
-                    ->select('o, c, li')
-                    ->innerJoin('li.ownerInstitutions', 'o')
-                    ->innerJoin('o.country', 'c')
-                    ->where('li.enabled = true')
-                    ->andWhere('li INSTANCE OF Celsius3:LegacyInstance')
-                    ->getQuery()->getResult();
+            ->select('o, c, li')
+            ->innerJoin('li.ownerInstitutions', 'o')
+            ->innerJoin('o.country', 'c')
+            ->where('li.enabled = true')
+            ->andWhere('li INSTANCE OF Celsius3:LegacyInstance')
+            ->getQuery()->getResult();
     }
 }
