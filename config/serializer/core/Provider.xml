@@ -10,12 +10,12 @@
             <group>administration_user_show</group>
             <group>institution_show</group>
         </attribute>
-        <attribute name="providerType">
+        <attribute name="providerType" serialized-name="type">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>
         </attribute>
-        <attribute name="providerName">
+        <attribute name="providerName" serialized-name="provider_name">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>

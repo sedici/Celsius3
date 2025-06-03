@@ -47,8 +47,6 @@ class CounterListener
     {
         $entity = $args->getObject();
 
-        // throw new \Exception((string) var_dump($entity));
-
         if ($entity instanceof Order) {
             $this->entityManager->getConnection()->beginTransaction();
             try {
@@ -74,12 +72,12 @@ class CounterListener
         $entity = $args->getObject();
         $em = $this->entityManager;
 
-        if ($entity instanceof Instance) {
-            $counter = new Counter();
-            $counter->setName($entity->getId());
-            $counter->setValue(1);
-            $em->persist($counter);
-            $em->flush();
-        }
+        if (!$entity instanceof Instance) return;
+
+        $counter = new Counter();
+        $counter->setName($entity->getId());
+        $counter->setValue(1);
+        $em->persist($counter);
+        $em->flush();
     }
 }

@@ -9,7 +9,7 @@
             <group>administration_order_show</group>
             <group>administration_user_show</group>
         </attribute>
-        <attribute name="createdAt">
+        <attribute name="createdAt" serialized-name="created_at">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>
@@ -23,7 +23,7 @@
         <attribute name="request">
             <group>administration_order_show</group>
         </attribute>
-        <attribute name="eventType">
+        <attribute name="eventType" serialized-name="type">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>

@@ -130,21 +130,6 @@ class Instance extends LegacyInstance
 
     // ----
 
-    #[ORM\PostPersist]
-    public function postPersist(PostPersistEventArgs $args): void
-    {
-        $entity = $args->getObject();
-        $em = $entity->getEntityManager();
-
-        $counter = new Counter();
-        $counter->setName($entity->getId());
-        $counter->setValue(1);
-        $em->persist($counter);
-        $em->flush($counter);
-    }
-
-    // ----
-
     public function __construct()
     {
         parent::__construct();

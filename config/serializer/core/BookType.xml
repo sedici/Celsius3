@@ -22,7 +22,7 @@
             <group>administration_user_show</group>
             <group>user_list</group>
         </attribute>
-        <attribute name="withIndex">
+        <attribute name="withIndex" serialized-name="with_index">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>

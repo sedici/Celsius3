@@ -276,7 +276,7 @@ class StateManager
         return array_search($state1->getType(), array_keys($this->graph)) < array_search($state2->getType(), array_keys($this->graph));
     }
 
-    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
+    public function createNotFoundException($message = 'Not Found', ?\Exception $previous = null)
     {
         return new NotFoundException($message, $previous);
     }
@@ -299,7 +299,7 @@ class StateManager
             }
         }
 
-        if (is_null($data) && $event === EventManager::EVENT__CREATION) {
+        if ($data == null && $event === EventManager::EVENT__CREATION) {
             $data = self::STATE__CREATED;
         }
 

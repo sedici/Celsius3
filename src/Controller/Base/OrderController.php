@@ -142,8 +142,9 @@ class OrderController extends EntityController
             ];
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = MaterialTypeManager::CLSTYPES_MAP[
-                end($class)
+            $materialTypeName = MaterialTypeManager::CLSTYPES_FORM_MAP[
+                strtolower(preg_replace('/Type$/', '', end($class)))
+                // end($class)
             ];
         }
 

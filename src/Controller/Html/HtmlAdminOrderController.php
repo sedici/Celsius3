@@ -177,14 +177,23 @@ class HtmlAdminOrderController extends OrderController
 
     #[Route(
         "/new",
-        name: "admin_order_new",
-        options: ["expose" => true]
+        name: "admin_order_new"
     )]
     public function htmlNew(): Response
     {
-        $params = $this->new();
+        $user = $this->getUser();
 
-        if ($params instanceof Response) return $params;
+        $params = $this->new(
+            formOptions: [
+                'instance' => $this->instance,
+                'user' => $user,
+                'operator' => $user,
+                'actual_user' => $user,
+                'create' => true,
+            ]
+        );
+
+        // if ($params instanceof Response) return $params;
 
         return $this->htmlRenderer->render(
             'new',
@@ -447,7 +456,7 @@ class HtmlAdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($this->getMaterialType() === 'Celsius3\Form\Type\JournalTypeType') {
+            if ($this->getMaterialType() === JournalTypeType::class) {
                 $journal = $this->entityManager->getRepository(Journal::class)->find(
                     $request->request->get('order', null)['materialData']['journal']
                 );

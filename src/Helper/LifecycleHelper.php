@@ -58,59 +58,43 @@ class LifecycleHelper
         private EventManager $eventManager,
         private FileManager $fileManager,
         private InstanceHelper $instanceHelper,
-        private TokenStorageInterface $securityTokenStorage,
+        private TokenStorageInterface $tokenStorage,
         private LoggerInterface $logger
     ) {}
 
 
-    public function listarEntidadesGestionadas(EntityManagerInterface $em): void
+    protected function getUser(): ?BaseUser
     {
-        $unitOfWork = $em->getUnitOfWork();
-
-        // Obtiene el mapa de identidad: array con todas las entidades gestionadas agrupadas por clase
-        $identityMap = $unitOfWork->getIdentityMap();
-
-        foreach ($identityMap as $className => $entities) {
-            echo "<br>Clase: $className<br>";
-
-            foreach ($entities as $entity) {
-                // Obtener el identificador de la entidad (array de claves primarias)
-                $id = $unitOfWork->getEntityIdentifier($entity);
-
-                // Obtener la posición en memoria (hash interno PHP)
-                $memoryPos = spl_object_hash($entity);
-
-                $instanceId = null;
-                if (method_exists($entity, 'getInstance')) {
-                    $instance = $entity->getInstance();
-                    if ($instance) {
-                        $instanceId = $unitOfWork->getEntityIdentifier($instance); // Obtener ID de la instancia
-                    }
-                }
-
-                $instanceIdStr = $instanceId ? json_encode($instanceId) : 'N/A';
-
-                echo "- ID: " . json_encode($id) . " | Instance ID: $instanceIdStr | Memoria: $memoryPos<br>";
-            }
-        }
+        $token = $this->tokenStorage->getToken();
+        if (null === $token) return null;
+        $user = $token->getUser();
+        return $user instanceof BaseUser
+            ? $this->entityManager->getReference(
+                BaseUser::class, $user->getId()
+            )
+            : null;
     }
 
 
     public function getEventManager(): EventManager
     { return $this->eventManager; }
 
+
     public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event): void
     {
         $this->fileManager->copyFilesToPreviousRequest($previousRequest, $request, $event);
     }
 
+
     /**
      * Receives the event name and the request document and creates the appropiate
      * event and state.
      */
-    public function createEvent(string $name, Request $request, ?Instance $instance = null): ?Event
-    {
-        // $this->entityManager->clear();
+    public function createEvent(
+        string $name,
+        Request $request,
+        ?Instance $instance = null
+    ): ?Event {
         $this->entityManager->getConnection()->beginTransaction();
 
         // try {
@@ -129,27 +113,11 @@ class LifecycleHelper
             } else {
                 $event = $this->setEventData($request, $data);
             }
-
-
-            // $event->getInstance()->setHive($this->entityManager->getRepository(Hive::class)->find($request->getInstance()->getHive()->getId()));
             
             $this->entityManager->persist($request);
             $this->entityManager->persist($event);
 
-            
-            // $this->listarEntidadesGestionadas($this->entityManager);
-            // echo "<br>" . Event::class . "<br>";
-            // echo "- ID: " . json_encode($event->getID())
-            //     . " | Instance ID: " . $event->getInstance()->getId()
-            //     . " | Dirección de instancia de evento: " . spl_object_hash($event->getInstance())
-            //     . " | Dirección de hive de instancia de evento: " . spl_object_hash($event->getInstance()->getHive())
-            //     . "<br>";
-
-            // echo (string) var_dump($event->getInstance()->getHive());
-
             $this->entityManager->flush();
-
-
 
             $this->entityManager->getConnection()->commit();
 
@@ -243,14 +211,13 @@ class LifecycleHelper
         }
     }
 
-    private function setEventData(Request $request, array $data): Event
-    {
+    private function setEventData(
+        Request $request, array $data
+    ): Event {
         /** @var Event $event */
         $event = new $data['eventClassName']();
 
-        $user = $this->securityTokenStorage->getToken()->getUser();
-
-        $event->setOperator($user);
+        $event->setOperator($this->getUser());
         $event->setInstance($data['instance']);
         $event->setRequest($request);
 
@@ -266,8 +233,6 @@ class LifecycleHelper
 
         $this->entityManager->persist($state);
         $this->entityManager->persist($event);
-
-        // Problema al hacer este ultimo persist
 
         return $event;
     }
@@ -359,7 +324,7 @@ class LifecycleHelper
 
                 $event = new UndoEvent();
                 $event->setRequest($request);
-                $event->setOperator($this->securityTokenStorage->getToken()->getUser());
+                $event->setOperator($this->tokenStorage->getToken()->getUser());
                 $event->setInstance($request->getInstance());
                 $event->setState($previous_state);
                 $previous_state->addEvent($event);

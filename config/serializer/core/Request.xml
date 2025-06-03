@@ -58,7 +58,7 @@
             <group>administration_order_show</group>
             <group>user_list</group>
         </attribute>
-        <attribute name="createdAt">
+        <attribute name="createdAt" serialized-name="created_at">
             <group>api</group>
             <group>administration_list</group>
             <group>administration_order_show</group>

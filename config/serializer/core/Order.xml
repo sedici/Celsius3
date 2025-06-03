@@ -19,14 +19,14 @@
             <group>user_list</group>
             <group>email_template</group>
         </attribute>
-        <attribute name="materialData">
+        <attribute name="materialData" serialized-name="material_data">
             <group>administration_list</group>
             <group>administration_order_show</group>
             <group>administration_user_show</group>
             <group>user_list</group>
             <group>email_template</group>
         </attribute>
-        <attribute name="originalRequest">
+        <attribute name="originalRequest" serialized-name="original_request">
             <group>api</group>
 
             <group>user_list</group>

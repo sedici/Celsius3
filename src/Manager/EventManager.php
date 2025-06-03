@@ -363,19 +363,35 @@ class EventManager
         return $extraData;
     }
 
-    public function getRealEventName($event, array $extraData = null, Instance $instance, Request $request)
-    {
+    public function getRealEventName(
+        ?string $event = null,
+        ?array $extraData = null,
+        Instance $instance,
+        Request $request
+    ): ?string {
         switch ($event) {
             case self::EVENT__REQUEST:
                 $event = (
-                        $extraData['provider'] instanceof Institution && $extraData['provider']->findCelsiusInstance() && !$request->getOrder()->hasRequest($extraData['provider']->findCelsiusInstance()) && $extraData['provider']->findCelsiusInstance()->getId() !== $instance->getId() && is_null($request->getPreviousRequest())
-                        ) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
+                    $extraData['provider'] instanceof Institution
+                    && $extraData['provider']->findCelsiusInstance()
+                    && !$request->getOrder()->hasRequest($extraData['provider']->findCelsiusInstance())
+                    && $extraData['provider']->findCelsiusInstance()->getId() !== $instance->getId()
+                    && $request->getPreviousRequest() == null
+                )
+                    ? self::EVENT__MULTI_INSTANCE_REQUEST
+                    : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
             case self::EVENT__RECEIVE:
-                $event = $extraData['request']->getRequest()->getPreviousRequest() ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+                $event = $extraData['request']->getRequest()->getPreviousRequest()
+                    ? self::EVENT__MULTI_INSTANCE_RECEIVE
+                    : self::EVENT__SINGLE_INSTANCE_RECEIVE;
                 break;
             case self::EVENT__CANCEL:
-                $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequestEvent) ? self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
+                $event = array_key_exists('request', $extraData)
+                    ? (($extraData['request'] instanceof MultiInstanceRequestEvent)
+                        ? self::EVENT__REMOTE_CANCEL
+                        : self::EVENT__LOCAL_CANCEL)
+                    : self::EVENT__CANCEL;
                 break;
             default:
         }

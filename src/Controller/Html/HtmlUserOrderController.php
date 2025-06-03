@@ -23,16 +23,28 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Journal;
+use Celsius3\Entity\Request;
 use Celsius3\Form\Type\JournalTypeType;
+use Celsius3\Manager\StateManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
+use Celsius3\Entity\Event\CreationEvent;
+use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Hive;
+use Celsius3\Entity\Instance;
+use Celsius3\Entity\JournalType;
+use Celsius3\Entity\Order;
+use Celsius3\Entity\State;
+use Celsius3\Form\Type\MaterialTypeType;
+use Celsius3\Helper\LifecycleHelper;
+use Celsius3\Manager\EventManager;
 use Celsius3\Manager\MaterialTypeManager;
 use Celsius3\Manager\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * User order controller.
@@ -149,6 +161,7 @@ class HtmlUserOrderController extends OrderController
         $materialType = MaterialTypeManager::CLSTYPES_FORM_MAP[$materialName];
 
         $options = [
+            'instance' => $this->instance,
             'material' => $materialType,
             'user' => $user,
             'actual_user' => $user,

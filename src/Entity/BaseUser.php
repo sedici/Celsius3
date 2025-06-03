@@ -210,7 +210,11 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     protected ?Instance $instance = null;
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: "users")]
+    #[ORM\ManyToOne(
+        targetEntity: Institution::class,
+        inversedBy: "users",
+        cascade: ["persist"]
+    )]
     #[ORM\JoinColumn(name: "institution_id", referencedColumnName: "id", nullable: false)]
     // #[Groups([
     //     "administration",

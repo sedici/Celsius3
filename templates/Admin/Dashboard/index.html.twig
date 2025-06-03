@@ -94,7 +94,7 @@
                     <div class="top_info">
                         <div class="top_left">
                             <div ng-class="order.request.type | request_type">{{ order.request.type | request_type_abbr | trans }}</div>
-                            <div class="tipoarticulo">{{ order.materialData.materialType | trans }}</div>
+                            <div class="tipoarticulo">{{ order.material_data.type | trans }}</div>
                         </div>
 
                         <div class="top_right">
@@ -114,24 +114,24 @@
 
                     <div class="main_info" data-order-id="{{ order.id }}">
                         <div class="title_and_author">
-                            <div class="titulo" ng-if="order.materialData.type === 'journal'">
-                                <a ng-if="order.materialData.journal"
-                                   ng-href="{{ {path: 'admin_journal_show', params: {'id':order.materialData.journal.id} }|get_url }}">{{ order.materialData.journal.name | uppercase }}</a>
-                                <span ng-if="!order.materialData.journal">{{ order.materialData.other | uppercase }}</span>
+                            <div class="titulo" ng-if="order.material_data.type === 'journal'">
+                                <a ng-if="order.material_data.journal"
+                                   ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url }}">{{ order.material_data.journal.name | uppercase }}</a>
+                                <span ng-if="!order.material_data.journal">{{ order.material_data.other | uppercase }}</span>
                             </div>
-                            <div class="titulo" ng-if="order.materialData.type === 'book'">
-                                <span>{{ order.materialData.title | uppercase }}</span>
+                            <div class="titulo" ng-if="order.material_data.type === 'book'">
+                                <span>{{ order.material_data.title | uppercase }}</span>
                             </div>
-                            {{dump(order.materialData)}}
-                            <div class="titulo" ng-if="order.materialData.type !== 'book'">
-                                <span ng-if="order.materialData.title">{{ order.materialData.title }}</span>
-                                <span ng-if="!order.materialData.title">[ {{ 'sinTitulo' | trans }} ] - </span>
+                            {{dump(order.material_data)}}
+                            <div class="titulo" ng-if="order.material_data.type !== 'book'">
+                                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | trans }} ] - </span>
                             </div>
-                            <div class="titulo" ng-if="order.materialData.type === 'book'">
-                                <span>{{ order.materialData.chapter }}</span>
+                            <div class="titulo" ng-if="order.material_data.type === 'book'">
+                                <span>{{ order.material_data.chapter }}</span>
                             </div>
-                            <div class="autor">{{ order.materialData.authors }}</div>
-                            <div class="doc_year">{{ order.materialData.year }}</div>
+                            <div class="autor">{{ order.material_data.authors }}</div>
+                            <div class="doc_year">{{ order.material_data.year }}</div>
                         </div>
                         <div class="doc_and_year">
                             <div ng-if="order.request.owner.pdf === true" class="doc_type_pdf"></div>

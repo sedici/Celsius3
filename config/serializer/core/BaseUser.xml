@@ -14,6 +14,15 @@
             <group>user_list</group>
             <group>admins-select</group>
         </attribute>
+        <attribute name="username">
+            <group>api</group>
+            <group>administration</group>
+            <group>administration_list</group>
+            <group>administration_order_show</group>
+            <group>administration_user_show</group>
+            <group>user_list</group>
+            <group>admins-select</group>
+        </attribute>
         <attribute name="name">
             <group>api</group>
             <group>administration</group>
@@ -44,7 +53,7 @@
             <group>api</group>
             <group>administration</group>
         </attribute>
-        <attribute name="downloadAuth">
+        <attribute name="downloadAuth" serialized-name="download_auth">
             <group>api</group>
             <group>user_list</group>
         </attribute>
@@ -70,7 +79,7 @@
         <attribute name="city">
             <group>administration</group>
         </attribute>
-        <attribute name="isLibrarian">
+        <attribute name="isLibrarian" serialized-name="is_librarian">
             <group>api</group>
             <group>user_list</group>
         </attribute>
