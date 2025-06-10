@@ -46,7 +46,12 @@ class RestAdminEmailController extends EmailController
     }
 
 
-    #[Route('/', name: 'rest_admin_send_email', methods: ['POST'], options: ['expose' => true])]
+    #[Route(
+        '/',
+        name: 'rest_admin_send_email',
+        methods: ['POST'],
+        options: ['expose' => true]
+    )]
     public function restSendEmail(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -90,9 +95,9 @@ class RestAdminEmailController extends EmailController
             ->getRepository(Order::class)
             ->find($order_id);
 
-        $params['user'] = $this->entityManager
-            ->getRepository($receiverClass)
-            ->findOneBy(['email' => $email]);
+        // $params['user'] = $this->entityManager
+        //     ->getRepository($receiverClass)
+        //     ->findOneBy(['email' => $email]);
         
         $params['instance'] = $this->instance;
 

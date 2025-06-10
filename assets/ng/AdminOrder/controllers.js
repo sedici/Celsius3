@@ -526,7 +526,13 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     var data = {
                         'observations': $scope.eventModalData.temporalObservations
                     };
-                    $http.post(Routing.generate('admin_rest_event_update_observations', {'id': $scope.eventModalData.id}), data).then(function (response) {
+
+                    $http.post(
+                        Routing.generate(
+                            'admin_rest_event_update_observations'
+                        ) + '/' + $scope.eventModalData.id,
+                        data
+                    ).then(function (response) {
                         $('#editObservations').addClass('hidden');
                         $('#observationsText').removeClass('hidden');
 

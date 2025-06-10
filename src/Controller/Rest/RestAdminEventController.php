@@ -30,9 +30,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 
+// IsGranted('ROLE_ADMIN')
 #[
     Route('/rest/v1/admin/event'),
-    IsGranted('ROLE_ADMIN')
 ]
 final class RestAdminEventController extends EventController
 {
@@ -158,7 +158,7 @@ final class RestAdminEventController extends EventController
         "/{request_id}/search",
         name: "admin_rest_order_search_event",
         methods: ['POST'],
-        options: ['expose' => true]
+        options: ['expose' => true],
     )]
     public function createSearchEvent(string $request_id): Response
     {
@@ -209,7 +209,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createUndoEvent']
+            [$this->lifecycleHelper, 'undoState']
         );
     }
 
@@ -231,15 +231,16 @@ final class RestAdminEventController extends EventController
         "/update_observations/{event_id}",
         name: "admin_rest_event_update_observations",
         options: ['expose' => true],
-        methods: ['POST'],
+        methods: ['POST']
     )]
     public function eventUpdateObservations(string $event_id): Response
     {
         $request = $this->requestStack->getCurrentRequest();
+        $reqData = $request->toArray();
 
         $event = $this->findEvent($event_id);
 
-        $event->setObservations($request->get('observations'));
+        $event->setObservations($reqData['observations']);
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();

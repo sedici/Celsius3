@@ -34,11 +34,12 @@ use Symfony\Component\HttpFoundation\Response;
 #[Route('/rest/v1/admin/journal')]
 class RestAdminJournalController extends JournalController
 {
-    #[Post(
+    #[Route(
         '/create',
         name: 'admin_rest_journal_create',
-        options: [ 'expose' => true ])
-    ]
+        options: [ 'expose' => true ],
+        methods: ['POST', 'GET']
+    )]
     public function createJournal(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -49,12 +50,8 @@ class RestAdminJournalController extends JournalController
         $journal->setResponsible($request->request->get('responsible'));
         $journal->setISSN($request->request->get('issn'));
         $journal->setISSNE($request->request->get('issne'));
-        $journal->setInstance(
-            $this->entityManager
-                ->getRepository(Instance::class)
-                ->find($request->get('instance')
-            )
-        );
+        $journal->setInstance($this->instance);
+
 
         $errors = $this->validator->validate($journal);
 
@@ -67,7 +64,7 @@ class RestAdminJournalController extends JournalController
         $material = $this->entityManager
             ->getRepository(JournalType::class)
             ->find(
-                $request->get('material_type_id')
+                $request->request->get('material_type_id')
             );
         $material->setJournal($journal);
 

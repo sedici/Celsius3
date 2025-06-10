@@ -3,6 +3,7 @@ const Encore = require('@symfony/webpack-encore');
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
+    .enableVersioning()
     .cleanupOutputBeforeBuild()
     .addEntry('celsius3core', [
         './assets/js/main.js',
@@ -83,11 +84,11 @@ Encore
         './assets/js/search.js'
     ])
     .addStyleEntry('global', './assets/scss/celsius3.scss')
-     .enableSassLoader(options => {
-        //options.resolveUrlLoader = {
-        //  keepQuery: false
-        //};
-      })
+    .enableSassLoader(options => {
+    //options.resolveUrlLoader = {
+    //  keepQuery: false
+    //};
+    })
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]'

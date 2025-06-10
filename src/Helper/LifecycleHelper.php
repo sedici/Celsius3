@@ -97,7 +97,7 @@ class LifecycleHelper
     ): ?Event {
         $this->entityManager->getConnection()->beginTransaction();
 
-        // try {
+        try {
             $data = $this->preValidate($name, $request, $instance);
 
             if (array_key_exists('event', $data)) {
@@ -122,15 +122,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        // } catch (\Exception $ex) {
-        //     $this->entityManager->getConnection()->rollBack();
-        //     $this->logger->error($ex->getMessage());
-        //     $this->logger->error($ex->getTraceAsString());
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
 
-        //     throw new \Exception($ex->getMessage());
-
-        //     return null;
-        // }
+            return null;
+        }
     }
 
     private function preValidate($name, Request $request, ?Instance $instance = null): array
@@ -324,7 +322,7 @@ class LifecycleHelper
 
                 $event = new UndoEvent();
                 $event->setRequest($request);
-                $event->setOperator($this->tokenStorage->getToken()->getUser());
+                $event->setOperator($this->getUser());
                 $event->setInstance($request->getInstance());
                 $event->setState($previous_state);
                 $previous_state->addEvent($event);
@@ -392,7 +390,7 @@ class LifecycleHelper
         ?string $date = null
     ): ?Event {
         $this->entityManager->getConnection()->beginTransaction();
-        try {
+        // try {
             $data = $this->preValidateCustomEvent(
                 $request,
                 $eventName,
@@ -403,7 +401,9 @@ class LifecycleHelper
                 $eventClassName
             );
 
-            $event = $data['event'] ?? $this->setEventData($request, $data);
+            throw new \Exception((string) var_dump($data));
+
+            // $event = $data['event'] ?? $this->setEventData($request, $data);
 
             $this->entityManager->persist($request);
             $this->entityManager->persist($event);
@@ -412,13 +412,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->logger->error($ex->getMessage());
-            $this->logger->error($ex->getTraceAsString());
+        // } catch (\Exception $ex) {
+        //     $this->entityManager->getConnection()->rollBack();
+        //     $this->logger->error($ex->getMessage());
+        //     $this->logger->error($ex->getTraceAsString());
 
-            return null;
-        }
+        //     return null;
+        // }
     }
 
 
@@ -476,11 +476,14 @@ class LifecycleHelper
     }
 
 
-    public function createSearchEvent(Request $request, ?Instance $instance)
-    {
+    public function createSearchEvent(
+        Request $request,
+        ?Instance $instance
+    ): ?Event {
         $this->entityManager->getConnection()->beginTransaction();
         try {
             $data = $this->preValidateSearchEvent($request, $instance);
+
             if (array_key_exists('event', $data)) {
                 $event = $data['event'];
                 $event->setResult($data['extraData']['result']);

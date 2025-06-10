@@ -39,6 +39,8 @@ use Celsius3\Entity\Request;
 use Celsius3\Exception\Exception;
 use Celsius3\Exception\NotFoundException;
 use Celsius3\Entity\Instance;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class EventManager
 {
@@ -85,12 +87,13 @@ class EventManager
         self::EVENT__SEARCH_PENDINGS => 'SearchPendingsEvent',
         self::EVENT__NO_SEARCH_PENDINGS => 'NoSearchPendingsEvent',
     ];
-    private $container;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    public function __construct(
+        protected ContainerInterface $container,
+        protected RequestStack $requestStack,
+        protected EntityManagerInterface $entityManager,
+        protected FlashBagInterface $flashBag
+    ) { }
 
     public function __call($name, $arguments)
     {
@@ -109,7 +112,7 @@ class EventManager
         return new NotFoundException($message, $previous);
     }
 
-    public function getClassNameForEvent($event)
+    public function getClassNameForEvent($event): string
     {
         if (!array_key_exists($event, $this->event_classes)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
@@ -118,7 +121,7 @@ class EventManager
         return $this->event_classes[$event];
     }
 
-    public function getFullClassNameForEvent($event)
+    public function getFullClassNameForEvent($event): string
     {
         if (!array_key_exists($event, $this->event_classes)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
@@ -127,27 +130,27 @@ class EventManager
         return $this->class_prefix.$this->event_classes[$event];
     }
 
-    public function prepareExtraDataForSearch()
+    public function prepareExtraDataForSearch(): array
     {
-        $http_request = $this->container->get('request_stack')->getCurrentRequest();
+        $params = $this->requestStack->getCurrentRequest()->toArray();
 
         $extra_data = [];
-        $extra_data['result'] = $http_request->request->get('result', null);
 
-        if (!$http_request->request->has('catalog_id')) {
-            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+        $extra_data['result'] = (array_key_exists('result', $params)) ? $params['result'] : null;
+
+        if (!array_key_exists('catalog_id', $params)) {
+            $this->flashBag->add('error', 'Catalog ID is required for search events.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
-        $extra_data['catalog'] = $entity_manager->getRepository(Catalog::class)
-            ->find($http_request->request->get('catalog_id'));
+        $extra_data['catalog'] = $this->entityManager->getRepository(Catalog::class)
+            ->find($params['catalog_id']);
 
         return $extra_data;
     }
 
-    public function prepareExtraDataForRequest()
+    public function prepareExtraDataForRequest(): array
     {
         $http_request = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -177,7 +180,7 @@ class EventManager
         return $extra_data;
     }
 
-    public function prepareExtraDataForReceive(Request $request)
+    public function prepareExtraDataForReceive(Request $request): array
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -199,7 +202,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForUpload()
+    private function prepareExtraDataForUpload(): array
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -209,7 +212,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReupload()
+    private function prepareExtraDataForReupload(): array
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -230,7 +233,7 @@ class EventManager
         return $extraData;
     }
 
-    public function prepareExtraDataForApprove()
+    public function prepareExtraDataForApprove(): array
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -252,7 +255,7 @@ class EventManager
         return $extraData;
     }
 
-    public function prepareExtraDataForReclaim()
+    public function prepareExtraDataForReclaim(): array
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -296,22 +299,22 @@ class EventManager
         return $extraData;
     }
 
-    public function prepareExtraDataForCancel(Request $request, Instance $instance)
+    public function prepareExtraDataForCancel(Request $request, Instance $instance): array
     {
-        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $extraData = array();
+        $params = $this->requestStack->getCurrentRequest()->toArray();
+        $em = $this->entityManager;
+        $extraData = [];
 
-        if ($httpRequest->request->has('request')) {
+        if (array_key_exists('request', $params)) {
             $extraData['request'] = $em->getRepository(Event::class)
-                    ->find($httpRequest->request->get('request'));
+                    ->find($params['request']);
 
-            $httpRequest->request->remove('request');
+            unset($params['request']);
             if (!$extraData['request']) {
                 throw Exception::create(Exception::NOT_FOUND);
             }
         } else {
-            $extraData['httprequest'] = $httpRequest;
+            $extraData['httprequest'] = $params;
             if ($request->getInstance()->getId() !== $instance->getId()) {
                 $extraData['remoterequest'] = $request->getOrder()
                         ->getRequest($instance)
@@ -319,45 +322,44 @@ class EventManager
                         ->getRemoteEvent();
             }
             $extraData['sirequests'] = $em->getRepository(SingleInstanceRequestEvent::class)
-                    ->findBy(array(
-                'request' => $request->getId(),
-                'cancelled' => false,
-                'instance' => $instance->getId(),
-            ));
+                ->findBy([
+                    'request' => $request->getId(),
+                    // 'cancelled' => false,
+                    'instance' => $instance->getId(),
+                ]
+            );
             $extraData['mirequests'] = $em->getRepository(MultiInstanceRequestEvent::class)
-                    ->findBy(array(
-                'request' => $request->getId(),
-                'cancelled' => false,
-                'instance' => $instance->getId(),
-            ));
+                ->findBy([
+                    'request' => $request->getId(),
+                    // 'cancelled' => false,
+                    'instance' => $instance->getId(),
+                ]
+            );
         }
 
-        if (!$httpRequest->request->has('observations') || $httpRequest->request->get('observations') === '') {
-            $this->container->get('session')->getFlashBag()
-                    ->add('error', 'There was an error changing the state.');
+        if (array_key_exists('observations', $params) || $params['observations'] === '') {
+            $this->flashBag->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        if ($httpRequest->request->has('cancelled_by_user')) {
-            $extraData['cancelled_by_user'] = $httpRequest->request->get('cancelled_by_user');
-        } else {
-            $extraData['cancelled_by_user'] = false;
-        }
+        $extraData['cancelled_by_user'] =
+            (array_key_exists('cancelled_by_user', $params))
+            ? $params['cancelled_by_user'] : false;
 
-        $extraData['observations'] = $httpRequest->request->get('observations');
+        $extraData['observations'] = $params['observations'];
 
         return $extraData;
     }
 
-    public function prepareExtraDataForAnnul(Request $request, Instance $instance)
+    public function prepareExtraDataForAnnul(Request $request, Instance $instance): array
     {
-        $extraData = array();
+        $extraData = [];
 
         if ($request->getInstance()->getId() !== $instance->getId() || !is_null($request->getPreviousRequest())) {
             $extraData['request'] = $request
-                    ->getState(StateManager::STATE__CREATED, $instance)
-                    ->getRemoteEvent();
+                ->getState(StateManager::STATE__CREATED, $instance)
+                ->getRemoteEvent();
         }
 
         return $extraData;

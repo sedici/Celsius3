@@ -30,20 +30,22 @@ use Celsius3\Entity\State;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 
-/**
- * User controller.
- * @Route("/rest/v1/admin/orders")
- */
+#[
+    Route("/rest/v1/admin/orders"),
+]
 class RestAdminOrderController extends OrderController
 {
 
-    /**
-     * GET Route annotation.
-     * @Get("/", name="admin_rest_order", options={"expose"=true})
-     */
+    #[Route(
+        "/",
+        name: "admin_rest_order",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
     public function getOrders(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -65,11 +67,12 @@ class RestAdminOrderController extends OrderController
     }
 
 
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/count", name="admin_rest_order_count_get", options={"expose"=true})
-     */
+    #[Route(
+        "/count",
+        name: "admin_rest_order_count_get",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
     public function getOrderCount(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -99,10 +102,12 @@ class RestAdminOrderController extends OrderController
     }
 
 
-    /**
-     * GET Route annotation.
-     * @Get("/get", name="admin_rest_order_request_get", options={"expose"=true})
-     */
+    #[Route(
+        "/get",
+        name: "admin_rest_order_request_get",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
     public function getOrdersAndRequests(): Response
     {
         $em = $this->entityManager;
@@ -158,27 +163,26 @@ class RestAdminOrderController extends OrderController
     }
 
 
-    /**
-     * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
-     */
+    #[Route(
+        "/{id}",
+        name: "admin_rest_order_get",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
     public function getOrder(string $id): Response
     {
-        $em = $this->entityManager;
-
-        $order = $em->getRepository(Order::class)->find($id);
-
-        if (!$order) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
-        }
-
-        return $this->restRenderer->render($order, serializerGroups: 'administration_order_show');
+        return $this->restRenderer->show(
+            $id, serializerGroups: 'administration_order_show'
+        );
     }
 
 
-    /**
-     * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
-     */
+    #[Route(
+        "/interaction/{id}",
+        name: "admin_rest_order_interaction",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
     public function getInteraction(string $id)
     {
         $order = $this->entityManager->getRepository(Order::class)->find($id);
@@ -230,29 +234,44 @@ class RestAdminOrderController extends OrderController
     }
 
 
-    /**
-     * @Get("/operator/{id}", name="admin_rest_order_operator", options={"expose"=true})
-     */
-    public function getOperator(string $id)
+    #[Route(
+        "/operator/{id}",
+        name: "admin_rest_order_operator",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
+    public function getOperator(string $id): Response
     {
-        $order = $this->entityManager->getRepository(Order::class)->find($id);
-        if (!$order) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.not_found_entity.order');
-        }
-        $instance = $this->instanceHelper->getSessionInstance();
-        $admins = $this->entityManager->getRepository(BaseUser::class)->findAdmins($instance);
-        $interaction['result'] = true;
-        $interaction['order'] = $id;
+        $order = $this->repository->find($id);
+        if (!$order) $this->error(Exception::ENTITY_NOT_FOUND);
+
+        // $instance = $this->instanceHelper->getSessionInstance();
+        $admins = $this->entityManager
+            ->getRepository(BaseUser::class)
+            ->findAdmins($this->instance);
+
+        $interaction = [
+            'result' => false,
+            'order' => $id,
+            'admins' => [],
+        ];
         foreach ($admins as $key => $value) {
             $interaction['admins'][$key] = $value;
         }
-        return $this->restRenderer->render($interaction);
+
+        // throw new \Exception((string)var_dump($interaction));
+        return $this->restRenderer->render(
+            $interaction, serializerGroups: 'administration_order_show'
+        );
     }
 
 
-    /**
-     * @Get("/change-operator/{order_id}/{id}", name="admin_rest_order_change_operator", options={"expose"=true})
-     */
+    #[Route(
+        "/change-operator/{order_id}/{id}",
+        name: "admin_rest_order_change_operator",
+        options: ["expose" => true],
+        methods: ['GET']
+    )]
     public function changeOperator(string $order_id, string $id): mixed
     {
         $instance = $this->instanceHelper->getSessionInstance();
