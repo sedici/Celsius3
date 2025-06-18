@@ -33,7 +33,7 @@ class NotFoundException extends NotFoundHttpException implements Celsius3Excepti
 {
     private $router;
 
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -44,7 +44,7 @@ class NotFoundException extends NotFoundHttpException implements Celsius3Excepti
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 
     public function setRouter(Router $router) {

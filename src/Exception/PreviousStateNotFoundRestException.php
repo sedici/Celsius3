@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PreviousStateNotFoundRestException extends \LogicException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -42,6 +42,6 @@ class PreviousStateNotFoundRestException extends \LogicException implements Cels
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

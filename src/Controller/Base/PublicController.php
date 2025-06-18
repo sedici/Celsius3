@@ -22,38 +22,49 @@
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\News;
+use Celsius3\Entity\Order;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Exception\Exception;
 
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use FOS\RestBundle\Controller\Annotations\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * Public controller.
- * @Route("/public")
- */
-class PublicController extends BaseController
+
+#[
+    Route('/public'),
+    IsGranted('IS_AUTHENTICATED_FULLY')
+]
+class PublicController extends EntityController
 {
-    protected string $maxPerPage;
 
     public function __construct(
-        string $maxPerPage,
-        InstanceManager $instanceManager,
+        protected string $maxPerPage,
+        ValidatorInterface $validator,
+        InstanceHelper $InstanceHelper,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -63,10 +74,17 @@ class PublicController extends BaseController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
-            $instanceManager,
+            $validator,
             $entityManager,
             $paginator,
             $configurationHelper,
@@ -76,32 +94,36 @@ class PublicController extends BaseController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-
-        $this->maxPerPage = $maxPerPage;
     }
 
-    final protected function getTemplatePrefix(): string
-    { return 'Public/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        parent::initialize();
+        $this->setInstanceDependent(true);
+        $this->repository = $this->entityManager
+            ->getRepository(Order::class);
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+        $this->htmlRenderer->setTemplatePrefix('Public/');
     }
 
 
-    /**
-     * @Route("/", name="public_index")
-     */
-    public function index(): Response
+    #[Route('/', name: 'public_index')]
+    public function htmlIndex(): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
+        return $this->htmlRenderer->render(
+            'index',
             [
                 'instance' => $this->instance,
                 'lastNews' => $this->instance
@@ -114,10 +136,8 @@ class PublicController extends BaseController
     }
 
 
-    /**
-     * @Route("/information", name="public_information")
-     */
-    public function information(): RedirectResponse|Response
+    #[Route('/information', name: 'public_information')]
+    public function information(): Response
     {
         if ($this->instance && !boolval(
             $this->instance
@@ -127,8 +147,8 @@ class PublicController extends BaseController
             return $this->redirectToRoute('public_index');
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'Public/information.html.twig',
+        return $this->htmlRenderer->render(
+            'information',
             [
                 'instance' => $this->instance,
             ]
@@ -136,10 +156,8 @@ class PublicController extends BaseController
     }
 
 
-    /**
-     * @Route("/news", name="public_news")
-     */
-    public function news(): RedirectResponse|Response
+    #[Route('/news', name: 'public_news')]
+    public function news(): Response
     {
         if ($this->instance && !boolval(
             $this->instance->get('home_news_visible')->getValue()
@@ -152,16 +170,10 @@ class PublicController extends BaseController
             ->getRepository(News::class)
             ->findByInstanceQB($this->instance);
 
-        $request = $this->requestStack->getCurrentRequest();
-    
-        $pagination = $this->paginator->paginate(
-            $news,
-            intval($request->query->get('page', 1)),
-            $this->maxPerPage
-        );
+        $pagination = $this->paginate($news, limit: $this->maxPerPage);
 
-        return $this->render(
-            (string) $this->templatePrefix . 'news.html.twig',
+        return $this->htmlRenderer->render(
+            'news',
             [
                 'pagination' => $pagination,
             ]
@@ -169,10 +181,8 @@ class PublicController extends BaseController
     }
 
 
-    /**
-     * @Route("/statistics", name="public_statistics", options={"expose"=true})
-     */
-    public function statistics(): RedirectResponse|Response
+    #[Route(path: '/statistics', name: 'public_statistics', options: ['expose' => true])]
+    public function statistics(): Response
     {
         if ($this->instance && !boolval(
             $this->instance->get('home_statistics_visible')->getValue()
@@ -181,18 +191,14 @@ class PublicController extends BaseController
             return $this->redirectToRoute('public_index');
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'statistics.html.twig',
+        return $this->htmlRenderer->render(
+            'statistics',
             []
         );
     }
 
 
-    /**
-     * @Route("/countries", name="public_countries", options={"expose"=true})
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(path: '/countries', name: 'public_countries', options: ['expose' => true])]
     public function countries(): Response
     {
         $countries = $this->objectManager
@@ -210,27 +216,23 @@ class PublicController extends BaseController
             ];
         }
 
-        return new Response(json_encode($response));
+        return $this->restRenderer->render($response);
     }
 
 
-    /**
-     * @Route("/cities", name="public_cities", options={"expose"=true})
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(path: '/cities', name: 'public_cities', options: ['expose' => true])]
     public function cities(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
-        if (!$request->query->has('country_id'))
-            $this->error(Exception::ENTITY_NOT_FOUND);
+        $request = $this->requestStack->getCurrentRequest()->toArray();
+
+        if (!isset($request['country_id']))
+            $this->error(Exception::ENTITY_NOT_FOUND, City::class);
 
         $cities = $this->objectManager
             ->getRepository(City::class)
-            ->findForCountry($request->query->get('country_id'));
+            ->findForCountry($request['country_id']);
 
         $response = [];
-
         foreach ($cities as $city) {
             $response[] = [
                 'value' => $city->getId(),
@@ -238,26 +240,22 @@ class PublicController extends BaseController
             ];
         }
 
-        return new Response(json_encode($response));
+        return $this->restRenderer->render($response);
     }
 
 
-    /**
-     * @Route("/institutions", name="public_institutions", options={"expose"=true})
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(path: '/institutions', name: 'public_institutions', options: ['expose' => true])]
     public function institutions(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest()->toArray();
 
-        if (!$request->query->has('country_id')) 
-            $this->error('entity_not_found', 'Country');
+        if (!isset($request['country_id'])) 
+            $this->error(Exception::ENTITY_NOT_FOUND, Country::class);
 
         $institutions = $this->objectManager
             ->getRepository(Institution::class)
             ->findByCountry(
-                $request->query->get('country_id'),
+                $request['country_id'],
                 $this->getInstance(), $this->directory
             );
 
@@ -269,39 +267,35 @@ class PublicController extends BaseController
             ];
         }
 
-        return new Response(json_encode($response));
+        return $this->restRenderer->render($response);
     }
 
 
-    /**
-     * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
+    #[Route(path: '/institutionsFull', name: 'public_institutions_full', options: ['expose' => true])]
     public function institutionsFull(): Response
     {
-        $request = $this->requestStack->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest()->toArray();
 
         if (
-            !$request->query->has('country_id')
-            && !$request->query->has('city_id')
-            && !$request->query->has('institution_id')
+            !isset($request['country_id'])
+            && !isset($request['city_id'])
+            && !isset($request['institution_id'])
         ) {
-            $this->error('not_found', 'Country');
+            $this->error(Exception::ENTITY_NOT_FOUND, Country::class);
         }
 
         $institutions = $this->entityManager
             ->getRepository(Institution::class)
             ->findForCountryOrCity(
-                $request->query->get('country_id'),
-                $request->query->get('city_id'),
+                $request['country_id'],
+                $request['city_id'],
                 $this->directory,
                 $this->instanceHelper->getSessionOrUrlInstance()
             );
 
         $actual = array_filter(
             $institutions,
-            function ($i) {
+            function ($i): bool {
                 return $i['parent_id'] === null;
             }
         );
@@ -315,16 +309,16 @@ class PublicController extends BaseController
             $level = 0;
             if (
                 (
-                    $request->query->get('filter') === 'liblink'
+                    $request['filter'] === 'liblink'
                     && $institution['hive_id'] === $this->instance->getHive()->getId()
                 ) || (
-                    $request->query->get('filter') === 'celsius3'
+                    $request['filter'] === 'celsius3'
                     && $institution['celsiusInstance']
-                ) || ($request->query->get('filter') === '')
+                ) || ($request['filter'] === '')
             ) {
                 $children = array_filter(
                     $institutions,
-                    function ($i) use ($institution) {
+                    function ($i) use ($institution): bool {
                         return $i['parent_id'] === $institution['id'];
                     }
                 );
@@ -350,7 +344,7 @@ class PublicController extends BaseController
             }
         }
 
-        return new Response(json_encode($response));
+        return $this->restRenderer->render($response);
     }
 
 
@@ -363,7 +357,7 @@ class PublicController extends BaseController
             foreach ($institutions as $institution) {
                 $children = array_filter(
                     $all,
-                    function ($i) use ($institution) {
+                    function ($i) use ($institution): bool {
                         return $i['parent_id'] === $institution['id'];
                     }
                 );
@@ -391,9 +385,7 @@ class PublicController extends BaseController
     }
 
 
-    /**
-     * @Route("/help", name="public_help")
-     */
+    #[Route(path: '/help', name: 'public_help')]
     public function help(): RedirectResponse|Response
     {
         if ($this->instance && !boolval(
@@ -403,8 +395,8 @@ class PublicController extends BaseController
             return $this->redirectToRoute('public_index');
         }
 
-        return $this->render(
-            (string) $this->templatePrefix . 'help.html.twig',
+        return $this->htmlRenderer->render(
+            'help',
             [
                 'staff' => $this->instance->get('instance_staff')->getValue()
             ]

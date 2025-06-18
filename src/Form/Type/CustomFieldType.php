@@ -22,7 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -69,7 +69,7 @@ class CustomFieldType extends AbstractType
             ]);
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add('instance');
             } else {
                 $builder->add('instance', InstanceSelectorType::class, [

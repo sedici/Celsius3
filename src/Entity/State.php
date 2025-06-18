@@ -40,16 +40,20 @@ use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: StateRepository::class)]
-#[ORM\Table(name: "state", indexes: [
-    new Index(name: "idx_current", columns: ["current"]),
-    new Index(name: "idx_type", columns: ["type"]),
-    new Index(name: "idx_previous", columns: ["previous_id"]),
-    new Index(name: "idx_request", columns: ["request_id"]),
-    new Index(name: "idx_instance", columns: ["instance_id"]),
-    new Index(name: "idx_operator", columns: ["operator_id"])
-])]
-#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
+
+#[
+    ORM\Table(name: "state"),
+    ORM\Entity(repositoryClass: StateRepository::class),
+    
+    ORM\Index(name: "idx_current", columns: ["current"]),
+    ORM\Index(name: "idx_type", columns: ["type"]),
+    ORM\Index(name: "idx_previous", columns: ["previous_id"]),
+    ORM\Index(name: "idx_request", columns: ["request_id"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"]),
+    ORM\Index(name: "idx_operator", columns: ["operator_id"]),
+    
+    Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)
+]
 class State
 {
     use TimestampableEntity;

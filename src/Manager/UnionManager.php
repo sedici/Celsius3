@@ -44,13 +44,13 @@ use Celsius3\Form\Type\JournalType;
 use Celsius3\Entity\Message;
 use Celsius3\Entity\ThreadMetadata;
 use Celsius3\Entity\BaseUserNotification;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UnionManager
 {
-    private EntityManagerInterface $em;
-    private InstanceManager $instance_manager;
+
     private $references = [
         Country::class => [
             City::class => ['country'],
@@ -90,23 +90,20 @@ class UnionManager
     ];    
 
     public function __construct(
-        EntityManagerInterface $em,
-        InstanceManager $instance_manager
-    ) {
-        $this->em = $em;
-        $this->instance_manager = $instance_manager;
-    }
+        protected EntityManagerInterface $entityManager,
+        protected InstanceHelper $instanceHelper
+    ) { }
 
     public function union($name, $main, array $elements, $updateInstance)
     {
-        $this->em
+        $this->entityManager
             ->getFilters()
             ->disable('softdeleteable');
 
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
-                    $this->em
+                    $this->entityManager
                         ->getRepository($key)
                         ->union(
                             $field,
@@ -117,20 +114,20 @@ class UnionManager
             }
         }
 
-        $this->em
+        $this->entityManager
             ->getFilters()
             ->enable('softdeleteable');
 
-        $this->em
+        $this->entityManager
             ->getRepository($name)
             ->deleteUnitedEntities($elements);
 
         if ($updateInstance) {
             $main->setInstance(
-                $this->instance_manager->getDirectory()
+                $this->instanceHelper->getDirectory()
             );
-            $this->em->persist($main);
-            $this->em->flush();
+            $this->entityManager->persist($main);
+            $this->entityManager->flush();
         }
     }
 }

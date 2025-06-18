@@ -32,7 +32,7 @@ class InstanceNotFoundException extends \RuntimeException implements Celsius3Exc
 {
     private $router;
 
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -41,7 +41,7 @@ class InstanceNotFoundException extends \RuntimeException implements Celsius3Exc
         $response = new RedirectResponse($this->router->generate('directory_homepage'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 
     public function setRouter(Router $router)

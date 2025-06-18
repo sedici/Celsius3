@@ -39,7 +39,7 @@ class SendEmailsCommand extends Command
     public function __construct(
         protected EntityManagerInterface $entityManager,
         // protected Mailer $mailer,
-        protected LoggerInterface $logger,
+        protected LoggerInterface $celsiusExceptionLogger,
         protected EmailController $emailController
     ) {
         parent::__construct();
@@ -58,7 +58,7 @@ class SendEmailsCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $limit = (int)$input->getArgument('limit');
         $logLevel = (int)$input->getArgument('log-level');
@@ -69,7 +69,7 @@ class SendEmailsCommand extends Command
         $emailController = $this->emailController;
         $em = $this->entityManager;
 
-        $logger = $this->logger;
+        $celsiusExceptionLogger = $this->celsiusExceptionLogger;
 
         $instances = $em->getRepository(Instance::class)
             ->findAllAndInvisibleExceptDirectory()
@@ -79,12 +79,12 @@ class SendEmailsCommand extends Command
         foreach ($instances as $instance) {
             try {
                 $emailController->sendInstanceEmails(
-                    $instance, $limit, $output, $logger, $logLevel
+                    $instance, $limit, $output, $celsiusExceptionLogger, $logLevel
                 );
             } catch (Exception $e) {
                 $message = "Failed to send emails for instance $instance. " . $e->getMessage();
 
-                $logger->error($message);
+                $celsiusExceptionLogger->error($message);
                 echo $message;
             }
         }

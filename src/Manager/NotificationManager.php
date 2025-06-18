@@ -36,6 +36,7 @@ use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Message;
 use JMS\TranslationBundle\Annotation\Ignore;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -64,7 +65,8 @@ class NotificationManager
         protected $notificationLimit,
         protected $zmqHost,
         protected $zmqPort,
-        protected EmailController $emailController
+        protected EmailController $emailController,
+        protected LoggerInterface $celsiusExceptionLogger
     ) { }
 
 
@@ -240,21 +242,35 @@ class NotificationManager
         $this->notifyEmail($notification, $receiversEmailNotification->toArray(), $instance);
     }
 
-    public function notifyNewUser(BaseUser $user)
+
+    public function notifyNewUser(BaseUser $user): void
     {
-        $em = $this->entityManager;
+        $userRepository = $this->entityManager->getRepository(BaseUser::class);
+        $notifTemplateRepository = $this->entityManager->getRepository(NotificationTemplate::class);
 
-        $adminsInterfaceNotification = $em->getRepository(BaseUser::class)->getAdminsWithUserNotification('interface', $user->getInstance());
-        $adminsEmailNotification = $em->getRepository(BaseUser::class)->getAdminsWithUserNotification('email', $user->getInstance());
+        $adminsInterfaceNotification = $userRepository
+            ->getAdminsWithUserNotification(
+                'interface', $user->getInstance()
+            );
 
-        $template = $em->getRepository(NotificationTemplate::class)
-                                        ->findOneBy(array('code' => self::CAUSE__NEW_USER));
+        $adminsEmailNotification = $userRepository
+            ->getAdminsWithUserNotification(
+                'email', $user->getInstance()
+            );
 
-        $notification = new BaseUserNotification(self::CAUSE__NEW_USER, $user, $template);
+        $template = $notifTemplateRepository
+            ->findOneBy([ 'code' => self::CAUSE__NEW_USER ]);
+
+        $notification = new BaseUserNotification(
+            self::CAUSE__NEW_USER,
+            $user,
+            $template
+        );
 
         $this->notifyInterface($notification, $adminsInterfaceNotification);
         $this->notifyEmail($notification, $adminsEmailNotification, $user->getInstance());
     }
+
 
     public function notifyEvent(Event $event, $type)
     {

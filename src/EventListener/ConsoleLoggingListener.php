@@ -32,12 +32,8 @@ use function get_class;
 
 class ConsoleLoggingListener
 {
-    private $logger;
 
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
+    public function __construct(protected LoggerInterface $celsiusExceptionLogger) { }
 
     public function onConsoleException(ConsoleExceptionEvent $event): void
     {
@@ -53,7 +49,7 @@ class ConsoleLoggingListener
             $command->getName()
         );
 
-        $this->logger->error($message, ['exception' => $error]);
+        $this->celsiusExceptionLogger->error($message, ['exception' => $error]);
     }
 
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void
@@ -70,7 +66,7 @@ class ConsoleLoggingListener
             $event->setExitCode($status_code);
         }
 
-        $this->logger->warning(
+        $this->celsiusExceptionLogger->warning(
             sprintf(
                 'Command `%s` exited with status code %d',
                 $command->getName(),

@@ -36,24 +36,27 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[Entity(repositoryClass: BaseRepository::class)]
-#[Table(name: "provider", indexes: [
-    new Index(name: "idx_name", columns: ["name"]),
-    new Index(name: "idx_city", columns: ["city_id"]),
-    new Index(name: "idx_country", columns: ["country_id"]),
-    new Index(name: "idx_instance", columns: ["instance_id"]),
-    new Index(name: "idx_celsius_instance", columns: ["celsius_instance_id"]),
-    new Index(name: "idx_parent", columns: ["parent_id"]),
-    new Index(name: "idx_hive", columns: ["hive_id"]),
-    new Index(name: "idx_type", columns: ["type"])
-])]
-#[InheritanceType("SINGLE_TABLE")]
-#[DiscriminatorColumn(name: "type", type: "string")]
-#[DiscriminatorMap([
-    "author" => Author::class,
-    "institution" => Institution::class,
-    "web" => Web::class,
-])]
+#[
+    Table(name: "provider"),
+    Entity(repositoryClass: BaseRepository::class),
+
+    Index(name: "idx_name", columns: ["name"]),
+    Index(name: "idx_city", columns: ["city_id"]),
+    Index(name: "idx_country", columns: ["country_id"]),
+    Index(name: "idx_instance", columns: ["instance_id"]),
+    Index(name: "idx_celsius_instance", columns: ["celsius_instance_id"]),
+    Index(name: "idx_parent", columns: ["parent_id"]),
+    Index(name: "idx_hive", columns: ["hive_id"]),
+    Index(name: "idx_type", columns: ["type"]),
+
+    InheritanceType("SINGLE_TABLE"),
+    DiscriminatorColumn(name: "type", type: "string"),
+    DiscriminatorMap([
+        "author" => Author::class,
+        "institution" => Institution::class,
+        "web" => Web::class,
+    ])
+]
 abstract class Provider
 {
     use TimestampableEntity;

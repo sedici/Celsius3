@@ -30,11 +30,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "message", indexes: [
-    new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
-    new ORM\Index(name: "idx_sender", columns: ["sender_id"])
-])]
+#[
+    ORM\Table(name: "message"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_thread", columns: ["thread_id"]),
+    ORM\Index(name: "idx_sender", columns: ["sender_id"])
+]
 class Message implements Notifiable
 {
 

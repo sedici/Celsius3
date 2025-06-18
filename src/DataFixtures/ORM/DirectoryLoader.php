@@ -29,7 +29,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\Entity;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 
 /**
  * Description of FixtureLoader
@@ -61,7 +61,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $directory->setHost('celsius3.prebi.unlp.edu.ar');
         $directory->setWebsite('http://celsius3.prebi.unlp.edu.ar');
         $directory->setEmail('soporte@prebi.unlp.edu.ar');
-        $directory->setUrl(InstanceManager::INSTANCE__DIRECTORY);
+        $directory->setUrl(InstanceHelper::INSTANCE__DIRECTORY);
         $directory->setEnabled(false);
         $manager->persist($directory);
         $manager->flush();

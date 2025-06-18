@@ -30,10 +30,9 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
@@ -62,7 +61,6 @@ class HtmlAdminSearchController extends EntityController
     public function __construct(
         protected SearchManager $searchManager,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -83,7 +81,6 @@ class HtmlAdminSearchController extends EntityController
     ) {
         parent::__construct(
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,

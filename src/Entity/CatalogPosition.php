@@ -28,12 +28,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 // use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseRepository::class)]
-#[ORM\Table(name: 'catalog_position', indexes: [
-    new ORM\Index(name: 'idx_position', columns: ['position']),
-    new ORM\Index(name: 'idx_catalog', columns: ['catalog_id']),
-    new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
-])]
+
+#[
+    ORM\Table(name: 'catalog_position'),
+    ORM\Entity(repositoryClass: \Celsius3\Repository\BaseRepository::class),
+    
+    ORM\Index(name: 'idx_position', columns: ['position']),
+    ORM\Index(name: 'idx_catalog', columns: ['catalog_id']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+]
 class CatalogPosition
 {
     use TimestampableEntity;

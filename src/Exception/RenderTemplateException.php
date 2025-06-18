@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RenderTemplateException extends \RuntimeException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -38,6 +38,6 @@ class RenderTemplateException extends \RuntimeException implements Celsius3Excep
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

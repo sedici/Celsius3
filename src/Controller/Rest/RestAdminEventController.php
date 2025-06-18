@@ -177,6 +177,14 @@ final class RestAdminEventController extends EventController
     )]
     public function createRequestEvent(string $request_id): Response
     {
+        $request = $this->findRequest($request_id);
+        $data = $this->lifecycleHelper->createRequestEvent($request, $this->instance);
+        throw new \Exception((string)var_dump($data));
+        $this->restRenderer->render(
+            $data,
+            serializerGroups: 'administration_order_show'
+        );
+
         return $this->handleEvent(
             $request_id,
             [$this->lifecycleHelper, 'createRequestEvent']

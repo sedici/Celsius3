@@ -31,10 +31,9 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
@@ -73,10 +72,9 @@ class EmailController extends EntityController
     public function __construct(
         protected MailerInterface $mailer,
         protected EmailTemplateController $emailTeplateController,
-        protected readonly LoggerInterface $logger,
+        protected readonly LoggerInterface $celsiusExceptionLogger,
         protected readonly VerifyEmailHelperInterface $verifyEmailHelper,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -97,7 +95,6 @@ class EmailController extends EntityController
     ) {
         parent::__construct(
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,
@@ -194,7 +191,7 @@ class EmailController extends EntityController
             if ($logLevel <= 2) {
                 $msg = 'Instance ' . $this->instance->getUrl() . ': The SMTP server data are not valid.';
                 $output?->writeln($msg);
-                $this->logger->error($msg);
+                $this->celsiusExceptionLogger->error($msg);
             }
             return;
         }
@@ -217,20 +214,20 @@ class EmailController extends EntityController
         } catch (\Exception $e) {
             $msg = 'Error creating Mailer for instance ' . $instance->getUrl() . '. ' . $e->getMessage();
             $output->writeln($msg);
-            $this->logger->error($msg);
+            $this->celsiusExceptionLogger->error($msg);
             return;
         }
 
         if ($logLevel <= 3) {
             $msg = 'Sending mails from instance ' . $this->instance->getUrl();
             $output?->writeln($msg);
-            $this->logger->info($msg);
+            $this->celsiusExceptionLogger->info($msg);
         }
         if ($logLevel === 1) {
             foreach (['host', 'port'] as $x) {
                 $msg = 'SMTP ' . ucfirst($x) . ': ' . $transportConfig[$x];
                 $output->writeln($msg);
-                $this->logger->info($msg);
+                $this->celsiusExceptionLogger->info($msg);
             }
         }
 
@@ -241,7 +238,7 @@ class EmailController extends EntityController
                     if ($logLevel <= 2) {
                         $msg = 'Sending email from ' . $from . ' to ' . $email->getAddress();
                         $output?->writeln($msg);
-                        $this->logger->info($msg);
+                        $this->celsiusExceptionLogger->info($msg);
                     }
 
                     $mimeEmail = $this->mimeEmailFromEntityEmail($email);
@@ -267,7 +264,7 @@ class EmailController extends EntityController
                 $this->persistEntity($email);
 
                 $msg = "Error al enviar el correo con ID: " . $email->getId();
-                $this->logger->error($msg, ['exception' => $e]);
+                $this->celsiusExceptionLogger->error($msg, ['exception' => $e]);
                 $output?->writeln($msg);
             }
         }
@@ -375,7 +372,7 @@ class EmailController extends EntityController
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            $this->logger->error('Error sending verification email: ' . $e->getMessage(), ['exception' => $e]);
+            $this->celsiusExceptionLogger->error('Error sending verification email: ' . $e->getMessage(), ['exception' => $e]);
             throw new \RuntimeException('Error sending verification email: ' . $e->getMessage(), 0, $e);
         }
     }
@@ -478,7 +475,7 @@ class EmailController extends EntityController
         } catch (\Exception $e) {
             // $celsiusEmail->setError(true);
             // $this->entityManager->flush();
-            $this->logger->error('Error sending email: ' . $e->getMessage(), ['exception' => $e]);
+            $this->celsiusExceptionLogger->error('Error sending email: ' . $e->getMessage(), ['exception' => $e]);
             // throw new \Exception('Error sending email: ' . $e->getMessage());
             return false;
         }

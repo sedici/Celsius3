@@ -22,30 +22,40 @@
 
 namespace Celsius3\Listener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\Manager\NotificationManager;
 use Celsius3\Entity\Notifiable;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Events;
 
+
+#[AsDoctrineListener(Events::postPersist)]
+#[AsDoctrineListener(Events::postUpdate)]
 class NotificationListener
 {
-    private $notification_manager;
 
-    public function __construct(NotificationManager $notification_manager)
-    {
-        $this->notification_manager = $notification_manager;
-    }
+    public function __construct(
+        protected NotificationManager $notificationManager
+    ) { }
 
-    public function postPersist(LifecycleEventArgs $args): void
+
+    public function postPersist(PostPersistEventArgs $args): void
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         if ($entity instanceof Notifiable) {
-            $entity->notify($this->notification_manager);
+            $entity->notify($this->notificationManager);
         }
     }
 
-    public function postUpdate(LifecycleEventArgs $args): void
+
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $this->postPersist($args);
+        $entity = $args->getObject();
+
+        if ($entity instanceof Notifiable) {
+            $entity->notify($this->notificationManager);
+        }
     }
 }

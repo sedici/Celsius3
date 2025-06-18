@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -104,7 +104,7 @@ class InstanceRepository extends ServiceEntityRepository implements InstanceRepo
         return $this->createQueryBuilder('i')
             ->where('i.url <> :url')
             ->andWhere('i.invisible <> :invisible')
-            ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY)
+            ->setParameter('url', InstanceHelper::INSTANCE__DIRECTORY)
             ->setParameter('invisible', true);
     }
 
@@ -141,7 +141,7 @@ class InstanceRepository extends ServiceEntityRepository implements InstanceRepo
     {
         return $this->createQueryBuilder('i')
             ->where('i.url <> :url')
-            ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY);
+            ->setParameter('url', InstanceHelper::INSTANCE__DIRECTORY);
     }
 
     public function findInstancesOrderedByDistance($latitude, $longitude, $limit)

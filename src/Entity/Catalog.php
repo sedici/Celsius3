@@ -29,13 +29,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogRepository::class)]
-#[ORM\Table(name: 'catalog', indexes: [
-    new ORM\Index(name: 'idx_name', columns: ['name']),
-    new ORM\Index(name: 'idx_url', columns: ['url']),
-    new ORM\Index(name: 'idx_institution', columns: ['institution_id']),
-    new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
-])]
+#[
+    ORM\Table(name: 'catalog'),
+    ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogRepository::class),
+
+    ORM\Index(name: 'idx_name', columns: ['name']),
+    ORM\Index(name: 'idx_url', columns: ['url']),
+    ORM\Index(name: 'idx_institution', columns: ['institution_id']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+]
 class Catalog
 {
     use TimestampableEntity;

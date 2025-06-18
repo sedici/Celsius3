@@ -23,6 +23,7 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\Query;
 
 /**
@@ -53,7 +54,7 @@ class JournalRepository extends BaseRepository
             ->getEntityManager()
             ->getRepository(Instance::class)
             ->findOneBy([
-                'url' => \Celsius3\Manager\InstanceManager::INSTANCE__DIRECTORY,
+                'url' => InstanceHelper::INSTANCE__DIRECTORY,
             ]
         );
 

@@ -31,8 +31,12 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: 'contact_type', indexes: [new ORM\Index(name: 'idx_name', columns: ['name'])] )]
+#[
+    ORM\Table(name: 'contact_type'),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: 'idx_name', columns: ['name'])
+]
 class ContactType
 {
     use TimestampableEntity;

@@ -29,14 +29,13 @@ use Celsius3\Repository\CountryRepository;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: CountryRepository::class)]
-#[ORM\Table(
-    name: 'country',
-    indexes: [
-        new ORM\Index(name: 'idx_name', columns: ['name']),
-        new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
-    ]
-)]
+#[
+    ORM\Table(name: 'country'),
+    ORM\Entity(repositoryClass: CountryRepository::class),
+
+    ORM\Index(name: 'idx_name', columns: ['name']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+]
 class Country
 {
     use TimestampableEntity;

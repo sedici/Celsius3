@@ -34,10 +34,9 @@ use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Exception\Exception;
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Manager\EventManager;
 use Celsius3\Manager\FilterManager;
@@ -65,7 +64,6 @@ class EventController extends EntityController
         protected EventManager $eventManager,
         protected LifecycleHelper $lifecycleHelper,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -86,7 +84,6 @@ class EventController extends EntityController
     ) {
         parent::__construct(
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,

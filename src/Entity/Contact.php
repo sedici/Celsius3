@@ -35,16 +35,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[Gedmo\SoftDeleteable(fieldName: "deletedAt")]
-#[ORM\Entity(repositoryClass: ContactRepository::class)]
-#[ORM\Table(name: "contact", indexes: [
-    new ORM\Index(name: "idx_name", columns: ["name"]),
-    new ORM\Index(name: "idx_surname", columns: ["surname"]),
-    new ORM\Index(name: "idx_email", columns: ["email"]),
-    new ORM\Index(name: "idx_user", columns: ["user_id"]),
-    new ORM\Index(name: "idx_institution", columns: ["institution_id"]),
-    new ORM\Index(name: "idx_owning_instance", columns: ["owning_instance_id"])
-])]
+#[
+    ORM\Table(name: "contact"),
+    ORM\Entity(repositoryClass: ContactRepository::class),
+
+    Gedmo\SoftDeleteable(fieldName: "deletedAt"),
+
+    ORM\Index(name: "idx_name", columns: ["name"]),
+    ORM\Index(name: "idx_surname", columns: ["surname"]),
+    ORM\Index(name: "idx_email", columns: ["email"]),
+    ORM\Index(name: "idx_user", columns: ["user_id"]),
+    ORM\Index(name: "idx_institution", columns: ["institution_id"]),
+    ORM\Index(name: "idx_owning_instance", columns: ["owning_instance_id"])
+]
 class Contact
 {
     use TimestampableEntity;

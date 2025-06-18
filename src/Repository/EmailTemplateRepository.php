@@ -24,7 +24,6 @@ namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\EmailTemplate;
-use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\QueryBuilder;
 
 /**

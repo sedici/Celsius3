@@ -34,7 +34,7 @@ class InvalidEmailException extends ManifestInvalidEmailException implements Cel
 {
     private $router;
 
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -43,7 +43,7 @@ class InvalidEmailException extends ManifestInvalidEmailException implements Cel
         $response = new RedirectResponse($this->router->generate('administration'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 
 

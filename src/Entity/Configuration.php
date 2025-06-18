@@ -28,13 +28,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\ConfigurationRepository;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: ConfigurationRepository::class)]
-#[ORM\Table(name: "configuration", uniqueConstraints: [
-    new ORM\UniqueConstraint(name: "unique_idx", columns: ["key", "instance_id"])
-], indexes: [
-    new ORM\Index(name: "idx_key", columns: ["key"]),
-    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
-])]
+#[
+    ORM\Table(name: "configuration"),
+    ORM\Entity(repositoryClass: ConfigurationRepository::class),
+    
+    ORM\UniqueConstraint(name: "unique_idx", columns: ["key", "instance_id"]),
+    
+    ORM\Index(name: "idx_key", columns: ["key"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"])
+]
 class Configuration
 {
     use TimestampableEntity;

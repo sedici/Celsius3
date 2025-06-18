@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ExceptionNotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -39,6 +39,6 @@ class ExceptionNotFoundException extends NotFoundHttpException implements Celsiu
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

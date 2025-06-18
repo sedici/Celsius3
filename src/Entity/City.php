@@ -31,12 +31,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\CityRepository::class)]
-#[ORM\Table(name: 'city', indexes: [
-    new ORM\Index(name: 'idx_name', columns: ['name']),
-    new ORM\Index(name: 'idx_country', columns: ['country_id']),
-    new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
-])]
+#[
+    ORM\Table(name: 'city'),
+    ORM\Entity(repositoryClass: \Celsius3\Repository\CityRepository::class),
+    
+    ORM\Index(name: 'idx_name', columns: ['name']),
+    ORM\Index(name: 'idx_country', columns: ['country_id']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+]
 class City
 {
     use TimestampableEntity;

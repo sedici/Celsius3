@@ -27,6 +27,7 @@ use Celsius3\Entity\Instance;
 use Doctrine\ORM\EntityManager;
 use Celsius3\Helper\InstanceHelper;
 
+
 class CatalogManager
 {
     public const CATALOG__NON_SEARCHED = 'non_searched';
@@ -34,30 +35,31 @@ class CatalogManager
     public const CATALOG__PARTIALLY_FOUND = 'partially_found';
     public const CATALOG__NOT_FOUND = 'not_found';
 
-    private $entityManager;
-    private $instanceHelper;
-    private $instanceManager;
+    protected $repository;
 
-    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper, InstanceManager $instanceManager)
-    {
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
-        $this->instanceManager = $instanceManager;
+    public function __construct(
+        protected EntityManager $entityManager,
+        protected InstanceHelper $instanceHelper
+    ) {
+        $this->repository = $this->entityManager->getRepository(Catalog::class);
     }
 
-    public static function getResults()
+
+    public static function getResults(): array
     {
-        return array(
+        return [
             self::CATALOG__FOUND,
             self::CATALOG__PARTIALLY_FOUND,
             self::CATALOG__NOT_FOUND,
-            self::CATALOG__NOT_SEARCHED,
-        );
+            self::CATALOG__NON_SEARCHED
+        ];
     }
 
-    public function getCatalogs(?Instance $instance = null)
+
+    public function getCatalogs(?Instance $instance = null): array
     {
-        return $this->entityManager->getRepository(Catalog::class)
-                        ->findBy(array('instance' => $instance->getId()));
+        return $this->repository->findBy(
+            [ 'instance' => $instance->getId() ]
+        );
     }
 }

@@ -39,11 +39,14 @@ class EventNotification extends Notification
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: "event_notification_id", referencedColumnName: "id")]
-    protected $object;
+    protected Event $object;
 
 
-    public function __construct($cause, $object, $template)
-    {
+    public function __construct(
+        string $cause,
+        Event $object,
+        NotificationTemplate $template
+    ) {
         parent::__construct();
 
         $this->setCause($cause);

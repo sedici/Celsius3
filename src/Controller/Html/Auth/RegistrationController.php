@@ -38,10 +38,9 @@ use Celsius3\EntityManager\ThreadManager;
 use Celsius3\Exception\Exception;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\CustomFieldHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
@@ -69,7 +68,6 @@ class RegistrationController extends UserController
         ThreadManager $threadManager,
         CustomFieldHelper $customFieldHelper,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -93,7 +91,6 @@ class RegistrationController extends UserController
             $threadManager,
             $customFieldHelper,
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,

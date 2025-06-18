@@ -38,15 +38,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-#[ORM\Table(name: '`order`', indexes: [
-    new ORM\Index(name: 'idx_code', columns: ['code']),
-    new ORM\Index(name: 'idx_created_at', columns: ['created_at']),
-    new ORM\Index(name: 'idx_material_data', columns: ['material_data_id']),
-    new ORM\Index(name: 'idx_original_request', columns: ['original_request_id']),
-])]
-#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
-#[ORM\HasLifecycleCallbacks]
+#[
+    ORM\Table(name: '`order`'),
+    ORM\Entity(repositoryClass: OrderRepository::class),
+
+    ORM\Index(name: 'idx_code', columns: ['code']),
+    ORM\Index(name: 'idx_created_at', columns: ['created_at']),
+    ORM\Index(name: 'idx_material_data', columns: ['material_data_id']),
+    ORM\Index(name: 'idx_original_request', columns: ['original_request_id']),
+
+    Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false),
+
+    ORM\HasLifecycleCallbacks
+]
 class Order
 {
     use TimestampableEntity;

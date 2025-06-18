@@ -29,13 +29,15 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "file_download", indexes: [
-    new ORM\Index(name: "idx_request", columns: ["request_id"]),
-    new ORM\Index(name: "idx_user", columns: ["user_id"]),
-    new ORM\Index(name: "idx_ip", columns: ["ip"]),
-    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
-])]
+#[
+    ORM\Table(name: "file_download"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_request", columns: ["request_id"]),
+    ORM\Index(name: "idx_user", columns: ["user_id"]),
+    ORM\Index(name: "idx_ip", columns: ["ip"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"])
+]
 class FileDownload
 {
     use TimestampableEntity;

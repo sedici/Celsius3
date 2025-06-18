@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Celsius3\Entity\Instance;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 
 class CountryType extends AbstractType
 {
@@ -38,7 +38,7 @@ class CountryType extends AbstractType
                 ->add('abbreviation')
         ;
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add('instance', EntityType::class, array(
                     'class' => Instance::class,
                 ));

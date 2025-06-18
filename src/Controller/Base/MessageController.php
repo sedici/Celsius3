@@ -26,30 +26,10 @@ use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Message;
 use Celsius3\Entity\Mixin\ProviderTrait;
 
-use Celsius3\Controller\Core\HtmlRenderer;
-use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Thread;
-use Celsius3\Exception\Exception;
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class MessageController extends EntityController
@@ -79,7 +59,9 @@ class MessageController extends EntityController
     ): QueryBuilder {
         // throw new \Exception((string)var_dump($this->threadRepository));
         return $this->threadRepository->getParticipantInboxThreadsQueryBuilder(
-            $this->entityManager->getRepository(BaseUser::class)->find(634)
+            $this->entityManager
+                ->getRepository(BaseUser::class)
+                ->find($this->getUser()->getId())
         );
     }
 }

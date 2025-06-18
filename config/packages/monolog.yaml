@@ -2,14 +2,24 @@ monolog:
     channels:
         - 'celsius_exception'
         - 'celsius_rest_exception'
+        - 'doctrine'
     handlers:
         celsius_exception:
             level:    error
+            # level: debug
             type:     stream
             path:     '%kernel.logs_dir%/celsius_exception.log'
             channels: [celsius_exception]
+            formatter: monolog.formatter.line
         celsius_rest_exception:
             level:    error
+            # level: debug
             type:     stream
             path:     '%kernel.logs_dir%/celsius_rest_exception.log'
             channels: [celsius_rest_exception]
+            formatter: monolog.formatter.line
+        doctrine:
+            type: stream
+            path: '%kernel.logs_dir%/doctrine.log'
+            level: debug
+            channels: [doctrine]

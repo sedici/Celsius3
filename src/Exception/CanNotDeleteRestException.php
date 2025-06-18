@@ -29,7 +29,7 @@ use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 
 class CanNotDeleteRestException extends PreconditionFailedHttpException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -43,6 +43,6 @@ class CanNotDeleteRestException extends PreconditionFailedHttpException implemen
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

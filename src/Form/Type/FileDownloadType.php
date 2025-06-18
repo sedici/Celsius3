@@ -22,10 +22,10 @@
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\Helper\InstanceHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\Manager\InstanceManager;
 
 class FileDownloadType extends AbstractType
 {
@@ -37,7 +37,7 @@ class FileDownloadType extends AbstractType
                 ->add('file')
         ;
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add('instance');
             } else {
                 $builder->add('instance', InstanceSelectorType::class, array(

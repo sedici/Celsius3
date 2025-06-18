@@ -27,10 +27,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityManager;
 use Celsius3\Entity\Instance;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 
 class InstitutionType extends AbstractType
 {
@@ -69,7 +68,7 @@ class InstitutionType extends AbstractType
         $builder->addEventSubscriber($subscriber);
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder
                     ->add('instance', EntityType::class, [
                         'class' => Instance::class,

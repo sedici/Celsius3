@@ -33,22 +33,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "material_type", indexes: [
-    new ORM\Index(name: "idx_type", columns: ["type"]),
-    new ORM\Index(name: "idx_title", columns: ["title"])
-])]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap([
-    "journal" => JournalType::class,
-    "book" => BookType::class,
-    "congress" => CongressType::class,
-    "thesis" => ThesisType::class,
-    "patent" => PatentType::class,
-    "newspaper" => NewspaperType::class
-])]
-#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)]
+#[
+    ORM\Table(name: "material_type"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_type", columns: ["type"]),
+    ORM\Index(name: "idx_title", columns: ["title"]),
+
+    ORM\InheritanceType("SINGLE_TABLE"),
+    ORM\DiscriminatorColumn(name: "type", type: "string"),
+    ORM\DiscriminatorMap([
+        "journal" => JournalType::class,
+        "book" => BookType::class,
+        "congress" => CongressType::class,
+        "thesis" => ThesisType::class,
+        "patent" => PatentType::class,
+        "newspaper" => NewspaperType::class
+    ]),
+
+    Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)
+]
 abstract class MaterialType
 {
     use TimestampableEntity;

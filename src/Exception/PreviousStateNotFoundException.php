@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PreviousStateNotFoundException extends \LogicException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -38,6 +38,6 @@ class PreviousStateNotFoundException extends \LogicException implements Celsius3
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

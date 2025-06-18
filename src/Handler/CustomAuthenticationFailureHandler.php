@@ -34,15 +34,14 @@ use Symfony\Component\Security\Http\HttpUtils;
 
 class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
 {
-    private $router;
 
     public function __construct(
-        RouterInterface $router,
+        protected RouterInterface $router,
         HttpKernelInterface $httpKernel,
         HttpUtils $httpUtils,
-        LoggerInterface $logger = null
+        ?LoggerInterface $celsiusExceptionLogger = null
     ) {
-        parent::__construct($httpKernel, $httpUtils, [], $logger);
+        parent::__construct($httpKernel, $httpUtils, [], $celsiusExceptionLogger);
         $this->router = $router;
     }
 

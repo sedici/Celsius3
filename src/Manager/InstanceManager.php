@@ -23,7 +23,6 @@
 namespace Celsius3\Manager;
 
 use Celsius3\Entity\Instance;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class InstanceManager
@@ -36,10 +35,10 @@ class InstanceManager
         $this->em = $em;
     }
 
-    public function getDirectory()
+    public function getDirectory(): ?Instance
     {
         return $this->em->getRepository(Instance::class)
-                        ->findOneBy(array('url' => self::INSTANCE__DIRECTORY));
+            ->findOneBy([ 'url' => self::INSTANCE__DIRECTORY ]);
     }
 
     public function findInstance($latitude, $longitude, $limit = 10)

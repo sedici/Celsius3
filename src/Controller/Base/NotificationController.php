@@ -22,7 +22,7 @@
 
 namespace Celsius3\Controller\Base;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Celsius3\Controller\Core\EntityController;
 use Celsius3\Entity\Notification;
 use Celsius3\Form\Type\SubscriptionType;
 use Celsius3\Entity\NotificationSettings;
@@ -34,31 +34,36 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template; // NO BORRAR
 use Celsius3\Exception\Exception;
 
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * Notification controller.
- * @Route("/user/notification")
- */
-class NotificationController extends BaseEntityController
+
+#[Route('/user/notification')]
+class NotificationController extends EntityController
 {
 
-    protected NotificationManager $notificationManager;
     protected EntityRepository $nsrepository;
 
     public function __construct(
-        NotificationManager $notificationManager,
-        InstanceManager $instanceManager,
+        protected NotificationManager $notificationManager,
+        ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -68,10 +73,17 @@ class NotificationController extends BaseEntityController
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
-            $instanceManager,
+            $validator,
             $entityManager,
             $paginator,
             $configurationHelper,
@@ -81,35 +93,42 @@ class NotificationController extends BaseEntityController
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-
-        $this->notificationManager = $notificationManager;
-        $this->nsrepository = $this->entityManager
-            ->getRepository(NotificationSettings::class);
     }
 
-    final protected function getEntity(): string
-    { return Notification::class; }
 
-    final protected function getType(): string
-    { return Notification::class; }
-
-    final protected function getTemplatePrefix(): string
-    { return 'Notification/'; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Notification::class);
+
+        parent::initialize();
+
+        $this->htmlRenderer->setTemplatePrefix('Notification/');
+        $this->setInstanceDependent(true);
+
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+
+        $this->nsrepository = $this->entityManager
+            ->getRepository(NotificationSettings::class);
+        
+        $this->setType(Notification::class);
     }
 
 
-    protected function listQuery(): QueryBuilder
-    {
+    public function listQuery(
+        ?bool $isInstanceDependent = null
+    ): QueryBuilder {
         return $this->repository
             ->createQueryBuilder('e')
             ->join('e.receivers', 'r')
@@ -118,31 +137,27 @@ class NotificationController extends BaseEntityController
     }
 
 
-    /**
-     * Lists all Notification documents.
-     *
-     * @Route("/", name="user_notification")
-     * @Template()
-     *
-     * @return array
-     */
-    public function indexAction(): Response
+    #[Route(
+        '/',
+        name: 'user_notification',
+        methods: ['GET'],
+        options: ['expose' => true]
+    )]
+    public function indexAction(): array
     {
-        return $this->baseIndex(
+        return $this->index(
             SubscriptionType::class,
             hasFilterForm: false,
         );
     }
 
 
-    /**
-     * Lists all Notification documents.
-     *
-     * @Route("/subscriptions", name="user_notification_subscriptions")
-     * @Template()
-     *
-     * @return array
-     */
+    #[Route(
+        '/subscriptions',
+        name: 'user_notification_subscriptions',
+        methods: ['GET', 'POST'],
+        options: ['expose' => true]
+    )]
     public function subscriptionsAction(): array
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -219,9 +234,8 @@ class NotificationController extends BaseEntityController
     }
 
 
-    private function setNotificationTypes($notification, $types)
+    private function setNotificationTypes($notification, $types): void
     {
-
         $notificationSettings = $this->nsrepository->findOneBy([
             'user' => $this->getUser(),
             'instance' => $this->instance,
@@ -247,15 +261,13 @@ class NotificationController extends BaseEntityController
     }
 
 
-    /**
-     * Lists all Notification documents.
-     *
-     * @Route("/{id}/view", name="user_notification_view", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
-     */
-    public function viewAction($id): RedirectResponse
+    #[Route(
+        '/{id}/view',
+        name: 'user_notification_view',
+        methods: ['GET'],
+        options: ['expose' => true]
+    )]
+    public function viewAction(string $id): RedirectResponse
     {
         $notification = $this->findQuery($id);
 

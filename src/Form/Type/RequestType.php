@@ -23,7 +23,7 @@
 namespace Celsius3\Form\Type;
 
 use Celsius3\Entity\Request;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\OrderManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -188,7 +188,7 @@ class RequestType extends AbstractType
             array_key_exists('instance', $options)
             && $options['instance'] !== null
         ) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add(
                     'instance',
                     null,

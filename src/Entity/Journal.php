@@ -32,12 +32,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: JournalRepository::class)]
-#[ORM\Table(name: "journal", indexes: [
-    new ORM\Index(name: "idx_name", columns: ["name"]),
-    new ORM\Index(name: "idx_abbreviation", columns: ["abbreviation"]),
-    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
-])]
+#[
+    ORM\Table(name: "journal"),
+    ORM\Entity(repositoryClass: JournalRepository::class),
+
+    ORM\Index(name: "idx_name", columns: ["name"]),
+    ORM\Index(name: "idx_abbreviation", columns: ["abbreviation"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"])
+]
 class Journal
 {
     use TimestampableEntity;

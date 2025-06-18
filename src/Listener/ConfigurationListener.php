@@ -26,7 +26,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Entity\Configuration;
 use Celsius3\Entity\Instance;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 
 class ConfigurationListener
 {
@@ -44,7 +44,7 @@ class ConfigurationListener
 
         if ($entity instanceof Instance) {
             $default = $em->getRepository(Configuration::class)
-                    ->findInstanceConfigurationByUrl(InstanceManager::INSTANCE__DIRECTORY);
+                    ->findInstanceConfigurationByUrl(InstanceHelper::INSTANCE__DIRECTORY);
 
             foreach ($default as $configuration) {
                 $new = $this->configuration_helper->duplicate($configuration);
@@ -64,7 +64,7 @@ class ConfigurationListener
         } elseif ($entity instanceof Configuration) {
             if (!$entity->getInstance()) {
                 $instances = $em->getRepository(Instance::class)
-                        ->findAllInstancesExceptByUrl(InstanceManager::INSTANCE__DIRECTORY);
+                        ->findAllInstancesExceptByUrl(InstanceHelper::INSTANCE__DIRECTORY);
 
                 foreach ($instances as $instance) {
                     $new = $this->configuration_helper->duplicate($entity);

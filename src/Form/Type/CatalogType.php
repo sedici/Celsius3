@@ -28,7 +28,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\Form\EventListener\AddEnableCatalogFieldSubscriber;
 
@@ -64,7 +64,7 @@ class CatalogType extends AbstractType
         $builder->addEventSubscriber($enableCatalogFieldSubscriber);
 
         if (array_key_exists('instance', $options)) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add('instance');
             } else {
                 $builder->add('instance', InstanceSelectorType::class, array(

@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EntityNotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -43,6 +43,6 @@ class EntityNotFoundRestException extends NotFoundHttpException implements Celsi
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

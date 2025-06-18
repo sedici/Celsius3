@@ -27,6 +27,7 @@ namespace Celsius3\Entity;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Manager\NotificationManager;
 use Celsius3\Manager\UserManager;
+use Celsius3\Repository\BaseUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -38,20 +39,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\BaseUserRepository::class)]
-#[ORM\Table(name: "user", indexes: [
-    new ORM\Index(name: "idx_username", columns: ["username"]),
-    new ORM\Index(name: "idx_email", columns: ["email"]),
-    new ORM\Index(name: "idx_name", columns: ["name"]),
-    new ORM\Index(name: "idx_surname", columns: ["surname"]),
-    new ORM\Index(name: "idx_enabled", columns: ["enabled"]),
-    new ORM\Index(name: "idx_locked", columns: ["locked"]),
-    new ORM\Index(name: "idx_instance", columns: ["instance_id"]),
-    new ORM\Index(name: "idx_institution", columns: ["institution_id"])
-])]
-#[ORM\HasLifecycleCallbacks]
-#[DoctrineAssert\UniqueEntity("username")]
-#[DoctrineAssert\UniqueEntity("email")]
+#[
+    ORM\Table(name: "user"),
+    ORM\Entity(repositoryClass: BaseUserRepository::class),
+
+    ORM\UniqueConstraint(columns: ["username_canonical"]),
+    ORM\UniqueConstraint(columns: ["email_canonical"]),
+    ORM\UniqueConstraint(columns: ["confirmation_token"]),
+    
+    ORM\Index(name: "idx_username", columns: ["username"]),
+    ORM\Index(name: "idx_email", columns: ["email"]),
+    ORM\Index(name: "idx_name", columns: ["name"]),
+    ORM\Index(name: "idx_surname", columns: ["surname"]),
+    ORM\Index(name: "idx_enabled", columns: ["enabled"]),
+    ORM\Index(name: "idx_locked", columns: ["locked"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"]),
+    ORM\Index(name: "idx_institution", columns: ["institution_id"]),
+
+    ORM\HasLifecycleCallbacks
+]
 class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, Notifiable
 {
     use TimestampableEntity;
@@ -59,124 +65,75 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    // #[Groups([
-    //     "api",
-    //     "administration",
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list",
-    //     "admins-select"
-    // ])]
     protected ?int $id = null;
 
     #[ORM\Column(type: "string", length: 180, nullable: true)]
     private ?string $confirmationToken = null;
 
+
     private const TOKEN_LIFETIME = 2; // días que dura la validez del token
     private const CIPHER_ALGO = 'aes-256-cbc'; // Encryption algorithm
 
+
     #[Assert\Email(groups: ["Default"])]
-    #[ORM\Column(type: "string", length: 180, unique: true)]
-    // #[Groups(["ajax_list"])]
+    #[ORM\Column(type: "string", length: 180)]
     protected ?string $email = null;
 
-    #[ORM\Column(type: "string", unique: true)]
-    // #[Groups(["ajax_list_name"])]
+    #[ORM\Column(type: "string", length: 180)]
     private ?string $username = null;
 
-    #[ORM\Column(type: "string")]
-    private ?string $username_canonical = null;
+    #[ORM\Column(name: "username_canonical", type: "string", length: 180)]
+    private ?string $usernameCanonical = null;
 
-    #[ORM\Column(type: "string")]
-    private ?string $email_canonical = null;
+    #[ORM\Column(name: "email_canonical", type: "string", length: 180)]
+    private ?string $emailCanonical = null;
 
     #[ORM\Column(type: "array")]
     private array $roles = [];
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: "datetime", nullable: true, options: ["default" => null])]
+    private ?\DateTimeInterface $passwordRequestedAt = null;
+
+    #[ORM\Column(type: "string", length: 255, nullable: true, options: ["default" => null])]
     private ?string $salt = null;
 
+    #[ORM\Column(type: "datetime", nullable: true, options: ["default" => null])]
+    private ?\DateTimeInterface $lastLogin = null;
+
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "api",
-    //     "administration"
-    // ])]
     private bool $enabled = false;
 
     #[Assert\NotBlank(groups: ["Default"])]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api",
-    //     "administration",
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list",
-    //     "admins-select",
-    //     "email_template",
-    //     "ajax_list"
-    // ])]
     protected ?string $name = null;
 
     #[Assert\NotBlank(groups: ["Default"])]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api",
-    //     "administration",
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list",
-    //     "admins-select",
-    //     "email_template",
-    //     "ajax_list"
-    // ])]
     protected ?string $surname = null;
 
     #[Assert\Date(groups: ["Default"])]
     #[ORM\Column(type: "date", nullable: true)]
-    // #[Groups(["administration"])]
     protected ?\DateTime $birthdate = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    // #[Groups(["administration"])]
     protected ?string $address = null;
 
     #[Assert\NotNull]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "api",
-    //     "user_list"
-    // ])]
     protected bool $downloadAuth = true;
 
     #[Assert\NotNull]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "api",
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     protected bool $wrongEmail = false;
 
     #[Assert\NotNull]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "api",
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     protected bool $pdf = true;
 
     #[ORM\OneToMany(
@@ -216,12 +173,6 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         cascade: ["persist"]
     )]
     #[ORM\JoinColumn(name: "institution_id", referencedColumnName: "id", nullable: false)]
-    // #[Groups([
-    //     "administration",
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show"
-    // ])]
     protected ?Institution $institution = null;
 
     #[ORM\Column(type: "array", name: "secondary_instances")]
@@ -233,7 +184,6 @@ class BaseUser implements  UserInterface, PasswordAuthenticatedUserInterface, No
         cascade: ["remove"], 
         fetch: "EXTRA_LAZY"
     )]
-    // #[Groups(["administration"])]
     protected Collection $customValues;
 
     #[ORM\ManyToMany(targetEntity: Client::class)]

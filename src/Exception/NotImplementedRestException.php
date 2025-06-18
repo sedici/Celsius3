@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class NotImplementedRestException extends \LogicException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -47,6 +47,6 @@ class NotImplementedRestException extends \LogicException implements Celsius3Exc
 
         $event->setResponse($response);
 
-        $logger->critical($exception);
+        $celsiusExceptionLogger->critical($exception);
     }
 }

@@ -26,6 +26,7 @@ use Celsius3\Entity\Instance;
 use Celsius3\Entity\News;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * NewsRepository.
@@ -49,12 +50,11 @@ class NewsRepository extends BaseRepository
                         ->getResult();
     }
 
-    public function findByInstanceQB(Instance $instance)
+    public function findByInstanceQB(Instance $instance): QueryBuilder
     {
         return $this->createQueryBuilder('n')
                     ->where('n.instance = :instance_id')
                     ->orderBy('n.createdAt', 'desc')
-                    ->setParameter(':instance_id', $instance->getId())
-                    ->getQuery();
+                    ->setParameter(':instance_id', $instance->getId());
     }
 }

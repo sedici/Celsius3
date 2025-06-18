@@ -27,21 +27,17 @@ namespace Celsius3\Listener;
 use Celsius3\Entity\Catalog;
 use Celsius3\Entity\CatalogPosition;
 use Celsius3\Entity\Instance;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CatalogListener
 {
-    private $requestStack;
-    private $instanceManager;
 
-    public function __construct(RequestStack $requestStack, InstanceManager $instanceManager)
-    {
-        $this->requestStack = $requestStack;
-        $this->instanceManager = $instanceManager;
-    }
+    public function __construct(
+        protected RequestStack $requestStack,
+        protected InstanceHelper $InstanceHelper
+    ) { }
 
     public function postPersist(LifecycleEventArgs $args)
     {

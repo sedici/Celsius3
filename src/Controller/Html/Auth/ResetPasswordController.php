@@ -45,9 +45,8 @@ use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\EntityManager\ThreadManager;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\CustomFieldHelper;
-use Celsius3\Manager\InstanceManager;
-use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
+use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
@@ -75,7 +74,6 @@ class ResetPasswordController extends UserController
         ThreadManager $threadManager,
         CustomFieldHelper $customFieldHelper,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -99,7 +97,6 @@ class ResetPasswordController extends UserController
             $threadManager,
             $customFieldHelper,
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,

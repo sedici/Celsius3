@@ -33,11 +33,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\InstanceRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
-#[ORM\Entity(repositoryClass: InstanceRepository::class)]
-#[UniqueEntity('url')]
-#[UniqueEntity('host')]
-#[ORM\HasLifecycleCallbacks]
+#[
+    Entity(repositoryClass: InstanceRepository::class),
+
+    UniqueEntity('url'),
+    UniqueEntity('host'),
+
+    HasLifecycleCallbacks
+]
 class Instance extends LegacyInstance
 {
 

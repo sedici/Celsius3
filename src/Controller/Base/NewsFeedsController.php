@@ -22,79 +22,34 @@
 
 namespace Celsius3\Controller\Base;
 
-use Celsius3\Entity\Instance;
-use Celsius3\Repository\NewsRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Entity\News;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\FilterManager;
-use Celsius3\Manager\UnionManager;
-use Celsius3\Manager\UserManager;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
- * NewsRss controller.
- * @Route("/news/feed")
- */
-class NewsFeedsController extends BaseController
+#[Route('/news/feed', name: 'news_feeds')]
+class NewsFeedsController extends EntityController
 {
 
-    protected NewsRepository $newsRepository;
-
-    public function __construct(
-        NewsRepository $newsRepository,
-        InstanceManager $instanceManager,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator,
-        ConfigurationHelper $configurationHelper,
-        TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
-        RequestStack $requestStack,
-        UnionManager $unionManager,
-        UserManager $userManager,
-        FilterManager $filterManager,
-        InstanceHelper $instanceHelper
-    ) {
-        parent::__construct(
-            $instanceManager,
-            $entityManager,
-            $paginator,
-            $configurationHelper,
-            $translator,
-            $managerRegistry,
-            $requestStack,
-            $unionManager,
-            $userManager,
-            $filterManager,
-            $instanceHelper
-        );
-
-        $this->newsRepository = $newsRepository;
-    }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(News::class);
+
+        parent::initialize();
+
+        $this->htmlRenderer->setTemplatePrefix('NewsFeeds/');
+        $this->setInstanceDependent(true);
+
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
     }
 
 
-    protected function getInstance(): Instance
-    { return $this->instanceHelper->getUrlInstance(); }
-
-
-    protected function getUrl(Request $request)
+    protected function getUrl(Request $request): string
     {
         $domain = $request->server->get('HTTP_HOST');
         $name_file = $request->server->get('PHP_SELF');
@@ -103,21 +58,18 @@ class NewsFeedsController extends BaseController
     }
 
 
-    /**
-     * Generate Rss News.
-     * @Route("/rss", defaults={"_format"="xml"} ,name="rss_news")
-     */
+    #[Route('/rss', defaults: ['_format' => 'xml'], name: 'rss_news')]
     public function rss(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
 
         $fullUrl = $this->getUrl($request);
 
-        return $this->render(
-            (string) $this->templatePrefix . 'index_rss.html.twig',
+        return $this->htmlRenderer->render(
+            'index_rss',
             [
                 'instance' => $this->instance,
-                'lastNews' => $this->newsRepository
+                'lastNews' => $this->repository
                     ->findLastNews($this->instance),
                 'url' => (string) $fullUrl . '/newsFeeds/rss',
             ]

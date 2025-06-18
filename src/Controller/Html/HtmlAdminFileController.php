@@ -32,7 +32,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
@@ -61,7 +60,6 @@ class HtmlAdminFileController extends FileController
     public function __construct(
         protected FileManager $fileManager,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -82,7 +80,6 @@ class HtmlAdminFileController extends FileController
     ) {
         parent::__construct(
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,

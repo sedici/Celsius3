@@ -24,7 +24,6 @@ namespace Celsius3\Controller\Core;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Entity\Instance;
@@ -56,6 +55,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+
 abstract class Controller
 {
 
@@ -66,7 +66,6 @@ abstract class Controller
     protected FlashBagInterface $flashBag;
 
     public function __construct(
-        protected InstanceManager $instanceManager,
         protected EntityManagerInterface $entityManager,
         protected PaginatorInterface $paginator,
         protected ConfigurationHelper $configurationHelper,
@@ -93,21 +92,13 @@ abstract class Controller
     {
         $this->objectManager = $this->managerRegistry->getManager();
         $this->setInstance($this->instanceHelper->getSessionOrUrlInstance());
-        $this->setDirectory($this->instanceManager->getDirectory());
+        $this->setDirectory($this->instanceHelper->getDirectory());
         $this->flashBag = $this->session->getBag('flashes');
     }
 
 
-    // protected function getInstance(): Instance
-    // { return $this->instanceHelper->getSessionOrUrlInstance(); }
-
-
     protected function setInstance(Instance $instance): void
     { $this->instance = $instance; }
-
-
-    // protected function getDirectory(): Instance|null
-    // { return $this->instanceManager->getDirectory(); }
 
 
     protected function setDirectory(Instance $directory): void
@@ -117,9 +108,6 @@ abstract class Controller
     public function listQuery(): QueryBuilder
     { return $this->repository->createQueryBuilder('e'); }
 
-
-    // public function findQuery(string $id)
-    // { return $this->repository->find($id); }
 
     public function findQuery(string $id): mixed
     {

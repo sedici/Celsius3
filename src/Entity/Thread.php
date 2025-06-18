@@ -28,14 +28,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
-#[ORM\Entity(repositoryClass: ThreadRepository::class)]
-#[ORM\Table(
-    name: "thread",
-    indexes: [
-        new ORM\Index(name: "idx_created_at",
-        columns: ["created_at"])
-    ]
-)]
+#[
+    ORM\Table(name: "thread"),
+    ORM\Entity(repositoryClass: ThreadRepository::class),
+
+    ORM\Index(name: "idx_created_at", columns: ["created_at"])
+]
 class Thread
 {
 

@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Form\Type;
 
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -70,7 +70,7 @@ class BaseUserType extends RegistrationFormType
             );
 
         if (array_key_exists('instance', $options) && $options['instance'] !== null) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder
                     ->add(
                         'instance',

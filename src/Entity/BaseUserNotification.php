@@ -41,8 +41,11 @@ class BaseUserNotification extends Notification
     protected BaseUser $object;
 
 
-    public function __construct($cause, BaseUser $object, $template)
-    {
+    public function __construct(
+        string $cause,
+        BaseUser $object,
+        NotificationTemplate $template
+    ) {
         parent::__construct();
 
         $this->setCause($cause);

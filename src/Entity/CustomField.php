@@ -30,18 +30,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\CustomFieldRepository;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: CustomFieldRepository::class)]
-#[ORM\Table(
-    name: 'custom_field',
-    uniqueConstraints: [
-        new ORM\UniqueConstraint(name: 'unique_idx', columns: ['key', 'instance_id'])
-    ],
-    indexes: [
-        new ORM\Index(name: 'idx_key', columns: ['key']),
-        new ORM\Index(name: 'idx_name', columns: ['name']),
-        new ORM\Index(name: 'idx_instance', columns: ['instance_id'])
-    ]
-)]
+#[
+    ORM\Table(name: 'custom_field'),
+    ORM\Entity(repositoryClass: CustomFieldRepository::class),
+
+    ORM\UniqueConstraint(name: 'unique_idx', columns: ['key', 'instance_id']),
+
+    ORM\Index(name: 'idx_key', columns: ['key']),
+    ORM\Index(name: 'idx_name', columns: ['name']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id'])
+]
 class CustomField
 {
     use TimestampableEntity;

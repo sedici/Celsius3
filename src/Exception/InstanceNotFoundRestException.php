@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class InstanceNotFoundRestException extends \RuntimeException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -42,6 +42,6 @@ class InstanceNotFoundRestException extends \RuntimeException implements Celsius
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

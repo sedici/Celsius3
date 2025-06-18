@@ -29,8 +29,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "login", indexes: [new ORM\Index(name: "idx_category", columns: ["category"])])]
+#[
+    ORM\Table(name: "login"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_category", columns: ["category"])
+]
 class Login
 {
     use TimestampableEntity;

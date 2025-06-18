@@ -23,15 +23,13 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\Instance;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Core\EntityController;
 
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
@@ -46,19 +44,17 @@ use Symfony\Component\Security\Core\Security;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * BaseUser controller.
- * @Route("/tichnical")
- */
+
+#[Route('/technical')]
 class TechnicalController extends EntityController
 {
 
     public function __construct(
         // protected MailerHelper $mailerHelper,
         ValidatorInterface $validator,
-        InstanceManager $instanceManager,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -79,7 +75,6 @@ class TechnicalController extends EntityController
     ) {
         parent::__construct(
             $validator,
-            $instanceManager,
             $entityManager,
             $paginator,
             $configurationHelper,
@@ -101,10 +96,7 @@ class TechnicalController extends EntityController
     }
 
 
-    /**
-     * Lists all BaseUser entities.
-     * @Route("/", name="tichnical_index")
-     */
+    #[Route('/', name: 'technical_index')]
     public function htmlIndex(): Response
     {
         $instances = $this->objectManager
@@ -126,9 +118,11 @@ class TechnicalController extends EntityController
     }
 
 
-    /**
-     *  @Route("/test_smtp", name="technical_instance_rest_test_smtp", options={"expose"=true})
-     */
+    #[Route(
+        '/test_smtp',
+        name: 'technical_instance_rest_test_smtp',
+        options: ['expose' => true]
+    )]
     public function testConnection(): Response
     {
         $request = $this->requestStack->getCurrentRequest();

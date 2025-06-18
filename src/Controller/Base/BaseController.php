@@ -23,13 +23,12 @@
 namespace Celsius3\Controller\Base;
 
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
+use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
-use Celsius3\Helper\InstanceHelper;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
@@ -40,15 +39,14 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+
 
 abstract class BaseController extends AbstractController
 {
     
     protected string $templatePrefix;
     // ----
-    protected InstanceManager $instanceManager;
+    protected InstanceHelper $InstanceHelper;
     protected EntityManagerInterface $entityManager;
     protected ConfigurationHelper $configurationHelper;
     protected PaginatorInterface $paginator;
@@ -65,7 +63,7 @@ abstract class BaseController extends AbstractController
     protected Instance $instance;
 
     public function __construct(
-        InstanceManager $instanceManager,
+        InstanceHelper $InstanceHelper,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -77,7 +75,7 @@ abstract class BaseController extends AbstractController
         FilterManager $filterManager,
         InstanceHelper $instanceHelper
     ) {
-        $this->instanceManager = $instanceManager;
+        $this->InstanceHelper = $InstanceHelper;
         $this->entityManager = $entityManager;
         $this->configurationHelper = $configurationHelper;
         $this->paginator = $paginator;

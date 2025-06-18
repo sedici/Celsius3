@@ -32,13 +32,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(
-    name: "hive",
-    indexes: [
-        new ORM\Index(name: "idx_name", columns: ["name"])
-    ]
-)]
+#[
+    ORM\Table(name: "hive"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_name", columns: ["name"])
+]
 class Hive
 {
     use TimestampableEntity;

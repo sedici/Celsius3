@@ -29,7 +29,7 @@ use Psr\Log\LoggerInterface;
 
 class InvalidSearchException extends \InvalidArgumentException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -38,6 +38,6 @@ class InvalidSearchException extends \InvalidArgumentException implements Celsiu
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

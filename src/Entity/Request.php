@@ -26,6 +26,7 @@ use Celsius3\Entity\Event\Event;
 // use Celsius3\Entity\Mixin\SoftDeleteableEntity;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Manager\OrderManager;
+use Celsius3\Repository\RequestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,21 +37,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: 'Celsius3\Repository\RequestRepository')]
-#[ORM\Table(name: 'request', indexes: [
-    new ORM\Index(name: 'idx_type', columns: ['type']),
-    new ORM\Index(name: 'idx_owner', columns: ['owner_id']),
-    new ORM\Index(name: 'idx_creator', columns: ['creator_id']),
-    new ORM\Index(name: 'idx_librarian', columns: ['librarian_id']),
-    new ORM\Index(name: 'idx_instance', columns: ['instance_id']),
-    new ORM\Index(name: 'idx_operator', columns: ['operator_id']),
-    new ORM\Index(name: 'idx_order', columns: ['order_id']),
-    new ORM\Index(name: 'idx_previous_request', columns: ['previous_request_id']),
-], uniqueConstraints: [
-    new ORM\UniqueConstraint(name: 'idx_order_instance', columns: ['instance_id', 'order_id']),
-])]
-#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
-#[ORM\HasLifecycleCallbacks]
+#[
+    ORM\Table(name: 'request'),
+    ORM\Entity(repositoryClass: RequestRepository::class),
+    
+    ORM\UniqueConstraint(name: 'idx_order_instance', columns: ['instance_id', 'order_id']),
+
+    ORM\Index(name: 'idx_type', columns: ['type']),
+    ORM\Index(name: 'idx_owner', columns: ['owner_id']),
+    ORM\Index(name: 'idx_creator', columns: ['creator_id']),
+    ORM\Index(name: 'idx_librarian', columns: ['librarian_id']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id']),
+    ORM\Index(name: 'idx_operator', columns: ['operator_id']),
+    ORM\Index(name: 'idx_order', columns: ['order_id']),
+    ORM\Index(name: 'idx_previous_request', columns: ['previous_request_id']),
+
+    Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false),
+
+    ORM\HasLifecycleCallbacks
+]
 class Request
 {
     use TimestampableEntity;

@@ -24,16 +24,13 @@ namespace Celsius3\Logger;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
+
 class ClientProcessor
 {
-    private $requestStack;
 
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
-    }
+    public function __construct(protected RequestStack $requestStack) { }
 
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         if (!$request = $this->requestStack->getCurrentRequest()) {
             return $record;

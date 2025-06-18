@@ -42,8 +42,11 @@ class MessageNotification extends Notification
     protected Message $object;
 
 
-    public function __construct(string $cause, Message $object, Template $template)
-    {
+    public function __construct(
+        string $cause,
+        Message $object,
+        NotificationTemplate $template
+    ) {
         parent::__construct();
 
         $this->setCause($cause);

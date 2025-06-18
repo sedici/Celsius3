@@ -31,18 +31,21 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "custom_value", indexes: [
-    new ORM\Index(name: "idx_field", columns: ["field_id"]),
-    new ORM\Index(name: "idx_user", columns: ["user_id"]),
-    new ORM\Index(name: "idx_contact", columns: ["contact_id"])
-])]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap([
-    "user_value" => CustomUserValue::class,
-    "contact_value" => CustomContactValue::class
-])]
+#[
+    ORM\Table(name: "custom_value"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\InheritanceType("SINGLE_TABLE"),
+    ORM\DiscriminatorColumn(name: "type", type: "string"),
+    ORM\DiscriminatorMap([
+        "user_value" => CustomUserValue::class,
+        "contact_value" => CustomContactValue::class
+    ]),
+
+    ORM\Index(name: "idx_field", columns: ["field_id"]),
+    ORM\Index(name: "idx_user", columns: ["user_id"]),
+    ORM\Index(name: "idx_contact", columns: ["contact_id"])
+]
 abstract class CustomValue
 {
     use TimestampableEntity;

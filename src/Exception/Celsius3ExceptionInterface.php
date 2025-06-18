@@ -27,5 +27,5 @@ use Psr\Log\LoggerInterface;
 
 interface Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger);
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger);
 }

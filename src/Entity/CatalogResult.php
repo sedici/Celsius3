@@ -29,12 +29,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 
 
-#[ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogResultRepository::class)]
-#[ORM\Table(name: 'catalog_result', indexes: [
-    new ORM\Index(name: 'idx_title', columns: ['title']),
-    new ORM\Index(name: 'idx_catalog', columns: ['catalog_id']),
-    new ORM\Index(name: 'idx_title_catalog', columns: ['catalog_id', 'title'])
-])]
+#[
+    ORM\Table(name: 'catalog_result'),
+    ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogResultRepository::class),
+
+    ORM\Index(name: 'idx_title', columns: ['title']),
+    ORM\Index(name: 'idx_catalog', columns: ['catalog_id']),
+    ORM\Index(name: 'idx_title_catalog', columns: ['catalog_id', 'title'])
+]
 class CatalogResult
 {
     use TimestampableEntity;

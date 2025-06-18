@@ -27,8 +27,6 @@ namespace Celsius3\Twig;
 use Celsius3\Entity\Catalog;
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\InstanceHelper;
-use Celsius3\Manager\CatalogManager;
-use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -37,16 +35,14 @@ class CatalogExtension extends AbstractExtension
 {
     private $entityManager;
     private $instanceHelper;
-    private $instanceManager;
+    private $InstanceHelper;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper,
-        InstanceManager $instanceManager
+        InstanceHelper $instanceHelper
     ) {
         $this->entityManager = $entityManager;
         $this->instanceHelper = $instanceHelper;
-        $this->instanceManager = $instanceManager;
     }
 
     public function getFunctions(): array

@@ -24,19 +24,24 @@ declare(strict_types=1);
 
 namespace Celsius3\Helper;
 
-use Celsius3\Entity\Hive;
 use Celsius3\Entity\Instance;
 use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class InstanceHelper
 {
 
+    public const INSTANCE__DIRECTORY = 'directory';
+
     protected EntityRepository $repository;
+    protected Instance $instance;
+    protected Instance $directory;
+    protected string $instanceUrl;
+    protected string $instanceHost;
 
     public function __construct(
         protected RequestStack $requestStack,
@@ -44,7 +49,17 @@ class InstanceHelper
         protected EntityManagerInterface $entityManager
     ) {
         $this->repository = $this->entityManager->getRepository(Instance::class);
+        $this->getSessionOrUrlInstance();
+        $this->getDirectory();
     }
+
+
+    public function getDirectory(): ?Instance
+    {
+        return $this->directory ??= $this->repository
+            ->findOneBy([ 'url' => self::INSTANCE__DIRECTORY ]);
+    }
+
 
     public function getSessionInstance()
     {
@@ -58,37 +73,71 @@ class InstanceHelper
         return $instance;
     }
 
+
     public function getUrlInstance()
     {
         $request = $this->requestStack->getCurrentRequest();
+
         $instance = $this->repository
             ->findOneBy(['host' => $request->getHost()]);
 
         if (!$instance) {
-            throw Exception::create(Exception::INSTANCE_NOT_FOUND, 'exception.not_found.instance');
+            throw Exception::create(Exception::INSTANCE_NOT_FOUND);
         }
 
         return $instance;
     }
 
-    public function getSessionOrUrlInstance()
+
+    public function getSessionOrUrlInstance(): Instance
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $instance = $this->session->has('instance_url')
-            ? $this->repository->findOneBy(
-                ['url' => $this->session->get('instance_url')]
-            )
-            : $this->repository->findOneBy(
-                ['host' => ($request !== null) ? $request->getHost() : '']
+        if ($this->session->has('instance_url')) {
+            $instanceUrl = $this->session->get('instance_url');
+
+            if (!isset($this->instanceUrl) || $instanceUrl !== $this->instanceUrl) {
+                $this->instanceUrl = $instanceUrl;
+
+                $this->instance = $this->repository->findOneBy(
+                    ['url' => $this->instanceUrl]
+                );
+            }
+        }
+
+        else if (!isset($this->instanceHost) || $request->getHost() !== $this->instanceHost) {
+            $instanceHost = $request->getHost();
+
+            if (!isset($this->instanceHost) || $instanceHost !== $this->instanceHost) {
+                $this->instanceHost = $instanceHost;
+
+                $this->instance = $this->repository->findOneBy(
+                    ['host' => $this->instanceHost]
+                );
+            }
+        }
+
+        return $this->instance;
+    }
+
+
+    public function findInstance(
+        float $latitude,
+        float $longitude,
+        int $limit = 10
+    ): array {
+        $temRes = $this->repository
+            ->findInstancesOrderedByDistance(
+                $latitude,
+                $longitude,
+                $limit
             );
-        
-        // $instance = $this->repository->findOneBy(
-        //     ['url' => $this->session->get('instance_url')]
-        // );
 
-        // if (!$instance) echo 'no instance url: ' . (string)var_dump($this->session->get('instance_url'));
+        $res = [];
+        foreach ($temRes as $tem) {
+            $res[] = $tem[0];
+        }
 
-        return $instance;
+        return $res;
     }
 }

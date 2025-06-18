@@ -33,35 +33,44 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: LegacyInstanceRepository::class)]
-#[ORM\Table(name: "instance", indexes: [
-    new ORM\Index(name: "idx_name", columns: ["name"]),
-    new ORM\Index(name: "idx_website", columns: ["website"]),
-    new ORM\Index(name: "idx_hive", columns: ["hive_id"]),
-    new ORM\Index(name: "idx_url", columns: ["url"]),
-    new ORM\Index(name: "idx_type", columns: ["type"])
-])]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap([
-    "legacy" => LegacyInstance::class,
-    "current" => Instance::class
-])]
-#[UniqueEntity("email")]
-#[ORM\HasLifecycleCallbacks]
+#[
+    ORM\Table(name: "instance"),
+    ORM\Entity(repositoryClass: LegacyInstanceRepository::class),
+
+    ORM\Index(name: "idx_name", columns: ["name"]),
+    ORM\Index(name: "idx_website", columns: ["website"]),
+    ORM\Index(name: "idx_url", columns: ["url"]),
+    ORM\Index(name: "idx_type", columns: ["type"]),
+    ORM\Index(name: "idx_hive", columns: ["hive_id"]),
+
+    ORM\InheritanceType("SINGLE_TABLE"),
+    ORM\DiscriminatorColumn(name: "type", type: "string"),
+    ORM\DiscriminatorMap([
+        "legacy" => LegacyInstance::class,
+        "current" => Instance::class
+    ]),
+
+    UniqueEntity("email"),
+
+    ORM\HasLifecycleCallbacks
+]
 class LegacyInstance
 {
     use TimestampableEntity;
 
-    #[ORM\Column(type: "integer")]
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[
+        ORM\Id,
+        ORM\Column(type: "integer"),
+        ORM\GeneratedValue(strategy: "AUTO")
+    ]
     // #[Groups(["administration_order_show"])]
     protected ?int $id = null;
 
 
-    #[Assert\NotBlank]
-    #[ORM\Column(type: "string", length: 255)]
+    #[
+        Assert\NotBlank,
+        ORM\Column(type: "string", length: 255)
+    ]
     // #[Groups(["administration_order_show", "email_template"])]
     protected ?string $name;
 

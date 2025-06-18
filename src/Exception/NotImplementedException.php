@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class NotImplementedException extends \LogicException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -43,6 +43,6 @@ class NotImplementedException extends \LogicException implements Celsius3Excepti
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

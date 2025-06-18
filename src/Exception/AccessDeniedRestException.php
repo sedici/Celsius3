@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AccessDeniedRestException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(ExceptionEvent $event, LoggerInterface $logger)
+    public function handleEvent(ExceptionEvent $event, LoggerInterface $celsiusExceptionLogger): void
     {
         $exception = $event->getThrowable();
 
@@ -44,6 +44,6 @@ class AccessDeniedRestException extends AccessDeniedHttpException implements Cel
 
         $event->setResponse($response);
 
-        $logger->error($exception);
+        $celsiusExceptionLogger->error($exception);
     }
 }

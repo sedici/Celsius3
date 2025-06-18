@@ -30,14 +30,17 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: DataRequestRepository::class)]
-#[ORM\Table(name: "data_request")]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap([
-    "users_data_request" => UsersDataRequest::class,
-    "orders_data_request" => OrdersDataRequest::class,
-])]
+#[
+    ORM\Table(name: "data_request"),
+    ORM\Entity(repositoryClass: DataRequestRepository::class),
+
+    ORM\InheritanceType("SINGLE_TABLE"),
+    ORM\DiscriminatorColumn(name: "type", type: "string"),
+    ORM\DiscriminatorMap([
+        "users_data_request" => UsersDataRequest::class,
+        "orders_data_request" => OrdersDataRequest::class,
+    ])
+]
 abstract class DataRequest
 {
     use TimestampableEntity;

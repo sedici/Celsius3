@@ -10,6 +10,8 @@ doctrine:
         charset: utf8mb4
         default_table_options:
             collate: utf8mb4_unicode_ci
+        
+        logging: true
 
         # backtrace queries in profiler (increases memory usage per request)
         #profiling_collect_backtrace: '%kernel.debug%'

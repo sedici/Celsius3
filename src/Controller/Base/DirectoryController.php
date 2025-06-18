@@ -39,7 +39,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Celsius3\Helper\ConfigurationHelper;
-use Celsius3\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
@@ -65,7 +64,7 @@ class DirectoryController extends BaseEntityController
     public function __construct(
         TicketHelper $ticketHelper,
         NewsRepository $newsRepository,
-        InstanceManager $instanceManager,
+        InstanceHelper $InstanceHelper,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
@@ -78,7 +77,7 @@ class DirectoryController extends BaseEntityController
         InstanceHelper $instanceHelper
     ) {
         parent::__construct(
-            $instanceManager,
+            $InstanceHelper,
             $entityManager,
             $paginator,
             $configurationHelper,

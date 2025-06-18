@@ -40,10 +40,8 @@ use Celsius3\Exception\Exception;
 use Celsius3\Exception\NotFoundException;
 use Celsius3\Entity\Instance;
 use Celsius3\Helper\LifecycleHelper;
-use Dom\Entity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class EventManager
 {
@@ -70,7 +68,7 @@ class EventManager
     public const EVENT__RECEIVE = 'receive';
 
     private $class_prefix = 'Celsius3\\Entity\\Event\\';
-    public $event_classes = array(
+    public $event_classes = [
         self::EVENT__CREATION => 'CreationEvent',
         self::EVENT__SEARCH => 'SearchEvent',
         self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequestEvent',
@@ -89,24 +87,15 @@ class EventManager
         self::EVENT__REUPLOAD => 'ReuploadEvent',
         self::EVENT__SEARCH_PENDINGS => 'SearchPendingsEvent',
         self::EVENT__NO_SEARCH_PENDINGS => 'NoSearchPendingsEvent',
-    );
-
-    protected ?LifecycleHelper $lifecycleHelper = null;
+    ];
 
     public function __construct(
         protected ContainerInterface $container,
-        protected EntityManagerInterface $entityManager,
         protected RequestStack $requestStack,
-        protected FlashBagInterface $flashBag
+        protected EntityManagerInterface $entityManager,
+        protected FlashBagInterface $flashBag,
+        protected LifecycleHelper $lifecycleHelper
     ) { }
-
-    public function getLifecycleHelper(): LifecycleHelper
-    {
-        if ($this->lifecycleHelper === null) {
-            $this->lifecycleHelper = $this->container->get(LifecycleHelper::class);
-        }
-        return $this->lifecycleHelper;
-    }
 
     public function __call($name, $arguments)
     {
@@ -120,7 +109,7 @@ class EventManager
         }
     }
 
-    public function createNotFoundException($message = 'Not Found', ?\Exception $previous = null): NotFoundException
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
     {
         return new NotFoundException($message, $previous);
     }
@@ -145,41 +134,40 @@ class EventManager
 
     public function prepareExtraDataForSearch(): array
     {
-        $httpReqData = $this->requestStack->getCurrentRequest()->toArray();
+        $params = $this->requestStack->getCurrentRequest()->toArray();
 
         $extra_data = [];
-        $extra_data['result'] = $httpReqData['result'] ?? null;
 
-        if (!$httpReqData['catalog_id']) {
-            $this->flashBag->add('error', 'There was an error changing the state.');
+        $extra_data['result'] = (array_key_exists('result', $params)) ? $params['result'] : null;
+
+        if (!array_key_exists('catalog_id', $params)) {
+            $this->flashBag->add('error', 'Catalog ID is required for search events.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $entity_manager = $this->entityManager;
-        $extra_data['catalog'] = $entity_manager->getRepository(Catalog::class)
-            ->find($httpReqData['catalog_id']);
+        $extra_data['catalog'] = $this->entityManager->getRepository(Catalog::class)
+            ->find($params['catalog_id']);
 
         return $extra_data;
     }
 
     public function prepareExtraDataForRequest(): array
     {
-        $httpReqData = $this->requestStack->getCurrentRequest()->toArray();
+        $params = $this->requestStack->getCurrentRequest()->toArray();
 
         $extra_data = [];
-        $extra_data['observations'] = $httpReqData['observations'] ?? null;
+        $extra_data['observations'] = $params['observations'];
 
-        $entity_manager = $this->entityManager;
-        if ($httpReqData['provider'] === 'web') {
-            $provider = $entity_manager->getRepository(Web::class)
+        if ($params['provider'] === 'web') {
+            $provider = $this->entityManager->getRepository(Web::class)
                 ->findOneBy([]);
-        } elseif ($httpReqData['provider'] === 'author') {
-            $provider = $entity_manager->getRepository(Author::class)
+        } elseif ($params['provider'] === 'author') {
+            $provider = $this->entityManager->getRepository(Author::class)
                 ->findOneBy([]);
         } else {
-            $provider = $entity_manager->getRepository(Institution::class)
-                ->find($httpReqData['provider']['id']);
+            $provider = $this->entityManager->getRepository(Institution::class)
+                ->find($params['provider']['id']);
         }
 
         if ($provider) {
@@ -195,33 +183,31 @@ class EventManager
 
     public function prepareExtraDataForReceive(Request $request): array
     {
-        $httpReq = $this->requestStack->getCurrentRequest();
-        $httpReqData = $httpReq->toArray();
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
-        if (!isset($httpReqData['request'])) {
-            $this->flashBag->add('error', 'There was an error changing the state.');
+        if (!$httpRequest->request->has('request')) {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $extraData = [];
-        $extraData['observations'] = $httpReqData['observations'] ?? null;
-        $extraData['delivery_type'] = $httpReqData['delivery_type'] ?? (
-            $request->getOwner()->getPdf() ? 'pdf' : 'printed'
-        );
-        $extraData['request'] = $this->entityManager
+        $extraData = array();
+        $extraData['observations'] = $httpRequest->request->get('observations', null);
+        $extraData['delivery_type'] = $httpRequest->request->get('delivery_type', $request->getOwner()->getPdf() ? 'pdf' : 'printed');
+        $extraData['request'] = $this->container
+                ->get('doctrine.orm.entity_manager')
                 ->getRepository(Event::class)
-                ->find($httpReqData['result']);
-        $extraData['files'] = $httpReq->files->all();
+                ->find($httpRequest->request->get('request'));
+        $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;
     }
 
     private function prepareExtraDataForUpload(): array
     {
-        $httpRequest = $this->requestStack->getCurrentRequest();
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
-        $extraData = [];
+        $extraData = array();
         $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;
@@ -229,20 +215,20 @@ class EventManager
 
     private function prepareExtraDataForReupload(): array
     {
-        $httpRequest = $this->requestStack->getCurrentRequest();
-        $httpReqData = $httpRequest->toArray();
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
-        if (!isset($httpReqData['receive'])) {
-            $this->flashBag->add('error', 'There was an error changing the state.');
+        if (!$httpRequest->request->has('receive')) {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $extraData = [];
-        $extraData['observations'] = $httpReqData['observations'] ?? null;
-        $extraData['receive'] = $this->entityManager
+        $extraData = array();
+        $extraData['observations'] = $httpRequest->request->get('observations', null);
+        $extraData['receive'] = $this->container
+                ->get('doctrine.orm.entity_manager')
                 ->getRepository(Event::class)
-                ->find($httpReqData['receive']);
+                ->find($httpRequest->request->get('receive'));
         $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;
@@ -250,20 +236,18 @@ class EventManager
 
     public function prepareExtraDataForApprove(): array
     {
-        $httpRequest = $this->requestStack->getCurrentRequest();
-        $httpReqData = $httpRequest->toArray();
-
-        $em = $this->entityManager;
-        if (!isset($httpReqData['receive'])) {
-            $this->flashBag
-                ->add('error', 'There was an error changing the state.');
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        if (!$httpRequest->request->has('receive')) {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $extraData = [];
+        $extraData = array();
         $extraData['receive'] = $em->getRepository(Event::class)
-            ->find($httpReqData['receive']);
+                ->find($httpRequest->request->get('receive'));
 
         if (!$extraData['receive']) {
             throw Exception::create(Exception::NOT_FOUND);
@@ -274,68 +258,64 @@ class EventManager
 
     public function prepareExtraDataForReclaim(): array
     {
-        $httpRequest = $this->requestStack->getCurrentRequest();
-        $httpReqData = $httpRequest->toArray();
-
-        $em = $this->entityManager;
-        if (!$httpReqData['request'] && !$httpReqData['receive']) {
-            $this->flashBag
-                ->add('error', 'There was an error changing the state.');
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        if (!$httpRequest->request->has('request') && !$httpRequest->request->has('receive')) {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        if ($httpReqData['request']) {
+        if ($httpRequest->request->has('request')) {
             $key = 'request';
-            $id = $httpReqData['request'];
+            $id = $httpRequest->request->get('request');
         } else {
             $key = 'receive';
-            $id = $httpReqData['receive'];
+            $id = $httpRequest->request->get('receive');
         }
 
         $event = $em->getRepository(Event::class)
-            ->find($id);
+                ->find($id);
 
         if (!$event) {
-            $this->flashBag
-                ->add('error', 'There was an error changing the state.');
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $extraData = [];
+        $extraData = array();
         $extraData[$key] = $event;
 
-        if (!isset($httpReqData['observations']) || $httpReqData['observations'] === '') {
-            $this->flashBag
-                ->add('error', 'There was an error changing the state.');
+        if (!$httpRequest->request->has('observations') || $httpRequest->request->get('observations') === '') {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $extraData['observations'] = $httpReqData['obserations'];
+        $extraData['observations'] = $httpRequest->request->get('observations');
 
         return $extraData;
     }
 
     public function prepareExtraDataForCancel(Request $request, Instance $instance): array
     {
-        $httpRequest = $this->requestStack->getCurrentRequest();
-        $httpReqData = $httpRequest->toArray();
-
+        $params = $this->requestStack->getCurrentRequest()->toArray();
         $em = $this->entityManager;
         $extraData = [];
 
-        if (isset($httpReqData['request'])) {
+        if (array_key_exists('request', $params)) {
             $extraData['request'] = $em->getRepository(Event::class)
-                    ->find($httpRequest->request->get('request'));
+                    ->find($params['request']);
 
-            unset($httpReqData['request']);
+            unset($params['request']);
             if (!$extraData['request']) {
                 throw Exception::create(Exception::NOT_FOUND);
             }
         } else {
-            $extraData['httprequest'] = $httpRequest;
+            $extraData['httprequest'] = $params;
             if ($request->getInstance()->getId() !== $instance->getId()) {
                 $extraData['remoterequest'] = $request->getOrder()
                         ->getRequest($instance)
@@ -343,47 +323,48 @@ class EventManager
                         ->getRemoteEvent();
             }
             $extraData['sirequests'] = $em->getRepository(SingleInstanceRequestEvent::class)
-                    ->findBy(array(
-                'request' => $request->getId(),
-                'cancelled' => false,
-                'instance' => $instance->getId(),
-            ));
+                ->findBy([
+                    'request' => $request->getId(),
+                    // 'cancelled' => false,
+                    'instance' => $instance->getId(),
+                ]
+            );
             $extraData['mirequests'] = $em->getRepository(MultiInstanceRequestEvent::class)
-                    ->findBy(array(
-                'request' => $request->getId(),
-                'cancelled' => false,
-                'instance' => $instance->getId(),
-            ));
+                ->findBy([
+                    'request' => $request->getId(),
+                    // 'cancelled' => false,
+                    'instance' => $instance->getId(),
+                ]
+            );
         }
 
-        if (!isset($httpReqData['observations']) || $httpReqData['observations'] === '') {
-            $this->flashBag
-                ->add('error', 'There was an error changing the state.');
+        if (array_key_exists('observations', $params) || $params['observations'] === '') {
+            $this->flashBag->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        $extraData['cancelled_by_user'] = $httpReqData['cancelled_by_user'] ?? false;
+        $extraData['cancelled_by_user'] =
+            (array_key_exists('cancelled_by_user', $params))
+            ? $params['cancelled_by_user'] : false;
 
-        $extraData['observations'] = $httpReqData['observations'];
+        $extraData['observations'] = $params['observations'];
 
         return $extraData;
     }
-
 
     public function prepareExtraDataForAnnul(Request $request, Instance $instance): array
     {
         $extraData = [];
 
-        if ($request->getInstance()->getId() !== $instance->getId() || $request->getPreviousRequest() !== null) {
+        if ($request->getInstance()->getId() !== $instance->getId() || !is_null($request->getPreviousRequest())) {
             $extraData['request'] = $request
-                ->getState(StateManager::STATE__CREATED)
+                ->getState(StateManager::STATE__CREATED, $instance)
                 ->getRemoteEvent();
         }
 
         return $extraData;
     }
-
 
     public function getRealEventName(
         ?string $event = null,
@@ -424,7 +405,8 @@ class EventManager
     public function getRealRequestEventName(array $extraData, Instance $instance, Request $request): string
     {
         return (
-            $extraData['provider'] instanceof Institution && $extraData['provider']->findCelsiusInstance()
+            $extraData['provider'] instanceof Institution
+            && $extraData['provider']->findCelsiusInstance()
             && !$request->getOrder()->hasRequest($extraData['provider']->findCelsiusInstance())
             && $extraData['provider']->findCelsiusInstance()->getId() !== $instance->getId()
             && $request->getPreviousRequest() === null
@@ -464,10 +446,10 @@ class EventManager
         };
     }
 
-    public function cancelRequests(array $requests, HttpRequest $httpRequest): void
+    public function cancelRequests(array $requests, HttpRequest $httpRequest)
     {
         foreach ($requests as $request) {
-            $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function ($reception) use ($request): bool {
+            $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function ($reception) use ($request) {
                 if ($reception instanceof SingleInstanceReceiveEvent || $reception instanceof MultiInstanceReceiveEvent) {
                     return $reception->getRequestEvent()->getId() === $request->getId();
                 } else {
@@ -476,15 +458,15 @@ class EventManager
             });
             if (count($receptions) === 0) {
                 $httpRequest->request->set('request', $request->getId());
-                $this->lifecycleHelper()->createEvent(self::EVENT__CANCEL, $request->getRequest());
+                $this->lifecycleHelper->createEvent(self::EVENT__CANCEL, $request->getRequest());
                 $httpRequest->request->remove('request');
             }
         }
     }
 
-    public function cancelSearches($searches): void
+    public function cancelSearches($searches)
     {
-        $em = $this->entityManager;
+        $em = $this->container->get('doctrine.orm.entity_manager');
         foreach ($searches as $search) {
             $search->setResult(CatalogManager::CATALOG__NON_SEARCHED);
             $em->persist($search);
@@ -492,10 +474,10 @@ class EventManager
         $em->flush();
     }
 
-    public function getEvents($event, $request_id): array
+    public function getEvents($event, $request_id)
     {
         /** @var EntityManagerInterface $entity_manager */
-        $entity_manager = $this->entityManager;
+        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
 
         if ($event === self::EVENT__REQUEST) {
             $repositories = [
@@ -516,7 +498,8 @@ class EventManager
 
         $results = [];
         foreach ($repositories as $repository) {
-            $results[] = $entity_manager->getRepository('Celsius3\\Entity\\Event\\'.$repository)
+            $results[] = $entity_manager
+                ->getRepository('Celsius3\\Entity\\Event\\'.$repository)
                 ->findBy(['request' => $request_id]);
         }
 

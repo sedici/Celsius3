@@ -27,37 +27,49 @@ use Celsius3\Entity\Event\SearchEvent;
 use Celsius3\Entity\JournalType;
 use Celsius3\Entity\CatalogResult;
 use Celsius3\Manager\CatalogManager;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 
+#[AsDoctrineListener(Events::postPersist)]
+#[AsDoctrineListener(Events::postUpdate)]
+#[AsDoctrineListener(Events::preUpdate)]
 class SearchEventListener
 {
-    private $negative = array(
+    private $negative = [
         CatalogManager::CATALOG__NOT_FOUND,
         CatalogManager::CATALOG__NON_SEARCHED,
-    );
-    private $positive = array(
+    ];
+    private $positive = [
         CatalogManager::CATALOG__FOUND,
         CatalogManager::CATALOG__PARTIALLY_FOUND,
-    );
+    ];
     private $result = null;
 
-    public function preUpdate(LifecycleEventArgs $args)
+    public function __construct(
+        protected EntityManagerInterface $entityManager
+    ) { }
+
+    public function preUpdate(PreUpdateEventArgs $args)
     {
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $this->entityManager;
 
         if ($entity instanceof SearchEvent) {
             $uow = $em->getUnitOfWork();
             $changeset = $uow->getEntityChangeSet($entity);
 
-            if ($entity->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
-                if (!is_null($entity->getRequest()->getOrder()->getMaterialData()->getJournal())) {
-                    $title = $entity->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
-                } else {
-                    $title = $entity->getRequest()->getOrder()->getMaterialData()->getOther();
-                }
-            } else {
-                $title = $entity->getRequest()->getOrder()->getMaterialData()->getTitle();
-            }
+            $order = $entity->getRequest()->getOrder();
+            $materialData = $order->getMaterialData();
+
+            $title = (!$materialData instanceof JournalType)
+                ? $materialData->getTitle()
+                : ($materialData->getJournal() !== null
+                    ? $materialData->getJournal()->getName()
+                    : $materialData->getOther());
 
             if (array_key_exists('result', $changeset) && $changeset['result'][0] !== $changeset['result'][1]) {
                 $result = $em->getRepository(CatalogResult::class)
@@ -79,7 +91,7 @@ class SearchEventListener
                     }
 
                     $em->persist($result);
-                    $em->flush($result);
+                    $em->flush();
                 }
 
                 $old = $changeset['result'][0];
@@ -107,21 +119,20 @@ class SearchEventListener
         }
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(PostPersistEventArgs $args): void
     {
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $this->entityManager;
 
         if ($entity instanceof SearchEvent) {
-            if ($entity->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
-                if (!is_null($entity->getRequest()->getOrder()->getMaterialData()->getJournal())) {
-                    $title = $entity->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
-                } else {
-                    $title = $entity->getRequest()->getOrder()->getMaterialData()->getOther();
-                }
-            } else {
-                $title = $entity->getRequest()->getOrder()->getMaterialData()->getTitle();
-            }
+            $order = $entity->getRequest()->getOrder();
+            $materialData = $order->getMaterialData();
+
+            $title = (!$materialData instanceof JournalType)
+                ? $materialData->getTitle()
+                : ($materialData->getJournal() !== null
+                    ? $materialData->getJournal()->getName()
+                    : $materialData->getOther());
 
             $result = $em->getRepository(CatalogResult::class)
                     ->findOneBy(array(
@@ -146,10 +157,10 @@ class SearchEventListener
         }
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $this->entityManager;
 
         if ($entity instanceof SearchEvent) {
             if ($this->result) {

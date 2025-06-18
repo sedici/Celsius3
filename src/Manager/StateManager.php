@@ -262,28 +262,31 @@ class StateManager
             ),
         ),
     );
-    private $event_manager;
-    private $request_stack;
 
-    public function __construct(EventManager $event_manager, RequestStack $request_stack)
+    public function __construct(
+        protected EventManager $eventManager,
+        protected RequestStack $requestStack
+    ) { }
+
+    public function isBefore(State $state1, State $state2): bool
     {
-        $this->event_manager = $event_manager;
-        $this->request_stack = $request_stack;
+        return array_search(
+            $state1->getType(),
+            array_keys($this->graph)
+        ) < array_search(
+            $state2->getType(),
+            array_keys($this->graph)
+        );
     }
 
-    public function isBefore(State $state1, State $state2)
-    {
-        return array_search($state1->getType(), array_keys($this->graph)) < array_search($state2->getType(), array_keys($this->graph));
-    }
-
-    public function createNotFoundException($message = 'Not Found', ?\Exception $previous = null)
+    public function createNotFoundException($message = 'Not Found', ?\Exception $previous = null): NotFoundException
     {
         return new NotFoundException($message, $previous);
     }
 
     public function getStateForEvent(string $event)
     {
-        if (!array_key_exists($event, $this->event_manager->event_classes)) {
+        if (!array_key_exists($event, $this->eventManager->event_classes)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
         }
 
@@ -306,11 +309,12 @@ class StateManager
         return $data;
     }
 
-    public function getPositiveStates()
+    public function getPositiveStates(): array
     {
-        return array_filter($this->graph, function ($value) {
-            return $value['positive'];
-        });
+        return array_filter(
+            $this->graph,
+            fn ($value) => $value['positive']
+        );
     }
 
     public function getStateData($state)
@@ -322,7 +326,7 @@ class StateManager
         return $this->graph[$state];
     }
 
-    public function getEventsToState($state)
+    public function getEventsToState($state): array
     {
         if (!array_key_exists($state, $this->graph)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.state');
@@ -362,7 +366,7 @@ class StateManager
         return $data;
     }
 
-    public function getPreviousMandatoryStates($state)
+    public function getPreviousMandatoryStates($state): array
     {
         if (!array_key_exists($state, $this->graph)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.state');
@@ -383,18 +387,18 @@ class StateManager
         return $data;
     }
 
-    public function extraUndoActions(State $state)
+    public function extraUndoActions(State $state): void
     {
         switch ($state->getType()) {
             case self::STATE__SEARCHED:
-                $searches = $this->event_manager->getEvents(EventManager::EVENT__SEARCH, $state->getRequest()->getId());
-                $this->event_manager->cancelSearches($searches);
+                $searches = $this->eventManager->getEvents(EventManager::EVENT__SEARCH, $state->getRequest()->getId());
+                $this->eventManager->cancelSearches($searches);
                 break;
             case self::STATE__REQUESTED:
-                $httpRequest = $this->request_stack->getCurrentRequest();
+                $httpRequest = $this->requestStack->getCurrentRequest();
                 $httpRequest->request->set('observations', 'undo');
-                $extraData = $this->event_manager->prepareExtraData(EventManager::EVENT__CANCEL, $state->getRequest(), $state->getInstance());
-                $this->event_manager->cancelRequests(array_merge($extraData['sirequests'], $extraData['mirequests']), $extraData['httprequest']);
+                $extraData = $this->eventManager->prepareExtraData(EventManager::EVENT__CANCEL, $state->getRequest(), $state->getInstance());
+                $this->eventManager->cancelRequests(array_merge($extraData['sirequests'], $extraData['mirequests']), $extraData['httprequest']);
                 $httpRequest->request->remove('observations');
                 break;
             default:

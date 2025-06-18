@@ -28,13 +28,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\Repository\BaseRepository;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(
-    name: 'counter',
-    indexes: [
-        new ORM\Index(name: 'idx_name', columns: ['name'])
-    ]
-)]
+#[
+    ORM\Table(name: 'counter'),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Index(name: 'idx_name', columns: ['name'])
+]
 #[ORM\HasLifecycleCallbacks]
 class Counter
 {

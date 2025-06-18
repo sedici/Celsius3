@@ -40,17 +40,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
-#[ORM\Entity(repositoryClass: EventRepository::class)]
-#[ORM\Table(name: 'event', indexes: [
-    new ORM\Index(name: 'idx_request', columns: ['request_id']),
-    new ORM\Index(name: 'idx_operator', columns: ['operator_id']),
-    new ORM\Index(name: 'idx_state', columns: ['state_id']),
-    new ORM\Index(name: 'idx_instance', columns: ['instance_id']),
-    new ORM\Index(name: 'idx_type', columns: ['type'])
-])]
-#[ORM\InheritanceType('SINGLE_TABLE')]
-#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 // #[ORM\DiscriminatorMap([
 //     'creation' => CreationEvent::class,
 //     'search' => SearchEvent::class,
@@ -74,30 +63,46 @@ use Symfony\Component\Validator\Constraints as Assert;
 //     'searchpendings' => SearchPendingsEvent::class,
 //     'nosearchpendings' => NoSearchPendingsEvent::class,
 // ])]
-#[ORM\DiscriminatorMap([
-    EventManager::EVENT__CREATION                       => CreationEvent::class,
-    EventManager::EVENT__SEARCH                         => SearchEvent::class,
-    EventManager::EVENT__SINGLE_INSTANCE_REQUEST        => SingleInstanceRequestEvent::class,
-    EventManager::EVENT__CANCEL                         => CancelEvent::class,
-    EventManager::EVENT__ANNUL                          => AnnulEvent::class,
-    EventManager::EVENT__SINGLE_INSTANCE_RECEIVE        => SingleInstanceReceiveEvent::class,
-    EventManager::EVENT__MULTI_INSTANCE_RECEIVE         => MultiInstanceReceiveEvent::class,
-    EventManager::EVENT__MULTI_INSTANCE_REQUEST         => MultiInstanceRequestEvent::class,
-    EventManager::EVENT__DELIVER                        => DeliverEvent::class,
-    EventManager::EVENT__LOCAL_CANCEL                   => LocalCancelEvent::class,
-    EventManager::EVENT__REMOTE_CANCEL                  => RemoteCancelEvent::class,
-    EventManager::EVENT__RECLAIM                        => ReclaimEvent::class,
-    EventManager::EVENT__APPROVE                        => ApproveEvent::class,
-    EventManager::EVENT__TAKE                           => TakeEvent::class,
-    EventManager::EVENT__UPLOAD                         => UploadEvent::class,
-    EventManager::EVENT__REUPLOAD                       => ReuploadEvent::class,
-    EventManager::EVENT__SEARCH_PENDINGS                => SearchPendingsEvent::class,
-    EventManager::EVENT__NO_SEARCH_PENDINGS             => NoSearchPendingsEvent::class,
-    'undo'                                              => UndoEvent::class,
-    'si'                                                => SingleInstanceEvent::class,
-    'mi'                                                => MultiInstanceEvent::class,
-])]
-#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)]
+
+#[
+    ORM\Table(name: 'event'),
+    ORM\Entity(repositoryClass: EventRepository::class),
+
+    ORM\Index(name: 'idx_request', columns: ['request_id']),
+    ORM\Index(name: 'idx_operator', columns: ['operator_id']),
+    ORM\Index(name: 'idx_state', columns: ['state_id']),
+    ORM\Index(name: 'idx_instance', columns: ['instance_id']),
+    ORM\Index(name: 'idx_type', columns: ['type']),
+
+    ORM\InheritanceType('SINGLE_TABLE'),
+    ORM\DiscriminatorColumn(name: 'type', type: 'string'),
+
+    ORM\DiscriminatorMap([
+        EventManager::EVENT__CREATION                       => CreationEvent::class,
+        EventManager::EVENT__SEARCH                         => SearchEvent::class,
+        EventManager::EVENT__SINGLE_INSTANCE_REQUEST        => SingleInstanceRequestEvent::class,
+        EventManager::EVENT__CANCEL                         => CancelEvent::class,
+        EventManager::EVENT__ANNUL                          => AnnulEvent::class,
+        EventManager::EVENT__SINGLE_INSTANCE_RECEIVE        => SingleInstanceReceiveEvent::class,
+        EventManager::EVENT__MULTI_INSTANCE_RECEIVE         => MultiInstanceReceiveEvent::class,
+        EventManager::EVENT__MULTI_INSTANCE_REQUEST         => MultiInstanceRequestEvent::class,
+        EventManager::EVENT__DELIVER                        => DeliverEvent::class,
+        EventManager::EVENT__LOCAL_CANCEL                   => LocalCancelEvent::class,
+        EventManager::EVENT__REMOTE_CANCEL                  => RemoteCancelEvent::class,
+        EventManager::EVENT__RECLAIM                        => ReclaimEvent::class,
+        EventManager::EVENT__APPROVE                        => ApproveEvent::class,
+        EventManager::EVENT__TAKE                           => TakeEvent::class,
+        EventManager::EVENT__UPLOAD                         => UploadEvent::class,
+        EventManager::EVENT__REUPLOAD                       => ReuploadEvent::class,
+        EventManager::EVENT__SEARCH_PENDINGS                => SearchPendingsEvent::class,
+        EventManager::EVENT__NO_SEARCH_PENDINGS             => NoSearchPendingsEvent::class,
+        'undo'                                              => UndoEvent::class,
+        'si'                                                => SingleInstanceEvent::class,
+        'mi'                                                => MultiInstanceEvent::class,
+    ]),
+
+    Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)
+]
 abstract class Event implements EventInterface
 {
     use TimestampableEntity;

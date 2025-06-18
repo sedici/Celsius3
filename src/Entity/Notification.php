@@ -35,33 +35,42 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: NotificationRepository::class)]
-#[ORM\Table(name: "notification", indexes: [
-    new ORM\Index(name: "idx_viewed", columns: ["viewed"]),
-    new ORM\Index(name: "idx_template", columns: ["template_id"]),
-    new ORM\Index(name: "idx_object_user", columns: ["base_user_notification_id"]),
-    new ORM\Index(name: "idx_object_message", columns: ["message_notification_id"]),
-    new ORM\Index(name: "idx_object_event", columns: ["event_notification_id"])
-])]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap([
-    "message" => MessageNotification::class,
-    "baseuser" => BaseUserNotification::class,
-    "event" => EventNotification::class,
-])]
+#[
+    ORM\Table(name: "notification"),
+    ORM\Entity(repositoryClass: NotificationRepository::class),
+    
+    ORM\Index(name: "idx_viewed", columns: ["viewed"]),
+    ORM\Index(name: "idx_template", columns: ["template_id"]),
+    ORM\Index(name: "idx_object_user", columns: ["base_user_notification_id"]),
+    ORM\Index(name: "idx_object_message", columns: ["message_notification_id"]),
+    ORM\Index(name: "idx_object_event", columns: ["event_notification_id"]),
+    
+    ORM\InheritanceType("SINGLE_TABLE"),
+    ORM\DiscriminatorColumn(name: "type", type: "string"),
+    ORM\DiscriminatorMap([
+        "message" => MessageNotification::class,
+        "baseuser" => BaseUserNotification::class,
+        "event" => EventNotification::class,
+    ]),
+    
+    ORM\HasLifecycleCallbacks
+]
 abstract class Notification
 {
     use TimestampableEntity;
 
-    #[ORM\Column(type: "integer")]
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[
+        ORM\Id,
+        ORM\Column(type: "integer"),
+        ORM\GeneratedValue(strategy: "AUTO")
+    ]
     private ?int $id = null;
 
 
-    #[Assert\NotBlank]
-    #[ORM\Column(type: "string", length: 255)]
+    #[
+        Assert\NotBlank,
+        ORM\Column(type: "string", length: 255)
+    ]
     private ?string $cause = null;
 
 
@@ -181,7 +190,7 @@ abstract class Notification
     public function removeReceiver(BaseUser $receivers): void
     { $this->receivers->removeElement($receivers); }
 
-    public function getReceivers(): array|ArrayCollection
+    public function getReceivers(): Collection
     { return $this->receivers; }
 
     public function getViewed(): bool

@@ -30,19 +30,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "template", indexes: [
-    new ORM\Index(name: "idx_code", columns: ["code"]),
-    new ORM\Index(name: "idx_title", columns: ["title"]),
-    new ORM\Index(name: "idx_instance", columns: ["instance_id"]),
-    new ORM\Index(name: "idx_type", columns: ["type"])
-])]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap([
-    "mail" => EmailTemplate::class,
-    "notification" => NotificationTemplate::class
-])]
+#[
+    ORM\Table(name: "template"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_code", columns: ["code"]),
+    ORM\Index(name: "idx_title", columns: ["title"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"]),
+    ORM\Index(name: "idx_type", columns: ["type"]),
+
+    ORM\InheritanceType("SINGLE_TABLE"),
+    ORM\DiscriminatorColumn(name: "type", type: "string"),
+    ORM\DiscriminatorMap([
+        "mail" => EmailTemplate::class,
+        "notification" => NotificationTemplate::class
+    ])
+]
 abstract class Template
 {
     use TimestampableEntity;

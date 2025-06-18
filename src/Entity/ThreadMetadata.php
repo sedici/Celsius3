@@ -27,12 +27,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "thread_metadata", indexes: [
-    new ORM\Index(name: "idx_thread", columns: ["thread_id"]),
-    new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
-    new ORM\Index(name: "idx_last_message_date", columns: ["last_message_date"])
-])]
+#[
+    ORM\Table(name: "thread_metadata"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_thread", columns: ["thread_id"]),
+    ORM\Index(name: "idx_participant", columns: ["participant_id"]),
+    ORM\Index(name: "idx_last_message_date", columns: ["last_message_date"])
+]
 class ThreadMetadata
 {
 

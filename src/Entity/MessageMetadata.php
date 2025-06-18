@@ -26,12 +26,14 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
-#[ORM\Table(name: "message_metadata", indexes: [
-    new ORM\Index(name: "idx_message", columns: ["message_id"]),
-    new ORM\Index(name: "idx_participant", columns: ["participant_id"]),
-    new ORM\Index(name: "idx_read", columns: ["is_read"])
-])]
+#[
+    ORM\Table(name: "message_metadata"),
+    ORM\Entity(repositoryClass: BaseRepository::class),
+
+    ORM\Index(name: "idx_message", columns: ["message_id"]),
+    ORM\Index(name: "idx_participant", columns: ["participant_id"]),
+    ORM\Index(name: "idx_read", columns: ["is_read"])
+]
 class MessageMetadata
 {
 

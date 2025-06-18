@@ -30,8 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: EmailRepository::class)]
-#[ORM\Table(name: "email")]
+#[
+    ORM\Entity(repositoryClass: EmailRepository::class),
+    ORM\Table(name: "email")
+]
 class Email
 {
     use TimestampableEntity;

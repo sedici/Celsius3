@@ -34,12 +34,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ORM\Entity(repositoryClass: FileRepository::class)]
-#[ORM\Table(name: "file", indexes: [
-    new ORM\Index(name: "idx_event", columns: ["event_id"]),
-    new ORM\Index(name: "idx_request", columns: ["request_id"]),
-    new ORM\Index(name: "idx_instance", columns: ["instance_id"])
-])]
+#[
+    ORM\Table(name: "file"),
+    ORM\Entity(repositoryClass: FileRepository::class),
+
+    ORM\Index(name: "idx_event", columns: ["event_id"]),
+    ORM\Index(name: "idx_request", columns: ["request_id"]),
+    ORM\Index(name: "idx_instance", columns: ["instance_id"])
+]
 class File
 {
     use TimestampableEntity;
