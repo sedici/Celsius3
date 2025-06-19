@@ -44,8 +44,8 @@ class FileDownload
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[Assert\NotBlank]
@@ -55,31 +55,31 @@ class FileDownload
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $userAgent;
+    private ?string $userAgent = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
-    private ?BaseUser $user;
+    private ?BaseUser $user = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: File::class, inversedBy: "downloads")]
     #[ORM\JoinColumn(name: "file_id", referencedColumnName: "id", nullable: false)]
-    private ?File $file;
+    private ?File $file = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Request::class)]
     #[ORM\JoinColumn(name: "request_id", referencedColumnName: "id", nullable: false)]
-    private ?Request $request;
+    private ?Request $request = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
-    private ?Instance $instance;
+    private ?Instance $instance = null;
 
 
     public function getId(): ?int

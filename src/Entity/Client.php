@@ -32,7 +32,8 @@ class Client extends BaseClient
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected int $id;
+    // No se debe tipar porque BaseClient ya tiene definida la varible (aunque sin tipo)
+    protected $id;
 
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
@@ -45,13 +46,9 @@ class Client extends BaseClient
         parent::__construct();
     }
 
-    public function getInstance()
-    {
-        return $this->instance;
-    }
+    public function getInstance(): Instance
+    { return $this->instance; }
 
-    public function setInstance($instance)
-    {
-        $this->instance = $instance;
-    }
+    public function setInstance($instance): void
+    { $this->instance = $instance; }
 }

@@ -67,8 +67,8 @@ class BaseUser implements
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    protected int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
 
     #[ORM\Column(type: "string", length: 180, nullable: true)]
@@ -105,15 +105,15 @@ class BaseUser implements
 
     
     #[ORM\Column(type: "string", length: 255, nullable: true, options: ["default" => null])]
-    private string $salt;
+    private ?string $salt;
 
 
     #[ORM\Column(type: "datetime", nullable: true, options: ["default" => null])]
-    private \DateTimeInterface $passwordRequestedAt;
+    private ?\DateTimeInterface $passwordRequestedAt = null;
 
 
     #[ORM\Column(type: "datetime", nullable: true, options: ["default" => null])]
-    private \DateTimeInterface $lastLogin;
+    private ?\DateTimeInterface $lastLogin = null;
 
 
     #[ORM\Column(type: "boolean")]
@@ -132,11 +132,11 @@ class BaseUser implements
 
     #[Assert\Date(groups: ["Default"])]
     #[ORM\Column(type: "date", nullable: true)]
-    protected \DateTime $birthdate;
+    protected ?\DateTime $birthdate = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    protected string $address;
+    protected ?string $address = null;
 
 
     #[Assert\NotNull]

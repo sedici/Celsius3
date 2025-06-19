@@ -46,7 +46,7 @@ class City
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    private ?int $id = null;
 
 
     #[Assert\NotBlank()]
@@ -55,7 +55,7 @@ class City
 
 
     #[ORM\Column(name: 'postal_code', type: 'string', length: 255, nullable: true)]
-    private string $postalCode;
+    private ?string $postalCode = null;
 
 
     #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'city')]

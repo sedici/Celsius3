@@ -95,7 +95,6 @@ $(document).on('change', 'select.country-select', function () {
             data: 'country_id=' + $(this).val(),
             url: Routing.generate('public_cities'),
             success: function (data) {
-               
                 loadCities(JSON.parse(data));
             }
         });
@@ -105,7 +104,6 @@ $(document).on('change', 'select.country-select', function () {
             data: 'country_id=' + $(this).val() + '&filter=' + filter,
             url: Routing.generate('public_institutions_full'),
             success: function (data) {
-              
                 loadInstitutions(JSON.parse(data));
             }
         });
@@ -122,7 +120,6 @@ $(document).on('change', 'select.city-select', function () {
             data: 'city_id=' + $(this).val() + '&filter=' + filter,
             url: Routing.generate('public_institutions_full'),
             success: function (data) {
-                
                 loadInstitutions(JSON.parse(data));
             }
             

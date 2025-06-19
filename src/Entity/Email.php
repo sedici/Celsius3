@@ -38,8 +38,8 @@ class Email
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[Assert\NotBlank()]

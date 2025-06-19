@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\InstitutionController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 #[
     Route('/admin/institution'),

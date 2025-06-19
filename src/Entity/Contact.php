@@ -59,8 +59,8 @@ class Contact
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[Assert\NotBlank]
@@ -80,12 +80,12 @@ class Contact
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $address;
+    private ?string $address = null;
 
 
     #[ORM\OneToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private ?BaseUser $user;
+    private ?BaseUser $user = null;
 
 
     #[Assert\NotNull]

@@ -50,37 +50,28 @@ class Instance extends LegacyInstance
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: "/^[a-zA-Z]+$/")]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
     protected string $url;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
     protected string $host;
 
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
     protected ?bool $invisible = false;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    protected ?string $latitud;
+    protected ?string $latitud = null;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    protected ?string $longitud;
+    protected ?string $longitud = null;
 
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $observaciones;
+    protected ?string $observaciones = null;
 
 
     #[ORM\OneToMany(targetEntity: BaseUser::class, mappedBy: 'instance', fetch: "EXTRA_LAZY")]

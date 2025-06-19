@@ -27,15 +27,14 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
-use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Entity\Institution;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/rest/v1/admin/institution")
- */
+
+#[Route("/rest/v1/admin/institution")]
 class RestAdminInstitutionController extends InstitutionController
 {
 
@@ -46,9 +45,12 @@ class RestAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * @Get("/interchange", name="rest_admin_institution_interchange", options={"expose"=true})
-     */
+    #[Route(
+        "/interchange",
+        name: "rest_admin_institution_interchange",
+        methods: ["GET"],
+        options: ["expose" => true]
+    )]
     public function getInteractionInstitutions(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -66,9 +68,12 @@ class RestAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * @Get("/parent/{parent_id}", name="rest_admin_institution_parent", options={"expose"=true})
-     */
+    #[Route(
+        "/parent/{parent_id}",
+        name: "rest_admin_institution_parent",
+        methods: ["GET"],
+        options: ["expose" => true]
+    )]
     public function getInstitutionByParent(string $parent_id): Response
     {
         return $this->restRenderer->render(
@@ -78,16 +83,22 @@ class RestAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * @Get("/{id}", name="rest_admin_institution_get", options={"expose"=true})
-     */
+    #[Route(
+        "/{id}",
+        name: "rest_admin_institution_show",
+        methods: ["GET"],
+        options: ["expose" => true]
+    )]
     public function getInstitution(string $id): Response
     { return $this->restRenderer->show($id, 'institution_show'); }
 
 
-    /**
-     * @Get("/{id}/users", name="rest_admin_institution_users", options={"expose"=true})
-     */
+    #[Route(
+        "/{id}/users",
+        name: "rest_admin_institution_users",
+        methods: ["GET"],
+        options: ["expose" => true]
+    )]
     public function getInstitutionUsers(string $id): Response
     {
         $users = $this->entityManager
@@ -97,9 +108,13 @@ class RestAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * @Get("/location/{country_id}/{city_id}", defaults={"city_id" = null}, name="rest_admin_institution", options={"expose"=true})
-     */
+    #[Route(
+        "/location/{country_id}/{city_id}",
+        name: "rest_admin_institution_location",
+        methods: ["GET"],
+        defaults: ["city_id" => null],
+        options: ["expose" => true]
+    )]
     public function getInstitutions(string $country_id, ?string $city_id): Response
     {
         $institutions = $this->repository
@@ -113,9 +128,12 @@ class RestAdminInstitutionController extends InstitutionController
     }
 
 
-    /**
-     * @Post("/create", name="rest_admin_institution_create", options={"expose"=true})
-     */
+    #[Route(
+        "/create",
+        name: "rest_admin_institution_create",
+        methods: ["POST"],
+        options: ["expose" => true]
+    )]
     public function createInstitution(): Response
     {
         $request = $this->requestStack->getCurrentRequest();

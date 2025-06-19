@@ -22,32 +22,28 @@
 
 namespace Celsius3\Entity\Mixin;
 
-use Celsius3\Entity\Event\SingleInstanceRequestEvent;
 use Celsius3\Entity\Provider;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 trait ProviderTrait
 {
-    /**
-     * @Assert\NotNull(groups={"request"})
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\Provider")
-     * @ORM\JoinColumn(name="provider_id", referencedColumnName="id")
-     */
-    private $provider;
 
-    /**
-     * Set provider.
-     */
-    public function setProvider(Provider $provider): self
+    #[
+        ORM\ManyToOne(targetEntity: Provider::class),
+        ORM\JoinColumn(name: 'provider_id', referencedColumnName: 'id'),
+        Assert\NotNull(groups: ['request'])
+    ]
+    private ?Provider $provider = null;
+
+
+    public function setProvider(?Provider $provider): self
     {
         $this->provider = $provider;
         return $this;
     }
 
-    /**
-     * Get provider.
-     */
-    public function getProvider(): Provider
+    public function getProvider(): ?Provider
     { return $this->provider; }
 }

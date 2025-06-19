@@ -27,34 +27,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait ReclaimableTrait
 {
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $reclaimed = false;
 
-    /**
-     * Set reclaimed.
-     *
-     * @param bool $reclaimed
-     *
-     * @return self
-     */
-    public function setReclaimed($reclaimed)
+    #[
+        ORM\Column(type: 'boolean'),
+        Assert\NotBlank(),
+        Assert\Type(type: 'bool'),
+    ]
+    private ?bool $reclaimed = false;
+
+
+    public function setReclaimed(?bool $reclaimed): static
     {
         $this->reclaimed = $reclaimed;
-
         return $this;
     }
 
-    /**
-     * Get reclaimed.
-     *
-     * @return bool $reclaimed
-     */
-    public function isReclaimed()
-    {
-        return $this->reclaimed;
-    }
+    public function isReclaimed(): ?bool
+    { return $this->reclaimed; }
 }

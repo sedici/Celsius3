@@ -44,7 +44,7 @@ class ContactType
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    private ?int $id = null;
 
 
     #[Assert\NotBlank]

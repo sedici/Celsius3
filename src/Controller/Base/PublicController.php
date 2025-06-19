@@ -54,9 +54,9 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
+// IsGranted('IS_AUTHENTICATED_FULLY')
 #[
     Route('/public'),
-    IsGranted('IS_AUTHENTICATED_FULLY')
 ]
 class PublicController extends EntityController
 {
@@ -220,17 +220,19 @@ class PublicController extends EntityController
     }
 
 
-    #[Route(path: '/cities', name: 'public_cities', options: ['expose' => true])]
+    #[Route(
+        '/cities',
+        name: 'public_cities',
+        methods: ['GET'],
+        options: ['expose' => true]
+    )]
     public function cities(): Response
     {
-        $request = $this->requestStack->getCurrentRequest()->toArray();
-
-        if (!isset($request['country_id']))
-            $this->error(Exception::ENTITY_NOT_FOUND, City::class);
+        $params = $this->requestStack->getCurrentRequest()->query->all();
 
         $cities = $this->objectManager
             ->getRepository(City::class)
-            ->findForCountry($request['country_id']);
+            ->findForCountry($params['country_id']);
 
         $response = [];
         foreach ($cities as $city) {
@@ -244,19 +246,22 @@ class PublicController extends EntityController
     }
 
 
-    #[Route(path: '/institutions', name: 'public_institutions', options: ['expose' => true])]
+    #[Route(
+        '/institutions',
+        name: 'public_institutions',
+        methods: ['GET'],
+        options: ['expose' => true]
+    )]
     public function institutions(): Response
     {
-        $request = $this->requestStack->getCurrentRequest()->toArray();
-
-        if (!isset($request['country_id'])) 
-            $this->error(Exception::ENTITY_NOT_FOUND, Country::class);
+        $params = $this->requestStack->getCurrentRequest()->query->all();
 
         $institutions = $this->objectManager
             ->getRepository(Institution::class)
             ->findByCountry(
-                $request['country_id'],
-                $this->getInstance(), $this->directory
+                $params['country_id'],
+                $this->getInstance(),
+                $this->directory
             );
 
         $response = [];
@@ -271,27 +276,47 @@ class PublicController extends EntityController
     }
 
 
-    #[Route(path: '/institutionsFull', name: 'public_institutions_full', options: ['expose' => true])]
+    #[Route(
+        '/institutionsFull',
+        name: 'public_institutions_full',
+        methods: ['GET'],
+        options: ['expose' => true]
+    )]
     public function institutionsFull(): Response
     {
-        $request = $this->requestStack->getCurrentRequest()->toArray();
+        $params = $this->requestStack->getCurrentRequest()->query->all();
+
+        $institutions = [];
 
         if (
-            !isset($request['country_id'])
-            && !isset($request['city_id'])
-            && !isset($request['institution_id'])
+            isset($params['city_id']) && is_numeric($params['city_id'])
         ) {
+            $institutions = $this->entityManager
+                ->getRepository(Institution::class)
+                ->findForCountryOrCity(
+                    null,
+                    $params['city_id']  ?? null,
+                    $this->directory,
+                    $this->instanceHelper->getSessionOrUrlInstance()
+                );
+        } else if (
+            isset($params['country_id']) && is_numeric($params['country_id'])
+        ) {
+            $institutions = $this->entityManager
+                ->getRepository(Institution::class)
+                ->findForCountryOrCity(
+                    $params['country_id'] ?? null,
+                    null,
+                    $this->directory,
+                    $this->instanceHelper->getSessionOrUrlInstance()
+                );
+        } else {
             $this->error(Exception::ENTITY_NOT_FOUND, Country::class);
         }
 
-        $institutions = $this->entityManager
-            ->getRepository(Institution::class)
-            ->findForCountryOrCity(
-                $request['country_id'],
-                $request['city_id'],
-                $this->directory,
-                $this->instanceHelper->getSessionOrUrlInstance()
-            );
+        if (count($institutions) === 0) {
+            return $this->restRenderer->render([]);
+        }
 
         $actual = array_filter(
             $institutions,
@@ -309,12 +334,12 @@ class PublicController extends EntityController
             $level = 0;
             if (
                 (
-                    $request['filter'] === 'liblink'
+                    $params['filter'] === 'liblink'
                     && $institution['hive_id'] === $this->instance->getHive()->getId()
                 ) || (
-                    $request['filter'] === 'celsius3'
+                    $params['filter'] === 'celsius3'
                     && $institution['celsiusInstance']
-                ) || ($request['filter'] === '')
+                ) || ($params['filter'] === '')
             ) {
                 $children = array_filter(
                     $institutions,

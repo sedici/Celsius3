@@ -27,34 +27,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait AnnullableTrait
 {
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $annulled = false;
 
-    /**
-     * Set annulled.
-     *
-     * @param bool $annulled
-     *
-     * @return self
-     */
-    public function setAnnulled($annulled)
+    #[
+        ORM\Column(type: 'boolean'),
+        Assert\NotBlank(),
+        Assert\Type(type: 'bool'),
+    ]
+    private ?bool $annulled = false;
+
+    public function setAnnulled(?bool $annulled): static
     {
         $this->annulled = $annulled;
-
         return $this;
     }
 
-    /**
-     * Get annulled.
-     *
-     * @return bool $annulled
-     */
-    public function isAnnulled()
-    {
-        return $this->annulled;
-    }
+    public function isAnnulled(): ?bool
+    { return $this->annulled; }
 }

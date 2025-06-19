@@ -32,11 +32,11 @@ class CongressType extends MaterialType
 {
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    protected ?string $place;
+    protected ?string $place = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    protected ?string $communication;
+    protected ?string $communication = null;
 
 
     public function getMaterialType(): string

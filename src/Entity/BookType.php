@@ -32,15 +32,15 @@ class BookType extends MaterialType
 {
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    protected string $editor;
+    protected ?string $editor = null;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    protected string $chapter;
+    protected ?string $chapter = null;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    protected string $ISBN;
+    protected ?string $ISBN = null;
 
 
     #[Assert\NotNull()]

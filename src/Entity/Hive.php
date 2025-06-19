@@ -42,8 +42,8 @@ class Hive
 
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[Assert\NotBlank]

@@ -48,7 +48,7 @@ class CustomField
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    private ?int $id = null;
 
 
     #[Gedmo\Slug(fields: ['name'])]
@@ -67,7 +67,7 @@ class CustomField
 
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $value;
+    private ?string $value = null;
 
 
     #[Assert\Type(type: 'boolean')]
@@ -95,7 +95,7 @@ class CustomField
 
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $position;
+    private ?int $position = null;
 
 
     #[Assert\NotBlank]

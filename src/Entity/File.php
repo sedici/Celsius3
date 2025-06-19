@@ -48,8 +48,8 @@ class File
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[ORM\Column(type: "string", length: 255)]
@@ -62,11 +62,11 @@ class File
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $comments;
+    private ?string $comments = null;
 
 
     #[Assert\File(maxSize: "8M", mimeTypes: ["application/pdf", "application/x-pdf"])]
-    private ?UploadedFile $file;
+    private ?UploadedFile $file = null;
 
 
     #[ORM\Column(type: "boolean")]
@@ -74,7 +74,7 @@ class File
 
 
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: "files")]
-    private ?Request $request;
+    private ?Request $request = null;
 
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]

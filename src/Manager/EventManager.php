@@ -338,9 +338,9 @@ class EventManager
             $extraData['httprequest'] = $httpRequest;
             if ($request->getInstance()->getId() !== $instance->getId()) {
                 $extraData['remoterequest'] = $request->getOrder()
-                        ->getRequest($instance)
-                        ->getState(StateManager::STATE__CREATED)
-                        ->getRemoteEvent();
+                    ->getRequest($instance)
+                    ->getState(StateManager::STATE__CREATED)
+                    ->getRemoteEvent();
             }
             $extraData['sirequests'] = $em->getRepository(SingleInstanceRequestEvent::class)
                     ->findBy(array(

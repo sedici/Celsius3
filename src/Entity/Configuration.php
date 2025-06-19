@@ -43,8 +43,8 @@ class Configuration
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[Assert\NotBlank]
@@ -58,7 +58,7 @@ class Configuration
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private string $value;
+    private ?string $value = null;
 
 
     #[Assert\NotBlank]

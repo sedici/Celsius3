@@ -278,13 +278,19 @@ class InstitutionRepository extends BaseRepository
             ->getQuery()->execute();
     }
 
-    public function findForCountryOrCity($country_id, $city_id, Instance $directory = null, Instance $instance = null)
-    {
+    public function findForCountryOrCity(
+        ?string $country_id = null,
+        ?string $city_id = null,
+        ?Instance $directory = null,
+        ?Instance $instance = null
+    ): array {
+        if (!($country_id || $city_id)) throw new \InvalidArgumentException('At least one of country_id or city_id must be provided.');
+
         $qb = $this->createQueryBuilder('i')
-                    ->select('i.id, i.name, i.abbreviation, p.id as parent_id, ins.id AS celsiusInstance, h.id AS hive_id')
-                    ->leftJoin('i.parent', 'p')
-                    ->leftJoin('i.celsiusInstance', 'ins')
-                    ->leftJoin('i.hive', 'h');
+            ->select('i.id, i.name, i.abbreviation, p.id as parent_id, ins.id AS celsiusInstance, h.id AS hive_id')
+            ->leftJoin('i.parent', 'p')
+            ->leftJoin('i.celsiusInstance', 'ins')
+            ->leftJoin('i.hive', 'h');
 
         if ($city_id) {
             $qb = $qb->where('i.city = :cid')->setParameter('cid', $city_id);

@@ -57,11 +57,11 @@ class CatalogExtension extends AbstractExtension
     {
         $position = $catalog->getPosition($this->instanceHelper->getSessionInstance());
 
-        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
+        if (!$position && ($catalog->getInstance()->getId() === $this->instanceHelper->getDirectory()->getId())) {
             return true;
         }
 
-        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
+        if (!$position && ($catalog->getInstance()->getId() === $this->instanceHelper->getDirectory()->getId())) {
             return true;
         }
 

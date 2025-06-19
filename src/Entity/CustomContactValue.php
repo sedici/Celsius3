@@ -35,13 +35,13 @@ class CustomContactValue extends CustomValue
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    private ?int $id = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Contact::class, inversedBy: 'customValues')]
     #[ORM\JoinColumn(name: 'contact_id', referencedColumnName: 'id', nullable: true)]
-    private ?Contact $contact;
+    private ?Contact $contact = null;
 
 
     public function getId(): int

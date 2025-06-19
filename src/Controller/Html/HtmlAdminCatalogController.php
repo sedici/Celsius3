@@ -23,24 +23,20 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\CatalogPosition;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\CatalogController;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 
-/**
- * Catalog controller.
- * @Route("/admin/catalog")
- */
+#[
+    Route("/admin/catalog"),
+    IsGranted(data: 'ROLE_ADMIN')
+]
 class HtmlAdminCatalogController extends CatalogController
 {
 
-    /**
-     * Lists all Catalog entities.
-     * @Route("/", name="admin_catalog")
-     */
+    #[Route("/", name: "admin_catalog")]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -50,10 +46,7 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Displays a form to create a new Catalog entity.
-     * @Route("/new", name="admin_catalog_new")
-     */
+    #[Route("/new", name: "admin_catalog_new")]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -63,11 +56,8 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Creates a new Catalog entity.
-     * @Route("/create", name="admin_catalog_create", methods={"POST"})
-     */
-    public function htmlCreate(): RedirectResponse|Response
+    #[Route("/create", name: "admin_catalog_create", methods: ["POST"])]
+    public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
             'new',
@@ -76,12 +66,7 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Displays a form to edit an existing Catalog entity.
-     * @Route("/{id}/edit", name="admin_catalog_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/edit", name: "admin_catalog_edit")]
     public function htmlEdit($id): Response
     {
         return $this->htmlRenderer->render(
@@ -91,13 +76,8 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Edits an existing Catalog entity.
-     * @Route("/{id}/update", name="admin_catalog_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
-    public function htmlUpdate($id): RedirectResponse|Response
+    #[Route("/{id}/update", name: "admin_catalog_update", methods: ["POST"])]
+    public function htmlUpdate($id): Response
     {
         return $this->htmlRenderer->render(
             'edit',
@@ -106,12 +86,7 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Disables an existing Catalog entity.
-     * @Route("/{id}/disable", name="admin_catalog_disable", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/disable", name: "admin_catalog_disable", methods: ["POST"])]
     public function disable(string $id): Response
     {
         $catalog = $this->findQuery($id);
@@ -124,12 +99,7 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Enables an existing Catalog entity.
-     * @Route("/{id}/enable", name="admin_catalog_enable", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/{id}/enable", name: "admin_catalog_enable", methods: ["POST"])]
     public function enable(string $id): Response
     {
         $catalog = $this->findQuery($id);
@@ -139,12 +109,7 @@ class HtmlAdminCatalogController extends CatalogController
     }
 
 
-    /**
-     * Updates the position of a group of existing Catalog entities.
-     * @Route("/updateposition", name="admin_catalog_updateposition", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route("/updateposition", name: "admin_catalog_updateposition", methods: ["POST"])]
     public function update_positions(): Response
     {
         $request = $this->requestStack->getCurrentRequest();

@@ -47,7 +47,7 @@ class Catalog implements \Stringable
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+    private ?int $id = null;
 
 
     #[Assert\NotBlank]
@@ -62,18 +62,18 @@ class Catalog implements \Stringable
 
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private string $comments;
+    private ?string $comments = null;
 
 
     #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(name: 'institution_id', referencedColumnName: 'id')]
-    private $institution;
+    private ?Institution $institution = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    private Instance $instance;
+    private ?Instance $instance = null;
 
 
     #[ORM\OneToMany(targetEntity: CatalogPosition::class, mappedBy: 'catalog', cascade: ['persist'])]
@@ -82,6 +82,11 @@ class Catalog implements \Stringable
 
     public function __toString(): string
     { return $this->name; }
+
+    public function __construct()
+    {
+        $this->positions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     { return $this->id; }
@@ -134,22 +139,13 @@ class Catalog implements \Stringable
     public function getInstance(): ?Instance
     { return $this->instance; }
 
-    public function __construct()
-    {
-        $this->positions = new ArrayCollection();
-    }
-
     public function addPosition(CatalogPosition $position): void
-    {
-        $this->positions[] = $position;
-    }
+    { $this->positions[] = $position; }
 
     public function removePosition(CatalogPosition $position): void
-    {
-        $this->positions->removeElement($position);
-    }
+    { $this->positions->removeElement($position); }
 
-    public function getPositions(): ArrayCollection
+    public function getPositions(): Collection
     { return $this->positions; }
 
     public function getPosition(Instance $instance): ?CatalogPosition

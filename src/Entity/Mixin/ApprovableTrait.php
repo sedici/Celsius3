@@ -27,34 +27,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait ApprovableTrait
 {
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
-     */
-    private $approved = false;
 
-    /**
-     * Set approved.
-     *
-     * @param bool $approved
-     *
-     * @return self
-     */
-    public function setApproved($approved)
+    #[
+        ORM\Column(type: 'boolean'),
+        Assert\NotBlank(),
+        Assert\Type(type: 'bool'),
+    ]
+    private bool $approved = false;
+
+
+
+    public function setApproved(bool $approved): static
     {
         $this->approved = $approved;
-
         return $this;
     }
 
-    /**
-     * Get approved.
-     *
-     * @return bool $approved
-     */
-    public function isApproved()
-    {
-        return $this->approved;
-    }
+    public function isApproved(): bool
+    { return $this->approved; }
 }

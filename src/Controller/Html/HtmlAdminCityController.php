@@ -23,54 +23,54 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Controller\Base\CityController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 
-/**
- * City HTML controller.
- * @Route("/admin/city")
- */
+#[
+    Route('/admin/city'),
+    IsGranted('ROLE_ADMIN'),
+]
 class HtmlAdminCityController extends CityController
 {
 
-    /**
-     * @Route("/", name="admin_city")
-     */
+    #[Route('/', name: 'html_admin_city', methods: ['GET'])]
     public function htmlIndex(): Response
     { return $this->htmlRenderer->render('index', $this->index()); }
 
 
-    /**
-     * @Route("/new", name="admin_city_new")
-     */
+    #[Route('/new', name: 'html_admin_city_new', methods: ['GET'])]
     public function htmlNew(): Response
     { return $this->htmlRenderer->render('new', $this->new()); }
 
 
-    /**
-     * @Route("/create", name="admin_city_create", methods={"POST"})
-     */
+    #[Route('/create', name: 'html_admin_city_create',  methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
-    { return $this->htmlRenderer->render('create', $this->create()); }
+    {
+        $params = $this->create();
+        if ($params instanceof RedirectResponse) return $params;
+        return $this->htmlRenderer->render(
+            'create',
+            $params
+        );
+    }
 
 
-    /**
-     * @Route("/{id}/edit", name="admin_city_edit")
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+    #[Route('/{id}/edit', name: 'html_admin_city_edit', methods: ['GET'])]
     public function htmlEdit($id): Response
     { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
-    
-    /**
-     * @Route("/{id}/update", name="admin_city_update", methods={"POST"})
-     * @param string $id The entity ID
-     * @throws NotFoundHttpException If entity doesn't exists
-     */
+
+    #[Route('/{id}/update', name: 'html_admin_city_update', methods: ['POST'])]
     public function htmlUpdate($id): RedirectResponse|Response
-    { return $this->htmlRenderer->render('update', $this->update($id)); }
+    {
+        $params = $this->update($id);
+        if ($params instanceof RedirectResponse) return $params;
+        return $this->htmlRenderer->render(
+            'update',
+            $params
+        );
+    }
 }

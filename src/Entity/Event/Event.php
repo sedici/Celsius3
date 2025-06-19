@@ -183,15 +183,12 @@ abstract class Event implements EventInterface, \Stringable
         return $this;
     }
 
-    public function getOperator():BaseUser
-    {
-        return $this->operator;
-    }
+    public function getOperator(): ?BaseUser
+    { return $this->operator; }
 
     public function setOperator(?BaseUser $operator = null): Event
     {
         $this->operator = $operator;
-
         return $this;
     }
 

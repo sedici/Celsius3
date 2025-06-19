@@ -51,12 +51,12 @@ abstract class CustomValue
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $value;
+    private ?string $value = null;
 
 
     #[Assert\NotNull]
