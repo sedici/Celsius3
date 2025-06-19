@@ -45,7 +45,7 @@ class FileDownload
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank]
@@ -55,107 +55,87 @@ class FileDownload
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $userAgent = null;
+    private ?string $userAgent;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
-    private BaseUser $user;
+    private ?BaseUser $user;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: File::class, inversedBy: "downloads")]
     #[ORM\JoinColumn(name: "file_id", referencedColumnName: "id", nullable: false)]
-    private File $file;
+    private ?File $file;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Request::class)]
     #[ORM\JoinColumn(name: "request_id", referencedColumnName: "id", nullable: false)]
-    private Request $request;
+    private ?Request $request;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
-    private Instance $instance;
+    private ?Instance $instance;
 
 
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
     public function setIp(string $ip): self
     {
         $this->ip = $ip;
-
         return $this;
     }
 
     public function getIp(): string
-    {
-        return $this->ip;
-    }
+    { return $this->ip; }
 
     public function setUserAgent(string $userAgent): self
     {
         $this->userAgent = $userAgent;
-
         return $this;
     }
 
     public function getUserAgent(): ?string
-    {
-        return $this->userAgent;
-    }
+    { return $this->userAgent; }
 
     public function setUser(BaseUser $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
     public function getUser(): BaseUser
-    {
-        return $this->user;
-    }
+    { return $this->user; }
 
     public function setFile(File $file): self
     {
         $this->file = $file;
-
         return $this;
     }
 
     public function getFile(): File
-    {
-        return $this->file;
-    }
+    { return $this->file; }
 
     public function setRequest(Request $request): self
     {
         $this->request = $request;
-
         return $this;
     }
 
     public function getRequest(): Request
-    {
-        return $this->request;
-    }
+    { return $this->request; }
 
     public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
-
         return $this;
     }
 
     public function getInstance(): Instance
-    {
-        return $this->instance;
-    }
+    { return $this->instance; }
 }

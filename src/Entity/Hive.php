@@ -22,14 +22,12 @@
 
 namespace Celsius3\Entity;
 
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[
@@ -45,18 +43,12 @@ class Hive
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    // #[Groups([
-    //     "administration_order_show",
-    // ])]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "administration_order_show",
-    // ])]
     private string $name;
 
 
@@ -69,9 +61,7 @@ class Hive
 
 
     public function __toString(): string
-    {
-        return $this->name;
-    }
+    { return $this->name; }
 
     public function __construct()
     {
@@ -79,50 +69,33 @@ class Hive
         $this->institutions = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): int
+    { return $this->id; }
 
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
     public function getName(): string
-    {
-        return $this->name;
-    }
+    { return $this->name; }
 
     public function addInstance(LegacyInstance $instance): void
-    {
-        $this->instances[] = $instance;
-    }
+    { $this->instances[] = $instance; }
 
     public function removeInstance(LegacyInstance $instance): void
-    {
-        $this->instances->removeElement($instance);
-    }
+    { $this->instances->removeElement($instance); }
 
-    public function getInstances(): array|ArrayCollection
-    {
-        return $this->instances;
-    }
+    public function getInstances(): Collection
+    { return $this->instances; }
 
     public function addInstitution(Institution $institution): void
-    {
-        $this->institutions[] = $institution;
-    }
+    { $this->institutions[] = $institution; }
 
     public function removeInstitution(Institution $institution): void
-    {
-        $this->institutions->removeElement($institution);
-    }
+    { $this->institutions->removeElement($institution); }
 
-    public function getInstitutions(): array|ArrayCollection
-    {
-        return $this->institutions;
-    }
+    public function getInstitutions(): Collection
+    { return $this->institutions; }
 }

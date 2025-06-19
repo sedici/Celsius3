@@ -46,16 +46,16 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     #[ORM\Column(type: 'string', length: 255)]
     private string $deliveryType;
 
-    #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
     #[ORM\JoinTable(name: 'sirequests_files')]
     #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
+    #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
     private Collection $files;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: 'request_event_id', referencedColumnName: 'id')]
-    private ?Event $requestEvent;
+    private Event $requestEvent;
 
     public function getEventType(): string
     {

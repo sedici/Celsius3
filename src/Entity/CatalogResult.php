@@ -44,124 +44,67 @@ class CatalogResult
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?string $title = null;
+    private string $title;
 
 
     #[Assert\Type(type: 'integer')]
     #[ORM\Column(type: 'integer')]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?int $searches = 0;
+    private int $searches = 0;
 
 
     #[Assert\Type(type: 'integer')]
     #[ORM\Column(type: 'integer')]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?int $matches = 0;
+    private int $matches = 0;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'positions')]
     #[ORM\JoinColumn(name: 'catalog_id', referencedColumnName: 'id', nullable: false)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private $catalog;
+    private Catalog $catalog;
 
 
-    /**
-     * Get id.
-     */
     public function getId(): int|null
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
-
-    /**
-     * Set title.
-     */
     public function setTitle($title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
-    /**
-     * Get title.
-     */
     public function getTitle(): string|null
-    {
-        return $this->title;
-    }
+    { return $this->title; }
 
-    /**
-     * Set searches.
-     */
     public function setSearches($searches): static
     {
         $this->searches = $searches;
-
         return $this;
     }
 
-    /**
-     * Get searches.
-     */
     public function getSearches(): int|null
-    {
-        return $this->searches;
-    }
+    { return $this->searches; }
 
-    /**
-     * Set matches.
-     */
     public function setMatches($matches): static
     {
         $this->matches = $matches;
-
         return $this;
     }
 
-    /**
-     * Get matches.
-     */
     public function getMatches(): int|null
-    {
-        return $this->matches;
-    }
+    { return $this->matches; }
 
-    /**
-     * Set catalog.
-     */
     public function setCatalog(Catalog $catalog): static
     {
         $this->catalog = $catalog;
-
         return $this;
     }
 
-    /**
-     * Get catalog.
-     */
     public function getCatalog(): Catalog
-    {
-        return $this->catalog;
-    }
+    { return $this->catalog; }
 }

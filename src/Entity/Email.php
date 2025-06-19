@@ -22,12 +22,10 @@
 
 namespace Celsius3\Entity;
 
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\EmailRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[
@@ -41,22 +39,16 @@ class Email
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api_administration",
-    // ])]
     private string $address;
 
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api_administration",
-    // ])]
     private string $subject;
 
 
@@ -68,9 +60,6 @@ class Email
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "sender_id", referencedColumnName: "id", nullable: false)]
-    // #[Groups([
-    //     "api_administration",
-    // ])]
     private BaseUser $sender;
 
 
@@ -92,10 +81,8 @@ class Email
     private bool $error = false;
 
 
-    public function getId(): mixed
-    {
-        return $this->id;
-    }
+    public function getId(): int
+    { return $this->id; }
 
 
     public function setAddress(string $address): static
@@ -113,84 +100,61 @@ class Email
 
 
     public function getAddress(): string
-    {
-        return $this->address;
-    }
+    { return $this->address; }
 
     public function setSubject(string $subject): static
     {
         $this->subject = $subject;
-
         return $this;
     }
 
     public function getSubject(): string
-    {
-        return $this->subject;
-    }
+    { return $this->subject; }
 
     public function setText(string $text): self
     {
         $this->text = $text;
-
         return $this;
     }
 
     public function getText(): string
-    {
-        return $this->text;
-    }
+    { return $this->text; }
 
     public function setSender(BaseUser $sender): self
     {
         $this->sender = $sender;
-
         return $this;
     }
 
     public function getSender(): BaseUser
-    {
-        return $this->sender;
-    }
+    { return $this->sender; }
 
     public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
-
         return $this;
     }
 
     public function getInstance(): Instance
-    {
-        return $this->instance;
-    }
+    { return $this->instance; }
 
     public function setSent(bool $sent): self
     {
         $this->sent = $sent;
-
         return $this;
     }
 
     public function getSent(): bool
-    {
-        return $this->sent;
-    }
+    { return $this->sent; }
 
     public function getAttempts(): int
-    {
-        return $this->attempts;
-    }
+    { return $this->attempts; }
 
     public function addAttempt(): void
-    {
-        $this->attempts++;
-    }
+    { $this->attempts++; }
 
     public function getError(): bool
-    {
-        return $this->error;
-    }
+    { return $this->error; }
 
     public function setError(bool $error): static
     {

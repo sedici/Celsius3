@@ -44,90 +44,44 @@ class ContactType
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'api',
-    //     'administration',
-    // ])]
-    private ?int $id = null;
+    private int $id;
+
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Groups([
-    //     'api',
-    //     'administration',
-    // ])]
-    private ?string $name = null;
+    private string $name;
 
-    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'type', fetch: "EXTRA_LAZY")]
-    private $contacts;
+
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'type')]
+    private Collection $contacts;
+
 
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+    public function __toString(): string
+    { return $this->name; }
 
-    /**
-     * Get id.
-     */
-    public function getId(): int|null
-    {
-        return $this->id;
-    }
+    public function getId(): int
+    { return $this->id; }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    public function getName(): string
+    { return $this->name; }
 
-    /**
-     * Add contacts.
-     *
-     * @param Contact $contacts
-     */
-    public function addContact(Contact $contacts)
-    {
-        $this->contacts[] = $contacts;
-    }
+    public function addContact(Contact $contacts): void
+    { $this->contacts[] = $contacts; }
 
-    /**
-     * Remove contacts.
-     *
-     * @param Contact $contacts
-     */
-    public function removeContact(Contact $contacts)
-    {
-        $this->contacts->removeElement($contacts);
-    }
+    public function removeContact(Contact $contacts): void
+    { $this->contacts->removeElement($contacts); }
 
-    /**
-     * Get contacts.
-     */
-    public function getContacts(): array|Collection
-    {
-        return $this->contacts;
-    }
+    public function getContacts(): Collection
+    { return $this->contacts; }
 }

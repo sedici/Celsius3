@@ -37,7 +37,7 @@ class ReuploadEvent extends SingleInstanceEvent
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: "receive_event_id", referencedColumnName: "id")]
-    private ?Event $receiveEvent = null;
+    private Event $receiveEvent;
 
     public function getEventType(): string
     {

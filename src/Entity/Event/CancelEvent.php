@@ -38,7 +38,7 @@ use function array_key_exists;
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private ?bool $cancelledByUser = false;
+    private bool $cancelledByUser = false;
 
     public function getEventType(): string
     {

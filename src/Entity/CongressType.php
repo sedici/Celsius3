@@ -32,74 +32,31 @@ class CongressType extends MaterialType
 {
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
-    protected ?string $place = null;
+    protected ?string $place;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
-    protected ?string $communication = null;
+    protected ?string $communication;
 
 
-    /**
-     * Get material type.
-     */
     public function getMaterialType(): string
-    {
-        return 'congress';
-    }
+    { return 'congress'; }
 
-    /**
-     * Set place.
-     */
     public function setPlace(?string $place): self
     {
         $this->place = $place;
-
         return $this;
     }
 
-    /**
-     * Get place.
-     *
-     * @return string $place
-     */
-    public function getPlace(): ?string
-    {
-        return $this->place;
-    }
+    public function getPlace(): string
+    { return $this->place; }
 
-    /**
-     * Set communication.
-     *
-     * @param string $communication
-     *
-     * @return self
-     */
     public function setCommunication(?string $communication): self
     {
         $this->communication = $communication;
-
         return $this;
     }
 
-    /**
-     * Get communication.
-     *
-     * @return string $communication
-     */
-    public function getCommunication(): ?string
-    {
-        return $this->communication;
-    }
+    public function getCommunication(): string
+    { return $this->communication; }
 }

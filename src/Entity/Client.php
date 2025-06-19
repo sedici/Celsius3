@@ -32,12 +32,12 @@ class Client extends BaseClient
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected $id;
+    protected int $id;
 
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id')]
-    protected $instance;
+    protected Instance $instance;
 
 
     public function __construct()

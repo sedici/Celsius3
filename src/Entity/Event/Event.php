@@ -103,7 +103,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
     Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false)
 ]
-abstract class Event implements EventInterface
+abstract class Event implements EventInterface, \Stringable
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -113,46 +113,33 @@ abstract class Event implements EventInterface
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-
     #[ORM\Column(type: 'text', nullable: true)]
-    // #[Groups(['administration_order_show'])]
     private ?string $observations;
 
-
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'request_id', referencedColumnName: 'id', nullable: false)]
-    // #[Groups(['administration_order_show'])]
     private Request $request;
 
 
-    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'events', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
     private ?BaseUser $operator;
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(
-        targetEntity: State::class,
-        inversedBy: 'events',
-        cascade: ['persist']
-    )]
+    #[ORM\ManyToOne(targetEntity: State::class, inversedBy: 'events', cascade: ['persist', 'refresh'])]
     #[ORM\JoinColumn(name: 'state_id', referencedColumnName: 'id', nullable: false)]
     private State $state;
 
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
     private Instance $instance;
 
 
-    // #[Groups(['administration_order_show'])]
     abstract public function getEventType(): string;
-
-
-    // public function getRemoteNotificationTarget(): BaseUser
-    // { return $this->request->getOrder()->getOriginalRequest()->getOwner(); }
 
 
     public function __toString()

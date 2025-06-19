@@ -60,64 +60,43 @@ class Contact
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    // #[Groups([
-    //     "api",
-    //     "administration"
-    // ])]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api",
-    //     "administration"
-    // ])]
     private string $name;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api",
-    //     "administration"
-    // ])]
     private string $surname;
 
 
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api",
-    //     "administration"
-    // ])]
     private string $email;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    // #[Groups([
-    //     "api",
-    //     "administration"
-    // ])]
-    private ?string $address = null;
+    private ?string $address;
 
 
     #[ORM\OneToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
-    private ?BaseUser $user = null;
+    private ?BaseUser $user;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: ContactType::class, inversedBy: "contacts")]
     #[ORM\JoinColumn(name: "type_id", referencedColumnName: "id", nullable: false)]
-    // #[Groups(["api"])]
     private ContactType $type;
 
 
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "contacts")]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
-    private ?Instance $instance = null;
+    private ?Instance $instance;
 
 
     #[Assert\NotNull]
@@ -137,13 +116,8 @@ class Contact
         $this->customValues = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     */
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
     public function full_name(): string
     {
@@ -158,100 +132,39 @@ class Contact
             ? $this->email
             : $this->user->getUsername();
     }
-
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
     public function getName(): string
-    {
-        return $this->name;
-    }
+    { return $this->name; }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get surname.
-     *
-     * @return string $surname
-     */
     public function getSurname(): string
-    {
-        return $this->surname;
-    }
+    { return $this->surname; }
 
-    /**
-     * Set surname.
-     *
-     * @param string $surname
-     *
-     * @return self
-     */
     public function setSurname(string $surname): self
     {
         $this->surname = $surname;
-
         return $this;
     }
 
-    /**
-     * Get email.
-     *
-     * @return string $email
-     */
     public function getEmail(): string
-    {
-        return $this->email;
-    }
+    { return $this->email; }
 
-    /**
-     * Set email.
-     *
-     * @param string $email
-     *
-     * @return self
-     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
-    /**
-     * Get address.
-     *
-     * @return string $address
-     */
     public function getAddress(): ?string
-    {
-        return $this->address;
-    }
+    { return $this->address; }
 
-    /**
-     * Set address.
-     *
-     * @param string $address
-     *
-     * @return self
-     */
     public function setAddress(?string $address): self
     {
         $this->address = $address;
-
         return $this;
     }
 

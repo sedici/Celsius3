@@ -35,10 +35,11 @@ use Celsius3\Repository\BaseNotificationRepository;
 #[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
 class BaseUserNotification extends Notification
 {
+
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'notifications')]
     #[ORM\JoinColumn(name: 'base_user_notification_id', referencedColumnName: 'id')]
-    protected BaseUser $object;
+    protected ?BaseUser $object;
 
 
     public function __construct(
@@ -54,10 +55,10 @@ class BaseUserNotification extends Notification
     }
 
 
-    public function setObject(Event|Message|BaseUser $object): self
+    public function setObject(Event|Message|BaseUser|null $object): self
     { $this->object = $object; return $this; }
 
 
-    public function getObject(): Event|Message|BaseUser
+    public function getObject(): Event|Message|BaseUser|null
     { return $this->object; }
 }

@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity;
 
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -53,11 +52,11 @@ abstract class CustomValue
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    private ?int $id = null;
+    private int $id;
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $value = null;
+    private ?string $value;
 
 
     #[Assert\NotNull]
@@ -67,31 +66,23 @@ abstract class CustomValue
 
 
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
     public function getValue(): ?string
-    {
-        return $this->value;
-    }
+    { return $this->value; }
 
     public function setValue(string $value): self
     {
         $this->value = $value;
-
         return $this;
     }
 
     public function getField(): CustomField
-    {
-        return $this->field;
-    }
+    { return $this->field; }
 
     public function setField(CustomField $field): self
     {
         $this->field = $field;
-
         return $this;
     }
 }

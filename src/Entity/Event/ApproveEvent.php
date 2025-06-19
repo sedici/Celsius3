@@ -39,27 +39,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class ApproveEvent extends MultiInstanceEvent
 {
-    #[ORM\ManyToMany(targetEntity: File::class)]
-    #[ORM\JoinTable(name: 'approves_files',
-        joinColumns: [new ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
-    )]
-    #[Groups([
-        'administration_order_show',
-    ])]
+    #[ORM\JoinTable(name: 'approves_files')]
+    #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
+    #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
     private Collection $files;
 
     #[Assert\NotNull]
     #[ORM\OneToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: 'receive_event_id', referencedColumnName: 'id')]
-    #[Groups([
-        'administration_order_show',
-    ])]
     private Event $receiveEvent;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->files = new ArrayCollection();

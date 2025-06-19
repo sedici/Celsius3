@@ -31,9 +31,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 #[
     ORM\Table(name: 'counter'),
     ORM\Entity(repositoryClass: BaseRepository::class),
-    ORM\Index(name: 'idx_name', columns: ['name'])
+    ORM\Index(name: 'idx_name', columns: ['name']),
+
+    ORM\HasLifecycleCallbacks
 ]
-#[ORM\HasLifecycleCallbacks]
 class Counter
 {
     use TimestampableEntity;
@@ -41,43 +42,32 @@ class Counter
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id = null;
+    protected int $id;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    protected ?string $name = null;
+    protected string $name;
 
 
     #[ORM\Column(type: 'integer')]
-    protected ?int $value = null;
+    protected int $value;
 
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+    public function getId(): int
+    { return $this->id; }
 
     public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
+    { $this->name = $name; }
 
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+    public function getName(): string
+    { return $this->name; }
 
     public function setValue(int $value): void
-    {
-        $this->value = $value;
-    }
+    { $this->value = $value; }
 
 
-    public function getValue(): ?int
-    {
-        return $this->value;
-    }
+    public function getValue(): int
+    { return $this->value; }
 }

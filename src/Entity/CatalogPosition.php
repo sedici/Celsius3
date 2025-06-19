@@ -25,8 +25,6 @@ namespace Celsius3\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Celsius3\Entity\Mixin\SoftDeleteableEntity;
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 
 
 #[
@@ -44,30 +42,30 @@ class CatalogPosition
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\Type(type: 'integer')]
     #[ORM\Column(type: 'integer')]
-    private ?int $position = null;
+    private int $position;
 
 
     #[Assert\NotBlank]
     #[Assert\Type(type: 'boolean')]
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
-    private ?bool $enabled = null;
+    private bool $enabled;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Catalog::class, inversedBy: 'positions')]
     #[ORM\JoinColumn(name: 'catalog_id', referencedColumnName: 'id', nullable: false)]
-    private $catalog;
+    private Catalog $catalog;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    private $instance;
+    private Instance $instance;
 
 
     public function getId(): int|null

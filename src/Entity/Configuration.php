@@ -44,7 +44,7 @@ class Configuration
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank]
@@ -58,7 +58,7 @@ class Configuration
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $value = null;
+    private string $value;
 
 
     #[Assert\NotBlank]
@@ -72,131 +72,51 @@ class Configuration
     private Instance $instance;
 
 
-    /**
-     * Get id.
-     */
     public function getId(): ?int
-    {
-        return $this->id;
-    }
+    { return $this->id; }
 
-    /**
-     * Set key.
-     *
-     * @param string $key
-     *
-     * @return self
-     */
     public function setKey(string $key): self
     {
         $this->key = $key;
-
         return $this;
     }
 
-    /**
-     * Get key.
-     *
-     * @return string $key
-     */
     public function getKey(): string
-    {
-        return $this->key;
-    }
+    { return $this->key; }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
     public function getName(): string
-    {
-        return $this->name;
-    }
+    { return $this->name; }
 
-    /**
-     * Set value.
-     *
-     * @param string $value
-     *
-     * @return self
-     */
     public function setValue(?string $value): self
     {
         $this->value = $value;
-
         return $this;
     }
 
-    /**
-     * Get value.
-     *
-     * @return string $value
-     */
     public function getValue(): ?string
-    {
-        return $this->value;
-    }
+    { return $this->value; }
 
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return self
-     */
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
-    /**
-     * Get type.
-     *
-     * @return string $type
-     */
     public function getType(): string
-    {
-        return $this->type;
-    }
+    { return $this->type; }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
     public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
-
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
     public function getInstance(): Instance
-    {
-        return $this->instance;
-    }
+    { return $this->instance; }
 }

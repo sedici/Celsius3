@@ -27,55 +27,39 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class CustomUserValue extends CustomValue
 {
+
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'administration',
-    // ])]
-    private ?int $id = null;
+    private int $id;
+
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(targetEntity: \Celsius3\Entity\BaseUser::class, inversedBy: 'customValues')]
+    #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'customValues')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    private $user;
+    private ?BaseUser $user;
 
-    public function getId(): int|null
-    {
-        return $this->id;
-    }
 
-    public function getUser(): BaseUser
-    {
-        return $this->user;
-    }
+    public function getId(): int
+    { return $this->id; }
+
+    public function getUser(): ?BaseUser
+    { return $this->user; }
 
     public function setUser(BaseUser $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
-    // #[Groups([
-    //     'administration',
-    // ])]
     public function getValue(): string
-    {
-        return parent::getValue();
-    }
+    { return parent::getValue(); }
 
-    // #[Groups([
-    //     'administration',
-    // ])]
     public function getField(): CustomField
-    {
-        return parent::getField();
-    }
+    { return parent::getField(); }
 }

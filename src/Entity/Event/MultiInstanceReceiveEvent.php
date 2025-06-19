@@ -51,18 +51,14 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     #[ORM\Column(type: 'string', length: 255)]
     private string $deliveryType;
 
+    #[ORM\JoinTable(name: 'mirequests_files')]
+    #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
     #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
-    #[ORM\JoinTable(name: 'mirequests_files',
-        joinColumns: [new ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
-    )]
     private Collection $files;
 
     #[Assert\NotNull]
-    #[ORM\ManyToOne(
-        targetEntity: State::class,
-        inversedBy: 'remoteEvents'
-    )]
+    #[ORM\ManyToOne(targetEntity: State::class, inversedBy: 'remoteEvents', cascade: ['persist', 'refresh'])]
     #[ORM\JoinColumn(name: 'remote_state_id', referencedColumnName: 'id')]
     private State $remoteState;
 

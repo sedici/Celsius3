@@ -28,6 +28,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\CustomFieldRepository;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[
@@ -47,26 +48,26 @@ class CustomField
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(type: 'string', length: 255, name: '`key`')]
-    private ?string $key = null;
+    private string $key;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $name = null;
+    private string $name;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $type = null;
+    private ?string $type;
 
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $value = null;
+    private ?string $value;
 
 
     #[Assert\Type(type: 'boolean')]
@@ -86,20 +87,20 @@ class CustomField
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    private $instance;
+    private Instance $instance;
 
 
-    #[ORM\OneToMany(targetEntity: CustomValue::class, mappedBy: 'field', fetch: "EXTRA_LAZY")]
-    private $values;
+    #[ORM\OneToMany(targetEntity: CustomValue::class, mappedBy: 'field')]
+    private Collection $values;
 
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $position = null;
+    private ?int $position;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
-    private ?string $entity = null;
+    private string $entity;
 
 
     public function __construct()

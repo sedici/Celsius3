@@ -46,43 +46,32 @@ class City
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'administration',
-    //     'administration_order_show'
-    // ])]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Groups([
-    //     'administration',
-    //     'administration_order_show'
-    // ])]
-    private ?string $name = null;
+    private string $name;
 
 
     #[ORM\Column(name: 'postal_code', type: 'string', length: 255, nullable: true)]
-    // #[Groups([
-    //     'administration'
-    // ])]
-    private ?string $postalCode = null;
+    private string $postalCode;
 
 
-    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'city', fetch: "EXTRA_LAZY")]
-    private $institutions;
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'city')]
+    private Collection $institutions;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'cities')]
     #[ORM\JoinColumn(name: 'country_id', referencedColumnName: 'id', nullable: false)]
-    private $country;
+    private Country $country;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'cities')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    private $instance;
+    private Instance $instance;
 
 
     public function __toString(): string

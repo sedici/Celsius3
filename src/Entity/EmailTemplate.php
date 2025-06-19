@@ -33,61 +33,44 @@ class EmailTemplate extends Template
 {
 
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "api",
-    //     "administration",
-    // ])]
     private bool $enabled = true;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "api",
-    //     "administration",
-    // ])]
     private string $title;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "templates")]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
-    private Instance $instance;
+    private ?Instance $instance;
 
 
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
-
         return $this;
     }
 
     public function getEnabled(): bool
-    {
-        return $this->enabled;
-    }
+    { return $this->enabled; }
 
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
     public function getTitle(): string
-    {
-        return $this->title;
-    }
+    { return $this->title; }
 
-    public function setInstance(Instance $instance): self
+    public function setInstance(?Instance $instance): self
     {
         $this->instance = $instance;
-
         return $this;
     }
 
-    public function getInstance(): Instance
-    {
-        return $this->instance;
-    }
+    public function getInstance(): ?Instance
+    { return $this->instance; }
 }

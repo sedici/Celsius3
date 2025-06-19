@@ -43,45 +43,34 @@ class Country
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'administration',
-    //     'administration_order_show',
-    // ])]
-    private ?int $id = null;
+    private int $id;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    // #[Groups([
-    //     'administration',
-    //     'administration_order_show',
-    // ])]
-    private ?string $name = null;
+    private string $name;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    // #[Groups([
-    //     'administration',
-    // ])]
-    private ?string $abbreviation = null;
+    private string $abbreviation;
 
 
-    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'country', fetch: "EXTRA_LAZY")]
-    private $cities;
+    #[ORM\OneToMany(targetEntity: City::class, mappedBy: 'country')]
+    private Collection $cities;
 
 
-    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'country', fetch: "EXTRA_LAZY")]
-    private $institutions;
+    #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: 'country')]
+    private Collection $institutions;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'countries')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    private $instance;
+    private Instance $instance;
 
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }
@@ -92,14 +81,14 @@ class Country
         $this->cities = new ArrayCollection();
     }
 
-    public function getFullName() {
+    public function getFullName(): string {
         return $this->getName();
     }
 
     /**
      * @return $id
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -111,7 +100,7 @@ class Country
      *
      * @return self
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -123,7 +112,7 @@ class Country
      *
      * @return string $name
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -135,7 +124,7 @@ class Country
      *
      * @return self
      */
-    public function setAbbreviation($abbreviation)
+    public function setAbbreviation($abbreviation): static
     {
         $this->abbreviation = $abbreviation;
 
@@ -147,7 +136,7 @@ class Country
      *
      * @return string $abbreviation
      */
-    public function getAbbreviation()
+    public function getAbbreviation(): string
     {
         return $this->abbreviation;
     }
@@ -157,7 +146,7 @@ class Country
      *
      * @param City $cities
      */
-    public function addCitie(City $cities)
+    public function addCitie(City $cities): void
     {
         $this->cities[] = $cities;
     }
@@ -167,7 +156,7 @@ class Country
      *
      * @param City $cities
      */
-    public function removeCitie(City $cities)
+    public function removeCitie(City $cities): void
     {
         $this->cities->removeElement($cities);
     }
@@ -185,7 +174,7 @@ class Country
      *
      * @param Institution $institutions
      */
-    public function addInstitution(Institution $institutions)
+    public function addInstitution(Institution $institutions): void
     {
         $this->institutions[] = $institutions;
     }
@@ -195,7 +184,7 @@ class Country
      *
      * @param Institution $institutions
      */
-    public function removeInstitution(Institution $institutions)
+    public function removeInstitution(Institution $institutions): void
     {
         $this->institutions->removeElement($institutions);
     }
@@ -205,7 +194,7 @@ class Country
      *
      * @return Collection $institutions
      */
-    public function getInstitutions()
+    public function getInstitutions(): Collection
     {
         return $this->institutions;
     }
@@ -217,7 +206,7 @@ class Country
      *
      * @return self
      */
-    public function setInstance(Instance $instance)
+    public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
 
@@ -229,7 +218,7 @@ class Country
      *
      * @return Instance $instance
      */
-    public function getInstance()
+    public function getInstance(): Instance
     {
         return $this->instance;
     }
@@ -241,7 +230,7 @@ class Country
      *
      * @return Country
      */
-    public function addCity(City $city)
+    public function addCity(City $city): static
     {
         $this->cities[] = $city;
 
@@ -253,7 +242,7 @@ class Country
      *
      * @param City $city
      */
-    public function removeCity(City $city)
+    public function removeCity(City $city): void
     {
         $this->cities->removeElement($city);
     }

@@ -39,7 +39,7 @@ class EventNotification extends Notification
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: "event_notification_id", referencedColumnName: "id")]
-    protected Event $object;
+    protected ?Event $object;
 
 
     public function __construct(
@@ -54,10 +54,10 @@ class EventNotification extends Notification
         $this->setTemplate($template);
     }
 
-    public function setObject(Event|Message|BaseUser $object): self
+    public function setObject(Event|Message|BaseUser|null $object): self
     { $this->object = $object; return $this; }
 
 
-    public function getObject(): Event|Message|BaseUser
+    public function getObject(): Event|Message|BaseUser|null
     { return $this->object; }
 }

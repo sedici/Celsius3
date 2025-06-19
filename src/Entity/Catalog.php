@@ -22,66 +22,63 @@
 
 namespace Celsius3\Entity;
 
+use Celsius3\Repository\CatalogRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-// use Celsius3\Entity\Mixin\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[
     ORM\Table(name: 'catalog'),
-    ORM\Entity(repositoryClass: \Celsius3\Repository\CatalogRepository::class),
+    ORM\Entity(repositoryClass: CatalogRepository::class),
 
     ORM\Index(name: 'idx_name', columns: ['name']),
     ORM\Index(name: 'idx_url', columns: ['url']),
     ORM\Index(name: 'idx_institution', columns: ['institution_id']),
     ORM\Index(name: 'idx_instance', columns: ['instance_id'])
 ]
-class Catalog
+class Catalog implements \Stringable
 {
+
     use TimestampableEntity;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?int $id = null;
+    private int $id;
+
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?string $name = null;
+    private string $name;
+
 
     #[Assert\NotBlank]
     #[Assert\Url]
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
-    private ?string $url = null;
+    private string $url;
+
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $comments = null;
+    private string $comments;
+
 
     #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(name: 'institution_id', referencedColumnName: 'id')]
-    // #[Groups([
-    //     'administration_order_show'
-    // ])]
     private $institution;
+
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    private $instance;
+    private Instance $instance;
 
-    #[ORM\OneToMany(targetEntity: CatalogPosition::class, mappedBy: 'catalog', cascade: ['persist'], fetch: "EXTRA_LAZY")]
-    private $positions;
+
+    #[ORM\OneToMany(targetEntity: CatalogPosition::class, mappedBy: 'catalog', cascade: ['persist'])]
+    private Collection $positions;
+
 
     public function __toString(): string
     { return $this->name; }

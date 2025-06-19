@@ -49,126 +49,93 @@ class File
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    // #[Groups([
-    //     "administration_order_show",
-    //     "user_list",
-    // ])]
-    private ?int $id = null;
+    private int $id;
 
 
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "administration_order_show",
-    //     "user_list",
-    // ])]
     private string $name;
 
 
     #[ORM\Column(type: "string", length: 255)]
-    private ?string $path = null;
+    private string $path;
+    private string $temp;
 
 
     #[ORM\Column(type: "text", nullable: true)]
-    private ?string $comments = null;
+    private ?string $comments;
 
 
     #[Assert\File(maxSize: "8M", mimeTypes: ["application/pdf", "application/x-pdf"])]
-    private ?UploadedFile $file = null;
+    private ?UploadedFile $file;
 
 
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "administration_order_show",
-    //     "user_list",
-    // ])]
     private bool $enabled = true;
 
 
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: "files")]
-    private ?Request $request = null;
+    private ?Request $request;
 
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
-    private ?Instance $instance = null;
+    private ?Instance $instance;
 
 
     #[ORM\ManyToOne(targetEntity: Event::class)]
-    private ?Event $event = null;
+    private ?Event $event;
 
 
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "user_list",
-    // ])]
     private bool $downloaded = false;
 
 
     #[ORM\Column(type: "integer")]
-    // #[Groups([
-    //     "administration_order_show",
-    // ])]
     private int $pages = 0;
 
 
-    private $temp;
-
-
-    #[ORM\OneToMany(targetEntity: FileDownload::class, mappedBy: "file", fetch: "EXTRA_LAZY")]
+    #[ORM\OneToMany(targetEntity: FileDownload::class, mappedBy: "file")]
     private Collection $downloads;
 
 
     public function __construct()
-    {
-        $this->downloads = new ArrayCollection();
-    }
+    { $this->downloads = new ArrayCollection(); }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): int
+    { return $this->id; }
 
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
     public function getName(): string
-    {
-        return $this->name;
-    }
+    { return $this->name; }
 
-    public function setPath(?string $path): self
+    public function setPath(string $path): self
     {
         $this->path = $path;
-
         return $this;
     }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
+    public function getPath(): string
+    { return $this->path; }
 
-    public function setComments(?string $comments): self
+    public function setComments(string $comments): self
     {
         $this->comments = $comments;
-
         return $this;
     }
 
-    public function getComments(): ?string
-    {
-        return $this->comments;
-    }
+    public function getComments(): string
+    { return $this->comments; }
 
     public function setFile(?UploadedFile $file = null): self
     {
         $this->file = $file;
         if (isset($this->path)) {
             $this->temp = $this->path;
-            $this->path = null;
+            $this->path = '';
         } else {
             $this->path = 'initial';
         }
@@ -177,98 +144,71 @@ class File
     }
 
     public function getFile(): ?UploadedFile
-    {
-        return $this->file;
-    }
+    { return $this->file; }
 
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
-
         return $this;
     }
 
     public function getEnabled(): bool
-    {
-        return $this->enabled;
-    }
+    { return $this->enabled; }
 
     public function setEvent(?Event $event = null): self
     {
         $this->event = $event;
-
         return $this;
     }
 
     public function getEvent(): ?Event
-    {
-        return $this->event;
-    }
+    { return $this->event; }
 
     public function setDownloaded(bool $downloaded): self
     {
         $this->downloaded = $downloaded;
-
         return $this;
     }
 
     public function isDownloaded(): bool
-    {
-        return $this->downloaded;
-    }
+    { return $this->downloaded; }
 
     public function setRequest(?Request $request = null): self
     {
         $this->request = $request;
-
         return $this;
     }
 
     public function getRequest(): ?Request
-    {
-        return $this->request;
-    }
+    { return $this->request; }
 
     public function setPages(int $pages): self
     {
         $this->pages = $pages;
-
         return $this;
     }
 
     public function getPages(): int
-    {
-        return $this->pages;
-    }
+    { return $this->pages; }
 
     public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
-
         return $this;
     }
 
     public function getInstance(): ?Instance
-    {
-        return $this->instance;
-    }
+    { return $this->instance; }
 
     public function getTemp()
-    {
-        return $this->temp;
-    }
+    { return $this->temp; }
 
     public function setTemp($temp)
-    {
-        $this->temp = $temp;
-    }
+    { $this->temp = $temp; }
 
     public function getDownloads(): Collection
-    {
-        return $this->downloads;
-    }
+    { return $this->downloads; }
 
-    // #[Groups(["user_list"])]
     public function hasDownloadTime(): bool
     {
         if (!$this->isDownloaded()) {
@@ -298,19 +238,14 @@ class File
     }
 
     public function getDownloaded(): bool
-    {
-        return $this->downloaded;
-    }
+    { return $this->downloaded; }
 
     public function addDownload(FileDownload $download): self
     {
         $this->downloads[] = $download;
-
         return $this;
     }
 
     public function removeDownload(FileDownload $download): void
-    {
-        $this->downloads->removeElement($download);
-    }
+    { $this->downloads->removeElement($download); }
 }

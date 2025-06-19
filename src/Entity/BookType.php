@@ -25,61 +25,37 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: BaseRepository::class)]
 class BookType extends MaterialType
 {
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
-    protected ?string $editor = null;
+    protected string $editor;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
-    protected ?string $chapter = null;
+    protected string $chapter;
 
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
-    protected ?string $ISBN = null;
+    protected string $ISBN;
 
 
     #[Assert\NotNull()]
     #[Assert\Type(type: 'boolean')]
     #[ORM\Column(type: 'boolean')]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     protected ?bool $withIndex = false;
 
 
     public function getMaterialType(): string
     { return 'book'; }
 
-    public function setEditor(?string $editor): void
+    public function setEditor(string $editor): void
     { $this->editor = $editor; }
 
-    public function getEditor(): ?string
+    public function getEditor(): string
     { return $this->editor; }
 
     public function setChapter(?string $chapter): void

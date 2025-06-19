@@ -55,11 +55,10 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     #[ORM\JoinColumn(name: 'remote_state_id', referencedColumnName: 'id')]
     private State $remoteState;
 
+    #[ORM\JoinTable(name: 'uploads_files')]
+    #[ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
     #[ORM\ManyToMany(targetEntity: File::class, cascade: ['persist'])]
-    #[ORM\JoinTable(name: 'uploads_files',
-        joinColumns: [new ORM\JoinColumn(name: 'event_id', referencedColumnName: 'id')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', unique: true)]
-    )]
     private $files;
 
     public function __construct()

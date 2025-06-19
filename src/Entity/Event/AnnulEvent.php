@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\Entity\Event;
 
+use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Request as RequestEntity;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Entity\Notifiable;
@@ -42,8 +43,12 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
         return 'annul';
     }
 
-    public function applyExtraData(RequestEntity $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
-    {
+    public function applyExtraData(
+        RequestEntity $request,
+        array $data,
+        LifecycleHelper $lifecycleHelper,
+        $date
+    ): void {
         if (array_key_exists('request', $data['extraData'])) {
             $data['extraData']['request']->setAnnulled(true);
             $lifecycleHelper->refresh($data['extraData']['request']);
@@ -58,7 +63,7 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
         }
     }
 
-    public function getRemoteNotificationTarget()
+    public function getRemoteNotificationTarget(): BaseUser
     {
         return $this->getRequest()->getOrder()->getRequest(
             $this->getRequest()->getPreviousRequest()->getInstance()

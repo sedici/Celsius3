@@ -24,14 +24,12 @@ namespace Celsius3\Entity;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Entity\Template;
 use Celsius3\Repository\NotificationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-// use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -125,7 +123,7 @@ abstract class Notification
 
 
     abstract public function setObject(Event|Message|BaseUser $object): self;
-    abstract public function getObject(): Event|Message|BaseUser;
+    abstract public function getObject(): Event|Message|BaseUser|null;
 
 
     public function __construct()

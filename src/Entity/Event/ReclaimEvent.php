@@ -43,11 +43,11 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: "request_event_id", referencedColumnName: "id")]
-    private ?Event $requestEvent = null;
+    private Event $requestEvent;
 
     #[ORM\ManyToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: "receive_event_id", referencedColumnName: "id")]
-    private ?Event $receiveEvent = null;
+    private Event $receiveEvent;
 
     public function getEventType(): string
     {
@@ -120,15 +120,18 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     {
         $operator = null;
 
-        if ($this->getReceiveEvent() instanceof MultiInstanceEvent) {
+        $recvEvent =  $this->getReceiveEvent();
+        $miEvent = $this->getRequestEvent();
+
+        if ($recvEvent instanceof MultiInstanceReceiveEvent) {
             $operator = $this->getRequest()->getOrder()->getRequest(
                 $this->getReceiveEvent()->getInstance()
             )->getOperator();
         }
 
-        if ($this->getRequestEvent() instanceof MultiInstanceEvent) {
+        if ($miEvent instanceof MultiInstanceRequestEvent) {
             $operator = $this->getRequest()->getOrder()->getRequest(
-                $this->getRequestEvent()->getRemoteRequest()->getInstance()
+                $miEvent->getRemoteRequest()->getInstance()
             )->getOperator();
         }
 
