@@ -94,7 +94,7 @@ class RestRenderer extends BaseRenderer
 
 
     public function index(
-        array|string $serializerGroups = null
+        null|array|string $serializerGroups = null
     ): Response {
         return $this->render(
             data: array_values($this->controller->listQuery()->getQuery()->execute()),
@@ -105,7 +105,7 @@ class RestRenderer extends BaseRenderer
 
     public function show(
         string $id,
-        array|string $serializerGroups = null
+        null|array|string $serializerGroups = null
     ): Response {
         $query = $this->controller->findQuery($id);
         if (!$query) $this->controller->error(Exception::ENTITY_NOT_FOUND);

@@ -36,7 +36,6 @@ trait ApprovableTrait
     private bool $approved = false;
 
 
-
     public function setApproved(bool $approved): static
     {
         $this->approved = $approved;

@@ -91,7 +91,7 @@ Encore
     })
     .copyFiles({
         from: './assets/ng',
-        to: 'ng/[path][name].[hash:8].[ext]'
+        to: 'ng/[path][name].[ext]'
     })
     .enableSingleRuntimeChunk()
     .autoProvideVariables({

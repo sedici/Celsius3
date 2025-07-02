@@ -558,20 +558,12 @@ class BaseUser implements
         return $this;
     }
 
-    // #[Groups(["administration"])]
-    public function getCity()
+    public function getCity(): ?City
     {
-        if (!$this->getInstitution()) {
-            return null;
-        }
-
+        if (!$this->getInstitution()) return null;
         return $this->getInstitution()->getCity();
     }
 
-    // #[Groups([
-    //     "api",
-    //     "user_list"
-    // ])]
     public function isLibrarian(): bool
     { return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles()); }
 
@@ -581,7 +573,6 @@ class BaseUser implements
     public function setWrongEmail(bool $wrongEmail): self
     {
         $this->wrongEmail = $wrongEmail;
-
         return $this;
     }
 
@@ -591,7 +582,6 @@ class BaseUser implements
     public function setPdf(bool $pdf): self
     {
         $this->pdf = $pdf;
-
         return $this;
     }
 

@@ -196,22 +196,24 @@ class EventManager
     public function prepareExtraDataForReceive(Request $request): array
     {
         $httpReq = $this->requestStack->getCurrentRequest();
-        $httpReqData = $httpReq->toArray();
+        $file = $httpReq->files->get('file');
 
-        if (!isset($httpReqData['request'])) {
+        $requestId = $httpReq->request->get('request');
+        if (!is_numeric($requestId)) {
             $this->flashBag->add('error', 'There was an error changing the state.');
-
             throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData = [];
-        $extraData['observations'] = $httpReqData['observations'] ?? null;
-        $extraData['delivery_type'] = $httpReqData['delivery_type'] ?? (
+        $extraData['observations'] = $httpReq->request->get('observations') ?? null;
+        $extraData['delivery_type'] = $httpReq->request->get(
+            'delivery_type',
             $request->getOwner()->getPdf() ? 'pdf' : 'printed'
         );
+
         $extraData['request'] = $this->entityManager
-                ->getRepository(Event::class)
-                ->find($httpReqData['result']);
+            ->getRepository(Event::class)
+            ->find($httpReq->request->get('request'));
         $extraData['files'] = $httpReq->files->all();
 
         return $extraData;
@@ -252,6 +254,8 @@ class EventManager
     {
         $httpRequest = $this->requestStack->getCurrentRequest();
         $httpReqData = $httpRequest->toArray();
+
+        throw new \Exception((string) var_dump($httpReqData));
 
         $em = $this->entityManager;
         if (!isset($httpReqData['receive'])) {

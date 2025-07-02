@@ -27,6 +27,8 @@ use Celsius3\Entity\Country;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\Hive;
+use Doctrine\ORM\QueryBuilder;
+
 
 /**
  * InstitutionRepository.
@@ -45,8 +47,15 @@ class InstitutionRepository extends BaseRepository
 
 
 
-    public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $firstLevel = false, Hive $hive = null, $country_id = null, $city_id = null, $filter = null)
-    {
+    public function findForInstanceAndGlobal(
+        Instance $instance,
+        Instance $directory,
+        bool $firstLevel = false,
+        ?Hive $hive = null,
+        ?string $country_id = null,
+        ?string $city_id = null,
+        $filter = null
+    ): QueryBuilder {
         $qb = $this->createQueryBuilder('e')
             ->where('e.instance = :instance_id')
             ->orWhere('e.instance = :directory_id')
@@ -58,18 +67,18 @@ class InstitutionRepository extends BaseRepository
             $qb = $qb->andWhere('e.parent IS NULL');
         }
 
-        if (!is_null($country_id)) {
+        if ($country_id !== null) {
             $qb = $qb->andWhere('e.country = :country_id')
-                    ->setParameter('country_id', $country_id);
+                ->setParameter('country_id', $country_id);
         }
 
-        if (!is_null($city_id)) {
+        if ($city_id !== null) {
             $qb = $qb->andWhere('e.city = :city_id')
                 ->setParameter('city_id', $city_id);
         }
 
-        if (!is_null($filter)) {
-            if ($filter === 'hive' && !is_null($hive)) {
+        if ($filter !== null) {
+            if ($filter === 'hive' && $hive !== null) {
                 $qb = $qb->andWhere('e.hive = :hive_id')
                     ->setParameter('hive_id', $hive->getId());
             } elseif ($filter === 'celsius3') {

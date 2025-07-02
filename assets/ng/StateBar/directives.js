@@ -81,14 +81,19 @@ stateBar.directive('stateBar', ['$translate',
                 if (scope.request.current_state === 'delivered') {
                     states.forEach(function (state) {
                         fabric.Image.fromURL('/build/images/stateline/' + state.final_image, function (oImg) {
-                            oImg.setTop(state.top);
-                            oImg.setLeft(state.left);
+                            // oImg.setTop(state.top);
+                            //oImg.setLeft(state.left);
+                            oImg.left = state.left;
+                            oImg.top = state.top;
                             canvas.add(oImg);
                             if (!_.isUndefined(state.line)) {
                                 fabric.Image.fromURL('/build/images/stateline/' + state.line.final_image, function (oImg) {
-                                    oImg.setTop(state.line.top);
-                                    oImg.setLeft(state.line.left);
-                                    oImg.setWidth(state.line.width);
+                                    // oImg.setTop(state.line.top);
+                                    //oImg.setLeft(state.line.left);
+                                    //oImg.setWidth(state.line.width);
+                                    oImg.left = state.line.left;
+                                    oImg.top = state.line.top;
+                                    oImg.width = state.line.width;
                                     canvas.add(oImg);
                                 });
                             }
@@ -112,15 +117,20 @@ stateBar.directive('stateBar', ['$translate',
                                 return s.type === state.name;
                             }))) {
                             fabric.Image.fromURL('/build/images/stateline/' + state.max_image, function (oImg) {
-                                oImg.setTop(state.top);
-                                oImg.setLeft(state.left);
+                                // oImg.setTop(state.top);
+                                //oImg.setLeft(state.left);
+                                oImg.left = state.left;
+                                oImg.top = state.top;
                                 canvas.add(oImg);
                                 oImg.sendToBack();
                                 if (!_.isUndefined(state.line)) {
                                     fabric.Image.fromURL('/build/images/stateline/' + state.line.max_image, function (oImg) {
-                                        oImg.setTop(state.line.top);
-                                        oImg.setLeft(state.line.left);
-                                        oImg.setWidth(state.line.width);
+                                        // oImg.setTop(state.line.top);
+                                        //oImg.setLeft(state.line.left);
+                                        //oImg.setWidth(state.line.width);
+                                        oImg.left = state.line.left;
+                                        oImg.top = state.line.top;
+                                        oImg.width = state.line.width;
                                         canvas.add(oImg);
                                         oImg.sendToBack();
                                     });
@@ -139,15 +149,20 @@ stateBar.directive('stateBar', ['$translate',
                             }
                             if (states_order.indexOf(scope.request.current_state) >= states_order.indexOf(state.name)) {
                                 fabric.Image.fromURL('/build/images/stateline/' + image, function (oImg) {
-                                    oImg.setTop(state.top);
-                                    oImg.setLeft(state.left);
+                                    // oImg.setTop(state.top);
+                                    //oImg.setLeft(state.left);
+                                    oImg.left = state.left;
+                                    oImg.top = state.top;
                                     canvas.add(oImg);
                                     oImg.bringToFront();
                                     if (!_.isUndefined(state.line)) {
                                         fabric.Image.fromURL('/build/images/stateline/' + state.line.current_image, function (oImg) {
-                                            oImg.setTop(state.line.top);
-                                            oImg.setLeft(state.line.left);
-                                            oImg.setWidth(state.line.width);
+                                            // oImg.setTop(state.line.top);
+                                            //oImg.setLeft(state.line.left);
+                                            //oImg.setWidth(state.line.width);
+                                            oImg.left = state.line.left;
+                                            oImg.top = state.line.top;
+                                            oImg.width = state.line.width;
                                             canvas.add(oImg);
                                             oImg.bringToFront();
                                         });
@@ -156,15 +171,20 @@ stateBar.directive('stateBar', ['$translate',
                             }
                         }
                         fabric.Image.fromURL('/build/images/stateline/' + state.back_image, function (oImg) {
-                            oImg.setTop(state.top);
-                            oImg.setLeft(state.left);
+                            // oImg.setTop(state.top);
+                            //oImg.setLeft(state.left);
+                            oImg.left = state.left;
+                            oImg.top = state.top;
                             canvas.add(oImg);
                             oImg.sendToBack();
                             if (!_.isUndefined(state.line)) {
                                 fabric.Image.fromURL('/build/images/stateline/' + state.line.back_image, function (oImg) {
-                                    oImg.setTop(state.line.top);
-                                    oImg.setLeft(state.line.left);
-                                    oImg.setWidth(state.line.width);
+                                    // oImg.setTop(state.line.top);
+                                    //oImg.setLeft(state.line.left);
+                                    //oImg.setWidth(state.line.width);
+                                    oImg.left = state.line.left;
+                                    oImg.top = state.line.top;
+                                    oImg.width = state.line.width;
                                     canvas.add(oImg);
                                     oImg.sendToBack();
                                 });

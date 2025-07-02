@@ -27,14 +27,16 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Entity\Institution;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-#[Route("/rest/v1/admin/institution")]
+#[
+    Route("/rest/v1/admin/institution"),
+    IsGranted("ROLE_ADMIN")
+]
 class RestAdminInstitutionController extends InstitutionController
 {
 

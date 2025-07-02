@@ -104,7 +104,7 @@ final class RestAdminEventController extends EventController
     {
         $request = $this->findRequest($request_id);
 
-        $result = $this->lifecycleHelper->createCancelEvent($request, $this->getInstance());
+        $result = $this->lifecycleHelper->createCancelEvent($request, $this->instance);
 
         return $this->restRenderer->render(
             $result,
@@ -151,6 +151,15 @@ final class RestAdminEventController extends EventController
     )]
     public function createReceiveEvent(string $request_id): Response
     {
+        $request = $this->findRequest($request_id);
+
+        $result = $this->lifecycleHelper->createReceiveEvent($request, $this->instance);
+
+        return $this->restRenderer->render(
+            $result,
+            serializerGroups: 'administration_order_show'
+        );
+
         return $this->handleEvent(
             $request_id,
             [$this->lifecycleHelper, 'createReceiveEvent']

@@ -689,7 +689,7 @@ class LifecycleHelper
     public function createReceiveEvent(Request $request, ?Instance $instance)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        try {
+        // try {
             $data = $this->preValidateReceiveEvent($request, $instance);
             if (array_key_exists('event', $data)) {
                 $event = $data['event'];
@@ -707,18 +707,18 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->celsiusRestExceptionLogger->error($ex->getMessage());
-            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        // } catch (\Exception $ex) {
+        //     $this->entityManager->getConnection()->rollBack();
+        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
+        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-            return null;
-        }
+        //     return null;
+        // }
     }
 
     private function preValidateReceiveEvent(Request $request, ?Instance $instance = null): array
     {
-        $instance = $instance ?? $this->instanceHelper->getSessionInstance();
+        $instance ??= $this->instanceHelper->getSessionOrUrlInstance();
         $extra_data = $this->eventManager->prepareExtraDataForReceive($request);
         $event_name = $this->eventManager->getRealReceiveEventName($extra_data, $instance, $request);
 

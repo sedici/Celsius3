@@ -35,6 +35,7 @@ trait AnnullableTrait
     ]
     private ?bool $annulled = false;
 
+
     public function setAnnulled(?bool $annulled): static
     {
         $this->annulled = $annulled;
