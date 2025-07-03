@@ -159,11 +159,6 @@ final class RestAdminEventController extends EventController
             $result,
             serializerGroups: 'administration_order_show'
         );
-
-        return $this->handleEvent(
-            $request_id,
-            [$this->lifecycleHelper, 'createReceiveEvent']
-        );
     }
 
 
@@ -175,6 +170,12 @@ final class RestAdminEventController extends EventController
     )]
     public function createSearchEvent(string $request_id): Response
     {
+        $request = $this->findRequest($request_id);
+        $data = $this->lifecycleHelper->createSearchEvent($request, $this->instance);
+        $this->restRenderer->render(
+            $data,
+            serializerGroups: 'administration_order_show'
+        );
         return $this->handleEvent(
             $request_id,
             [$this->lifecycleHelper, 'createSearchEvent']

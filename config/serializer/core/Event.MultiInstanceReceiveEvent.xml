@@ -10,7 +10,7 @@
         <attribute name="files">
             <group>administration_order_show</group>
         </attribute>
-        <attribute name="requestEvent">
+        <attribute name="requestEvent" serialized-name="request_event">
             <group>administration_order_show</group>
         </attribute>
         <attribute name="receiveEvent">

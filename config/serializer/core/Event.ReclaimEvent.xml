@@ -4,7 +4,7 @@
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
         https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
     <class name="Celsius3\Entity\Event\ReclaimEvent">
-        <attribute name="requestEvent">
+        <attribute name="requestEvent" serialized-name="request_event">
             <group>administration_order_show</group>
         </attribute>
         <attribute name="receiveEvent">

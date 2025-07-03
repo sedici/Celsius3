@@ -10,7 +10,7 @@ cciWidget.config(['$translateProvider',
     function($translateProvider) {
         $translateProvider.useStaticFilesLoader({
             // prefix: '/bundles/celsius3core/ng/locales/locale-',
-            // prefix: '/build/ng/locales/locale-',
+            prefix: '/build/ng/locales/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage(_locale);

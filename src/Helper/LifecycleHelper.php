@@ -752,7 +752,7 @@ class LifecycleHelper
     public function createCancelEvent(Request $request, ?Instance $instance = null)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        try {
+        // try {
             $data = $this->preValidateCancelEvent($request, $instance);
 
             $event = $data['event'] ?? $this->setEventData($request, $data);
@@ -764,13 +764,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->celsiusRestExceptionLogger->error($ex->getMessage());
-            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        // } catch (\Exception $ex) {
+        //     $this->entityManager->getConnection()->rollBack();
+        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
+        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-            return null;
-        }
+        //     return null;
+        // }
     }
 
     private function preValidateCancelEvent(Request $request, ?Instance $instance = null): array

@@ -471,13 +471,19 @@ class EventManager
     public function cancelRequests(array $requests, HttpRequest $httpRequest): void
     {
         foreach ($requests as $request) {
-            $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function ($reception) use ($request): bool {
-                if ($reception instanceof SingleInstanceReceiveEvent || $reception instanceof MultiInstanceReceiveEvent) {
-                    return $reception->getRequestEvent()->getId() === $request->getId();
-                } else {
-                    return $reception->getRequest()->getInstance()->getId() === $request->getRemoteInstance()->getId();
+            $receptions = array_filter(
+                $this->getEvents(
+                    self::EVENT__RECEIVE,
+                    $request->getRequest()->getId()
+                ),
+                function ($reception) use ($request): bool {
+                    if ($reception instanceof SingleInstanceReceiveEvent || $reception instanceof MultiInstanceReceiveEvent) {
+                        return $reception->getRequestEvent()->getId() === $request->getId();
+                    } else {
+                        return $reception->getRequest()->getInstance()->getId() === $request->getRemoteInstance()->getId();
+                    }
                 }
-            });
+            );
             if (count($receptions) === 0) {
                 $httpRequest->request->set('request', $request->getId());
                 $this->lifecycleHelper()->createEvent(self::EVENT__CANCEL, $request->getRequest());

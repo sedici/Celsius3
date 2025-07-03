@@ -8,3 +8,12 @@
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3\Controller\PublicController::index }
+
+Celsius3:
+    resource: '../src/Controller/'
+    type: annotation
+    prefix: '/{_locale}'
+    requirements:
+        _locale: en|es|pt
+    defaults:
+        _locale: es
