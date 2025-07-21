@@ -259,7 +259,8 @@
                         <label for="files">{{'files' | trans}}</label>
                         <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | trans }}</button>
                         <ul>
-                            <li ng-repeat="(key, file) in filesToUpload">{{ file.name }}
+                            <li ng-repeat="(key, file) in filesToUpload">
+                            {{ file.name }}
                                 <a href ng-click="removeFiles(filesToUpload, 'filesToUpload', file)">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>

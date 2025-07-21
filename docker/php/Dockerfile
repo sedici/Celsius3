@@ -13,6 +13,7 @@ RUN apt-get update \
         libgif-dev \
         default-mysql-client \
         libpq-dev \
+        exiftool \
     && docker-php-ext-install pdo_mysql pdo_pgsql
 
 RUN pecl install xdebug \

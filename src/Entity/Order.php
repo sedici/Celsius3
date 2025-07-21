@@ -59,25 +59,10 @@ class Order
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     private ?int $id = null;
 
 
     #[ORM\Column(type: 'integer', unique: true)]
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list',
-    //     'email_template'
-    // ])]
     private int $code;
 
 
@@ -87,60 +72,21 @@ class Order
     #[ORM\JoinColumn(
         name: 'material_data_id', referencedColumnName: 'id', nullable: true
     )]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list',
-    //     'email_template'
-    // ])]
     private ?MaterialType $materialData = null;
 
 
     #[Assert\NotNull]
     #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'original_request_id', referencedColumnName: 'id')]
-    // #[Groups([
-    //     'api',
-    //     'user_list'
-    // ])]
     private ?Request $originalRequest = null;
 
 
     #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'order', fetch: 'EXTRA_LAZY')]
     private Collection $requests;
 
-    // ----
-
-    // #[ORM\PrePersist]
-    // public function prePersist(PrePersistEventArgs $prePersistEventArgs): void
-    // {
-    //     $this->getOriginalRequest()->setOrder($this);
-
-    //     $em = $prePersistEventArgs->getEntityManager();
-
-    //     $em->getConnection()->beginTransaction();
-
-    //     try {
-    //         $code = $em->getRepository(Counter::class)
-    //             ->findOneBy([
-    //                 'name' => $this->getOriginalRequest()->getInstance()->getId(),
-    //             ]);
-    //         // throw new \Exception((string) var_dump($em->getRepository(Counter::class)->findAll()));
-    //         // throw new \Exception((string) var_dump($code));
-    //         $this->setCode($code->getValue());
-
-    //         $code->setValue($code->getValue() + 1);
-    //         $em->persist($code);
-
-    //         $em->getConnection()->commit();
-    //     } catch (\Exception $e) {
-    //         $em->getConnection()->rollback();
-    //         throw $e;
-    //     }
-    // }
 
     // ----
+
 
     public function __toString(): string
     {
@@ -160,7 +106,6 @@ class Order
         $this->originalRequest = null;
     }
 
-    // #[Groups(["api"])]
     public function getPages(): int
     {
         $files = $this->getOriginalRequest()->getFiles();
@@ -174,7 +119,6 @@ class Order
         return $pages;
     }
 
-    // #[Groups(["api"])]
     public function getReceivedAt(): ?\DateTime
     {
         $states = $this->getOriginalRequest()->getStates();

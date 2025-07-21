@@ -23,7 +23,6 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\FileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[
@@ -57,8 +55,8 @@ class File
 
 
     #[ORM\Column(type: "string", length: 255)]
-    private string $path;
-    private string $temp;
+    private ?string $path = null;
+    private ?string $temp = null;
 
 
     #[ORM\Column(type: "text", nullable: true)]

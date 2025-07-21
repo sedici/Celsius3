@@ -23,8 +23,6 @@
 namespace Celsius3\Entity;
 
 use Celsius3\Entity\Event\Event;
-// use Celsius3\Entity\Mixin\SoftDeleteableEntity;
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Manager\OrderManager;
 use Celsius3\Repository\RequestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -64,13 +62,6 @@ class Request
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     private int $id;
 
 
@@ -83,35 +74,15 @@ class Request
         message: 'Choose a valid type.'
     )]
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     private string $type;
 
 
     #[ORM\Column(type: 'text', nullable: true)]
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show'
-    // ])]
     private ?string $comments = null;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', nullable: false)]
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     private BaseUser $owner;
 
 
@@ -128,27 +99,16 @@ class Request
     #[Assert\NotNull(groups: ['Default', 'newOrder'])]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'orders')]
     #[ORM\JoinColumn(name: 'instance_id', referencedColumnName: 'id', nullable: false)]
-    // #[Groups([
-    //     'administration_order_show',
-    //     'administration_user_show'
-    // ])]
     private Instance $instance;
 
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'operatedOrders')]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     private ?BaseUser $operator = null;
 
 
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'requests')]
     #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', nullable: false)]
-    // #[Groups(['administration_order_show'])]
     private Order $order;
 
 
@@ -159,28 +119,14 @@ class Request
 
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
-    // #[Groups([
-    //     'administration_order_show',
-    //     'user_list'
-    // ])]
     private Collection $files;
 
 
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show'
-    // ])]
     private Collection $events;
 
 
     #[ORM\OneToMany(targetEntity: State::class, mappedBy: 'request', fetch: "EXTRA_LAZY")]
-    // #[Groups([
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show'
-    // ])]
     private Collection $states;
 
 
@@ -188,24 +134,9 @@ class Request
     private Collection $requests;
 
 
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
-    // protected \DateTime $createdAt;
-
     // ----
 
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
+
     public function hasDownloadableFiles(): bool
     {
         $files = $this->getFiles()->filter(
@@ -592,13 +523,6 @@ class Request
     /**
      * Retorna el estado actual para el presente Request.
      */
-    // #[Groups([
-    //     'api',
-    //     'administration_list',
-    //     'administration_order_show',
-    //     'administration_user_show',
-    //     'user_list'
-    // ])]
     public function getCurrentState(): ?State
     {
         $result = $this->getStates()->filter(

@@ -50,8 +50,8 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-#[Route('/admin/file')]
-class HtmlAdminFileController extends FileController
+#[Route('/user/file')]
+class HtmlUserFileController extends FileController
 {
 
     use FileControllerTrait;
@@ -117,13 +117,12 @@ class HtmlAdminFileController extends FileController
 
     #[Route(
         '/{request}/{file}/download',
-        name: 'admin_file_download_file',
+        name: 'user_file_download',
         options: ['expose' => true]
     )]
-    public function download($request, $file): mixed
+    public function downloadFile($request, $file): mixed
     {
-        # No es recursivo, usa el Trait
-        return $this->download($request, $file);
+        return $this->downloadFileFromRequest($request, $file);
     }
 
 }

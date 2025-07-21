@@ -29,6 +29,8 @@ use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\File;
 use Celsius3\Entity\FileDownload;
 use Celsius3\Entity\Request;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -36,27 +38,19 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class FileManager
 {
-    private $container;
-    private $uploadRootDir;
-    private $logosUploadDir;
 
-    public function __construct(string $uploadRootDir, string $logosUploadDir)
-    {
-        $this->uploadRootDir = $uploadRootDir;
-        $this->logosUploadDir = $logosUploadDir;
-    }
-
-    public function setContainer($container): void
-    {
-        $this->container = $container;
-    }
+    public function __construct(
+        protected string $uploadRootDir,
+        protected string $logosUploadDir,
+        protected EntityManagerInterface $entityManager
+    ) { }
 
     public function getLogosUploadDir(): string
     {
         return $this->logosUploadDir;
     }
 
-    public function uploadFiles(Request $request, Event $event, array $files = []): void
+    public function uploadFiles(Request $request, $event, array $files = []): void
     {
         foreach ($files as $uploaded_file) {
             $file = new File();
@@ -69,17 +63,22 @@ class FileManager
             $file->setInstance($request->getInstance());
             $event->addFile($file);
         }
+
     }
 
-    private function countPages(UploadedFile $file)
+    private function countPages(UploadedFile $file): int
     {
         exec('exiftool '.$file->getRealPath()." | awk '/Page Count/ { print $4 }'", $output);
 
-        return $output[0];
+        return (int) $output[0];
     }
 
-    public function registerDownload(Request $request, File $file, HttpRequest $httpRequest, BaseUser $user): void
-    {
+    public function registerDownload(
+        Request $request,
+        File $file,
+        HttpRequest $httpRequest,
+        BaseUser $user
+    ): void {
         if (!$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN')) {
             $file->setDownloaded(true);
         }
@@ -91,13 +90,16 @@ class FileManager
         $download->setFile($file);
         $download->setRequest($request);
         $download->setInstance($user->getInstance());
-        $this->container->get('doctrine.orm.entity_manager')->persist($file);
-        $this->container->get('doctrine.orm.entity_manager')->persist($download);
-        $this->container->get('doctrine.orm.entity_manager')->flush();
+        $this->entityManager->persist($file);
+        $this->entityManager->persist($download);
+        $this->entityManager->flush();
     }
 
-    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event): void
-    {
+    public function copyFilesToPreviousRequest(
+        Request $previousRequest,
+        Request $request,
+        $event
+    ): void {
         foreach ($request->getFiles() as $original) {
             if ($original->getEnabled()) {
                 $file = clone $original;
@@ -112,9 +114,9 @@ class FileManager
                     throw new Exception('Copy file error');
                 }
 
-                $this->container->get('doctrine.orm.entity_manager')->persist($file);
+                $this->entityManager->persist($file);
                 $event->addFile($file);
-                $this->container->get('doctrine.orm.entity_manager')->persist($event);
+                $this->entityManager->persist($event);
             }
         }
     }

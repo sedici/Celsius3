@@ -59,6 +59,9 @@ database:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:create
 	@docker exec -i $(dockname)-bd-1 sh -c 'exec mysql -ucelsius3_usr -pcelsius3_pass celsius3' < .docker/mysql/celsius3.sql
 
+check/db:
+	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:schema:update --dump-sql --complete
+
 
 # ------- TEST COMMANDS -------
 

@@ -184,7 +184,7 @@ class LifecycleHelper
         return $data;
     }
 
-    public function uploadFiles(Request $request, Event $event, array $files): void
+    public function uploadFiles(Request $request, $event, array $files): void
     {
         $this->fileManager->uploadFiles($request, $event, $files);
     }

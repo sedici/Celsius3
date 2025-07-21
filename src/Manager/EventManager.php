@@ -196,7 +196,6 @@ class EventManager
     public function prepareExtraDataForReceive(Request $request): array
     {
         $httpReq = $this->requestStack->getCurrentRequest();
-        $file = $httpReq->files->get('file');
 
         $requestId = $httpReq->request->get('request');
         if (!is_numeric($requestId)) {
@@ -390,8 +389,8 @@ class EventManager
 
 
     public function getRealEventName(
-        ?string $event = null,
-        ?array $extraData = null,
+        string $event,
+        array $extraData,
         Instance $instance,
         Request $request
     ): ?string {

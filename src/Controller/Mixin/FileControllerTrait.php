@@ -27,21 +27,26 @@ use Celsius3\Entity\Request;
 use Celsius3\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
+
 trait FileControllerTrait
 {
-    protected function download($request, $file)
+
+    protected function downloadFileFromRequest($request, $file): Response
     {
-        $fileManager = $this->get('celsius3_core.file_manager');
-        $request = $this->getDoctrine()->getManager()
+        $fileManager = $this->fileManager;
+        $request = $this->entityManager
             ->getRepository(Request::class)->find($request);
 
-        $file = $this->getDoctrine()->getManager()
+        $file = $this->entityManager
             ->getRepository(File::class)->find($file);
+
+        // throw new \Exception($fileManager->getUploadRootDir($file) . '/' . $file->getPath());
 
         $filename = $fileManager->getUploadRootDir($file).'/'.$file->getPath();
         if (!file_exists($filename)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.file_not_found');
         }
+
 
         $this->validate($request, $file);
 

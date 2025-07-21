@@ -153,6 +153,10 @@ final class RestAdminEventController extends EventController
     {
         $request = $this->findRequest($request_id);
 
+        $http_req = $this->requestStack->getCurrentRequest();
+        $vars = $http_req->request->all();
+        $files = $http_req->files->all();
+
         $result = $this->lifecycleHelper->createReceiveEvent($request, $this->instance);
 
         return $this->restRenderer->render(
