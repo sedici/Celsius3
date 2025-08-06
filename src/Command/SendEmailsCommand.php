@@ -79,7 +79,7 @@ class SendEmailsCommand extends Command
         foreach ($instances as $instance) {
             try {
                 $emailController->sendInstanceEmails(
-                    $instance, $limit, $output, $celsiusExceptionLogger, $logLevel
+                    $instance, $limit, $output
                 );
             } catch (Exception $e) {
                 $message = "Failed to send emails for instance $instance. " . $e->getMessage();

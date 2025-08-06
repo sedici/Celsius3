@@ -41,7 +41,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -68,7 +67,6 @@ class NotificationController extends EntityController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -88,7 +86,6 @@ class NotificationController extends EntityController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -185,8 +182,8 @@ class NotificationController extends EntityController
             }
 
             if (
-                !(strpos($value->getType(), 'user') === false)
-                || !(strpos($value->getType(), 'message') === false)
+                !(!str_contains((string) $value->getType(), 'user'))
+                || !(!str_contains((string) $value->getType(), 'message'))
             ) {
                 $form->get($value->getType())->setData($data);
             } else {
@@ -225,7 +222,7 @@ class NotificationController extends EntityController
                 );
             }
 
-            $this->objectManager->flush();
+            $this->entityManager->flush();
         }
 
         return [

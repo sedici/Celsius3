@@ -25,25 +25,23 @@ namespace Celsius3\Controller\Rest;
 use Celsius3\Controller\Base\CountryController;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 
-/**
- * @Route("/rest/v1/admin/country")
- */
+#[
+    Route('/rest/v1/admin/country'),
+    IsGranted('ROLE_ADMIN')
+]
 class RestAdminCountryController extends CountryController
 {
 
-    /**
-     * @Get("/", name="rest_admin_country", options={"expose"=true})
-     */
+    #[Get('/', name: 'rest_admin_country', options: ['expose' => true])]
     public function restIndex(): Response
     { return $this->restRenderer->index('administration_order_show'); }
 
 
-    /**
-     * @Get("/{id}", name="rest_admin_country_show", options={"expose"=true})
-     */
+    #[Get('/{id}', name: 'rest_admin_country_show', options: ['expose' => true])]
     public function getCountry(string $id)
     { return $this->restRenderer->show($id, 'administration'); }
 }

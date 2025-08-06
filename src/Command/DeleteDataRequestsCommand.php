@@ -33,13 +33,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteDataRequestsCommand extends Command
 {
     private $dataRequestRepository;
-    private $dataRequestDirectory;
 
-    public function __construct(EntityManagerInterface $entityManager, string $dataRequestDirectory)
+    public function __construct(EntityManagerInterface $entityManager, private readonly string $dataRequestDirectory)
     {
         parent::__construct();
         $this->dataRequestRepository = $entityManager->getRepository(DataRequest::class);
-        $this->dataRequestDirectory = $dataRequestDirectory;
     }
 
     protected function configure()
@@ -64,6 +62,6 @@ class DeleteDataRequestsCommand extends Command
             $this->dataRequestRepository->save($dataRequest->setVisible(false));
         }
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

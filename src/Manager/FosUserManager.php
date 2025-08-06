@@ -29,20 +29,14 @@ use Symfony\Component\Security\Core\Security;
 
 class FosUserManager
 {
-    private InstanceHelper $instanceHelper;
-    private EntityManagerInterface $entityManager;
-    private string $class;
-    private Security $security;
+    private readonly string $class;
 
     public function __construct(
-        InstanceHelper $instanceHelper,
-        EntityManagerInterface $entityManager,
-        Security $security
+        private readonly InstanceHelper $instanceHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly Security $security
     ) {
-        $this->instanceHelper = $instanceHelper;
-        $this->entityManager = $entityManager;
         $this->class = BaseUser::class;
-        $this->security = $security;
     }
 
     public function findUserByUsernameOrEmail(string $usernameOrEmail): ?BaseUser

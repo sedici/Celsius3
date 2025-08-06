@@ -152,9 +152,7 @@ class Catalog implements \Stringable
     {
         $result = $this->getPositions()
             ->filter(
-                function (CatalogPosition $entry) use ($instance) {
-                    return $entry->getInstance()->getId() == $instance->getId();
-                }
+                fn(CatalogPosition $entry) => $entry->getInstance()->getId() == $instance->getId()
             )->first();
 
         return false !== $result ? $result : null;

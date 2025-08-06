@@ -8,12 +8,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TicketHelper
 {
-    private $entityManager;
     private $parametros;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function setParametros($parametros)
@@ -44,7 +42,7 @@ class TicketHelper
         $ticket->setCategory($category);
         $em->persist($ticket);
 
-        $em->flush($ticket);
+        $em->flush();
 
         $ticketState = new TicketState();
         $ticketState->setCreatedAt(new \DateTime());
@@ -58,8 +56,7 @@ class TicketHelper
 
         $ticket->setStatusCurrent($ticketState);
 
-        $em->flush($ticket);
-        $em->flush($ticketState);
+        $em->flush();
 
         $em->flush();
     }

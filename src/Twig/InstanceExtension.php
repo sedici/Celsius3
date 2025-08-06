@@ -35,11 +35,8 @@ use function count;
 
 class InstanceExtension extends AbstractExtension
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function getTests(): array
@@ -47,9 +44,7 @@ class InstanceExtension extends AbstractExtension
         return [
             new TwigTest(
                 'valid_logo',
-                static function ($file) {
-                    return file_exists(__DIR__ . '/../../../../web/uploads/logos/' . $file);
-                }
+                static fn($file) => file_exists(__DIR__ . '/../../../../web/uploads/logos/' . $file)
             ),
         ];
     }
@@ -57,8 +52,8 @@ class InstanceExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_instance_url', [$this, 'getInstanceUrl']),
-            new TwigFunction('template_edited', [$this, 'templateEdited'])
+            new TwigFunction('get_instance_url', $this->getInstanceUrl(...)),
+            new TwigFunction('template_edited', $this->templateEdited(...))
         ];
     }
 

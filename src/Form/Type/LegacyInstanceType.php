@@ -35,15 +35,15 @@ class LegacyInstanceType extends AbstractType
         $builder
                 ->add('name')
                 ->add('abbreviation')
-                ->add('website', null, array(
-                    'attr' => array(
+                ->add('website', null, [
+                    'attr' => [
                         'placeholder' => 'http://',
-                    ),
-                ))
+                    ],
+                ])
                 ->add('email')
-                ->add('hive', EntityType::class, array(
+                ->add('hive', EntityType::class, [
                     'class' => Hive::class,
-                ))
+                ])
         ;
     }
 }

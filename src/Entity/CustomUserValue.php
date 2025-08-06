@@ -27,9 +27,10 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Repository\CustomUserValueRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: CustomUserValueRepository::class)]
 class CustomUserValue extends CustomValue
 {
 
@@ -42,7 +43,7 @@ class CustomUserValue extends CustomValue
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'customValues')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    private ?BaseUser $user;
+    private ?BaseUser $user = null;
 
 
     public function getId(): int

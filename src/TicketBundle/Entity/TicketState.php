@@ -28,46 +28,34 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 // use Celsius3\Entity\Mixin\TimestampableEntity;
-
-/**
- * @ORM\Entity("")
- * @ORM\Table(name="ticket_state")
- */
+#[ORM\Entity('')]
+#[ORM\Table(name: 'ticket_state')]
 class TicketState
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     /**
      * @var Baseuser
-     *
-     * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="Celsius3\Entity\BaseUser")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
+    #[Gedmo\Blameable(on: 'create')]
+    #[ORM\ManyToOne(targetEntity: \Celsius3\Entity\BaseUser::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     protected $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\TicketBundle\Entity\TypeState")
-     * @ORM\JoinColumn(name="type_state_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: \Celsius3\TicketBundle\Entity\TypeState::class)]
+    #[ORM\JoinColumn(name: 'type_state_id', referencedColumnName: 'id')]
     private $typeState;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\TicketBundle\Entity\Ticket", inversedBy="statusHistory")
-     * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id", nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: \Celsius3\TicketBundle\Entity\Ticket::class, inversedBy: 'statusHistory')]
+    #[ORM\JoinColumn(name: 'ticket_id', referencedColumnName: 'id', nullable: false)]
     private $tickets;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $descripcion;
 
     /**

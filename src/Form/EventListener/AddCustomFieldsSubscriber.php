@@ -43,24 +43,13 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
-    private $entity;
-    private $factory;
-    private $entityManager;
-    private $instance;
-    private $showPrivates;
-
     public function __construct(
-        string $entity,
-        FormFactoryInterface $factory,
-        EntityManagerInterface $entityManager,
-        Instance $instance,
-        bool $showPrivates
+        private readonly string $entity,
+        private readonly FormFactoryInterface $factory,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly Instance $instance,
+        private readonly bool $showPrivates
     ) {
-        $this->entity = $entity;
-        $this->factory = $factory;
-        $this->entityManager = $entityManager;
-        $this->instance = $instance;
-        $this->showPrivates = $showPrivates;
     }
 
     public static function getSubscribedEvents(): array
@@ -95,16 +84,16 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
 
             $placeholder = '';
             if ($field->getEntity() === 'BaseUser') {
-                $placeholder = ucfirst($field->getName());
+                $placeholder = ucfirst((string) $field->getName());
                 if ($field->isRequired()) {
                     $placeholder .= '*';
                 }
             }
 
             if (ChoiceType::class === $field->getType()) {
-                $values =  $field->getValue() ? explode(',', $field->getValue()) : [];
+                $values =  $field->getValue() ? explode(',', (string) $field->getValue()) : [];
                 $array_choices = ['' => ''];
-                foreach ($values as $key => $val) {
+                foreach ($values as $val) {
                     $array_choices[$val] = $val;
                 }
 
@@ -136,7 +125,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                         $value ? new DateTime($value->getValue()) : null,
                         [
                             /* @Ignore */
-                            'label' => ucfirst($field->getName()),
+                            'label' => ucfirst((string) $field->getName()),
                             'required' => $field->isRequired(),
                             'widget' => 'single_text',
                             'format' => 'dd-MM-yyyy',
@@ -157,7 +146,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                         $value ? $value->getValue() : null,
                         [
                             /* @Ignore */
-                            'label' => ucfirst($field->getName()),
+                            'label' => ucfirst((string) $field->getName()),
                             'required' => $field->isRequired(),
                             'mapped' => false,
                             'auto_initialize' => false,
@@ -176,7 +165,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                         $value ? $value->getValue() : null,
                         [
                             /* @Ignore */
-                            'label' => ucfirst($field->getName()),
+                            'label' => ucfirst((string) $field->getName()),
                             'required' => $field->isRequired(),
                             'mapped' => false,
                             'auto_initialize' => false,

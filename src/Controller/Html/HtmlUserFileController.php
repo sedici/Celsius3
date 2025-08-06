@@ -39,7 +39,7 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -50,7 +50,10 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-#[Route('/user/file')]
+#[
+    Route('/user/file'),
+    IsGranted('IS_AUTHENTICATED_FULLY'),
+]
 class HtmlUserFileController extends FileController
 {
 
@@ -58,13 +61,12 @@ class HtmlUserFileController extends FileController
 
 
     public function __construct(
-        protected FileManager $fileManager,
+        readonly protected FileManager $fileManager,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -84,7 +86,6 @@ class HtmlUserFileController extends FileController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -104,7 +105,7 @@ class HtmlUserFileController extends FileController
     protected function validate(
         Request $request, File $file
     ): void {
-        $user = $this->tokenStorage->getToken()->getUser();
+        $user = $this->getUser();
 
         $httpRequest = $this->requestStack->getCurrentRequest();
 

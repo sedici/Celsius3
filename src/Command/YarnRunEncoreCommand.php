@@ -53,6 +53,6 @@ class YarnRunEncoreCommand extends Command
         $output->writeln('Packaging assets');
         $output->writeln(shell_exec("yarn encore $env $params"));
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

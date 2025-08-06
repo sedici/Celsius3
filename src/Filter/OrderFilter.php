@@ -34,11 +34,9 @@ class OrderFilter implements EntityFilterInterface
         'instance' => 'addFindByRequestInstance',
         'owner' => 'addFindByRequestOwner'
     ];
-    private $orderRepository;
 
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(private readonly OrderRepositoryInterface $orderRepository)
     {
-        $this->orderRepository = $orderRepository;
     }
 
     public function applyCustomFilter($field_name, $data, $query, $instance)

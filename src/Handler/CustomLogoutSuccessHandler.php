@@ -24,22 +24,37 @@ declare(strict_types=1);
 
 namespace Celsius3\Handler;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
+use Symfony\Component\Security\Http\Event\LogoutEvent;
 
-class CustomLogoutSuccessHandler implements LogoutSuccessHandlerInterface
+
+class CustomLogoutSuccessHandler implements EventSubscriberInterface
 {
-    private $router;
+    public function __construct(
+        private readonly RouterInterface $router
+    ) { }
 
-    public function __construct(RouterInterface $router)
+
+    public function onLogout(LogoutEvent $logoutEvent): void
     {
-        $this->router = $router;
+        if ($logoutEvent->getResponse() !== null) {
+            return;
+        }
+        $logoutEvent->setResponse(
+            new RedirectResponse(
+                $this->router->generate('login')
+            )
+        );
     }
 
-    public function onLogoutSuccess(Request $request)
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getSubscribedEvents(): array
     {
-        return new RedirectResponse($this->router->generate('public_index'));
+        return [LogoutEvent::class => ['onLogout', 64]];
     }
 }

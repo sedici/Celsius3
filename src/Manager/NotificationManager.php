@@ -113,18 +113,14 @@ class NotificationManager
     private function getEventArray(): array
     {
         return [
-            'template_data' => function (Notification $notification): array {
-                return [
-                    'request' => $notification->getObject()->getRequest(),
-                    'event' => $this->translator->trans($notification->getCause()),
-                ];
-            },
+            'template_data' => fn(Notification $notification): array => [
+                'request' => $notification->getObject()->getRequest(),
+                'event' => $this->translator->trans($notification->getCause()),
+            ],
             'route' => 'admin_order_show',
-            'route_params' => function (Notification $notification) {
-                return [
-                    'id' => $notification->getObject()->getRequest()->getOrder()->getId(),
-                ];
-            },
+            'route_params' => fn(Notification $notification) => [
+                'id' => $notification->getObject()->getRequest()->getOrder()->getId(),
+            ],
         ];
     }
 
@@ -204,9 +200,7 @@ class NotificationManager
             $message,
             MessageNotification::class,
             $instance,
-            function (BaseUser $receiver) use ($senderId): bool {
-                return $receiver->getId() !== $senderId;
-            }
+            fn(BaseUser $receiver): bool => $receiver->getId() !== $senderId
         );
     }
 
@@ -278,21 +272,26 @@ class NotificationManager
         $router = $this->router;
 
         $usersInsterfaceNotification = $em->getRepository(BaseUser::class)
-                                        ->getUsersWithEventNotification('interface', $event, $type);
+            ->getUsersWithEventNotification('interface', $event, $type);
+
         $usersEmailNotification = $em->getRepository(BaseUser::class)
-                                        ->getUsersWithEventNotification('email', $event, $type);
+            ->getUsersWithEventNotification('email', $event, $type);
 
         $template = $em->getRepository(NotificationTemplate::class)
-                                        ->findOneBy(array('code' => 'order_event'));
+            ->findOneBy(['code' => 'order_event']);
 
         $notification = new EventNotification($type, $event, $template);
 
         foreach ($usersInsterfaceNotification as $user) {
-            $this->notifyInterface($notification, array($user));
+            $this->notifyInterface($notification, [$user]);
         }
 
         $otherText = "\n\n" . $this->translator->trans("Para acceder al pedido ingrese al siguiente enlace") . ".\n";
-        $otherText .= $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $otherText .= $router->generate(
+            'admin_order_show',
+            ['id' => $notification->getObject()->getRequest()->getOrder()->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
         $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance(), $otherText);
     }

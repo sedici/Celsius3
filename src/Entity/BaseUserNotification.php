@@ -29,10 +29,10 @@ use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Message;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\Repository\BaseNotificationRepository;
+use Celsius3\Repository\UserNotificationRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
+#[ORM\Entity(repositoryClass: UserNotificationRepository::class)]
 class BaseUserNotification extends Notification
 {
 

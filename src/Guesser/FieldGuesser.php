@@ -26,18 +26,18 @@ use Celsius3\Exception\NotImplementedException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FieldGuesser
 {
     use ContainerAwareTrait;
-
-    private $doctrine;
     private $metadata;
     private static $current_class;
 
-    public function __construct(ManagerRegistry $doctrine)
-    {
-        $this->doctrine = $doctrine;
+    public function __construct(
+        private ManagerRegistry $doctrine,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
     protected function getMetadatas($class = null)
@@ -92,17 +92,17 @@ class FieldGuesser
 
     public function getSortType($dbType)
     {
-        $alphabeticTypes = array(
+        $alphabeticTypes = [
             'string',
             'text',
-        );
-        $numericTypes = array(
+        ];
+        $numericTypes = [
             'decimal',
             'float',
             'integer',
             'bigint',
             'smallint',
-        );
+        ];
         if (in_array($dbType, $alphabeticTypes)) {
             return 'alphabetic';
         }
@@ -144,7 +144,7 @@ class FieldGuesser
     public function getFormOptions($formType, $dbType, $columnName)
     {
         if ('boolean' == $dbType) {
-            return array('required' => false);
+            return ['required' => false];
         }
         if ('number' == $formType) {
             $mapping = $this->getMetadatas()->getFieldMapping($columnName);
@@ -155,32 +155,32 @@ class FieldGuesser
                 $precision = $mapping['precision'];
             }
 
-            return array(
-                'precision' => isset($precision) ? $precision : '',
+            return [
+                'precision' => $precision ?? '',
                 'required' => $this->isRequired($columnName),
-            );
+            ];
         }
-        if (preg_match('#^entity#i', $formType) || preg_match('#entity$#i', $formType)) {
+        if (preg_match('#^entity#i', (string) $formType) || preg_match('#entity$#i', (string) $formType)) {
             $mapping = $this->getMetadatas()->getAssociationMapping($columnName);
 
-            return array(
+            return [
                 'multiple' => ($mapping['type'] === ClassMetadataInfo::MANY_TO_MANY || $mapping['type'] === ClassMetadataInfo::ONE_TO_MANY),
                 'em' => 'default',
                 'class' => $mapping['targetEntity'],
                 'required' => $this->isRequired($columnName),
-            );
+            ];
         }
-        if (preg_match('#^collection#i', $formType) || preg_match('#collection$#i', $formType)) {
-            return array(
+        if (preg_match('#^collection#i', (string) $formType) || preg_match('#collection$#i', (string) $formType)) {
+            return [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-            );
+            ];
         }
 
-        return array(
+        return [
             'required' => $this->isRequired($columnName),
-        );
+        ];
     }
 
     protected function isRequired($fieldName)
@@ -197,23 +197,20 @@ class FieldGuesser
 
     public function getFilterOptions($formType, $dbType, $ColumnName)
     {
-        $options = array('required' => false);
+        $options = ['required' => false];
         if ('boolean' == $dbType) {
-            $options['choices'] = array(
-                0 => $this->container->get('translator')
-                        ->trans('boolean.no', array(), 'Admingenerator'),
-                1 => $this->container->get('translator')
-                        ->trans('boolean.yes', array(), 'Admingenerator'),
-            );
-            $options['empty_value'] = $this->container->get('translator')
-                    ->trans('boolean.yes_or_no', array(), 'Admingenerator');
+            $options['choices'] = [
+                0 => $this->translator->trans('boolean.no', [], 'Admingenerator'),
+                1 => $this->translator->trans('boolean.yes', [], 'Admingenerator'),
+            ];
+            $options['empty_value'] = $this->translator->trans('boolean.yes_or_no', [], 'Admingenerator');
         }
-        if (preg_match('#^entity#i', $formType) || preg_match('#entity$#i', $formType)) {
+        if (preg_match('#^entity#i', (string) $formType) || preg_match('#entity$#i', (string) $formType)) {
             return array_merge(
                     $this->getFormOptions($formType, $dbType, $ColumnName), $options
             );
         }
-        if (preg_match('#^collection#i', $formType) || preg_match('#collection$#i', $formType)) {
+        if (preg_match('#^collection#i', (string) $formType) || preg_match('#collection$#i', (string) $formType)) {
             return array_merge(
                     $this->getFormOptions($formType, $dbType, $ColumnName), $options
             );

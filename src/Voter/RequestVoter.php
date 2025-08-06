@@ -49,7 +49,7 @@ class RequestVoter implements VoterInterface
      */
     public function matchItem(ItemInterface $item): ?bool
     {
-        if (false !== strpos($this->request_stack->getCurrentRequest()->getRequestUri(), $item->getUri())) {
+        if (str_contains((string) $this->request_stack->getCurrentRequest()->getRequestUri(), (string) $item->getUri())) {
             return true;
         }
 

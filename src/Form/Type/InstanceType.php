@@ -43,57 +43,57 @@ class InstanceType extends LegacyInstanceType
         ;
 
         if (array_key_exists('institution_select', $options) && $options['institution_select']) {
-            $builder->add('country', EntityType::class, array(
+            $builder->add('country', EntityType::class, [
                 'class' => Country::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => true,
-                'attr' => array(
+                'attr' => [
                     'class' => 'country-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ));
+            ]);
 
-            $builder->add('city', EntityType::class, array(
+            $builder->add('city', EntityType::class, [
                 'class' => City::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'city-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ));
+            ]);
 
-            $builder->add('institution', EntityType::class, array(
+            $builder->add('institution', EntityType::class, [
                 'class' => Institution::class,
                 'mapped' => false,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',
                 'required' => true,
-                'attr' => array(
+                'attr' => [
                     'class' => 'institution-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ));
+            ]);
         }
 
-        $builder->add('observaciones', TextareaType::class, array(
-            'attr' => array(
+        $builder->add('observaciones', TextareaType::class, [
+            'attr' => [
                 'class' => 'summernote',
-            ),
+            ],
             'required' => false,
-        ));
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
         $resolver->setDefaults(
-                array(
+                [
                     'allow_extra_fields' => true,
                     'institution_select' => false,
-                )
+                ]
         );
     }
 }

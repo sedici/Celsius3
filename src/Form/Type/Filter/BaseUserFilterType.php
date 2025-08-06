@@ -46,18 +46,18 @@ class BaseUserFilterType extends AbstractType
                 // ->add('id', HiddenType::class, array(
                 //     'required' => false,
                 // ))
-                ->add('name', null, array(
+                ->add('name', null, [
                     'required' => false,
-                ))
-                ->add('surname', null, array(
+                ])
+                ->add('surname', null, [
                     'required' => false,
-                ))
-                ->add('username', null, array(
+                ])
+                ->add('username', null, [
                     'required' => false,
-                ))
-                ->add('email', null, array(
+                ])
+                ->add('email', null, [
                     'required' => false,
-                ))
+                ])
                 // ->add('state', ChoiceType::class, array(
                 //     'required' => false,
                 //     'choices' => array(
@@ -80,118 +80,118 @@ class BaseUserFilterType extends AbstractType
                 //     'expanded' => true,
                 //     'multiple' => true,
                 // ])
-            ->add('country', EntityType::class, array(
+            ->add('country', EntityType::class, [
                 'class' => Country::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'country-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ))
-            ->add('city', EntityType::class, array(
+            ])
+            ->add('city', EntityType::class, [
                 'class' => City::class,
                 'choices' => [],
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'city-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ))
-            ->add('institution', EntityType::class, array(
+            ])
+            ->add('institution', EntityType::class, [
                 'class' => Institution::class,
                 'choices' => [],
                 'mapped' => true,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'institution-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ));
+            ]);
 
 
         $builder->get('country')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $country = $event->getForm()->getData();
                 $form = $event->getForm()->getParent();
 
-                $cities = null === $country ? array() : $country->getCities();
-                $form->add('city', EntityType::class, array(
+                $cities = null === $country ? [] : $country->getCities();
+                $form->add('city', EntityType::class, [
                     'class' => City::class,
                     'choices' => $cities,
                     'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'cicty-select',
-                    ),
+                    ],
                     'auto_initialize' => false,
 
-                ));
+                ]);
 
-                $institutions = null === $country ? array() : $country->getInstitutions();
-                $form->add('institution', EntityType::class, array(
+                $institutions = null === $country ? [] : $country->getInstitutions();
+                $form->add('institution', EntityType::class, [
                     'class' => Institution::class,
                     'choices' => $institutions,
                     'mapped' => true,
                     'label' => ucfirst('institution'),
                     'placeholder' => '',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'institution-select',
-                    ),
+                    ],
                     'auto_initialize' => false,
-                ));
+                ]);
             }
         );
 
         $builder->get('city')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $city = $event->getForm()->getData();
                 $form = $event->getForm()->getParent();
                 $form->remove('institution');
 
-                $institutions = null === $city ? array() : $city->getInstitutions();
-                $form->add('institution', EntityType::class, array(
+                $institutions = null === $city ? [] : $city->getInstitutions();
+                $form->add('institution', EntityType::class, [
                     'class' => Institution::class,
                     'choices' => $institutions,
                     'mapped' => true,
                     'label' => ucfirst('institution'),
                     'placeholder' => '',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'institution-select',
-                    ),
+                    ],
                     'auto_initialize' => false,
-                ));
+                ]);
             }
         );
 
         if (is_null($options['instance'])) {
             $builder
-                ->add('instance', EntityType::class, array(
+                ->add('instance', EntityType::class, [
                     'required' => false,
                     'class' => Instance::class,
-                ))
+                ])
             ;
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
             'validation_groups' => ['base_user_filter_type']
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

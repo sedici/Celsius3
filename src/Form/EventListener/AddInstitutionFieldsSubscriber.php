@@ -38,33 +38,16 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 {
-    private $factory;
-    private $em;
-    private $property_path;
-    private $required;
-    private $country_mapped;
-    private $city_mapped;
-    private $with_filter;
-    private $showCity;
-
     public function __construct(
-        FormFactoryInterface $factory,
-        EntityManager $em,
-        $property_path = 'institution',
-        $required = true,
-        $country_mapped = false,
-        $city_mapped = false,
-        $with_filter = false,
-        $showCity = false
+        private readonly FormFactoryInterface $factory,
+        private readonly EntityManager $em,
+        private $property_path = 'institution',
+        private $required = true,
+        private $country_mapped = false,
+        private $city_mapped = false,
+        private $with_filter = false,
+        private $showCity = false
     ) {
-        $this->factory = $factory;
-        $this->em = $em;
-        $this->property_path = $property_path;
-        $this->required = $required;
-        $this->country_mapped = $country_mapped;
-        $this->city_mapped = $city_mapped;
-        $this->with_filter = $with_filter;
-        $this->showCity = $showCity;
     }
 
     public static function getSubscribedEvents()
@@ -93,7 +76,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             $institution = $this->em->getRepository(Institution::class)
                 ->find($data[$this->property_path]);
         } else if (is_object($data)) {
-            $function = 'get' . ucfirst($this->property_path);
+            $function = 'get' . ucfirst((string) $this->property_path);
             $institution = $data->$function();
         }
 
@@ -135,16 +118,12 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             'mapped' => $this->country_mapped,
             'placeholder' => '',
             'required' => false,
-            'query_builder' => function (CountryRepository $cr) {
-                return $cr->getAllOrderedByNameQB();
-            },
+            'query_builder' => fn(CountryRepository $cr) => $cr->getAllOrderedByNameQB(),
             'attr' => [
                 'class' => 'country-select',
             ],
             'auto_initialize' => false,
-            'choice_label' => function ($category) {
-                return $this->firstUpper($category);
-            }
+            'choice_label' => fn($category) => $this->firstUpper($category)
 
         ]));
 
@@ -154,28 +133,22 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                 'mapped' => $this->city_mapped,
                 'placeholder' => '',
                 'required' => false,
-                'query_builder' => function (CityRepository $cr) use ($country) {
-                    return $cr->findForCountryQB($country);
-                },
+                'query_builder' => fn(CityRepository $cr) => $cr->findForCountryQB($country),
                 'attr' => [
                     'class' => 'city-select',
                 ],
                 'auto_initialize' => false,
-                'choice_label' => function ($category) {
-                    return $this->firstUpper($category);
-                }
+                'choice_label' => fn($category) => $this->firstUpper($category)
             ]));
         }
 
         $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, [
             'class' => Institution::class,
             'property_path' => $this->property_path,
-            'label' => ucfirst($this->property_path),
+            'label' => ucfirst((string) $this->property_path),
             'placeholder' => '',
             'required' => $this->required,
-            'query_builder' => function (InstitutionRepository $ir) use ($city, $country) {
-                return $ir->findByCountryAndCityQB($country, $city);
-            },
+            'query_builder' => fn(InstitutionRepository $ir) => $ir->findByCountryAndCityQB($country, $city),
             'attr' => [
                 'class' => 'institution-select',
             ],

@@ -33,18 +33,18 @@ class NewsFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('title', null, array(
+                ->add('title', null, [
                     'required' => false,
-                ))
+                ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'validation_groups' => ['base_news_filter_type']
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

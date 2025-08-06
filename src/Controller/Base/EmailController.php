@@ -41,7 +41,6 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email as MimeEmail;
@@ -79,7 +78,6 @@ class EmailController extends EntityController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -99,7 +97,6 @@ class EmailController extends EntityController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -558,9 +555,7 @@ class EmailController extends EntityController
             );
 
             return [ 'test' => true, 'message' => $this->translator->trans('Sucefull connection') ];
-        } catch (TransportExceptionInterface $e) {
-            return [ 'test' => false, 'message' => $e->getMessage() ];
-        } catch (\Exception $e) {
+        } catch (TransportExceptionInterface|\Exception $e) {
             return [ 'test' => false, 'message' => $e->getMessage() ];
         }
     }

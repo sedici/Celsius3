@@ -22,11 +22,17 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Event\ReclaimEvent;
+
+
 /**
  * ReclaimEventRepository.
  */
 class ReclaimEventRepository extends BaseRepository
 {
+    protected static $entityClass = ReclaimEvent::class;
+
+
     public function getReclaimEventsFor(array $keys)
     {
         return $this->createQueryBuilder('e')

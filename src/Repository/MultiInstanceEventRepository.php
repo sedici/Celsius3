@@ -22,11 +22,16 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Event\MultiInstanceEvent;
+
 /**
  * MultiInstanceEventRepository.
  */
 class MultiInstanceEventRepository extends BaseRepository
 {
+    protected static $entityClass = MultiInstanceEvent::class;
+
+
     public function getRemoteEvents($requests)
     {
         return $this->createQueryBuilder('e')

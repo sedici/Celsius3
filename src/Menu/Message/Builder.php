@@ -29,11 +29,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class Builder
 {
-    private FactoryInterface $factory;
-
-    public function __construct(FactoryInterface $factory)
+    public function __construct(private readonly FactoryInterface $factory)
     {
-        $this->factory = $factory;
     }
 
     public function messageMenu(array $options = []): ItemInterface

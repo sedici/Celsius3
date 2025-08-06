@@ -36,15 +36,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
-    private AuthorizationCheckerInterface $authorization_checker;
-    private $token_storage;
-    private $em;
-
-    public function __construct(AuthorizationChecker $authorization_checker, TokenStorage $token_storage, EntityManager $em)
+    public function __construct(private readonly AuthorizationCheckerInterface $authorization_checker, private readonly TokenStorage $token_storage, private readonly EntityManager $em)
     {
-        $this->authorization_checker = $authorization_checker;
-        $this->token_storage = $token_storage;
-        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -53,28 +46,28 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
         $user = $this->token_storage->getToken()->getUser();
         if ($isAdmin) {
             $builder
-                    ->add('recipients', UsersSelectorType::class, array(
-                        'attr' => array(
+                    ->add('recipients', UsersSelectorType::class, [
+                        'attr' => [
                             'class' => 'container autocomplete_multi',
                             'target' => 'BaseUser',
-                        ),
-                    ))
+                        ],
+                    ])
             ;
         } else {
             $usernames = $this->em->getRepository(BaseUser::class)
                             ->findByUserInstanceAndRole($user, UserManager::ROLE_ADMIN);
 
-            $builder->add('recipients', RecipientsHiddenType::class, array(
+            $builder->add('recipients', RecipientsHiddenType::class, [
                         'data' => new ArrayCollection($usernames),
-                    ));
+                    ]);
         }
 
         $builder->add('subject', TextType::class)
-                ->add('body', TextareaType::class, array(
-                    'attr' => array(
+                ->add('body', TextareaType::class, [
+                    'attr' => [
                         'class' => 'summernote',
-                    ),
+                    ],
                     'required' => false,
-                ));
+                ]);
     }
 }

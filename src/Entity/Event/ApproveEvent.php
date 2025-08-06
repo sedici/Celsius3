@@ -34,9 +34,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\ApproveEventRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: ApproveEventRepository::class)]
 class ApproveEvent extends MultiInstanceEvent
 {
     #[ORM\JoinTable(name: 'approves_files')]

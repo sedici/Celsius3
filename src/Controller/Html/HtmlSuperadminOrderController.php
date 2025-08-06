@@ -23,21 +23,25 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Form\Type\JournalTypeType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\OrderController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 use function get_class;
 
 /**
  * Order controller.
- * @Route("/superadmin/order")
  */
+#[
+    Route('/superadmin/order'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminOrderController extends OrderController
 {
 
@@ -67,16 +71,10 @@ class HtmlSuperadminOrderController extends OrderController
     }
 
 
-    // protected function getResultsPerPage()
-    // {
-    //     return $this->container->getParameter('max_per_page');
-    // }
-
-
     /**
      * Lists all Order entities.
-     * @Route("/", name="superadmin_order")
      */
+    #[Route('/', name: 'superadmin_order')]
     public function htmlIndex(): Response
     {
         $this->entityManager->getFilters()->disable('softdeleteable');
@@ -89,10 +87,9 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Finds and displays a Order entity.
-     * @Route("/{id}", name="superadmin_order_show")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}', name: 'superadmin_order_show')]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -104,8 +101,8 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Displays a form to create a new Order entity.
-     * @Route("/new", name="superadmin_order_new")
      */
+    #[Route('/new', name: 'superadmin_order_new')]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -123,8 +120,8 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Creates a new Order entity.
-     * @Route("/create", name="superadmin_order_create", methods={"POST"})
      */
+    #[Route('/create', name: 'superadmin_order_create', methods: ['POST'])]
     public function htmlCreate(Request $request): Response
     {
         $entityClassName = $this->entityClassName;
@@ -157,7 +154,7 @@ class HtmlSuperadminOrderController extends OrderController
     ): array {
         return [
             'material' => $this->getMaterialType(
-                get_class($entity->getMaterialData())
+                $entity->getMaterialData()::class
             ),
             'user' => $this->getUser(),
             'librarian' => false,
@@ -168,10 +165,9 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Displays a form to edit an existing Order entity.
-     * @Route("/{id}/edit", name="superadmin_order_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'superadmin_order_edit')]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -205,10 +201,9 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Edits an existing Order entity.
-     * @Route("/{id}/update", name="superadmin_order_update", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'superadmin_order_update', methods: ['POST'])]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -238,8 +233,8 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * Updates de form materialData field.
-     * @Route("/change", name="superadmin_order_change")
      */
+    #[Route('/change', name: 'superadmin_order_change')]
     public function change(
         ?string $templateName = null,
         ?string $templatePrefix = null
@@ -254,17 +249,16 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * SoftDelete an existing Order entity.
-     * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true}, methods={"POST"})
-     * @param string $id The order ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/delete', name: 'superadmin_order_delete', options: ['expose' => true], methods: ['POST'])]
     public function softDelete(string $id): JsonResponse
     {
         $order = $this->findQuery($id);
 
         if (!$order) return new JsonResponse(['success' => false]);
 
-        $em = $this->managerRegistry->getManager();
+        $em = $this->entityManager;
 
         $requests = $order->getRequests();
 
@@ -292,10 +286,9 @@ class HtmlSuperadminOrderController extends OrderController
 
     /**
      * SoftDelete an existing Order entity.
-     * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true}, methods={"POST"})
-     * @param string $id The order ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/undelete', name: 'superadmin_order_undelete', options: ['expose' => true], methods: ['POST'])]
     public function softUndelete(string $id): JsonResponse
     {
         $em = $this->entityManager;

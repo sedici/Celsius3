@@ -52,14 +52,10 @@ class ExportOrdersDataCommand extends Command
     private $congressTypeJoined = false;
     private $statesJoined = false;
     private $requestJoined = false;
-    private $entityManager;
-    private $dataRequestDirectory;
 
-    public function __construct(EntityManagerInterface $entityManager, string $dataRequestDirectory)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly string $dataRequestDirectory)
     {
         parent::__construct();
-        $this->entityManager = $entityManager;
-        $this->dataRequestDirectory = $dataRequestDirectory;
     }
 
     protected function configure()
@@ -138,18 +134,18 @@ class ExportOrdersDataCommand extends Command
         $this->entityManager->persist($dataRequest);
         $this->entityManager->flush();
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 
     private function join($data, $queryBuilder)
     {
-        $function = 'join' . ucfirst($data);
+        $function = 'join' . ucfirst((string) $data);
         $this->$function($queryBuilder);
     }
 
     private function add($value, $queryBuilder)
     {
-        $function = 'add' . ucfirst($value);
+        $function = 'add' . ucfirst((string) $value);
         $this->$function($queryBuilder);
     }
 

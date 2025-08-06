@@ -54,7 +54,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
     
     Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)
 ]
-class State
+class State implements \Stringable
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -62,55 +62,34 @@ class State
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     private ?int $id = null;
 
 
     #[Assert\NotBlank]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(type: "boolean")]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     private bool $current = true;
 
 
     #[Assert\NotBlank]
     #[Assert\Type(type: "boolean")]
     #[ORM\Column(name: "search_pending", type: "boolean")]
-    // #[Groups(["administration_order_show"])]
     private bool $searchPending = false;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     private string $type;
 
 
     #[ORM\OneToOne(targetEntity: Event::class, cascade: ["persist"])]
     #[ORM\JoinColumn(name: "remote_event_id", referencedColumnName: "id")]
-    // #[Groups(["administration_order_show"])]
     private ?Event $remoteEvent = null;
 
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "states")]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
-    // #[Groups(["administration_order_show"])]
     private Instance $instance;
 
 
@@ -136,15 +115,6 @@ class State
     #[ORM\ManyToOne(targetEntity: BaseUser::class)]
     #[ORM\JoinColumn(name: "operator_id", referencedColumnName: "id")]
     private ?BaseUser $operator = null;
-
-
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
-    // protected \DateTime $createdAt;
 
 
     public function __construct()

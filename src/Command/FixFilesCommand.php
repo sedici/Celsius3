@@ -71,10 +71,10 @@ class FixFilesCommand extends Command
                 $entity = 'archivos_pedidos';
                 $query->bindParam('id', $id);
                 $query->bindParam('entity', $entity, PDO::PARAM_STR);
-                $query->execute();
+                $query->executeQuery();
 
                 $t = $query->fetch();
-                $data = unserialize(base64_decode($t['tuple']));
+                $data = unserialize(base64_decode((string) $t['tuple']));
                 if ($data && array_key_exists('borrado', $data)) {
                     $file->setEnabled(!((bool)$data['borrado']));
                     $em->persist($file);

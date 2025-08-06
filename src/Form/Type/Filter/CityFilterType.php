@@ -36,33 +36,33 @@ class CityFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
+                ->add('name', null, [
                     'required' => false,
-                ))
-                ->add('postalCode', null, array(
+                ])
+                ->add('postalCode', null, [
                     'required' => false,
-                ))
-                ->add('country', EntityType::class, array(
+                ])
+                ->add('country', EntityType::class, [
                     'required' => false,
                     'class' => Country::class,
-                ))
+                ])
         ;
         if (is_null($options['instance'])) {
-            $builder->add('instance', EntityType::class, array(
+            $builder->add('instance', EntityType::class, [
                 'required' => false,
                 'class' => Instance::class,
-            ));
+            ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
             'validation_groups' => ['base_city_filter_type']
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

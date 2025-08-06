@@ -35,19 +35,9 @@ use ZMQ;
 final class PusherType
 {
     private $loop;
-    private $host;
-    private $port;
-    private $zmqHost;
-    private $zmqPort;
-    private $pusher;
 
-    public function __construct(Pusher $pusher, $host, $port, $zmqHost, $zmqPort)
+    public function __construct(private readonly Pusher $pusher, private $host, private $port, private $zmqHost, private $zmqPort)
     {
-        $this->pusher = $pusher;
-        $this->host = $host;
-        $this->port = $port;
-        $this->zmqHost = $zmqHost;
-        $this->zmqPort = $zmqPort;
     }
 
     public function launch()
@@ -71,10 +61,7 @@ final class PusherType
         $pull = $context->getSocket(ZMQ::SOCKET_PULL);
         // Binding to 127.0.0.1 means the only client that can connect is itself
         $pull->bind('tcp://' . $this->zmqHost . ':' . $this->zmqPort);
-        $pull->on('message', [
-            $this->pusher,
-            'onEntry',
-        ]);
+        $pull->on('message', $this->pusher->onEntry(...));
 
         if ($this->host) {
             $socket->listen($this->port, $this->host);

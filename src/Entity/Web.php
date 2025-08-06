@@ -24,9 +24,10 @@ namespace Celsius3\Entity;
 
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\WebRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: WebRepository::class)]
 class Web extends Provider
 {
 

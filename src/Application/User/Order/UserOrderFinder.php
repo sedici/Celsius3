@@ -32,11 +32,8 @@ use Celsius3\Repository\OrderRepositoryInterface;
 
 final class UserOrderFinder
 {
-    private $orderRepository;
-
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(private readonly OrderRepositoryInterface $orderRepository)
     {
-        $this->orderRepository = $orderRepository;
     }
 
     public function __invoke(int $id, Instance $instance, BaseUser $user): Order

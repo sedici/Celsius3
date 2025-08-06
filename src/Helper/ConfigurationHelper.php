@@ -31,6 +31,7 @@ use Celsius3\Form\Type\ConfirmationType;
 use Celsius3\Form\Type\LanguageType;
 use Celsius3\Form\Type\LogoSelectorType;
 use Celsius3\Form\Type\ResultsType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,6 +44,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConfigurationHelper
 {
@@ -84,236 +86,236 @@ class ConfigurationHelper
     public const CONF__HOME_STATISTICS_VISIBLE = 'home_statistics_visible';
     public const CONF__HOME_HELP_VISIBLE = 'home_help_visible';
     public const CONF__EMAIL_DOMAIN_FOR_REGISTRATION = 'email_domain_for_registration';
-    public $languages = array(
+    public $languages = [
         'Spanish' => 'es',
         'English' => 'en',
         'Portuguese' => 'pt',
-    );
-    public $confirmation = array(
+    ];
+    public $confirmation = [
         'Administrator confirmation' => 'admin',
         'Email confirmation' => 'email',
-    );
-    public $results = array(
+    ];
+    public $results = [
         '10' => '10',
         '15' => '15',
         '25' => '25',
-    );
-    public $configurations = array(
-        self::CONF__INSTANCE_TITLE => array(
+    ];
+    public $configurations = [
+        self::CONF__INSTANCE_TITLE => [
             'name' => 'Title',
             'value' => 'Default title',
             'type' => 'string',
-        ),
-        self::CONF__INSTANCE_TAGLINE => array(
+        ],
+        self::CONF__INSTANCE_TAGLINE => [
             'name' => 'Tagline',
             'value' => 'Instance description',
             'type' => 'string',
-        ),
-        self::CONF__INSTANCE_STAFF => array(
+        ],
+        self::CONF__INSTANCE_STAFF => [
             'name' => 'Staff',
             'value' => 'Instance Staff',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__RESULTS_PER_PAGE => array(
+        ],
+        self::CONF__RESULTS_PER_PAGE => [
             'name' => 'Results per page',
             'value' => '10',
             'type' => 'results',
-        ),
-        self::CONF__EMAIL_REPLY_ADDRESS => array(
+        ],
+        self::CONF__EMAIL_REPLY_ADDRESS => [
             'name' => 'Reply to',
             'value' => 'sample@instance.edu',
             'type' => 'email',
-        ),
-        self::CONF__INSTANCE_DESCRIPTION => array(
+        ],
+        self::CONF__INSTANCE_DESCRIPTION => [
             'name' => 'Instance description',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__INSTANCE_INFORMATION => array(
+        ],
+        self::CONF__INSTANCE_INFORMATION => [
             'name' => 'Instance information',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__DEFAULT_LANGUAGE => array(
+        ],
+        self::CONF__DEFAULT_LANGUAGE => [
             'name' => 'Default language',
             'value' => 'es',
             'type' => 'language',
-        ),
-        self::CONF__CONFIRMATION_TYPE => array(
+        ],
+        self::CONF__CONFIRMATION_TYPE => [
             'name' => 'Confirmation type',
             'value' => 'email',
             'type' => 'confirmation',
-        ),
-        self::CONF__MAIL_SIGNATURE => array(
+        ],
+        self::CONF__MAIL_SIGNATURE => [
             'name' => 'Mail signature',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__MIN_DAYS_FOR_SEND_MAIL => array(
+        ],
+        self::CONF__MIN_DAYS_FOR_SEND_MAIL => [
             'name' => 'Minimun days for send emails',
             'value' => '5',
             'type' => 'integer',
-        ),
-        self::CONF__MAX_DAYS_FOR_SEND_MAIL => array(
+        ],
+        self::CONF__MAX_DAYS_FOR_SEND_MAIL => [
             'name' => 'Maximun days for send emails',
             'value' => '10',
             'type' => 'integer',
-        ),
-        self::CONF__INSTANCE_LOGO => array(
+        ],
+        self::CONF__INSTANCE_LOGO => [
             'name' => 'Instance Logo',
             'value' => '',
             'type' => 'image',
             'required' => false,
-        ),
-        self::CONF__INSTANCE_CSS => array(
+        ],
+        self::CONF__INSTANCE_CSS => [
             'name' => 'Instance CSS',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__SMTP_HOST => array(
+        ],
+        self::CONF__SMTP_HOST => [
             'name' => 'SMTP Host',
             'value' => '',
             'type' => 'string',
-        ),
-        self::CONF__SMTP_PORT => array(
+        ],
+        self::CONF__SMTP_PORT => [
             'name' => 'SMTP Port',
             'value' => '',
             'type' => 'integer',
-        ),
-        self::CONF__SMTP_PROTOCOL => array(
+        ],
+        self::CONF__SMTP_PROTOCOL => [
             'name' => 'SMTP Protocol',
             'value' => 'ssl',
             'type' => 'select',
-        ),
-        self::CONF__SMTP_USERNAME => array(
+        ],
+        self::CONF__SMTP_USERNAME => [
             'name' => 'SMTP Username',
             'value' => '',
             'type' => 'string',
-        ),
-        self::CONF__SMTP_PASSWORD => array(
+        ],
+        self::CONF__SMTP_PASSWORD => [
             'name' => 'SMTP Password',
             'value' => '',
             'type' => 'password',
-        ),
-        self::CONF__SMTP_STATUS => array(
+        ],
+        self::CONF__SMTP_STATUS => [
             'name' => 'SMTP Status',
             'value' => true,
             'type' => 'hidden',
-        ),
-        self::CONF__DOWNLOAD_TIME => array(
+        ],
+        self::CONF__DOWNLOAD_TIME => [
             'name' => 'Download time in hours',
             'value' => '24',
             'type' => 'integer',
-        ),
-        self::CONF__SHOW_NEWS => array(
+        ],
+        self::CONF__SHOW_NEWS => [
             'name' => 'Show news',
             'value' => true,
             'type' => 'boolean',
             'required' => false,
-        ),
-        self::CONF__RESETTING_CHECK_EMAIL_TITLE => array(
+        ],
+        self::CONF__RESETTING_CHECK_EMAIL_TITLE => [
             'name' => 'Resetting title',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__RESETTING_CHECK_EMAIL_TEXT => array(
+        ],
+        self::CONF__RESETTING_CHECK_EMAIL_TEXT => [
             'name' => 'Resetting text',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TITLE => array(
+        ],
+        self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TITLE => [
             'name' => 'Password already requested title',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT => array(
+        ],
+        self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT => [
             'name' => 'Password already requested text',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__signin_confirmation_TITLE => array(
+        ],
+        self::CONF__signin_confirmation_TITLE => [
             'name' => 'Wait confirmation title',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__signin_confirmation_TEXT => array(
+        ],
+        self::CONF__signin_confirmation_TEXT => [
             'name' => 'Wait confirmation text',
             'value' => '',
             'type' => 'text',
             'required' => false,
-        ),
-        self::CONF__HOME_HOME_BTN_TEXT => array(
+        ],
+        self::CONF__HOME_HOME_BTN_TEXT => [
             'name' => 'Home button text',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__HOME_NEWS_BTN_TEXT => array(
+        ],
+        self::CONF__HOME_NEWS_BTN_TEXT => [
             'name' => 'News button text',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__HOME_NEWS_VISIBLE => array(
+        ],
+        self::CONF__HOME_NEWS_VISIBLE => [
             'name' => '',
             'value' => true,
             'type' => 'boolean',
             'required' => false,
-        ),
-        self::CONF__HOME_INFORMATION_BTN_TEXT => array(
+        ],
+        self::CONF__HOME_INFORMATION_BTN_TEXT => [
             'name' => '',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__HOME_INFORMATION_VISIBLE => array(
+        ],
+        self::CONF__HOME_INFORMATION_VISIBLE => [
             'name' => '',
             'value' => true,
             'type' => 'boolean',
             'required' => false,
-        ),
-        self::CONF__HOME_STATISTICS_BTN_TEXT => array(
+        ],
+        self::CONF__HOME_STATISTICS_BTN_TEXT => [
             'name' => '',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__HOME_STATISTICS_VISIBLE => array(
+        ],
+        self::CONF__HOME_STATISTICS_VISIBLE => [
             'name' => '',
             'value' => true,
             'type' => 'boolean',
             'required' => false,
-        ),
-        self::CONF__HOME_HELP_BTN_TEXT => array(
+        ],
+        self::CONF__HOME_HELP_BTN_TEXT => [
             'name' => '',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-        self::CONF__HOME_HELP_VISIBLE => array(
+        ],
+        self::CONF__HOME_HELP_VISIBLE => [
             'name' => '',
             'value' => true,
             'type' => 'boolean',
             'required' => false,
-        ),
-        self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION => array(
+        ],
+        self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION => [
             'name' => '',
             'value' => '',
             'type' => 'string',
             'required' => false,
-        ),
-    );
-    private $equivalences = array(
+        ],
+    ];
+    private $equivalences = [
         'string' => TextType::class,
         'boolean' => CheckboxType::class,
         'integer' => IntegerType::class,
@@ -328,13 +330,12 @@ class ConfigurationHelper
         'time' => TimeType::class,
         'select' => ChoiceType::class,
         'hidden' => HiddenType::class,
-    );
-    private $container;
+    ];
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TranslatorInterface $translator
+    ) {
         $this->configureConstraints();
     }
 
@@ -360,7 +361,7 @@ class ConfigurationHelper
 
         $this->configurations[self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION]['constraints'] = [
             new EmailDomain([
-                                'message' => $this->container->get('translator')->trans(
+                                'message' => $this->translator->trans(
                                     'The domain is not valid',
                                     [],
                                     'Form'
@@ -389,20 +390,12 @@ class ConfigurationHelper
     {
         $value = null;
 
-        switch ($configuration->getType()) {
-            case 'boolean':
-                $value = (bool)$configuration->getValue();
-                break;
-            case 'integer':
-            case 'results':
-                $value = (int)$configuration->getValue();
-                break;
-            case 'file':
-                $value = null;
-                break;
-            default:
-                $value = $configuration->getValue();
-        }
+        $value = match ($configuration->getType()) {
+            'boolean' => (bool)$configuration->getValue(),
+            'integer', 'results' => (int)$configuration->getValue(),
+            'file' => null,
+            default => $configuration->getValue(),
+        };
 
         return $value;
     }
@@ -420,7 +413,7 @@ class ConfigurationHelper
 
     public function updateConfigurations()
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
         $instances = $em->getRepository(Instance::class)->findAll();
 
         foreach ($this->configurations as $key => $configuration) {
@@ -448,8 +441,6 @@ class ConfigurationHelper
 
     public function getConstraints(Configuration $configuration)
     {
-        return (isset(
-            $this->configurations[$configuration->getKey()]['constraints']
-        )) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
+        return $this->configurations[$configuration->getKey()]['constraints'] ?? [];
     }
 }

@@ -14,13 +14,11 @@ use Doctrine\ORM\QueryBuilder;
 class ThreadManager // extends BaseThreadManager
 {
 
-    protected EntityManagerInterface $entityManager;
     protected EntityRepository $repository;
 
     public function __construct(
-        EntityManagerInterface $entityManager
+        protected EntityManagerInterface $entityManager
     ) {
-        $this->entityManager = $entityManager;
         $this->repository = $this->entityManager
             ->getRepository(Thread::class);
     }

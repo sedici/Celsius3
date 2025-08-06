@@ -31,6 +31,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * ContactRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\Celsius3\Entity\Contact>
  */
 class ContactRepository extends ServiceEntityRepository
 {

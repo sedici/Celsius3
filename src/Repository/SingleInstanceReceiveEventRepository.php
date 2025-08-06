@@ -22,11 +22,16 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Event\SingleInstanceReceiveEvent;
+
 /**
  * SingleInstanceReceiveEventRepository.
  */
 class SingleInstanceReceiveEventRepository extends BaseRepository
 {
+    protected static $entityClass = SingleInstanceReceiveEvent::class;
+
+
     public function getEventsWithoutDeliveryType()
     {
         return $this->createQueryBuilder('s')->where('s.deliveryType IS NULL');

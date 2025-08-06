@@ -22,17 +22,21 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\NewsController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
  * News controller.
- * @Route("/superadmin/news")
  */
+#[
+    Route('/superadmin/news'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminNewsController extends NewsController
 {
 
@@ -58,8 +62,8 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Lists all News entities.
-     * @Route("/", name="superadmin_news")
      */
+    #[Route('/', name: 'superadmin_news')]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -72,10 +76,9 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Finds and displays a News entity.
-     * @Route("/{id}", name="superadmin_news_show")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}', name: 'superadmin_news_show')]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -87,8 +90,8 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Displays a form to create a new News entity.
-     * @Route("/new", name="superadmin_news_new")
      */
+    #[Route('/new', name: 'superadmin_news_new')]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -100,8 +103,8 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Creates a new News entity.
-     * @Route("/create", name="superadmin_news_create", methods={"POST"})
      */
+    #[Route('/create', name: 'superadmin_news_create', methods: ['POST'])]
     public function htmlCreate(): Response
     {
         return $this->htmlRenderer->render(
@@ -113,10 +116,9 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Displays a form to edit an existing News entity.
-     * @Route("/{id}/edit", name="superadmin_news_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'superadmin_news_edit')]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -128,10 +130,9 @@ class HtmlSuperadminNewsController extends NewsController
 
     /**
      * Edits an existing News entity.
-     * @Route("/{id}/update", name="superadmin_news_update", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'superadmin_news_update', methods: ['POST'])]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(

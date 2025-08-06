@@ -32,20 +32,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixUsersCommand extends Command
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var Connection
-     */
-    private $connection;
-
-    public function __construct(EntityManagerInterface $entityManager, Connection $connection)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly Connection $connection)
     {
         parent::__construct();
-        $this->entityManager = $entityManager;
-        $this->connection = $connection;
     }
 
     protected function configure()
@@ -70,10 +59,10 @@ class FixUsersCommand extends Command
             $entity = 'usuarios';
             $query->bindParam('id', $id);
             $query->bindParam('entity', $entity, PDO::PARAM_STR);
-            $query->execute();
+            $query->executeQuery();
 
             $t = $query->fetch();
-            $data = unserialize(base64_decode($t['tuple']));
+            $data = unserialize(base64_decode((string) $t['tuple']));
             if (intval($data['Codigo_FormaEntrega']) === 1) {
                 $user->setPdf(false);
                 $em->persist($user);

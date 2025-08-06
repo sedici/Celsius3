@@ -22,11 +22,16 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Event\SearchEvent;
+
 /**
  * SearchEventRepository.
  */
 class SearchEventRepository extends BaseRepository
 {
+    protected static $entityClass = SearchEvent::class;
+
+
     public function getEventSearchCount()
     {
         return $this->createQueryBuilder('s')->select('COUNT(s.id)');

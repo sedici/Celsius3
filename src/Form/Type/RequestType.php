@@ -136,9 +136,7 @@ class RequestType extends AbstractType
                         'attr' => [
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => ($options['user'] !== null)
-                                ? $options['user']
-                                : '',
+                            'value' => $options['user'] ?? '',
                         ],
                         'mapped' => false,
                         'label' => 'Owner',
@@ -159,9 +157,7 @@ class RequestType extends AbstractType
                         'attr' => [
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => ($options['user'] !== null)
-                                ? $options['user']
-                                : '',
+                            'value' => $options['user'] ?? '',
                         ],
                         'mapped' => false,
                         'label' => 'Owner',
@@ -183,7 +179,7 @@ class RequestType extends AbstractType
                     ]
                 );
         }
-        
+
         if (
             array_key_exists('instance', $options)
             && $options['instance'] !== null

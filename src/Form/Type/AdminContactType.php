@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\Entity\Contact;
 use Celsius3\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\Helper\InstanceHelper;
@@ -54,7 +55,7 @@ class AdminContactType extends ContactType
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->entityManager);
         $builder->addEventSubscriber($subscriber);
 
-        $customFieldsSubscriber = new AddCustomFieldsSubscriber('Contact', $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionInstance(), true);
+        $customFieldsSubscriber = new AddCustomFieldsSubscriber(Contact::class, $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionInstance(), true);
         $builder->addEventSubscriber($customFieldsSubscriber);
     }
 

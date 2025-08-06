@@ -35,6 +35,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * BaseUserRepository.
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\Celsius3\Entity\BaseUser>
  */
 class BaseUserRepository extends ServiceEntityRepository implements BaseUserRepositoryInterface
 {
@@ -132,12 +133,12 @@ class BaseUserRepository extends ServiceEntityRepository implements BaseUserRepo
                 ->setParameter('instance_id', $instance->getId());
         }
 
-        return array(
+        return [
             'pending' => count($qb->getQuery()->getResult()),
-        );
+        ];
     }
 
-    public function findByTerm($term, Instance $instance = null, $limit = null, array $institutions = array())
+    public function findByTerm($term, Instance $instance = null, $limit = null, array $institutions = [])
     {
         $qb = $this->createQueryBuilder('u');
 

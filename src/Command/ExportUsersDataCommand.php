@@ -38,14 +38,9 @@ use function array_key_exists;
 
 final class ExportUsersDataCommand extends Command
 {
-    private $entityManager;
-    private $dataRequestDirectory;
-
-    public function __construct(EntityManagerInterface $entityManager, string $dataRequestDirectory)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly string $dataRequestDirectory)
     {
         parent::__construct();
-        $this->entityManager = $entityManager;
-        $this->dataRequestDirectory = $dataRequestDirectory;
     }
 
     protected function configure(): void
@@ -122,7 +117,7 @@ final class ExportUsersDataCommand extends Command
 
     private function add($value, $queryBuilder)
     {
-        $function = 'add' . str_replace('_', '', ucwords($value, '_'));
+        $function = 'add' . str_replace('_', '', ucwords((string) $value, '_'));
         $this->$function($queryBuilder);
     }
 

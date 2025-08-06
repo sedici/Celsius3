@@ -22,10 +22,22 @@
 
 namespace Celsius3\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Celsius3\Entity\Notification;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class NotificationRepository extends EntityRepository
+
+/**
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\Celsius3\Entity\Notification>
+ */
+class NotificationRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Notification::class);
+    }
+
+
     public function getUnreadNotificationsCount($user_id)
     {
         return $this->createQueryBuilder('n')

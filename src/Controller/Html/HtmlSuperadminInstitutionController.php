@@ -22,17 +22,18 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\InstitutionController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Location controller.
- *
- * @Route("/superadmin/institution")
- */
+
+#[
+    Route('/superadmin/institution'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminInstitutionController extends InstitutionController
 {
 
@@ -46,8 +47,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Lists all Institution entities.
-     * @Route("/", name="superadmin_institution")
      */
+    #[Route('/', name: 'superadmin_institution')]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -59,8 +60,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Displays a form to create a new Institution entity.
-     * @Route("/new", name="superadmin_institution_new")
      */
+    #[Route('/new', name: 'superadmin_institution_new')]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -72,8 +73,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Creates a new Institution entity.
-     * @Route("/create", name="superadmin_institution_create", methods={"POST"})
      */
+    #[Route('/create', name: 'superadmin_institution_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -85,10 +86,9 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Displays a form to edit an existing Institution entity.
-     * @Route("/{id}/edit", name="superadmin_institution_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'superadmin_institution_edit')]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -100,10 +100,9 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Edits an existing Institution entity.
-     * @Route("/{id}/update", name="superadmin_institution_update", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'superadmin_institution_update', methods: ['POST'])]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -115,9 +114,9 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Batch actions.
-     * @Route("/batch", name="superadmin_institution_batch")
      * @return array
      */
+    #[Route('/batch', name: 'superadmin_institution_batch')]
     public function batch()
     { return $this->baseBatch(); }
 
@@ -133,8 +132,8 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Unifies a group of Institution entities.
-     * @Route("/doUnion", name="superadmin_institution_doUnion", methods={"POST"})
      */
+    #[Route('/doUnion', name: 'superadmin_institution_doUnion', methods: ['POST'])]
     public function doUnion(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -152,10 +151,9 @@ class HtmlSuperadminInstitutionController extends InstitutionController
 
     /**
      * Displays a form to edit an existing Institution entity.
-     * @Route("/{id}", name="superadmin_institution_show")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}', name: 'superadmin_institution_show')]
     public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(

@@ -32,23 +32,18 @@ use Celsius3\Entity\Login;
 
 class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterface
 {
-    private $requestStack;
-    private $em;
-
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
+    public function __construct(private readonly RequestStack $requestStack, private readonly EntityManagerInterface $em)
     {
-        $this->requestStack = $requestStack;
-        $this->em = $em;
     }
 
     public function matchesClass(\ReflectionClass $class)
     {
-        return false !== strpos($class->name, 'UsernamePasswordFormAuthenticationListener');
+        return str_contains($class->name, 'UsernamePasswordFormAuthenticationListener');
     }
 
     public function matchesMethod(\ReflectionMethod $method)
     {
-        return false !== strpos($method->name, 'attemptAuthentication');
+        return str_contains($method->name, 'attemptAuthentication');
     }
 
     public function intercept(MethodInvocation $invocation)

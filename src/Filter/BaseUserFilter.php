@@ -29,7 +29,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class BaseUserFilter implements EntityFilterInterface
 {
-    private $entityManager;
     private $specialFields = [
         'state' => 'addFindByStateType',
         'roles' => 'addFindByRole',
@@ -37,9 +36,8 @@ class BaseUserFilter implements EntityFilterInterface
         'city' => 'addFindByCity',
     ];
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function applyCustomFilter($field_name, $data, $query, $instance)

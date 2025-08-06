@@ -63,7 +63,7 @@ class CustomField
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $type;
+    private ?string $type = null;
 
 
     #[ORM\Column(type: 'text', nullable: true)]

@@ -36,7 +36,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
     ORM\Index(name: 'idx_name', columns: ['name']),
     ORM\Index(name: 'idx_instance', columns: ['instance_id'])
 ]
-class Country
+class Country implements \Stringable
 {
     use TimestampableEntity;
 

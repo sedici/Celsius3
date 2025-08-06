@@ -76,9 +76,7 @@ class BaseUserType extends RegistrationFormType
                         'instance',
                         null,
                         [
-                            'query_builder' => static function (EntityRepository $repository) {
-                                return $repository->findAllExceptDirectory();
-                            },
+                            'query_builder' => static fn(EntityRepository $repository) => $repository->findAllExceptDirectory(),
                         ]
                     );
             } else {

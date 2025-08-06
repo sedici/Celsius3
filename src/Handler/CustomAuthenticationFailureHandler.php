@@ -26,11 +26,13 @@ namespace Celsius3\Handler;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
 use Symfony\Component\Security\Http\HttpUtils;
+
 
 class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
 {
@@ -45,7 +47,7 @@ class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHan
         $this->router = $router;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $response = parent::onAuthenticationFailure($request, $exception);
         $response->setTargetUrl($this->router->generate('login'));

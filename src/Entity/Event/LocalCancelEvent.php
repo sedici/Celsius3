@@ -28,8 +28,9 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\LocalCancelEventRepository;
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: LocalCancelEventRepository::class)]
 class LocalCancelEvent extends MultiInstanceEvent
 {
     public function getEventType(): string

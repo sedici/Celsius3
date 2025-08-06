@@ -29,6 +29,8 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\Entity;
+use Celsius3\Entity\Configuration;
+use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 
 /**
@@ -36,19 +38,17 @@ use Celsius3\Helper\InstanceHelper;
  *
  * @author agustin
  */
-class DirectoryLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class DirectoryLoader extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
-    private $container;
-    private $contact_types = array(
+    private $contact_types = [
         'Director',
         'Librarian',
         'Technician',
-    );
-    
-    public function setContainer(?ContainerInterface $container = null): void
-    {
-        $this->container = $container;
-    }
+    ];
+
+    public function __construct(
+        private readonly ConfigurationHelper $configurationHelper,
+    ) { }
 
     public function load(ObjectManager $manager): void
     {
@@ -78,7 +78,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Configuración del directorio
          */
-        foreach ($this->container->get('celsius3_core.configuration_helper')->configurations as $key => $data) {
+        foreach ($this->configurationHelper->configurations as $key => $data) {
             $configuration = new Entity\Configuration();
             $configuration->setName($data['name']);
             $configuration->setKey($key);

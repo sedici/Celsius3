@@ -24,11 +24,12 @@ namespace Celsius3\Entity;
 
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\MessageMetadataRepository;
 
 
 #[
     ORM\Table(name: "message_metadata"),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: MessageMetadataRepository::class),
 
     ORM\Index(name: "idx_message", columns: ["message_id"]),
     ORM\Index(name: "idx_participant", columns: ["participant_id"]),

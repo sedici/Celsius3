@@ -26,41 +26,36 @@ namespace Celsius3\Handler;
 
 use Celsius3\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
 use Symfony\Component\Security\Http\HttpUtils;
 
+
 class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
 {
-    private $router;
-    private $authorization_checker;
-
     public function __construct(
-        RouterInterface $router,
-        AuthorizationCheckerInterface $authorization_checker,
+        private readonly RouterInterface $router,
+        private readonly AuthorizationCheckerInterface $authorization_checker,
         HttpUtils $httpUtils,
         array $options = []
     ) {
         parent::__construct($httpUtils, $options);
-        $this->router = $router;
-        $this->authorization_checker = $authorization_checker;
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
     {
-        dump('paso');
         $response = parent::onAuthenticationSuccess($request, $token);
 
-        if (!(strpos($response->getTargetUrl(), 'redirect') === false)) {
+        if (!(!str_contains((string) $response->getTargetUrl(), 'redirect'))) {
             return $response;
         }
 
-        if ($this->authorization_checker->isGranted(array(UserManager::ROLE_SUPER_ADMIN))) {
+        if ($this->authorization_checker->isGranted([UserManager::ROLE_SUPER_ADMIN])) {
             $response->setTargetUrl($this->router->generate('superadministration'));
-        } elseif ($this->authorization_checker->isGranted(array(UserManager::ROLE_ADMIN))) {
+        } elseif ($this->authorization_checker->isGranted([UserManager::ROLE_ADMIN])) {
             $response->setTargetUrl($this->router->generate('administration'));
         } else {
             $response->setTargetUrl($this->router->generate('user_index'));

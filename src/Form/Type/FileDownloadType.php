@@ -40,21 +40,21 @@ class FileDownloadType extends AbstractType
             if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add('instance');
             } else {
-                $builder->add('instance', InstanceSelectorType::class, array(
+                $builder->add('instance', InstanceSelectorType::class, [
                     'data' => $options['instance'],
-                    'attr' => array(
+                    'attr' => [
                         'value' => $options['instance']->getId(),
                         'readonly' => 'readonly',
-                    ),
-                ));
+                    ],
+                ]);
             }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
-        ));
+        ]);
     }
 }

@@ -24,6 +24,7 @@ namespace Celsius3\Repository;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\State;
 use Celsius3\Manager\StateManager;
 use Doctrine\ORM\Query\Expr\Join;
 
@@ -32,6 +33,9 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class StateRepository extends BaseRepository
 {
+    protected static $entityClass = State::class;
+
+
     public function countUserOrders(Instance $instance, BaseUser $user)
     {
         $types = StateManager::$stateTypes;
@@ -45,7 +49,7 @@ class StateRepository extends BaseRepository
             ->setParameter('user', $user)
             ->groupBy('s.type');
 
-        $result = array();
+        $result = [];
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }
@@ -83,7 +87,7 @@ class StateRepository extends BaseRepository
                 ->setParameter('user', $user);
         }
 
-        $result = array();
+        $result = [];
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }
@@ -338,7 +342,7 @@ class StateRepository extends BaseRepository
             ->setParameter('user', $user)
             ->groupBy('s.type');
 
-        $result = array();
+        $result = [];
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }
@@ -392,7 +396,7 @@ class StateRepository extends BaseRepository
        // die;
 
 
-        $result = array();
+        $result = [];
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }

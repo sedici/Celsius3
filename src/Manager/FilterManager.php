@@ -38,30 +38,8 @@ use ReflectionClass;
 
 class FilterManager
 {
-    private $field_guesser;
-    /**
-     * @var OrderFilter
-     */
-    private $orderFilter;
-    /**
-     * @var BaseUserFilter
-     */
-    private $baseUserFilter;
-    /**
-     * @var CatalogFilter
-     */
-    private $catalogFilter;
-
-    public function __construct(
-        FieldGuesser $field_guesser,
-        OrderFilter $orderFilter,
-        BaseUserFilter $baseUserFilter,
-        CatalogFilter $catalogFilter
-    ) {
-        $this->field_guesser = $field_guesser;
-        $this->orderFilter = $orderFilter;
-        $this->baseUserFilter = $baseUserFilter;
-        $this->catalogFilter = $catalogFilter;
+    public function __construct(private readonly FieldGuesser $field_guesser, private readonly OrderFilter $orderFilter, private readonly BaseUserFilter $baseUserFilter, private readonly CatalogFilter $catalogFilter)
+    {
     }
 
 

@@ -34,8 +34,6 @@ use Celsius3\Entity\Journal;
 use Celsius3\Entity\JournalType;
 use Celsius3\Entity\Order;
 use Celsius3\Manager\CatalogManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr\Join;
 
 /**
@@ -43,11 +41,8 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class EventRepository extends BaseRepository
 {
+    protected static $entityClass = Event::class;
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        parent::__construct($em, new ClassMetadata(Event::class));
-    }
 
     private function generalSearch()
     {
@@ -257,12 +252,7 @@ class EventRepository extends BaseRepository
 
         $results = array_merge($sir, $mir);
 
-        usort($results, function (Event $a, Event $b) {
-            if ($a->getCreatedAt() == $b->getCreatedAt()) {
-                return 0;
-            }
-            return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
-        });
+        usort($results, fn(Event $a, Event $b) => $b->getCreatedAt() <=> $a->getCreatedAt());
 
         return $results;
     }
@@ -286,8 +276,6 @@ class EventRepository extends BaseRepository
 
         $qb->orderBy('erec.createdAt', 'DESC');
 
-         return array_filter($qb->getQuery()->getResult(), function ($var) use ($receiveEventClass) {
-            return ($var instanceof $receiveEventClass) ? true : false;
-        });
+         return array_filter($qb->getQuery()->getResult(), fn($var) => ($var instanceof $receiveEventClass) ? true : false);
     }
 }

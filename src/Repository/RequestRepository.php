@@ -22,17 +22,20 @@
 
 namespace Celsius3\Repository;
 
-use Celsius3\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\Entity\Request;
 use Celsius3\Manager\EventManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\ResultSetMapping;
+
 
 /**
  * RequestRepository.
  */
 class RequestRepository extends BaseRepository
 {
+    protected static $entityClass = Request::class;
+
+
     public function countActiveUsersFor($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('request');

@@ -96,7 +96,7 @@ class Contact
 
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "contacts")]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
-    private ?Instance $instance;
+    private ?Instance $instance = null;
 
 
     #[Assert\NotNull]

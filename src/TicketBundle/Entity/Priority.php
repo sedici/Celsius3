@@ -27,11 +27,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="ticket_priority")
- */
-class Priority
+#[ORM\Entity]
+#[ORM\Table(name: 'ticket_priority')]
+class Priority implements \Stringable
 {
     public const PRIORITY_ALTA = 1;
     public const PRIORITY_MEDIA = 2;
@@ -39,17 +37,13 @@ class Priority
 
     use TimestampableEntity;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
     private $priority;
 
     public function __construct()
@@ -90,8 +84,8 @@ class Priority
         return $this->priority;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->priority;
+        return (string) $this->priority;
     }
 }

@@ -24,35 +24,40 @@ namespace Celsius3\Controller\Html;
 
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\State;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Core\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
- * Location controller.
- * @Route("/superadmin/statistic")
+ * Superadmin statistics controller.
  */
+#[
+    Route('/superadmin/statistic'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class SuperadminStatisticsController extends Controller
 {
 
     /**
-     * Lists all Catalog entities.
-     * @Route("/", name="superadmin_statistics")
+     * Show statistics.
      */
+    #[Route('/', name: 'superadmin_statistics')]
     public function index(): Response
     {
 
         $orderType = null;
         $user=null;
-        $orderCount = $this->objectManager
+        $orderCount = $this->entityManager
             ->getRepository(State::class)
             ->countOrders(
                 $this->instance, $user, $orderType
             );
 
-        $repository = $this->objectManager
+        $repository = $this->entityManager
             ->getRepository(BaseUser::class);
 
         $admins = $repository->findManagerOrder($this->instance);
@@ -69,8 +74,8 @@ class SuperadminStatisticsController extends Controller
 
     /**
      * GET Route annotation.
-     * @POST("/pedidos-por-estado", name="pedidos_por_estados", options={"expose"=true})
      */
+    #[Post('/pedidos-por-estado', name: 'pedidos_por_estados', options: ['expose' => true])]
     public function getPedidosPorEstado(): JsonResponse
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -83,17 +88,17 @@ class SuperadminStatisticsController extends Controller
         if (empty($usuario)){
             $usuario = null;
 
-            $repository = $this->objectManager->getRepository(BaseUser::class);
+            $repository = $this->entityManager->getRepository(BaseUser::class);
             $managers = $repository->findManagerOrder($this->instance);
 
             $array_user = [];
 
             foreach ($managers as $m){
-                $user = $this->objectManager
+                $user = $this->entityManager
                     ->getRepository(BaseUser::class)
                     ->find($m);
 
-                $countUserOrders = $this->objectManager
+                $countUserOrders = $this->entityManager
                     ->getRepository(State::class)
                     ->countOrdersEntreFechas(
                         $this->instance,
@@ -106,11 +111,11 @@ class SuperadminStatisticsController extends Controller
                 $array_user[$user->getId()]['estados']=$countUserOrders;
             }
         } else {
-            $user = $this->objectManager
+            $user = $this->entityManager
                 ->getRepository(BaseUser::class)
                 ->find($usuario);
 
-            $countUserOrders = $this->objectManager
+            $countUserOrders = $this->entityManager
                 ->getRepository(State::class)
                 ->countOrdersEntreFechas(
                     $this->instance,
@@ -131,8 +136,12 @@ class SuperadminStatisticsController extends Controller
 
     /**
      * GET Route annotation.
-     * @POST("/pedidos-por-estado-por-anio", name="pedidos_por_estados_anio", options={"expose"=true})
      */
+    #[Route(
+        '/pedidos-por-estado-por-anio',
+        name: 'pedidos_por_estados_anio',
+        options: ['expose' => true]
+    )]
     public function getPedidosPorEstadoPorAnio(): JsonResponse
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -144,18 +153,18 @@ class SuperadminStatisticsController extends Controller
         $array_json = [];
         if (empty($usuario)){
             $usuario=null;
-            $repository = $this->objectManager
+            $repository = $this->entityManager
                 ->getRepository(BaseUser::class);
 
             $managers = $repository->findManagerOrder($this->instance);
             $array_user = [];
 
             foreach ($managers as $m){
-                $user = $this->objectManager
+                $user = $this->entityManager
                     ->getRepository(BaseUser::class)
                     ->find($m);
 
-                $countUserOrders = $this->objectManager
+                $countUserOrders = $this->entityManager
                     ->getRepository(State::class)
                     ->findRequestsStateCountForUser(
                         $this->instance,
@@ -167,11 +176,11 @@ class SuperadminStatisticsController extends Controller
                 $array_user[$user->getId()]['estados']=$countUserOrders;
             }
         } else {
-            $user = $this->objectManager
+            $user = $this->entityManager
                 ->getRepository(BaseUser::class)
                 ->find($usuario);
 
-            $countUserOrders = $this->objectManager
+            $countUserOrders = $this->entityManager
                 ->getRepository(State::class)
                 ->findRequestsStateCountForUser(
                     $this->instance,

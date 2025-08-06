@@ -1,23 +1,29 @@
 dockname := $(shell grep 'name:' docker-compose.yaml | awk '{print $$2}')
 args := $(filter-out $(firstword $(MAKECMDGOALS)), $(MAKECMDGOALS))
+MYSQL_DB := celsius3
+MYSQL_USER := celsius3_usr
+MYSQL_PASS := celsius3_pass
+SQL_FILE := .docker/mysql/celsius3.sql
+MYSQL_DUMP_FILE := .docker/mysql/celsius3_dump.sql
+MYSQL_DUMP_SCHEMA_FILE := .docker/mysql/celsius3_dump_schema.sql
 
-all: build install
+all: docker/build install
 install: composer/install npm/install encore # Tiene que estar corriendo para ejecutar esto
 postbuild: elastica/populate
 
 clean/all: clean/nmodules clean/pbuild clean/jsonpkgs clean/vendor clean/php-cache
 
 
-build:
+docker/build:
 	@docker compose build --no-cache
 
-start:
+docker/start:
 	@[ "$(args)" = "d" ] && docker compose up -d || docker compose up;
 
-start/d:
+docker/start/d:
 	@docker compose up -d
 
-stop:
+docker/stop:
 	@docker compose down
 
 
@@ -54,14 +60,37 @@ encore:
 
 # ------- DATABASE COMMANDS -------
 
-database:
-	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:drop --force
-	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:create
-	@docker exec -i $(dockname)-bd-1 sh -c 'exec mysql -ucelsius3_usr -pcelsius3_pass celsius3' < .docker/mysql/celsius3.sql
+db/create-user:
+	@docker exec -i $(dockname)-bd-1 mysql -uroot -proot -e "\
+		CREATE USER IF NOT EXISTS '$(MYSQL_USER)'@'localhost' IDENTIFIED BY '$(MYSQL_PASS)'; \
+		GRANT ALL PRIVILEGES ON $(MYSQL_DB).* TO '$(MYSQL_USER)'@'localhost'; \
+		FLUSH PRIVILEGES; \
+	"
+	@echo "Usuario '$(MYSQL_USER)' creado y permisos otorgados en la base '$(MYSQL_DB)'."
 
-check/db:
+db/drop:
+	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:drop --force
+
+db/create:
+	@docker exec --user $(id -u):$(id -g) $(dockname)-bd-1 mysql -u$(MYSQL_USER) -p$(MYSQL_PASS) -e "CREATE DATABASE IF NOT EXISTS $(MYSQL_DB);"
+	@echo "Base de datos '$(MYSQL_DB)' creada si no existía."
+
+db/import-sql: db/create-user db/create
+	@docker exec -i $(dockname)-bd-1 mysql -u$(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DB) < '$(args)'
+	@echo "Archivo SQL '$(SQL_FILE)' importado en la base de datos '$(MYSQL_DB)'."
+
+db/check:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:schema:update --dump-sql --complete
 
+db/dump:
+	@echo "Realizando dump compactado de la base de datos $(MYSQL_DB) desde el contenedor $(dockname)-bd-1..."
+	@docker exec $(dockname)-bd-1 sh -c 'exec mysqldump --no-tablespaces --single-transaction --quick --lock-tables=false --compact -uroot -proot $(MYSQL_DB)' | gzip -9 > $(MYSQL_DUMP_FILE).gz
+	@echo "Dump comprimido completado y guardado en $(MYSQL_DUMP_FILE).gz"
+
+db/dump-schema:
+	@echo "Realizando dump del esquema de la base de datos $(MYSQL_DB) desde el contenedor $(dockname)-bd-1..."
+	@docker exec $(dockname)-bd-1 sh -c 'exec mysqldump --no-data --no-tablespaces --single-transaction --quick --lock-tables=false --compact -uroot -proot $(MYSQL_DB)' | gzip -9 > $(MYSQL_DUMP_SCHEMA_FILE).gz
+	@echo "Dump comprimido completado y guardado en $(MYSQL_DUMP_SCHEMA_FILE).gz"
 
 # ------- TEST COMMANDS -------
 
@@ -95,6 +124,12 @@ dx:
 
 elastica/populate:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console fos:elastica:populate
+
+
+# ------- MISCELLANEOUS COMMANDS -------
+
+php/routes:
+	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console debug:router $(args)
 
 
 # ------- ENVIRONMENT COMMANDS -------

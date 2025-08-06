@@ -28,9 +28,10 @@ use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\SearchPendingsEventRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: SearchPendingsEventRepository::class)]
 class SearchPendingsEvent extends SingleInstanceEvent
 {
     public function getEventType(): string

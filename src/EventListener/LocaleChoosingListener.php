@@ -29,11 +29,8 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class LocaleChoosingListener
 {
-    private InstanceHelper $instanceHelper;
-
-    public function __construct(InstanceHelper $instanceHelper)
+    public function __construct(private readonly InstanceHelper $instanceHelper)
     {
-        $this->instanceHelper = $instanceHelper;
     }
 
     public function onKernelRequest(RequestEvent $event)

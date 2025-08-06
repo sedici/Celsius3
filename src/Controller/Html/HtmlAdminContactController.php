@@ -23,7 +23,6 @@
 namespace Celsius3\Controller\Html;
 
 use Celsius3\Helper\CustomFieldHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,7 +38,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,12 +49,17 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
  * AdminContact controller.
- * @Route("/admin/contact")
  */
+#[
+    Route('/admin/contact'),
+    IsGranted('ROLE_ADMIN'),
+]
 class HtmlAdminContactController extends ContactController
 {
 
@@ -67,7 +70,6 @@ class HtmlAdminContactController extends ContactController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -87,7 +89,6 @@ class HtmlAdminContactController extends ContactController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -121,8 +122,8 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Lists all Contact entities.
-     * @Route("/", name="admin_contact")
      */
+    #[Route('/', name: 'admin_contact')]
     public function htmlIndex(): Response
     {
         $query = $this->listQuery();
@@ -154,11 +155,10 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Finds and displays a Contact document.
-     * @Route("/{id}", name="admin_contact_show")
-     * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */
-    public function htmlShow($id): Response
+    #[Route('/{id}', name: 'admin_contact_show')]
+    public function htmlShow(string $id): Response
     {
         return $this->htmlRenderer->render(
             'show',
@@ -169,8 +169,8 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Displays a form to create a new Contact entity.
-     * @Route("/new", name="admin_contact_new")
      */
+    #[Route('/new', name: 'admin_contact_new')]
     public function htmlNew(): Response
     {
         $entityClassName = $this->entityClassName;
@@ -188,8 +188,8 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Creates a new Contact entity.
-     * @Route("/create", name="admin_contact_create", methods={"POST"})
      */
+    #[Route('/create', name: 'admin_contact_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
     {
         $entityClassName = $this->entityClassName;
@@ -207,11 +207,10 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Displays a form to edit an existing Contact entity.
-     * @Route("/{id}/edit", name="admin_contact_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
-    public function htmlEdit($id): Response
+    #[Route('/{id}/edit', name: 'admin_contact_edit')]
+    public function htmlEdit(string $id): Response
     {
         $entity = $this->findQuery($id);
 
@@ -257,10 +256,9 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Edits an existing Contact document.
-     * @Route("/{id}/update", name="admin_contact_update", methods={"POST"})
-     * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */
+    #[Route('/{id}/update', name: 'admin_contact_update', methods: ['POST'])]
     public function htmlUpdate(string $id): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -272,10 +270,9 @@ class HtmlAdminContactController extends ContactController
 
     /**
      * Deletes a Contact document.
-     * @Route("/{id}/delete", name="admin_contact_delete", methods={"POST"})
-     * @param string $id The document ID
      * @throws NotFoundHttpException If document doesn't exists
      */
+    #[Route('/{id}/delete', name: 'admin_contact_delete', methods: ['POST'])]
     public function htmlDelete(string $id)
     {
         return $this->htmlRenderer->render(

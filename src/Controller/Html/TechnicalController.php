@@ -22,6 +22,7 @@
 
 namespace Celsius3\Controller\Html;
 
+use Celsius3\Controller\Base\EmailController;
 use Celsius3\Entity\Instance;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Core\EntityController;
@@ -34,7 +35,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -43,23 +43,26 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-#[Route('/technical')]
+#[
+    Route('/technical'),
+    IsGranted('ROLE_TECHNICAL')
+]
 class TechnicalController extends EntityController
 {
 
     public function __construct(
-        // protected MailerHelper $mailerHelper,
+        readonly protected EmailController $emailController,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -79,7 +82,6 @@ class TechnicalController extends EntityController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -99,14 +101,14 @@ class TechnicalController extends EntityController
     #[Route('/', name: 'technical_index')]
     public function htmlIndex(): Response
     {
-        $instances = $this->objectManager
+        $instances = $this->entityManager
             ->getRepository(Instance::class)
             ->findAllEnabledAndVisible();
 
         $cInstances = [];
         foreach ($instances as $instance) {
             if (!array_key_exists($instance->getOwnerInstitutions()->first()->getCountry()->getName(), $cInstances)) {
-                $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()] = array();
+                $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()] = [];
             }
             $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
         }
@@ -129,7 +131,7 @@ class TechnicalController extends EntityController
 
         $instance_id = $request->get('instance');
 
-        $instance = $this->objectManager
+        $instance = $this->entityManager
             ->getRepository(Instance::class)
             ->createQueryBuilder('i')
             ->andWhere('i.id = :instance_id')
@@ -137,7 +139,7 @@ class TechnicalController extends EntityController
             ->getQuery()
             ->getOneOrNullResult();
 
-        $mailerHelper = $this->mailerHelper;
+        $mailerHelper = $this->emailController;
         $info_connection = $mailerHelper->testConnection(
             $instance->get('smtp_host')->getValue(),
             $instance->get('smtp_port')->getValue(),

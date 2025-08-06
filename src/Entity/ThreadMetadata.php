@@ -25,11 +25,12 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\ThreadMetadataRepository;
 
 
 #[
     ORM\Table(name: "thread_metadata"),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: ThreadMetadataRepository::class),
 
     ORM\Index(name: "idx_thread", columns: ["thread_id"]),
     ORM\Index(name: "idx_participant", columns: ["participant_id"]),
@@ -59,7 +60,7 @@ class ThreadMetadata
         name: "last_message_date",
         nullable: true
     )]
-    protected ?\DateTime $lastMessageDate;
+    protected ?\DateTime $lastMessageDate = null;
 
 
     #[ORM\Column(
@@ -67,7 +68,7 @@ class ThreadMetadata
         name: "last_participant_message_date",
         nullable: true
     )]
-    protected ?\DateTime $lastParticipantMessageDate;
+    protected ?\DateTime $lastParticipantMessageDate = null;
 
 
     #[ORM\Column(name: 'is_deleted', type: 'boolean')]

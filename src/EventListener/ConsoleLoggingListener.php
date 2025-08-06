@@ -42,7 +42,7 @@ class ConsoleLoggingListener
 
         $message = sprintf(
             '%s: %s (uncaught exception) at %s line %s while running console command `%s`',
-            get_class($error),
+            $error::class,
             $error->getMessage(),
             $error->getFile(),
             $error->getLine(),

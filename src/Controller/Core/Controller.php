@@ -40,8 +40,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -60,7 +58,6 @@ abstract class Controller
 {
 
     protected Instance $directory;
-    protected ObjectManager $objectManager;
     protected EntityRepository $repository;
     protected Instance $instance;
     protected FlashBagInterface $flashBag;
@@ -70,7 +67,6 @@ abstract class Controller
         protected PaginatorInterface $paginator,
         protected ConfigurationHelper $configurationHelper,
         protected TranslatorInterface $translator,
-        protected ManagerRegistry $managerRegistry,
         protected RequestStack $requestStack,
         protected UnionManager $unionManager,
         protected UserManager $userManager,
@@ -90,7 +86,6 @@ abstract class Controller
 
     public function initialize(): void
     {
-        $this->objectManager = $this->managerRegistry->getManager();
         $this->setInstance($this->instanceHelper->getSessionOrUrlInstance());
         $this->setDirectory($this->instanceHelper->getDirectory());
         $this->flashBag = $this->session->getBag('flashes');

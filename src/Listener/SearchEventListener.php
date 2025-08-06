@@ -73,10 +73,10 @@ class SearchEventListener
 
             if (array_key_exists('result', $changeset) && $changeset['result'][0] !== $changeset['result'][1]) {
                 $result = $em->getRepository(CatalogResult::class)
-                        ->findOneBy(array(
+                        ->findOneBy([
                     'catalog' => $entity->getCatalog()->getId(),
                     'title' => $title,
-                ));
+                ]);
 
                 if (!$result) {
                     $result = new CatalogResult();
@@ -135,10 +135,10 @@ class SearchEventListener
                     : $materialData->getOther());
 
             $result = $em->getRepository(CatalogResult::class)
-                    ->findOneBy(array(
+                    ->findOneBy([
                 'catalog' => $entity->getCatalog()->getId(),
                 'title' => $title,
-            ));
+            ]);
 
             if (!$result) {
                 $result = new CatalogResult();

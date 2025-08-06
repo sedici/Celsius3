@@ -22,6 +22,7 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Catalog;
 use Celsius3\Entity\CatalogPosition;
 use Celsius3\Entity\CatalogResult;
 use Celsius3\Entity\Instance;
@@ -32,6 +33,10 @@ use Doctrine\ORM\QueryBuilder;
  */
 class CatalogRepository extends BaseRepository
 {
+
+    protected static $entityClass = Catalog::class;
+
+
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')

@@ -35,34 +35,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
-// use Celsius3\Entity\Mixin\SoftDeleteableEntity;
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-// #[ORM\DiscriminatorMap([
-//     'creation' => CreationEvent::class,
-//     'search' => SearchEvent::class,
-//     'sirequest' => SingleInstanceRequestEvent::class,
-//     'cancel' => CancelEvent::class,
-//     'annul' => AnnulEvent::class,
-//     'sireceive' => SingleInstanceReceiveEvent::class,
-//     'mireceive' => MultiInstanceReceiveEvent::class,
-//     'mirequest' => MultiInstanceRequestEvent::class,
-//     'deliver' => DeliverEvent::class,
-//     'localcancel' => LocalCancelEvent::class,
-//     'remotecancel' => RemoteCancelEvent::class,
-//     'reclaim' => ReclaimEvent::class,
-//     'approve' => ApproveEvent::class,
-//     'undo' => UndoEvent::class,
-//     'si' => SingleInstanceEvent::class,
-//     'mi' => MultiInstanceEvent::class,
-//     'take' => TakeEvent::class,
-//     'upload' => UploadEvent::class,
-//     'reupload' => ReuploadEvent::class,
-//     'searchpendings' => SearchPendingsEvent::class,
-//     'nosearchpendings' => NoSearchPendingsEvent::class,
-// ])]
 
 #[
     ORM\Table(name: 'event'),
@@ -114,7 +88,7 @@ abstract class Event implements EventInterface, \Stringable
     private $id;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $observations;
+    private ?string $observations = null;
 
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'events')]
@@ -124,7 +98,7 @@ abstract class Event implements EventInterface, \Stringable
 
     #[ORM\ManyToOne(targetEntity: BaseUser::class, inversedBy: 'events')]
     #[ORM\JoinColumn(name: 'operator_id', referencedColumnName: 'id')]
-    private ?BaseUser $operator;
+    private ?BaseUser $operator = null;
 
 
     #[Assert\NotNull]
@@ -142,7 +116,7 @@ abstract class Event implements EventInterface, \Stringable
     abstract public function getEventType(): string;
 
 
-    public function __toString()
+    public function __toString(): string
     {
         $title = $this->getRequest()->getOrder()->getMaterialData()->getTitle();
         $code = $this->getRequest()->getOrder()->getCode();

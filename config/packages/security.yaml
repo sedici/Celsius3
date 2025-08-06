@@ -1,7 +1,6 @@
 security:
     enable_authenticator_manager: true
 
-    # https://symfony.com/doc/current/security.html#c-hashing-passwords
     password_hashers:
         legacy:
             algorithm: sha512
@@ -17,7 +16,6 @@ security:
             migrate_from:
                 - legacy
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         celsius3_user_provider:
             id: Celsius3\Security\UserProvider
@@ -32,45 +30,31 @@ security:
             pattern: ^/
             form_login:
                 provider: celsius3_user_provider
-#                csrf_token_generator: security.csrf.token_manager
                 login_path: login
                 check_path: login
                 failure_handler: Celsius3\Handler\CustomAuthenticationFailureHandler
                 success_handler: Celsius3\Handler\CustomAuthenticationSuccessHandler
                 default_target_path: user_index
-#                use_referer: true
                 enable_csrf: true
             login_throttling:
                 max_attempts: 3
                 interval: '15 minutes'
             logout:
-                path: logout
+                path: /auth/logout
                 target: public_index
-                success_handler: Celsius3\Handler\CustomLogoutSuccessHandler
-#            anonymous: true
             switch_user: { role: ROLE_ADMIN }
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
 
         oauth_token:
             pattern: ^/api/oauth/v2/token
             security: false
 
         oauth_authorize:
-#            logout_on_user_change: true
             pattern: ^/api/oauth/v2/auth
             form_login:
                 provider: celsius3_user_provider
                 check_path: login
                 login_path: login
             anonymous: false
-
-            # access_token:
-            #     token_handler: App\Security\ApiTokenHandler
 
 
     # Easy way to control access for large sections of your site

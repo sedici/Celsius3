@@ -68,28 +68,28 @@ class ScriptHandler
 
     protected static function executeCommand(Event $event, $appDir, $cmd, $timeout = 300)
     {
-        $php = escapeshellarg(self::getPhp());
+        $php = escapeshellarg((string) self::getPhp());
         $console = escapeshellarg($appDir . '/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
 
         $process = new Process($php . ' ' . $console . ' ' . $cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) {
+        $process->run(function ($type, $buffer): void {
             echo $buffer;
         });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(
                 sprintf(
-                    'An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
+                    'An error occurred when executing the "%s" command.', escapeshellarg((string) $cmd)));
         }
     }
 
     protected static function getOptions(Event $event)
     {
         $options = array_merge(
-            array('symfony-app-dir' => 'app', 'symfony-web-dir' => 'web',
-                'symfony-assets-install' => 'hard'), $event->getComposer()->getPackage()->getExtra());
+            ['symfony-app-dir' => 'app', 'symfony-web-dir' => 'web',
+                'symfony-assets-install' => 'hard'], $event->getComposer()->getPackage()->getExtra());
 
         $options['process-timeout'] = $event->getComposer()->getConfig()
             ->get('process-timeout');

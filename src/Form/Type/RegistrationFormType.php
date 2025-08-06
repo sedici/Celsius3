@@ -120,7 +120,7 @@ class RegistrationFormType extends AbstractType
         ;
 
         $custom_fileds_subscriber = new AddCustomFieldsSubscriber(
-            'BaseUser',
+            BaseUser::class,
             $builder->getFormFactory(),
             $this->entityManager,
             $this->instanceHelper->getSessionOrUrlInstance(),

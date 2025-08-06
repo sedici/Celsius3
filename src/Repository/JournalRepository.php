@@ -23,6 +23,7 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\Journal;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\Query;
 
@@ -31,6 +32,9 @@ use Doctrine\ORM\Query;
  */
 class JournalRepository extends BaseRepository
 {
+    protected static $entityClass = Journal::class;
+
+
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')

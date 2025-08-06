@@ -50,7 +50,6 @@ use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -78,7 +77,6 @@ class ResetPasswordController extends UserController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -101,7 +99,6 @@ class ResetPasswordController extends UserController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -224,7 +221,7 @@ class ResetPasswordController extends UserController
 
         // Genera la url dependiendo de la instancia de donde sea el usuario
         $components = parse_url($url);
-        $path = isset($components['path']) ? $components['path'] : '';
+        $path = $components['path'] ?? '';
         $query = isset($components['query']) ? '?' . $components['query'] : '';
 
         $url = $user->getInstance()->getWebsite() . $path . $query;

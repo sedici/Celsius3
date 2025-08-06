@@ -27,9 +27,10 @@ namespace Celsius3\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use \Celsius3\Repository\BaseRepository;
+use Celsius3\Repository\CustomContactValueRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: CustomContactValueRepository::class)]
 class CustomContactValue extends CustomValue
 {
     #[ORM\Column(type: 'integer')]

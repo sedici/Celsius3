@@ -25,12 +25,14 @@ declare(strict_types=1);
 namespace Celsius3\Controller\Rest;
 
 use Celsius3\Controller\Base\EventController;
+use Celsius3\Manager\EventManager;
+use Rector\TypeDeclaration\Rector\FuncCall\AddArrowFunctionParamArrayWhereDimFetchRector;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 
-// IsGranted('ROLE_ADMIN')
+//IsGranted('ROLE_ADMIN')
 #[
     Route('/rest/v1/admin/event'),
 ]
@@ -74,7 +76,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createAnnulEvent']
+            $this->lifecycleHelper->createAnnulEvent(...)
         );
     }
 
@@ -89,7 +91,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createApproveEvent']
+            $this->lifecycleHelper->createApproveEvent(...)
         );
     }
 
@@ -123,7 +125,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createCreationEvent']
+            $this->lifecycleHelper->createCreationEvent(...)
         );
     }
 
@@ -138,7 +140,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createDeliverEvent']
+            $this->lifecycleHelper->createDeliverEvent(...)
         );
     }
 
@@ -149,13 +151,11 @@ final class RestAdminEventController extends EventController
         methods: ['POST'],
         options: ['expose' => true]
     )]
-    public function createReceiveEvent(string $request_id): Response
+    public function createReceiveEvent(string $request_id, EventManager $eventManager): Response
     {
         $request = $this->findRequest($request_id);
-
-        $http_req = $this->requestStack->getCurrentRequest();
-        $vars = $http_req->request->all();
-        $files = $http_req->files->all();
+        
+        // throw new \Exception((string)var_dump($eventManager->getEvents(EventManager::EVENT__RECEIVE, $request->getId())));
 
         $result = $this->lifecycleHelper->createReceiveEvent($request, $this->instance);
 
@@ -182,7 +182,7 @@ final class RestAdminEventController extends EventController
         );
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createSearchEvent']
+            $this->lifecycleHelper->createSearchEvent(...)
         );
     }
 
@@ -205,7 +205,7 @@ final class RestAdminEventController extends EventController
 
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createRequestEvent']
+            $this->lifecycleHelper->createRequestEvent(...)
         );
     }
 
@@ -220,7 +220,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'createTakeEvent']
+            $this->lifecycleHelper->createTakeEvent(...)
         );
     }
 
@@ -235,7 +235,7 @@ final class RestAdminEventController extends EventController
     {
         return $this->handleEvent(
             $request_id,
-            [$this->lifecycleHelper, 'undoState']
+            $this->lifecycleHelper->undoState(...)
         );
     }
 

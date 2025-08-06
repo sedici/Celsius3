@@ -28,11 +28,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="ticket_type_state")
- */
-class TypeState
+#[ORM\Entity]
+#[ORM\Table(name: 'ticket_type_state')]
+class TypeState implements \Stringable
 {
     public const TYPE_STATE_NEW = 1;
     public const TYPE_STATE_IN_PROGRESS = 2;
@@ -40,17 +38,13 @@ class TypeState
     public const TYPE_STATE_RECHAZADA = 4;
 
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $typeState;
 
     public function __construct()

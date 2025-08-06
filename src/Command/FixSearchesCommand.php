@@ -78,7 +78,7 @@ class FixSearchesCommand extends Command
                 $query->execute();
 
                 $t = $query->fetch();
-                $data = unserialize(base64_decode($t['tuple']));
+                $data = unserialize(base64_decode((string) $t['tuple']));
                 if ($data) {
                     if ($event->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
                         if ($event->getRequest()->getOrder()->getMaterialData()->getJournal() !== null) {

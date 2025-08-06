@@ -27,12 +27,12 @@ namespace Celsius3\Entity;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\Message;
 use Celsius3\Entity\BaseUser;
-use Celsius3\Repository\BaseNotificationRepository;
+use Celsius3\Repository\NotificationEventRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
+#[ORM\Entity(repositoryClass: NotificationEventRepository::class)]
 class EventNotification extends Notification
 {
 

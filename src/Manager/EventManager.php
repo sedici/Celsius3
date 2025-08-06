@@ -24,7 +24,13 @@ namespace Celsius3\Manager;
 
 use Celsius3\Entity\Author;
 use Celsius3\Entity\Catalog;
+use Celsius3\Entity\Event\AnnulEvent;
+use Celsius3\Entity\Event\ApproveEvent;
+use Celsius3\Entity\Event\CancelEvent;
+use Celsius3\Entity\Event\CreationEvent;
+use Celsius3\Entity\Event\DeliverEvent;
 use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\LocalCancelEvent;
 use Celsius3\Entity\Event\SingleInstanceRequestEvent;
 use Celsius3\Entity\Web;
 use Doctrine\ORM\EntityManager;
@@ -34,6 +40,14 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\Entity\Event\MultiInstanceRequestEvent;
 use Celsius3\Entity\Event\SingleInstanceReceiveEvent;
 use Celsius3\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\Entity\Event\NoSearchPendingsEvent;
+use Celsius3\Entity\Event\ReclaimEvent;
+use Celsius3\Entity\Event\RemoteCancelEvent;
+use Celsius3\Entity\Event\ReuploadEvent;
+use Celsius3\Entity\Event\SearchEvent;
+use Celsius3\Entity\Event\SearchPendingsEvent;
+use Celsius3\Entity\Event\TakeEvent;
+use Celsius3\Entity\Event\UploadEvent;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\Request;
 use Celsius3\Exception\Exception;
@@ -70,26 +84,26 @@ class EventManager
     public const EVENT__RECEIVE = 'receive';
 
     private $class_prefix = 'Celsius3\\Entity\\Event\\';
-    public $event_classes = array(
-        self::EVENT__CREATION => 'CreationEvent',
-        self::EVENT__SEARCH => 'SearchEvent',
-        self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequestEvent',
-        self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequestEvent',
-        self::EVENT__APPROVE => 'ApproveEvent',
-        self::EVENT__RECLAIM => 'ReclaimEvent',
-        self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceiveEvent',
-        self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceiveEvent',
-        self::EVENT__DELIVER => 'DeliverEvent',
-        self::EVENT__CANCEL => 'CancelEvent',
-        self::EVENT__LOCAL_CANCEL => 'LocalCancelEvent',
-        self::EVENT__REMOTE_CANCEL => 'RemoteCancelEvent',
-        self::EVENT__ANNUL => 'AnnulEvent',
-        self::EVENT__TAKE => 'TakeEvent',
-        self::EVENT__UPLOAD => 'UploadEvent',
-        self::EVENT__REUPLOAD => 'ReuploadEvent',
-        self::EVENT__SEARCH_PENDINGS => 'SearchPendingsEvent',
-        self::EVENT__NO_SEARCH_PENDINGS => 'NoSearchPendingsEvent',
-    );
+    public $event_classes = [
+        self::EVENT__CREATION                   => CreationEvent::class,
+        self::EVENT__SEARCH                     => SearchEvent::class,
+        self::EVENT__SINGLE_INSTANCE_REQUEST    => SingleInstanceRequestEvent::class,
+        self::EVENT__MULTI_INSTANCE_REQUEST     => MultiInstanceRequestEvent::class,
+        self::EVENT__APPROVE                    => ApproveEvent::class,
+        self::EVENT__RECLAIM                    => ReclaimEvent::class,
+        self::EVENT__MULTI_INSTANCE_RECEIVE     => MultiInstanceReceiveEvent::class,
+        self::EVENT__SINGLE_INSTANCE_RECEIVE    => SingleInstanceReceiveEvent::class,
+        self::EVENT__DELIVER                    => DeliverEvent::class,
+        self::EVENT__CANCEL                     => CancelEvent::class,
+        self::EVENT__LOCAL_CANCEL               => LocalCancelEvent::class,
+        self::EVENT__REMOTE_CANCEL              => RemoteCancelEvent::class,
+        self::EVENT__ANNUL                      => AnnulEvent::class,
+        self::EVENT__TAKE                       => TakeEvent::class,
+        self::EVENT__UPLOAD                     => UploadEvent::class,
+        self::EVENT__REUPLOAD                   => ReuploadEvent::class,
+        self::EVENT__SEARCH_PENDINGS            => SearchPendingsEvent::class,
+        self::EVENT__NO_SEARCH_PENDINGS         => NoSearchPendingsEvent::class,
+    ];
 
     protected ?LifecycleHelper $lifecycleHelper = null;
 
@@ -108,10 +122,15 @@ class EventManager
         return $this->lifecycleHelper;
     }
 
+    public function setLifecycleHelper(LifecycleHelper $lifecycleHelper): void
+    {
+        $this->lifecycleHelper = $lifecycleHelper;
+    }
+
     public function __call($name, $arguments)
     {
-        if (strpos($name, 'prepareExtraDataFor') === 0) {
-            $data = array();
+        if (str_starts_with((string) $name, 'prepareExtraDataFor')) {
+            $data = [];
             if (method_exists($this, $name)) {
                 $data = call_user_func_array($this->$name, $arguments);
             }
@@ -140,7 +159,7 @@ class EventManager
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
         }
 
-        return $this->class_prefix.$this->event_classes[$event];
+        return $this->event_classes[$event];
     }
 
     public function prepareExtraDataForSearch(): array
@@ -197,22 +216,24 @@ class EventManager
     {
         $httpReq = $this->requestStack->getCurrentRequest();
 
-        $requestId = $httpReq->request->get('request');
+        $params = $httpReq->request->all();
+
+        $requestId = $params['request'];
         if (!is_numeric($requestId)) {
             $this->flashBag->add('error', 'There was an error changing the state.');
             throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData = [];
-        $extraData['observations'] = $httpReq->request->get('observations') ?? null;
-        $extraData['delivery_type'] = $httpReq->request->get(
-            'delivery_type',
+        $extraData['observations'] = $params['observations'] ?? null;
+        $extraData['delivery_type'] = $params['delivery_type'] ?? (
             $request->getOwner()->getPdf() ? 'pdf' : 'printed'
         );
 
         $extraData['request'] = $this->entityManager
             ->getRepository(Event::class)
-            ->find($httpReq->request->get('request'));
+            ->find($params['request']);
+
         $extraData['files'] = $httpReq->files->all();
 
         return $extraData;
@@ -331,7 +352,7 @@ class EventManager
 
         if (isset($httpReqData['request'])) {
             $extraData['request'] = $em->getRepository(Event::class)
-                    ->find($httpRequest->request->get('request'));
+                    ->find($httpReqData['request']);
 
             unset($httpReqData['request']);
             if (!$extraData['request']) {
@@ -346,17 +367,17 @@ class EventManager
                     ->getRemoteEvent();
             }
             $extraData['sirequests'] = $em->getRepository(SingleInstanceRequestEvent::class)
-                    ->findBy(array(
+                    ->findBy([
                 'request' => $request->getId(),
                 'cancelled' => false,
                 'instance' => $instance->getId(),
-            ));
+            ]);
             $extraData['mirequests'] = $em->getRepository(MultiInstanceRequestEvent::class)
-                    ->findBy(array(
+                    ->findBy([
                 'request' => $request->getId(),
                 'cancelled' => false,
                 'instance' => $instance->getId(),
-            ));
+            ]);
         }
 
         if (!isset($httpReqData['observations']) || $httpReqData['observations'] === '') {
@@ -389,10 +410,10 @@ class EventManager
 
 
     public function getRealEventName(
-        string $event,
-        array $extraData,
-        Instance $instance,
-        Request $request
+        ?string $event = null,
+        ?array $extraData = null,
+        ?Instance $instance = null,
+        ?Request $request = null
     ): ?string {
         switch ($event) {
             case self::EVENT__REQUEST:
@@ -485,7 +506,8 @@ class EventManager
             );
             if (count($receptions) === 0) {
                 $httpRequest->request->set('request', $request->getId());
-                $this->lifecycleHelper()->createEvent(self::EVENT__CANCEL, $request->getRequest());
+                // throw new \Exception('asdasdas' . (string) $httpRequest->request->get('request'));
+                $this->getLifecycleHelper()->createEvent(self::EVENT__CANCEL, $request->getRequest());
                 $httpRequest->request->remove('request');
             }
         }
@@ -507,25 +529,25 @@ class EventManager
         $entity_manager = $this->entityManager;
 
         if ($event === self::EVENT__REQUEST) {
-            $repositories = [
+            $entities_classes = [
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_REQUEST],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_REQUEST],
             ];
         } elseif ($event === self::EVENT__RECEIVE) {
-            $repositories = [
+            $entities_classes = [
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_RECEIVE],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],
                 $this->event_classes[self::EVENT__UPLOAD],
             ];
         } else {
-            $repositories = [
+            $entities_classes = [
                 $this->event_classes[$event],
             ];
         }
 
         $results = [];
-        foreach ($repositories as $repository) {
-            $results[] = $entity_manager->getRepository('Celsius3\\Entity\\Event\\'.$repository)
+        foreach ($entities_classes as $entity_class) {
+            $results[] = $entity_manager->getRepository($entity_class)
                 ->findBy(['request' => $request_id]);
         }
 

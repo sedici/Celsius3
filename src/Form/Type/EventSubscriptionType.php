@@ -31,7 +31,7 @@ use JMS\TranslationBundle\Annotation\Ignore;
 
 class EventSubscriptionType extends AbstractType
 {
-    private $events = array(
+    private $events = [
         EventManager::EVENT__CREATION => 'Creation',
         EventManager::EVENT__SEARCH => 'Search',
         EventManager::EVENT__REQUEST => 'Request',
@@ -39,39 +39,39 @@ class EventSubscriptionType extends AbstractType
         EventManager::EVENT__DELIVER => 'Deliver',
         EventManager::EVENT__CANCEL => 'Cancel',
         EventManager::EVENT__ANNUL => 'Annul',
-    );
+    ];
 
-    private $user_events = array(
+    private $user_events = [
         EventManager::EVENT__RECEIVE => 'Receive',
         EventManager::EVENT__CANCEL => 'Cancel',
         EventManager::EVENT__ANNUL => 'Annul',
-    );
+    ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $events = $options['is_admin'] ? $this->events : $this->user_events;
         foreach ($events as $key => $label) {
             $builder
-                    ->add($key . '_notification', ChoiceType::class, array(
+                    ->add($key . '_notification', ChoiceType::class, [
 //                        'choices_as_values' => true,
-                        'choices' => array(
+                        'choices' => [
                             /** @Ignore */ 'Notification' => 'notification',
                             /** @Ignore */ 'Email' => 'email',
-                        ),
+                        ],
                         'required' => false,
                         'multiple' => true,
                         'expanded' => true,
                         'label' => $label,
-                    ))
+                    ])
             ;
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => null,
             'is_admin' => false,
-        ));
+        ]);
     }
 }

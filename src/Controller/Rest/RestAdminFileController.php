@@ -26,11 +26,13 @@ use Celsius3\Controller\Base\FileController;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/rest/v1/admin/file")
- */
+#[
+    Route('/rest/v1/admin/file'),
+    IsGranted('ROLE_ADMIN')
+]
 class RestAdminFileController extends FileController
 {
 
@@ -46,11 +48,7 @@ class RestAdminFileController extends FileController
     //  */
     // public function getContact(string $id): Response
     // { return $this->restRenderer->show($id, 'administration_order_show'); }
-
-
-    /**
-     * @Post("/{id}/state", name="admin_rest_file_state", options={"expose"=true})
-     */
+    #[Post('/{id}/state', name: 'admin_rest_file_state', options: ['expose' => true])]
     public function changeState(string $id): Response
     {
         $file = $this->repository->find($id);
@@ -60,7 +58,7 @@ class RestAdminFileController extends FileController
             $file, serializerGroups: 'administration_order_show'
         );
 
-        // $em = $this->getDoctrine()->getManager();
+        // $em = $this->entityManager;
 
         // $file = $em->getRepository(File::class)->find($file_id);
 

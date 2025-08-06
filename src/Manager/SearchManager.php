@@ -46,7 +46,7 @@ class SearchManager
     private function prepareKeyword($keyword)
     {
         $search = '';
-        foreach (explode(' ', trim($keyword)) as $word) {
+        foreach (explode(' ', trim((string) $keyword)) as $word) {
             $search .= " *$word* ";
         }
 
@@ -119,7 +119,7 @@ class SearchManager
         $boolQuery->addMust((new Term())->setTerm('type', $value));
     }
 
-    private function addAggregationsFilters(BoolQuery $boolQuery, array $filters = array())
+    private function addAggregationsFilters(BoolQuery $boolQuery, array $filters = [])
     {
         if (array_key_exists('instance', $filters)) {
             $this->addInstanceFilter($boolQuery, $filters['instance']);
@@ -172,7 +172,7 @@ class SearchManager
 
     public function getAggsUsersData($aggs)
     {
-        $usernames = array();
+        $usernames = [];
         foreach ($aggs['owners']['owners']['buckets'] as $user) {
             $usernames[] = $user['key'];
         }
@@ -217,7 +217,7 @@ class SearchManager
 
     private function getMaterialTypeQuery($keyword): Query\AbstractQuery
     {
-        $termsQuery = new Query\Terms('order.materialData.materialType', explode(" ", preg_replace('/[^a-z0-9 ]/i', '', $keyword)));
+        $termsQuery = new Query\Terms('order.materialData.materialType', explode(" ", (string) preg_replace('/[^a-z0-9 ]/i', '', (string) $keyword)));
 
         $nestedMaterialDataQuery = new Query\Nested();
         $nestedMaterialDataQuery->setQuery($termsQuery);
@@ -266,7 +266,7 @@ class SearchManager
 
     private function getCodeQuery($keyword): Query\AbstractQuery
     {
-        $terms = explode(' ', preg_replace('/[^0-9 ]/i', '', $keyword));
+        $terms = explode(' ', (string) preg_replace('/[^0-9 ]/i', '', (string) $keyword));
         $termsQuery = new Query\Terms('order.code', $terms);
 
         $nestedOrderQuery = new Query\Nested();
@@ -278,14 +278,14 @@ class SearchManager
 
     private function getTypeQuery($keyword): Query\AbstractQuery
     {
-        $terms = explode(' ', preg_replace('/[^a-z ]/i', '', $keyword));
+        $terms = explode(' ', (string) preg_replace('/[^a-z ]/i', '', (string) $keyword));
 
         return new Query\Terms('type', $terms);
     }
 
     private function getISBNQuery($keyword): Query\AbstractQuery
     {
-        $terms = explode(' ', $keyword);
+        $terms = explode(' ', (string) $keyword);
         $termsQuery = new Query\Terms('order.materialData.isbn', $terms);
 
         $nestedMaterialDataQuery = new Query\Nested();

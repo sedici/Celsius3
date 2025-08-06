@@ -22,6 +22,7 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
 
 /**
@@ -29,6 +30,9 @@ use Celsius3\Entity\Instance;
  */
 class CountryRepository extends BaseRepository
 {
+    protected static $entityClass = Country::class;
+
+
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('e')

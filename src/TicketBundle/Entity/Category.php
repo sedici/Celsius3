@@ -27,26 +27,20 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 // use Celsius3\Entity\Mixin\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity("")
- * @ORM\Table(name="ticket_category")
- */
-class Category
+#[ORM\Entity('')]
+#[ORM\Table(name: 'ticket_category')]
+class Category implements \Stringable
 {
     public const CATEGORY_NEW_INSTANCE = 2;
 
     use TimestampableEntity;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
-    /**
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
-     */
+    #[Assert\NotBlank]
+    #[ORM\Column(type: 'string', length: 255)]
     private $category;
 
     public function __construct()
@@ -87,7 +81,7 @@ class Category
         return $this->category;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getCategory();
     }

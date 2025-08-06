@@ -33,11 +33,8 @@ use Celsius3\Helper\InstanceHelper;
 
 class InstitutionType extends AbstractType
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

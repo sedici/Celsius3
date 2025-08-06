@@ -33,21 +33,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * User controller.
- *
- * @Route("/user/rest/message")
  */
+#[Route('/user/rest/message')]
 class MessageRestController extends AbstractFOSRestController
 {
     /**
      * GET Route annotation.
-     *
-     * @Get("", name="rest_message", options={"expose"=true})
      */
+    #[Get('', name: 'rest_message', options: ['expose' => true])]
     public function getMessagesAction(Request $request)
     {
-        $messages = $this->getDoctrine()->getManager()
-                ->getRepository(Thread::class)
-                ->findUserMessages($this->getUser());
+        $messages = $this->entityManager
+            ->getRepository(Thread::class)
+            ->findUserMessages($this->getUser());
 
         $view = $this->view(array_values($messages), 200)->setFormat('json');
 
@@ -60,9 +58,8 @@ class MessageRestController extends AbstractFOSRestController
 
     /**
      * POST Route annotation.
-     *
-     * @Post("/send-message", name="admin_rest_message", options={"expose"=true})
      */
+    #[Post('/send-message', name: 'admin_rest_message', options: ['expose' => true])]
     public function sendMessageAction(Request $request)
     {
         $form = $this->container->get('fos_message.new_thread_form.factory')->create();
@@ -74,9 +71,9 @@ class MessageRestController extends AbstractFOSRestController
 
         $result['result'] = true;
         if ($message) {
-            return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
+            return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', [
                 'threadId' => $message->getThread()->getId(),
-            )));
+            ]));
         } else {
             $result['result'] = false;
         }

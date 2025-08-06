@@ -33,23 +33,15 @@ use Twig\TwigFunction;
 
 class CatalogExtension extends AbstractExtension
 {
-    private $entityManager;
-    private $instanceHelper;
-    private $InstanceHelper;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        InstanceHelper $instanceHelper
-    ) {
-        $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly InstanceHelper $InstanceHelper)
+    {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('is_catalog_enabled', [$this, 'isCatalogEnabled']),
-            new TwigFunction('get_disabled_catalogs_count', [$this, 'getDisabledCatalogsCount']),
+            new TwigFunction('is_catalog_enabled', $this->isCatalogEnabled(...)),
+            new TwigFunction('get_disabled_catalogs_count', $this->getDisabledCatalogsCount(...)),
         ];
     }
 

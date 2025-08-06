@@ -26,11 +26,8 @@ use Doctrine\ORM\EntityManager;
 
 class DatabaseHelper
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(private readonly EntityManager $em)
     {
-        $this->em = $em;
     }
 
     public function findRandomRecord($repository)

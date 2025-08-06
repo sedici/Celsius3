@@ -22,10 +22,14 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\CustomField;
 use Celsius3\Entity\Instance;
 
 class CustomFieldRepository extends BaseRepository
 {
+    protected static $entityClass = CustomField::class;
+
+
     public function getByInstance(Instance $instance, string $entity, bool $showPrivates)
     {
         $builder = $this->createQueryBuilder('cuf');

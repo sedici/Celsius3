@@ -28,15 +28,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Repository\HiveRepository;
 
 
 #[
     ORM\Table(name: "hive"),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: HiveRepository::class),
 
     ORM\Index(name: "idx_name", columns: ["name"])
 ]
-class Hive
+class Hive implements \Stringable
 {
     use TimestampableEntity;
 

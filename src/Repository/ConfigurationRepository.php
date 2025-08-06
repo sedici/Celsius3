@@ -22,17 +22,22 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\Configuration;
+
 /**
  * ConfigurationRepository.
  */
 class ConfigurationRepository extends BaseRepository
 {
+    protected static $entityClass = Configuration::class;
+
+
     public function findInstanceConfigurationByUrl($url)
     {
         return $this->createQueryBuilder('c')
-                    ->join('c.instance', 'i')
-                    ->where('i.url = :url')
-                    ->setParameter(':url', $url)
-                    ->getQuery()->getResult();
+            ->join('c.instance', 'i')
+            ->where('i.url = :url')
+            ->setParameter(':url', $url)
+            ->getQuery()->getResult();
     }
 }

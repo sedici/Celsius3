@@ -30,11 +30,8 @@ use Celsius3\Entity\BaseUser;
 
 class UsersToUsernamesTransformer implements DataTransformerInterface
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(private readonly EntityManager $em)
     {
-        $this->em = $em;
     }
 
     /**
@@ -49,9 +46,7 @@ class UsersToUsernamesTransformer implements DataTransformerInterface
             return "";
         }
 
-        return implode(', ', $users->map(function(BaseUser $user) {
-                    return $user->getUsername();
-                })->toArray());
+        return implode(', ', $users->map(fn(BaseUser $user) => $user->getUsername())->toArray());
     }
 
     /**
@@ -72,7 +67,7 @@ class UsersToUsernamesTransformer implements DataTransformerInterface
         foreach (explode(',', $usernames) as $username) {
             if (trim($username) !== '') {
                 $user = $this->em->getRepository(BaseUser::class)
-                        ->findOneBy(array('username' => trim($username)));
+                        ->findOneBy(['username' => trim($username)]);
 
                 if (null === $user) {
                     throw new TransformationFailedException(sprintf('A user with username "%s" does not exist!', $username));

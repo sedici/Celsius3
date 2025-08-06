@@ -179,7 +179,7 @@ trait CRUDTrait
                         $redirectRoute
                     )
                 );
-            } catch (UniqueConstraintViolationException $e) {
+            } catch (UniqueConstraintViolationException) {
                 $this->addEntityFlash(
                     'error', 'The %entity% already exists.'
                 );
@@ -307,7 +307,7 @@ trait CRUDTrait
                         $redirectRoute, ['id' => $id]
                     )
                 );
-            } catch (UniqueConstraintViolationException $e) {
+            } catch (UniqueConstraintViolationException) {
                 $this->addEntityFlash(
                     'error', 'The %entity% already exists.'
                 );

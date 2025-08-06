@@ -24,7 +24,6 @@ namespace Celsius3\EventListener;
 
 use Celsius3\Entity\File;
 use Celsius3\Manager\FileManager;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\PostPersistEventArgs;
@@ -64,7 +63,7 @@ class FileUploadListener
         $this->preUpload($args);
     }
 
-    public function upload(LifecycleEventArgs $args): void
+    public function upload(\Doctrine\Persistence\Event\LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
@@ -85,7 +84,7 @@ class FileUploadListener
         }
     }
 
-    public function preUpload(LifecycleEventArgs $args): void
+    public function preUpload(\Doctrine\Persistence\Event\LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 

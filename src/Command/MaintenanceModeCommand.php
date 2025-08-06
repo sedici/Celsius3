@@ -33,16 +33,9 @@ use Twig\Environment;
 
 class MaintenanceModeCommand extends Command
 {
-    private $kernel;
-    private $twig;
-    private $virtualHostConfigFile;
-
-    public function __construct(KernelInterface $kernel, Environment $twig, string $virtualHostConfigFile)
+    public function __construct(private readonly KernelInterface $kernel, private readonly Environment $twig, private readonly string $virtualHostConfigFile)
     {
         parent::__construct();
-        $this->kernel = $kernel;
-        $this->twig = $twig;
-        $this->virtualHostConfigFile = $virtualHostConfigFile;
     }
 
     protected function configure()
@@ -81,11 +74,11 @@ class MaintenanceModeCommand extends Command
             $output->writeln('The maintenance mode has been disabled.');
         } else {
             $output->writeln('The argument ' . $status . ' is not supported.');
-            return 1;
+            return \Symfony\Component\Console\Command\Command::FAILURE;
         }
 
         shell_exec('sudo service apache2 reload');
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

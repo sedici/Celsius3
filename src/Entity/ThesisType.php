@@ -25,9 +25,10 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\ThesisTypeRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: ThesisTypeRepository::class)]
 class ThesisType extends MaterialType
 {
 

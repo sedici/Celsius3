@@ -27,49 +27,26 @@ namespace Celsius3\Entity;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Celsius3\Repository\NewspaperTypeRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: NewspaperTypeRepository::class)]
 class NewspaperType extends MaterialType
 {
 
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     protected ?string $article = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     protected ?string $month = null;
 
 
     #[ORM\Column(type: "integer", length: 2, nullable: true)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     protected ?int $day = null;
 
 
     #[ORM\Column(type: "string", length: 255)]
-    // #[Groups([
-    //     "administration_list",
-    //     "administration_order_show",
-    //     "administration_user_show",
-    //     "user_list"
-    // ])]
     protected ?string $place = null;
 
 

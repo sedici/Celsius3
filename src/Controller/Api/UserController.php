@@ -30,20 +30,20 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Celsius3\Exception\Exception;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
- *
- * @Route("/api/users")
  */
+#[Route('/api/users')]
 class UserController extends BaseController
 {
-    /**
-     * @Get("/")
-     */
-    public function usersAction(Request $request)
+
+    #[Get('/')]
+    public function usersAction(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $qb = $em->getRepository(BaseUser::class)
                   ->findUsersFrom($this->getInstance(), $request->query->get('startDate'));
@@ -59,12 +59,10 @@ class UserController extends BaseController
         return $this->handleView($view);
     }
 
-    /**
-     * @Get("/update_all")
-     */
+    #[Get('/update_all')]
     public function updateAllUsersAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
         $qb = $em->getRepository(BaseUser::class)
               ->findPdfUsers($this->getInstance());
 
@@ -79,9 +77,7 @@ class UserController extends BaseController
         return $this->handleView($view);
     }
 
-    /**
-     * @Get("/current_user")
-     */
+    #[Get('/current_user')]
     public function currentUserAction(Request $request)
     {
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
@@ -92,7 +88,7 @@ class UserController extends BaseController
         }
 
         if (!$isValidToken) {
-            $view = $this->view(array(), 200)->setFormat('json');
+            $view = $this->view([], 200)->setFormat('json');
         } else {
             $user = $accessToken->getUser();
             $view = $this->view($user, 200)->setFormat('json');
@@ -105,34 +101,30 @@ class UserController extends BaseController
         return $this->handleView($view);
     }
 
-    /**
-     * @Get("/check_token")
-     */
+    #[Get('/check_token')]
     public function checkAccessTokenAction(Request $request)
     {
         $response = new JsonResponse();
 
-        $response->setData(array('validAccessToken' => false));
+        $response->setData(['validAccessToken' => false]);
         $accessToken = $this->getAccessTokenByToken($request->query->get('access_token'));
         if ($this->validateAccessToken($accessToken)) {
-            $response->setData(array('validAccessToken' => true));
+            $response->setData(['validAccessToken' => true]);
         }
 
         return $response;
     }
 
-    /**
-     * @Get("/{user_id}")
-     */
+    #[Get('/{user_id}')]
     public function userAction($user_id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $user = $em->getRepository(BaseUser::class)
-                ->findOneBy(array(
+                ->findOneBy([
             'id' => $user_id,
             'instance' => $this->getInstance()->getId(),
-        ));
+        ]);
 
         if (!$user) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
@@ -147,18 +139,16 @@ class UserController extends BaseController
         return $this->handleView($view);
     }
 
-    /**
-     * @Post("/{user_id}/disable_download")
-     */
+    #[Post('/{user_id}/disable_download')]
     public function disableDownloadAction($user_id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $user = $em->getRepository(BaseUser::class)
-                ->findOneBy(array(
+                ->findOneBy([
             'id' => $user_id,
             'instance' => $this->getInstance()->getId(),
-        ));
+        ]);
 
         if (!$user) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
@@ -168,26 +158,24 @@ class UserController extends BaseController
         $em->persist($user);
         $em->flush($user);
 
-        $view = $this->view(array(
+        $view = $this->view([
                     'result' => true,
-                        ), 200)
+                        ], 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
     }
 
-    /**
-     * @Post("/{user_id}/enable_download")
-     */
+    #[Post('/{user_id}/enable_download')]
     public function enableDownloadAction($user_id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->entityManager;
 
         $user = $em->getRepository(BaseUser::class)
-                ->findOneBy(array(
+                ->findOneBy([
             'id' => $user_id,
             'instance' => $this->getInstance()->getId(),
-        ));
+        ]);
 
         if (!$user) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
@@ -197,9 +185,9 @@ class UserController extends BaseController
         $em->persist($user);
         $em->flush($user);
 
-        $view = $this->view(array(
+        $view = $this->view([
                     'result' => true,
-                        ), 200)
+                        ], 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

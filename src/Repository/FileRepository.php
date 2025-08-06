@@ -22,11 +22,15 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\File;
+
 /**
  * FileRepository.
  */
 class FileRepository extends BaseRepository
 {
+    protected static $entityClass = File::class;
+
     public function getFilesCount()
     {
         return $this->createQueryBuilder('f')->select('COUNT(f.id)');
@@ -35,7 +39,7 @@ class FileRepository extends BaseRepository
     public function getOffsetAndLimitTo($offset, $limit)
     {
         return $this->createQueryBuilder('f')
-                    ->setMaxResults($limit)
-                    ->setFirstResult($offset);
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
     }
 }

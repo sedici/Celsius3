@@ -27,13 +27,8 @@ use Knp\Menu\FactoryInterface;
 
 class Builder
 {
-    private $factory;
-    private $instanceHelper;
-
-    public function __construct(FactoryInterface $factory, InstanceHelper $instanceHelper)
+    public function __construct(private readonly FactoryInterface $factory, private readonly InstanceHelper $instanceHelper)
     {
-        $this->factory = $factory;
-        $this->instanceHelper = $instanceHelper;
     }
 
     public function directoryMenu()
@@ -41,15 +36,15 @@ class Builder
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $menu->addChild('Home', array(
+        $menu->addChild('Home', [
             'route' => 'directory_homepage',
-        ))->setExtra('translation_domain', 'messages');
-        $menu->addChild('Instances', array(
+        ])->setExtra('translation_domain', 'messages');
+        $menu->addChild('Instances', [
             'route' => 'directory_instances',
-        ))->setExtra('translation_domain', 'messages');
-        $menu->addChild('Statistics', array(
+        ])->setExtra('translation_domain', 'messages');
+        $menu->addChild('Statistics', [
             'route' => 'directory_statistics',
-        ))->setExtra('translation_domain', 'messages');
+        ])->setExtra('translation_domain', 'messages');
 
         return $menu;
     }
@@ -62,26 +57,26 @@ class Builder
         $instance = $this->instanceHelper->getSessionOrUrlInstance();
 
         $homeText = !empty($instance->get('home_home_btn_text')->getValue()) ? $instance->get('home_home_btn_text')->getValue() : 'Home';
-        $menu->addChild($homeText, array('route' => 'public_index'))
+        $menu->addChild($homeText, ['route' => 'public_index'])
             ->setExtra('translation_domain', 'messages');
         if ($instance->get('home_news_visible')->getValue()) {
             $newsText = !empty($instance->get('home_news_btn_text')->getValue()) ? $instance->get('home_news_btn_text')->getValue() : 'News';
-            $menu->addChild($newsText, array('route' => 'public_news'))
+            $menu->addChild($newsText, ['route' => 'public_news'])
                 ->setExtra('translation_domain', 'messages');
         }
         if ($instance->get('home_information_visible')->getValue()) {
             $informationText = !empty($instance->get('home_information_btn_text')->getValue()) ? $instance->get('home_information_btn_text')->getValue() : 'Information';
-            $menu->addChild($informationText, array('route' => 'public_information'))
+            $menu->addChild($informationText, ['route' => 'public_information'])
                 ->setExtra('translation_domain', 'messages');
         }
         if ($instance->get('home_statistics_visible')->getValue()) {
             $statisticsText = !empty($instance->get('home_statistics_btn_text')->getValue()) ? $instance->get('home_statistics_btn_text')->getValue() : 'Statistics';
-            $menu->addChild($statisticsText, array('route' => 'public_statistics'))
+            $menu->addChild($statisticsText, ['route' => 'public_statistics'])
                 ->setExtra('translation_domain', 'messages');
         }
         if ($instance->get('home_help_visible')->getValue()) {
             $helpText = !empty($instance->get('home_help_btn_text')->getValue()) ? $instance->get('home_help_btn_text')->getValue() : 'Help';
-            $menu->addChild($helpText, array('route' => 'public_help'))
+            $menu->addChild($helpText, ['route' => 'public_help'])
                 ->setExtra('translation_domain', 'messages');
         }
 

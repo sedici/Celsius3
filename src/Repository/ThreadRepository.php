@@ -3,18 +3,14 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\BaseUser;
-use Celsius3\Entity\Message;
-use Celsius3\Entity\MessageMetadata;
 use Celsius3\Entity\Thread;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 
 class ThreadRepository extends BaseRepository
 {
+    protected static $entityClass = Thread::class;
+
 
     public function getParticipantThreadsQueryBuilder(
         BaseUser $participant,
@@ -28,11 +24,11 @@ class ThreadRepository extends BaseRepository
             ->where('tm.participant = :user_id')
             ->setParameter('user_id', $participant->getId())
             ->orderBy('tm.lastMessageDate', 'DESC');
-        
+
         $qb = ($isDeleted === null) ? $qb
             : $qb->andWhere('tm.isDeleted = :isDeleted')
                 ->setParameter('isDeleted', $isDeleted, \PDO::PARAM_BOOL);
-        
+
         $qb = ($sentByParticipant === null) ? $qb
             : $qb->andWhere('t.createdBy ' . ($sentByParticipant ? '=' : '<>') . ' :user_id');
                 // ->setParameter('sentByParticipant', $sentByParticipant, \PDO::PARAM_BOOL);
@@ -101,7 +97,7 @@ class ThreadRepository extends BaseRepository
         $regex = sprintf(
             '/(%s)/',
             implode(
-                '|', explode(' ', $search)
+                '|', explode(' ', (string) $search)
             )
         );
 
@@ -196,7 +192,7 @@ class ThreadRepository extends BaseRepository
     // public function applyReadFilter(QueryBuilder $qb, BaseUser $user, bool $includeEmptyThreadsAsRead = true): QueryBuilder
     // {
     //     $subQueryDQLUnread = $this->getDQLForUnreadMessagesSubquery();
-        
+
     //     // Condición: NO existen mensajes no leídos para el usuario en este hilo.
     //     $qb->andWhere($qb->expr()->not($qb->expr()->exists($subQueryDQLUnread)))
     //        ->setParameter('user_for_subquery', $user) // Parámetros para la subconsulta de no leídos

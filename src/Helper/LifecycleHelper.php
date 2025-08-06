@@ -29,8 +29,10 @@ use Celsius3\Entity\Event\AnnulEvent;
 use Celsius3\Entity\Event\ApproveEvent;
 use Celsius3\Entity\Event\CreationEvent;
 use Celsius3\Entity\Event\Event;
+use Celsius3\Entity\Event\MultiInstanceReceiveEvent;
 use Celsius3\Entity\Event\ReclaimEvent;
 use Celsius3\Entity\Event\SearchEvent;
+use Celsius3\Entity\Event\SingleInstanceReceiveEvent;
 use Celsius3\Entity\Event\TakeEvent;
 use Celsius3\Entity\Event\UndoEvent;
 use Celsius3\Entity\Instance;
@@ -92,7 +94,7 @@ class LifecycleHelper
     public function createEvent(string $name, Request $request, ?Instance $instance = null)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        try {
+        // try {
             $data = $this->preValidate($name, $request, $instance);
             if (array_key_exists('event', $data)) {
                 $event = $data['event'];
@@ -115,13 +117,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->celsiusRestExceptionLogger->error($ex->getMessage());
-            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        // } catch (\Exception $ex) {
+        //     $this->entityManager->getConnection()->rollBack();
+        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
+        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-            return null;
-        }
+        //     return null;
+        // }
     }
 
     private function preValidate($name, Request $request, ?Instance $instance = null): array
@@ -129,7 +131,7 @@ class LifecycleHelper
         $session_instance = $this->instanceHelper->getSessionOrUrlInstance();
         $request_instance = $request->getInstance();
 
-        $instance = $instance ?? ($name !== EventManager::EVENT__CREATION ? $session_instance : $request_instance);
+        $instance ??= $name !== EventManager::EVENT__CREATION ? $session_instance : $request_instance;
         $extra_data = $this->eventManager->prepareExtraData($name, $request, $instance);
         $event_name = $this->eventManager->getRealEventName($name, $extra_data, $instance, $request);
         $data = [
@@ -144,9 +146,7 @@ class LifecycleHelper
         if ($name === EventManager::EVENT__RECEIVE) {
             $events = array_filter(
                 $this->eventManager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()),
-                static function (Event $item) use ($extra_data): bool {
-                    return $item->getRequestEvent()->getId() === $extra_data['request']->getId();
-                }
+                static fn(Event $item): bool => $item->getRequestEvent()->getId() === $extra_data['request']->getId()
             );
 
             if (count($events) > 0) {
@@ -165,9 +165,7 @@ class LifecycleHelper
         if ($name === EventManager::EVENT__SEARCH) {
             $events = array_filter(
                 $this->eventManager->getEvents(EventManager::EVENT__SEARCH, $request->getId()),
-                static function (Event $item) use ($extra_data): bool {
-                    return $item->getCatalog()->getId() === $extra_data['catalog']->getId();
-                }
+                static fn(Event $item): bool => $item->getCatalog()->getId() === $extra_data['catalog']->getId()
             );
 
             if (count($events) > 0) {
@@ -354,7 +352,7 @@ class LifecycleHelper
     {
         $session_instance = $this->instanceHelper->getSessionOrUrlInstance();
 
-        $instance = $instance ?? $session_instance;
+        $instance ??= $session_instance;
         $extra_data = $this->eventManager->prepareExtraDataForRequest();
         $event_name = $this->eventManager->getRealRequestEventName($extra_data, $instance, $request);
         $data = [
@@ -581,9 +579,7 @@ class LifecycleHelper
 
         $events = array_filter(
             $this->eventManager->getEvents(EventManager::EVENT__SEARCH, $request->getId()),
-            static function (Event $item) use ($extra_data) {
-                return $item->getCatalog()->getId() === $extra_data['catalog']->getId();
-            }
+            static fn(Event $item) => $item->getCatalog()->getId() === $extra_data['catalog']->getId()
         );
 
         if (count($events) > 0) {
@@ -624,7 +620,7 @@ class LifecycleHelper
     private function preValidateAnnulEvent(Request $request, ?Instance $instance = null): array
     {
         $session_instance = $this->instanceHelper->getSessionInstance();
-        $instance = $instance ?? $session_instance;
+        $instance ??= $session_instance;
 
         $data = [
             'eventName' => EventManager::EVENT__ANNUL,
@@ -689,7 +685,7 @@ class LifecycleHelper
     public function createReceiveEvent(Request $request, ?Instance $instance)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        // try {
+        try {
             $data = $this->preValidateReceiveEvent($request, $instance);
             if (array_key_exists('event', $data)) {
                 $event = $data['event'];
@@ -707,13 +703,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        // } catch (\Exception $ex) {
-        //     $this->entityManager->getConnection()->rollBack();
-        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
-        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->celsiusRestExceptionLogger->error($ex->getMessage());
+            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-        //     return null;
-        // }
+            return null;
+        }
     }
 
     private function preValidateReceiveEvent(Request $request, ?Instance $instance = null): array
@@ -730,12 +726,11 @@ class LifecycleHelper
             'extraData' => $extra_data,
             'eventClassName' => $this->eventManager->getFullClassNameForEvent($event_name),
         ];
-
+        
         $events = array_filter(
             $this->eventManager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()),
-            static function (Event $item) use ($extra_data) {
-                return $item->getRequestEvent()->getId() === $extra_data['request']->getId();
-            }
+            static fn(MultiInstanceReceiveEvent|ReclaimEvent|SingleInstanceReceiveEvent $item): bool =>
+                $item->getRequestEvent()->getId() === $extra_data['request']->getId()
         );
 
         if (count($events) > 0) {
@@ -776,7 +771,7 @@ class LifecycleHelper
     private function preValidateCancelEvent(Request $request, ?Instance $instance = null): array
     {
         $session_instance = $this->instanceHelper->getSessionOrUrlInstance();
-        $instance = $instance ?? $session_instance;
+        $instance ??= $session_instance;
         $extra_data = $this->eventManager->prepareExtraDataForCancel($request, $instance);
         $event_name = $this->eventManager->getRealCancelEventName($extra_data);
 

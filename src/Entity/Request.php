@@ -450,9 +450,7 @@ class Request
     public function getFilesForEvent($event): Collection
     {
         return $this->getFiles()->filter(
-            function (File $entry) use ($event): bool {
-                return $entry->getEvent()->getId() == $event->getId();
-            }
+            fn(File $entry): bool => $entry->getEvent()->getId() == $event->getId()
         );
     }
 
@@ -464,9 +462,7 @@ class Request
         $instance = $this->getOrder()->getOriginalRequest()->getInstance();
 
         return $this->getFiles()->filter(
-            function (File $entry) use ($instance): bool {
-                return $entry->getEvent()->getInstance()->getId() == $instance->getId();
-            }
+            fn(File $entry): bool => $entry->getEvent()->getInstance()->getId() == $instance->getId()
         );
     }
 
@@ -478,11 +474,9 @@ class Request
         $instance = $this->getOrder()->getOriginalRequest()->getInstance();
 
         return $this->getFiles()->filter(
-            function (File $entry) use ($instance): bool {
-                return $entry->getEvent()->getInstance()->getId() == (
-                    $instance->getId() && !$entry->isDownloaded()
-                );
-            }
+            fn(File $entry): bool => $entry->getEvent()->getInstance()->getId() == (
+                $instance->getId() && !$entry->isDownloaded()
+            )
         );
     }
 
@@ -492,16 +486,14 @@ class Request
     public function hasState($names): bool
     {
         if (!is_array($names)) {
-            $names = array($names);
+            $names = [$names];
         }
 
         return $this->getStates()->filter(
-            function (State $entry) use ($names): bool {
-                return in_array(
-                    $entry->getType(),
-                    $names
-                );
-            }
+            fn(State $entry): bool => in_array(
+                $entry->getType(),
+                $names
+            )
         )->count() > 0;
     }
 
@@ -512,9 +504,7 @@ class Request
     public function getState(string $name): ?State
     {
         $result = $this->getStates()->filter(
-            function (State $entry) use ($name): bool {
-                return $entry->getType() === $name;
-            }
+            fn(State $entry): bool => $entry->getType() === $name
         )->first();
 
         return false !== $result ? $result : null;

@@ -53,7 +53,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false)
 ]
-abstract class MaterialType
+abstract class MaterialType implements \Stringable
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -131,7 +131,7 @@ abstract class MaterialType
 
     public function __toString(): string
     {
-        return $this->getTitle();
+        return (string) $this->getTitle();
     }
 
     public function getTitle(): ?string

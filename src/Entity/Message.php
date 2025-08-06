@@ -28,16 +28,17 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\MessageRepository;
 
 
 #[
     ORM\Table(name: "message"),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: MessageRepository::class),
 
     ORM\Index(name: "idx_thread", columns: ["thread_id"]),
     ORM\Index(name: "idx_sender", columns: ["sender_id"])
 ]
-class Message implements Notifiable
+class Message implements Notifiable, \Stringable
 {
 
     #[ORM\Id]

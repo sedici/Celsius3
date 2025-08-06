@@ -28,10 +28,21 @@ use Celsius3\Entity\DataRequest;
 use Celsius3\Entity\Instance;
 use DateInterval;
 use DateTime;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class DataRequestRepository extends EntityRepository
+
+/**
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\Celsius3\Entity\DataRequest>
+ */
+class DataRequestRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, DataRequest::class);
+    }
+
+
     public function findExportedRequests(Instance $instance)
     {
         $qb = $this->createQueryBuilder('dr');

@@ -39,12 +39,12 @@ class CatalogListener
         protected InstanceHelper $InstanceHelper
     ) { }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(\Doctrine\ORM\Event\PostPersistEventArgs $args)
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         $request = $this->requestStack->getCurrentRequest();
-        $em = $args->getEntityManager();
+        $em = $args->getObjectManager();
 
         if ($entity instanceof Catalog) {
             if (array_key_exists('enable', $request->request->all()['catalog'])) {
@@ -62,9 +62,9 @@ class CatalogListener
                 foreach ($instances as $instance) {
                     $place = count(
                         $em->getRepository(CatalogPosition::class)
-                            ->findBy(array(
+                            ->findBy([
                                          'instance' => $instance->getId(),
-                                     ))
+                                     ])
                     );
 
                     $position = new CatalogPosition();
@@ -78,9 +78,9 @@ class CatalogListener
             } else {
                 $place = count(
                     $em->getRepository(CatalogPosition::class)
-                        ->findBy(array(
+                        ->findBy([
                                      'instance' => $entity->getInstance()->getId(),
-                                 ))
+                                 ])
                 );
 
                 $position = new CatalogPosition();
@@ -93,9 +93,9 @@ class CatalogListener
             }
         } elseif ($entity instanceof Instance) {
             $catalogs = $em->getRepository(Catalog::class)
-                ->findBy(array(
+                ->findBy([
                              'instance' => $this->instanceManager->getDirectory()->getId(),
-                         ));
+                         ]);
 
             $place = 0;
             foreach ($catalogs as $catalog) {

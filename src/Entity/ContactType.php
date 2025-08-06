@@ -30,14 +30,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Celsius3\Repository\ContactTypeRepository;
 
 #[
     ORM\Table(name: 'contact_type'),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: ContactTypeRepository::class),
 
     ORM\Index(name: 'idx_name', columns: ['name'])
 ]
-class ContactType
+class ContactType implements \Stringable
 {
     use TimestampableEntity;
 

@@ -38,7 +38,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[
     Route('/superadmin/user'),
-    IsGranted('IS_AUTHENTICATED_FULLY')
+    IsGranted('ROLE_SUPER_ADMIN')
 ]
 final class HtmlSuperadminUserController extends UserController
 {
@@ -162,15 +162,13 @@ final class HtmlSuperadminUserController extends UserController
 
 
     // BATCH
-
-
     // * @Route("/batch", name="superadmin_user_batch")
     /**
      * Apply a batch function to a group of BaseUser entities.
-     * @Route("/batch", name="admin_baseuser_batch", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/batch', name: 'admin_baseuser_batch', methods: ['POST'])]
     public function batch(): mixed
     { return $this->baseBatch(); }
 

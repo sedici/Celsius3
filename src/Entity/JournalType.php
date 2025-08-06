@@ -35,23 +35,23 @@ class JournalType extends MaterialType
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
     // #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
-    protected ?string $volume;
+    protected ?string $volume = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     // #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
-    protected ?string $number;
+    protected ?string $number = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     // #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
-    protected ?string $other;
+    protected ?string $other = null;
 
 
     #[ORM\ManyToOne(targetEntity: Journal::class, inversedBy: "materials")]
     #[ORM\JoinColumn(name: "journal_id", referencedColumnName: "id")]
     // #[Groups(["administration_list", "administration_order_show", "administration_user_show", "user_list"])]
-    protected ?Journal $journal;
+    protected ?Journal $journal = null;
 
 
     public function getMaterialType(): string

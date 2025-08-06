@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Celsius3 - Order management
+ * Celsius3 - Base notification repository
  * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
@@ -22,23 +22,33 @@
 
 namespace Celsius3\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * BaseRepository.
- */
-class BaseNotificationRepository extends EntityRepository
+
+class BaseNotificationRepository extends ServiceEntityRepository
 {
+
+    protected static $entityClass;
+
+    public function __construct(protected readonly ManagerRegistry $registry)
+    {
+        if (!static::$entityClass) {
+            throw new \RuntimeException('Debes definir la propiedad $entityClass en el repositorio hijo');
+        }
+        
+        parent::__construct($registry, static::$entityClass);
+    }
 
     public function union($field, $main_id, $elements)
     {
         return $this->createQueryBuilder('e')
-                    ->update()
-                    ->set('e.'.$field, ':main_id')
-                    ->where('e.'.$field.' IN (:ids)')
-                    ->setParameter('ids', $elements)
-                    ->setParameter('main_id', $main_id)
-                    ->getQuery()->getResult();
+            ->update()
+            ->set('e.'.$field, ':main_id')
+            ->where('e.'.$field.' IN (:ids)')
+            ->setParameter('ids', $elements)
+            ->setParameter('main_id', $main_id)
+            ->getQuery()->getResult();
     }
 
 }

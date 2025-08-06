@@ -24,6 +24,9 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Base;
 
+use Celsius3\Controller\Core\EntityController;
+use Celsius3\Controller\Core\HtmlRenderer;
+use Celsius3\Controller\Core\RestRenderer;
 use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
@@ -34,9 +37,9 @@ use Celsius3\TicketBundle\Entity\Category;
 use Celsius3\TicketBundle\Entity\Priority;
 use Celsius3\TicketBundle\Entity\TypeState;
 use Celsius3\TicketBundle\Helper\TicketHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 use Celsius3\Helper\ConfigurationHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,78 +49,84 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use function array_key_exists;
 
 
-/**
- * @Route("/directory/instance")
- */
-class DirectoryController extends BaseEntityController
+// #[Route('/directory/instance')]
+class DirectoryController extends EntityController
 {
 
-    protected TicketHelper $ticketHelper;
-    protected NewsRepository $newsRepository;
-
     public function __construct(
-        TicketHelper $ticketHelper,
-        NewsRepository $newsRepository,
-        InstanceHelper $InstanceHelper,
+        protected TicketHelper $ticketHelper,
+        protected NewsRepository $newsRepository,
+        ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
         FilterManager $filterManager,
-        InstanceHelper $instanceHelper
+        InstanceHelper $instanceHelper,
+        FormFactoryInterface $formFactory,
+        SessionInterface $session,
+        RouterInterface $router,
+        TokenStorageInterface $tokenStorage,
+        Security $security,
+        HtmlRenderer $htmlRenderer,
+        RestRenderer $restRenderer
     ) {
         parent::__construct(
-            $InstanceHelper,
+            $validator,
             $entityManager,
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
             $filterManager,
-            $instanceHelper
+            $instanceHelper,
+            $formFactory,
+            $session,
+            $router,
+            $tokenStorage,
+            $security,
+            $htmlRenderer,
+            $restRenderer
         );
-
-        $this->ticketHelper = $ticketHelper;
-        $this->newsRepository = $newsRepository;
     }
 
-
-    final protected function getEntity(): string
-    { return Instance::class; }
-
-    final protected function getTemplatePrefix(): string
-    { return 'Directory/'; }
-
-    protected function getInstance(): Instance
-    { return $this->directory; }
-
-
-    protected function getSortDefaults(): array
+    public function initialize(): void
     {
-        return [
+        $this->setEntity(Instance::class);
+
+        parent::initialize();
+
+        $this->setInstanceDependent(false);
+        $this->htmlRenderer->setTemplatePrefix('Directory/');
+        $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
-        ];
+        ]);
+        // $this->setInstance($this->directory);
     }
 
 
-    public function index(): Response
+    #[Route('/', name: 'directory_homepage')]
+    public function htmlIndex(): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'index.html.twig',
+        return $this->htmlRenderer->render(
+            'index',
             [
                 'instance' => $this->instance,
                 'directory' => $this->directory,
@@ -125,16 +134,26 @@ class DirectoryController extends BaseEntityController
                     ->findLastNews($this->directory),
             ]
         );
+        // return $this->render(
+        //     (string) $this->templatePrefix . 'index.html.twig',
+        //     [
+        //         'instance' => $this->instance,
+        //         'directory' => $this->directory,
+        //         'lastNews' => $this->newsRepository
+        //             ->findLastNews($this->directory),
+        //     ]
+        // );
     }
 
 
+    #[Route('/instances', name: 'directory_instances')]
     public function instances(): Response
     {
         $instances = $this->repository->findAllEnabledAndVisible();
 
         $current_instances = [];
         $instances_markers = [];
-        
+
 
         foreach ($instances as $instance) {
             $instOwnerCountryName =
@@ -153,10 +172,10 @@ class DirectoryController extends BaseEntityController
             if ($instance_latitude && $instance_longitude) {
                 $instances_markers[] = [
                     'latitude' => addcslashes(
-                        $instance_latitude, ','
+                        (string) $instance_latitude, ','
                     ),
                     'longitude' => addcslashes(
-                        $instance_longitude, ','
+                        (string) $instance_longitude, ','
                     ),
                     'title' => $instance->getName()
                 ];
@@ -166,57 +185,92 @@ class DirectoryController extends BaseEntityController
         $latitude = '-34.9189929';
         $longitude = '-57.9523734';
 
-        return $this->render(
-            (string) $this->templatePrefix . 'instances.html.twig',
+
+        $request = $this->requestStack->getCurrentRequest()->toArray();
+
+        return $this->htmlRenderer->render(
+            'instances',
             [
                 'instance' => $this->instance,
                 'directory' => $this->directory,
                 'instances' => $current_instances,
-                'google_maps_api_key' => $this->getParameter('api_key_map'),
+                'google_maps_api_key' => $request['api_key_map'] ?? null,
                 'google_maps_center_position' => compact('latitude', 'longitude'),
                 'google_maps_markers' => $instances_markers
             ]
         );
+        // return $this->render(
+        //     (string) $this->templatePrefix . 'instances.html.twig',
+        //     [
+        //         'instance' => $this->instance,
+        //         'directory' => $this->directory,
+        //         'instances' => $current_instances,
+        //         'google_maps_api_key' => $this->getParameter('api_key_map'),
+        //         'google_maps_center_position' => compact('latitude', 'longitude'),
+        //         'google_maps_markers' => $instances_markers
+        //     ]
+        // );
     }
 
 
+    #[Route('/statistics', name: 'directory_statistics')]
     public function statistics(): Response
     {
-        return $this->render(
-            (string) $this->templatePrefix . 'statistics.html.twig',
+        return $this->htmlRenderer->render(
+            'statistics.html.twig',
             [
                 'instance' => $this->instance,
                 'directory' => $this->directory,
             ]
         );
+        // return $this->render(
+        //     (string) $this->templatePrefix . 'statistics.html.twig',
+        //     [
+        //         'instance' => $this->instance,
+        //         'directory' => $this->directory,
+        //     ]
+        // );
     }
 
 
-    /**
-     * @Route("/instance-register", name="instance_register", options={"expose"=true})
-     */
-    public function registerInstance(): Response
+    #[Route(
+        '/instance-register',
+        name: 'instance_register',
+        options: ['expose' => true]
+    )]
+    public function htmlRegisterInstance(): Response
     {
         $entity = new Instance();
         $form = $this->createForm(
             InstanceRegisterType::class, $entity
         );
 
-        return $this->render(
-            (string) $this->templatePrefix . 'registerInstance.html.twig',
+        return $this->htmlRenderer->render(
+            'registerInstance.html.twig',
             [
                 'entity' => $entity,
                 'form' => $form->createView(),
-                'directory' => $this->getDirectory(),
+                'directory' => $this->directory,
             ]
         );
+
+        // return $this->render(
+        //     (string) $this->templatePrefix . 'registerInstance.html.twig',
+        //     [
+        //         'entity' => $entity,
+        //         'form' => $form->createView(),
+        //         'directory' => $this->getDirectory(),
+        //     ]
+        // );
     }
 
 
-    /**
-     * @Route("/create-register", name="directory_instance_create", methods={"POST"})
-     */
-    public function create(Request $request): Response
+    #[Route(
+        '/create-register',
+        name: 'directory_instance_create',
+        methods: ['POST']
+    )]
+    public function htmlCreate(Request $request): Response
     {
         $entity_manager = $this->entityManager;
 
@@ -267,13 +321,21 @@ class DirectoryController extends BaseEntityController
         $ticket_helper->setParametros($parametros);
         $ticket_helper->createTicket();
 
-        return $this->render(
-            'Directory/registerInstance.html.twig',
+        return $this->htmlRenderer->render(
+            'Directory/instanceCreated.html.twig',
             [
                 'entity' => $entity,
                 'form' => $form->createView(),
-                'directory' => $this->getDirectory(),
+                'directory' => $this->directory,
             ]
         );
+        // return $this->render(
+        //     'Directory/registerInstance.html.twig',
+        //     [
+        //         'entity' => $entity,
+        //         'form' => $form->createView(),
+        //         'directory' => $this->getDirectory(),
+        //     ]
+        // );
     }
 }

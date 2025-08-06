@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-#[Route('/news/feed', name: 'news_feeds')]
+#[Route('/news/feed')]
 class NewsFeedsController extends EntityController
 {
 

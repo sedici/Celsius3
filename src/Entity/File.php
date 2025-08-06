@@ -76,11 +76,11 @@ class File
 
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
-    private ?Instance $instance;
+    private ?Instance $instance = null;
 
 
     #[ORM\ManyToOne(targetEntity: Event::class)]
-    private ?Event $event;
+    private ?Event $event = null;
 
 
     #[ORM\Column(type: "boolean")]
@@ -215,13 +215,7 @@ class File
 
         if ($this->getDownloads()) {
             $downloads = $this->getDownloads()->toArray();
-            usort($downloads, function (FileDownload $a, FileDownload $b) {
-                if ($a->getCreatedAt() === $b->getCreatedAt()) {
-                    return 0;
-                }
-
-                return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
-            });
+            usort($downloads, fn(FileDownload $a, FileDownload $b) => $b->getCreatedAt() <=> $a->getCreatedAt());
 
             $lastDownload = (!empty($downloads)) ? $downloads[0] : null;
 

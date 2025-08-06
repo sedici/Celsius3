@@ -26,8 +26,9 @@ namespace Celsius3\Entity\Event;
 
 use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\Repository\SingleInstanceEventRepository;
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: SingleInstanceEventRepository::class)]
 class SingleInstanceEvent extends Event
 {
 

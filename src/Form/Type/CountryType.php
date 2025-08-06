@@ -39,25 +39,25 @@ class CountryType extends AbstractType
         ;
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
-                $builder->add('instance', EntityType::class, array(
+                $builder->add('instance', EntityType::class, [
                     'class' => Instance::class,
-                ));
+                ]);
             } else {
-                $builder->add('instance', InstanceSelectorType::class, array(
+                $builder->add('instance', InstanceSelectorType::class, [
                     'data' => $options['instance'],
-                    'attr' => array(
+                    'attr' => [
                         'value' => $options['instance']->getId(),
                         'readonly' => 'readonly',
-                    ),
-                ));
+                    ],
+                ]);
             }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
-        ));
+        ]);
     }
 }

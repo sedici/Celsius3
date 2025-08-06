@@ -33,9 +33,9 @@ class InstitutionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_country', [$this, 'getCountry']),
-            new TwigFunction('get_city', [$this, 'getCity']),
-            new TwigFunction('print_institutions', [$this, 'printInstitutions'])
+            new TwigFunction('get_country', $this->getCountry(...)),
+            new TwigFunction('get_city', $this->getCity(...)),
+            new TwigFunction('print_institutions', $this->printInstitutions(...))
         ];
     }
 

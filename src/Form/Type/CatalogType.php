@@ -35,11 +35,8 @@ use Celsius3\Form\EventListener\AddEnableCatalogFieldSubscriber;
 class CatalogType extends AbstractType
 {
 
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -47,14 +44,14 @@ class CatalogType extends AbstractType
      
         $builder
                 ->add('name')
-                ->add('url', null, array(
-                    'attr' => array(
+                ->add('url', null, [
+                    'attr' => [
                         'placeholder' => 'http://'
-                    ),
-                ))
-                ->add('comments', TextareaType::class, array(
+                    ],
+                ])
+                ->add('comments', TextareaType::class, [
                     'required' => false,
-                ))
+                ])
         ;
 
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'institution', false);
@@ -67,21 +64,21 @@ class CatalogType extends AbstractType
             if ($options['instance']->getUrl() === InstanceHelper::INSTANCE__DIRECTORY) {
                 $builder->add('instance');
             } else {
-                $builder->add('instance', InstanceSelectorType::class, array(
+                $builder->add('instance', InstanceSelectorType::class, [
                     'data' => $options['instance'],
-                    'attr' => array(
+                    'attr' => [
                         'value' => $options['instance']->getId(),
                         'readonly' => 'readonly',
-                    ),
-                ));
+                    ],
+                ]);
             }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
-        ));
+        ]);
     }
 }

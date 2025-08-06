@@ -39,9 +39,9 @@ class EventExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_request_state', [$this, 'getRequestState']),
-            new TwigFunction('count_searches', [$this, 'countSearches']),
-            new TwigFunction('has_requests', [$this, 'hasRequests']),
+            new TwigFunction('get_request_state', $this->getRequestState(...)),
+            new TwigFunction('count_searches', $this->countSearches(...)),
+            new TwigFunction('has_requests', $this->hasRequests(...)),
         ];
     }
 
@@ -53,9 +53,7 @@ class EventExtension extends AbstractExtension
     public function countSearches(Request $request): int
     {
         return $request->getEvents()->filter(
-            static function ($e) {
-                return $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED;
-            }
+            static fn($e) => $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED
         )->count();
     }
 
@@ -63,9 +61,7 @@ class EventExtension extends AbstractExtension
     {
         $requests = array_filter(
             $events->toArray(),
-            static function (Event $e) {
-                return $e->getEventType() === 'sirequest' || $e->getEventType() === 'mirequest';
-            }
+            static fn(Event $e) => $e->getEventType() === 'sirequest' || $e->getEventType() === 'mirequest'
         );
 
         return count($requests) > 0;

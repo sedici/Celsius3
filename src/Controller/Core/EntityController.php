@@ -44,7 +44,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +74,6 @@ class EntityController extends InstanceDependentController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -94,7 +92,6 @@ class EntityController extends InstanceDependentController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -158,7 +155,6 @@ class EntityController extends InstanceDependentController
         $this->typeClassName = $this->getType();
         $this->repository = $this->getRepository();
         $this->filterClassName = $this->getFilterType();
-        $this->objectManager = $this->entityManager;
     }
 
 
@@ -247,7 +243,7 @@ class EntityController extends InstanceDependentController
     {
         $request = $this->requestStack->getCurrentRequest();
         $action = $request->get('action');
-        $function = 'batch' . ucfirst($action);
+        $function = 'batch' . ucfirst((string) $action);
         $element_ids = $request->get('element', []);
 
         return $this->$function($element_ids);
@@ -313,8 +309,8 @@ class EntityController extends InstanceDependentController
         );
         
         // Convert camelCase to snake_case
-        $name = preg_replace('/([a-z])([A-Z])/', '$1_$2', $name);
-        $name = strtolower($name);
+        $name = preg_replace('/([a-z])([A-Z])/', '$1_$2', (string) $name);
+        $name = strtolower((string) $name);
         
         return $name;
     }

@@ -25,14 +25,20 @@ namespace Celsius3\Controller\Api;
 use Celsius3\Entity\Instance;
 use Celsius3\Entity\AccessToken;
 use Celsius3\Exception\Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 
 class BaseController extends AbstractFOSRestController
 {
+    public function __construct(
+        protected readonly EntityManagerInterface $entityManager,
+    )
+    { }
+
 
     protected function getInstance()
     {
-        $instance = $this->getDoctrine()->getManager()
+        $instance = $this->entityManager
                 ->getRepository(Instance::class)
                 ->find($this->get('request_stack')->getCurrentRequest()->request->get('instance_id'));
 

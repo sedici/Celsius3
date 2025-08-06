@@ -158,7 +158,7 @@ class HtmlAdminEmailTemplateController extends EmailTemplateController
                             [ 'id' => $id ]
                         )
                     );
-                } catch (UniqueConstraintViolationException $e) {
+                } catch (UniqueConstraintViolationException) {
                     $this->addEntityFlash(
                         'error', 'The %entity% already exists.'
                     );

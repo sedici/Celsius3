@@ -35,45 +35,45 @@ class UserTransformType extends AbstractType
     {
 
         if (array_keys($options['user_actual']->getRoles(),UserManager::ROLE_ADMIN)){
-            $choices = array(
+            $choices = [
                 UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
                 UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
                 UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
-            );
+            ];
         }else{
-            $choices = array(
+            $choices = [
                 UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
                 UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
-            );
+            ];
         }
         if (!is_null($options['instance'])) {
-            $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
+            $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, [
                 'choices' => $choices,
                 'expanded' => true,
                 'multiple' => true,
                 'data' => $options['user']->getRoles()
-            ));
+            ]);
         } else {
             $choices[UserManager::$roles_names[UserManager::ROLE_STATISTICS]] = UserManager::ROLE_STATISTICS;
             $choices[UserManager::$roles_names[UserManager::ROLE_TECHNICAL]] = UserManager::ROLE_TECHNICAL;
             $choices[UserManager::$roles_names[UserManager::ROLE_TICKET]] = UserManager::ROLE_TICKET;
             $choices[UserManager::$roles_names[UserManager::ROLE_SUPER_ADMIN]] = UserManager::ROLE_SUPER_ADMIN;
 
-            $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
+            $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, [
                 'choices' => $choices,
                 'expanded' => true,
                 'multiple' => true,
                 'data' => $options['user']->getRoles()
-            ));
+            ]);
 
             foreach ($options['user']->getSecondaryInstances() as $instance) {
                 if (array_keys($instance,'url')){
-                    $builder->add($instance['url'], ChoiceType::class, array(
+                    $builder->add($instance['url'], ChoiceType::class, [
                         'choices' => $choices,
                         'expanded' => true,
                         'multiple' => true,
                         'data' => $instance['roles']
-                    ));
+                    ]);
                 }
                             }
         }
@@ -96,10 +96,10 @@ class UserTransformType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'user' => null,
             'instance' => null,
             'user_actual'=>null
-        ));
+        ]);
     }
 }

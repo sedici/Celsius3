@@ -41,7 +41,7 @@ class OrderType extends AbstractType
         FormBuilderInterface $builder,
         array $options
     ): void {
-        $class = explode('\\', $options['material']);
+        $class = explode('\\', (string) $options['material']);
         $preferredMaterial = lcfirst(str_replace(
             'Type', '', end($class)
         ));
@@ -52,9 +52,7 @@ class OrderType extends AbstractType
         if ($preferredMaterial === 'journal') {
             $materialOptions['journal'] = $options['journal'];
             $materialOptions['other'] = $options['other'];
-            $materialOptions['journal_id'] = ($options['journal_id'] !== null)
-                ? $options['journal_id']
-                : '' ;
+            $materialOptions['journal_id'] = $options['journal_id'] ?? '' ;
         }
 
 

@@ -44,7 +44,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -74,7 +73,6 @@ class HtmlAdminOrderController extends OrderController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -94,7 +92,6 @@ class HtmlAdminOrderController extends OrderController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -324,7 +321,7 @@ class HtmlAdminOrderController extends OrderController
 
         if (!$entity) $this->error(Exception::ENTITY_NOT_FOUND);
 
-        $materialClass = get_class($entity->getMaterialData());
+        $materialClass = $entity->getMaterialData()::class;
 
         $journal = ($entity->getMaterialData() instanceof JournalType)
             ? $entity->getMaterialData()->getJournal()
@@ -392,7 +389,7 @@ class HtmlAdminOrderController extends OrderController
         $this->persistEntity($duplicatedOrder);
         $this->persistEntity($request);
 
-        $materialClass = get_class($duplicatedOrder->getMaterialData());
+        $materialClass = $duplicatedOrder->getMaterialData()::class;
 
         $editForm = $this->createForm(
             data: $duplicatedOrder,

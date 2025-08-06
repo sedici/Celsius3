@@ -35,7 +35,7 @@ final class DataRequestExportPathSelector extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_data_request_export_path', [$this, 'getDataRequestExportPath']),
+            new TwigFunction('get_data_request_export_path', $this->getDataRequestExportPath(...)),
         ];
     }
 
@@ -43,7 +43,7 @@ final class DataRequestExportPathSelector extends AbstractExtension
     {
         $path = '';
 
-        switch (get_class($object)) {
+        switch ($object::class) {
             case OrdersDataRequest::class:
                 $path = 'superadmin_orders_data_request_export';
                 break;

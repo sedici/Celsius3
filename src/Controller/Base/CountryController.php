@@ -42,7 +42,7 @@ class CountryController extends EntityController
         $this->htmlRenderer->setTemplatePrefixFromObj($this);
 
         $this->setDirectory(
-            $this->managerRegistry
+            $this->entityManager
                 ->getRepository(Instance::class)
                 ->findOneBy([
                     'url' => 'directory'

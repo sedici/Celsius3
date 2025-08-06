@@ -29,8 +29,6 @@ use Celsius3\Manager\StatisticManager;
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\InstanceDependentController;
 use Celsius3\Controller\Core\RestRenderer;
-use Celsius3\Entity\BaseUser;
-use Celsius3\Entity\Journal;
 use Celsius3\Helper\ConfigurationHelper;
 use Celsius3\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +37,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +56,6 @@ class DashboardController extends InstanceDependentController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -78,7 +74,6 @@ class DashboardController extends InstanceDependentController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,

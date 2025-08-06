@@ -31,12 +31,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConfigurationCommand extends Command
 {
-    private $configurationHelper;
-
-    public function __construct(ConfigurationHelper $configurationHelper)
+    public function __construct(private readonly ConfigurationHelper $configurationHelper)
     {
         parent::__construct();
-        $this->configurationHelper = $configurationHelper;
     }
 
     protected function configure()
@@ -51,6 +48,6 @@ class ConfigurationCommand extends Command
 
         $this->configurationHelper->updateConfigurations();
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

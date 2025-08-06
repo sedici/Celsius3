@@ -34,9 +34,9 @@ class NewsType extends AbstractType
     {
         $builder
             ->add('title', TextareaType::class, [
-                'attr' => array(
+                'attr' => [
                     'class' => 'summernote',
-                ),
+                ],
 
             ])
             ->add('text', TextareaType::class, [

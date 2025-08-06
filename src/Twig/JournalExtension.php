@@ -34,13 +34,8 @@ use Twig\TwigFunction;
 
 class JournalExtension extends AbstractExtension
 {
-    private $entityManager;
-    private $userManager;
-
-    public function __construct(EntityManagerInterface $entityManager, UserManager $userManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserManager $userManager)
     {
-        $this->entityManager = $entityManager;
-        $this->userManager = $userManager;
     }
 
     public function getName(): string
@@ -51,7 +46,7 @@ class JournalExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('is_editable_journal', [$this, 'isEditableJournal']),
+            new TwigFunction('is_editable_journal', $this->isEditableJournal(...)),
         ];
     }
 

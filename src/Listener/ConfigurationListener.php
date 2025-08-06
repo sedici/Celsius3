@@ -30,17 +30,14 @@ use Celsius3\Helper\InstanceHelper;
 
 class ConfigurationListener
 {
-    private $configuration_helper;
-
-    public function __construct(ConfigurationHelper $configuration_helper)
+    public function __construct(private readonly ConfigurationHelper $configuration_helper)
     {
-        $this->configuration_helper = $configuration_helper;
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(\Doctrine\ORM\Event\PostPersistEventArgs $args)
     {
-        $entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $entity = $args->getObject();
+        $em = $args->getObjectManager();
 
         if ($entity instanceof Instance) {
             $default = $em->getRepository(Configuration::class)

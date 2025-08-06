@@ -8,8 +8,7 @@ services:
         volumes:
             - .:/var/www/html
         networks:
-            - backend
-            - frontend
+            - nginx-manager-network
         depends_on:
             - php
 
@@ -24,10 +23,10 @@ services:
             - .:/var/www/html
             - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
         networks:
-            - backend
+            - nginx-manager-network
         depends_on:
             - bd
-            - elasticsearch
+            # - elasticsearch
         extra_hosts:
             - "host.docker.internal:host-gateway"
         env_file:
@@ -52,7 +51,7 @@ services:
             - ./docker/bd:/docker-entrypoint-initdb.d
             - ./:/home/node/app
         networks:
-            - backend
+            - nginx-manager-network
 
     node:
         build: docker/node/
@@ -61,21 +60,21 @@ services:
             - ./:/home/node/app
         command: sh -c "npm install && npm run watch"
 
-    elasticsearch:
-        build: docker/elasticsearch/
-        ports: [ "9200:9200" ]
-        networks:
-            - backend
-        volumes:
-            - elasticsearch:/usr/share/elasticsearch/data
+    # elasticsearch:
+    #     build: docker/elasticsearch/
+    #     ports: [ "9200:9200" ]
+    #     networks:
+    #         - nginx-manager-network
+    #     volumes:
+    #         - elasticsearch:/usr/share/elasticsearch/data
 
-    phpmyadmin:
-        build: docker/phpmyadmin/
-        ports: [ "81:80" ]
-        depends_on:
-            - bd
-        networks:
-            - backend
+    # phpmyadmin:
+    #     build: docker/phpmyadmin/
+    #     ports: [ "81:80" ]
+    #     depends_on:
+    #         - bd
+    #     networks:
+    #         - nginx-manager-network
 
     mailer:
         build: docker/mailer/
@@ -83,11 +82,11 @@ services:
             - 1080:1080
             - 1025:1025
         networks:
-            - backend
+            - nginx-manager-network
 
 networks:
-    backend: ~
-    frontend: ~
+  nginx-manager-network:
+    external: true
 
 volumes:
     bd: ~

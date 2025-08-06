@@ -47,8 +47,8 @@ class ThreadExtension //extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('form_to_thread', [$this, 'formToThread']),
-            new TwigFunction('get_unread_messages', [$this, 'getUnreadMessages']),
+            new TwigFunction('form_to_thread', $this->formToThread(...)),
+            new TwigFunction('get_unread_messages', $this->getUnreadMessages(...)),
         ];
     }
 

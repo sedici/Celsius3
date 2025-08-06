@@ -35,43 +35,43 @@ class JournalFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
+                ->add('name', null, [
                     'required' => false,
-                ))
-                ->add('abbreviation', null, array(
+                ])
+                ->add('abbreviation', null, [
                     'required' => false,
-                ))
-                ->add('responsible', null, array(
+                ])
+                ->add('responsible', null, [
                     'required' => false,
-                ))
-                ->add('ISSN', null, array(
+                ])
+                ->add('ISSN', null, [
                     'required' => false,
-                ))
-                ->add('ISSNE', null, array(
+                ])
+                ->add('ISSNE', null, [
                     'required' => false,
-                ))
-                ->add('frecuency', null, array(
+                ])
+                ->add('frecuency', null, [
                     'required' => false,
-                ))
+                ])
         ;
 
         if (is_null($options['instance'])) {
             $builder
-                    ->add('instance', EntityType::class, array(
+                    ->add('instance', EntityType::class, [
                         'required' => false,
                         'class' => Instance::class,
-                    ))
+                    ])
             ;
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

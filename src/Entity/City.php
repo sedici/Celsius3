@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ORM\Index(name: 'idx_country', columns: ['country_id']),
     ORM\Index(name: 'idx_instance', columns: ['instance_id'])
 ]
-class City
+class City implements \Stringable
 {
     use TimestampableEntity;
 

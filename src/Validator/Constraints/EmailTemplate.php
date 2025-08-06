@@ -12,7 +12,7 @@ class EmailTemplate extends Constraint {
     public $message = 'constraint.message.mail_template';
 
     public function validatedBy() {
-        return get_class($this) . 'Validator';
+        return static::class . 'Validator';
     }
 
 }

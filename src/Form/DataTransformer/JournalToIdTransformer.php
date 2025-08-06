@@ -29,11 +29,8 @@ use Doctrine\ORM\EntityManager;
 
 class JournalToIdTransformer implements DataTransformerInterface
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(private readonly EntityManager $em)
     {
-        $this->em = $em;
     }
 
     /**
@@ -65,7 +62,7 @@ class JournalToIdTransformer implements DataTransformerInterface
         }
 
         $user = $this->em->getRepository(Journal::class)
-                ->findOneBy(array('id' => $id));
+                ->findOneBy(['id' => $id]);
 
         if (null === $user) {
             throw new TransformationFailedException(

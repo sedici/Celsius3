@@ -28,10 +28,14 @@ use Celsius3\Entity\JournalType;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\Entity\Journal;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 
-#[Route('/rest/v1/admin/journal')]
+#[
+    Route('/rest/v1/admin/journal'),
+    IsGranted('ROLE_ADMIN')
+]
 class RestAdminJournalController extends JournalController
 {
     #[Route(

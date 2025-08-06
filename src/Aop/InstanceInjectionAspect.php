@@ -29,21 +29,18 @@ use Celsius3\Helper\InstanceHelper;
 
 class InstanceInjectionAspect implements MethodInterceptorInterface, PointcutInterface
 {
-    private $instance_helper;
-
-    public function __construct(InstanceHelper $instance_helper)
+    public function __construct(private readonly InstanceHelper $instance_helper)
     {
-        $this->instance_helper = $instance_helper;
     }
 
     public function matchesClass(\ReflectionClass $class)
     {
-        return false !== strpos($class->name, 'TwigEngine');
+        return str_contains($class->name, 'TwigEngine');
     }
 
     public function matchesMethod(\ReflectionMethod $method)
     {
-        return false !== strpos($method->name, 'render');
+        return str_contains($method->name, 'render');
     }
 
     public function intercept(MethodInvocation $invocation)

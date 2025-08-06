@@ -15,6 +15,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class AuthController extends UserController
 {
 
+    // El logout está configurado en config/packages/security.yaml y config/routes.yaml porque Symfony maneja el logout automáticamente.
+
     public function initialize(): void
     {
         parent::initialize();
@@ -37,14 +39,5 @@ class AuthController extends UserController
                 'error' => $error,
             ]
         );
-    }
-
-
-    #[Route('/logout', name: 'logout'), IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function logout(): Response
-    {
-        $this->session->invalidate();
-        $this->tokenStorage->setToken(null);
-        return $this->redirectToRoute('login');
     }
 }

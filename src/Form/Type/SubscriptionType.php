@@ -35,42 +35,42 @@ class SubscriptionType extends AbstractType
     {
         if ($options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPER_ADMIN')) {
             $builder
-                    ->add('user_notification', ChoiceType::class, array(
+                    ->add('user_notification', ChoiceType::class, [
 //                        'choices_as_values' => true,
-                        'choices' => array(
+                        'choices' => [
                             /** @Ignore */ 'Notification' => 'notification',
                             /** @Ignore */ 'Email' => 'email',
-                        ),
+                        ],
                         'required' => false,
                         'multiple' => true,
                         'expanded' => true,
                         'label' => 'New User',
-            ));
+            ]);
         }
         $builder
-                ->add('message_notification', ChoiceType::class, array(
+                ->add('message_notification', ChoiceType::class, [
 //                    'choices_as_values' => true,
-                    'choices' => array(
+                    'choices' => [
                         /** @Ignore */ 'Notification' => 'notification',
                         /** @Ignore */ 'Email' => 'email',
-                    ),
+                    ],
                     'required' => false,
                     'multiple' => true,
                     'expanded' => true,
                     'label' => 'New Message',
-                ))
-                ->add('event_notification', EventSubscriptionType::class, array(
+                ])
+                ->add('event_notification', EventSubscriptionType::class, [
                     'label' => 'Order Events',
                     'is_admin' => $options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPER_ADMIN'),
-                ))
+                ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => null,
             'user' => null,
-        ));
+        ]);
     }
 }

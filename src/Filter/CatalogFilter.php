@@ -29,15 +29,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CatalogFilter implements EntityFilterInterface
 {
-    private $entityManager;
     private $specialFields = [
         'city' => 'addFindByCity',
         'country' => 'addFindByCountry'
     ];
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function applyCustomFilter($field_name, $data, $query, $instance)

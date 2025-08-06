@@ -28,9 +28,11 @@ use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Event\Event;
 use Celsius3\Entity\File;
 use Celsius3\Entity\FileDownload;
+use Celsius3\Entity\Instance;
 use Celsius3\Entity\Request;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -73,6 +75,7 @@ class FileManager
         return (int) $output[0];
     }
 
+
     public function registerDownload(
         Request $request,
         File $file,
@@ -85,15 +88,20 @@ class FileManager
 
         $download = new FileDownload();
         $download->setIp($httpRequest->getClientIp());
+
         $download->setUser($user);
+
         $download->setUserAgent($httpRequest->headers->get('user-agent'));
         $download->setFile($file);
         $download->setRequest($request);
+
         $download->setInstance($user->getInstance());
+
         $this->entityManager->persist($file);
         $this->entityManager->persist($download);
         $this->entityManager->flush();
     }
+
 
     public function copyFilesToPreviousRequest(
         Request $previousRequest,
@@ -121,10 +129,12 @@ class FileManager
         }
     }
 
+
     public function getUploadRootDir(File $file): string
     {
         return $this->uploadRootDir.$file->getInstance()->getUrl();
     }
+
 
     public function createFilesDirectory($url): void
     {
@@ -138,6 +148,7 @@ class FileManager
         }
     }
 
+
     public function updateFilesDirectory($oldUrl, $newUrl): void
     {
         $old_path = $this->uploadRootDir.$oldUrl;
@@ -147,6 +158,7 @@ class FileManager
             rename($old_path, $new_path);
         }
     }
+
 
     protected function getUploadDir(): string
     {

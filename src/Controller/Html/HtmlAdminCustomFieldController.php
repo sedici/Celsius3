@@ -22,17 +22,18 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\CustomFieldController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 
-/**
- * Order controller.
- * @Route("/admin/customuserfield")
- */
+#[
+    Route('/admin/customuserfield'),
+    IsGranted('ROLE_ADMIN')
+]
 class HtmlAdminCustomFieldController extends CustomFieldController
 {
 
@@ -45,43 +46,41 @@ class HtmlAdminCustomFieldController extends CustomFieldController
 
     /**
      * Lists all CustomField entities.
-     * @Route("/", name="admin_customuserfield")
      */
+    #[Route('/', name: 'admin_customuserfield')]
     public function htmlIndex(): Response
     { return $this->htmlRenderer->render('index', $this->index()); }
 
 
     /**
      * Displays a form to create a new CustomField entity.
-     * @Route("/new", name="admin_customuserfield_new")
      */
+    #[Route('/new', name: 'admin_customuserfield_new')]
     public function htmlNew(): Response
     { return $this->htmlRenderer->render('new', $this->new()); }
 
 
     /**
      * Creates a new CustomField entity.
-     * @Route("/create", name="admin_customuserfield_create", methods={"POST"})
      */
+    #[Route('/create', name: 'admin_customuserfield_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
     { return $this->htmlRenderer->render('create', $this->create()); }
 
     /**
      * Displays a form to edit an existing CustomField entity.
-     * @Route("/{id}/edit", name="admin_customuserfield_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'admin_customuserfield_edit')]
     public function htmlEdit(string $id): Response
     { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
 
     /**
      * Edits an existing CustomField entity.
-     * @Route("/{id}/update", name="admin_customuserfield_update", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'admin_customuserfield_update', methods: ['POST'])]
     public function htmlUpdate(string $id): RedirectResponse|Response
     { return $this->htmlRenderer->render('edit', $this->update($id)); }
 }

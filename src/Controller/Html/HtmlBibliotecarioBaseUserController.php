@@ -30,12 +30,16 @@ use Celsius3\Controller\Base\UserController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
  * BibliotecarioBaseUser controller.
  */
-#[Route('/bibliotecario/user')]
+#[
+    Route('/bibliotecario/user'),
+    IsGranted('ROLE_LIBRARIAN')
+]
 class HtmlBibliotecarioBaseUserController extends UserController
 {
 

@@ -42,7 +42,6 @@ use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -69,7 +68,6 @@ class PublicController extends EntityController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -89,7 +87,6 @@ class PublicController extends EntityController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -201,7 +198,7 @@ class PublicController extends EntityController
     #[Route(path: '/countries', name: 'public_countries', options: ['expose' => true])]
     public function countries(): Response
     {
-        $countries = $this->objectManager
+        $countries = $this->entityManager
             ->getRepository(Country::class)
             ->getAllOrderedByNameQB()
             ->getQuery()->execute();
@@ -211,7 +208,7 @@ class PublicController extends EntityController
             $response[] = [
                 'value' => $country->getId(),
                 'name' => ucfirst(
-                    strtolower($country->getName())
+                    strtolower((string) $country->getName())
                 )
             ];
         }
@@ -230,7 +227,7 @@ class PublicController extends EntityController
     {
         $params = $this->requestStack->getCurrentRequest()->query->all();
 
-        $cities = $this->objectManager
+        $cities = $this->entityManager
             ->getRepository(City::class)
             ->findForCountry($params['country_id']);
 
@@ -256,7 +253,7 @@ class PublicController extends EntityController
     {
         $params = $this->requestStack->getCurrentRequest()->query->all();
 
-        $institutions = $this->objectManager
+        $institutions = $this->entityManager
             ->getRepository(Institution::class)
             ->findByCountry(
                 $params['country_id'],
@@ -320,9 +317,7 @@ class PublicController extends EntityController
 
         $actual = array_filter(
             $institutions,
-            function ($i): bool {
-                return $i['parent_id'] === null;
-            }
+            fn($i): bool => $i['parent_id'] === null
         );
 
         $institutions = array_diff_key(
@@ -343,9 +338,7 @@ class PublicController extends EntityController
             ) {
                 $children = array_filter(
                     $institutions,
-                    function ($i) use ($institution): bool {
-                        return $i['parent_id'] === $institution['id'];
-                    }
+                    fn($i): bool => $i['parent_id'] === $institution['id']
                 );
 
                 $instAbbr = ' | '.(($institution['abbreviation']) ?: $institution['name']);
@@ -382,9 +375,7 @@ class PublicController extends EntityController
             foreach ($institutions as $institution) {
                 $children = array_filter(
                     $all,
-                    function ($i) use ($institution): bool {
-                        return $i['parent_id'] === $institution['id'];
-                    }
+                    fn($i): bool => $i['parent_id'] === $institution['id']
                 );
 
                 $response[] = [

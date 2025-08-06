@@ -35,10 +35,14 @@ use Celsius3\Exception\Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * Admin BaseUser controller.
  */
-#[Route("/admin/user")]
+#[
+    Route("/admin/user"),
+    IsGranted("ROLE_ADMIN")
+]
 final class HtmlAdminBaseUserController extends UserController
 {
 

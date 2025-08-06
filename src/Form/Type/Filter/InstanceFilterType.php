@@ -33,25 +33,25 @@ class InstanceFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
+                ->add('name', null, [
                     'required' => false,
-                ))
-                ->add('abbreviation', null, array(
+                ])
+                ->add('abbreviation', null, [
                     'required' => false,
-                ))
-                ->add('email', null, array(
+                ])
+                ->add('email', null, [
                     'required' => false,
-                ))
+                ])
 
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

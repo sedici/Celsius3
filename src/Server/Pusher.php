@@ -34,16 +34,12 @@ class Pusher implements WampServerInterface
     /**
      * A lookup of all the topics clients have subscribed to.
      */
-    private $subscribedTopics = array();
-    private $connections = array();
-    private $connectionsByOperatorInRequest = array();
-    private $notificationManager;
-    private $entityManager;
+    private $subscribedTopics = [];
+    private $connections = [];
+    private $connectionsByOperatorInRequest = [];
 
-    public function __construct(NotificationManager $notificationManager, EntityManager $entityManager)
+    public function __construct(private readonly NotificationManager $notificationManager, private readonly EntityManager $entityManager)
     {
-        $this->notificationManager = $notificationManager;
-        $this->entityManager = $entityManager;
     }
 
     private function testAndReconnect()
@@ -56,16 +52,16 @@ class Pusher implements WampServerInterface
 
     private function getNotificationData($count, $notifications)
     {
-        $data = array(
+        $data = [
             'count' => $count,
-            'notifications' => array(),
-        );
+            'notifications' => [],
+        ];
 
         foreach ($notifications as $notification) {
-            $data['notifications'][] = array(
+            $data['notifications'][] = [
                 'template' => $this->notificationManager->getRenderedTemplate($notification),
                 'id' => $notification->getId(),
-            );
+            ];
         }
 
         return $data;
@@ -73,14 +69,14 @@ class Pusher implements WampServerInterface
 
     private function getOperatorsData($request_id)
     {
-        $data = array();
+        $data = [];
         foreach ($this->connectionsByOperatorInRequest[$request_id] as $key => $value) {
             $user = $this->entityManager->getRepository(BaseUser::class)
             ->find($key);
-            $data[$request_id][] = array(
+            $data[$request_id][] = [
                 'operator_id' => $user->getId(),
-                'operator_username' => base64_encode($user->getUsername()),
-            );
+                'operator_username' => base64_encode((string) $user->getUsername()),
+            ];
         }
 
         return $data;
@@ -91,16 +87,16 @@ class Pusher implements WampServerInterface
         $this->testAndReconnect();
 
         try {
-            $map = array(
+            $map = [
                 'user' => function (ConnectionInterface $conn, $topic) {
-                    $id = explode('_', $topic->getId())[2];
+                    $id = explode('_', (string) $topic->getId())[2];
                     $this->connections[$conn->resourceId]['user'] = $topic;
                     $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($id), array_reverse($this->notificationManager->getUnreadNotifications($id)));
 
-                    return array(
+                    return [
                         'type' => 'notification',
                         'data' => $notificationData,
-                    );
+                    ];
                 },
                 'request' => function (ConnectionInterface $conn, Topic $topic) {
                     $id = explode('_', $topic->getId())[2];
@@ -108,7 +104,7 @@ class Pusher implements WampServerInterface
                     $this->connections[$conn->resourceId]['request'] = $topic;
 
                     if (!array_key_exists($id, $this->connectionsByOperatorInRequest)) {
-                        $this->connectionsByOperatorInRequest[$id] = array();
+                        $this->connectionsByOperatorInRequest[$id] = [];
                     }
 
                     if (!array_key_exists($user_id, $this->connectionsByOperatorInRequest[$id])) {
@@ -117,19 +113,19 @@ class Pusher implements WampServerInterface
 
                     ++$this->connectionsByOperatorInRequest[$id][$user_id];
 
-                    return array(
+                    return [
                         'type' => 'operator_in_request',
                         'data' => $this->getOperatorsData($id),
-                    );
+                    ];
                 },
-            );
+            ];
 
             $topicArray = explode('_', $topic->getId());
             $data = $map[$topicArray[1]]($conn, $topic);
 
             $generalTopic = implode('_', array_slice($topicArray, 0, 3));
             if (!array_key_exists($generalTopic, $this->subscribedTopics)) {
-                $this->subscribedTopics[$generalTopic] = array();
+                $this->subscribedTopics[$generalTopic] = [];
                 echo $generalTopic."\n";
             }
 
@@ -166,7 +162,7 @@ class Pusher implements WampServerInterface
         }
 
         $topic = $this->connections[$conn->resourceId]['request'];
-        $topicArray = explode('_', $this->connections[$conn->resourceId]['request']->getId());
+        $topicArray = explode('_', (string) $this->connections[$conn->resourceId]['request']->getId());
         $id = $topicArray[2];
         $user_id = $topicArray[3];
 
@@ -174,10 +170,10 @@ class Pusher implements WampServerInterface
             if (intval($this->connectionsByOperatorInRequest[$id][$user_id]) <= 1) {
                 unset($this->connectionsByOperatorInRequest[$id][$user_id]);
 
-                $data = array(
+                $data = [
                     'type' => 'operator_in_request',
                     'data' => $this->getOperatorsData($id),
-                );
+                ];
 
                 $generalTopic = implode('_', array_slice($topicArray, 0, 3));
                 foreach ($this->subscribedTopics[$generalTopic] as $t) {
@@ -214,7 +210,7 @@ class Pusher implements WampServerInterface
     {
         $this->testAndReconnect();
 
-        $entry = json_decode($entry, true);
+        $entry = json_decode((string) $entry, true);
 
         usleep(100000);
 
@@ -235,12 +231,12 @@ class Pusher implements WampServerInterface
 
             echo 'Notifying to '.$user."\n";
 
-            $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($user->getId()), array($notification));
+            $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($user->getId()), [$notification]);
 
-            $data = array(
+            $data = [
                 'type' => 'notification',
                 'data' => $notificationData,
-            );
+            ];
 
             $topics = $this->subscribedTopics[$topic_id];
             foreach ($topics as $topic) {

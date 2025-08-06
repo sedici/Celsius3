@@ -47,7 +47,7 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
 
         $url = $input->getArgument('instance');
         $instance = $entityManager->getRepository(Instance::class)
-                ->findOneBy(array('url' => $url));
+                ->findOneBy(['url' => $url]);
         
         $argumentError = false;
         if (is_null($instance)) {
@@ -70,8 +70,8 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
 
         $client = $clientManager->createClient();
         $client->setInstance($instance);
-        $client->setRedirectUris(array($redirectUri));
-        $client->setAllowedGrantTypes(array('authorization_code','refresh_token','token'));
+        $client->setRedirectUris([$redirectUri]);
+        $client->setAllowedGrantTypes(['authorization_code','refresh_token','token']);
 
         $clientManager->updateClient($client);
 

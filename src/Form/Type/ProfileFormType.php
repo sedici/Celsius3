@@ -32,23 +32,23 @@ class ProfileFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', null, array(
+        $builder->add('name', null, [
                     'label' => 'Name',
-                ))
+                ])
                 ->add('surname')
-                ->add('birthdate', BirthdayType::class, array(
+                ->add('birthdate', BirthdayType::class, [
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
-                    'attr' => array('class' => 'date'),
-                ))
+                    'attr' => ['class' => 'date'],
+                ])
                 ->add('address');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => BaseUser::class,
             'csrf_token_id' => 'profile',
-        ));
+        ]);
     }
 }

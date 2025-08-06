@@ -22,19 +22,25 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius3\Controller\Base\InstanceController;
 use Celsius3\Entity\Instance;
+use Celsius3\Exception\Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * Instance controller.
- * @Route("/superadmin/instance")
  */
+#[
+    Route('/superadmin/instance'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminInstanceController extends InstanceController
 {
 
@@ -49,16 +55,16 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Lists all Instance entities.
-     * @Route("/", name="superadmin_instance")
      */
+    #[Route('/', name: 'superadmin_instance')]
     public function htmlIndex(): Response
     { return $this->htmlRenderer->render('index', $this->index()); }
 
 
     /**
      * Displays a form to create a new Instance entity.
-     * @Route("/new", name="superadmin_instance_new")
      */
+    #[Route('/new', name: 'superadmin_instance_new')]
     public function htmlNew(): Response
     { return $this->htmlRenderer->render(
         'new', $this->new(formOptions: ['institution_select' => true]));
@@ -93,7 +99,7 @@ class HtmlSuperadminInstanceController extends InstanceController
         if ($institution === null) $this->error(Exception::ENTITY_NOT_FOUND);
 
         $this->entityManager->wrapInTransaction(
-            function () use ($entity, $institution) {
+            function () use ($entity, $institution): void {
                 $this->persistEntity($entity);
                 
                 $institution->setCelsiusInstance($entity);
@@ -107,38 +113,35 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Creates a new Instance entity.
-     * @Route("/create", name="superadmin_instance_create", methods={"POST"})
      */
+    #[Route('/create', name: 'superadmin_instance_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
     { return $this->htmlRenderer->render('create', $this->create()); }
 
 
     /**
      * Displays a form to edit an existing Instance entity.
-     * @Route("/{id}/edit", name="superadmin_instance_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'superadmin_instance_edit')]
     public function htmlEdit(string $id): Response
     { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
 
     /**
      * Edits an existing Instance entity.
-     * @Route("/{id}/update", name="superadmin_instance_update", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'superadmin_instance_update', methods: ['POST'])]
     public function htmlUpdate(string $id): RedirectResponse|Response
     { return $this->htmlRenderer->render('edit', $this->update($id)); }
 
 
     /**
      * Switches the enabled flag of a Instance entity.
-     * @Route("/{id}/switch", name="superadmin_instance_switch")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/switch', name: 'superadmin_instance_switch')]
     public function switch(string $id): RedirectResponse
     {
         $entity = $this->findQuery($id);
@@ -170,10 +173,9 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Switches the enabled flag of a Instance entity.
-     * @Route("/{id}/invisible", name="superadmin_instance_invisible")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/invisible', name: 'superadmin_instance_invisible')]
     public function invisible(string $id): RedirectResponse
     {
         $entity = $this->findQuery($id);
@@ -205,16 +207,15 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Displays a form to configure the Directory.
-     * @Route("/directory/configure", name="superadmin_directory_configure")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/directory/configure', name: 'superadmin_directory_configure')]
     public function configureDirectory(): Response
     {
         return $this->htmlRenderer->render(
             'configure',
             $this->baseConfigure(
-                '' . $this->instanceManager->getDirectory()->getId()
+                '' . $this->instanceHelper->getDirectory()->getId()
             )
         );
     }
@@ -222,10 +223,9 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Displays a form to configure an existing Instance.
-     * @Route("/{id}/configure", name="superadmin_instance_configure")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/configure', name: 'superadmin_instance_configure')]
     public function configure(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -237,10 +237,13 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Edits the existing Instance configuration.
-     * @Route("/{id}/update_configuration", name="superadmin_instance_update_configuration", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route(
+        '/{id}/update_configuration',
+        name: 'superadmin_instance_update_configuration',
+        methods: ['POST']
+    )]
     public function configureUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -255,10 +258,9 @@ class HtmlSuperadminInstanceController extends InstanceController
 
     /**
      * Redirects to the administration of an Instance entity.
-     * @Route("/{id}/admin", name="superadmin_instance_admin")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/admin', name: 'superadmin_instance_admin')]
     public function admin(string $id): RedirectResponse
     {
         $entity = $this->findQuery($id);

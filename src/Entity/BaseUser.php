@@ -105,7 +105,7 @@ class BaseUser implements
 
     
     #[ORM\Column(type: "string", length: 255, nullable: true, options: ["default" => null])]
-    private ?string $salt;
+    private ?string $salt = null;
 
 
     #[ORM\Column(type: "datetime", nullable: true, options: ["default" => null])]
@@ -178,7 +178,7 @@ class BaseUser implements
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Institution::class, inversedBy: "users")]
     #[ORM\JoinColumn(name: "institution_id", referencedColumnName: "id", nullable: false)]
-    protected Institution $institution;
+    protected ?Institution $institution = null;
 
 
     #[ORM\Column(type: "array", name: "secondary_instances")]
@@ -317,10 +317,10 @@ class BaseUser implements
     public function __toString() : string
     {
         return ucwords(
-            strtolower($this->getSurname())
+            strtolower((string) $this->getSurname())
         )
         . ', '
-        . ucwords(strtolower($this->getName()));
+        . ucwords(strtolower((string) $this->getName()));
     }
 
     public function getId(): ?int

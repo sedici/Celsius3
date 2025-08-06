@@ -22,10 +22,11 @@
 
 namespace Celsius3\Entity;
 
-use Celsius3\Repository\BaseNotificationRepository;
+use Celsius3\Repository\TemplateNotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BaseNotificationRepository::class)]
+
+#[ORM\Entity(repositoryClass: TemplateNotificationRepository::class)]
 class NotificationTemplate extends Template
 {
 }

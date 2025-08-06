@@ -37,9 +37,9 @@ class BookTypeType extends MaterialTypeType
                 ->add('editor')
                 ->add('chapter')
                 ->add('ISBN')
-                ->add('withIndex', null, array(
+                ->add('withIndex', null, [
                     'required' => false,
-                ))
+                ])
         ;
     }
 

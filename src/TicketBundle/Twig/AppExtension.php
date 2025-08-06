@@ -46,32 +46,19 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('estilos_estado', [$this, 'getEstiloEstado'], ['is_safe' => ['html']]),
+            new TwigFunction('estilos_estado', $this->getEstiloEstado(...), ['is_safe' => ['html']]),
         ];
     }
 
     public function getEstiloEstado($filter): string
     {
-        switch ($filter) {
-            case '1':
-                $name = 'label-danger';
-                break;
-
-            case '2':
-                $name = 'label-info';
-                break;
-
-            case '3':
-                $name = 'label-success';
-                break;
-
-            case '4':
-                $name = 'label-warning';
-                break;
-
-            default:
-                $name = '';
-        }
+        $name = match ($filter) {
+            '1' => 'label-danger',
+            '2' => 'label-info',
+            '3' => 'label-success',
+            '4' => 'label-warning',
+            default => '',
+        };
 
         return $name;
     }

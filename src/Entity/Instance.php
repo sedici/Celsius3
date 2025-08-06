@@ -156,7 +156,7 @@ class Instance extends LegacyInstance
             fn (Configuration $entry): bool => $entry->getKey() === $key
         )->first();
 
-        return $cfg ? $cfg : new Configuration();
+        return $cfg ?: new Configuration();
     }
 
     public function getConfigurations(): array|Collection

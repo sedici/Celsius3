@@ -30,6 +30,9 @@ use Celsius3\Entity\Instance;
  */
 class EmailRepository extends BaseRepository
 {
+    protected static $entityClass = Email::class;
+
+
     /**
      * @return Email[]
      */
@@ -38,12 +41,12 @@ class EmailRepository extends BaseRepository
         $qb = $this->createQueryBuilder('e');
 
         $qb->where('e.instance = :instance')
-                ->setParameter('instance', $instance->getId())
-                ->andWhere('e.sent = :sent')
-                ->setParameter('sent', false)
-                ->andWhere('e.error = :error')
-                ->setParameter('error', false)
-                ->setMaxResults($limit)
+            ->setParameter('instance', $instance->getId())
+            ->andWhere('e.sent = :sent')
+            ->setParameter('sent', false)
+            ->andWhere('e.error = :error')
+            ->setParameter('error', false)
+            ->setMaxResults($limit)
         ;
 
         return $qb->getQuery()->execute();

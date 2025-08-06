@@ -40,7 +40,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ORM\Index(name: "idx_abbreviation", columns: ["abbreviation"]),
     ORM\Index(name: "idx_instance", columns: ["instance_id"])
 ]
-class Journal
+class Journal implements \Stringable
 {
     use TimestampableEntity;
 
@@ -65,7 +65,7 @@ class Journal
     //     "user_list",
     //     "ajax_list_name"
     // ])]
-    private ?string $name;
+    private ?string $name = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
@@ -76,11 +76,11 @@ class Journal
     //     "user_list",
     //     "ajax_list"
     // ])]
-    private ?string $abbreviation;
+    private ?string $abbreviation = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $responsible;
+    private ?string $responsible = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
@@ -88,16 +88,16 @@ class Journal
     //     "administration_order_show",
     //     "ajax_list"
     // ])]
-    private ?string $ISSN;
+    private ?string $ISSN = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     // #[Groups(["ajax_list"])]
-    private ?string $ISSNE;
+    private ?string $ISSNE = null;
 
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $frecuency;
+    private ?string $frecuency = null;
     #[ORM\OneToMany(targetEntity: JournalType::class, mappedBy: "journal", fetch: "EXTRA_LAZY")]
     private Collection $materials;
 
@@ -105,16 +105,16 @@ class Journal
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id", nullable: false)]
-    private ?Instance $instance;
+    private ?Instance $instance = null;
 
 
     public function __construct() {
         $this->materials = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

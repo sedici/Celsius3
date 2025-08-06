@@ -32,11 +32,8 @@ use Celsius3\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Symfony\Component\Form\AbstractType;
 class SuperadminStatisticsType extends AbstractType
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -61,9 +58,9 @@ class SuperadminStatisticsType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'user' => null,
 
-        ));
+        ]);
     }
 }

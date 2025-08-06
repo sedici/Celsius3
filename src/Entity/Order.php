@@ -51,7 +51,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     ORM\HasLifecycleCallbacks
 ]
-class Order
+class Order implements \Stringable
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -62,7 +62,7 @@ class Order
     private ?int $id = null;
 
 
-    #[ORM\Column(type: 'integer', unique: true)]
+    #[ORM\Column(type: 'integer')]
     private int $code;
 
 
@@ -199,9 +199,7 @@ class Order
     {
         return $this->getRequests()
             ->filter(
-                function (Request $entry) use ($instance): bool {
-                    return $entry->getInstance()->getId() == $instance->getId();
-                }
+                fn(Request $entry): bool => $entry->getInstance()->getId() == $instance->getId()
             )->count() > 0;
     }
 
@@ -209,9 +207,7 @@ class Order
     {
         $result = $this->getRequests()
             ->filter(
-                function (Request $entry) use ($instance): bool {
-                    return $entry->getInstance()->getId() == $instance->getId();
-                }
+                fn(Request $entry): bool => $entry->getInstance()->getId() == $instance->getId()
             )->first();
 
         return false !== $result ? $result : null;

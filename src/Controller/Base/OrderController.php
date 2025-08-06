@@ -62,7 +62,7 @@ class OrderController extends EntityController
             $journal = null;
 
             if (is_int($rawJournal)) {
-                $journal = $this->managerRegistry->getManager()
+                $journal = $this->entityManager
                     ->getRepository(Journal::class)->find(
                         $rawJournal
                     );
@@ -84,7 +84,7 @@ class OrderController extends EntityController
         $originalRequest->setCreator($this->getUser());
 
         try { $originalRequest->getOwner(); }
-        catch (\Throwable $e) {
+        catch (\Throwable) {
             $originalRequest->setOwner($this->getUser());
         }
 
@@ -143,7 +143,7 @@ class OrderController extends EntityController
         } else {
             $class = explode('\\', $materialData);
             $materialTypeName = MaterialTypeManager::CLSTYPES_FORM_MAP[
-                strtolower(preg_replace('/Type$/', '', end($class)))
+                strtolower((string) preg_replace('/Type$/', '', end($class)))
                 // end($class)
             ];
         }

@@ -44,7 +44,7 @@ class MaterialTypeExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_material_type', [$this, 'getMaterialType']),
+            new TwigFunction('get_material_type', $this->getMaterialType(...)),
         ];
     }
 
@@ -55,7 +55,7 @@ class MaterialTypeExtension extends AbstractExtension
 
     private function getClassName(MaterialType $material)
     {
-        $class = explode('\\', get_class($material));
+        $class = explode('\\', $material::class);
 
         return end($class);
     }

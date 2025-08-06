@@ -29,6 +29,9 @@ use Celsius3\Helper\InstanceHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\Celsius3\Entity\Instance>
+ */
 class InstanceRepository extends ServiceEntityRepository implements InstanceRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)

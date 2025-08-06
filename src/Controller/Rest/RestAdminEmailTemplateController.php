@@ -77,7 +77,7 @@ class RestAdminEmailTemplateController extends EmailTemplateController
             )
             ->getQuery()
             ->getSingleResult();
-        
+
         if (!$template) $this->error('not_found');
 
         $render = $this->renderTemplate(
@@ -88,14 +88,14 @@ class RestAdminEmailTemplateController extends EmailTemplateController
                 'order' => $request->getOrder(),
             ]
         );
-        
+
         $template->setText($render);
 
         return $this->restRenderer->render(
             $template, serializerGroups: 'api'
         );
 
-        // $em = $this->getDoctrine()->getManager();
+        // $em = $this->entityManager;
 
         // $request = $em->getRepository(Request::class)
         //         ->find($request_id);

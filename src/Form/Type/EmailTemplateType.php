@@ -59,31 +59,31 @@ class EmailTemplateType extends AbstractType
             $builder->add('code', HiddenType::class, ['data' => EmailTemplateController::MAIL__CUSTOM]);
         }
 
-             $builder->add('text', TextareaType::class, array(
-                    'attr' => array(
+             $builder->add('text', TextareaType::class, [
+                    'attr' => [
                         'class' => 'summernote',
-                    ),
+                    ],
                     'required' => false,
-                ))
+                ])
         ;
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            $builder->add('instance', InstanceSelectorType::class, array(
+            $builder->add('instance', InstanceSelectorType::class, [
                 'data' => $options['instance'],
-                'attr' => array(
+                'attr' => [
                     'value' => $options['instance']->getId(),
                     'readonly' => 'readonly',
-                ),
-            ));
+                ],
+            ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
             'code' => null,
             'super_admin' => false
-        ));
+        ]);
     }
 }

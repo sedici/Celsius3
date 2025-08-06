@@ -3,10 +3,10 @@
 namespace Celsius3\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
+use Attribute;
 
-/**
- * @Annotation
- */
+
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class ParentInstitution extends Constraint
 {
 
@@ -14,7 +14,7 @@ class ParentInstitution extends Constraint
 
     public function validatedBy()
     {
-        return get_class($this) . 'Validator';
+        return static::class . 'Validator';
     }
 
 }

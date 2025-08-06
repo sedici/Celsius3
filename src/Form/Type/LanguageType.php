@@ -29,19 +29,16 @@ use Celsius3\Helper\ConfigurationHelper;
 
 class LanguageType extends AbstractType
 {
-    private $configuration_helper;
-
-    public function __construct(ConfigurationHelper $configuration_helper)
+    public function __construct(private readonly ConfigurationHelper $configuration_helper)
     {
-        $this->configuration_helper = $configuration_helper;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $this->configuration_helper->languages,
             'required' => true,
-        ));
+        ]);
     }
 
     public function getParent()

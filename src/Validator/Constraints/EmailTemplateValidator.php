@@ -47,7 +47,7 @@ class EmailTemplateValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        preg_match_all('/{{([[:alpha:] ._])+?}}/', $value, $match);
+        preg_match_all('/{{([[:alpha:] ._])+?}}/', (string) $value, $match);
 
         $template_variables = [];
         foreach ($match[0] as $key => $val) {

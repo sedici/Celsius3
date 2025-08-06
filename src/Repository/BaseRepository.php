@@ -22,14 +22,28 @@
 
 namespace Celsius3\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Celsius3\Entity\Instance;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * BaseRepository.
  */
-class BaseRepository extends EntityRepository
+class BaseRepository extends ServiceEntityRepository
 {
+    protected static $entityClass;
+
+    public function __construct(protected readonly ManagerRegistry $registry)
+    {
+        if (!static::$entityClass) {
+            throw new \RuntimeException('Debes definir la propiedad $entityClass en el repositorio hijo');
+        }
+        
+        parent::__construct($registry, static::$entityClass);
+    }
+
+
     public function findBaseDoUnionEntities($main, $ids)
     {
         return $this->createQueryBuilder('e')

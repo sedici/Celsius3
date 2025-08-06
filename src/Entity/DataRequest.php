@@ -70,11 +70,6 @@ abstract class DataRequest
     protected string $data;
 
 
-    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "dataRequests")]
-    #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
-    private Instance $instance;
-
-
     #[ORM\Column(type: "boolean")]
     private bool $exported = false;
 
@@ -91,9 +86,12 @@ abstract class DataRequest
     private ?string $file = null;
 
 
-    public function __construct(Instance $instance)
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "dataRequests")]
+        #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
+        private Instance $instance
+    )
     {
-        $this->instance = $instance;
     }
 
     public function getId(): ?int

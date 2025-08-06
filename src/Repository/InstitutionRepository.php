@@ -35,6 +35,8 @@ use Doctrine\ORM\QueryBuilder;
  */
 class InstitutionRepository extends BaseRepository
 {
+    protected static $entityClass = Institution::class;
+
 
     public function findInstitutionParentInstance(){
         $qb = $this->createQueryBuilder('e')
@@ -43,7 +45,7 @@ class InstitutionRepository extends BaseRepository
             ->orderBy('e.name', 'asc');
 
         return $qb->getQuery()->getResult();
-        }
+    }
 
 
 

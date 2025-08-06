@@ -30,16 +30,8 @@ use Symfony\Component\Routing\Router;
 
 class ExceptionListener
 {
-    private $exceptionLogger;
-    private $restExceptionLogger;
-    private $router;
-
-    public function __construct(
-        LoggerInterface $exceptionLogger, LoggerInterface $restExceptionLogger, Router $router)
+    public function __construct(private readonly LoggerInterface $exceptionLogger, private readonly LoggerInterface $restExceptionLogger, private readonly Router $router)
     {
-        $this->exceptionLogger = $exceptionLogger;
-        $this->restExceptionLogger = $restExceptionLogger;
-        $this->router = $router;
     }
 
     public function onKernelException(ExceptionEvent $event): void

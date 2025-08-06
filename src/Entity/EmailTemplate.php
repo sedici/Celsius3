@@ -44,7 +44,7 @@ class EmailTemplate extends Template
     #[Assert\NotNull]
     #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: "templates")]
     #[ORM\JoinColumn(name: "instance_id", referencedColumnName: "id")]
-    private ?Instance $instance;
+    private ?Instance $instance = null;
 
 
     public function setEnabled(bool $enabled): self

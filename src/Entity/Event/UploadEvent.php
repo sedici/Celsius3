@@ -38,9 +38,10 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Repository\UploadEventRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: UploadEventRepository::class)]
 class UploadEvent extends MultiInstanceEvent implements Notifiable
 {
     use ReclaimableTrait;

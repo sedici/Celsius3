@@ -39,29 +39,26 @@ use function is_string;
 
 class AdministrationExtension extends AbstractExtension
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('count_users', [$this, 'countUsers']),
-            new TwigFunction('has_higher_roles', [$this, 'hasHigherRoles']),
-            new TwigFunction('role_name', [$this, 'roleName']),
-            new TwigFunction('full_name', [$this, 'fullName']),
-            new TwigFunction('get_buckets', [$this, 'getBuckets']),
-            new TwigFunction('pending_data_requests', [$this, 'getPendingDataRequests']),
+            new TwigFunction('count_users', $this->countUsers(...)),
+            new TwigFunction('has_higher_roles', $this->hasHigherRoles(...)),
+            new TwigFunction('role_name', $this->roleName(...)),
+            new TwigFunction('full_name', $this->fullName(...)),
+            new TwigFunction('get_buckets', $this->getBuckets(...)),
+            new TwigFunction('pending_data_requests', $this->getPendingDataRequests(...)),
         ];
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('first_upper', [$this, 'firstUpper']),
+            new TwigFilter('first_upper', $this->firstUpper(...)),
         ];
     }
 

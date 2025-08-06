@@ -37,46 +37,46 @@ class FileDownloadFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-            ->add('user', UserSelectorType::class, array(
-                'attr' => array(
+            ->add('user', UserSelectorType::class, [
+                'attr' => [
                     'class' => 'container',
                     'readonly' => 'readonly',
                     'value' => (!is_null($options['user'])) ? $options['user']->getId() : null,
-                ),
+                ],
                 'required' => false
-            ))
-            ->add('user_autocomplete', TextType::class, array(
-                'attr' => array(
+            ])
+            ->add('user_autocomplete', TextType::class, [
+                'attr' => [
                     'value' => (!is_null($options['user'])) ? $options['user']->getId() : null,
                     'class' => 'autocomplete',
                     'target' => 'BaseUser',
-                ),
+                ],
                 'mapped' => false,
                 'label' => 'User',
                 'required' => false,
-            ))
-            ->add('ip', null, array(
+            ])
+            ->add('ip', null, [
                 'required' => false,
-            ))
-            ->add('userAgent', null, array(
+            ])
+            ->add('userAgent', null, [
                 'required' => false,
-            ));
+            ]);
         if (is_null($options['instance'])) {
-            $builder->add('instance', EntityType::class, array(
+            $builder->add('instance', EntityType::class, [
                 'required' => false,
                 'class' => Instance::class,
-            ));
+            ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'user' => null,
             'allow_extra_fields' => true,
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

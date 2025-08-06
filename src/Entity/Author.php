@@ -24,9 +24,10 @@ namespace Celsius3\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\Repository\BaseRepository;
+use Celsius3\Repository\AuthorRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: AuthorRepository::class)]
 class Author extends Provider
 {
 

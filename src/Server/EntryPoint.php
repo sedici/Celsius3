@@ -26,7 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EntryPoint
 {
-    private $server;
     private $output;
 
     public function setOutput(OutputInterface $output)
@@ -45,9 +44,8 @@ class EntryPoint
     /**
      *
      */
-    public function __construct($server)
+    public function __construct(private $server)
     {
-        $this->server = $server;
     }
 
     /**

@@ -27,11 +27,12 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\Repository\LoginRepository;
 
 
 #[
     ORM\Table(name: "login"),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: LoginRepository::class),
 
     ORM\Index(name: "idx_category", columns: ["category"])
 ]
@@ -47,17 +48,17 @@ class Login
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    private ?string $category;
+    private ?string $category = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "datetime")]
-    private ?\DateTime $date;
+    private ?\DateTime $date = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "text")]
-    private ?string $message;
+    private ?string $message = null;
 
 
     /**

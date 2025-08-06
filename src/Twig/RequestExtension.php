@@ -36,7 +36,7 @@ class RequestExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('search_pending', [$this, 'searchPending']),
+            new TwigFunction('search_pending', $this->searchPending(...)),
         ];
     }
 
@@ -44,9 +44,7 @@ class RequestExtension extends AbstractExtension
     {
         $array = array_filter(
             $request->getStates()->toArray(),
-            static function (State $item) {
-                return $item->getType() === 'requested' && $item->getSearchPending();
-            }
+            static fn(State $item) => $item->getType() === 'requested' && $item->getSearchPending()
         );
 
         return count($array) > 0;

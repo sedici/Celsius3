@@ -36,30 +36,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * User controller.
- *
- * @Route("/public/rest")
  */
+#[Route('/public/rest')]
 class RestPublicController extends AbstractFOSRestController//BaseInstanceDependentRestController
 {
-    private $translator;
-    private $entityManager;
-    private $viewHandler;
-
     public function __construct(
-        TranslatorInterface $translator,
-        EntityManagerInterface $entityManager,
-        ViewHandlerInterface $viewHandler
-    )
-{
-    $this->translator = $translator;
-    $this->entityManager = $entityManager;
-    $this->viewHandler = $viewHandler;
-}
+        private readonly TranslatorInterface $translator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ViewHandlerInterface $viewHandler
+    ) { }
 
     /**
      * GET Route annotation.
-     * @Get("/users_count.{_format}", name="public_rest_get_users_count_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
+    #[Get('/users_count.{_format}', name: 'public_rest_get_users_count_data_for', options: ['expose' => true], defaults: ['_format' => 'json'])]
     public function getUsersCountDataFor(Request $request)
     {
         $translator = $this->translator;
@@ -77,7 +67,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
                 ->getRepository(\Celsius3\Entity\Request::class)
                 ->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
 
-        $result = array();
+        $result = [];
         $total = 0;
         foreach ($newUsers as $count) {
             $result[$count['axisValue']]['newUsers'] = $count['newUsers'];
@@ -89,7 +79,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
         ksort($result, SORT_NUMERIC);
 
-        $values = array();
+        $values = [];
 
         $values['names']['newUsers'][] = $translator->trans('New Users');
         $values['names']['activeUsers'][] = $translator->trans('Active Users');
@@ -102,9 +92,9 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
             $values['categories'][] = ($initialYear === $finalYear) ?
                 $translator->trans(strftime('%B', mktime(0, 0, 0, $axis, 10)))
                 : $axis;
-            $values['columns']['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
-            $values['columns']['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
-            $values['columns']['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
+            $values['columns']['newUsers'][] = $count['newUsers'] ?? 0;
+            $values['columns']['activeUsers'][] = $count['activeUsers'] ?? 0;
+            $values['columns']['totalUsers'][] = $count['totalUsers'] ?? 0;
         }
 
         $format = $request->getRequestFormat();
@@ -118,8 +108,8 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
     /**
      * GET Route annotation.
-     * @Get("/requests_origin.{_format}", name="public_rest_get_requests_origin_data", options={"expose"=true}, defaults={"_format"="json"})
      */
+    #[Get('/requests_origin.{_format}', name: 'public_rest_get_requests_origin_data', options: ['expose' => true], defaults: ['_format' => 'json'])]
     public function getRequestsOriginCountData(Request $request)
     {
         $translator = $this->translator;
@@ -134,16 +124,11 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
         $counts = $this->entityManager->getRepository(Institution::class)
                 ->countRequestsOrigin($instance, $type, $initialYear, $finalYear, $country, $institution);
 
-        uasort($counts, function($a, $b) {
-            if ($a['requestsCount'] === $b['requestsCount']) {
-                return 0;
-            }
-            return ($a['requestsCount'] > $b['requestsCount']) ? -1 : 1;
-        });
+        uasort($counts, fn($a, $b) => $b['requestsCount'] <=> $a['requestsCount']);
 
-        $data = array();
+        $data = [];
         $data['columns']['requestsCount'][] = $translator->trans('Requests');
-        $data['categories'] = Array();
+        $data['categories'] = [];
         foreach ($counts as $count) {
             $data['columns']['requestsCount'][] = $count['requestsCount'];
             $data['countries'][] = (Integer) $count['institutionCountry'];
@@ -162,8 +147,8 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
     /**
      * GET Route annotation.
-     * @Get("/requests_count.{_format}", name="public_rest_get_requests_count_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
+    #[Get('/requests_count.{_format}', name: 'public_rest_get_requests_count_data_for', options: ['expose' => true], defaults: ['_format' => 'json'])]
     public function getRequestsCountDataFor(Request $request)
     {
         $translator = $this->translator;
@@ -177,7 +162,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
                 ->getRepository(State::class)
                 ->findRequestsStateCountFor($instance, $type, $initialYear, $finalYear);
 
-        $rows = array();
+        $rows = [];
         foreach ($result as $count) {
             $axis = ($initialYear === $finalYear) ?
                 $translator->trans(strftime('%B', mktime(0, 0, 0, $count['axisValue'], 10)))
@@ -186,7 +171,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
             $rows[$axis][$count['stateType']]['requestCount'] = $count['requestsCount'];
         }
 
-        $values = array();
+        $values = [];
         $values['columns']['created'][] = $translator->trans('Created');
         $values['columns']['cancelled'][] = $translator->trans('Cancelled');
         $values['columns']['satisfied'][] = $translator->trans('Satisfied');
@@ -212,7 +197,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
     private function toCSV(Request $request, $data, $firstColumn = '') {
         $response = $this->render('Public/_statistics.csv.twig', ['data' => $data, 'firstColumn' => $firstColumn]);
-        $filename = preg_replace('/_public_rest/', '', preg_replace('/\.csv/', '_' . date("YmdHis") . '.csv', preg_replace('/\//', '_', preg_replace('/\//', '', $request->getPathInfo(), 1))));
+        $filename = preg_replace('/_public_rest/', '', (string) preg_replace('/\.csv/', '_' . date("YmdHis") . '.csv', (string) preg_replace('/\//', '_', (string) preg_replace('/\//', '', $request->getPathInfo(), 1))));
         $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
 
@@ -221,8 +206,8 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
     /**
      * GET Route annotation.
-     * @Get("/requests_destiny_distribution.{_format}", name="public_rest_get_requests_destiny_distribution_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
+    #[Get('/requests_destiny_distribution.{_format}', name: 'public_rest_get_requests_destiny_distribution_data_for', options: ['expose' => true], defaults: ['_format' => 'json'])]
     public function getRequestsDestinyDistributionDataFor(Request $request)
     {
         $translator = $this->translator;
@@ -234,7 +219,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
         $eventRepository = $this->entityManager->getRepository(Event::class);
 
-        $values = array();
+        $values = [];
 
         $created = $eventRepository->findCreatedRequestDestinyDistributionFor($instance, $type, $initialYear, $finalYear);
         foreach ($created as $count) {
@@ -259,13 +244,10 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
             if (array_key_exists('created', $a) && !array_key_exists('created', $b)) {
                 return -1;
             }
-            if ($a['created'] === $b['created']) {
-                return 0;
-            }
-            return ($a['created'] > $b['created']) ? -1 : 1;
+            return $b['created'] <=> $a['created'];
         });
 
-        $data = array();
+        $data = [];
         $data['columns']['created'][] = $translator->trans('Created');
         $data['columns']['cancelled'][] = $translator->trans('Cancelled');
         $data['columns']['delivered'][] = $translator->trans('Delivered');
@@ -287,8 +269,8 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
     /**
      * GET Route annotation.
-     * @Get("/requests_number_by_publication_year.{_format}", name="public_rest_get_requests_number_by_publication_year_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
+    #[Get('/requests_number_by_publication_year.{_format}', name: 'public_rest_get_requests_number_by_publication_year_data_for', options: ['expose' => true], defaults: ['_format' => 'json'])]
     public function getRequestsNumberByPublicationYearDataFor(Request $request)
     {
         $instance = $request->query->get('instance');
@@ -300,7 +282,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
                 ->getRepository(\Celsius3\Entity\Request::class)
                 ->findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear);
 
-        $data = array();
+        $data = [];
         $data['columns']['counts'][] = 'Cantidad';
         $data['categories'][0] = '< 1950';
         $data['columns']['counts'][0] = 0;
@@ -330,8 +312,8 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
     /**
      * GET Route annotation.
-     * @Get("/requests_total_delay.{_format}", name="public_rest_get_requests_total_delay_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
+    #[Get('/requests_total_delay.{_format}', name: 'public_rest_get_requests_total_delay_data_for', options: ['expose' => true], defaults: ['_format' => 'json'])]
     public function getRequestsTotalDelayDataFor(Request $request)
     {
         $translator = $this->translator;
@@ -343,7 +325,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
         $delayType = $request->query->get('delayType');
         $result = $this->entityManager->getRepository(\Celsius3\Entity\Request::class)->findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType);
 
-        $order = array();
+        $order = [];
         foreach ($result as $row) {
             if ($row['rCount'] > 0) {
                 if ($row['delay'] >= 9) {
@@ -354,7 +336,7 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
             }
         }
 
-        $data = array();
+        $data = [];
         $data['columns']['delay0'][] = $d0 = $translator->trans('delay0');
         $data['columns']['delay1'][] = $d1 = $translator->trans('delay1');
         $data['columns']['delay2'][] = $d2 = $translator->trans('delay2');
@@ -370,16 +352,16 @@ class RestPublicController extends AbstractFOSRestController//BaseInstanceDepend
 
         foreach ($order as $k => $d) {
             $data['categories'][] = $k;
-            $data['columns']['delay0'][] = isset($d[0]) ? $d[0] : 0;
-            $data['columns']['delay1'][] = isset($d[1]) ? $d[1] : 0;
-            $data['columns']['delay2'][] = isset($d[2]) ? $d[2] : 0;
-            $data['columns']['delay3'][] = isset($d[3]) ? $d[3] : 0;
-            $data['columns']['delay4'][] = isset($d[4]) ? $d[4] : 0;
-            $data['columns']['delay5'][] = isset($d[5]) ? $d[5] : 0;
-            $data['columns']['delay6'][] = isset($d[6]) ? $d[6] : 0;
-            $data['columns']['delay7'][] = isset($d[7]) ? $d[7] : 0;
-            $data['columns']['delay8'][] = isset($d[8]) ? $d[8] : 0;
-            $data['columns']['delay9'][] = isset($d[9]) ? $d[9] : 0;
+            $data['columns']['delay0'][] = $d[0] ?? 0;
+            $data['columns']['delay1'][] = $d[1] ?? 0;
+            $data['columns']['delay2'][] = $d[2] ?? 0;
+            $data['columns']['delay3'][] = $d[3] ?? 0;
+            $data['columns']['delay4'][] = $d[4] ?? 0;
+            $data['columns']['delay5'][] = $d[5] ?? 0;
+            $data['columns']['delay6'][] = $d[6] ?? 0;
+            $data['columns']['delay7'][] = $d[7] ?? 0;
+            $data['columns']['delay8'][] = $d[8] ?? 0;
+            $data['columns']['delay9'][] = $d[9] ?? 0;
         }
 
         $format = $request->getRequestFormat();

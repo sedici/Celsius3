@@ -89,7 +89,7 @@ class RestAdminBaseUserController extends UserController
         $user->setEnabled(true)
             ->setPdf(true)
             ->setDownloadAuth(true);
-        
+
         $this->persistEntity($user);
 
         if ($user->isEnabled()) {
@@ -174,7 +174,7 @@ class RestAdminBaseUserController extends UserController
 
         try {
             if (!$user->isEnabled()) $this->persistEntity($user);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->error('can_not_delete');
         }
 
@@ -193,9 +193,7 @@ class RestAdminBaseUserController extends UserController
 
         $filteredAdmins = array_filter(
             $admins,
-            function (BaseUser $admin): bool {
-                return (int)$admin->getId() !== (int)$this->getUser()->getId();
-            }
+            fn(BaseUser $admin): bool => (int)$admin->getId() !== (int)$this->getUser()->getId()
         );
 
         return $this->restRenderer->render($filteredAdmins, serializerGroups: 'admins-select');

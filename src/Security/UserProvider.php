@@ -28,16 +28,14 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     protected $em;
     protected $request_stack;
-    private BaseUserRepositoryInterface $baseUserRepository;
 
     public function __construct(
-        BaseUserRepositoryInterface $baseUserRepository,
+        private readonly BaseUserRepositoryInterface $baseUserRepository,
         EntityManagerInterface $em,
         RequestStack $request_stack
     ) {
         $this->em = $em;
         $this->request_stack = $request_stack;
-        $this->baseUserRepository = $baseUserRepository;
     }
 
     public function refreshUser(UserInterface $user)

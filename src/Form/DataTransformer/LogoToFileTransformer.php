@@ -28,11 +28,8 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class LogoToFileTransformer implements DataTransformerInterface
 {
-    private $fileManager;
-
-    public function __construct(FileManager $fileManager)
+    public function __construct(private readonly FileManager $fileManager)
     {
-        $this->fileManager = $fileManager;
     }
 
     /**

@@ -33,18 +33,12 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class SecurityListener
 {
-    private $entityManager;
-//    private $tokenManager;
-    private $tokenStorage;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-//        AccessTokenManager $tokenManager,
-        TokenStorageInterface $tokenStorage
-    ) {
-        $this->entityManager = $entityManager;
-//        $this->tokenManager = $tokenManager;
-        $this->tokenStorage = $tokenStorage;
+        private readonly EntityManagerInterface $entityManager,
+        //        AccessTokenManager $tokenManager,
+        private readonly TokenStorageInterface $tokenStorage
+    )
+    {
     }
 
     public function onKernelRequest(RequestEvent $event)

@@ -53,7 +53,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
             $this->instance,
             null,
             explode(
-                ',', $request->get('state', '')
+                ',', (string) $request->get('state', '')
             ),
             $this->getUser()
         );

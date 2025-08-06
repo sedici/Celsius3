@@ -57,7 +57,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
         "web" => Web::class,
     ])
 ]
-abstract class Provider
+abstract class Provider implements \Stringable
 {
     use TimestampableEntity;
 

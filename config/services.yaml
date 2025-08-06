@@ -35,6 +35,18 @@ parameters:
     api_key_map: AIzaSyD0zns4Qlvt-wf-kx__kpBpKkt8p1Z2mfg
 
 services:
+
+    Celsius3\Helper\LifecycleHelper:
+        arguments:
+            - '@Celsius3\Manager\EventManager'
+        lazy: true
+
+    Celsius3\Manager\EventManager:
+        calls:
+        - method: setLifecycleHelper
+        arguments:
+            - '@Celsius3\Helper\LifecycleHelper'
+
     Celsius3\TicketBundle\Helper\TicketHelper: ~
     # default configuration for services in *this* file
     FOS\ElasticaBundle\Finder\PaginatedFinderInterface: '@fos_elastica.finder.app'
@@ -66,7 +78,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     Celsius3\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Form/EventListener,Migrations,Tests,Kernel.php,CoreBundle,NotificationBundle,TicketBundle,MessageBundle}'
+        exclude: '../src/{DependencyInjection,Entity,Form/EventListener,Migrations,Tests,Kernel.php,CoreBundle,NotificationBundle,TicketBundle,MessageBundle,DataFixtures}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

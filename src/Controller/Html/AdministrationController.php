@@ -55,8 +55,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -68,7 +68,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function count;
 
 
-#[Route("/admin")]
+#[
+    Route("/admin"),
+    IsGranted("ROLE_ADMIN"),
+]
 class AdministrationController extends EntityController
 {
 
@@ -83,7 +86,6 @@ class AdministrationController extends EntityController
         PaginatorInterface $paginator,
         ConfigurationHelper $configurationHelper,
         TranslatorInterface $translator,
-        ManagerRegistry $managerRegistry,
         RequestStack $requestStack,
         UnionManager $unionManager,
         UserManager $userManager,
@@ -103,7 +105,6 @@ class AdministrationController extends EntityController
             $paginator,
             $configurationHelper,
             $translator,
-            $managerRegistry,
             $requestStack,
             $unionManager,
             $userManager,
@@ -129,7 +130,7 @@ class AdministrationController extends EntityController
         $this->htmlRenderer->setTemplatePrefix('Admin/Dashboard/');
         $this->setSortDefaults([
             'defaultSortFieldName' => 'e.updatedAt',
-            'defaultSortDirection' => 'asc',
+            'defaultSortDirection' => 'desc',
         ]);
 
         $this->fileRepository = $this->entityManager
@@ -280,7 +281,7 @@ class AdministrationController extends EntityController
                 $this->emailController->sendEmail(
                     $user['email'], $subject, $body
                 );
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $this->addFlash('error', 'Invalid Template');
 
                 return $this->redirectToRoute('admin_send_reminder_emails');

@@ -127,49 +127,37 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 
-    /**
-     * @Route("/search", name="fos_message_search", methods={"GET"})
-     */
+    #[Route(path: '/search', name: 'fos_message_search', methods: ['GET'])]
     public function searchAction(): Response
     {
         return $this->redirectToRoute('fos_message_inbox');
     }
 
-    /**
-     * @Route("/new", name="fos_message_thread_new", methods={"GET"})
-     */
+    #[Route(path: '/new', name: 'fos_message_thread_new', methods: ['GET'])]
     public function newThreadAction(): Response
     {
         return $this->redirectToRoute('fos_message_inbox');
     }
 
-    /**
-     * @Route("/mark_read", name="fos_message_mark_read", methods={"POST"})
-     */
+    #[Route(path: '/mark_read', name: 'fos_message_mark_read', methods: ['POST'])]
     public function markAsReadAction(): Response
     {
         return $this->redirectToRoute('fos_message_inbox');
     }
 
-    /**
-     * @Route("/{threadId}/delete", name="fos_message_thread_delete", methods={"POST", "DELETE"})
-     */
+    #[Route(path: '/{threadId}/delete', name: 'fos_message_thread_delete', methods: ['POST', 'DELETE'])]
     public function deleteAction(string $threadId): Response
     {
         return $this->redirectToRoute('fos_message_inbox');
     }
 
-    /**
-     * @Route("/{threadId}/undelete", name="fos_message_thread_undelete", methods={"POST"})
-     */
+    #[Route(path: '/{threadId}/undelete', name: 'fos_message_thread_undelete', methods: ['POST'])]
     public function undeleteAction(string $threadId): Response
     {
         return $this->redirectToRoute('fos_message_inbox');
     }
 
-    /**
-     * @Route("/{threadId}", name="fos_message_thread_view", methods={"GET"})
-     */
+    #[Route(path: '/{threadId}', name: 'fos_message_thread_view', methods: ['GET'])]
     public function viewThreadAction(string $threadId): Response
     {
         return $this->redirectToRoute('fos_message_inbox');

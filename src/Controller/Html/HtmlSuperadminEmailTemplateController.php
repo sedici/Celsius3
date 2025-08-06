@@ -55,54 +55,50 @@ class HtmlSuperadminEmailTemplateController extends EmailTemplateController
     }
 
 
-    /**
-     * @Route("/", name="superadmin_emailtemplate")
-     */
+    #[Route(path: '/', name: 'superadmin_emailtemplate')]
     public function htmlIndex(): Response
     { return $this->htmlRenderer->render('index', $this->index()); }
 
 
-    /**
-     * @Route("/new", name="superadmin_emailtemplate_new")
-     */
+    #[Route(path: '/new', name: 'superadmin_emailtemplate_new')]
     public function htmlNew(): Response
     { return $this->htmlRenderer->render('new', $this->new()); }
 
 
     /**
      * Displays a form to edit an existing mail template.
-     * @Route("/{id}/edit", name="superadmin_emailtemplate_edit")
      * @param string $id The mail template ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route(path: '/{id}/edit', name: 'superadmin_emailtemplate_edit')]
     public function htmlEdit(string $id): Response
     { return $this->htmlRenderer->render('edit', $this->edit($id)); }
 
 
     /**
      * Creates a new Mail Entity.
-     * @Route("/create", name="superadmin_emailtemplate_create", methods={"POST"})
      */
+    #[Route(path: '/create', name: 'superadmin_emailtemplate_create', methods: ['POST'])]
     public function htmlCreate(): Response
     { return $this->htmlRenderer->render('new', $this->create()); }
 
 
     /**
      * Edits an existing Mail TEmplate.
-     * @Route("/{id}/update", name="superadmin_emailtemplate_update", methods={"POST"})
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route(path: '/{id}/update', name: 'superadmin_emailtemplate_update', methods: ['POST'])]
     public function htmlUpdate(string $id): Response
     { return $this->htmlRenderer->render('edit', $this->update($id)); }
 
 
     /**
      * Change state an existing Mail TEmplate.
-     * @Route("/{id}/change_state", name="superadmin_emailtemplate_changestate")
      * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route(path: '/{id}/change_state', name: 'superadmin_emailtemplate_changestate')]
     public function changeState(string $id): Response
     {
         $entity = $this->findQuery($id);

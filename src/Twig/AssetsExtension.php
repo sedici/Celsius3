@@ -29,27 +29,14 @@ use Twig\TwigFunction;
 
 class AssetsExtension extends AbstractExtension
 {
-    private $assetsVersionAdministration;
-    private $assetsVersionAdminOrder;
-    private $assetsVersionAdminBaseUser;
-    private $assetsVersionAdminInstitution;
-    private $assetsVersionUser;
-    private $assetsVersionCelsius3;
-
-    public function __construct($administration, $admin_order, $admin_base_user, $admin_institution, $user, $celsius3)
+    public function __construct(private $assetsVersionAdministration, private $assetsVersionAdminOrder, private $assetsVersionAdminBaseUser, private $assetsVersionAdminInstitution, private $assetsVersionUser, private $assetsVersionCelsius3)
     {
-        $this->assetsVersionAdministration = $administration;
-        $this->assetsVersionAdminOrder = $admin_order;
-        $this->assetsVersionAdminBaseUser = $admin_base_user;
-        $this->assetsVersionAdminInstitution = $admin_institution;
-        $this->assetsVersionUser = $user;
-        $this->assetsVersionCelsius3 = $celsius3;
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('assets_version', [$this, 'getVersionForGroup']),
+            new TwigFunction('assets_version', $this->getVersionForGroup(...)),
         ];
     }
 

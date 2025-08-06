@@ -107,7 +107,7 @@ class RestAdminRequestController extends EntityController
         foreach ($cRequest->getFiles() as $file) {
             if ($file->getEnabled()) {
                 $file->setDownloaded(false);
-                $$this->entityManager->persist($file);
+                ${$this}->entityManager->persist($file);
             }
         }
 

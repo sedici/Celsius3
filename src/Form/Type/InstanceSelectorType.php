@@ -33,16 +33,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class InstanceSelectorType extends AbstractType
 {
     /**
-     * @var EntityManager
-     */
-    private $em;
-
-    /**
      * @param EntityManager $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -53,10 +47,10 @@ class InstanceSelectorType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => null,
             'invalid_message' => 'The selected Instance does not exist',
-        ));
+        ]);
     }
 
     public function getParent()

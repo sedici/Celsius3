@@ -31,6 +31,9 @@ use Doctrine\ORM\QueryBuilder;
  */
 class EmailTemplateRepository extends BaseRepository
 {
+    protected static $entityClass = EmailTemplate::class;
+
+
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $code = null): QueryBuilder
     {
         $custom = $this->createQueryBuilder('c')
@@ -46,7 +49,7 @@ class EmailTemplateRepository extends BaseRepository
             ->andWhere('e.enabled = true')
             ->orWhere('e.instance = :instance_id')
             ->setParameter('directory_id', $directory->getId())
-            ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
+            ->setParameter('codes', count($custom) !== 0 ? $custom : [1]) // El NOT IN no funciona correctamente con un array vacio
             ->setParameter('instance_id', $instance->getId());
 
         if (!is_null($code)) {

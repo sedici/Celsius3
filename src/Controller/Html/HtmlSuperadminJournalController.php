@@ -22,16 +22,17 @@
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Controller\Base\JournalController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Location controller.
- * @Route("/superadmin/journal")
- */
+#[
+    Route('/superadmin/journal'),
+    IsGranted('ROLE_SUPER_ADMIN')
+]
 class HtmlSuperadminJournalController extends JournalController
 {
     
@@ -45,8 +46,8 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Lists all Journal entities.
-     * @Route("/", name="superadmin_journal")
      */
+    #[Route('/', name: 'superadmin_journal')]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(
@@ -58,8 +59,8 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Displays a form to create a new Journal entity.
-     * @Route("/new", name="superadmin_journal_new")
      */
+    #[Route('/new', name: 'superadmin_journal_new')]
     public function htmlNew(): Response
     {
         return $this->htmlRenderer->render(
@@ -71,8 +72,8 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Creates a new Journal entity.
-     * @Route("/create", name="superadmin_journal_create", methods={"POST"})
      */
+    #[Route('/create', name: 'superadmin_journal_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
     {
         return $this->htmlRenderer->render(
@@ -84,10 +85,9 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Displays a form to edit an existing Journal entity.
-     * @Route("/{id}/edit", name="superadmin_journal_edit")
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/edit', name: 'superadmin_journal_edit')]
     public function htmlEdit(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -99,10 +99,9 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Edits an existing Journal entity.
-     * @Route("/{id}/update", name="superadmin_journal_update", methods={"POST"})
-     * @param string $id The entity ID
      * @throws NotFoundHttpException If entity doesn't exists
      */
+    #[Route('/{id}/update', name: 'superadmin_journal_update', methods: ['POST'])]
     public function htmlUpdate(string $id): Response
     {
         return $this->htmlRenderer->render(
@@ -114,9 +113,8 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Batch actions.
-     * @Route("/batch", name="superadmin_journal_batch")
-     * @return array
      */
+    #[Route('/batch', name: 'superadmin_journal_batch')]
     public function batch(): mixed
     { return $this->baseBatch(); }
 
@@ -127,8 +125,8 @@ class HtmlSuperadminJournalController extends JournalController
 
     /**
      * Unifies a group of Journal entities.
-     * @Route("/doUnion", name="superadmin_journal_doUnion", methods={"POST"})
      */
+    #[Route('/doUnion', name: 'superadmin_journal_doUnion', methods: ['POST'])]
     public function doUnion(): RedirectResponse
     {
         $request = $this->requestStack->getCurrentRequest();

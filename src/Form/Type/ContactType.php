@@ -22,6 +22,7 @@
 
 namespace Celsius3\Form\Type;
 
+use Celsius3\Entity\Contact;
 use Celsius3\Entity\ContactType as Entity;
 use Celsius3\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\Helper\InstanceHelper;
@@ -81,7 +82,7 @@ class ContactType extends AbstractType
                 'placeholder' => ' '
             ]);
 
-        $customFiledsSubscriber = new AddCustomFieldsSubscriber('Contact', $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionOrUrlInstance(), true);
+        $customFiledsSubscriber = new AddCustomFieldsSubscriber(Contact::class, $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionOrUrlInstance(), true);
         $builder->addEventSubscriber($customFiledsSubscriber);
     }
 

@@ -22,8 +22,8 @@
 
 namespace Celsius3\Entity;
 
-// use Celsius3\Entity\Mixin\TimestampableEntity;
 use Celsius3\Repository\BaseRepository;
+use Celsius3\Repository\FileDownloadRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Table(name: "file_download"),
-    ORM\Entity(repositoryClass: BaseRepository::class),
+    ORM\Entity(repositoryClass: FileDownloadRepository::class),
 
     ORM\Index(name: "idx_request", columns: ["request_id"]),
     ORM\Index(name: "idx_user", columns: ["user_id"]),
@@ -109,7 +109,7 @@ class FileDownload
         return $this;
     }
 
-    public function getUser(): BaseUser
+    public function getUser(): ?BaseUser
     { return $this->user; }
 
     public function setFile(File $file): self
@@ -136,6 +136,6 @@ class FileDownload
         return $this;
     }
 
-    public function getInstance(): Instance
+    public function getInstance(): ?Instance
     { return $this->instance; }
 }

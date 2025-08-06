@@ -30,15 +30,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixSIReceiveEventsCommand extends Command
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct();
-        $this->entityManager = $entityManager;
     }
 
     protected function configure()
@@ -61,6 +55,6 @@ class FixSIReceiveEventsCommand extends Command
         }
         $this->entityManager->clear();
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

@@ -35,29 +35,29 @@ class CountryFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
+                ->add('name', null, [
                     'required' => false,
-                ))
-                ->add('abbreviation', null, array(
+                ])
+                ->add('abbreviation', null, [
                     'required' => false,
-                ))
+                ])
         ;
         if (is_null($options['instance'])) {
-            $builder->add('instance', EntityType::class, array(
+            $builder->add('instance', EntityType::class, [
                 'required' => false,
                 'class' => Instance::class,
-            ));
+            ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
             'validation_groups' => ['base_country_filter_type']
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

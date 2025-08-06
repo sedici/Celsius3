@@ -44,9 +44,9 @@ class LogoSelectorType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'The selected Journal does not exist',
-        ));
+        ]);
     }
 
     public function getParent()

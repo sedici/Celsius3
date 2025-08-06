@@ -6,11 +6,8 @@ use Doctrine\ORM\EntityManager;
 
 class TicketManager
 {
-    private $entityManager;
-
-    public function __construct(EntityManager $entityManager)
+    public function __construct(private readonly EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function findAll()

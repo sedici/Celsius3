@@ -23,12 +23,16 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Instance;
+use Celsius3\Entity\JournalType;
 
 /**
  * JournalTypeRepository.
  */
 class JournalTypeRepository extends BaseRepository
 {
+    protected static $entityClass = JournalType::class;
+
+
     public function findByTerm($term, Instance $instance = null, $limit = null)
     {
         $qb = $this->createQueryBuilder('jt')

@@ -22,11 +22,16 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\LegacyInstance;
+
 /**
  * FileRepository.
  */
 class LegacyInstanceRepository extends BaseRepository
 {
+    protected static $entityClass = LegacyInstance::class;
+
+
     public function findEnabled()
     {
         return $this->createQueryBuilder('li')

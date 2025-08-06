@@ -35,25 +35,25 @@ class CustomFieldFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array(
+                ->add('name', null, [
                     'required' => false,
-                ))
+                ])
         ;
         if (is_null($options['instance'])) {
-            $builder->add('instance', EntityType::class, array(
+            $builder->add('instance', EntityType::class, [
                 'required' => false,
                 'class' => Instance::class,
-            ));
+            ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'validation_groups' => ['base_customfield_filter_type']
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

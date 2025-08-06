@@ -29,11 +29,8 @@ use Doctrine\ORM\EntityManager;
 
 class InstanceToIdTransformer implements DataTransformerInterface
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(private readonly EntityManager $em)
     {
-        $this->em = $em;
     }
 
     /**

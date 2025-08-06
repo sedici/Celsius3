@@ -56,10 +56,10 @@ class RecipientsHiddenType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'The selected recipient does not exist',
             'data_class' => null,
-        ));
+        ]);
     }
 
     /**

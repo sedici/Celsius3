@@ -922,7 +922,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                 request: $scope.forms.cancel.request
             };
 
-            $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data)
+            $http.post(Routing.generate('admin_rest_order_cancel_event', {request_id: $scope.request.id}), data)
                 .then(function (response) {
                     $scope.refreshRequest(true);
                     $('#cancelForm').get(0).reset();
@@ -939,7 +939,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                 cancelled_by_user: $scope.forms.cancel.cancelled_by_user
             };
 
-            $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data)
+            $http.post(Routing.generate('admin_rest_order_cancel_event', {request_id: $scope.request.id}), data)
                 .then(function (response) {
                     $scope.refreshRequest(true);
                     $('#cancelForm').get(0).reset();
@@ -1032,7 +1032,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                 receive: receive.id
             };
 
-            $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data)
+            $http.post(Routing.generate('admin_rest_order_approve_event', {request_id: $scope.request.id}), data)
                 .then(function (response) {
                     $scope.refreshRequest(true);
                 }, function (response) {
@@ -1041,7 +1041,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
         };
 
         $scope.deliver = function () {
-            $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver')
+            $http.post(Routing.generate('admin_rest_order_deliver_event', {request_id: $scope.request.id}))
                 .then(function (response) {
                     $scope.refreshRequest(true);
                 }, function (response) {
@@ -1050,7 +1050,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
         };
 
         $scope.annul = function () {
-            $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul')
+            $http.post(Routing.generate('admin_rest_order_annul_event', {request_id: $scope.request.id}))
                 .then(function (response) {
                     $scope.refreshRequest(true);
                 }, function (response) {
@@ -1077,7 +1077,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
         };
 
         $scope.undo = function () {
-            $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/undo')
+            $http.post(Routing.generate('admin_rest_order_undo_event', {request_id: $scope.request.id}))
                 .then(function (response) {
                     $scope.refreshRequest(true);
                 }, function (response) {

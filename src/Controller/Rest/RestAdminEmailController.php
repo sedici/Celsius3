@@ -59,7 +59,7 @@ class RestAdminEmailController extends EmailController
         $reqArgs = $request->request->all();
 
         $urlSubroutes = explode(
-            '/', $request->headers->get('referer')
+            '/', (string) $request->headers->get('referer')
         );
         array_pop($urlSubroutes);
         $receiverClass = array_pop($urlSubroutes);

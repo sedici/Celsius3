@@ -54,7 +54,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
     ORM\HasLifecycleCallbacks
 ]
-class LegacyInstance
+class LegacyInstance implements \Stringable
 {
     use TimestampableEntity;
 
@@ -70,24 +70,24 @@ class LegacyInstance
         Assert\NotBlank,
         ORM\Column(type: "string", length: 255)
     ]
-    protected ?string $name;
+    protected ?string $name = null;
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: "string", length: 255)]
-    protected ?string $abbreviation;
+    protected ?string $abbreviation = null;
 
 
     #[Assert\NotBlank]
     #[Assert\Url]
     #[ORM\Column(type: "string", length: 255)]
-    protected ?string $website;
+    protected ?string $website = null;
 
 
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ORM\Column(type: "string", length: 255)]
-    protected ?string $email;
+    protected ?string $email = null;
 
 
     #[Assert\Type(type: "boolean")]
@@ -97,7 +97,7 @@ class LegacyInstance
 
     #[ORM\ManyToOne(targetEntity: Hive::class, inversedBy: "instances", fetch: "EAGER")]
     #[ORM\JoinColumn(name: "hive_id", referencedColumnName: "id")]
-    protected ?Hive $hive;
+    protected ?Hive $hive = null;
 
 
     #[ORM\OneToMany(targetEntity: Institution::class, mappedBy: "celsiusInstance", fetch: "EXTRA_LAZY")]
@@ -111,7 +111,7 @@ class LegacyInstance
 
     public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
     public function isCurrent(): bool

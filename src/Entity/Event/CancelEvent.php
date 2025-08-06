@@ -32,9 +32,10 @@ use Celsius3\Repository\BaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 use function array_key_exists;
+use Celsius3\Repository\CancelEventRepository;
 
 
-#[ORM\Entity(repositoryClass: BaseRepository::class)]
+#[ORM\Entity(repositoryClass: CancelEventRepository::class)]
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {
     #[ORM\Column(type: 'boolean', nullable: true)]

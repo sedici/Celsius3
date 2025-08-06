@@ -36,15 +36,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CustomFieldHelper
 {
-    private $requestStack;
-    private $entityManager;
-
-    public function __construct(
-        RequestStack $requestStack,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->requestStack = $requestStack;
-        $this->entityManager = $entityManager;
+    public function __construct(private readonly RequestStack $requestStack, private readonly EntityManagerInterface $entityManager)
+    {
     }
 
     public function processCustomUserFields(Instance $instance, FormInterface $form, BaseUser $user)

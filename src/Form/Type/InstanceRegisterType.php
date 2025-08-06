@@ -50,44 +50,44 @@ class InstanceRegisterType extends LegacyInstanceType
             ->add('sitio_catalogo',null,['mapped' => false,])
             ->add('sitio_institucion',null,['mapped' => false,])
             ->add('observaciones',TextareaType::class)
-            ->add('country', EntityType::class, array(
+            ->add('country', EntityType::class, [
                     'class' => Country::class,
                     'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'country-select'
-                    ),
+                    ],
                     'auto_initialize' => false,
-                ))
+                ])
 
-            ->add('city', EntityType::class, array(
+            ->add('city', EntityType::class, [
                 'class' => City::class,
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'city-select'
-                ),
+                ],
                 'auto_initialize' => false,
-            ))
+            ])
 
-            ->add('institution', EntityType::class, array(
+            ->add('institution', EntityType::class, [
                 'class' => Institution::class,
                 'mapped' => false,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'institution-select'
-                ),
+                ],
                 'auto_initialize' => false,
-            ))
-            ->add('migrar',  CheckboxType::class, array(
+            ])
+            ->add('migrar',  CheckboxType::class, [
                 'required' => false,
                 'mapped' =>false,
 
-            ))
+            ])
 
         ;
         // $builder->add('recaptcha', EWZRecaptchaType::class, array(
@@ -105,11 +105,10 @@ class InstanceRegisterType extends LegacyInstanceType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(
-                array(
+                [
                     'allow_extra_fields' => true
-                )
+                ]
         );
     }
 

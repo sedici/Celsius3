@@ -29,7 +29,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class StatisticManager
 {
-    private $em;
     private $statistic_data = [
         'usersPerInstance' => [
             'repository' => BaseUser::class,
@@ -45,8 +44,9 @@ class StatisticManager
         ],
     ];
 
-    public function __construct(EntityManagerInterface $em)
-    { $this->em = $em; }
+    public function __construct(private readonly EntityManagerInterface $em)
+    {
+    }
 
     public function usersPerInstance(): array
     {
@@ -54,7 +54,7 @@ class StatisticManager
             ->getRepository($this->statistic_data['usersPerInstance']['repository'])
             ->findUsersPerInstance();
 
-        $response = array();
+        $response = [];
         foreach ($usersPerInstance as $instance) {
             $response[] = [
                 'label' => $this->em->getRepository(Instance::class)
@@ -72,7 +72,7 @@ class StatisticManager
             ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
             ->findNewUsersPerInstance();
 
-        $response = array();
+        $response = [];
         foreach ($newUsersPerInstance as $instance) {
             $response[] = [
                 'label' => $this->em->getRepository(Instance::class)
@@ -92,11 +92,11 @@ class StatisticManager
 
         $response = [];
         foreach ($ordersPerInstance as $instance) {
-            $response[] = array(
+            $response[] = [
                 'label' => $this->em->getRepository(Instance::class)
                         ->find((string) $instance['_id'])->getAbbreviation(),
                 'data' => $instance['value'],
-            );
+            ];
         }
 
         return $response;

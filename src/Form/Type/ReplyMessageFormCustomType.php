@@ -32,19 +32,19 @@ class ReplyMessageFormCustomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('body', TextareaType::class, array(
-                    'attr' => array(
+                ->add('body', TextareaType::class, [
+                    'attr' => [
                         'class' => 'summernote',
-                    ),
+                    ],
                     'required' => false,
-                ))
+                ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_token_id' => 'reply',
-        ));
+        ]);
     }
 }

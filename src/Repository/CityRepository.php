@@ -22,6 +22,7 @@
 
 namespace Celsius3\Repository;
 
+use Celsius3\Entity\City;
 use Celsius3\Entity\Country;
 use Celsius3\Entity\Instance;
 
@@ -30,17 +31,20 @@ use Celsius3\Entity\Instance;
  */
 class CityRepository extends BaseRepository
 {
+    protected static $entityClass = City::class;
+
+
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $country_id = null)
     {
         $qb = $this->createQueryBuilder('e')
-                ->select('e')
-                ->addSelect('c')
-                ->innerJoin('e.country', 'c')
-                ->where('e.instance = :instance_id')
-                ->orWhere('e.instance = :directory_id')
-                ->orderBy('e.name', 'asc')
-                ->setParameter('instance_id', $instance->getId())
-                ->setParameter('directory_id', $directory->getId());
+            ->select('e')
+            ->addSelect('c')
+            ->innerJoin('e.country', 'c')
+            ->where('e.instance = :instance_id')
+            ->orWhere('e.instance = :directory_id')
+            ->orderBy('e.name', 'asc')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('directory_id', $directory->getId());
 
         if (!is_null($country_id)) {
             $qb = $qb->andWhere('e.country = :country_id')

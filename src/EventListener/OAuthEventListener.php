@@ -28,11 +28,8 @@ use Doctrine\ORM\EntityManager;
 
 class OAuthEventListener
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(private readonly EntityManager $em)
     {
-        $this->em = $em;
     }
 
     public function onPreAuthorizationProcess(OAuthEvent $event)
@@ -59,6 +56,6 @@ class OAuthEventListener
     protected function getUser(OAuthEvent $event)
     {
         return $this->em->getRepository(BaseUser::class)
-                        ->findOneBy(array('username' => $event->getUser()->getUsername()));
+                        ->findOneBy(['username' => $event->getUser()->getUsername()]);
     }
 }

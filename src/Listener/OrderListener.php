@@ -42,8 +42,8 @@ class OrderListener
 
     public function __construct
     (
-        private LifecycleHelper $lifecycleHelper,
-        private InstanceHelper $instanceHelper
+        private readonly LifecycleHelper $lifecycleHelper,
+        private readonly InstanceHelper $instanceHelper
     ) {}
 
 
@@ -62,16 +62,16 @@ class OrderListener
     {
         $entity = $args->getObject();
         if (!$entity instanceof Request) return;
-        
+
         $instance = $entity->getInstance();
-        
+
         $event = $this->lifecycleHelper->createEvent(
             EventManager::EVENT__CREATION,
             $entity,
             $instance
         );
         // throw new \Exception((string)var_dump($event));
-        
+
         // Update elasticsearch index
         // $this->objectPersister->insertOne($entity);
     }

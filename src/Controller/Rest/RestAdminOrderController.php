@@ -26,6 +26,7 @@ use Celsius3\Controller\Base\OrderController;
 use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Institution;
 use Celsius3\Entity\Order;
+use Celsius3\Entity\Request;
 use Celsius3\Entity\State;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -139,25 +140,23 @@ class RestAdminOrderController extends OrderController
             ['sort' => 'createdAt']
         )->getItems();
 
-        $requests = $em->getRepository(\Celsius3\Entity\Request::class)
+        $requests = $em->getRepository(Request::class)
             ->findRequestForOrders($pagination);
 
-        $response = array(
+        $response = [
             'orders' => array_values($pagination),
             'requests' => array_column(
                 array_map(
-                    function (\Celsius3\Entity\Request $request) {
-                        return [
-                            'id' => $request->getOrder()->getId(),
-                            'request' => $request,
-                        ];
-                    },
+                    fn(Request $request): array => [
+                        'id' => $request->getOrder()->getId(),
+                        'request' => $request,
+                    ],
                     $requests
                 ),
                 'request',
                 'id'
             ),
-        );
+        ];
 
         return $this->restRenderer->render($response, serializerGroups: 'administration_list');
     }
@@ -283,7 +282,7 @@ class RestAdminOrderController extends OrderController
         }
 
         $request = $this->entityManager->getRepository(\Celsius3\Entity\Request::class)->findOneBy(
-            array('order' => $order, 'instance' => $instance)
+            ['order' => $order, 'instance' => $instance]
         );
 
         $request->setOperator($operator);

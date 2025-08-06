@@ -33,17 +33,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class CertificateCommand extends Command
 {
-    private $instanceRepository;
-    private $kernel;
-
     public function __construct(
-        InstanceRepositoryInterface $instanceRepository,
-        KernelInterface $kernel
+        private readonly InstanceRepositoryInterface $instanceRepository,
+        private readonly KernelInterface $kernel
     ) {
         parent::__construct();
-
-        $this->instanceRepository = $instanceRepository;
-        $this->kernel = $kernel;
     }
 
     protected function configure(): void
@@ -80,6 +74,6 @@ class CertificateCommand extends Command
         # Solicitud de certificado
         $output->writeln(shell_exec($command));
 
-        return 0;
+        return \Symfony\Component\Console\Command\Command::SUCCESS;
     }
 }

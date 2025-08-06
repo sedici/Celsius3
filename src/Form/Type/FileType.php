@@ -34,16 +34,16 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('file', BaseFileType::class, array(
+                ->add('file', BaseFileType::class, [
                     'required' => false,
-                ))
+                ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => File::class,
-        ));
+        ]);
     }
 }

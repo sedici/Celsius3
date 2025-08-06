@@ -35,22 +35,19 @@ use Celsius3\Entity\CatalogPosition;
 
 class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 {
-    private $em;
-    private $factory;
-
-    public function __construct(EntityManager $em, FormFactoryInterface $factory)
-    {
-        $this->em = $em;
-        $this->factory = $factory;
+    public function __construct(
+        private readonly EntityManager $em,
+        private readonly FormFactoryInterface $factory
+    ) {
     }
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             FormEvents::PRE_SET_DATA => 'preSetData',
             FormEvents::PRE_SUBMIT => 'preSubmit',
             FormEvents::POST_SUBMIT => 'postSubmit',
-        );
+        ];
     }
 
     public function preSetData(FormEvent $event)
@@ -63,10 +60,10 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         }
 
         $catalogPosition = $this->em->getRepository(CatalogPosition::class)
-                ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance())
+                ->findOneBy(['catalog' => $data->getId(), 'instance' => $data->getInstance()]
         );
        
-        $form->add($this->factory->createNamed('enable', CheckboxType::class, null, array(
+        $form->add($this->factory->createNamed('enable', CheckboxType::class, null, [
                     'mapped' => false,
                     'label' => 'enable',
                     'required' => false,
@@ -74,13 +71,13 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                         'checked' => ($catalogPosition) ? $catalogPosition->getEnabled() : false,
                     ),*/
                     'data' => ($catalogPosition) ? $catalogPosition->getEnabled() : false,
-                    'auto_initialize' => false, ))
+                    'auto_initialize' => false, ])
         );
 
-        $form->add($this->factory->createNamed('id', HiddenType::class, null, array(
+        $form->add($this->factory->createNamed('id', HiddenType::class, null, [
                     'mapped' => false,
                     'data' => $data->getId(),
-                    'auto_initialize' => false, ))
+                    'auto_initialize' => false, ])
         );
     }
 
@@ -94,7 +91,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 
         if (!is_null($catalog)) {
             $catalogPosition = $this->em->getRepository(CatalogPosition::class)
-                    ->findOneBy(array('catalog' => $catalog->getId(), 'instance' => $data['instance'])
+                    ->findOneBy(['catalog' => $catalog->getId(), 'instance' => $data['instance']]
             );
 
             if (!$catalogPosition) {
@@ -107,14 +104,14 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
             $this->em->persist($catalogPosition);
             $this->em->flush();
 
-            $form->add($this->factory->createNamed('enable', CheckboxType::class, null, array(
+            $form->add($this->factory->createNamed('enable', CheckboxType::class, null, [
                         'mapped' => false,
                         'label' => 'enable',
                         'required' => false,
-                        'attr' => array(
+                        'attr' => [
                             'checked' => $catalogPosition->getEnabled(),
-                        ),
-                        'auto_initialize' => false, ))
+                        ],
+                        'auto_initialize' => false, ])
             );
         }
     }

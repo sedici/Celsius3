@@ -33,11 +33,8 @@ use Doctrine\ORM\QueryBuilder;
  */
 class NewsRepository extends BaseRepository
 {
+    protected static $entityClass = News::class;
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        parent::__construct($em, new ClassMetadata(News::class));
-    }
 
     public function findLastNews(Instance $instance, $limit = 3)
     {

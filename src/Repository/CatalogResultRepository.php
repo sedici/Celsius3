@@ -23,12 +23,16 @@
 namespace Celsius3\Repository;
 
 use Celsius3\Entity\Catalog;
+use Celsius3\Entity\CatalogResult;
 
 /**
  * CatalogResultRepository.
  */
 class CatalogResultRepository extends BaseRepository
 {
+    protected static $entityClass = CatalogResult::class;
+
+
     public function getCatalogResultByTitle(Catalog $catalog, $title)
     {
         return $this->createQueryBuilder('cr')

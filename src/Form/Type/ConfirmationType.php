@@ -29,20 +29,17 @@ use Celsius3\Helper\ConfigurationHelper;
 
 class ConfirmationType extends AbstractType
 {
-    private $configuration_helper;
-
-    public function __construct(ConfigurationHelper $configuration_helper)
+    public function __construct(private readonly ConfigurationHelper $configuration_helper)
     {
-        $this->configuration_helper = $configuration_helper;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'choices' => $this->configuration_helper->confirmation,
             'required' => true,
             'expanded' => true,
-        ));
+        ]);
     }
 
     public function getParent()

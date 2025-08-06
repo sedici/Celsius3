@@ -25,9 +25,13 @@ namespace Celsius3\Controller\Rest;
 use Celsius3\Controller\Base\InstanceController;
 use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
-#[Route('/rest/v1/admin/instance')]
+#[
+    Route('/rest/v1/admin/instance'),
+    IsGranted('ROLE_ADMIN')
+]
 class RestAdminInstanceController extends InstanceController
 {
 

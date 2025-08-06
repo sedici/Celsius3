@@ -40,121 +40,121 @@ class InstitutionFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-            ->add('name', null, array(
+            ->add('name', null, [
                 'required' => false,
-            ))
-            ->add('abbreviation', null, array(
+            ])
+            ->add('abbreviation', null, [
                 'required' => false,
-            ))
-            ->add('country', EntityType::class, array(
+            ])
+            ->add('country', EntityType::class, [
                 'class' => Country::class,
                 'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'country-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ))
-            ->add('city', EntityType::class, array(
+            ])
+            ->add('city', EntityType::class, [
                 'class' => City::class,
                 'choices' => [],
                 'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'city-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ))
-            ->add('parent', EntityType::class, array(
+            ])
+            ->add('parent', EntityType::class, [
                 'class' => Institution::class,
                 'choices' => [],
                 'mapped' => true,
                 'label' => ucfirst('parent institution'),
                 'placeholder' => '',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'institution-select',
-                ),
+                ],
                 'auto_initialize' => false,
-            ));
+            ]);
 
         $builder->get('country')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $country = $event->getForm()->getData();
                 $form = $event->getForm()->getParent();
 
-                $cities = null === $country ? array() : $country->getCities();
-                $form->add('city', EntityType::class, array(
+                $cities = null === $country ? [] : $country->getCities();
+                $form->add('city', EntityType::class, [
                     'class' => City::class,
                     'choices' => $cities,
                     'mapped' => false,
                     'placeholder' => '',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'city-select',
-                    ),
+                    ],
                     'auto_initialize' => false,
-                ));
+                ]);
 
-                $institutions = null === $country ? array() : $country->getInstitutions();
-                $form->add('parent', EntityType::class, array(
+                $institutions = null === $country ? [] : $country->getInstitutions();
+                $form->add('parent', EntityType::class, [
                     'class' => Institution::class,
                     'choices' => $institutions,
                     'mapped' => true,
                     'label' => ucfirst('parent institution'),
                     'placeholder' => '',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'institution-select',
-                    ),
+                    ],
                     'auto_initialize' => false,
-                ));
+                ]);
             }
         );
 
         $builder->get('city')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
+            function (FormEvent $event): void {
                 $city = $event->getForm()->getData();
                 $form = $event->getForm()->getParent();
                 $form->remove('parent');
 
-                $institutions = null === $city ? array() : $city->getInstitutions();
-                $form->add('parent', EntityType::class, array(
+                $institutions = null === $city ? [] : $city->getInstitutions();
+                $form->add('parent', EntityType::class, [
                     'class' => Institution::class,
                     'placeholder' => '',
                     'choices' => $institutions,
                     'required' => false,
-                ));
+                ]);
             }
         );
 
         if (is_null($options['instance'])) {
             $builder
-                ->add('instance', EntityType::class, array(
+                ->add('instance', EntityType::class, [
                     'required' => false,
                     'class' => Instance::class,
                     'label' => 'Owning Instance',
-                ))
-                ->add('celsiusInstance', EntityType::class, array(
+                ])
+                ->add('celsiusInstance', EntityType::class, [
                     'required' => false,
                     'class' => Instance::class,
                     'label' => 'Celsius Instance',
-                ));
+                ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
             'validation_groups' => ['base_institution_filter_type']
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

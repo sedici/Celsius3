@@ -33,16 +33,15 @@ use Celsius3\Exception\Exception;
 
 /**
  * User controller.
- *
- * @Route("/api/orders")
  */
+#[Route('/api/orders')]
 class RestOrderController extends OrderController
 {
 
     /**
      * GET Route annotation.
-     * @Get("/received_at_update")
      */
+    #[Get('/received_at_update')]
     public function receivedAtUpdateAction()
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -56,16 +55,16 @@ class RestOrderController extends OrderController
 
     /**
      * GET Route annotation.
-     * @Get("/{token}")
      */
+    #[Get('/{token}')]
     public function ordersAction($token)
     {
         $accessToken = $this->getAccessTokenByToken($token);
         $isValidToken = $this->validateAccessToken($accessToken);
 
-        $orders = array();
+        $orders = [];
         if ($isValidToken) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
 
             $user = $accessToken->getUser();
 
@@ -74,10 +73,10 @@ class RestOrderController extends OrderController
             }
 
             $orders = $em->getRepository(Order::class)
-                    ->findBy(array(
+                    ->findBy([
                 'owner' => $user->getId(),
                 'instance' => $user->getInstance(),
-            ));
+            ]);
         }
 
         $view = $this->view($orders, 200)->setFormat('json');
@@ -91,16 +90,16 @@ class RestOrderController extends OrderController
 
     /**
      * GET Route annotation.
-     * @Get("/state/{state}")
      */
+    #[Get('/state/{state}')]
     public function ordersByStateAction($state, Request $request)
     {
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
         $isValidToken = $this->validateAccessToken($accessToken);
 
-        $orders = array();
+        $orders = [];
         if ($isValidToken) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
 
             $startDate = $request->query->get('startDate');
             $limit = $request->query->get('limit');
@@ -121,16 +120,16 @@ class RestOrderController extends OrderController
 
     /**
      * GET Route annotation.
-     * @Get("/{user_id}/state/{state}")
      */
+    #[Get('/{user_id}/state/{state}')]
     public function ordersByUserAndStateAction(Request $request, $user_id, $state)
     {
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
         $isValidToken = $this->validateAccessToken($accessToken);
 
-        $orders = array();
+        $orders = [];
         if ($isValidToken) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->entityManager;
 
             $user = $em->getRepository(BaseUser::class)
                     ->find($user_id);

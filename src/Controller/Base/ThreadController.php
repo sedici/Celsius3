@@ -23,10 +23,8 @@
 namespace Celsius3\Controller\Base;
 
 use Celsius3\Controller\Core\EntityController;
-use Celsius3\Entity\BaseUser;
 use Celsius3\Entity\Thread;
 use Celsius3\Entity\ThreadMetadata;
-use Celsius3\Exception\Exception;
 use Doctrine\ORM\EntityRepository;
 
 
