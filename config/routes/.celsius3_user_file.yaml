@@ -1,6 +1,0 @@
-user_file_download:
-    path: /user/file/{request}/{file}/download
-    defaults: { _controller: Celsius3\Controller\User\File\DownloadController }
-    methods: [ GET ]
-    options:
-        expose: true

@@ -48,7 +48,7 @@ class Institution extends Provider
 
     #[NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
-    private string $abbreviation;
+    private ?string $abbreviation = null;
 
 
     #[Url]

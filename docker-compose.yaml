@@ -8,6 +8,7 @@ services:
         volumes:
             - .:/var/www/html
         networks:
+            - backend
             - nginx-manager-network
         depends_on:
             - php
@@ -23,9 +24,9 @@ services:
             - .:/var/www/html
             - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
         networks:
-            - nginx-manager-network
+            - backend
         depends_on:
-            - bd
+            - db
             # - elasticsearch
         extra_hosts:
             - "host.docker.internal:host-gateway"
@@ -43,15 +44,14 @@ services:
             "mkdir -p /var/www/html/public/orders && chown www-data:www-data /var/www/html/public/orders && docker-php-entrypoint php-fpm"
         ]
 
-    bd:
-        build: docker/bd/
+    db:
+        build: docker/db/
         ports: [ "3306:3306" ]
         volumes:
-            - bd:/var/lib/mysql
-            - ./docker/bd:/docker-entrypoint-initdb.d
-            - ./:/home/node/app
+            - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+            - .:/var/www/html
         networks:
-            - nginx-manager-network
+            - backend
 
     node:
         build: docker/node/
@@ -64,7 +64,7 @@ services:
     #     build: docker/elasticsearch/
     #     ports: [ "9200:9200" ]
     #     networks:
-    #         - nginx-manager-network
+    #         - backend
     #     volumes:
     #         - elasticsearch:/usr/share/elasticsearch/data
 
@@ -72,9 +72,9 @@ services:
     #     build: docker/phpmyadmin/
     #     ports: [ "81:80" ]
     #     depends_on:
-    #         - bd
+    #         - db
     #     networks:
-    #         - nginx-manager-network
+    #         - backend
 
     mailer:
         build: docker/mailer/
@@ -82,12 +82,13 @@ services:
             - 1080:1080
             - 1025:1025
         networks:
-            - nginx-manager-network
+            - backend
 
 networks:
+  backend: ~
   nginx-manager-network:
     external: true
 
 volumes:
-    bd: ~
+    db: ~
     elasticsearch: ~

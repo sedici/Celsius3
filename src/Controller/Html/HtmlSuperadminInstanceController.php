@@ -116,7 +116,7 @@ class HtmlSuperadminInstanceController extends InstanceController
      */
     #[Route('/create', name: 'superadmin_instance_create', methods: ['POST'])]
     public function htmlCreate(): RedirectResponse|Response
-    { return $this->htmlRenderer->render('create', $this->create()); }
+    { return $this->htmlRenderer->render('new', $this->create()); }
 
 
     /**

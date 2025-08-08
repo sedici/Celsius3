@@ -60,36 +60,24 @@ encore:
 
 # ------- DATABASE COMMANDS -------
 
-db/create-user:
-	@docker exec -i $(dockname)-bd-1 mysql -uroot -proot -e "\
-		CREATE USER IF NOT EXISTS '$(MYSQL_USER)'@'localhost' IDENTIFIED BY '$(MYSQL_PASS)'; \
-		GRANT ALL PRIVILEGES ON $(MYSQL_DB).* TO '$(MYSQL_USER)'@'localhost'; \
-		FLUSH PRIVILEGES; \
-	"
-	@echo "Usuario '$(MYSQL_USER)' creado y permisos otorgados en la base '$(MYSQL_DB)'."
-
 db/drop:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:database:drop --force
 
-db/create:
-	@docker exec --user $(id -u):$(id -g) $(dockname)-bd-1 mysql -u$(MYSQL_USER) -p$(MYSQL_PASS) -e "CREATE DATABASE IF NOT EXISTS $(MYSQL_DB);"
-	@echo "Base de datos '$(MYSQL_DB)' creada si no existía."
-
 db/import-sql: db/create-user db/create
-	@docker exec -i $(dockname)-bd-1 mysql -u$(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DB) < '$(args)'
+	@docker exec -i $(dockname)-db-1 mysql -u$(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DB) < '$(args)'
 	@echo "Archivo SQL '$(SQL_FILE)' importado en la base de datos '$(MYSQL_DB)'."
 
 db/check:
 	@docker exec --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:schema:update --dump-sql --complete
 
 db/dump:
-	@echo "Realizando dump compactado de la base de datos $(MYSQL_DB) desde el contenedor $(dockname)-bd-1..."
-	@docker exec $(dockname)-bd-1 sh -c 'exec mysqldump --no-tablespaces --single-transaction --quick --lock-tables=false --compact -uroot -proot $(MYSQL_DB)' | gzip -9 > $(MYSQL_DUMP_FILE).gz
+	@echo "Realizando dump compactado de la base de datos $(MYSQL_DB) desde el contenedor $(dockname)-db-1..."
+	@docker exec $(dockname)-db-1 sh -c 'exec mysqldump --no-tablespaces --single-transaction --quick --lock-tables=false --compact -u$(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DB)' | gzip -9 > $(args).gz
 	@echo "Dump comprimido completado y guardado en $(MYSQL_DUMP_FILE).gz"
 
 db/dump-schema:
-	@echo "Realizando dump del esquema de la base de datos $(MYSQL_DB) desde el contenedor $(dockname)-bd-1..."
-	@docker exec $(dockname)-bd-1 sh -c 'exec mysqldump --no-data --no-tablespaces --single-transaction --quick --lock-tables=false --compact -uroot -proot $(MYSQL_DB)' | gzip -9 > $(MYSQL_DUMP_SCHEMA_FILE).gz
+	@echo "Realizando dump del esquema de la base de datos $(MYSQL_DB) desde el contenedor $(dockname)-db-1..."
+	@docker exec $(dockname)-db-1 sh -c 'exec mysqldump --no-data --no-tablespaces --single-transaction --quick --lock-tables=false --compact -u$(MYSQL_USER) -p$(MYSQL_PASS) $(MYSQL_DB)' | gzip -9 > $(MYSQL_DUMP_SCHEMA_FILE).gz
 	@echo "Dump comprimido completado y guardado en $(MYSQL_DUMP_SCHEMA_FILE).gz"
 
 # ------- TEST COMMANDS -------
@@ -131,6 +119,11 @@ elastica/populate:
 php/routes:
 	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console debug:router $(args)
 
+php/make-migrations:
+	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console make:migration
+
+php/migrate:
+	@docker exec -it --user $(id -u):$(id -g) $(dockname)-php-1 php bin/console doctrine:migrations:migrate
 
 # ------- ENVIRONMENT COMMANDS -------
 
