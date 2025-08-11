@@ -2,7 +2,7 @@
 public/build/
 .vscode/
 vendor-*/
-public/orders/
+/public/orders/
 
 # Assets and user uploads
 /public/uploads/
