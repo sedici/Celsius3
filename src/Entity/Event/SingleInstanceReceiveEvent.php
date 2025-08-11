@@ -42,6 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiable
 {
     use ReclaimableTrait;
+    use ApprovableTrait;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
@@ -74,6 +75,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     public function __construct()
     {
         $this->files = new ArrayCollection();
+        $this->setApproved(true);
     }
     
     public function setDeliveryType(string $deliveryType): self
