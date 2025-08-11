@@ -31,22 +31,20 @@ use Symfony\Component\HttpFoundation\Response;
 trait FileControllerTrait
 {
 
-    protected function downloadFileFromRequest($request, $file): Response
+    protected function downloadFileFromRequest(string $request, string $file): Response
     {
-        $fileManager = $this->fileManager;
         $request = $this->entityManager
             ->getRepository(Request::class)->find($request);
+        if (!$request) $this->error('not_found', Request::class);
 
         $file = $this->entityManager
             ->getRepository(File::class)->find($file);
+        if (!$file) $this->error('not_found', File::class);
 
-        // throw new \Exception($fileManager->getUploadRootDir($file) . '/' . $file->getPath());
-
-        $filename = $fileManager->getUploadRootDir($file).'/'.$file->getPath();
+        $filename = $this->fileManager->getUploadRootDir($file).'/'.$file->getPath();
         if (!file_exists($filename)) {
             throw Exception::create(Exception::NOT_FOUND, 'exception.file_not_found');
         }
-
 
         $this->validate($request, $file);
 

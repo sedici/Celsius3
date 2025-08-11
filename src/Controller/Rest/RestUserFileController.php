@@ -20,14 +20,15 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\Controller\Html;
+namespace Celsius3\Controller\Rest;
 
+use Celsius3\Controller\Base\FileController;
+use Celsius3\Controller\Mixin\FileControllerTrait;
 use Celsius3\Entity\File;
 use Celsius3\Entity\Request;
-use Celsius3\Controller\Mixin\FileControllerTrait;
+use FOS\RestBundle\Controller\Annotations\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Celsius3\Manager\FileManager;
-use Celsius3\Controller\Base\FileController;
-use Symfony\Component\Routing\Annotation\Route;
 
 use Celsius3\Controller\Core\HtmlRenderer;
 use Celsius3\Controller\Core\RestRenderer;
@@ -35,14 +36,14 @@ use Celsius3\Helper\ConfigurationHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Celsius3\Helper\InstanceHelper;
+use Celsius3\Helper\LifecycleHelper;
+use Celsius3\Manager\EventManager;
 use Celsius3\Manager\FilterManager;
 use Celsius3\Manager\UnionManager;
 use Celsius3\Manager\UserManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -51,16 +52,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 #[
-    Route('/user/file'),
-    IsGranted('IS_AUTHENTICATED_FULLY'),
+    Route('/rest/v1/user/file'),
+    IsGranted('IS_AUTHENTICATED_FULLY')
 ]
-class HtmlUserFileController extends FileController
+class RestUserFileController extends FileController
 {
 
     use FileControllerTrait;
 
 
     public function __construct(
+        readonly LifecycleHelper $lifecycleHelper,
+        readonly EventManager $eventManager,
         readonly protected FileManager $fileManager,
         ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
@@ -107,21 +110,33 @@ class HtmlUserFileController extends FileController
     ): void {
         $user = $this->getUser();
 
-        $httpRequest = $this->requestStack->getCurrentRequest();
+        if (
+            !$file || ($file->isDownloaded() && !$file->hasDownloadTime()) || !$file->getEnabled(
+            ) || $request->getOrder()->getOriginalRequest()->getOwner()->getId() !== $user->getId(
+            ) || !$request->getOwner()->getPdf()
+        ) {
+            $this->error('not_found', File::class);
+        }
 
+        $httpRequest = $this->requestStack->getCurrentRequest();
         $this->fileManager->registerDownload(
             $request, $file,
             $httpRequest, $user
         );
+
+        if ($request->getNotDownloadedFiles()->count() === 0) {
+            $this->lifecycleHelper->createEvent(EventManager::EVENT__DELIVER, $request);
+        }
     }
 
 
     #[Route(
         '/{request}/{file}/download',
         name: 'user_file_download',
-        options: ['expose' => true]
+        options: ['expose' => true],
+        methods: ['GET']
     )]
-    public function downloadFile($request, $file): mixed
+    public function downloadFile(string $request, string $file): mixed
     {
         return $this->downloadFileFromRequest($request, $file);
     }

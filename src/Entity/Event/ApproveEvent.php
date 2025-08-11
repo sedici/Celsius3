@@ -49,7 +49,7 @@ class ApproveEvent extends MultiInstanceEvent
     #[Assert\NotNull]
     #[ORM\OneToOne(targetEntity: Event::class)]
     #[ORM\JoinColumn(name: 'receive_event_id', referencedColumnName: 'id')]
-    private Event $receiveEvent;
+    private SingleInstanceReceiveEvent|MultiInstanceReceiveEvent $receiveEvent;
 
     public function __construct()
     {
@@ -74,13 +74,14 @@ class ApproveEvent extends MultiInstanceEvent
         );
     }
 
-    public function getReceiveEvent(): Event
+    public function getReceiveEvent(): SingleInstanceReceiveEvent|MultiInstanceReceiveEvent
     {
         return $this->receiveEvent;
     }
 
-    public function setReceiveEvent(Event $receiveEvent): self
-    {
+    public function setReceiveEvent(
+        SingleInstanceReceiveEvent|MultiInstanceReceiveEvent $receiveEvent
+    ): self {
         $this->receiveEvent = $receiveEvent;
 
         return $this;

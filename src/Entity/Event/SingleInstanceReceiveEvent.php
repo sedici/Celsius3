@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\Entity\Event;
 
 use Celsius3\Entity\File;
+use Celsius3\Entity\Mixin\ApprovableTrait;
 use Celsius3\Entity\Mixin\ReclaimableTrait;
 use Celsius3\Entity\Request;
 use Celsius3\Helper\LifecycleHelper;

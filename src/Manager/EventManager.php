@@ -275,8 +275,6 @@ class EventManager
         $httpRequest = $this->requestStack->getCurrentRequest();
         $httpReqData = $httpRequest->toArray();
 
-        throw new \Exception((string) var_dump($httpReqData));
-
         $em = $this->entityManager;
         if (!isset($httpReqData['receive'])) {
             $this->flashBag

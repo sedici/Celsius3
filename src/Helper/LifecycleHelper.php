@@ -94,7 +94,7 @@ class LifecycleHelper
     public function createEvent(string $name, Request $request, ?Instance $instance = null)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        // try {
+        try {
             $data = $this->preValidate($name, $request, $instance);
             if (array_key_exists('event', $data)) {
                 $event = $data['event'];
@@ -117,13 +117,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        // } catch (\Exception $ex) {
-        //     $this->entityManager->getConnection()->rollBack();
-        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
-        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->celsiusRestExceptionLogger->error($ex->getMessage());
+            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-        //     return null;
-        // }
+            return null;
+        }
     }
 
     private function preValidate($name, Request $request, ?Instance $instance = null): array
@@ -215,7 +215,7 @@ class LifecycleHelper
         return $event;
     }
 
-    public function getState(Request $request, array $data, ?Event $remoteEvent = null)
+    public function getState(Request $request, array $data, ?Event $remoteEvent = null): ?State
     {
         $instance = $data['instance'] ?? $request->getInstance();
 
@@ -275,7 +275,7 @@ class LifecycleHelper
         return $state;
     }
 
-    public function createRequest(Order $order, BaseUser $user, $type, Instance $instance, BaseUser $creator)
+    public function createRequest(Order $order, BaseUser $user, $type, Instance $instance, BaseUser $creator): ?Request
     {
         if ($order->hasRequest($instance)) {
             $request = $order->getRequest($instance);
@@ -411,7 +411,7 @@ class LifecycleHelper
     public function createApproveEvent(Request $request, ?Instance $instance)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        try {
+        // try {
             $data = $this->preValidateApproveEvent($request, $instance);
             $event = $data['event'] ?? $this->setEventData($request, $data);
 
@@ -422,13 +422,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        } catch (\Exception $ex) {
-            $this->entityManager->getConnection()->rollBack();
-            $this->celsiusRestExceptionLogger->error($ex->getMessage());
-            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        // } catch (\Exception $ex) {
+        //     $this->entityManager->getConnection()->rollBack();
+        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
+        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-            return null;
-        }
+        //     return null;
+        // }
     }
 
     private function preValidateApproveEvent(Request $request, ?Instance $instance = null): array
@@ -747,7 +747,7 @@ class LifecycleHelper
     public function createCancelEvent(Request $request, ?Instance $instance = null)
     {
         $this->entityManager->getConnection()->beginTransaction();
-        // try {
+        try {
             $data = $this->preValidateCancelEvent($request, $instance);
 
             $event = $data['event'] ?? $this->setEventData($request, $data);
@@ -759,13 +759,13 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
-        // } catch (\Exception $ex) {
-        //     $this->entityManager->getConnection()->rollBack();
-        //     $this->celsiusRestExceptionLogger->error($ex->getMessage());
-        //     $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->celsiusRestExceptionLogger->error($ex->getMessage());
+            $this->celsiusRestExceptionLogger->error($ex->getTraceAsString());
 
-        //     return null;
-        // }
+            return null;
+        }
     }
 
     private function preValidateCancelEvent(Request $request, ?Instance $instance = null): array

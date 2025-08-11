@@ -23,17 +23,19 @@ declare(strict_types=1);
 
 namespace Celsius3\Controller\Html;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\Form\Type\Filter\FileDownloadFilterType;
 use Symfony\Component\HttpFoundation\Response;
 use Celsius3\Entity\FileDownload;
 use Celsius3\Controller\Core\EntityController;
 use Celsius3\Form\Type\FileDownloadType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * FileDownload controller.
- * @Route("/admin/file_download")
  */
+#[Route('/admin/file_download')]
+#[IsGranted('ROLE_ADMIN')]
 class HtmlListAllFileDownloadViewController extends EntityController
 {
 
@@ -51,10 +53,12 @@ class HtmlListAllFileDownloadViewController extends EntityController
     }
 
 
-    /**
-     * Lists all File entities.
-     * @Route("/", name="admin_file_download")
-     */
+    #[Route(
+        '/',
+        name: 'admin_file_download',
+        methods: ['GET'],
+        defaults: ['_expose' => true]
+    )]
     public function htmlIndex(): Response
     {
         return $this->htmlRenderer->render(

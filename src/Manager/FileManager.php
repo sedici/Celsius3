@@ -115,10 +115,11 @@ class FileManager
                 $file->setRequest($previousRequest);
                 $file->setEvent($event);
 
-                if (!empty($original->getPath()) && !copy(
-                    $this->getUploadRootDir($original).DIRECTORY_SEPARATOR.$original->getPath(),
-                    $this->getUploadRootDir($file).DIRECTORY_SEPARATOR.$file->getPath()
-                )) {
+                if (empty($original->getPath())) throw new Exception('Copy file error');
+
+                $fromPath = $this->getUploadRootDir($original).DIRECTORY_SEPARATOR.$original->getPath();
+                $toPath = $this->getUploadRootDir($file).DIRECTORY_SEPARATOR.$file->getPath();
+                if ($fromPath !== $toPath && !copy($fromPath, $toPath)) {
                     throw new Exception('Copy file error');
                 }
 

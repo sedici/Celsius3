@@ -33,7 +33,7 @@ trait ApprovableTrait
         Assert\NotBlank(),
         Assert\Type(type: 'bool'),
     ]
-    private bool $approved = false;
+    private ?bool $approved = false;
 
 
     public function setApproved(bool $approved): static

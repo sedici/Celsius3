@@ -369,6 +369,8 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                                 }))
                                     .then(function (response) {
                                         if (response.data) {
+                                            console.log(response.data);
+                                            console.log($scope.request);
                                             $scope.contacts = null;
                                             $scope.templates = response.data;
                                             $scope.forms.email.address = $scope.request.owner.email;
